@@ -122,9 +122,14 @@ singleMaxAirW     air-cooled TDP that is single-socket only
 liquidReqW        TDP at/above which liquid cooling is mandatory, any socket count
 validCounts       the only CPU counts a board actually supports (e.g. [1,2,4] — DL560 Gen10 skips 3)
 riserMax          physical riser positions (hard cap on the input, not just a warning)
-psuMax            power supply bays (hard cap on PSU qty). Only set where confirmed —
-                  DL360/DL380/DL385/DL325/ML350 = 2 (dual Flex Slot). DL560/DL580 left
-                  unset pending a QuickSpecs recheck (2 vs 4).
+psuMax            power supply bays (hard cap on PSU qty).
+psu               array of the PSU kits this model offers (name + option part
+                  number). Feeds the wattage datalist per-model; generic `PSUS`
+                  is the fallback. Set on the ML towers (ATX / Common Slot vs
+                  Flex Slot differ by model).
+riserMax          physical riser positions. **0 = no riser cages** — PCIe slots
+                  are on the system board; the riser section hides and any riser
+                  line is a `stop`. Set on the ML30 / ML110 / ML350 towers.
 fans              {one,two,perf} standard fan count for 1 CPU / 2 CPUs and the
                   high-performance kit count. Auto-fills the fan qty and drives the
                   "standard is fine because…" note.
@@ -311,16 +316,23 @@ with PSU / fan / PCIe / riser data from each model's own QuickSpecs:**
   its QuickSpecs PDF wouldn't download
 
 **ML tower line (Sept 2026 pass, G10 first then G10+):**
-- **ML30 Gen10, ML110 Gen10, ML30 Gen10 Plus** — now `verified:true`. All
-  single-socket entry towers: 2 fixed non-hot-plug fans (no kit choice),
-  psuMax 2 (single ATX standard, Flex Slot pair needs an RPS kit), riserMax 1.
-  ML30 = 4 UDIMM / 4 PCIe; ML110 = 6 DIMM / 5 PCIe.
-- **ML350 Gen9** — hardware verified (4 PSU bays, 3→5 fans + redundant fan
-  kit 725878-B21, 9 PCIe, 24 DIMM); left `unverified` because the QuickSpecs
-  has no processor-specific heatsink step (v3/v4 share one heatsink).
-- **ML350 Gen10 / Gen11** — already fully verified.
+- **ML30 Gen10, ML110 Gen10, ML30 Gen10 Plus** — `verified:true`. Single-socket
+  entry towers: 2 fixed non-hot-plug fans (no kit choice), psuMax 2 (single ATX
+  standard, Flex Slot pair needs an RPS kit). ML30 = 4 UDIMM / 4 PCIe; ML110 =
+  6 DIMM / 5 PCIe.
+- **ML350 Gen9 / Gen10 / Gen11** — Gen10 fully verified; Gen9 hardware verified
+  (4 PSU bays, 3→5 fans + redundant fan kit 725878-B21, 9 PCIe, 24 DIMM), no
+  heatsink step in the QuickSpecs so kept `unverified`; Gen11's slot map wasn't
+  re-checked (assumed the same split-by-processor layout).
+- **Risers + PSU part numbers pass (Sept 2026):** every ML G10/G10+ tower has
+  its PCIe slots **on the system board — no riser cages** (`riserMax:0`); the
+  ML350 slots split by processor (`pcie:{one:4,two:8}`, was wrongly `{8,8}`).
+  Model-specific `psu` lists added: ML30 (350W Gold FIO P21652-B21 / Flex Slot
+  865408 · 865438 + RPS P45209/P06305), ML110 (350·550W ATX + Flex Slot), ML350
+  Gen10 (837074 · 865408 · 865414 · 865438 · 865428 · 830272-B21 + RPS cage
+  874571-B21), ML350 Gen9 (Common Slot 720478 · 720479 · 720620-B21).
 - **Still to do:** ML10 / ML30 / ML110 / ML150 Gen9, ML30 / ML110 Gen11,
-  ML350 Gen12.
+  ML350 Gen12; re-check the ML350 Gen11 slot map against its own QuickSpecs.
 
 **Removed — HPE never made these:**
 - DL580 Gen11 (the 4-socket line went DL580 Gen10 → DL580 Gen12)

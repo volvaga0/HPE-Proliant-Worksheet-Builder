@@ -626,8 +626,12 @@ button.quiet{color:var(--ink-soft)}
      singleMaxAirW air-cooled TDP that is single-socket only
      liquidReqW    TDP at/above which liquid cooling is mandatory regardless of socket count
      validCounts   the only processor counts this board actually supports (e.g. [1,2,4])
-     riserMax      physical riser positions this chassis has (hard cap, not just a warning)
      psuMax        power supply bays in the chassis (hard cap on PSU qty)
+     psu           array of the PSU option strings this model offers (kit name +
+                   part number). Feeds the wattage datalist; falls back to the
+                   generic PSUS list when unset.
+     riserMax      physical riser positions; 0 = no riser cages, PCIe slots are
+                   on the system board (blocks any riser line)
      fans          {one,two,perf} standard fan count for 1 CPU / 2 CPUs, and the
                    high-performance kit fan count. Used to auto-fill the fan qty
                    and to explain the standard-vs-performance choice.
@@ -967,7 +971,8 @@ var MODELS=[
  {m:'ML110',g:'G9',  p:['e5v34'], s:1, d:8,  tower:true},
  {m:'ML150',g:'G9',  p:['e5v34'], s:2, d:16, tower:true},
  {m:'ML350',g:'G9',  p:['e5v34'], s:2, d:24, tower:true,
-   rules:{psuMax:4,fans:{one:3,two:5},pcie:{two:9},
+   rules:{psuMax:4,fans:{one:3,two:5},pcie:{two:9},riserMax:0,
+     psu:['500W Common Slot Platinum Plus (720478-B21)','800W Common Slot Platinum Plus (720479-B21)','1400W Common Slot Platinum Plus (720620-B21)','X4 Redundant PSU Enablement Kit (725870-B21)'],
      notes:['5U tower, 2 sockets (2nd optional), 24 DIMM slots, up to 48 SFF / 24 LFF drives.',
        'Hardware counts verified against ML350 Gen9 QuickSpecs; heatsink threshold is still the generation default.',
        '4 HPE Flexible Slot power supply bays: Slot 1 standard, Slots 2-4 optional (X4 Redundant PSU Enablement Kit 725870-B21).',
@@ -975,35 +980,41 @@ var MODELS=[
        '9 PCIe expansion slots (8 Gen3, 1 Gen2); some need the 2nd processor.',
        'No processor-specific heatsink step in the QuickSpecs — E5-2600 v3/v4 parts share one heatsink; the 120W generation guide is soft only.']}},
  {m:'ML30', g:'G10', p:['xeone'], s:1, d:4,  tower:true,
-   rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:1,
+   rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,
+     psu:['350W Gold-level FIO (P21652-B21)','350W Bronze FIO — not EU Lot 9 / CE (820303-B21)','500W Flex Slot Platinum, needs RPS kit (865408-B21)','RPS Enablement Kit — 4U (P06305-B21)'],
      notes:['Xeon E-2100 / E-2200, single socket, 4 UDIMM slots (max 64GB).',
        '2 fixed fans (1 system + 1 PCI fan module, P06303-B21) — non-hot-plug, non-redundant, no fan-kit choice.',
-       'Standard PSU is a single non-hot-plug 350W; a 500W Flex Slot adds an optional redundant supply (2 bays).',
-       '4 PCIe expansion slots (2x x16, 2x x8).']}},
+       'Standard PSU is a single non-hot-plug 350W (Gold, P21652-B21); a 500W Flex Slot Platinum (865408-B21) with the RPS Enablement Kit (P06305-B21) adds redundancy — 2 bays.',
+       '4 PCIe slots on the system board (slot 1 x16 from the CPU, slots 2-4 x4 from the PCH) — no riser cages.']}},
  {m:'ML110',g:'G10', p:['sp1','sp2'], s:1, d:6,  tower:true,
-   rules:{verified:true,psuMax:2,pcie:{one:5,two:5},riserMax:1,
+   rules:{verified:true,psuMax:2,pcie:{one:5,two:5},riserMax:0,
+     psu:['350W ATX Kit','550W ATX Kit — standard','500W Flex Slot Platinum, needs RPS kit (865408-B21)','800W Flex Slot Platinum, needs RPS kit (865414-B21)','800W Flex Slot Titanium, needs RPS kit (865438-B21)','RPS Enablement Kit (supports 2 supplies)'],
      notes:['1st or 2nd Gen Xeon Scalable (no field upgrade between them), single socket, up to ~110W. 6 DIMM slots (6 channels, 1 per channel).',
        '2 fixed fans (1 system + 1 PCIe fan module). The optional Redundant Fan Kit needs the 800W Flex Slot redundant PSU and is required for a 2nd HDD cage with 15K SAS, any SAS SSD, or the A3 extended environment.',
-       'Standard PSU is a 350W or 550W ATX (non-redundant); 500W/800W Flex Slot hot-plug supplies need the RPS Enablement Kit (2 bays).',
-       '5 PCIe 3.0 expansion slots.']}},
+       'Standard PSU is a 350W or 550W ATX (non-redundant); 500W/800W Flex Slot hot-plug supplies need the RPS Enablement Kit — 2 bays.',
+       '5 PCIe 3.0 slots on the system board — no riser cages.']}},
  {m:'ML350',g:'G10', p:['sp1','sp2'], s:2, d:24, tower:true,
-   rules:{verified:true,hsW:86,hsWtext:'above 85W',psuMax:2,pcie:{one:8,two:8},
+   rules:{verified:true,hsW:86,hsWtext:'above 85W',psuMax:2,pcie:{one:4,two:8},riserMax:0,
+     psu:['500W Low Halogen FIO (837074-B21)','500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','Flex Slot RPS Cage Kit + PDB (874571-B21)'],
      notes:['A 2-processor build needs the Redundant Fan Cage kit (874572-B21) — one fan cage plus 4 extra fans.',
        'A GPU over 75W needs the external power cable kit.',
        'Up to 8 SFF NVMe with both NVMe riser boards (874569-B21) fitted; only 4 with one board fitted.',
+       '8 PCIe slots on the system board: slots 1-4 on CPU 1, slots 5-8 on CPU 2 (max 4 with one processor). No card riser cages.',
        'Security bezel is standard on every unit.']}},
  {m:'ML30', g:'G10+',p:['xeone3'],s:1, d:4,  tower:true,
-   rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:1,
+   rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,
+     psu:['350W Gold-level FIO (P21652-B21)','ML30 Gen10 Plus 350W FIO — EMEA only (P45212-B21)','500W Flex Slot Platinum, needs RPS kit (865408-B21)','800W Flex Slot Titanium, needs RPS kit (865438-B21)','RPS Enablement Kit — 4U (P45209-B21)'],
      notes:['Xeon E-2300 (or Pentium), single socket, 4 UDIMM slots (max 128GB).',
        '2 fixed fans (1 system + 1 PCI fan module, P06303-B21) — non-hot-plug, non-redundant.',
-       'Standard PSU is a single non-hot-plug 350W Gold; a 500W Flex Slot adds an optional redundant supply (2 bays).',
-       '4 PCIe slots (2x x16, 2x x8; one x16 is PCIe 4.0). Slot 1 drops to PCIe 3.0 with a Pentium.']}},
+       'Standard PSU is a single non-hot-plug 350W Gold (P21652-B21); Flex Slot supplies (500W Platinum 865408-B21 / 800W Titanium 865438-B21) need the RPS Enablement Kit (P45209-B21) — 2 bays, 1+1.',
+       '4 PCIe slots on the system board (slot 1 x16 PCIe 4.0 from the CPU — PCIe 3.0 with a Pentium; slots 2-4 x4 from the PCH). No riser cages.']}},
  {m:'ML30', g:'G11', p:['xeone3'],s:1, d:4,  tower:true},
  {m:'ML110',g:'G11', p:['sp4'],   s:1, d:16, tower:true},
  {m:'ML350',g:'G11', p:['sp4'],   s:2, d:32, tower:true,
-   rules:{verified:true,hsW:195,hsWtext:'195W or higher',hsPart:'P47224-B21',psuMax:2,pcie:{one:8,two:8},
+   rules:{verified:true,hsW:195,hsWtext:'195W or higher',hsPart:'P47224-B21',psuMax:2,pcie:{one:4,two:8},riserMax:0,
      fanW:300,fanPart:'P47219-B21 + Second CPU Fan Kit P47902-B21',
-     notes:['Intel VROC NVMe is not supported with the 4510, 4509Y or 3508U processors.']}},
+     notes:['Intel VROC NVMe is not supported with the 4510, 4509Y or 3508U processors.',
+       'PCIe slots are on the system board (like every ML350) — around half need the 2nd processor. Exact slot map not re-checked against the Gen11 QuickSpecs.']}},
  {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true}
 ];
 
@@ -1406,11 +1417,15 @@ function refreshDependents(){
   document.getElementById('rear').placeholder=(m&&R.rear)
     ?'Rear / midtray — '+R.rear.length+' option'+(R.rear.length>1?'s':'')+' for this model'
     :'Rear / midtray — leave blank if none';
-  var rk=(m&&RISERS[m.m+' '+m.g])||(m?GENERIC_RISERS:[]);
+  fill('psus',(m&&R.psu)?R.psu:PSUS);
+  var noRiser=!!(m&&R.riserMax===0);
+  var rk=noRiser?[]:((m&&RISERS[m.m+' '+m.g])||(m?GENERIC_RISERS:[]));
   var isOwn=!!(m&&RISERS[m.m+' '+m.g]);
   renderRiserKits(rk,isOwn);
+  document.getElementById('add-riser').hidden=noRiser;
   document.getElementById('riser-note').textContent=
     !m?'One line per riser cage. The PCIe slot count follows from the kits you add.'
+    :noRiser?'No riser cages — the PCIe slots are on the system board.'
     :(R.riserMax?R.riserMax+' riser position'+(R.riserMax>1?'s':'')+' in this chassis'
         +(rk.length?(isOwn?' — add from the kit list below':' — generic guide below'):'')
       :'Riser count for '+m.m+' '+m.g+' not confirmed — check QuickSpecs.');
@@ -1578,8 +1593,11 @@ function evaluate(){
       var def=curRiserKits.filter(function(k){return k.def;})[0];
       if(def&&typeof def.s==='number') riserSlots=def.s;   // nothing added -> the standard primary
     }
-    if(R.riserMax&&riserLines.length>R.riserMax)
-      checks.push(['stop','TOO MANY RISERS',m.m+' '+m.g+' has '+R.riserMax+' riser position'+(R.riserMax>1?'s':'')+' — '+riserLines.length+' riser lines entered.']);
+    if(typeof R.riserMax==='number'&&riserLines.length>R.riserMax)
+      checks.push(['stop',R.riserMax===0?'RISERS':'TOO MANY RISERS',
+        R.riserMax===0
+          ?m.m+' '+m.g+' has no riser cages — the PCIe slots are on the system board. Remove the riser line'+(riserLines.length>1?'s':'')+'.'
+          :m.m+' '+m.g+' has '+R.riserMax+' riser position'+(R.riserMax>1?'s':'')+' — '+riserLines.length+' riser lines entered.']);
   }
 
   /* power supply bays */

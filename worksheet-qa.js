@@ -385,6 +385,35 @@ setTimeout(()=>{
   mlChk('ML30 G10+','4 DIMM','2','v');
   mlChk('ML350 G9','24 DIMM','4','u');
 
+  // --- ML towers: no riser cages, model-specific PSU list ---
+  setModel3('ML30 G10+');
+  const mlPsus=[...d.querySelectorAll('#psus option')].map(o=>o.value);
+  (d.getElementById('add-riser').hidden
+    && /system board/.test(d.getElementById('riser-note').textContent)
+    && mlPsus.some(o=>/P45209-B21/.test(o)) && mlPsus.some(o=>/865438-B21/.test(o)))
+    ?pass3('ML30 G10+: no riser section, PSU list is model-specific (RPS kit P45209-B21, 800W Titanium 865438-B21)')
+    :fail3('ML30 G10+ riser/PSU: addHidden='+d.getElementById('add-riser').hidden+' psus='+mlPsus.slice(0,2));
+  // a riser line on a no-riser chassis blocks
+  d.getElementById('risers').innerHTML='';
+  const rl=d.createElement('div');rl.className='line card';
+  rl.innerHTML='<input data-k="q"><input data-k="name" value="x16 riser"><button class="kill"></button>';
+  d.getElementById('risers').appendChild(rl);fire(rl.querySelector('[data-k=name]'),'input');
+  /no riser cages/.test(d.getElementById('checks').textContent)
+    ?pass3('...and a riser line on it is blocked'):fail3('no-riser chassis let a riser line through');
+  d.getElementById('risers').innerHTML='';
+
+  // ML350 G10 PCIe slots split by processor (4 with one CPU, 8 with two)
+  setModel3('ML350 G10');pickCpu3('S4110');
+  const mlCardsEl=d.getElementById('cards');mlCardsEl.innerHTML='';
+  d.getElementById('cpuq').value='1';fire(d.getElementById('cpuq'),'input');
+  for(let i=0;i<6;i++)d.getElementById('add-card').click();
+  [...mlCardsEl.querySelectorAll('[data-k=name]')].forEach((el,i)=>{el.value='NIC'+i;fire(el,'input');});
+  txt=d.getElementById('checks').textContent;
+  txt.includes('TOO MANY CARDS')?pass3('ML350 G10: 6 cards on one CPU (4 board slots) blocked'):fail3('ML350 G10 1-CPU slot cap not enforced');
+  d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
+  !d.getElementById('checks').textContent.includes('TOO MANY CARDS')?pass3('...and the 6 fit once the 2nd CPU opens slots 5-8'):fail3('ML350 G10 2-CPU slots not opened');
+  mlCardsEl.innerHTML='';d.getElementById('add-card').click();
+
   // --- riser-kit picker adds a riser LINE (repeatable, wrapping rows) ---
   setModel3('DL380 G10');
   d.getElementById('risers').innerHTML='';
