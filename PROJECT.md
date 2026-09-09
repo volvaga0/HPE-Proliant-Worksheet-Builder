@@ -115,6 +115,11 @@ rear              array of the rear / mid-tray drive options this chassis offers
                   the DL360 and DL380 lines (all gens) + DL365. Models without it
                   keep the generic list; only "midtray" on an unlisted model gets
                   a soft `verify`.
+                  **`rear:[]` (empty array)** = the chassis has NO rear / mid-tray
+                  bays at all — the field is disabled + cleared and any value is a
+                  `stop`. Set on the 4-socket DL560 / DL580 (all gens): dense front
+                  drive boxes only. Also: a rear string with both "LFF" and NVMe is
+                  always a `stop` (no 3.5-inch NVMe backplane exists).
 rearMaxW          rear drives unsupported above this CPU wattage
 rear2SFF          bay configs a 2SFF rear cage is allowed on
 coolTierW         dual-socket TDP at/above which air cooling is unsupported
@@ -150,14 +155,19 @@ verified          true = checked against THIS model's own QuickSpecs
 **Risers are a repeatable line list** (`#risers`, like `#cards`) — a build can
 mix riser types. The **`RISERS`** map (keyed `"MODEL GEN"`) holds kit objects
 `{n:name, d:detail, s:card-slots (0 = NVMe/SlimSAS, -1 = consumes a slot),
-pos:'primary'|'secondary'|'tertiary'|'any', cpu2:true, def:true}` from each
+fh/lp:full-height vs low-profile split of s (optional), pos:'primary'|'secondary'
+|'tertiary'|'any', cpu2:true, def:true}` from each
 model's QuickSpecs "Riser Information" table — currently DL380 Gen10 (full,
 16 kits) and DL360 Gen10; the rest fall back to `GENERIC_RISERS`. The
 collapsible reference list under the field renders every kit as a wrapping
 row; clicking one appends a riser line. `evaluate()` then: counts lines vs
-`riserMax`, flags `cpu2` kits when only 1 CPU, blocks two risers in the same
-`pos`, and sums `s` for the PCIe slot count. Filling out `RISERS` / `fans` /
-`pcie` / `psuMax` for the rest of the verified fleet is the ongoing job.
+`riserMax`, blocks a `cpu2` kit when exactly 1 CPU is set (`stop`) or soft-flags
+it when the CPU count is blank, blocks two risers in the same `pos`, sums `s`
+for the PCIe slot count, and — when every fitted riser carries an `fh`/`lp`
+split — reports the full-height vs low-profile slot mix in `riser-slot-note`
+and raises a `BRACKETS` check (LP slots need low-profile brackets; GPU / FH
+cards that outnumber the FH slots get flagged). Filling out `RISERS` (incl.
+`fh`/`lp`) / `fans` / `pcie` / `psuMax` for the rest of the fleet is ongoing.
 
 **`PSUS`** is a list of real HPE PSU kits with efficiency tier + wattage +
 option part number (Flex Slot Platinum 94% / Titanium 96%, Common Slot for
@@ -238,11 +248,13 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   button, matches the shorthand format the traders already use
   (`2x S4110`, `8LFF + 2SFF`, etc.).
 - **"Standard" defaults are shown, not omitted** — Backplane defaults to
-  "SAS/SATA backplane", TPM to "No TPM", Motherboard to "Standard
-  motherboard", Media bay to "No media bay", Bezel to "No bezel" — all
-  pre-checked radios with real (non-empty) values, so the slip always
-  states these explicitly instead of going silent and needing a
-  follow-up question to the trader. Rails and HP-authenticated-memory
+  "SAS/SATA backplane", Motherboard to "Standard motherboard", Media bay
+  to "No media bay", Bezel to "No bezel" — pre-checked radios with real
+  (non-empty) values, so the slip always states these explicitly instead
+  of going silent and needing a follow-up question to the trader.
+  **TPM** is the exception: it is a 3-way choice (None / TPM 1.2 / TPM 2.0)
+  and "None" carries an empty value, so it stays off the slip. A `flag`
+  fires if TPM 1.2 is picked on Gen10+ (that generation is TPM 2.0 only). Rails and HP-authenticated-memory
   are deliberately NOT defaulted — those are consequential enough that
   silence should stay a visible gap, not get papered over.
 
@@ -291,6 +303,11 @@ cooling thresholds separately noted per model):**
   DL580 Gen10 (4 PSU, 12 fans, 6→16 PCIe, riserMax 3)
 - DL560 Gen11 (4 PSU, 6/5 HP fans air/liquid, 6 PCIe + 2 OCP, 150W
   heatsink step, 4P = liquid-cooling only) — now `verified:true`
+- **Sept 2026 rear/bay pass on the 4-socket line:** DL560 Gen10 and
+  DL580 Gen10 confirmed against QuickSpecs as SFF/NVMe front boxes only —
+  no LFF, no rear or mid-tray cage. Given `bays` (SFF list) + `rear:[]`.
+  Same `rear:[]` + SFF `bays` applied to DL560/DL580 Gen9 and DL560 Gen11
+  from product data (dense 4-socket boxes never had LFF or rear cages).
 - DL345 Gen11 (2 PSU, 6 fans, 6 PCIe, **12 DIMM** — was 24),
   DL365 Gen11 (2 PSU, 7 fans, ~3 PCIe, 240W cTDP fan/HS step),
   DL325 Gen11 (**12 DIMM** — was 24, 2 PCIe, riserMax 2) — all

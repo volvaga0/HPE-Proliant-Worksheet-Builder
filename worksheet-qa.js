@@ -299,7 +299,10 @@ setTimeout(()=>{
   // --- Standard items shown instead of omitted ---
   txt=d.getElementById('slip').textContent;
   txt.includes('SAS/SATA')?pass3('SAS/SATA backplane shown by default'):fail3('SAS/SATA default missing from slip');
-  txt.includes('No TPM')?pass3('No TPM shown by default'):fail3('No TPM default missing from slip');
+  !/\bTPM\b/.test(txt)?pass3('TPM "None" default kept off the slip'):fail3('TPM default clutters the slip: '+txt.slice(0,160));
+  d.getElementById('tp2').checked=true;fire(d.getElementById('tp2'),'change');
+  d.getElementById('slip').textContent.includes('TPM 2.0')?pass3('TPM 2.0 selection reaches the slip'):fail3('TPM 2.0 not on slip');
+  d.getElementById('tp0').checked=true;fire(d.getElementById('tp0'),'change');
   txt.includes('Standard motherboard')?pass3('Standard motherboard shown by default'):fail3('motherboard default missing');
   txt.includes('No bezel')?pass3('No bezel shown by default'):fail3('bezel default missing');
   txt.includes('No media bay')?pass3('No media bay shown by default'):fail3('media bay default missing');
@@ -470,4 +473,37 @@ setTimeout(()=>{
   const rOpts=[...d.querySelectorAll('#rearopts option')].map(o=>o.value);
   (rOpts.length===3 && !rOpts.some(o=>/mid/i.test(o)))
     ?pass3('rear datalist is per-model (DL360 G11: 3 options, no midtray)'):fail3('rear datalist not filtered: '+rOpts.join(', '));
+
+  // --- 4-socket dense boxes: SFF only, no rear/mid-tray cage ---
+  setModel3('DL560 G10');
+  const dl560bays=[...d.querySelectorAll('#bayopts option')].map(o=>o.value);
+  (dl560bays.length && !dl560bays.some(o=>/lff/i.test(o)))
+    ?pass3('DL560 G10: bay list is SFF only, no LFF'):fail3('DL560 G10 bay list: '+dl560bays.join(', '));
+  d.getElementById('rear').disabled
+    ?pass3('DL560 G10: rear/mid-tray field disabled (no rear bays)'):fail3('DL560 G10 rear field still enabled');
+  d.getElementById('rear').value='4LFF midtray';fire(d.getElementById('rear'),'input');
+  d.getElementById('checks').textContent.includes('no rear or mid-tray drive bays')
+    ?pass3('DL560 G10: a rear/mid-tray entry is blocked'):fail3('DL560 G10 rear entry not blocked: '+d.getElementById('checks').textContent.slice(0,160));
+  d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
+
+  // --- no 3.5in NVMe backplane ---
+  setModel3('DL380 G10');
+  d.getElementById('bays').value='24SFF';fire(d.getElementById('bays'),'input');
+  d.getElementById('rear').value='4LFF midtray NVMe';fire(d.getElementById('rear'),'input');
+  d.getElementById('checks').textContent.includes('no 3.5-inch (LFF) NVMe backplane')
+    ?pass3('LFF NVMe rear cage blocked (no such backplane)'):fail3('LFF NVMe rear not blocked: '+d.getElementById('checks').textContent.slice(0,160));
+  d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
+
+  // --- low-profile bracket awareness (DL360 G10 primary = 1 FH + 1 LP) ---
+  setModel3('DL360 G10');pickCpu3('S4110');
+  d.getElementById('cpuq').value='1';fire(d.getElementById('cpuq'),'input');
+  d.getElementById('risers').innerHTML='';d.getElementById('cards').innerHTML='';
+  addRiser('Primary riser (ships standard)');
+  d.getElementById('add-card').click();
+  {const c=d.querySelector('#cards [data-k=name]');c.value='NVIDIA T4';fire(c,'input');}
+  {const rn=d.getElementById('riser-slot-note').textContent, ck=d.getElementById('checks').textContent;
+   (/low-profile/.test(rn) && /BRACKETS/.test(ck))
+     ?pass3('DL360 G10 primary riser: FH/LP split reported + bracket check raised')
+     :fail3('bracket awareness missing — note: '+rn+' | checks: '+ck.slice(0,160));}
+  d.getElementById('risers').innerHTML='';d.getElementById('cards').innerHTML='';d.getElementById('add-card').click();
 },1400);
