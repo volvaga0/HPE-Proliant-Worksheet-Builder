@@ -281,6 +281,18 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   auto-selects it. `#cpuq` is now a hidden input the buttons drive
   (`setCpuq()`); paste and the CPU-combo `onSelect` call `setCpuq()` too.
   The native `<select>`s in the drive lines are fine on mobile as-is.
+- **`stepper(input, {min,max,step})`** wraps a number input in `− [value] +`
+  buttons (drive/card/riser line qty, memory qty, PSU qty, fan qty). Reads
+  `input.max` at click time so it respects the dynamic caps
+  (`updateHardCaps` sets `dimmq.max` / `psuq.max`). Typing still works.
+  `#modelq` and `plan-cap` are deliberately not steppered (can be large /
+  are decimals).
+- **The fixed action bar hides while the on-screen keyboard is up.** A
+  `visualViewport` resize handler (second `<script>`) sets `.bar`
+  `transform`/`opacity`/`pointer-events` **inline** when
+  `innerHeight − visualViewport.height > 140`, and clears them when it
+  closes — inline because a stylesheet rule with `transition:transform`
+  didn't reliably win the cascade in every engine. `#back-to-top` hides too.
 - **Standard heatsinks now auto-select** when a CPU is chosen that doesn't
   need the performance heatsink (mirrors the fan "std is fine" path — a
   `why-hs` note, no checks-panel line), so it's not left as a gap.

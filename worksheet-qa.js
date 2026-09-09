@@ -99,9 +99,22 @@ setTimeout(()=>{
   let checks=d.getElementById('checks').textContent;
   checks.includes('2SFF rear cage is only supported')?pass('2SFF-on-8SFF blocked correctly'):fail('2SFF rule did not fire');
 
+  // 7b. number steppers: −/+ buttons on the count fields
+  const dq=d.querySelector('#drives [data-k=q]'),dc=d.querySelector('#drives [data-k=cap]');
+  (dq.parentElement.classList.contains('stepper')
+   && dq.parentElement.querySelector('.st-btn'))?pass('drive line qty is wrapped in a −/+ stepper'):fail('drive qty not steppered');
+  dq.value='';
+  dq.parentElement.querySelector('.st-btn:last-child').dispatchEvent(new w.MouseEvent('click',{bubbles:true})); // "+"
+  dq.parentElement.querySelector('.st-btn:last-child').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  dq.value==='2'?pass('tapping "+" twice from empty -> 2 (min then +1)'):fail('stepper + gave "'+dq.value+'"');
+  dq.parentElement.querySelector('.st-btn:first-child').dispatchEvent(new w.MouseEvent('click',{bubbles:true})); // "−"
+  dq.parentElement.querySelector('.st-btn:first-child').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  dq.value==='1'?pass('"−" clamps at the min (1)'):fail('stepper − gave "'+dq.value+'" (should clamp to 1)');
+  { const dqm=d.getElementById('dimmq').parentElement;
+    dqm.classList.contains('stepper')?pass('memory qty is steppered'):fail('dimmq not steppered'); }
+
   // 8. bay overflow
   d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
-  const dq=d.querySelector('#drives [data-k=q]'),dc=d.querySelector('#drives [data-k=cap]');
   dq.value='12';dc.value='1.2TB';fire(dc,'input');
   checks=d.getElementById('checks').textContent;
   checks.includes('TOO MANY DRIVES')||checks.includes('12 drives specified')?pass('drive overflow blocked (12 in 8SFF)'):fail('drive overflow not caught');

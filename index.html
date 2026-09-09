@@ -96,8 +96,22 @@ section{margin-top:20px}
 .q .t{font-weight:600;display:block;font-size:14.5px}
 .q .note{display:block;font-size:12.8px;color:var(--ink-soft);margin-top:2px;max-width:40ch}
 .a{display:flex;flex-direction:column;gap:6px;min-width:0}
-.pair{display:grid;grid-template-columns:78px 1fr;gap:7px}
-.pair.rev{grid-template-columns:1fr 92px}
+.pair{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px}
+.pair.rev{grid-template-columns:minmax(0,1fr) 92px}
+
+/* number stepper: − [value] +  (drives, memory, PSUs, fans, builds) */
+.stepper{display:inline-flex;align-items:stretch;border:1px solid var(--field-edge);
+  border-radius:7px;overflow:hidden;background:var(--field);width:max-content;max-width:100%}
+.stepper input{border:0!important;border-radius:0!important;background:transparent;
+  text-align:center;width:46px;padding:6px 2px;-moz-appearance:textfield;appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.stepper input:focus-visible{outline:2px solid var(--signal);outline-offset:-2px}
+.st-btn{border:0;background:var(--shade);color:var(--ink);font-size:17px;line-height:1;
+  width:32px;flex:0 0 auto;cursor:pointer;padding:0;user-select:none;font-family:inherit}
+.st-btn:hover{background:var(--rule);color:var(--signal)}
+.st-btn:active{background:var(--signal);color:var(--on-accent)}
+.stepper:has(input.field-over){border-color:var(--stop);background:var(--stop-bg)}
+.stepper:has(input.field-over) input{color:var(--stop);font-weight:600}
 .inline{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 .inline > span{font-size:12.8px;color:var(--ink-soft)}
 .why{font-size:12.5px;padding:2px 7px;border-radius:5px;display:none}
@@ -153,8 +167,8 @@ legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)
 
 .lines{display:flex;flex-direction:column;gap:5px}
 .line{display:grid;gap:5px;align-items:center}
-.line.drive{grid-template-columns:58px minmax(72px,1fr) 74px 72px 96px 28px}
-.line.card{grid-template-columns:58px 1fr 28px}
+.line.drive{grid-template-columns:auto minmax(64px,1fr) 74px 72px 96px 28px}
+.line.card{grid-template-columns:auto 1fr 28px}
 .kill{border:1px solid var(--field-edge);background:var(--field);color:var(--ink-soft);
   border-radius:7px;height:31px;cursor:pointer;font-size:16px;line-height:1;padding:0}
 .kill:hover{color:var(--ink);border-color:var(--rule-strong)}
@@ -217,8 +231,11 @@ pre.slip .gap{color:var(--check)}
 .slip-actions{display:flex;gap:7px;flex-wrap:wrap}
 
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:900;background:var(--card);border-top:1.5px solid var(--signal);
-  padding:9px 16px calc(9px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,0.35)}
+  padding:9px 16px calc(9px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,0.35);
+  transition:opacity .18s ease}
 .bar-inner{max-width:1180px;margin:0 auto;width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+/* when the on-screen keyboard is up, JS sets .bar transform/opacity inline to
+   drop it off-screen (see the keyboard handler in the second script block) */
 
 /* Back to top */
 #back-to-top{position:fixed;bottom:calc(72px + env(safe-area-inset-bottom));right:16px;width:42px;height:42px;border-radius:50%;
@@ -280,9 +297,12 @@ button.quiet{color:var(--ink-soft)}
   /* repeatable line lists: wrap instead of crushing 6 columns into 350px */
   .line.drive,.line.card{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}
   .line.drive>*,.line.card>*{flex:1 1 45%;min-width:0}
-  .line.drive input[type=number],.line.card input[type=number]{flex:0 0 56px}
+  .line.drive .stepper,.line.card .stepper{flex:0 0 auto}
   .line.drive .kill,.line.card .kill{flex:0 0 44px}
-  .line.drive input[list=caps]{flex:1 1 60%}
+  .line.drive [data-k=cap]{flex:1 1 55%}
+
+  .st-btn{width:44px;font-size:22px}
+  .stepper input{width:52px;font-size:16px}
 
   .pair,.pair.rev{grid-template-columns:1fr;gap:8px}
   .inline{gap:8px}
@@ -1692,6 +1712,37 @@ function attachList(inp,fn){
   });
   inp.addEventListener('blur',function(){setTimeout(function(){if(acInput===inp)acClose();},250);});
 }
+
+/* wrap a number input with − / + buttons so counts can be tapped, not typed */
+function stepper(input,opt){
+  opt=opt||{};
+  if(!input||input.getAttribute('data-stp'))return;
+  input.setAttribute('data-stp','1');
+  input.setAttribute('inputmode','numeric');
+  var wrap=document.createElement('span');wrap.className='stepper';
+  input.parentNode.insertBefore(wrap,input);
+  function mk(txt,lab){var b=document.createElement('button');b.type='button';b.className='st-btn';
+    b.textContent=txt;b.tabIndex=-1;b.setAttribute('aria-label',lab);return b;}
+  var dn=mk('−','decrease'),up=mk('+','increase');
+  wrap.appendChild(dn);wrap.appendChild(input);wrap.appendChild(up);
+  function bound(which){
+    var a=input.getAttribute(which);
+    if(opt[which]!=null)return opt[which];
+    return (a!=null&&a!=='')?Number(a):(which==='min'?0:Infinity);
+  }
+  function step(d){
+    var min=bound('min'),max=bound('max'),step=opt.step||1;
+    var cur=input.value===''?null:Number(input.value);
+    var next=(cur==null||isNaN(cur))?min:Math.min(max,Math.max(min,cur+d*step));
+    input.value=String(next);
+    input.dispatchEvent(new Event('input',{bubbles:true}));
+    input.dispatchEvent(new Event('change',{bubbles:true}));
+  }
+  dn.addEventListener('click',function(){step(-1);});
+  up.addEventListener('click',function(){step(1);});
+  return wrap;
+}
+
 attachList(document.getElementById('dimm'),function(){return DIMMS;});
 attachList(document.getElementById('ctrl'),function(){return CTRLS;});
 attachList(document.getElementById('bat'),function(){return BATS;});
@@ -1700,6 +1751,9 @@ attachList(document.getElementById('expander'),function(){return EXPANDERS;});
 attachList(document.getElementById('psu'),function(){var m=currentModel(),R=rulesFor(m);return (m&&R.psu)?R.psu:PSUS;});
 attachList(document.getElementById('bays'),function(){var m=currentModel();return (m&&m.bays)?m.bays:GENERIC_BAYS;});
 attachList(document.getElementById('rear'),function(){var m=currentModel(),R=rulesFor(m);return (m&&R.rear&&R.rear.length)?R.rear:REAR;});
+stepper(document.getElementById('dimmq'),{min:1});
+stepper(document.getElementById('psuq'),{min:1});
+stepper(document.getElementById('fanq'),{min:0});
 
 var modelCombo=setupCombo('model-combo',{
   getGroups:function(){
@@ -1847,6 +1901,7 @@ function riserRow(v){
    '<button type="button" class="kill" title="Remove line">&times;</button>';
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
   attachList(d.querySelector('[data-k=name]'),function(){return curRiserKits.map(function(k){return k.n;});});
+  stepper(d.querySelector('[data-k=q]'),{min:1});
   return d;}
 document.getElementById('add-riser').addEventListener('click',function(){risers.appendChild(riserRow());run();});
 function driveRow(v){
@@ -1860,6 +1915,7 @@ function driveRow(v){
   ['spd','cls','int'].forEach(function(k){if(v[k])d.querySelector('[data-k='+k+']').value=v[k];});
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
   attachList(d.querySelector('[data-k=cap]'),function(){return CAPS.map(function(c){return c[0];});});
+  stepper(d.querySelector('[data-k=q]'),{min:1});
   return d;}
 function cardRow(v){
   v=v||{};var d=document.createElement('div');d.className='line card';
@@ -1868,6 +1924,7 @@ function cardRow(v){
    '<button type="button" class="kill" title="Remove line">&times;</button>';
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
   attachList(d.querySelector('[data-k=name]'),function(){return CARDLIST;});
+  stepper(d.querySelector('[data-k=q]'),{min:1});
   return d;}
 document.getElementById('add-drive').addEventListener('click',function(){drives.appendChild(driveRow());run();});
 document.getElementById('add-card').addEventListener('click',function(){cards.appendChild(cardRow());run();});
@@ -2703,6 +2760,21 @@ sync();
     window.addEventListener('scroll',function(){
       btt.classList.toggle('visible', window.scrollY>400);
     },{passive:true});
+  }
+  /* when the on-screen keyboard opens, the fixed action bar would sit right on
+     top of it — slide it (and back-to-top) out of the way until it closes.
+     Set inline so it wins the cascade everywhere. */
+  var vv=window.visualViewport, bar=document.querySelector('.bar');
+  if(vv&&bar){
+    var apply=function(){
+      var kb=(window.innerHeight - vv.height - vv.offsetTop) > 140;
+      bar.style.transform=kb?'translateY(170px)':'';
+      bar.style.opacity=kb?'0':'';
+      bar.style.pointerEvents=kb?'none':'';
+      if(btt)btt.style.visibility=kb?'hidden':'';
+    };
+    vv.addEventListener('resize',apply);
+    vv.addEventListener('scroll',apply);
   }
 })();
 </script>
