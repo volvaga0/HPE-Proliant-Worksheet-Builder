@@ -671,6 +671,11 @@ button.quiet{color:var(--ink-soft)}
      hsW/hsWtext   TDP at/above this -> performance heatsink
      hsSku         codes always shipping performance heatsink
      hsStdException codes shipping STANDARD heatsink despite exceeding hsW
+     hsGPU         true = a double-wide PCIe/GPU card needs the performance
+                   heatsink regardless of CPU TDP (DL360/DL380 Gen9)
+     hsNoChoice    true = the heatsink ships in the processor kit and there
+                   is no standard/performance selection (4-socket Gen9, ML350
+                   Gen9) — the sheet skips the heatsink recommendation
      fanW          TDP at/above this -> high performance fan kit
      fanNVMe/fanRear/fanGPU   condition requires performance fans
      fanBays       bay configs shipping performance fans as standard
@@ -743,9 +748,10 @@ var MODELS=[
      'Mixing different processor models is not supported.',
      'Fan cage ships with 5 hot-swap fans for 2P redundancy.']}},
  {m:'DL360',g:'G9', p:['e5v3','e5v4'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
-   rules:{verified:true,hsW:121,hsWtext:'above 120W',hsStdException:['E5-2690v4'],fanGPU:true,riserMax:2,fanRear:true,
+   rules:{verified:true,hsW:121,hsWtext:'above 120W',hsStdException:['E5-2690v4'],hsGPU:true,fanGPU:true,riserMax:2,fanRear:true,
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2SFF rear','2x M.2 (uFF) rear'],
      notes:['Processors up to 120W ship standard heatsink; over 120W ships performance — except the E5-2690v4, which ships standard despite being 135W.',
+       'A double-wide GPU needs the performance heatsink; with a standard-heatsink CPU, order the Graphics Enablement Kit instead.',
        'Ships 5 standard fans for 1P and 7 for 2P.',
        'Mixing E5-2600 v3 and v4 processors is not supported.',
        'E5-2609 and E5-2603 (v3/v4) do not support Hyper-Threading.',
@@ -754,11 +760,14 @@ var MODELS=[
        'For a GPGPU, order the LH (low profile heatsink) controller so it fits.',
        'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.']}},
  {m:'DL380',g:'G9', p:['e5v3','e5v4'], s:2, d:24, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:121,hsWtext:'above 120W',rearMaxW:160,rear2SFF:['24SFF','12LFF'],riserMax:3,
+   rules:{verified:true,hsW:121,hsWtext:'above 120W',hsStdException:['E5-2690v4'],hsGPU:true,rearMaxW:160,rear2SFF:['24SFF','12LFF'],riserMax:3,
      rear:['2SFF rear','3LFF rear','4LFF midtray'],
      psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:3,two:6},
      fanRear:true,fanGPU:true,
-     notes:['Ships with 6 standard hot-plug fans; high performance fans are the option.',
+     notes:['Processors up to 120W ship the standard heatsink; over 120W ship the High Performance heatsink as standard — except the E5-2690v4 (135W), which keeps the standard heatsink.',
+       'A performance heatsink can be added on a ≤120W processor to cut fan power (795235-B21).',
+       'Double-wide PCIe / GPU cards are only supported with the High Performance heatsink; for a standard-heatsink CPU order the Graphics Enablement Kit (719082-B21), which bundles the alternative heatsinks.',
+       'Ships with 6 standard hot-plug fans; high performance fans are the option.',
        'Mixing E5-2600 v3 and v4 processors is not supported. Field upgrade v3 to v4 is.',
        '2SFF rear is only supported on a 24SFF or 12LFF chassis.',
        '3LFF rear drives consume the space for the secondary riser.',
@@ -767,8 +776,8 @@ var MODELS=[
        'Rear drives will not support CPUs above 160W, or special/unique SKUs.',
        'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.']}},
  {m:'DL560',g:'G9', p:['e5v3x4','e5v4x4'], s:4, d:48, bays:['8SFF','10SFF'],
-   rules:{psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:3,two:7},riserMax:3,rear:[],validCounts:[2,3,4],
-     notes:['Takes Xeon E5-4600 v3 / v4 (4-socket parts), minimum 2 processors. Do not mix v3 and v4.',
+   rules:{psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:3,two:7},riserMax:3,rear:[],validCounts:[2,3,4],hsNoChoice:true,
+     notes:['Takes Xeon E5-4600 v3 / v4 (4-socket parts, up to 135W), minimum 2 processors. Do not mix v3 and v4.',
        'Front 2.5-inch bays only; the Universal Media Bay adds 2 more. No rear or mid-tray drive cage.',
        'Entry model ships 1 PSU; Base/Performance ship 2 (redundant). Common Slot 1200W/1500W.',
        '6 hot-plug fans, N+1 redundancy.',
@@ -776,7 +785,7 @@ var MODELS=[
        'Storage controllers (H240 / P440 / P840) can sit in the primary riser or Slot 7.',
        'PSU bay count and fan/slot counts verified against DL560 Gen9 QuickSpecs; cooling thresholds are still generation defaults.']}},
  {m:'DL580',g:'G9', p:['e7v3','e7v4'], s:4, d:96, bays:['5SFF','8SFF','10SFF'],
-   rules:{psuMax:4,fans:{two:4,perf:4},pcie:{one:5,two:9},validCounts:[2,3,4],rear:[],riserMax:1,
+   rules:{psuMax:4,fans:{two:4,perf:4},pcie:{one:5,two:9},validCounts:[2,3,4],rear:[],riserMax:1,hsNoChoice:true,
      notes:['Takes Xeon E7-4800 / E7-8800 v3 / v4, minimum 2 processors. Do not mix v3 and v4.',
        'Front 2.5-inch drive cage only — no rear or mid-tray drive cage.',
        'Minimum 2 power supplies; up to 4 for N+N redundancy (1200W / 1500W Common Slot).',
@@ -1045,14 +1054,14 @@ var MODELS=[
  {m:'ML110',g:'G9',  p:['e5v3','e5v4'], s:1, d:8,  tower:true},
  {m:'ML150',g:'G9',  p:['e5v3','e5v4'], s:2, d:16, tower:true},
  {m:'ML350',g:'G9',  p:['e5v3','e5v4'], s:2, d:24, tower:true,
-   rules:{psuMax:4,fans:{one:3,two:5},pcie:{two:9},riserMax:0,
+   rules:{psuMax:4,fans:{one:3,two:5},pcie:{two:9},riserMax:0,hsNoChoice:true,
      psu:['500W Common Slot Platinum Plus (720478-B21)','800W Common Slot Platinum Plus (720479-B21)','1400W Common Slot Platinum Plus (720620-B21)','X4 Redundant PSU Enablement Kit (725870-B21)'],
      notes:['5U tower, 2 sockets (2nd optional), 24 DIMM slots, up to 48 SFF / 24 LFF drives.',
-       'Hardware counts verified against ML350 Gen9 QuickSpecs; heatsink threshold is still the generation default.',
+       'Hardware counts verified against ML350 Gen9 QuickSpecs.',
        '4 HPE Flexible Slot power supply bays: Slot 1 standard, Slots 2-4 optional (X4 Redundant PSU Enablement Kit 725870-B21).',
        '3 system fans standard; the Redundant Fan Kit (725878-B21) adds 4 fans + 2 PCIe air baffles and is standard on the performance model.',
        '9 PCIe expansion slots (8 Gen3, 1 Gen2); some need the 2nd processor.',
-       'No processor-specific heatsink step in the QuickSpecs — E5-2600 v3/v4 parts share one heatsink; the 120W generation guide is soft only.']}},
+       'No standard/performance heatsink choice — E5-2600 v3/v4 parts share one heatsink and it ships in the processor kit.']}},
  {m:'ML30', g:'G10', p:['xeone'], s:1, d:4,  tower:true,
    rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,
      psu:['350W Gold-level FIO (P21652-B21)','350W Bronze FIO — not EU Lot 9 / CE (820303-B21)','500W Flex Slot Platinum, needs RPS kit (865408-B21)','RPS Enablement Kit — 4U (P06305-B21)'],
@@ -2019,22 +2028,36 @@ function evaluate(){
   }
 
   var hsReasons=[],recHs=null;
-  if(midtray&&m&&m.m==='DL380'&&m.g==='G11'&&cpu&&cpu[3]>150){
-    recHs='Perf Heatsinks';
-    hsReasons.push('Midtray with a >150W processor needs the DL3xx/560 Gen11 High Performance Heatsink (P48905-B21), not the standard performance part.');
-  }else if(midtray&&!(R.hsW&&cpu&&cpu[3]>=R.hsW)){
-    checks.push(['verify','THERMAL','Midtray cooling requirements vary by generation — confirm the correct heatsink for this model in QuickSpecs.']);
-  }
-  if(cpu&&!recHs){
-    if((R.hsStdException||[]).indexOf(cpu[0])>-1){
-      recHs='Std Heatsinks';hsReasons.push(cpu[0]+' is a listed exception and ships with the standard heatsink despite its TDP.');
-    }else if(R.hsW&&cpu[3]>=R.hsW){
-      recHs='Perf Heatsinks';hsReasons.push(cpu[0]+' is '+cpu[3]+'W — '+(R.hsWtext||R.hsW+'W or higher')+' takes performance heatsinks'+hsPart+'.');
-    }else if((R.hsSku||[]).indexOf(cpu[0])>-1){
-      recHs='Perf Heatsinks';hsReasons.push(cpu[0]+' always ships with performance heatsinks, whatever its TDP.');
+  if(R.hsNoChoice){
+    /* 4-socket Gen9 and similar: the heatsink comes in the processor kit — nothing to select */
+    var hsStd=document.querySelector('input[name="hs"][value="Std Heatsinks"]');
+    if(hsStd&&!manualOverride.hs)hsStd.checked=true;
+    var whyHsEl=document.getElementById('why-hs');
+    whyHsEl.className='why on';whyHsEl.textContent='Ships in the processor kit — no standard / performance choice on this model.';
+    if(m)checks.push(['info','HEATSINK',m.m+' '+m.g+' has one heatsink design and it ships in the processor kit — there is no standard-vs-performance heatsink choice to make.']);
+  }else{
+    if(midtray&&m&&m.m==='DL380'&&m.g==='G11'&&cpu&&cpu[3]>150){
+      recHs='Perf Heatsinks';
+      hsReasons.push('Midtray with a >150W processor needs the DL3xx/560 Gen11 High Performance Heatsink (P48905-B21), not the standard performance part.');
+    }else if(midtray&&!(R.hsW&&cpu&&cpu[3]>=R.hsW)){
+      checks.push(['verify','THERMAL','Midtray cooling requirements vary by generation — confirm the correct heatsink for this model in QuickSpecs.']);
     }
+    if(cpu&&!recHs){
+      if((R.hsStdException||[]).indexOf(cpu[0])>-1){
+        recHs='Std Heatsinks';hsReasons.push(cpu[0]+' is a listed exception and ships with the standard heatsink despite its TDP.');
+      }else if(R.hsW&&cpu[3]>=R.hsW){
+        recHs='Perf Heatsinks';hsReasons.push(cpu[0]+' is '+cpu[3]+'W — '+(R.hsWtext||R.hsW+'W or higher')+' takes performance heatsinks'+hsPart+'.');
+      }else if((R.hsSku||[]).indexOf(cpu[0])>-1){
+        recHs='Perf Heatsinks';hsReasons.push(cpu[0]+' always ships with performance heatsinks, whatever its TDP.');
+      }
+    }
+    if(R.hsGPU&&hasGPU&&recHs!=='Perf Heatsinks'){
+      recHs='Perf Heatsinks';
+      hsReasons.push('Double-wide PCIe / GPU cards are only supported on the High Performance heatsink'+
+        (m&&m.g==='G9'?' — with a standard-heatsink processor, order the Graphics Enablement Kit (719082-B21) which bundles the alternative heatsinks':'')+'.');
+    }
+    applyRec('hs',recHs,hsReasons,checks,'HEATSINK');
   }
-  applyRec('hs',recHs,hsReasons,checks,'HEATSINK');
 
   if(!R.verified&&m)
     checks.push(['verify','UNVERIFIED','Rules for '+m.m+' '+m.g+' are generation defaults, not this model\u2019s own QuickSpecs. Socket and DIMM counts are product data, worth a spot-check.']);

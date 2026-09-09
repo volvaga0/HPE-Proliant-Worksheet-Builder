@@ -206,6 +206,32 @@ setTimeout(()=>{
   pickCpu('G6140'); // 140W - clearly above 85W, should trigger
   (d.querySelector('input[name="hs"]:checked')||{}).value==='Perf Heatsinks'?pass2('ML350 G10: 140W part -> performance heatsink'):fail2('ML350 G10 140W got '+(d.querySelector('input[name="hs"]:checked')||{}).value);
 
+  // --- Gen9 heatsinks ---
+  const hsv=()=>(d.querySelector('input[name="hs"]:checked')||{}).value||'none';
+  setModel('DL380 G9'); d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
+  pickCpu('E5-2697v4');  // 145W
+  hsv()==='Perf Heatsinks'?pass2('DL380 G9: 145W processor -> performance heatsink'):fail2('DL380 G9 145W got '+hsv());
+  pickCpu('E5-2690v4');  // 135W but the listed exception
+  (hsv()==='Std Heatsinks'&&/E5-2690v4 is a listed exception/.test(d.getElementById('checks').textContent))
+    ?pass2('DL380 G9: E5-2690v4 (135W) keeps the standard heatsink — the QuickSpecs exception'):fail2('DL380 G9 E5-2690v4 got '+hsv());
+  pickCpu('E5-2650v4');  // 105W
+  hsv()==='none'?pass2('DL380 G9: 105W processor -> no heatsink forced'):fail2('DL380 G9 105W wrongly forced '+hsv());
+  // GPU forces the performance heatsink regardless of TDP
+  d.getElementById('add-card').click();
+  { const cn=d.querySelector('#cards [data-k=name]'); cn.value='NVIDIA T4'; fire(cn,'input'); }
+  (hsv()==='Perf Heatsinks' && /Graphics Enablement Kit \(719082-B21\)/.test(d.getElementById('checks').textContent))
+    ?pass2('DL380 G9: a double-wide GPU forces the performance heatsink (or the Graphics Enablement Kit)'):fail2('DL380 G9 GPU heatsink rule: '+hsv());
+  d.getElementById('cards').innerHTML='';
+  // 4-socket Gen9: no standard/performance choice
+  setModel('DL560 G9'); d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
+  pickCpu('E5-4667v4');  // 135W
+  (hsv()==='Std Heatsinks' && /no standard-vs-performance heatsink choice/.test(d.getElementById('checks').textContent))
+    ?pass2('DL560 G9: heatsink ships in the CPU kit — no choice, no perf-heatsink flag'):fail2('DL560 G9 heatsink handling: '+hsv()+' / '+d.getElementById('checks').textContent.slice(0,160));
+  setModel('DL580 G9'); d.getElementById('cpuq').value='4';fire(d.getElementById('cpuq'),'input');
+  pickCpu('E7-8890v4');  // 165W
+  /no standard-vs-performance heatsink choice/.test(d.getElementById('checks').textContent)
+    ?pass2('DL580 G9: 165W E7, still no heatsink choice'):fail2('DL580 G9 heatsink: '+d.getElementById('checks').textContent.slice(0,160));
+
   // memory: genoa per-socket now 3072 not 6144
   setModel('DL325 G11');
   d.getElementById('cpuq').value='1';fire(d.getElementById('cpuq'),'input');

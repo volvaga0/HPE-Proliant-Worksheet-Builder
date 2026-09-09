@@ -126,6 +126,13 @@ a no-op under jsdom).
 hsW / hsWtext     TDP at/above this → performance heatsink
 hsSku             codes that always ship performance heatsink
 hsStdException    codes that ship STANDARD despite exceeding hsW
+hsGPU             true → a double-wide PCIe/GPU card needs the performance
+                  heatsink whatever the CPU TDP (DL360/DL380 Gen9; a
+                  standard-heatsink CPU uses the Graphics Enablement Kit 719082)
+hsNoChoice        true → the heatsink ships in the processor kit, no
+                  standard/performance selection to make. The sheet skips the
+                  recommendation, auto-checks Std, and posts one info line.
+                  Set on the 4-socket Gen9 (DL560/DL580) and ML350 Gen9.
 fanW              TDP at/above this → high performance fan kit
 fanNVMe/fanRear/fanGPU   condition requires performance fans
 fanBays           bay configs shipping performance fans as standard
@@ -327,10 +334,24 @@ it) — the old 180W figure borrowed from the DL385 was wrong. v1 and v2
 both now `verified:true` at 150W; v2's QuickSpecs actually lists the HP
 heatsink for *every* seeded SKU, so standard is the exception there.
 
+**Gen9 heatsinks (Sept 2026, from the DL380 / DL560 / DL580 Gen9 QuickSpecs):**
+- **DL360 / DL380 Gen9** — TDP **above 120W** takes the High Performance
+  heatsink (135W and 145W parts), **except the E5-2690v4** (135W, keeps
+  standard). A perf heatsink can also be fitted on a ≤120W CPU to cut fan
+  power (795235-B21). A **double-wide GPU** needs the perf heatsink whatever
+  the TDP — a standard-heatsink CPU uses the Graphics Enablement Kit
+  (719082-B21). Added `hsStdException` + `hsGPU` to DL380 G9 (DL360 already
+  had the exception).
+- **DL560 / DL580 Gen9 and ML350 Gen9** — no standard-vs-performance choice;
+  the heatsink is in the processor kit. `hsNoChoice:true` → the sheet stops
+  recommending, auto-checks Std, posts one info line.
+
 **Corrected data errors found along the way:**
 - AMD per-socket memory ceilings were wrong (Rome was 4096GB, should be
   2048GB; Genoa was 6144GB, should be 3072GB) — fixed, and the memory
   check is meaningfully stricter now as a result.
+- DL380 Gen9 was missing the `E5-2690v4` heatsink exception (it flagged that
+  part as needing the perf heatsink — wrong per QuickSpecs).
 
 **Verified in the Sept 2026 hardware-data pass (PSU bays / fan counts /
 PCIe slot counts / riser positions, from each model's own QuickSpecs —
