@@ -351,6 +351,38 @@ setTimeout(()=>{
   psuFor('DL580 G9')==='4'?pass3('DL580 G9: 4 PSU bays'):fail3('DL580 G9 psuMax wrong');
   psuFor('DL560 G11')==='4'?pass3('DL560 G11: 4 PSU bays'):fail3('DL560 G11 psuMax wrong');
 
+  // --- Gen9: v3 and v4 processors are separate picker groups ---
+  const cpuGroups=(label)=>{ setModel3(label); ci3.disabled=false; ci3.value='';fire(ci3,'focus');fire(ci3,'input');
+    return [...d.querySelectorAll('#cpu-panel .combo-group')].map(x=>x.textContent); };
+  (()=>{ const g=cpuGroups('DL380 G9');
+    (g.length===2 && /v3/.test(g[0]) && /v4/.test(g[1]))
+      ?pass3('DL380 G9: E5-2600 v3 and v4 are separate CPU groups'):fail3('G9 v3/v4 not split: '+JSON.stringify(g)); })();
+  (()=>{ const g=cpuGroups('DL560 G9');
+    (g.length===2 && g.every(x=>/E5-4600/.test(x)))
+      ?pass3('DL560 G9: CPU list is E5-4600 v3/v4 (4-socket parts)'):fail3('DL560 G9 cpu groups: '+JSON.stringify(g)); })();
+  (()=>{ const g=cpuGroups('DL580 G9');
+    (g.length===2 && g.every(x=>/E7-4800/.test(x)))
+      ?pass3('DL580 G9: CPU list is E7 v3/v4'):fail3('DL580 G9 cpu groups: '+JSON.stringify(g)); })();
+  // per-socket memory ceiling follows the *selected* CPU, not the model
+  setModel3('DL380 G9'); d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
+  d.getElementById('dimmq').value='24';fire(d.getElementById('dimmq'),'input');
+  d.getElementById('dimm').value='128GB';fire(d.getElementById('dimm'),'input');
+  pickCpu3('E5-2680v3'); const g9v3=d.getElementById('checks').textContent;
+  pickCpu3('E5-2680v4'); const g9v4=d.getElementById('checks').textContent;
+  (/OVER MEMORY LIMIT/.test(g9v3) && !/OVER MEMORY LIMIT/.test(g9v4))
+    ?pass3('mem ceiling is per-CPU: 3TB blocked on E5-2600 v3 (768/sock), fine on v4 (1536/sock)')
+    :fail3('per-CPU mem ceiling wrong — v3 blocked? '+/OVER MEMORY LIMIT/.test(g9v3)+' v4 blocked? '+/OVER MEMORY LIMIT/.test(g9v4));
+
+  // --- DL560 / DL580 Gen9 risers (verified against QuickSpecs DA-15187) ---
+  setModel3('DL560 G9');
+  const dl560g9k=[...d.querySelectorAll('#riser-kits .riser-kit')].map(x=>x.getAttribute('data-name'));
+  (dl560g9k.some(k=>/793474-B21/.test(k)) && dl560g9k.some(k=>/Slot 7/i.test(k)))
+    ?pass3('DL560 G9: riser list has the 793474-B21 secondary + Slot 7'):fail3('DL560 G9 risers: '+dl560g9k.join(' | '));
+  setModel3('DL580 G9');
+  const dl580g9k=[...d.querySelectorAll('#riser-kits .riser-kit')].map(x=>x.getAttribute('data-name'));
+  (dl580g9k.length===1 && /9 slots/i.test(dl580g9k[0]))
+    ?pass3('DL580 G9: single 9-slot I/O riser'):fail3('DL580 G9 risers: '+dl580g9k.join(' | '));
+
   // --- models HPE never made are absent ---
   d.getElementById('model-input').value='';fire(d.getElementById('model-input'),'input');
   const all=[...d.querySelectorAll('#model-panel .combo-item')].map(e=>e.textContent.replace(/\s+/g,' '));

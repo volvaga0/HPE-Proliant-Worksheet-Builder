@@ -91,13 +91,18 @@ a no-op under jsdom).
   used when a model has no rules of its own or doesn't override a key
 
 - **`CPUS`** — `[code, description, platform, TDP watts, cores]` for every
-  seeded processor
+  seeded processor. Gen9 v3 and v4 are **separate platforms** so the picker
+  groups them (like sp1/sp2): `e5v3`/`e5v4` (E5-2600, 2-socket),
+  `e5v3x4`/`e5v4x4` (E5-4600, DL560 Gen9), `e7v3`/`e7v4` (E7, DL580 Gen9).
 
 - **`PLATFORM_LABELS`** — display names for the CPU dropdown's group
-  headers (e.g. `sp2` → "2nd Gen Xeon Scalable — Cascade Lake")
+  headers (e.g. `sp2` → "2nd Gen Xeon Scalable — Cascade Lake"). Each entry
+  of a model's `p` array becomes its own group.
 
 - **`MEM_PER_SOCKET`** — max GB per socket by platform, used for the
-  memory-ceiling check
+  memory-ceiling check. The check keys off the **selected CPU's** platform
+  (`cpu[2]`), falling back to `m.p[0]` — so a v4 part gets 1536GB/socket even
+  on a board whose first listed platform is v3 (768).
 
 ### Rule keys (documented in a comment block right above `GEN_DEFAULTS`)
 
@@ -158,9 +163,9 @@ mix riser types. The **`RISERS`** map (keyed `"MODEL GEN"`) holds kit objects
 fh/lp:full-height vs low-profile split of s (optional), pos:'primary'|'secondary'
 |'tertiary'|'any', cpu2:true, def:true}` from each
 model's QuickSpecs "Riser Information" table — currently DL380 Gen10 (full,
-16 kits), DL360 Gen10, DL560 Gen10 (7 kits) and DL580 Gen10 (5 kits, incl. the
-6/7-slot primaries and the 8/9-slot secondary+tertiary); the rest fall back to
-`GENERIC_RISERS`. The
+16 kits), DL360 Gen10, DL560 Gen10 (7 kits), DL580 Gen10 (5 kits), DL560 Gen9
+(4 kits incl. Slot 7 LP) and DL580 Gen9 (the single 9-slot I/O riser); the
+rest fall back to `GENERIC_RISERS`. The
 collapsible reference list under the field renders every kit as a wrapping
 row; clicking one appends a riser line. `evaluate()` then: counts lines vs
 `riserMax`, blocks a `cpu2` kit when exactly 1 CPU is set (`stop`) or soft-flags
@@ -307,8 +312,18 @@ heatsink for *every* seeded SKU, so standard is the exception there.
 **Verified in the Sept 2026 hardware-data pass (PSU bays / fan counts /
 PCIe slot counts / riser positions, from each model's own QuickSpecs —
 cooling thresholds separately noted per model):**
-- DL560 Gen9 (2 PSU, 6 fans, 4→7 PCIe), DL580 Gen9 (4 PSU, 4 fans,
-  9 PCIe, 96 DIMM via 8 cartridges, 2-proc minimum)
+- DL560 Gen9 (2 PSU, 6 fans, 3→7 PCIe, riserMax 3), DL580 Gen9 (4 PSU, 4 fans,
+  9 PCIe, 96 DIMM via 8 cartridges, 2-proc minimum, riserMax 1)
+- **DL560/DL580 Gen9 risers (QuickSpecs DA-15187):** DL560 G9 — standard
+  3-slot primary (Proc 1), optional Secondary 3-Slot Riser Kit 793474-B21
+  (slots 4-6, Proc 2), Slot 7 low-profile on the board (Proc 2); a 2-slot
+  primary variant 793475-B21. DL580 G9 — one standard I/O riser carries all
+  9 full-length/full-height slots (4x x8 + 5x x16); no secondary kits, slot
+  availability gated by processor count (2P→5, 3P→7, 4P→9). Double-wide GPU
+  slot map in the notes. Both got `validCounts:[2,3,4]`.
+- **Gen9 v3/v4 CPU split:** `e5v34`→`e5v3`/`e5v4`, added `e5v3x4`/`e5v4x4`
+  (E5-4600, DL560 G9) and `e7v3`/`e7v4` (E7, DL580 G9). ~90 Gen9 CPU rows.
+  DL560 G9 no longer shows 2-socket E5-2600 parts.
 - DL560 Gen10 (4 PSU, 6 fans, 3→8 PCIe, riserMax 3),
   DL580 Gen10 (4 PSU, 12 fans, 6→16 PCIe, riserMax 3)
 - DL560 Gen11 (4 PSU, 6/5 HP fans air/liquid, 6 PCIe + 2 OCP, 150W

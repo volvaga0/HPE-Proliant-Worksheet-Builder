@@ -600,7 +600,9 @@ button.quiet{color:var(--ink-soft)}
 
    MODEL KEYS
      m,g       model and generation
-     p         processor platforms this board accepts
+     p         processor platforms this board accepts (each becomes its own
+               group in the CPU picker — Gen9 keeps v3 and v4 separate:
+               e5v3/e5v4 (E5-2600), e5v3x4/e5v4x4 (E5-4600), e7v3/e7v4)
      s         CPU sockets            d   total DIMM slots
      bays      selectable front bay configs (falls back to a generic list)
      rules     cooling / config rules, merged over GEN_DEFAULTS
@@ -650,7 +652,9 @@ button.quiet{color:var(--ink-soft)}
    ========================================================================== */
 
 var PLATFORM_LABELS={
- e5v34:'Xeon E5-2600 v3/v4 (Gen9)', e7v34:'Xeon E7-4800/8800 v3/v4 (Gen9, 4-socket)',
+ e5v3:'Xeon E5-2600 v3 — Haswell (Gen9)', e5v4:'Xeon E5-2600 v4 — Broadwell (Gen9)',
+ e5v3x4:'Xeon E5-4600 v3 — Haswell (Gen9, 4-socket)', e5v4x4:'Xeon E5-4600 v4 — Broadwell (Gen9, 4-socket)',
+ e7v3:'Xeon E7-4800/8800 v3 — Haswell-EX (Gen9)', e7v4:'Xeon E7-4800/8800 v4 — Broadwell-EX (Gen9)',
  e3:'Xeon E3-1200 v5/v6 (Gen9 entry)', xeone:'Xeon E-2100/2200 (Gen10 entry)',
  xeone3:'Xeon E-2300 (Gen10 Plus entry)',
  sp1:'1st Gen Xeon Scalable — Skylake', sp2:'2nd Gen Xeon Scalable — Cascade Lake',
@@ -660,7 +664,7 @@ var PLATFORM_LABELS={
  xeon6:'Intel Xeon 6 (Gen12)'
 };
 /* max GB of memory per socket, by processor platform */
-var MEM_PER_SOCKET={e5v34:1536,e7v34:3072,e3:64,xeone:128,xeone3:128,
+var MEM_PER_SOCKET={e5v3:768,e5v4:1536,e5v3x4:1536,e5v4x4:1536,e7v3:1536,e7v4:3072,e3:64,xeone:128,xeone3:128,
  sp1:768,sp2:1024,sp3:4096,sp4:4096,naples:2048,rome:2048,milan:4096,genoa:3072,xeon6:8192};
 
 var GEN_DEFAULTS={
@@ -674,15 +678,15 @@ var GEN_DEFAULTS={
 
 var MODELS=[
  {m:'DL20', g:'G9', p:['e3'],    s:1, d:4},
- {m:'DL60', g:'G9', p:['e5v34'], s:2, d:8},
- {m:'DL80', g:'G9', p:['e5v34'], s:2, d:8},
- {m:'DL120',g:'G9', p:['e5v34'], s:1, d:8},
- {m:'DL160',g:'G9', p:['e5v34'], s:2, d:16},
- {m:'DL180',g:'G9', p:['e5v34'], s:2, d:16,
+ {m:'DL60', g:'G9', p:['e5v3','e5v4'], s:2, d:8},
+ {m:'DL80', g:'G9', p:['e5v3','e5v4'], s:2, d:8},
+ {m:'DL120',g:'G9', p:['e5v3','e5v4'], s:1, d:8},
+ {m:'DL160',g:'G9', p:['e5v3','e5v4'], s:2, d:16},
+ {m:'DL180',g:'G9', p:['e5v3','e5v4'], s:2, d:16,
    rules:{notes:['Processor upgrade from E5-2600 v3 to v4 is supported only for processors up to 105W.',
      'Mixing different processor models is not supported.',
      'Fan cage ships with 5 hot-swap fans for 2P redundancy.']}},
- {m:'DL360',g:'G9', p:['e5v34'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
+ {m:'DL360',g:'G9', p:['e5v3','e5v4'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:121,hsWtext:'above 120W',hsStdException:['E5-2690v4'],fanGPU:true,riserMax:2,fanRear:true,
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2SFF rear','2x M.2 (uFF) rear'],
      notes:['Processors up to 120W ship standard heatsink; over 120W ships performance — except the E5-2690v4, which ships standard despite being 135W.',
@@ -693,7 +697,7 @@ var MODELS=[
        '128GB DIMMs cannot be mixed with any other size.',
        'For a GPGPU, order the LH (low profile heatsink) controller so it fits.',
        'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.']}},
- {m:'DL380',g:'G9', p:['e5v34'], s:2, d:24, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
+ {m:'DL380',g:'G9', p:['e5v3','e5v4'], s:2, d:24, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:121,hsWtext:'above 120W',rearMaxW:160,rear2SFF:['24SFF','12LFF'],riserMax:3,
      rear:['2SFF rear','3LFF rear','4LFF midtray'],
      psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:3,two:6},
@@ -706,21 +710,24 @@ var MODELS=[
        '8SFF CTO can be field-upgraded to 16SFF or 24SFF with a drive cage.',
        'Rear drives will not support CPUs above 160W, or special/unique SKUs.',
        'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.']}},
- {m:'DL560',g:'G9', p:['e5v34'], s:4, d:48, bays:['8SFF','10SFF'],
-   rules:{psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:4,two:7},riserMax:2,rear:[],
-     notes:['Front 2.5-inch bays only; the Universal Media Bay adds 2 more. No rear or mid-tray drive cage.',
+ {m:'DL560',g:'G9', p:['e5v3x4','e5v4x4'], s:4, d:48, bays:['8SFF','10SFF'],
+   rules:{psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:3,two:7},riserMax:3,rear:[],validCounts:[2,3,4],
+     notes:['Takes Xeon E5-4600 v3 / v4 (4-socket parts), minimum 2 processors. Do not mix v3 and v4.',
+       'Front 2.5-inch bays only; the Universal Media Bay adds 2 more. No rear or mid-tray drive cage.',
        'Entry model ships 1 PSU; Base/Performance ship 2 (redundant). Common Slot 1200W/1500W.',
        '6 hot-plug fans, N+1 redundancy.',
-       '4 PCIe slots with the primary riser; 7 with the secondary riser kit (793474-B21) and the 3rd/4th processors.',
+       'Riser positions (QuickSpecs DA-15187): primary riser slots 1-3 (Proc 1, full-height, ships standard); optional Secondary 3-Slot Riser Kit 793474-B21 slots 4-6 (Proc 2); Slot 7 is a low-profile slot on the board (Proc 2). Up to 7 PCIe 3.0 slots with the secondary riser and 2+ processors.',
+       'Storage controllers (H240 / P440 / P840) can sit in the primary riser or Slot 7.',
        'PSU bay count and fan/slot counts verified against DL560 Gen9 QuickSpecs; cooling thresholds are still generation defaults.']}},
- {m:'DL580',g:'G9', p:['e7v34'], s:4, d:96, bays:['5SFF','8SFF','10SFF'],
-   rules:{psuMax:4,fans:{two:4,perf:4},pcie:{two:9},validCounts:[2,3,4],rear:[],
-     notes:['Front 2.5-inch drive cage only — no rear or mid-tray drive cage.',
-       'A minimum of two processors is required; three or four may be installed.',
+ {m:'DL580',g:'G9', p:['e7v3','e7v4'], s:4, d:96, bays:['5SFF','8SFF','10SFF'],
+   rules:{psuMax:4,fans:{two:4,perf:4},pcie:{one:5,two:9},validCounts:[2,3,4],rear:[],riserMax:1,
+     notes:['Takes Xeon E7-4800 / E7-8800 v3 / v4, minimum 2 processors. Do not mix v3 and v4.',
+       'Front 2.5-inch drive cage only — no rear or mid-tray drive cage.',
        'Minimum 2 power supplies; up to 4 for N+N redundancy (1200W / 1500W Common Slot).',
        '4 hot-plug fans (eight rotors), N+1 redundancy.',
        '96 DIMM slots via up to 8 memory cartridges (12 slots each).',
-       'Up to 9 PCIe 3.0 slots in a 4-processor configuration.',
+       'One standard I/O riser carries all 9 PCIe 3.0 slots (4x x8 + 5x x16), all full-length/full-height (QuickSpecs DA-15187). Slot availability scales with processor count — the full nine need all four sockets; a two-socket build lights the five Proc 1/2 slots, a three-socket build adds two more.',
+       'Double-wide GPU placement: 2 cards (slots 6, 9) with 2 processors; 3 (slots 3, 6, 9) with 3; up to 5 (slots 1, 2, 3, 6, 9) with 4. Slots 5 and 8 are blocked when double-wide cards are fitted.',
        'PSU / fan / slot counts verified against DL580 Gen9 QuickSpecs; cooling thresholds are still generation defaults.']}},
 
  {m:'DL20', g:'G10', p:['xeone'],      s:1, d:4,
@@ -979,9 +986,9 @@ var MODELS=[
 
  {m:'ML10', g:'G9',  p:['e3'],    s:1, d:4,  tower:true},
  {m:'ML30', g:'G9',  p:['e3'],    s:1, d:4,  tower:true},
- {m:'ML110',g:'G9',  p:['e5v34'], s:1, d:8,  tower:true},
- {m:'ML150',g:'G9',  p:['e5v34'], s:2, d:16, tower:true},
- {m:'ML350',g:'G9',  p:['e5v34'], s:2, d:24, tower:true,
+ {m:'ML110',g:'G9',  p:['e5v3','e5v4'], s:1, d:8,  tower:true},
+ {m:'ML150',g:'G9',  p:['e5v3','e5v4'], s:2, d:16, tower:true},
+ {m:'ML350',g:'G9',  p:['e5v3','e5v4'], s:2, d:24, tower:true,
    rules:{psuMax:4,fans:{one:3,two:5},pcie:{two:9},riserMax:0,
      psu:['500W Common Slot Platinum Plus (720478-B21)','800W Common Slot Platinum Plus (720479-B21)','1400W Common Slot Platinum Plus (720620-B21)','X4 Redundant PSU Enablement Kit (725870-B21)'],
      notes:['5U tower, 2 sockets (2nd optional), 24 DIMM slots, up to 48 SFF / 24 LFF drives.',
@@ -1031,39 +1038,94 @@ var MODELS=[
 
 /* code, description, platform, TDP watts, cores */
 var CPUS=[
- ['E5-2603v4','Xeon E5-2603 v4 · 6C 1.7GHz','e5v34',85,6],
- ['E5-2609v4','Xeon E5-2609 v4 · 8C 1.7GHz','e5v34',85,8],
- ['E5-2620v3','Xeon E5-2620 v3 · 6C 2.4GHz','e5v34',85,6],
- ['E5-2620v4','Xeon E5-2620 v4 · 8C 2.1GHz','e5v34',85,8],
- ['E5-2623v4','Xeon E5-2623 v4 · 4C 2.6GHz','e5v34',85,4],
- ['E5-2630v3','Xeon E5-2630 v3 · 8C 2.4GHz','e5v34',85,8],
- ['E5-2630v4','Xeon E5-2630 v4 · 10C 2.2GHz','e5v34',85,10],
- ['E5-2637v4','Xeon E5-2637 v4 · 4C 3.5GHz','e5v34',135,4],
- ['E5-2640v3','Xeon E5-2640 v3 · 8C 2.6GHz','e5v34',90,8],
- ['E5-2640v4','Xeon E5-2640 v4 · 10C 2.4GHz','e5v34',90,10],
- ['E5-2643v3','Xeon E5-2643 v3 · 6C 3.4GHz','e5v34',135,6],
- ['E5-2643v4','Xeon E5-2643 v4 · 6C 3.4GHz','e5v34',135,6],
- ['E5-2650v3','Xeon E5-2650 v3 · 10C 2.3GHz','e5v34',105,10],
- ['E5-2650v4','Xeon E5-2650 v4 · 12C 2.2GHz','e5v34',105,12],
- ['E5-2660v3','Xeon E5-2660 v3 · 10C 2.6GHz','e5v34',105,10],
- ['E5-2660v4','Xeon E5-2660 v4 · 14C 2.0GHz','e5v34',105,14],
- ['E5-2667v4','Xeon E5-2667 v4 · 8C 3.2GHz','e5v34',135,8],
- ['E5-2670v3','Xeon E5-2670 v3 · 12C 2.3GHz','e5v34',120,12],
- ['E5-2680v3','Xeon E5-2680 v3 · 12C 2.5GHz','e5v34',120,12],
- ['E5-2680v4','Xeon E5-2680 v4 · 14C 2.4GHz','e5v34',120,14],
- ['E5-2690v3','Xeon E5-2690 v3 · 12C 2.6GHz','e5v34',135,12],
- ['E5-2690v4','Xeon E5-2690 v4 · 14C 2.6GHz','e5v34',135,14],
- ['E5-2695v4','Xeon E5-2695 v4 · 18C 2.1GHz','e5v34',120,18],
- ['E5-2697v4','Xeon E5-2697 v4 · 18C 2.3GHz','e5v34',145,18],
- ['E5-2697Av4','Xeon E5-2697A v4 · 16C 2.6GHz','e5v34',145,16],
- ['E5-2698v4','Xeon E5-2698 v4 · 20C 2.2GHz','e5v34',135,20],
- ['E5-2699v4','Xeon E5-2699 v4 · 22C 2.2GHz','e5v34',145,22],
- ['E7-4809v4','Xeon E7-4809 v4 · 8C 2.1GHz','e7v34',115,8],
- ['E7-4820v4','Xeon E7-4820 v4 · 10C 2.0GHz','e7v34',115,10],
- ['E7-4830v4','Xeon E7-4830 v4 · 14C 2.0GHz','e7v34',115,14],
- ['E7-4850v4','Xeon E7-4850 v4 · 16C 2.1GHz','e7v34',115,16],
- ['E7-8860v4','Xeon E7-8860 v4 · 18C 2.2GHz','e7v34',140,18],
- ['E7-8870v4','Xeon E7-8870 v4 · 20C 2.1GHz','e7v34',140,20],
+ /* Xeon E5-2600 v3 — Haswell (Gen9, 2-socket) */
+ ['E5-2603v3','Xeon E5-2603 v3 · 6C 1.6GHz','e5v3',85,6],
+ ['E5-2609v3','Xeon E5-2609 v3 · 6C 1.9GHz','e5v3',85,6],
+ ['E5-2620v3','Xeon E5-2620 v3 · 6C 2.4GHz','e5v3',85,6],
+ ['E5-2623v3','Xeon E5-2623 v3 · 4C 3.0GHz','e5v3',105,4],
+ ['E5-2630v3','Xeon E5-2630 v3 · 8C 2.4GHz','e5v3',85,8],
+ ['E5-2630Lv3','Xeon E5-2630L v3 · 8C 1.8GHz','e5v3',55,8],
+ ['E5-2637v3','Xeon E5-2637 v3 · 4C 3.5GHz','e5v3',135,4],
+ ['E5-2640v3','Xeon E5-2640 v3 · 8C 2.6GHz','e5v3',90,8],
+ ['E5-2643v3','Xeon E5-2643 v3 · 6C 3.4GHz','e5v3',135,6],
+ ['E5-2650v3','Xeon E5-2650 v3 · 10C 2.3GHz','e5v3',105,10],
+ ['E5-2650Lv3','Xeon E5-2650L v3 · 12C 1.8GHz','e5v3',65,12],
+ ['E5-2660v3','Xeon E5-2660 v3 · 10C 2.6GHz','e5v3',105,10],
+ ['E5-2667v3','Xeon E5-2667 v3 · 8C 3.2GHz','e5v3',135,8],
+ ['E5-2670v3','Xeon E5-2670 v3 · 12C 2.3GHz','e5v3',120,12],
+ ['E5-2680v3','Xeon E5-2680 v3 · 12C 2.5GHz','e5v3',120,12],
+ ['E5-2683v3','Xeon E5-2683 v3 · 14C 2.0GHz','e5v3',120,14],
+ ['E5-2690v3','Xeon E5-2690 v3 · 12C 2.6GHz','e5v3',135,12],
+ ['E5-2695v3','Xeon E5-2695 v3 · 14C 2.3GHz','e5v3',120,14],
+ ['E5-2697v3','Xeon E5-2697 v3 · 14C 2.6GHz','e5v3',145,14],
+ ['E5-2698v3','Xeon E5-2698 v3 · 16C 2.3GHz','e5v3',135,16],
+ ['E5-2699v3','Xeon E5-2699 v3 · 18C 2.3GHz','e5v3',145,18],
+ /* Xeon E5-2600 v4 — Broadwell (Gen9, 2-socket) */
+ ['E5-2603v4','Xeon E5-2603 v4 · 6C 1.7GHz','e5v4',85,6],
+ ['E5-2609v4','Xeon E5-2609 v4 · 8C 1.7GHz','e5v4',85,8],
+ ['E5-2620v4','Xeon E5-2620 v4 · 8C 2.1GHz','e5v4',85,8],
+ ['E5-2623v4','Xeon E5-2623 v4 · 4C 2.6GHz','e5v4',85,4],
+ ['E5-2630v4','Xeon E5-2630 v4 · 10C 2.2GHz','e5v4',85,10],
+ ['E5-2630Lv4','Xeon E5-2630L v4 · 10C 1.8GHz','e5v4',55,10],
+ ['E5-2637v4','Xeon E5-2637 v4 · 4C 3.5GHz','e5v4',135,4],
+ ['E5-2640v4','Xeon E5-2640 v4 · 10C 2.4GHz','e5v4',90,10],
+ ['E5-2643v4','Xeon E5-2643 v4 · 6C 3.4GHz','e5v4',135,6],
+ ['E5-2650v4','Xeon E5-2650 v4 · 12C 2.2GHz','e5v4',105,12],
+ ['E5-2650Lv4','Xeon E5-2650L v4 · 14C 1.7GHz','e5v4',65,14],
+ ['E5-2660v4','Xeon E5-2660 v4 · 14C 2.0GHz','e5v4',105,14],
+ ['E5-2667v4','Xeon E5-2667 v4 · 8C 3.2GHz','e5v4',135,8],
+ ['E5-2680v4','Xeon E5-2680 v4 · 14C 2.4GHz','e5v4',120,14],
+ ['E5-2683v4','Xeon E5-2683 v4 · 16C 2.1GHz','e5v4',120,16],
+ ['E5-2690v4','Xeon E5-2690 v4 · 14C 2.6GHz','e5v4',135,14],
+ ['E5-2695v4','Xeon E5-2695 v4 · 18C 2.1GHz','e5v4',120,18],
+ ['E5-2697v4','Xeon E5-2697 v4 · 18C 2.3GHz','e5v4',145,18],
+ ['E5-2697Av4','Xeon E5-2697A v4 · 16C 2.6GHz','e5v4',145,16],
+ ['E5-2698v4','Xeon E5-2698 v4 · 20C 2.2GHz','e5v4',135,20],
+ ['E5-2699v4','Xeon E5-2699 v4 · 22C 2.2GHz','e5v4',145,22],
+ ['E5-2699Av4','Xeon E5-2699A v4 · 22C 2.4GHz','e5v4',145,22],
+ /* Xeon E5-4600 v3/v4 — Gen9 4-socket (DL560 Gen9) */
+ ['E5-4610v3','Xeon E5-4610 v3 · 10C 1.7GHz','e5v3x4',105,10],
+ ['E5-4620v3','Xeon E5-4620 v3 · 10C 2.0GHz','e5v3x4',105,10],
+ ['E5-4627v3','Xeon E5-4627 v3 · 10C 2.6GHz','e5v3x4',135,10],
+ ['E5-4640v3','Xeon E5-4640 v3 · 12C 1.9GHz','e5v3x4',105,12],
+ ['E5-4650v3','Xeon E5-4650 v3 · 12C 2.1GHz','e5v3x4',105,12],
+ ['E5-4655v3','Xeon E5-4655 v3 · 6C 2.9GHz','e5v3x4',135,6],
+ ['E5-4660v3','Xeon E5-4660 v3 · 14C 2.1GHz','e5v3x4',120,14],
+ ['E5-4667v3','Xeon E5-4667 v3 · 16C 2.0GHz','e5v3x4',135,16],
+ ['E5-4669v3','Xeon E5-4669 v3 · 18C 2.1GHz','e5v3x4',135,18],
+ ['E5-4610v4','Xeon E5-4610 v4 · 10C 1.8GHz','e5v4x4',105,10],
+ ['E5-4620v4','Xeon E5-4620 v4 · 10C 2.1GHz','e5v4x4',105,10],
+ ['E5-4627v4','Xeon E5-4627 v4 · 10C 2.6GHz','e5v4x4',135,10],
+ ['E5-4640v4','Xeon E5-4640 v4 · 12C 2.1GHz','e5v4x4',105,12],
+ ['E5-4650v4','Xeon E5-4650 v4 · 14C 2.2GHz','e5v4x4',105,14],
+ ['E5-4655v4','Xeon E5-4655 v4 · 8C 2.5GHz','e5v4x4',135,8],
+ ['E5-4660v4','Xeon E5-4660 v4 · 16C 2.2GHz','e5v4x4',120,16],
+ ['E5-4667v4','Xeon E5-4667 v4 · 18C 2.2GHz','e5v4x4',135,18],
+ ['E5-4669v4','Xeon E5-4669 v4 · 22C 2.2GHz','e5v4x4',135,22],
+ /* Xeon E7-4800/8800 v3 — Haswell-EX (Gen9, 4-socket) */
+ ['E7-4809v3','Xeon E7-4809 v3 · 8C 2.0GHz','e7v3',115,8],
+ ['E7-4820v3','Xeon E7-4820 v3 · 10C 1.9GHz','e7v3',115,10],
+ ['E7-4830v3','Xeon E7-4830 v3 · 12C 2.1GHz','e7v3',115,12],
+ ['E7-4850v3','Xeon E7-4850 v3 · 14C 2.2GHz','e7v3',115,14],
+ ['E7-8860v3','Xeon E7-8860 v3 · 16C 2.2GHz','e7v3',140,16],
+ ['E7-8867v3','Xeon E7-8867 v3 · 16C 2.5GHz','e7v3',165,16],
+ ['E7-8870v3','Xeon E7-8870 v3 · 18C 2.1GHz','e7v3',140,18],
+ ['E7-8880v3','Xeon E7-8880 v3 · 18C 2.3GHz','e7v3',150,18],
+ ['E7-8890v3','Xeon E7-8890 v3 · 18C 2.5GHz','e7v3',165,18],
+ ['E7-8891v3','Xeon E7-8891 v3 · 10C 2.8GHz','e7v3',165,10],
+ ['E7-8893v3','Xeon E7-8893 v3 · 4C 3.2GHz','e7v3',140,4],
+ /* Xeon E7-4800/8800 v4 — Broadwell-EX (Gen9, 4-socket) */
+ ['E7-4809v4','Xeon E7-4809 v4 · 8C 2.1GHz','e7v4',115,8],
+ ['E7-4820v4','Xeon E7-4820 v4 · 10C 2.0GHz','e7v4',115,10],
+ ['E7-4830v4','Xeon E7-4830 v4 · 14C 2.0GHz','e7v4',115,14],
+ ['E7-4850v4','Xeon E7-4850 v4 · 16C 2.1GHz','e7v4',115,16],
+ ['E7-8860v4','Xeon E7-8860 v4 · 18C 2.2GHz','e7v4',140,18],
+ ['E7-8867v4','Xeon E7-8867 v4 · 18C 2.4GHz','e7v4',165,18],
+ ['E7-8870v4','Xeon E7-8870 v4 · 20C 2.1GHz','e7v4',140,20],
+ ['E7-8880v4','Xeon E7-8880 v4 · 22C 2.2GHz','e7v4',150,22],
+ ['E7-8890v4','Xeon E7-8890 v4 · 24C 2.2GHz','e7v4',165,24],
+ ['E7-8891v4','Xeon E7-8891 v4 · 10C 2.8GHz','e7v4',165,10],
+ ['E7-8893v4','Xeon E7-8893 v4 · 4C 3.2GHz','e7v4',140,4],
  ['E3-1220v5','Xeon E3-1220 v5 · 4C 3.0GHz','e3',80,4],
  ['E3-1230v5','Xeon E3-1230 v5 · 4C 3.4GHz','e3',80,4],
  ['E3-1240v5','Xeon E3-1240 v5 · 4C 3.5GHz','e3',80,4],
@@ -1213,7 +1275,8 @@ var CPUS=[
  ['EPYC 9654','EPYC 9654 · 96C 2.4GHz','genoa',360,96]
 ];
 
-var MEMSPEED={e5v34:'2133 / 2400',sp1:'2400 / 2666',sp2:'2666 / 2933',sp3:'2933 / 3200',
+var MEMSPEED={e5v3:'1866 / 2133',e5v4:'2133 / 2400',e5v3x4:'1866 / 2133',e5v4x4:'1866 / 2400',
+  e7v3:'1333 / 1866',e7v4:'1600 / 1866',sp1:'2400 / 2666',sp2:'2666 / 2933',sp3:'2933 / 3200',
   sp4:'4400 / 4800',naples:'2666',rome:'3200',milan:'3200',genoa:'4800',e3:'2133 / 2400',
   xeone:'2666',xeone3:'3200',xeon6:'6400'};
 
@@ -1302,6 +1365,21 @@ var GENERIC_RISERS=[
  {n:'2SFF SAS/SATA rear riser',d:'rear drive cage in a riser bay',s:0,pos:'any'}
 ];
 var RISERS={
+ /* DL560 Gen9 QuickSpecs DA-15187. Standard 3-slot primary (Proc 1); optional
+    Secondary 3-Slot Riser Kit 793474-B21 (slots 4-6, Proc 2); Slot 7 is a
+    board low-profile slot (Proc 2). Also a 2-slot primary variant 793475-B21. */
+ 'DL560 G9':[
+  {n:'Primary riser (slots 1-3, ships standard)',d:'3 slots · full-height · Proc 1',s:3,fh:3,lp:0,pos:'primary',def:true},
+  {n:'Primary 2-Slot Riser Kit (793475-B21)',d:'2-slot primary variant — replaces the standard 3-slot primary',s:2,fh:2,lp:0,pos:'primary'},
+  {n:'Secondary 3-Slot Riser Kit (793474-B21)',d:'slots 4-6 · full-height · needs Proc 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'Slot 7 (low-profile, on the system board)',d:'1 low-profile slot · needs Proc 2 · takes a storage controller',s:1,fh:0,lp:1,pos:'tertiary',cpu2:true}
+ ],
+ /* DL580 Gen9 QuickSpecs DA-15187. One standard I/O riser = all 9 slots,
+    full-length/full-height (4x x8 + 5x x16). No secondary/tertiary kits —
+    slot count is gated by processor count, not by adding risers. */
+ 'DL580 G9':[
+  {n:'Primary I/O riser (9 slots, ships standard)',d:'slots 1-9 · full-length/full-height · slot 9 Proc 1, slots 5-8 Proc 2, slots 3-4 Proc 3, slots 1-2 Proc 4',s:9,fh:9,lp:0,pos:'primary',def:true}
+ ],
  'DL380 G10':[
   {n:'Default Primary riser',d:'Slots 1-3 · x8/x16/x8 · dual M.2 · ships standard · all full-height',s:3,fh:3,lp:0,pos:'primary',def:true},
   {n:'Primary Riser Removal FIO (875293-B21)',d:'removes the shipping primary riser',s:0,pos:'primary'},
@@ -1463,7 +1541,8 @@ function refreshDependents(){
   cpuCombo.setPlaceholder(m?(valid.length?'Type to search — e.g. '+valid[0][0]:'none seeded for this platform'):'Pick a system model first');
   document.getElementById('cpu-scope').textContent=m?(valid.length+' processors fit this system'):'';
   document.getElementById('cpu-note').textContent=m?'Only processors supported by '+m.m+' '+m.g+' are listed.':'Pick a system model first.';
-  document.getElementById('dimm-note').textContent=m?('Platform speed: '+(MEMSPEED[m.p[0]]||'—')+' MHz'):'';
+  var spds=m?m.p.map(function(p){return MEMSPEED[p];}).filter(Boolean).filter(function(x,i,a){return a.indexOf(x)===i;}):[];
+  document.getElementById('dimm-note').textContent=m?('Platform speed: '+(spds.join('  ·  ')||'—')+' MHz'):'';
   document.getElementById('sys-note').textContent=m?(m.s+' socket'+(m.s>1?'s':'')+', '+m.d+' DIMM slots'):'';
   var q=document.getElementById('cpuq');
   if(m){q.max=m.s;if(Number(q.value)>m.s)q.value=m.s;}else{q.removeAttribute('max');}
@@ -1760,7 +1839,7 @@ function evaluate(){
       checks.push(['stop','DIMM SLOTS UNAVAILABLE','With '+cpuq+' of '+m.s+' sockets populated only '+usable+' DIMM slots are usable — '+dq+' modules will not fit.']);
     if(dsize){
       var total=dq*dsize;
-      var perSock=R.memPerSocket||MEM_PER_SOCKET[m.p[0]]||0;
+      var perSock=R.memPerSocket||(cpu&&MEM_PER_SOCKET[cpu[2]])||MEM_PER_SOCKET[m.p[0]]||0;
       var cap=perSock*(cpuq||1);
       memNote.textContent='Total '+(total>=1024?(total/1024)+'TB':total+'GB')+
         (cap?' — platform ceiling '+(cap>=1024?(cap/1024)+'TB':cap+'GB')+' with '+(cpuq||1)+' processor'+((cpuq||1)>1?'s':''):'');
@@ -2138,7 +2217,7 @@ function grabMem(t){
   return null;
 }
 function grabCpuQty(t){
-  var m,proc='(?:\\d{1,2}\\s*c(?:ore)?s?\\b|xeon|epyc|gold|silver|platinum|bronze|amd|intel|cpu|processors?\\b|proc\\b|\\d{4}(?!\\s*w)[a-z]?\\b)';
+  var m,proc='(?:\\d{1,2}\\s*c(?:ore)?s?\\b|xeon|epyc|gold|silver|platinum|bronze|amd|intel|cpu|processors?\\b|proc\\b|e[0-9]?-?\\d{3,4}[a-z0-9]*\\b|\\d{4}(?!\\s*w)[a-z]?\\b)';
   if(m=t.match(new RegExp('(\\d)\\s*[x*]\\s*'+proc,'i'))) return +m[1];
   if(new RegExp('\\b(?:dual|two)[\\s-]+'+proc,'i').test(t)) return 2;
   if(/\bdual[\s-]?socket\b/i.test(t)||/\b2\s*[ps]\b/i.test(t)) return 2;
@@ -2162,9 +2241,10 @@ function parseClientText(text){
 
   var valid=m?m.p:null,cpuFound=null;
   for(var i=0;i<CPUS.length&&!cpuFound;i++){
-    var c=CPUS[i],isAMD=/^EPYC/i.test(c[0]);
-    var pat=isAMD?new RegExp('\\b(?:epyc\\s*)?'+c[0].replace(/^EPYC\s*/i,'')+'[a-z]?\\b','i')
-                 :new RegExp('\\b'+c[0].replace(/^[A-Za-z]+/,'').replace('+','\\+')+'[A-Za-z]?\\b','i');
+    var c=CPUS[i],isAMD=/^EPYC/i.test(c[0]),isE=/^E[357]-/.test(c[0]),pat;
+    if(isAMD) pat=new RegExp('\\b(?:epyc\\s*)?'+c[0].replace(/^EPYC\s*/i,'')+'[a-z]?\\b','i');
+    else if(isE) pat=new RegExp('\\b'+c[0].replace(/^E([357])-/,'(?:e$1[\\s-]?)?').replace(/(v[34])$/,'\\s*$1')+'\\b','i');
+    else pat=new RegExp('\\b'+c[0].replace(/^[A-Za-z]+/,'').replace('+','\\+')+'[A-Za-z]?\\b','i');
     if(pat.test(text)&&(!valid||valid.indexOf(c[2])>-1))cpuFound=c;
   }
   var q=grabCpuQty(text);
