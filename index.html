@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Procurri — Server build worksheet</title>
+<style>
+:root{
+  color-scheme:dark;
+  --paper:#19191a;--card:#282828;--ink:#e0e0e0;--ink-soft:#aaaaaa;
+  --rule:#444444;--rule-strong:#5f5f5f;--field:#1f1f1f;--field-edge:#4a4a4a;
+  --signal:#00d4d4;--check:#ff9800;--check-bg:#2a2214;--stop:#f2837b;--stop-bg:#2e1618;
+  --auto:#7fb6e0;--auto-bg:#122530;--tower:#93a2f0;
+  --shade:#202020;--slip:#161616;--slip-ink:#b8e6e6;--paste:#b79cee;--paste-bg:#221c33;
+  --glass-strong:#343434;--glass-highlight:rgba(255,255,255,0.06);
+  --on-accent:#08211f;--success:#00b188;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;
+  background:
+    radial-gradient(circle at 12% 8%,  rgba(0,212,212,0.045), transparent 40%),
+    radial-gradient(circle at 88% 18%, rgba(0,212,212,0.03),  transparent 38%),
+    radial-gradient(circle at 30% 92%, rgba(0,212,212,0.025), transparent 42%),
+    var(--paper);
+  background-attachment:fixed;color:var(--ink);
+  font-family:"Segoe UI","Helvetica Neue",Arial,system-ui,sans-serif;font-size:15.5px;line-height:1.45;padding:0 0 92px}
+.sheet{max-width:1180px;margin:0 auto;padding:24px 16px 0;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;align-items:start}
+.col-form{min-width:0}
+.head{display:flex;flex-direction:column;gap:14px;
+  margin-top:4px;padding:22px 20px;
+  background:var(--card);border:1px solid var(--rule);border-radius:16px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3), inset 0 1px 0 var(--glass-highlight)}
+.brand{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;min-width:0}
+.brand .logo{display:flex;align-items:center;justify-content:center;height:100px}
+.brand .logo img{height:100%;width:auto;filter:brightness(0) invert(1);opacity:.92}
+.brand #logo-fallback{font-weight:700;letter-spacing:2px;color:var(--signal);font-size:1.15rem}
+h1{font-weight:600;font-size:29px;line-height:1.05;margin:0;letter-spacing:-0.015em;
+  color:var(--signal);text-shadow:0 6px 16px rgba(0,212,212,0.25)}
+.head-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px}
+.sub{margin:0;color:var(--ink-soft);font-size:14.5px;max-width:60ch}
+.chassis{display:flex;flex-direction:column;align-items:flex-start;gap:6px;flex:0 0 auto}
+.chassis > span{font-size:13px;color:var(--ink-soft)}
+
+input[type=text],input[type=number],textarea,select{
+  font:inherit;font-size:14.5px;color:var(--ink);background:var(--field);
+  border:1px solid var(--field-edge);border-radius:6px;padding:6px 8px;width:100%}
+textarea{min-height:66px;resize:vertical;line-height:1.4}
+input::placeholder,textarea::placeholder{color:var(--ink-soft);opacity:.75}
+input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--signal);outline-offset:1px;border-color:var(--signal)}
+input:disabled{opacity:.5;cursor:not-allowed}
+input.field-over{border-color:var(--stop);background:var(--stop-bg);color:var(--stop);font-weight:600}
+
+.badge{font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:2px 7px;border-radius:5px;display:none}
+.badge.on{display:inline-block}
+.badge.v{background:rgba(0,177,136,0.14);color:var(--success)}
+.badge.u{background:var(--check-bg);color:var(--check)}
+
+.paste{background:var(--paste-bg);border:1px solid var(--paste);border-radius:11px;padding:14px 15px 15px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25), inset 0 1px 0 var(--glass-highlight)}
+.paste-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
+.paste-head strong{font-size:15.5px;color:var(--paste)}
+.paste-head span{font-size:12.8px;color:var(--ink-soft)}
+.paste textarea{min-height:56px;font-size:14px}
+.paste-actions{display:flex;justify-content:flex-end;margin-top:8px}
+.paste-btn{font-size:14px;padding:7px 13px;border-radius:8px;border:1px solid var(--paste);background:var(--paste);color:#1a1030;cursor:pointer;font-weight:700}
+.paste-btn:hover{opacity:.9}
+.paste-result{margin-top:10px;border-top:1px solid var(--paste);padding-top:9px;display:none}
+.paste-result.on{display:block}
+.paste-line{font-size:13px;padding:2px 0;display:flex;gap:7px}
+.paste-line b{flex:0 0 auto;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:1px 6px;border-radius:5px;height:fit-content;margin-top:2px}
+.paste-line.found b{background:var(--auto-bg);color:var(--auto)}
+.paste-line.guess b{background:var(--check-bg);color:var(--check)}
+.paste-line.skip b{background:var(--shade);color:var(--ink-soft)}
+
+section{margin-top:20px}
+.sec-head{display:flex;align-items:center;gap:10px;padding-bottom:6px;border-bottom:2px solid var(--rule-strong)}
+.sec-head h2{font-weight:600;font-size:18.5px;margin:0;letter-spacing:-0.01em;color:var(--signal);
+  text-shadow:0 4px 14px rgba(0,212,212,0.20);display:flex;align-items:center;gap:9px}
+.sec-head .hint{color:var(--ink-soft);font-size:13.5px;margin-left:auto}
+.sec-icon{width:22px;height:22px;flex:0 0 auto;stroke:var(--signal);fill:none;
+  filter:drop-shadow(0 3px 8px rgba(0,212,212,0.25))}
+.rows{background:var(--card);border:1px solid var(--rule);border-top:0;border-radius:0 0 10px 10px;overflow:hidden;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25), inset 0 1px 0 var(--glass-highlight)}
+.row{display:grid;grid-template-columns:minmax(140px,0.8fr) minmax(230px,1.45fr);gap:0 16px;
+  align-items:start;padding:9px 13px 10px;border-bottom:1px solid var(--rule);position:relative}
+.row:last-child{border-bottom:0}
+.row:nth-child(even){background:var(--shade)}
+.row.full{grid-template-columns:1fr}
+.q{padding-top:5px}
+.q .t{font-weight:600;display:block;font-size:14.5px}
+.q .note{display:block;font-size:12.8px;color:var(--ink-soft);margin-top:2px;max-width:40ch}
+.a{display:flex;flex-direction:column;gap:6px;min-width:0}
+.pair{display:grid;grid-template-columns:78px 1fr;gap:7px}
+.pair.rev{grid-template-columns:1fr 92px}
+.inline{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.inline > span{font-size:12.8px;color:var(--ink-soft)}
+.why{font-size:12.5px;padding:2px 7px;border-radius:5px;display:none}
+.why.on{display:inline-block;background:var(--auto-bg);color:var(--auto)}
+.why.on.flag{background:var(--check-bg);color:var(--check)}
+.cap-note{font-size:12.4px;color:var(--ink-soft)}
+.cap-note.over{color:var(--stop);font-weight:600}
+
+.combo{position:relative}
+.combo-panel{position:absolute;top:calc(100% + 2px);left:0;right:0;z-index:30;background:var(--field);
+  border:1px solid var(--rule-strong);max-height:300px;overflow:auto;box-shadow:0 8px 20px rgba(0,0,0,.18);border-radius:10px}
+.combo-panel[hidden]{display:none}
+.combo-group{padding:6px 10px 4px;font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--ink-soft);
+  text-transform:uppercase;background:var(--shade);position:sticky;top:0}
+.combo-item{padding:7px 10px;cursor:pointer;display:flex;justify-content:space-between;gap:10px;font-size:14px;align-items:baseline}
+.combo-item:hover,.combo-item.active{background:var(--signal);color:var(--on-accent)}
+.combo-panel .combo-item:first-child{border-radius:10px 10px 0 0}
+.combo-panel .combo-group:first-child{border-radius:10px 10px 0 0}
+.combo-item .ci-main{white-space:nowrap;font-weight:500}
+.combo-item .ci-sub{color:var(--ink-soft);font-size:12.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.combo-item:hover .ci-sub,.combo-item.active .ci-sub{color:rgba(8,33,31,.7)}
+.combo-empty{padding:10px;color:var(--ink-soft);font-size:13px}
+
+fieldset{border:0;margin:0;padding:0}
+legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.pills{display:flex;flex-wrap:wrap;gap:5px}
+.pills input{position:absolute;opacity:0;width:1px;height:1px}
+.pills label{font-size:14px;line-height:1;padding:8px 11px;border:1px solid var(--field-edge);
+  background:var(--field);border-radius:7px;cursor:pointer;user-select:none}
+.pills label:hover{border-color:var(--rule-strong)}
+.pills input:checked + label{background:var(--signal);border-color:var(--signal);color:var(--on-accent);font-weight:700;
+  box-shadow:0 0 12px rgba(0,212,212,0.22)}
+.pills input:focus-visible + label{outline:2px solid var(--signal);outline-offset:2px}
+.tower-tint .pills input:checked + label{background:var(--tower);border-color:var(--tower);color:#0b1020;
+  box-shadow:0 0 12px rgba(147,162,240,0.22)}
+.chassis .pills label{padding:9px 17px;font-size:15px}
+
+.lines{display:flex;flex-direction:column;gap:5px}
+.line{display:grid;gap:5px;align-items:center}
+.line.drive{grid-template-columns:58px minmax(72px,1fr) 74px 72px 96px 28px}
+.line.card{grid-template-columns:58px 1fr 28px}
+.kill{border:1px solid var(--field-edge);background:var(--field);color:var(--ink-soft);
+  border-radius:7px;height:31px;cursor:pointer;font-size:16px;line-height:1;padding:0}
+.kill:hover{color:var(--ink);border-color:var(--rule-strong)}
+.add{align-self:flex-start;font-size:14px;padding:6px 11px;border:1px dashed var(--rule-strong);
+  background:transparent;color:var(--ink);border-radius:7px;cursor:pointer}
+.add:hover{border-style:solid}
+
+.planner{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.planner input[type=number]{width:130px}
+.planner select{width:150px}
+.planner .go{flex:0 0 auto;width:auto;font-size:14px;padding:7px 14px;border:1px solid var(--signal);background:var(--signal);color:var(--on-accent);border-radius:8px;cursor:pointer;font-weight:700}
+.plan-out{margin-top:7px;display:none;border:1px solid var(--rule);border-radius:9px;overflow:hidden}
+.plan-out.on{display:block}
+.plan-row{display:flex;align-items:center;gap:9px;padding:7px 10px;border-bottom:1px solid var(--rule);font-size:13.3px}
+.plan-row:last-child{border-bottom:0}
+.plan-row .pl-main{flex:1}
+.plan-row .pl-use{color:var(--ink-soft);font-size:12.5px}
+.plan-row button{font-size:12.5px;padding:4px 9px}
+.plan-none{padding:9px 10px;font-size:13px;color:var(--check)}
+
+.riser-toggle{align-self:flex-start;margin-top:2px;font-size:13px;padding:5px 11px;
+  border:1px dashed var(--rule-strong);background:transparent;color:var(--ink);border-radius:7px;cursor:pointer}
+.riser-toggle:hover{border-style:solid}
+.riser-toggle[hidden]{display:none}
+.riser-kits{margin-top:7px;border:1px solid var(--rule);border-radius:9px;overflow:hidden}
+.riser-kits[hidden]{display:none}
+.riser-kit{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--rule);
+  padding:8px 12px;background:transparent;color:var(--ink);cursor:pointer;font:inherit}
+.riser-kit:last-child{border-bottom:0}
+.riser-kit:hover{background:var(--shade)}
+.riser-kit .rk-name{display:block;font-size:13.2px;font-weight:600}
+.riser-kit .rk-detail{display:block;font-size:12.4px;color:var(--ink-soft);margin-top:1px;line-height:1.4}
+
+#tower .sec-head{border-bottom-color:var(--tower)}
+#tower .sec-head h2{color:var(--tower);text-shadow:0 4px 14px rgba(147,162,240,0.22)}
+#tower .sec-icon{stroke:var(--tower);filter:drop-shadow(0 3px 8px rgba(147,162,240,0.25))}
+.locked{background:var(--card);border:1px dashed var(--rule-strong);border-radius:10px;padding:13px 15px;color:var(--ink-soft);font-size:14px}
+
+.slip-wrap{display:flex;flex-direction:column;gap:14px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-bottom:6px;border-bottom:2px solid var(--rule-strong)}
+.panel-head h2{font-weight:600;font-size:18.5px;margin:0;color:var(--signal);text-shadow:0 4px 14px rgba(0,212,212,0.20);
+  display:flex;align-items:center;gap:9px}
+.panel-head .hint{font-size:12.8px;color:var(--ink-soft)}
+pre.slip{margin:0;background:var(--slip);color:var(--slip-ink);border:1px solid var(--rule-strong);border-top:0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.04);
+  border-radius:0 0 10px 10px;
+  padding:14px 15px 16px;font-family:ui-monospace,"Cascadia Mono",Consolas,Menlo,monospace;
+  font-size:13px;line-height:1.75;white-space:pre-wrap;word-break:break-word;min-height:130px;max-height:34vh;overflow:auto}
+pre.slip .gap{color:var(--check)}
+.checks{border:1px solid var(--rule);border-top:0;background:var(--card);border-radius:0 0 10px 10px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25), inset 0 1px 0 var(--glass-highlight)}
+.chk{display:flex;gap:9px;padding:8px 12px;border-bottom:1px solid var(--rule);font-size:13.2px;line-height:1.4}
+.chk:last-child{border-bottom:0}
+.chk .tag{flex:0 0 auto;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:2px 6px;border-radius:5px;height:fit-content;margin-top:1px;white-space:nowrap}
+.chk.stop .tag{background:var(--stop-bg);color:var(--stop)}
+.chk.verify .tag,.chk.flag .tag{background:var(--check-bg);color:var(--check)}
+.chk.auto .tag{background:var(--auto-bg);color:var(--auto)}
+.chk.info,.chk.ok{color:var(--ink-soft)}
+.chk.info .tag,.chk.ok .tag{background:var(--shade);color:var(--ink-soft)}
+.slip-actions{display:flex;gap:7px;flex-wrap:wrap}
+
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:900;background:var(--card);border-top:1.5px solid var(--signal);
+  padding:9px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:9px;
+  box-shadow:0 -4px 16px rgba(0,0,0,0.35)}
+
+/* Back to top */
+#back-to-top{position:fixed;bottom:64px;right:18px;width:42px;height:42px;border-radius:50%;
+  background:var(--card);border:2px solid var(--signal);color:var(--signal);font-size:1.2rem;line-height:1;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;
+  transition:opacity .3s,visibility .3s,transform .2s,box-shadow .2s;z-index:998;user-select:none;padding:0}
+#back-to-top.visible{opacity:.55;visibility:visible}
+#back-to-top:hover{opacity:1;transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,212,212,0.3)}
+.count{font-size:14px;color:var(--ink-soft);margin-right:auto;font-variant-numeric:tabular-nums}
+.count b{color:var(--ink);font-weight:600}
+.count.blocked b{color:var(--stop)}
+button{font:inherit;font-size:14.5px;padding:8px 14px;border-radius:8px;border:1px solid var(--rule-strong);
+  background:var(--field);color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+button.primary{background:var(--signal);border-color:var(--signal);color:var(--on-accent);font-weight:700}
+button.primary:hover{border-color:var(--signal);box-shadow:0 4px 14px rgba(0,212,212,0.25)}
+button.quiet{color:var(--ink-soft)}
+.saved{font-size:13px;color:var(--signal);opacity:0}
+.saved.on{opacity:1}
+
+@media (max-width:980px){
+  .sheet{grid-template-columns:1fr}
+  .slip-wrap{position:static}
+  .col-slip{order:2}
+}
+@media (max-width:640px){
+  .row{grid-template-columns:1fr}
+  .row .a{margin-top:7px}
+  h1{font-size:25px}
+  .line.drive{grid-template-columns:56px 1fr 28px}
+  .count{width:100%}
+}
+@media print{
+  :root{--paper:#fff;--card:#fff;--shade:#fff;--ink:#000;--ink-soft:#333;--rule:#999;--rule-strong:#000;
+    --field:#fff;--field-edge:#666;--check:#000;--check-bg:#fff;--signal:#000;--tower:#000;--slip:#fff;--slip-ink:#000;
+    --stop:#000;--stop-bg:#fff;--auto:#000;--auto-bg:#fff}
+  body{padding:0;font-size:11.5px;background:#fff}
+  .sheet{max-width:none;padding:0;display:block}
+  #back-to-top{display:none !important}
+  .head{box-shadow:none;border:1px solid #999;border-bottom:2px solid #000;padding:8px 10px}
+  .brand .logo img{filter:none !important;opacity:1 !important}
+  h1,.sec-head h2,.panel-head h2{text-shadow:none;color:#000}
+  .sec-icon,.panel-head h2 .sec-icon{stroke:#000;filter:none}
+  .bar,.no-print,.locked,.paste,.plan-out,.planner{display:none !important}
+  .row{page-break-inside:avoid;padding:4px 7px}
+  #tower-rows{display:block !important}
+  pre.slip{border:1.5px solid #000;page-break-inside:avoid;max-height:none}
+  .checks{max-height:none}
+  .col-slip{margin-top:18px}
+  .pills input:checked + label{background:#000;color:#fff}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<div class="col-form">
+
+  <div class="head">
+    <div class="brand">
+      <div class="logo">
+        <img src="https://www.procurri.com/wp-content/themes/procurri/images/2025/logo-procurri-2025-header.svg" alt="Procurri"
+             onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block';" />
+        <span id="logo-fallback" style="display:none">PROCURRI</span>
+      </div>
+      <h1>Server build worksheet</h1>
+    </div>
+    <div class="head-row">
+      <p class="sub">Pick the system first — the processor list, socket and slot limits, and cooling rules all follow that model. The spec slip on the right builds itself as you go.</p>
+      <div class="chassis tower-tint">
+        <span>Server type</span>
+        <fieldset class="pills"><legend>Server type</legend>
+          <input type="radio" id="ct-r" name="chassis" value="Rack" checked><label for="ct-r">Rack</label>
+          <input type="radio" id="ct-t" name="chassis" value="Tower"><label for="ct-t">Tower</label>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="paste">
+      <div class="paste-head"><strong>Paste the client's request</strong><span>Optional — fills what it can find</span></div>
+      <textarea id="paste-text" placeholder='e.g. "dl380 g10 with 2x 12C cpu, 64gb memory, p408, 2x 800w"'></textarea>
+      <div class="paste-actions"><button type="button" class="paste-btn" id="paste-fill">Fill from paste</button></div>
+      <div class="paste-result" id="paste-result"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>Base system</h2>
+      <span class="hint"><span class="badge v" id="badge-v">QUICKSPECS VERIFIED</span><span class="badge u" id="badge-u">GENERATION DEFAULTS — UNVERIFIED</span></span></div>
+    <div class="rows">
+
+      <div class="row">
+        <div class="q"><span class="t">System model and Gen</span><span class="note">Type to search — sets what's offered everywhere else.</span></div>
+        <div class="a"><div class="pair rev">
+          <div class="combo" id="model-combo">
+            <input type="text" class="combo-input" id="model-input" placeholder="Type to search — e.g. DL380 G10" autocomplete="off">
+            <input type="hidden" id="model">
+            <div class="combo-panel" id="model-panel" hidden></div>
+          </div>
+          <input type="number" id="modelq" min="1" placeholder="Builds" title="Number of identical builds">
+        </div>
+        <span class="cap-note" id="sys-note"></span></div>
+      </div>
+
+      <div class="row">
+        <div class="q"><span class="t">Drive bay config</span><span class="note">Front bays as they should read on the slip.</span></div>
+        <div class="a">
+          <input type="text" id="bays" list="bayopts" placeholder="e.g. 8LFF" autocomplete="off">
+          <input type="text" id="rear" list="rearopts" placeholder="Rear / midtray — leave blank if none" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="q"><span class="t">Backplane type</span><span class="note">NVMe and Premium change the fan requirement.</span></div>
+        <div class="a"><fieldset class="pills"><legend>Backplane type</legend>
+          <input type="radio" id="bp1" name="bp" value="SAS/SATA backplane" checked><label for="bp1">SAS / SATA</label>
+          <input type="radio" id="bp2" name="bp" value="NVMe backplane"><label for="bp2">NVMe</label>
+          <input type="radio" id="bp3" name="bp" value="Premium backplane"><label for="bp3">Premium</label>
+        </fieldset></div>
+      </div>
+
+      <div class="row">
+        <div class="q"><span class="t">Media bay</span></div>
+        <div class="a"><fieldset class="pills"><legend>Media bay</legend>
+          <input type="radio" id="md0" name="media" value="No media bay" checked><label for="md0">None</label>
+          <input type="radio" id="md1" name="media" value="DVD-ROM"><label for="md1">DVD-ROM</label>
+          <input type="radio" id="md2" name="media" value="DVD-RW"><label for="md2">DVD-RW</label>
+          <input type="radio" id="md3" name="media" value="Universal media bay"><label for="md3">Universal bay</label>
+        </fieldset></div>
+      </div>
+
+      <div class="row">
+        <div class="q"><span class="t">Motherboard</span><span class="note">NC boards ship without the network controller.</span></div>
+        <div class="a"><fieldset class="pills"><legend>Motherboard</legend>
+          <input type="radio" id="mb1" name="mobo" value="Standard motherboard" checked><label for="mb1">Standard</label>
+          <input type="radio" id="mb2" name="mobo" value="NC motherboard"><label for="mb2">NC</label>
+        </fieldset></div>
+      </div>
+
+      <div class="row">
+        <div class="q"><span class="t">TPM</span></div>
+        <div class="a"><div class="inline">
+          <fieldset class="pills"><legend>TPM</legend>
+            <input type="radio" id="tp0" name="tpm" value="No TPM" checked><label for="tp0">No</label>
+            <input type="radio" id="tp1" name="tpm" value="TPM"><label for="tp1">Yes</label>
+          </fieldset>
+          <input type="text" id="tpmv" placeholder="Version" style="width:104px">
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>Processor, cooling and memory</h2><span class="hint" id="cpu-scope"></span></div>
+    <div class="rows">
+
+      <div class="row">
+        <div class="q"><span class="t">Processor</span><span class="note" id="cpu-note">Pick a system model first.</span></div>
+        <div class="a"><div class="pair">
+          <input type="number" id="cpuq" min="1" placeholder="Qty">
+          <div class="combo" id="cpu-combo">
+            <input type="text" class="combo-input" id="cpu-input" placeholder="Pick a system model first" autocomplete="off" disabled>
+            <input type="hidden" id="cpu">
+            <div class="combo-panel" id="cpu-panel" hidden></div>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="row">
+        <div class="q"><span class="t">Heatsinks</span><span class="note">Recommended automatically — choose another and it flags why.</span></div>
+        <div class="a">
+          <fieldset class="pills"><legend>Heatsinks</legend>
+            <input type="radio" id="hs1" name="hs" value="Std Heatsinks"><label for="hs1">Standard</label>
+            <input type="radio" id="hs2" name="hs" value="Perf Heatsinks"><label for="hs2">Performance</label>
+            <input type="radio" id="hs4" name="hs" value="Low profile heatsinks"><label for="hs4">Low profile</label>
+          </fieldset>
+          <span class="why" id="why-hs"></span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="q"><span class="t">Fans</span><span class="note">Kit and quantity set automatically from the CPU count, TDP, drives and cards. Standard when perf is required is blocked.</span></div>
+        <div class="a">
+          <div class="inline">
+            <fieldset class="pills"><legend>Fans</legend>
+              <input type="radio" id="fn1" name="fan" value="Std Fans"><label for="fn1">Standard</label>
+              <input type="radio" id="fn2" name="fan" value="Perf Fans"><label for="fn2">Performance</label>
+            </fieldset>
+            <input type="number" id="fanq" min="0" placeholder="Qty" style="width:78px">
+          </div>
+          <span class="why" id="why-fan"></span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="q"><span class="t">Memory</span><span class="note" id="dimm-note"></span></div>
+        <div class="a">
+          <div class="pair">
+            <input type="number" id="dimmq" min="1" placeholder="Qty">
+            <input type="text" id="dimm" list="dimms" placeholder="e.g. 16GB 2666" autocomplete="off">
+          </div>
+          <span class="cap-note" id="mem-note"></span>
+          <div class="inline"><span>HP authenticated</span>
+            <fieldset class="pills"><legend>HP authenticated memory</legend>
+              <input type="radio" id="au1" name="auth" value="HP auth"><label for="au1">Yes</label>
+              <input type="radio" id="au2" name="auth" value=""><label for="au2">No</label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/></svg>Storage</h2><span class="hint" id="bay-note"></span></div>
+    <div class="rows">
+      <div class="row">
+        <div class="q"><span class="t">Storage controller</span></div>
+        <div class="a">
+          <input type="text" id="ctrl" list="ctrls" placeholder="e.g. P816i-a" autocomplete="off">
+          <input type="text" id="bat" list="bats" placeholder="Battery — e.g. 96w bat" autocomplete="off">
+          <input type="text" id="batdate" placeholder="Battery date requirement, if the client has one">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="q"><span class="t">SAS expander / extra HBA</span><span class="note">Needed when the bay count exceeds the controller's ports.</span></div>
+        <div class="a">
+          <input type="text" id="expander" list="expanders" placeholder="e.g. 12G SAS Expander Card" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="row full">
+        <div class="q" style="padding-bottom:7px"><span class="t">Capacity planner</span><span class="note">Optional — enter what the client needs usable and the RAID level, and it suggests a drive population.</span></div>
+        <div class="a">
+          <div class="planner">
+            <input type="number" id="plan-cap" min="0" step="0.1" placeholder="Usable TB">
+            <select id="plan-raid">
+              <option value="">RAID level</option>
+              <option value="0">RAID 0</option>
+              <option value="1">RAID 1</option>
+              <option value="5">RAID 5</option>
+              <option value="6">RAID 6</option>
+              <option value="10">RAID 10</option>
+              <option value="50">RAID 50</option>
+              <option value="60">RAID 60</option>
+            </select>
+            <button type="button" class="go" id="plan-go">Suggest drives</button>
+          </div>
+          <div class="plan-out" id="plan-out"></div>
+        </div>
+      </div>
+
+      <div class="row full">
+        <div class="q" style="padding-bottom:7px"><span class="t">Drives</span><span class="note">One line per type — qty, capacity, speed, endurance, interface.</span></div>
+        <div class="a">
+          <div class="lines" id="drives"></div>
+          <button type="button" class="add" id="add-drive">Add drive line</button>
+          <span class="cap-note" id="drive-note"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M11 9h4a2 2 0 0 0 2-2V3"/><circle cx="9" cy="9" r="2"/><path d="M7 21v-4a2 2 0 0 1 2-2h4"/><circle cx="15" cy="15" r="2"/></svg>Expansion</h2></div>
+    <div class="rows">
+      <div class="row full">
+        <div class="q" style="padding-bottom:7px"><span class="t">PCI risers</span><span class="note" id="riser-note">Qty is capped to the chassis riser positions.</span></div>
+        <div class="a">
+          <div class="pair">
+            <input type="number" id="riserq" min="0" placeholder="Qty">
+            <input type="text" id="riser" placeholder="Riser kit — pick from the list or type your own" autocomplete="off">
+          </div>
+          <span class="cap-note" id="riser-slot-note"></span>
+          <button type="button" class="riser-toggle" id="riser-toggle" hidden></button>
+          <div class="riser-kits" id="riser-kits" hidden></div>
+        </div>
+      </div>
+      <div class="row full">
+        <div class="q" style="padding-bottom:7px"><span class="t">PCI cards</span><span class="note">One line per add-in card (not the FlexibleLOM). Note the slot if it matters.</span></div>
+        <div class="a">
+          <div class="lines" id="cards"></div>
+          <button type="button" class="add" id="add-card">Add card line</button>
+          <span class="cap-note" id="card-note"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="q"><span class="t">FlexibleLOM / OCP</span></div>
+        <div class="a"><input type="text" id="flr" list="flrs" placeholder="e.g. 366FLR 4x1GbE" autocomplete="off"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Power and fitting</h2></div>
+    <div class="rows">
+      <div class="row">
+        <div class="q"><span class="t">Power supplies</span><span class="note">Qty then wattage. A rough draw estimate checks it's enough.</span></div>
+        <div class="a"><div class="pair">
+          <input type="number" id="psuq" min="1" placeholder="Qty">
+          <input type="text" id="psu" list="psus" placeholder="e.g. 500w" autocomplete="off">
+        </div>
+        <span class="cap-note" id="psu-note"></span></div>
+      </div>
+      <div class="row">
+        <div class="q"><span class="t">Rails</span></div>
+        <div class="a"><div class="inline">
+          <fieldset class="pills"><legend>Rails</legend>
+            <input type="radio" id="rl1" name="rail" value="Rail kit"><label for="rl1">Yes</label>
+            <input type="radio" id="rl0" name="rail" value=""><label for="rl0">No</label>
+          </fieldset>
+          <input type="text" id="railt" placeholder="Kit type, if specified" style="flex:1;min-width:130px">
+        </div></div>
+      </div>
+      <div class="row">
+        <div class="q"><span class="t">Bezel</span></div>
+        <div class="a"><div class="inline">
+          <fieldset class="pills"><legend>Bezel</legend>
+            <input type="radio" id="bz1" name="bezel" value="Bezel"><label for="bz1">Yes</label>
+            <input type="radio" id="bz0" name="bezel" value="No bezel" checked><label for="bz0">No</label>
+          </fieldset>
+          <fieldset class="pills"><legend>Bezel key</legend>
+            <input type="radio" id="bk1" name="bkey" value="+ key"><label for="bk1">With key</label>
+            <input type="radio" id="bk0" name="bkey" value=""><label for="bk0">No key</label>
+          </fieldset>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tower">
+    <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="10" y1="6" x2="10.01" y2="6"/><line x1="14" y1="6" x2="14.01" y2="6"/><line x1="10" y1="18" x2="14" y2="18"/></svg>Tower only</h2><span class="hint">Opens when Tower is selected</span></div>
+    <div class="locked no-print" id="tower-locked">Pick Tower at the top to open these.</div>
+    <div class="rows tower-tint" id="tower-rows" hidden>
+      <div class="row"><div class="q"><span class="t">Feet</span></div>
+        <div class="a"><fieldset class="pills"><legend>Feet</legend>
+          <input type="radio" id="t1y" name="feet" value="Feet"><label for="t1y">Yes</label>
+          <input type="radio" id="t1n" name="feet" value=""><label for="t1n">No</label>
+        </fieldset></div></div>
+      <div class="row"><div class="q"><span class="t">Door</span></div>
+        <div class="a"><fieldset class="pills"><legend>Door</legend>
+          <input type="radio" id="t2y" name="door" value="Door"><label for="t2y">Yes</label>
+          <input type="radio" id="t2n" name="door" value=""><label for="t2n">No</label>
+        </fieldset></div></div>
+      <div class="row"><div class="q"><span class="t">Key</span></div>
+        <div class="a"><fieldset class="pills"><legend>Key</legend>
+          <input type="radio" id="t3y" name="key" value="Key"><label for="t3y">Yes</label>
+          <input type="radio" id="t3n" name="key" value=""><label for="t3n">No</label>
+        </fieldset></div></div>
+      <div class="row"><div class="q"><span class="t">Anything else tower-specific</span><span class="note">Casters, cable cover, tower-to-rack kit.</span></div>
+        <div class="a"><input type="text" id="towerx" placeholder="Optional"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M4 6a2 2 0 0 1 2-2h8l6 6v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>Notes for the engineer</h2><span class="hint">Optional</span></div>
+    <div class="rows"><div class="row full"><div class="a">
+      <textarea id="notes" placeholder="Firmware level, iLO licence, asset labels, packaging, whether the client will accept a substitute part."></textarea>
+    </div></div></div>
+  </section>
+
+</div>
+
+<div class="col-slip">
+  <div class="slip-wrap">
+    <div>
+      <div class="panel-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6"/><path d="M9 16h6"/></svg>Spec slip</h2><span class="hint" id="gapcount"></span></div>
+      <pre class="slip" id="slip"></pre>
+    </div>
+    <div>
+      <div class="panel-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Config checks</h2><span class="hint" id="chkcount"></span></div>
+      <div class="checks" id="checks"></div>
+    </div>
+    <div class="slip-actions no-print">
+      <button type="button" id="copy" class="primary">Copy spec</button>
+      <button type="button" id="print">Print</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="bar no-print">
+  <span class="count" id="count"></span>
+  <span class="saved" id="saved">Draft saved</span>
+  <button type="button" id="copy2" class="primary">Copy spec</button>
+  <button type="button" id="clear" class="quiet">Clear sheet</button>
+</div>
+
+<datalist id="dimms"></datalist><datalist id="ctrls"></datalist><datalist id="bats"></datalist>
+<datalist id="psus"></datalist><datalist id="flrs"></datalist><datalist id="cardlist"></datalist>
+<datalist id="caps"></datalist><datalist id="bayopts"></datalist><datalist id="rearopts"></datalist>
+<datalist id="expanders"></datalist>
+
+<script>
+/* ============================================================================
+   REFERENCE DATA — the only block to edit when extending this sheet.
+
+   MODEL KEYS
+     m,g       model and generation
+     p         processor platforms this board accepts
+     s         CPU sockets            d   total DIMM slots
+     bays      selectable front bay configs (falls back to a generic list)
+     rules     cooling / config rules, merged over GEN_DEFAULTS
+
+   Socket and DIMM-slot counts are from HPE product specifications. Those on
+   models marked verified:true were seen alongside that model's QuickSpecs;
+   the rest are general product data and worth a spot-check.
+
+   RULE KEYS
+     hsW/hsWtext   TDP at/above this -> performance heatsink
+     hsSku         codes always shipping performance heatsink
+     hsStdException codes shipping STANDARD heatsink despite exceeding hsW
+     fanW          TDP at/above this -> high performance fan kit
+     fanNVMe/fanRear/fanGPU   condition requires performance fans
+     fanBays       bay configs shipping performance fans as standard
+     rearMaxW      rear drives unsupported above this CPU wattage
+     rear2SFF      front configs a 2SFF rear cage is allowed on
+     coolTierW     dual-socket TDP at/above which air cooling is unsupported
+     singleMaxAirW air-cooled TDP that is single-socket only
+     liquidReqW    TDP at/above which liquid cooling is mandatory regardless of socket count
+     validCounts   the only processor counts this board actually supports (e.g. [1,2,4])
+     riserMax      physical riser positions this chassis has (hard cap, not just a warning)
+     psuMax        power supply bays in the chassis (hard cap on PSU qty)
+     fans          {one,two,perf} standard fan count for 1 CPU / 2 CPUs, and the
+                   high-performance kit fan count. Used to auto-fill the fan qty
+                   and to explain the standard-vs-performance choice.
+     pcie          {one,two} usable PCIe add-in-card slots with 1 CPU / 2 CPUs
+                   (FlexibleLOM / OCP does not count — it has its own connector)
+     (riser-kit lists live in the separate RISERS map, keyed "MODEL GEN",
+      drawn from each model's QuickSpecs "Riser Information" table; models with
+      no entry fall back to GENERIC_RISERS hints.)
+     memPerSocket  override for max GB per socket
+     hsPart/fanPart HPE option part numbers quoted in check text
+     notes         always-shown model caveats
+     verified      checked against that model's own QuickSpecs
+   ========================================================================== */
+
+var PLATFORM_LABELS={
+ e5v34:'Xeon E5-2600 v3/v4 (Gen9)', e7v34:'Xeon E7-4800/8800 v3/v4 (Gen9, 4-socket)',
+ e3:'Xeon E3-1200 v5/v6 (Gen9 entry)', xeone:'Xeon E-2100/2200 (Gen10 entry)',
+ xeone3:'Xeon E-2300 (Gen10 Plus entry)',
+ sp1:'1st Gen Xeon Scalable — Skylake', sp2:'2nd Gen Xeon Scalable — Cascade Lake',
+ sp3:'3rd Gen Xeon Scalable — Ice Lake', sp4:'4th/5th Gen Xeon Scalable — Sapphire/Emerald Rapids',
+ naples:'AMD EPYC 7001 — Naples', rome:'AMD EPYC 7002 — Rome',
+ milan:'AMD EPYC 7003 — Milan', genoa:'AMD EPYC 9004 — Genoa',
+ xeon6:'Intel Xeon 6 (Gen12)'
+};
+/* max GB of memory per socket, by processor platform */
+var MEM_PER_SOCKET={e5v34:1536,e7v34:3072,e3:64,xeone:128,xeone3:128,
+ sp1:768,sp2:1024,sp3:4096,sp4:4096,naples:2048,rome:2048,milan:4096,genoa:3072,xeon6:8192};
+
+var GEN_DEFAULTS={
+ 'G9'   :{hsW:121,hsWtext:'above 120W',fanRear:true,fanGPU:true},
+ 'G10'  :{hsW:130,hsWtext:'130W or higher',hsSku:['P8256','P8156','G6128','G5222','G5122'],
+          fanNVMe:true,fanRear:true,fanGPU:true,fanBays:['12LFF','24SFF']},
+ 'G10+' :{hsW:150,hsWtext:'150W or higher',fanW:205,fanNVMe:true,fanRear:true,fanGPU:true},
+ 'G11'  :{hsW:150,hsWtext:'above 150W',fanW:206,fanNVMe:true,fanRear:true,fanGPU:true},
+ 'G12'  :{fanNVMe:true,fanRear:true,fanGPU:true}
+};
+
+var MODELS=[
+ {m:'DL20', g:'G9', p:['e3'],    s:1, d:4},
+ {m:'DL60', g:'G9', p:['e5v34'], s:2, d:8},
+ {m:'DL80', g:'G9', p:['e5v34'], s:2, d:8},
+ {m:'DL120',g:'G9', p:['e5v34'], s:1, d:8},
+ {m:'DL160',g:'G9', p:['e5v34'], s:2, d:16},
+ {m:'DL180',g:'G9', p:['e5v34'], s:2, d:16,
+   rules:{notes:['Processor upgrade from E5-2600 v3 to v4 is supported only for processors up to 105W.',
+     'Mixing different processor models is not supported.',
+     'Fan cage ships with 5 hot-swap fans for 2P redundancy.']}},
+ {m:'DL360',g:'G9', p:['e5v34'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
+   rules:{verified:true,hsW:121,hsWtext:'above 120W',hsStdException:['E5-2690v4'],fanGPU:true,riserMax:2,
+     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},
+     notes:['Processors up to 120W ship standard heatsink; over 120W ships performance — except the E5-2690v4, which ships standard despite being 135W.',
+       'Ships 5 standard fans for 1P and 7 for 2P.',
+       'Mixing E5-2600 v3 and v4 processors is not supported.',
+       'E5-2609 and E5-2603 (v3/v4) do not support Hyper-Threading.',
+       'A performance heatsink can be added even where not required, to cut fan power (795235-B21).',
+       '128GB DIMMs cannot be mixed with any other size.',
+       'For a GPGPU, order the LH (low profile heatsink) controller so it fits.',
+       'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.']}},
+ {m:'DL380',g:'G9', p:['e5v34'], s:2, d:24, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
+   rules:{verified:true,hsW:121,hsWtext:'above 120W',rearMaxW:160,rear2SFF:['24SFF','12LFF'],riserMax:3,
+     psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:3,two:6},
+     fanRear:true,fanGPU:true,
+     notes:['Ships with 6 standard hot-plug fans; high performance fans are the option.',
+       'Mixing E5-2600 v3 and v4 processors is not supported. Field upgrade v3 to v4 is.',
+       '2SFF rear is only supported on a 24SFF or 12LFF chassis.',
+       '3LFF rear drives consume the space for the secondary riser.',
+       '2SFF at the front requires the Universal Media Bay (724865-B21).',
+       '8SFF CTO can be field-upgraded to 16SFF or 24SFF with a drive cage.',
+       'Rear drives will not support CPUs above 160W, or special/unique SKUs.',
+       'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.']}},
+ {m:'DL560',g:'G9', p:['e5v34'], s:4, d:48,
+   rules:{psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:4,two:7},riserMax:2,
+     notes:['Entry model ships 1 PSU; Base/Performance ship 2 (redundant). Common Slot 1200W/1500W.',
+       '6 hot-plug fans, N+1 redundancy.',
+       '4 PCIe slots with the primary riser; 7 with the secondary riser kit (793474-B21) and the 3rd/4th processors.',
+       'PSU bay count and fan/slot counts verified against DL560 Gen9 QuickSpecs; cooling thresholds are still generation defaults.']}},
+ {m:'DL580',g:'G9', p:['e7v34'], s:4, d:96,
+   rules:{psuMax:4,fans:{two:4,perf:4},pcie:{two:9},validCounts:[2,3,4],
+     notes:['A minimum of two processors is required; three or four may be installed.',
+       'Minimum 2 power supplies; up to 4 for N+N redundancy (1200W / 1500W Common Slot).',
+       '4 hot-plug fans (eight rotors), N+1 redundancy.',
+       '96 DIMM slots via up to 8 memory cartridges (12 slots each).',
+       'Up to 9 PCIe 3.0 slots in a 4-processor configuration.',
+       'PSU / fan / slot counts verified against DL580 Gen9 QuickSpecs; cooling thresholds are still generation defaults.']}},
+
+ {m:'DL20', g:'G10', p:['xeone'],      s:1, d:4,
+   rules:{psuMax:2,pcie:{one:2,two:2},
+     notes:['4 DIMM slots. 2 PCIe expansion slots maximum.',
+       'Base ships a single fixed 290W supply; 500W or 800W Flex Slot supplies add redundancy (2 bays).',
+       'System fans are non-hot-plug and non-redundant — no fan-kit choice.']}},
+ {m:'DL120',g:'G10', p:['sp1','sp2'],  s:1, d:8,
+   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+     hsSku:['P8256','P8156','G6128','G5222','G5122'],
+     notes:['Shares its heatsink option part number with the DL160 and DL180 Gen10 (same thermal design).']}},
+ {m:'DL160',g:'G10', p:['sp1','sp2'],  s:2, d:16, bays:['4LFF','8SFF','10SFF'],
+   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+     hsSku:['P8256','P8156','G6128','G5222','G5122'],
+     psuMax:2,fans:{one:3,two:6,perf:7},pcie:{one:2,two:3},
+     notes:['First processor (-L21) includes 3 fans; second processor (-B21) adds 3 more.',
+     '4LFF/8SFF: 1 CPU gives 3 standard fans (4 with the redundant kit); 2 CPUs gives 6 (7 with the kit).',
+     '"U" suffix processors (e.g. 6210U) are single-socket only.',
+     'Mixing two different processor models is not supported.',
+     'Field upgrade from 1st to 2nd generation Scalable processors is not supported.']}},
+ {m:'DL180',g:'G10', p:['sp1','sp2'],  s:2, d:16, bays:['4LFF','8LFF','12LFF','8SFF'],
+   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+     hsSku:['P8256','P8156','G6128','G5222','G5122'],
+     psuMax:2,fans:{one:3,two:5,perf:5},
+     notes:['First processor (-L21) includes 3 fans; second processor (-B21) adds 2 more (5 total for 2P).',
+       'All models include the S100i Smart Array Controller (software RAID, 14 drives) — needs enabling.',
+       'Mixing two different processor models is not supported.',
+       'Field upgrade from 1st to 2nd generation Scalable processors is not supported.']}},
+ {m:'DL325',g:'G10', p:['naples','rome'], s:1, d:16, bays:['8SFF','16SFF','24SFF','4LFF','8LFF','12LFF'],
+   rules:{verified:true,hsW:171,hsWtext:'above 170W',hsStdException:['EPYC 7532'],memPerSocket:2048,psuMax:2,pcie:{one:3,two:3},fans:{one:5,perf:5},riserMax:2,fanRear:true,
+     notes:['EPYC 7532 (200W) is a listed exception and ships with the standard heatsink despite exceeding 170W — a source conflict exists here, double-check this specific SKU.',
+       'All EPYC processors on this board are documented as supporting up to 2TB of memory each.',
+       'S100i Smart Array is off by default and must be enabled — the embedded SATA controller runs AHCI-only until then.',
+       'Front bay maximum is 8 NVMe + 2 SAS/SATA when both are fitted.',
+       'Only one FlexibleLOM can be fitted.',
+       'Embedded 4x1GbE is not present on boards built for EPYC 7002 (7xx2) processors.']}},
+ {m:'DL360',g:'G10', p:['sp1','sp2'],  s:2, d:24, bays:['4LFF','8SFF','10SFF'],
+   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+     hsSku:['P8256','P8156','G6128','G5222','G5122'],
+     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},
+     fanNVMe:true,fanRear:true,fanGPU:true,fanPart:'871244-B21',memPerSocket:768,riserMax:2,
+     notes:['Up to 7 fans with redundancy built in. High performance fan kit 871244-B21 includes 7.',
+       'A 10 NVMe chassis always gets 7 high performance fans, one processor or two.',
+       'On a 10 NVMe chassis the secondary riser is not available.',
+       'Rear drive option is +1SFF or 1 dual uFF (2x M.2) on any chassis type.',
+       'SFF maximum is 10 drives; LFF maximum is 4.',
+       'Max memory 768GB per processor, except M-suffix parts at 1.5TB.',
+       'Minimum build: 1 drive, 1 processor, 1 PSU, two heatsinks, 1 Smart Array, five fans.',
+       'Mixing two different processor models is not allowed.',
+       'For a GPGPU, order the LH (low profile heatsink) controller so the GPU fits.',
+       'Fans are not tied to CPU wattage on this generation — only to NVMe, rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.']}},
+ {m:'DL380',g:'G10', p:['sp1','sp2'],  s:2, d:24, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
+   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+     hsSku:['P8256','P8156','G6128','G5222','G5122'],
+     psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},
+     fanNVMe:true,fanRear:true,fanGPU:true,fanBays:['12LFF','24SFF'],
+     rear2SFF:['24SFF','12LFF'],fanPart:'867810-B21',memPerSocket:768,riserMax:3,
+     notes:['High performance fan kit 867810-B21 is required for NVMe, for GPUs, and when boxes 1, 2 and 3 are all populated.',
+       '2SFF rear is only supported on a 24SFF or 12LFF chassis.',
+       'NVMe drives require a specific riser.',
+       'Mixing two different processor models is not allowed.',
+       'Premium bay kit gives 6 SAS/SATA + 2 NVMe, or 8 SAS/SATA, per box.',
+       'Fans are not tied to CPU wattage on this generation — only to NVMe, GPUs, rear drives and dense bay counts. The performance heatsink alone covers cooling up to its rated TDP.']}},
+ {m:'DL385',g:'G10', p:['naples','rome'], s:2, d:32, bays:['8SFF','16SFF','24SFF','12LFF'],
+   rules:{verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,
+     psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},fanBays:['12LFF','24SFF'],
+     notes:['8SFF 1P ships 4 standard fans; a second processor adds 2 more.',
+       '12LFF and 24SFF ship with 6 high performance fans as standard; 8LFF ships 6 standard fans.',
+       'All EPYC processors here support up to 2TB of memory each.',
+       'Mixing of RDIMM and LRDIMM memory is not supported.']}},
+ {m:'DL560',g:'G10', p:['sp1','sp2'],  s:4, d:48,
+   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+     hsSku:['P8256','P8156','G6128','G5222','G5122'],validCounts:[1,2,4],
+     psuMax:4,fans:{one:6,two:6,perf:6},pcie:{one:3,two:8},riserMax:3,
+     notes:['Supports 1, 2 or 4 processors — not 3.',
+       '4 power supply bays. Tertiary risers can only be fitted with 2 PSUs — a 4-PSU build leaves no room for them.',
+       '6 hot-plug fans, N+1 redundancy, shipped standard.',
+       '3 PCIe slots with 1 processor; up to 8 with the 2nd processor and secondary/tertiary risers.',
+       '4-processor builds need the CPU Mezzanine Board Kit: 872222-B21 for 1st Gen Scalable, P07991-B21 for 2nd Gen.',
+       '12 DIMM slots per processor (48 total).']}},
+ {m:'DL580',g:'G10', p:['sp1','sp2'],  s:4, d:48,
+   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+     hsSku:['P8256','P8156','G6128','G5222','G5122'],
+     psuMax:4,fans:{one:12,two:12,perf:12},pcie:{one:6,two:16},riserMax:3,
+     notes:['Supports 1, 2, 3 or 4 processors.',
+       '3- or 4-processor builds need the CPU Mezzanine Board Kit: 872222-B21 for 1st Gen Scalable, P07991-B21 for 2nd Gen.',
+       '12 DIMM slots per processor (48 total), up to 6TB total memory.',
+       'Up to 4 hot-plug redundant power supplies (800W / 1600W Flex Slot).',
+       '12 hot-plug fans, N+1 redundancy, shipped standard.',
+       'Primary riser is 6 or 7 slots; secondary (bundles tertiary) adds up to 9 more — 16 PCIe slots total with 4 processors. Internal storage controllers/SAS expanders only fit the primary and tertiary risers.']}},
+
+ {m:'DL20',  g:'G10+', p:['xeone3'], s:1, d:4,
+   rules:{verified:true,psuMax:2,pcie:{one:2,two:2},riserMax:1,
+     notes:['Xeon E-2300, single socket, 4 UDIMM slots (max 128GB).',
+       '3 fixed performance fans — non-hot-plug, non-redundant, no fan-kit choice.',
+       'Standard PSU is a single non-redundant 290W; a 500W or 800W Flex Slot pair needs the RPS enablement kit (2 bays).',
+       '2 PCIe 4.0 slots on the primary low-profile riser (1 FH/HL + 1 LP).']}},
+ {m:'DL110', g:'G10+', p:['sp3'],    s:1, d:8,
+   rules:{verified:true,psuMax:2,fans:{one:7,perf:7},pcie:{one:3,two:3},riserMax:2,fanGPU:true,
+     notes:['Telco 1U, single Ice Lake socket, 8 DIMM slots. 7 hot-plug fans included. Select one or two Flex Slot power supplies.',
+       '3 PCIe 4.0 slots + 1 OCP 3.0. Slot 3 is enabled by the x16 FHHL Secondary Riser Kit (P41827/P41828-B21).',
+       'Processors at 185W TDP or higher need the DIMM Blank kit (P43725-B21) fitted in any unpopulated slots.',
+     'A secondary riser (x16 FHHL) is required when a 185W+ processor is fitted and DIMM slots aren\u2019t fully populated.',
+     '12x NVIDIA T4 GPUs are only supported when processor TDP is 165W or under.',
+     'With 2x T4 GPUs and a 136–165W processor, Enhanced Processor Performance Profile must stay disabled or the processor throttles.']}},
+ {m:'DL325', g:'G10+', p:['rome'],   s:1, d:16,
+   rules:{verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
+     psuMax:2,fans:{one:6,two:6,perf:8},fanBays:['24SFF','12LFF'],pcie:{one:3,two:3},riserMax:2,
+     notes:['DL325 Gen10 Plus v1 QuickSpecs: processors above 150W ship the High Performance heatsink; 6 standard fans, 8 HP fans on 24SFF/12LFF; select one or two power supplies; 16 DIMM slots; primary riser 1 FH + 1 LP, secondary riser 1 LP or FH/HL.',
+       'Gen10 Plus v1 takes EPYC 7002 (Rome) only; EPYC 7003 needs the Gen10 Plus v2 board.']}},
+ {m:'DL325', g:'G10+ v2', p:['milan'], s:1, d:16,
+   rules:{verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
+     hsPart:'P41197-B21',fanPart:'P38506-B21',psuMax:2,fans:{one:8,perf:8},pcie:{one:3,two:3},riserMax:2,
+     notes:['v2 takes EPYC 7003 (Milan). Its QuickSpecs lists the High Performance Heat Sink Kit (P41197-B21) for every seeded processor, 155W parts included; treat the standard heatsink as the exception and confirm the exact SKU. 8 fans; Maximum Performance Fan Kit (P38506-B21) for GPU and certain NVMe backplanes. Select one or two PSUs; 16 DIMM slots; primary riser 1 FH + 1 LP, secondary riser 1 LP or FH/HL.']}},
+ {m:'DL345', g:'G10+', p:['rome','milan'], s:1, d:16,
+   rules:{verified:true,hsW:180,hsWtext:'180W or higher',hsPart:'P38655-B21',fanRear:true,fanGPU:true,
+     psuMax:2,fans:{one:6,two:6,perf:6},fanBays:['12LFF','24SFF'],pcie:{one:4,two:4},riserMax:2,
+     notes:['Single-socket EPYC Rome / Milan. Processors at 180W or higher need the High Performance Heat Sink (P38655-B21).',
+       '8SFF and 8LFF CTO chassis ship with NO fans — 3x Standard Fan Kit (P37042-B21) must be added. 24SFF ships 6 Performance fans as standard.',
+       'Max Performance fan kit is required for processors at 280W, 12LFF/24SFF configs, NVMe drives, or a 2SFF rear cage.',
+       '16 DIMM slots (8 channels, 2 DIMM per channel). 2 PCIe slots on the primary riser, up to 4 with a secondary riser.',
+       'Select one or two Flex Slot power supplies.']}},
+ {m:'DL360', g:'G10+', p:['sp3'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
+   rules:{verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P26479-B21',riserMax:2,
+     psuMax:2,fans:{two:7,perf:7},pcie:{one:2,two:3},
+     fanW:205,fanPart:'P26477-B21',fanNVMe:true,fanRear:true,fanGPU:true,
+     notes:['Heatsink threshold is 150W (P26479-B21); the fan kit threshold is 205W (P26477-B21).',
+       'Dual processor configurations require 7 fans, standard or high performance.',
+       'All NVMe drives require the high performance fan kit, as do SAS4 drives.',
+       'NVMe is not supported on the 4LFF model.',
+       '100GbE or faster NICs, accelerators and 24G SAS drives all require high performance fans.',
+       'An accelerator in slot 2 or 3 needs the LH (low profile heatsink) storage controller.',
+       'Processors up to 140W, or 230W and above, require the DIMM blanks kit P07818-B21.',
+       'Each processor feeds 2 x8 front NVMe connectors, supporting up to 4 drives — the socket must be populated for them to work.']}},
+ {m:'DL365', g:'G10+', p:['rome','milan'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
+   rules:{verified:true,hsW:156,hsWtext:'above 155W',fanW:156,hsPart:'P19368-B21',fanPart:'P26477-B21',
+     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,fanNVMe:true,fanRear:true,fanGPU:true,
+     notes:['Processors above 155W need the High Performance Heat Sink (P19368-B21) and the High Performance Fan Kit (P26477-B21).',
+       'Performance fans also for NVMe or SAS4 drives, 100GbE-plus NICs and OCP cards, and PCIe SATA or NVMe adapters.',
+       '1 processor ships 5 standard fans; 2 processors ship 7 (standard or performance by CPU).',
+       '32 DIMM slots (16 per Rome/Milan socket). 2 PCIe slots on the primary riser, up to 3 with the 2nd processor.']}},
+ {m:'DL380', g:'G10+', p:['sp3'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
+   rules:{verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P27095-B21',riserMax:3,
+     psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},fanBays:['12LFF','24SFF'],
+     fanW:205,fanNVMe:true,fanRear:true,fanGPU:true,
+     notes:['Heatsink threshold is 150W (P27095-B21).',
+       'Maximum performance fan kit is required for rear drives, processors above 205W, Optane persistent memory, high performance NVMe, and certain backplanes.',
+       'Processors do not ship with heatsinks — they must be ordered separately.',
+       'No field upgrade from 1st or 2nd generation Scalable processors.',
+       '"U" SKUs (63xxU) are single-socket only.',
+       'Mixing two different processor models is not allowed.',
+       'Some cards are not supported on the 12LFF config or with midtray drive cages.']}},
+ {m:'DL385', g:'G10+', p:['rome'], s:2, d:32,
+   rules:{verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
+     fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],fanPart:'P14608-B21',riserMax:3,
+     notes:['SFF 1P ships 4 standard fans; the 2nd processor kit adds 2 (6 for 2P). 12LFF and 24SFF ship 6 Max Performance fans as standard; 8LFF ships 6 standard.',
+       'Max Performance fan kit (P14608-B21) is required for rear drives, processors above 180W, 12-plus LFF drives, or High Performance NVMe.',
+       '32 DIMM slots. Up to 8 PCIe Gen4 slots across primary + secondary + tertiary risers (secondary/tertiary need the 2nd processor).',
+       'EPYC 7003 (Milan) is NOT supported on this board— that needs Gen10 Plus v2.',
+       'Processors above 180W ship with the high performance heatsink and require the max performance fan kit.',
+       'The 7F52 (240W) is only supported under 25°C ambient with LFF/SFF + midtray configurations.']}},
+ {m:'DL385', g:'G10+ v2', p:['milan'], s:2, d:32,
+   rules:{verified:true,hsW:156,hsWtext:'above 155W',fanW:156,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
+     hsPart:'P14610-B21',fanPart:'P14608-B21',fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],riserMax:3,
+     notes:['This v2 board raises the threshold to above 155W — different from the v1 (Rome) board, which switches above 180W.',
+       'Standard-tier kits below the threshold: heatsink P39994-B21, fan kit P37042-B21.',
+       'Processors do not include a heatsink or fan kit — both must be ordered.',
+       'Mixing two different processor models is not allowed.']}},
+ /* HPE made no Ice Lake 4-socket server — DL560/DL580 have no Gen10 Plus. */
+
+ {m:'DL20', g:'G11', p:['xeone3'], s:1, d:4},
+ {m:'DL110',g:'G11', p:['sp4'],    s:1, d:16,
+   rules:{notes:['Processors at 185W TDP or higher need the DIMM Blank kit (P43725-B21) fitted in any unpopulated slots.']}},
+ {m:'DL320',g:'G11', p:['sp4'],    s:1, d:16},
+ {m:'DL325',g:'G11', p:['genoa'],  s:1, d:12,
+   rules:{verified:true,liquidReqW:320,memPerSocket:3072,fanPart:'P58462-B21',psuMax:2,fans:{one:7,perf:7},pcie:{one:2,two:2},riserMax:2,
+     notes:['12 DIMM slots (1 DIMM per channel, single Genoa socket) — up to 3TB.',
+       '2 PCIe Gen5 slots: 1 FH/FL on the primary riser, 1 LP or HH/HL on the secondary riser.',
+       'Processors at 320W or above require the Closed-Loop Liquid Cooling Heat Sink kit and 7 liquid-cooling fans (P59668-B21) — air cooling tops out below that.',
+       'A GPU backplane needs the Performance Fan Kit (P58462-B21) or the liquid cooling fan kit.',
+       'Up to 7 fans with redundancy — one rotor failure degrades but keeps running.',
+       'Up to 3TB of memory supported (single socket).',
+       'NVMe/SAS/SATA U.3 backplane needs Tri-Mode controllers for the SAS/SATA drives.']}},
+ {m:'DL340',g:'G11', p:['sp4'],    s:2, d:16},
+ {m:'DL345',g:'G11', p:['genoa'],  s:1, d:12,
+   rules:{verified:true,hsW:260,hsWtext:'260W or higher (241–259W: check the cooling matrix)',fanW:260,
+     memPerSocket:3072,psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:6,two:6},riserMax:2,
+     hsPart:'P58459-B21',fanPart:'P58465-B21',fanNVMe:true,fanRear:true,fanGPU:true,
+     notes:['12 DIMM slots (1 DIMM per channel, single Genoa socket).',
+       'Up to 6 fans, redundancy built in. ≤240W: Standard Heat Sink (P58458-B21) + Standard Fan Kit (P58464-B21). ≥260W: Performance Heat Sink (P58459-B21) + Performance Fan Kit (P58465-B21).',
+       'Performance fans also required for NVMe, SAS4, EDSFF and GPU configurations.',
+       '6 PCIe Gen5 x16 slots (3 primary + 3 secondary), all FH/HL. Up to 4 SW or 2 DW GPUs.']}},
+ {m:'DL360',g:'G11', p:['sp4'], s:2, d:32,
+   rules:{verified:true,hsW:186,hsWtext:'186W–270W',fanW:186,fanPart:'P48908-B21',hsPart:'P48905-B21',riserMax:2,
+     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},
+     coolTierW:271,singleMaxAirW:300,fanNVMe:true,fanRear:true,fanGPU:true,
+     notes:['Standard fan kit (5 fans) covers TDP under 186W; the 2P standard kit adds 2 more for a second processor.',
+       'High performance heatsink (P48905-B21) + high performance fan kit (P48908-B21) together cover 186W–270W, or a single 300W processor.',
+       'Two processors at 271W or above require closed-loop liquid cooling (P48906-B21) — air cooling is not supported at that tier.',
+       'A single 300W processor is air-cooled but single-socket only — no field upgrade to a second socket.',
+       'If liquid cooling is selected, standard and high performance heatsinks cannot be selected.',
+       'All processors support up to 4TB of memory per socket.',
+       'Up to 7 fans with redundancy — one rotor failure degrades but keeps running.']}},
+ {m:'DL365',g:'G11', p:['genoa'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
+   rules:{verified:true,hsW:241,hsWtext:'above 240W (cTDP)',fanW:241,
+     memPerSocket:3072,psuMax:2,fans:{one:7,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,
+     fanNVMe:true,fanRear:true,fanGPU:true,
+     notes:['24 DIMM slots (12 per Genoa socket, 1 DIMM per channel).',
+       '7 fans, one fan per kit. Standard fan kit for processors at or below cTDP 240W; Performance fan kit above 240W, or for NVMe / SAS4 drives, a 10SFF SAS/SATA/NVMe backplane, or EDSFF / GPU CTO servers.',
+       'Primary riser (FH/FL, Proc 1) + secondary riser (LP or HH/HL, Proc 2) — about 3 PCIe slots.',
+       '"F" processors and 400W parts may need the liquid-cooling or high-performance tier — check the cooling matrix.']}},
+ {m:'DL380',g:'G11', p:['sp4'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
+   rules:{verified:true,hsW:151,hsWtext:'above 150W, up to 350W',hsPart:'P48818-B21',fanW:206,riserMax:3,
+     psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},fanBays:['24SFF'],
+     fanNVMe:true,fanRear:true,fanGPU:true,fanPart:'P48820-B21',
+     notes:['150W or under takes the standard heatsink (P49145-B21); above 150W through 350W needs P48818-B21.',
+       'A midtray drive cage with a >150W processor needs the DL3xx/560 Gen11 High Performance Heatsink (P48905-B21) instead.',
+       '"Q" suffix (Speed Select) processors need the Max Performance heatsink (P48817-B21) regardless of TDP.',
+       'High performance fan kit (P48820-B21) is 6 fans and must fill all 6 cages, replacing every standard fan.',
+       'Fan kit needed for rear drives, >205W processors, high performance NVMe, three drive cages, midtray, GPU, or certain backplanes.',
+       'A 24SFF CTO server already includes the high performance fans.',
+       'Any NVMe bundle requires the high performance fan kit and a second processor.']}},
+ {m:'DL385',g:'G11', p:['genoa'], s:2, d:24,
+   rules:{verified:true,hsW:240,hsWtext:'240W–300W (above 300W needs the max-performance tier)',fanW:240,memPerSocket:3072,psuMax:2,pcie:{one:3,two:8},
+     notes:['Below 240W: standard heatsink and standard fan kit. 240W–300W: high performance heatsink and fans. Above 300W: max-performance heatsink and fans.',
+       'Up to 6TB of memory across both sockets (3TB per socket).',
+       'Drive-count limits shrink at high CPU TDP unless ambient is kept to 25°C — e.g. 8LFF/12LFF/16SFF/24SFF all drop to 8 drives above 290W at normal ambient, but allow full population at 25°C ambient (some configs stay capped at 24).',
+       'CPUs over 290W with all 24 DIMM slots at 256GB each need the Performance Air Baffle (P57886-B21) and the Performance 2U Heatsink Kit (P58459-B21).',
+       'Mixing two different power supplies is not allowed.']}},
+ {m:'DL560',g:'G11', p:['sp4'], s:4, d:64,
+   rules:{verified:true,hsW:151,hsWtext:'above 150W',psuMax:4,fans:{two:6,perf:6},pcie:{one:3,two:6},riserMax:2,
+     fanNVMe:true,fanRear:true,fanGPU:true,
+     notes:['Processors above 150W need the High Performance Heat Sink; processors ship with no heatsink or fan kit — select both.',
+       'A 4-processor build requires the Liquid Cooling FIO Heat Sink Kit (P54791-B21) — 4P air cooling is not offered.',
+       '2 to 4 power supplies (min 2), redundancy 1+1 / 2+2 / 3+1.',
+       'Air-cooled CTO ships 6 high-performance fans; liquid-cooled CTO ships 5.',
+       '64 DIMM slots (16 per processor). 6 PCIe Gen5 slots (3 primary + 3 secondary) plus 2 OCP. Both riser cages take an x8/x16/x8 (P54779-B21) or x16/x16/x16 (P54780-B21) kit; a double-wide GPU only fits primary slot 2 or secondary slot 5.']}},
+ /* DL580 has no Gen11 — the line went DL580 Gen10 -> DL580 Gen12. */
+
+ {m:'DL110', g:'G12', p:['xeon6'], s:1, d:16},
+ {m:'DL320', g:'G12', p:['xeon6'], s:1, d:16},
+ {m:'DL340', g:'G12', p:['xeon6'], s:2, d:16},
+ {m:'DL360', g:'G12', p:['xeon6'], s:2, d:32},
+ {m:'DL380', g:'G12', p:['xeon6'], s:2, d:32},
+ {m:'DL380a',g:'G12', p:['xeon6'], s:2, d:32},
+ {m:'DL580', g:'G12', p:['xeon6'], s:4, d:64},
+
+ {m:'ML10', g:'G9',  p:['e3'],    s:1, d:4,  tower:true},
+ {m:'ML30', g:'G9',  p:['e3'],    s:1, d:4,  tower:true},
+ {m:'ML110',g:'G9',  p:['e5v34'], s:1, d:8,  tower:true},
+ {m:'ML150',g:'G9',  p:['e5v34'], s:2, d:16, tower:true},
+ {m:'ML350',g:'G9',  p:['e5v34'], s:2, d:24, tower:true,
+   rules:{psuMax:4,fans:{one:3,two:5},pcie:{two:9},
+     notes:['5U tower, 2 sockets (2nd optional), 24 DIMM slots, up to 48 SFF / 24 LFF drives.',
+       'Hardware counts verified against ML350 Gen9 QuickSpecs; heatsink threshold is still the generation default.',
+       '4 HPE Flexible Slot power supply bays: Slot 1 standard, Slots 2-4 optional (X4 Redundant PSU Enablement Kit 725870-B21).',
+       '3 system fans standard; the Redundant Fan Kit (725878-B21) adds 4 fans + 2 PCIe air baffles and is standard on the performance model.',
+       '9 PCIe expansion slots (8 Gen3, 1 Gen2); some need the 2nd processor.',
+       'No processor-specific heatsink step in the QuickSpecs — E5-2600 v3/v4 parts share one heatsink; the 120W generation guide is soft only.']}},
+ {m:'ML30', g:'G10', p:['xeone'], s:1, d:4,  tower:true,
+   rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:1,
+     notes:['Xeon E-2100 / E-2200, single socket, 4 UDIMM slots (max 64GB).',
+       '2 fixed fans (1 system + 1 PCI fan module, P06303-B21) — non-hot-plug, non-redundant, no fan-kit choice.',
+       'Standard PSU is a single non-hot-plug 350W; a 500W Flex Slot adds an optional redundant supply (2 bays).',
+       '4 PCIe expansion slots (2x x16, 2x x8).']}},
+ {m:'ML110',g:'G10', p:['sp1','sp2'], s:1, d:6,  tower:true,
+   rules:{verified:true,psuMax:2,pcie:{one:5,two:5},riserMax:1,
+     notes:['1st or 2nd Gen Xeon Scalable (no field upgrade between them), single socket, up to ~110W. 6 DIMM slots (6 channels, 1 per channel).',
+       '2 fixed fans (1 system + 1 PCIe fan module). The optional Redundant Fan Kit needs the 800W Flex Slot redundant PSU and is required for a 2nd HDD cage with 15K SAS, any SAS SSD, or the A3 extended environment.',
+       'Standard PSU is a 350W or 550W ATX (non-redundant); 500W/800W Flex Slot hot-plug supplies need the RPS Enablement Kit (2 bays).',
+       '5 PCIe 3.0 expansion slots.']}},
+ {m:'ML350',g:'G10', p:['sp1','sp2'], s:2, d:24, tower:true,
+   rules:{verified:true,hsW:86,hsWtext:'above 85W',psuMax:2,pcie:{one:8,two:8},
+     notes:['A 2-processor build needs the Redundant Fan Cage kit (874572-B21) — one fan cage plus 4 extra fans.',
+       'A GPU over 75W needs the external power cable kit.',
+       'Up to 8 SFF NVMe with both NVMe riser boards (874569-B21) fitted; only 4 with one board fitted.',
+       'Security bezel is standard on every unit.']}},
+ {m:'ML30', g:'G10+',p:['xeone3'],s:1, d:4,  tower:true,
+   rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:1,
+     notes:['Xeon E-2300 (or Pentium), single socket, 4 UDIMM slots (max 128GB).',
+       '2 fixed fans (1 system + 1 PCI fan module, P06303-B21) — non-hot-plug, non-redundant.',
+       'Standard PSU is a single non-hot-plug 350W Gold; a 500W Flex Slot adds an optional redundant supply (2 bays).',
+       '4 PCIe slots (2x x16, 2x x8; one x16 is PCIe 4.0). Slot 1 drops to PCIe 3.0 with a Pentium.']}},
+ {m:'ML30', g:'G11', p:['xeone3'],s:1, d:4,  tower:true},
+ {m:'ML110',g:'G11', p:['sp4'],   s:1, d:16, tower:true},
+ {m:'ML350',g:'G11', p:['sp4'],   s:2, d:32, tower:true,
+   rules:{verified:true,hsW:195,hsWtext:'195W or higher',hsPart:'P47224-B21',psuMax:2,pcie:{one:8,two:8},
+     fanW:300,fanPart:'P47219-B21 + Second CPU Fan Kit P47902-B21',
+     notes:['Intel VROC NVMe is not supported with the 4510, 4509Y or 3508U processors.']}},
+ {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true}
+];
+
+/* code, description, platform, TDP watts, cores */
+var CPUS=[
+ ['E5-2603v4','Xeon E5-2603 v4 · 6C 1.7GHz','e5v34',85,6],
+ ['E5-2609v4','Xeon E5-2609 v4 · 8C 1.7GHz','e5v34',85,8],
+ ['E5-2620v3','Xeon E5-2620 v3 · 6C 2.4GHz','e5v34',85,6],
+ ['E5-2620v4','Xeon E5-2620 v4 · 8C 2.1GHz','e5v34',85,8],
+ ['E5-2623v4','Xeon E5-2623 v4 · 4C 2.6GHz','e5v34',85,4],
+ ['E5-2630v3','Xeon E5-2630 v3 · 8C 2.4GHz','e5v34',85,8],
+ ['E5-2630v4','Xeon E5-2630 v4 · 10C 2.2GHz','e5v34',85,10],
+ ['E5-2637v4','Xeon E5-2637 v4 · 4C 3.5GHz','e5v34',135,4],
+ ['E5-2640v3','Xeon E5-2640 v3 · 8C 2.6GHz','e5v34',90,8],
+ ['E5-2640v4','Xeon E5-2640 v4 · 10C 2.4GHz','e5v34',90,10],
+ ['E5-2643v3','Xeon E5-2643 v3 · 6C 3.4GHz','e5v34',135,6],
+ ['E5-2643v4','Xeon E5-2643 v4 · 6C 3.4GHz','e5v34',135,6],
+ ['E5-2650v3','Xeon E5-2650 v3 · 10C 2.3GHz','e5v34',105,10],
+ ['E5-2650v4','Xeon E5-2650 v4 · 12C 2.2GHz','e5v34',105,12],
+ ['E5-2660v3','Xeon E5-2660 v3 · 10C 2.6GHz','e5v34',105,10],
+ ['E5-2660v4','Xeon E5-2660 v4 · 14C 2.0GHz','e5v34',105,14],
+ ['E5-2667v4','Xeon E5-2667 v4 · 8C 3.2GHz','e5v34',135,8],
+ ['E5-2670v3','Xeon E5-2670 v3 · 12C 2.3GHz','e5v34',120,12],
+ ['E5-2680v3','Xeon E5-2680 v3 · 12C 2.5GHz','e5v34',120,12],
+ ['E5-2680v4','Xeon E5-2680 v4 · 14C 2.4GHz','e5v34',120,14],
+ ['E5-2690v3','Xeon E5-2690 v3 · 12C 2.6GHz','e5v34',135,12],
+ ['E5-2690v4','Xeon E5-2690 v4 · 14C 2.6GHz','e5v34',135,14],
+ ['E5-2695v4','Xeon E5-2695 v4 · 18C 2.1GHz','e5v34',120,18],
+ ['E5-2697v4','Xeon E5-2697 v4 · 18C 2.3GHz','e5v34',145,18],
+ ['E5-2697Av4','Xeon E5-2697A v4 · 16C 2.6GHz','e5v34',145,16],
+ ['E5-2698v4','Xeon E5-2698 v4 · 20C 2.2GHz','e5v34',135,20],
+ ['E5-2699v4','Xeon E5-2699 v4 · 22C 2.2GHz','e5v34',145,22],
+ ['E7-4809v4','Xeon E7-4809 v4 · 8C 2.1GHz','e7v34',115,8],
+ ['E7-4820v4','Xeon E7-4820 v4 · 10C 2.0GHz','e7v34',115,10],
+ ['E7-4830v4','Xeon E7-4830 v4 · 14C 2.0GHz','e7v34',115,14],
+ ['E7-4850v4','Xeon E7-4850 v4 · 16C 2.1GHz','e7v34',115,16],
+ ['E7-8860v4','Xeon E7-8860 v4 · 18C 2.2GHz','e7v34',140,18],
+ ['E7-8870v4','Xeon E7-8870 v4 · 20C 2.1GHz','e7v34',140,20],
+ ['E3-1220v5','Xeon E3-1220 v5 · 4C 3.0GHz','e3',80,4],
+ ['E3-1230v5','Xeon E3-1230 v5 · 4C 3.4GHz','e3',80,4],
+ ['E3-1240v5','Xeon E3-1240 v5 · 4C 3.5GHz','e3',80,4],
+ ['E3-1220v6','Xeon E3-1220 v6 · 4C 3.0GHz','e3',72,4],
+ ['E3-1230v6','Xeon E3-1230 v6 · 4C 3.5GHz','e3',72,4],
+ ['E3-1240v6','Xeon E3-1240 v6 · 4C 3.7GHz','e3',72,4],
+ ['E-2124','Xeon E-2124 · 4C 3.3GHz','xeone',71,4],
+ ['E-2136','Xeon E-2136 · 6C 3.3GHz','xeone',80,6],
+ ['E-2224','Xeon E-2224 · 4C 3.4GHz','xeone',71,4],
+ ['E-2236','Xeon E-2236 · 6C 3.4GHz','xeone',80,6],
+ ['E-2276G','Xeon E-2276G · 6C 3.8GHz','xeone',80,6],
+ ['E-2288G','Xeon E-2288G · 8C 3.7GHz','xeone',95,8],
+ ['E-2314','Xeon E-2314 · 4C 2.8GHz','xeone3',65,4],
+ ['E-2336','Xeon E-2336 · 6C 2.9GHz','xeone3',65,6],
+ ['E-2356G','Xeon E-2356G · 6C 3.2GHz','xeone3',80,6],
+ ['E-2388G','Xeon E-2388G · 8C 3.2GHz','xeone3',95,8],
+ ['B3104','Xeon Bronze 3104 · 6C 1.7GHz','sp1',85,6],
+ ['B3106','Xeon Bronze 3106 · 8C 1.7GHz','sp1',85,8],
+ ['S4108','Xeon Silver 4108 · 8C 1.8GHz','sp1',85,8],
+ ['S4110','Xeon Silver 4110 · 8C 2.1GHz','sp1',85,8],
+ ['S4112','Xeon Silver 4112 · 4C 2.6GHz','sp1',85,4],
+ ['S4114','Xeon Silver 4114 · 10C 2.2GHz','sp1',85,10],
+ ['S4116','Xeon Silver 4116 · 12C 2.1GHz','sp1',85,12],
+ ['G5115','Xeon Gold 5115 · 10C 2.4GHz','sp1',85,10],
+ ['G5118','Xeon Gold 5118 · 12C 2.3GHz','sp1',105,12],
+ ['G5120','Xeon Gold 5120 · 14C 2.2GHz','sp1',105,14],
+ ['G5122','Xeon Gold 5122 · 4C 3.6GHz','sp1',105,4],
+ ['G6126','Xeon Gold 6126 · 12C 2.6GHz','sp1',125,12],
+ ['G6128','Xeon Gold 6128 · 6C 3.4GHz','sp1',115,6],
+ ['G6130','Xeon Gold 6130 · 16C 2.1GHz','sp1',125,16],
+ ['G6132','Xeon Gold 6132 · 14C 2.6GHz','sp1',140,14],
+ ['G6134','Xeon Gold 6134 · 8C 3.2GHz','sp1',130,8],
+ ['G6136','Xeon Gold 6136 · 12C 3.0GHz','sp1',150,12],
+ ['G6138','Xeon Gold 6138 · 20C 2.0GHz','sp1',125,20],
+ ['G6140','Xeon Gold 6140 · 18C 2.3GHz','sp1',140,18],
+ ['G6142','Xeon Gold 6142 · 16C 2.6GHz','sp1',150,16],
+ ['G6148','Xeon Gold 6148 · 20C 2.4GHz','sp1',150,20],
+ ['G6150','Xeon Gold 6150 · 18C 2.7GHz','sp1',165,18],
+ ['G6152','Xeon Gold 6152 · 22C 2.1GHz','sp1',140,22],
+ ['P8156','Xeon Platinum 8156 · 4C 3.6GHz','sp1',105,4],
+ ['P8160','Xeon Platinum 8160 · 24C 2.1GHz','sp1',150,24],
+ ['P8168','Xeon Platinum 8168 · 24C 2.7GHz','sp1',205,24],
+ ['P8180','Xeon Platinum 8180 · 28C 2.5GHz','sp1',205,28],
+ ['B3204','Xeon Bronze 3204 · 6C 1.9GHz','sp2',85,6],
+ ['B3206R','Xeon Bronze 3206R · 8C 1.9GHz','sp2',85,8],
+ ['S4208','Xeon Silver 4208 · 8C 2.1GHz','sp2',85,8],
+ ['S4210','Xeon Silver 4210 · 10C 2.2GHz','sp2',85,10],
+ ['S4210R','Xeon Silver 4210R · 10C 2.4GHz','sp2',100,10],
+ ['S4214','Xeon Silver 4214 · 12C 2.2GHz','sp2',85,12],
+ ['S4214R','Xeon Silver 4214R · 12C 2.4GHz','sp2',100,12],
+ ['S4215R','Xeon Silver 4215R · 8C 3.2GHz','sp2',130,8],
+ ['S4216','Xeon Silver 4216 · 16C 2.1GHz','sp2',100,16],
+ ['G5215','Xeon Gold 5215 · 10C 2.5GHz','sp2',85,10],
+ ['G5218','Xeon Gold 5218 · 16C 2.3GHz','sp2',125,16],
+ ['G5218R','Xeon Gold 5218R · 20C 2.1GHz','sp2',125,20],
+ ['G5220','Xeon Gold 5220 · 18C 2.2GHz','sp2',125,18],
+ ['G5222','Xeon Gold 5222 · 4C 3.8GHz','sp2',105,4],
+ ['G6226R','Xeon Gold 6226R · 16C 2.9GHz','sp2',150,16],
+ ['G6230','Xeon Gold 6230 · 20C 2.1GHz','sp2',125,20],
+ ['G6230R','Xeon Gold 6230R · 26C 2.1GHz','sp2',150,26],
+ ['G6234','Xeon Gold 6234 · 8C 3.3GHz','sp2',130,8],
+ ['G6238','Xeon Gold 6238 · 22C 2.1GHz','sp2',140,22],
+ ['G6238R','Xeon Gold 6238R · 28C 2.2GHz','sp2',165,28],
+ ['G6242','Xeon Gold 6242 · 16C 2.8GHz','sp2',150,16],
+ ['G6244','Xeon Gold 6244 · 8C 3.6GHz','sp2',150,8],
+ ['G6248','Xeon Gold 6248 · 20C 2.5GHz','sp2',150,20],
+ ['G6248R','Xeon Gold 6248R · 24C 3.0GHz','sp2',205,24],
+ ['G6250','Xeon Gold 6250 · 8C 3.9GHz','sp2',185,8],
+ ['G6252','Xeon Gold 6252 · 24C 2.1GHz','sp2',150,24],
+ ['G6254','Xeon Gold 6254 · 18C 3.1GHz','sp2',200,18],
+ ['G6256','Xeon Gold 6256 · 12C 3.6GHz','sp2',205,12],
+ ['G6258R','Xeon Gold 6258R · 28C 2.7GHz','sp2',205,28],
+ ['P8256','Xeon Platinum 8256 · 4C 3.8GHz','sp2',105,4],
+ ['P8260','Xeon Platinum 8260 · 24C 2.4GHz','sp2',165,24],
+ ['P8268','Xeon Platinum 8268 · 24C 2.9GHz','sp2',205,24],
+ ['P8270','Xeon Platinum 8270 · 26C 2.7GHz','sp2',205,26],
+ ['P8276','Xeon Platinum 8276 · 28C 2.2GHz','sp2',165,28],
+ ['P8280','Xeon Platinum 8280 · 28C 2.7GHz','sp2',205,28],
+ ['S4310','Xeon Silver 4310 · 12C 2.1GHz','sp3',120,12],
+ ['S4314','Xeon Silver 4314 · 16C 2.4GHz','sp3',135,16],
+ ['S4316','Xeon Silver 4316 · 20C 2.3GHz','sp3',150,20],
+ ['G5315Y','Xeon Gold 5315Y · 8C 3.2GHz','sp3',140,8],
+ ['G5318Y','Xeon Gold 5318Y · 24C 2.1GHz','sp3',165,24],
+ ['G6330','Xeon Gold 6330 · 28C 2.0GHz','sp3',205,28],
+ ['G6338','Xeon Gold 6338 · 32C 2.0GHz','sp3',205,32],
+ ['G6342','Xeon Gold 6342 · 24C 2.8GHz','sp3',230,24],
+ ['G6354','Xeon Gold 6354 · 18C 3.0GHz','sp3',205,18],
+ ['P8352Y','Xeon Platinum 8352Y · 32C 2.2GHz','sp3',205,32],
+ ['P8358','Xeon Platinum 8358 · 32C 2.6GHz','sp3',250,32],
+ ['P8360Y','Xeon Platinum 8360Y · 36C 2.4GHz','sp3',250,36],
+ ['P8368','Xeon Platinum 8368 · 38C 2.4GHz','sp3',270,38],
+ ['P8380','Xeon Platinum 8380 · 40C 2.3GHz','sp3',270,40],
+ ['S4410Y','Xeon Silver 4410Y · 12C 2.0GHz','sp4',150,12],
+ ['S4416+','Xeon Silver 4416+ · 20C 2.0GHz','sp4',165,20],
+ ['G5416S','Xeon Gold 5416S · 16C 2.0GHz','sp4',150,16],
+ ['G5418Y','Xeon Gold 5418Y · 24C 2.0GHz','sp4',185,24],
+ ['G6426Y','Xeon Gold 6426Y · 16C 2.5GHz','sp4',185,16],
+ ['G6430','Xeon Gold 6430 · 32C 2.1GHz','sp4',270,32],
+ ['G6438Y+','Xeon Gold 6438Y+ · 32C 2.0GHz','sp4',205,32],
+ ['G6442Y','Xeon Gold 6442Y · 24C 2.6GHz','sp4',225,24],
+ ['G6448Y','Xeon Gold 6448Y · 32C 2.1GHz','sp4',225,32],
+ ['P8452Y','Xeon Platinum 8452Y · 36C 2.0GHz','sp4',300,36],
+ ['P8468','Xeon Platinum 8468 · 48C 2.1GHz','sp4',350,48],
+ ['P8480+','Xeon Platinum 8480+ · 56C 2.0GHz','sp4',350,56],
+ ['EPYC 7251','EPYC 7251 · 8C 2.1GHz','naples',120,8],
+ ['EPYC 7281','EPYC 7281 · 16C 2.1GHz','naples',155,16],
+ ['EPYC 7301','EPYC 7301 · 16C 2.2GHz','naples',155,16],
+ ['EPYC 7351P','EPYC 7351P · 16C 2.4GHz','naples',155,16],
+ ['EPYC 7401P','EPYC 7401P · 24C 2.0GHz','naples',155,24],
+ ['EPYC 7451','EPYC 7451 · 24C 2.3GHz','naples',180,24],
+ ['EPYC 7501','EPYC 7501 · 32C 2.0GHz','naples',155,32],
+ ['EPYC 7551','EPYC 7551 · 32C 2.0GHz','naples',180,32],
+ ['EPYC 7601','EPYC 7601 · 32C 2.2GHz','naples',180,32],
+ ['EPYC 7232P','EPYC 7232P · 8C 3.1GHz','rome',120,8],
+ ['EPYC 7252','EPYC 7252 · 8C 3.1GHz','rome',120,8],
+ ['EPYC 7262','EPYC 7262 · 8C 3.2GHz','rome',155,8],
+ ['EPYC 7272','EPYC 7272 · 12C 2.9GHz','rome',120,12],
+ ['EPYC 7282','EPYC 7282 · 16C 2.8GHz','rome',120,16],
+ ['EPYC 7302','EPYC 7302 · 16C 3.0GHz','rome',155,16],
+ ['EPYC 7352','EPYC 7352 · 24C 2.3GHz','rome',155,24],
+ ['EPYC 7402','EPYC 7402 · 24C 2.8GHz','rome',180,24],
+ ['EPYC 7452','EPYC 7452 · 32C 2.35GHz','rome',155,32],
+ ['EPYC 7502','EPYC 7502 · 32C 2.5GHz','rome',180,32],
+ ['EPYC 7532','EPYC 7532 · 32C 2.4GHz','rome',200,32],
+ ['EPYC 7542','EPYC 7542 · 32C 2.9GHz','rome',225,32],
+ ['EPYC 7552','EPYC 7552 · 48C 2.2GHz','rome',200,48],
+ ['EPYC 7642','EPYC 7642 · 48C 2.3GHz','rome',225,48],
+ ['EPYC 7702','EPYC 7702 · 64C 2.0GHz','rome',200,64],
+ ['EPYC 7742','EPYC 7742 · 64C 2.25GHz','rome',225,64],
+ ['EPYC 7F52','EPYC 7F52 · 16C 3.5GHz','rome',240,16],
+ ['EPYC 7313','EPYC 7313 · 16C 3.0GHz','milan',155,16],
+ ['EPYC 7343','EPYC 7343 · 16C 3.2GHz','milan',190,16],
+ ['EPYC 7413','EPYC 7413 · 24C 2.65GHz','milan',180,24],
+ ['EPYC 7443','EPYC 7443 · 24C 2.85GHz','milan',200,24],
+ ['EPYC 7513','EPYC 7513 · 32C 2.6GHz','milan',200,32],
+ ['EPYC 7543','EPYC 7543 · 32C 2.8GHz','milan',225,32],
+ ['EPYC 7643','EPYC 7643 · 48C 2.3GHz','milan',225,48],
+ ['EPYC 7713','EPYC 7713 · 64C 2.0GHz','milan',225,64],
+ ['EPYC 7763','EPYC 7763 · 64C 2.45GHz','milan',280,64],
+ ['EPYC 9124','EPYC 9124 · 16C 3.0GHz','genoa',200,16],
+ ['EPYC 9224','EPYC 9224 · 24C 2.5GHz','genoa',200,24],
+ ['EPYC 9254','EPYC 9254 · 24C 2.9GHz','genoa',200,24],
+ ['EPYC 9334','EPYC 9334 · 32C 2.7GHz','genoa',210,32],
+ ['EPYC 9354','EPYC 9354 · 32C 3.25GHz','genoa',280,32],
+ ['EPYC 9454','EPYC 9454 · 48C 2.75GHz','genoa',290,48],
+ ['EPYC 9554','EPYC 9554 · 64C 3.1GHz','genoa',360,64],
+ ['EPYC 9654','EPYC 9654 · 96C 2.4GHz','genoa',360,96]
+];
+
+var MEMSPEED={e5v34:'2133 / 2400',sp1:'2400 / 2666',sp2:'2666 / 2933',sp3:'2933 / 3200',
+  sp4:'4400 / 4800',naples:'2666',rome:'3200',milan:'3200',genoa:'4800',e3:'2133 / 2400',
+  xeone:'2666',xeone3:'3200',xeon6:'6400'};
+
+var DIMMS=[];
+[['8GB',['2133','2400','2666']],['16GB',['2133','2400','2666','2933','3200']],
+ ['32GB',['2133','2400','2666','2933','3200']],['64GB',['2400','2666','2933','3200']],
+ ['128GB',['2666','2933','3200']]].forEach(function(d){
+  d[1].forEach(function(s){DIMMS.push(d[0]+' '+s);});});
+var CTRLS=['P204i-b','P204i-c','P408i-a','P408i-p','P408e-p','P816i-a','P816i-p','P824i-p',
+ 'P440','P440ar','P840','P840ar','E208i-a','E208i-p','E208e-p','H240','H241','B140i','S100i',
+ 'SR932i-p','MR216i-o','MR416i-o','MR216i-p','MR416i-p','MR408i-o'];
+var EXPANDERS=['12G SAS Expander Card (727250-B21, Gen9)','12G SAS Expander Card (870549-B21, Gen10)',
+ '12G SAS Expander Card (876907-B21, Gen10 2SFF rear)','Second controller instead of expander',
+ 'P408e-p external HBA','E208e-p external HBA','H241 external HBA','None needed'];
+var BATS=['96w bat','12w bat','No battery'];
+var PSUS=['500w','800w','1000w','1400w','1600w','2200w'];
+var FLRS=['331FLR 4x1GbE','366FLR 4x1GbE','361i 2x1GbE','530FLR-SFP+ 2x10Gb','533FLR-T 2x10GbT',
+ '561FLR-T 2x10GbT','562FLR-SFP+ 2x10Gb','631FLR-SFP28 2x25Gb','640FLR-SFP28 2x25Gb'];
+var CARDLIST=['366T 4x1GbE','530SFP+ 2x10Gb','560SFP+ 2x10Gb','561T 2x10GbT','562SFP+ 2x10Gb',
+ '640SFP28 2x25Gb','SN1100Q 16Gb FC','SN1600Q 32Gb FC','SN1000Q 16Gb FC','82Q 8Gb FC',
+ 'P408e-p','E208e-p','NVIDIA T4','Tesla P4'];
+/* capacity list, with TB value for the planner */
+var CAPS=[['240GB',0.24],['480GB',0.48],['800GB',0.8],['960GB',0.96],['1.6TB',1.6],['1.92TB',1.92],
+ ['3.84TB',3.84],['7.68TB',7.68],['300GB',0.3],['600GB',0.6],['900GB',0.9],['1.2TB',1.2],
+ ['1.8TB',1.8],['2.4TB',2.4],['1TB',1],['2TB',2],['4TB',4],['6TB',6],['8TB',8],['10TB',10],
+ ['12TB',12],['14TB',14],['16TB',16],['18TB',18]];
+var GENERIC_BAYS=['4LFF','8LFF','12LFF','2SFF','4SFF','8SFF','10SFF','16SFF','24SFF'];
+var REAR=['2SFF rear','2SFF NVMe rear','3LFF rear','1SFF rear','4LFF midtray','2SFF rear + 4LFF midtray'];
+
+/* Generic riser hints — shown when a model has no RISERS entry of its own.
+   Slot counts are typical for the DL3xx family; always confirm the exact kit
+   in that model's QuickSpecs "Riser Information" table. */
+var GENERIC_RISERS=[
+ 'Primary riser — ships standard, up to 3 FH slots (CPU 1)',
+ 'Secondary riser — up to 3 FH slots, requires CPU 2',
+ 'Tertiary riser — up to 2 FH slots, requires CPU 2',
+ 'GPU riser (x16/x16 or x16/x16/x16) — replaces the primary, for accelerators',
+ 'NVMe SlimSAS riser — routes PCIe lanes to NVMe drives, no add-in card slots',
+ '2SFF SAS/SATA rear riser — rear drive cage in a riser bay'
+];
+/* Per-model riser-kit lists, verbatim from each model's QuickSpecs
+   "Riser Information" / "I/O Expansion Options" section. Part numbers only
+   where the QuickSpecs pairs them inline with the kit name. */
+var RISERS={
+ 'DL380 G10':[
+  'Default Primary riser — Slots 1-3, x8/x16/x8, FH-FL / FH-FL / FH-HL, dual M.2 (ships standard)',
+  'Primary Riser Removal FIO Option (875293-B21) — removes the shipping primary riser',
+  'Slot 1/2 x16/x16 FIO Riser — Slots 1-2 primary, 1 double-wide GPU, replaces default primary',
+  'x16/x16 GPU Slot 2/3 FIO Riser — Slots 2-3 primary, 1 double-wide GPU, replaces default primary',
+  'x16/x16/x16 Primary GPU FIO Riser — Slots 1-2-3 primary, up to 3 FH-HL single-width GPUs (FIO, all 3 must fill)',
+  '4-port 8 NVMe Primary SlimSAS FIO Riser (867807-B21) — 8 NVMe in primary, no card slots',
+  'Secondary Riser Kit (870548-B21) — Slots 4-6, x8/x16/x8, requires CPU 2',
+  'x16/x16 Riser Kit — Slots 4-5 secondary, 1 double-wide GPU, requires CPU 2',
+  'x8/x16/x8 Riser Kit — Slots 4-6 secondary, no M.2, requires CPU 2',
+  'x16/x16 GPU Riser Kit — Slots 5-6 secondary, 1 double-wide GPU, requires CPU 2',
+  'x16/x16/x16 Secondary GPU FIO Riser (826694-B21) — Slots 4-6 secondary, up to 3 GPUs (FIO), requires CPU 2',
+  'x8/x8/x8 1-port 2 NVMe SlimSAS Riser (871673-B21) — secondary slots + 2 NVMe, requires CPU 2',
+  '4-port 8 NVMe Secondary SlimSAS Riser — 8 NVMe in secondary, no card slots, requires CPU 2',
+  'Tertiary Riser Kit, 2x8 (875780-B21) — Slots 7-8, requires CPU 2',
+  '2-port 4 NVMe SlimSAS Riser — 4 NVMe in tertiary, no card slots, requires CPU 2',
+  '2SFF HDD SAS/SATA Riser Kit (826688-B21) — rear 2SFF cage in a primary or secondary riser bay'
+ ],
+ 'DL360 G10':[
+  'Primary riser — ships standard: 1x x16 FH + 1x x8 LP (GPU power connector), CPU 1',
+  'SATA M.2 2280 Riser Kit (867978-B21) — primary, adds 2x SATA M.2 + 2x x16',
+  '8 SFF only: 2x 4-NVMe + x16/x8 primary NVMe riser',
+  'Low Profile Riser Kit (867982-B21) — secondary LP slot, requires CPU 2',
+  '2P Full Height Riser and GPU Enablement Kit (867980-B21) — secondary FH x16, requires CPU 2 (disables primary slot 2 — max 2 FH slots)',
+  'Rear +1SFF / +1 dual-uFF (2x M.2) — consumes one FH PCIe slot',
+  '10 NVMe / 10SFF chassis — direct-attached NVMe riser, no secondary riser available'
+ ]
+};
+
+/* ========================================================================== */
+(function(){
+var KEY='sbw-draft-v7';
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function fill(id,arr){document.getElementById(id).innerHTML=arr.map(function(o){return '<option value="'+o+'">';}).join('');}
+fill('dimms',DIMMS);fill('ctrls',CTRLS);fill('bats',BATS);fill('psus',PSUS);
+fill('flrs',FLRS);fill('cardlist',CARDLIST);fill('rearopts',REAR);fill('expanders',EXPANDERS);
+fill('caps',CAPS.map(function(c){return c[0];}));
+
+/* ---------------- combobox ---------------- */
+function setupCombo(rootId,cfg){
+  var root=document.getElementById(rootId);
+  var input=root.querySelector('.combo-input'),hidden=root.querySelector('input[type=hidden]');
+  var panel=root.querySelector('.combo-panel');
+  var items=[],activeIdx=-1;
+  function render(filter){
+    var groups=cfg.getGroups(),q=(filter||'').toLowerCase().trim(),html='';items=[];
+    groups.forEach(function(g){
+      var matched=g.items.filter(function(it){
+        return !q||it.label.toLowerCase().indexOf(q)>-1||(it.sub||'').toLowerCase().indexOf(q)>-1;});
+      if(!matched.length)return;
+      html+='<div class="combo-group">'+esc(g.label)+'</div>';
+      matched.forEach(function(it){
+        var i=items.length;items.push(it);
+        html+='<div class="combo-item" data-i="'+i+'"><span class="ci-main">'+esc(it.label)+'</span>'+
+          (it.sub?'<span class="ci-sub">'+esc(it.sub)+'</span>':'')+'</div>';});
+    });
+    panel.innerHTML=html||'<div class="combo-empty">'+(cfg.emptyText||'No matches')+'</div>';activeIdx=-1;
+  }
+  function open(f){if(input.disabled)return;render(f!=null?f:input.value);panel.hidden=false;}
+  function close(){panel.hidden=true;activeIdx=-1;}
+  function highlight(){
+    panel.querySelectorAll('.combo-item').forEach(function(el){el.classList.remove('active');});
+    var el=panel.querySelector('.combo-item[data-i="'+activeIdx+'"]');
+    if(el){el.classList.add('active');el.scrollIntoView({block:'nearest'});}}
+  function pick(it){hidden.value=it.value;input.value=cfg.displayValue?cfg.displayValue(it):it.label;close();cfg.onSelect(it.value);}
+  input.addEventListener('input',function(){hidden.value='';open(input.value);});
+  input.addEventListener('focus',function(){open(input.value);});
+  input.addEventListener('keydown',function(e){
+    if(panel.hidden&&(e.key==='ArrowDown'||e.key==='Enter')){open(input.value);return;}
+    if(e.key==='ArrowDown'){e.preventDefault();activeIdx=Math.min(activeIdx+1,items.length-1);highlight();}
+    else if(e.key==='ArrowUp'){e.preventDefault();activeIdx=Math.max(activeIdx-1,0);highlight();}
+    else if(e.key==='Enter'){e.preventDefault();if(activeIdx>-1)pick(items[activeIdx]);else if(items.length===1)pick(items[0]);}
+    else if(e.key==='Escape'){close();}});
+  panel.addEventListener('mousedown',function(e){
+    var el=e.target.closest('.combo-item');if(!el)return;
+    e.preventDefault();pick(items[Number(el.getAttribute('data-i'))]);});
+  document.addEventListener('click',function(e){if(!root.contains(e.target))close();});
+  return {setValue:function(val,lab){hidden.value=val;input.value=lab;},
+    clear:function(){hidden.value='';input.value='';},
+    setDisabled:function(b){input.disabled=b;if(b)close();},
+    setPlaceholder:function(t){input.placeholder=t;},
+    filterTo:function(t){if(!input.disabled){input.value=t;open(t);}}};
+}
+
+function currentModel(){
+  var s=document.getElementById('model').value;if(!s)return null;
+  return MODELS.filter(function(m){return (m.m+' '+m.g)===s;})[0]||null;}
+function rulesFor(m){
+  if(!m)return {};
+  var d=GEN_DEFAULTS[m.g]||{},own=m.rules||{},out={};
+  Object.keys(d).forEach(function(k){out[k]=d[k];});
+  Object.keys(own).forEach(function(k){out[k]=own[k];});
+  return out;}
+function cpuByCode(c){for(var i=0;i<CPUS.length;i++)if(CPUS[i][0]===c)return CPUS[i];return null;}
+function capTB(txt){
+  for(var i=0;i<CAPS.length;i++)if(CAPS[i][0].toLowerCase()===String(txt).toLowerCase())return CAPS[i][1];
+  var m=String(txt).match(/([\d.]+)\s*(TB|GB)/i);
+  if(m)return m[2].toUpperCase()==='TB'?parseFloat(m[1]):parseFloat(m[1])/1000;
+  return 0;}
+
+var modelCombo=setupCombo('model-combo',{
+  getGroups:function(){
+    var order=['G9','G10','G10+','G10+ v2','G11','G12'];
+    return order.map(function(g){
+      return {label:g,items:MODELS.filter(function(m){return m.g===g;}).map(function(m){
+        return {value:m.m+' '+m.g,label:m.m+' '+m.g,
+          sub:(m.s+(m.s>1?' sockets':' socket'))+' · '+m.d+' DIMM'+((m.rules&&m.rules.verified)?' · verified':'')};
+      })};}).filter(function(gr){return gr.items.length;});},
+  onSelect:function(){refreshDependents();run();}
+});
+var cpuCombo=setupCombo('cpu-combo',{
+  emptyText:'No processors seeded for this platform',
+  getGroups:function(){
+    var m=currentModel();
+    if(!m) return [];
+    return m.p.map(function(pf){
+      var list=CPUS.filter(function(c){return c[2]===pf;}).map(function(c){
+        return {value:c[0],label:c[0],sub:c[1]+' · '+c[3]+'W'};
+      });
+      return {label:PLATFORM_LABELS[pf]||pf,items:list};
+    });
+  },
+  displayValue:function(it){return it.value;},
+  onSelect:function(){
+    var q=document.getElementById('cpuq');
+    if(!q.value||Number(q.value)<1)q.value=1;
+    run();}
+});
+
+function refreshDependents(){
+  var m=currentModel(),R=rulesFor(m);
+  var valid=m?CPUS.filter(function(c){return m.p.indexOf(c[2])>-1;}):[];
+  var cur=document.getElementById('cpu').value;
+  if(cur&&!valid.some(function(c){return c[0]===cur;}))cpuCombo.clear();
+  cpuCombo.setDisabled(!m);
+  cpuCombo.setPlaceholder(m?(valid.length?'Type to search — e.g. '+valid[0][0]:'none seeded for this platform'):'Pick a system model first');
+  document.getElementById('cpu-scope').textContent=m?(valid.length+' processors fit this system'):'';
+  document.getElementById('cpu-note').textContent=m?'Only processors supported by '+m.m+' '+m.g+' are listed.':'Pick a system model first.';
+  document.getElementById('dimm-note').textContent=m?('Platform speed: '+(MEMSPEED[m.p[0]]||'—')+' MHz'):'';
+  document.getElementById('sys-note').textContent=m?(m.s+' socket'+(m.s>1?'s':'')+', '+m.d+' DIMM slots'):'';
+  var q=document.getElementById('cpuq');
+  if(m){q.max=m.s;if(Number(q.value)>m.s)q.value=m.s;}else{q.removeAttribute('max');}
+  fill('bayopts',(m&&m.bays)?m.bays:GENERIC_BAYS);
+  var rk=(m&&RISERS[m.m+' '+m.g])||(m?GENERIC_RISERS:[]);
+  var isOwn=!!(m&&RISERS[m.m+' '+m.g]);
+  renderRiserKits(rk,isOwn);
+  document.getElementById('riser-note').textContent=
+    !m?'Qty is capped to the chassis riser positions.'
+    :(R.riserMax?R.riserMax+' riser position'+(R.riserMax>1?'s':'')+' in this chassis'
+        +(rk.length?(isOwn?' — pick a kit below':' — see the generic guide below'):'')
+      :'Riser count for '+m.m+' '+m.g+' not confirmed — check QuickSpecs.');
+  document.getElementById('badge-v').classList.toggle('on',!!(m&&R.verified));
+  document.getElementById('badge-u').classList.toggle('on',!!(m&&!R.verified));
+}
+
+/* riser-kit picker: wrapping rows, not a cut-off <datalist> */
+function splitKit(s){
+  var i=s.indexOf(' — ');            // em-dash separator used in the RISERS data
+  return i<0?{name:s,detail:''}:{name:s.slice(0,i),detail:s.slice(i+3)};
+}
+function riserToggleLabel(){
+  var box=document.getElementById('riser-kits'),tog=document.getElementById('riser-toggle');
+  var n=box.children.length, own=tog.getAttribute('data-own')==='1';
+  tog.textContent=(box.hidden?'Show ':'Hide ')+n+(own?' riser kits for this model':' generic riser types')+(box.hidden?' ▾':' ▴');
+}
+function renderRiserKits(list,isOwn){
+  var box=document.getElementById('riser-kits'),tog=document.getElementById('riser-toggle');
+  if(!list||!list.length){box.hidden=true;box.innerHTML='';tog.hidden=true;return;}
+  box.innerHTML=list.map(function(s){
+    var k=splitKit(s);
+    return '<button type="button" class="riser-kit" data-name="'+esc(k.name).replace(/"/g,'&quot;')+'">'+
+      '<span class="rk-name">'+esc(k.name)+'</span>'+
+      (k.detail?'<span class="rk-detail">'+esc(k.detail)+'</span>':'')+'</button>';
+  }).join('');
+  tog.hidden=false;
+  tog.setAttribute('data-own',isOwn?'1':'0');
+  riserToggleLabel();
+}
+document.getElementById('riser-toggle').addEventListener('click',function(){
+  var box=document.getElementById('riser-kits');
+  box.hidden=!box.hidden;
+  riserToggleLabel();
+});
+document.getElementById('riser-kits').addEventListener('click',function(e){
+  var b=e.target.closest('.riser-kit');if(!b)return;
+  document.getElementById('riser').value=b.getAttribute('data-name');
+  run();
+});
+
+/* ---------------- repeatable lines ---------------- */
+var drives=document.getElementById('drives'),cards=document.getElementById('cards');
+function driveRow(v){
+  v=v||{};var d=document.createElement('div');d.className='line drive';
+  d.innerHTML='<input type="number" min="1" placeholder="Qty" data-k="q" value="'+(v.q||'')+'">'+
+   '<input type="text" list="caps" placeholder="Capacity" data-k="cap" autocomplete="off" value="'+(v.cap||'')+'">'+
+   '<select data-k="spd"><option value="">Speed</option><option>6G</option><option>12G</option><option>24G</option><option>PCIe</option></select>'+
+   '<select data-k="cls"><option value="">Class</option><option>RI</option><option>MU</option><option>WI</option><option>VRO</option></select>'+
+   '<select data-k="int"><option value="">Interface</option><option>SATA</option><option>SAS</option><option>NVMe</option><option>SATA SSD</option><option>SAS SSD</option></select>'+
+   '<button type="button" class="kill" title="Remove line">&times;</button>';
+  ['spd','cls','int'].forEach(function(k){if(v[k])d.querySelector('[data-k='+k+']').value=v[k];});
+  d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
+  return d;}
+function cardRow(v){
+  v=v||{};var d=document.createElement('div');d.className='line card';
+  d.innerHTML='<input type="number" min="1" placeholder="Qty" data-k="q" value="'+(v.q||'')+'">'+
+   '<input type="text" list="cardlist" placeholder="Card — model and slot if it matters" data-k="name" autocomplete="off" value="'+(v.name||'').replace(/"/g,'&quot;')+'">'+
+   '<button type="button" class="kill" title="Remove line">&times;</button>';
+  d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
+  return d;}
+document.getElementById('add-drive').addEventListener('click',function(){drives.appendChild(driveRow());run();});
+document.getElementById('add-card').addEventListener('click',function(){cards.appendChild(cardRow());run();});
+
+function v(id){var e=document.getElementById(id);return e?String(e.value).trim():'';}
+function r(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value.trim():'';}
+function picked(n){return !!document.querySelector('input[name="'+n+'"]:checked');}
+function isTower(){return r('chassis')==='Tower';}
+function join(){return [].slice.call(arguments).filter(Boolean).join(' ');}
+function readLines(h){return [].slice.call(h.children).map(function(row){
+  var o={};row.querySelectorAll('[data-k]').forEach(function(c){o[c.getAttribute('data-k')]=c.value.trim();});return o;});}
+
+/* total physical bays from the bay + rear text */
+function bayCapacity(){
+  var n=0,txt=v('bays')+' '+v('rear'),re=/(\d{1,2})\s*(?:LFF|SFF)/gi,mm;
+  while((mm=re.exec(txt)))n+=Number(mm[1]);
+  return n;}
+function drivesUsed(){
+  return readLines(drives).filter(function(d){return d.cap;})
+    .reduce(function(t,d){return t+(Number(d.q)||1);},0);}
+
+var manualOverride={fan:false,hs:false},fanTouched=false;
+document.addEventListener('change',function(e){
+  if(!e.target)return;
+  if(e.target.name==='fan')manualOverride.fan=true;
+  if(e.target.name==='hs')manualOverride.hs=true;
+  if(e.target.id==='fanq')fanTouched=true;
+  if(e.target.name==='chassis'){sync();return;}
+  run();});
+document.addEventListener('input',function(e){
+  if(!e.target)return;
+  if(e.target.id==='model-input'||e.target.id==='cpu-input')return;
+  if(e.target.id==='fanq')fanTouched=true;
+  run();});
+
+function updateHardCaps(m,R,cpuq){
+  var riserEl=document.getElementById('riserq');
+  if(R.riserMax)riserEl.max=R.riserMax;else riserEl.removeAttribute('max');
+  riserEl.classList.toggle('field-over',!!(R.riserMax&&Number(riserEl.value)>R.riserMax));
+  var psuEl=document.getElementById('psuq');
+  if(R.psuMax)psuEl.max=R.psuMax;else psuEl.removeAttribute('max');
+  psuEl.classList.toggle('field-over',!!(R.psuMax&&Number(psuEl.value)>R.psuMax));
+  var dimmEl=document.getElementById('dimmq');
+  if(m){
+    var usable=(cpuq>0&&cpuq<m.s)?Math.round(m.d*cpuq/m.s):m.d;
+    dimmEl.max=usable;
+    dimmEl.classList.toggle('field-over',Number(dimmEl.value)>usable);
+  }else{
+    dimmEl.removeAttribute('max');
+    dimmEl.classList.remove('field-over');
+  }
+}
+
+/* ---------------- rules engine ---------------- */
+function evaluate(){
+  var checks=[];
+  var m=currentModel(),R=rulesFor(m),cpu=cpuByCode(v('cpu'));
+  var bays=v('bays').toUpperCase(),rear=v('rear'),bp=r('bp');
+  var dl=readLines(drives).filter(function(d){return d.cap;});
+  var hasNVMe=bp.indexOf('NVMe')>-1||dl.some(function(d){return (d.int||'').indexOf('NVMe')>-1;});
+  var has24G=dl.some(function(d){return d.spd==='24G';});
+  var hasGPU=readLines(cards).some(function(c){return /nvidia|tesla|gpu|\ba2\b|\bl4\b|accelerat/i.test(c.name||'');});
+  var midtray=/midtray/i.test(rear);
+  var fanPart=R.fanPart?' ('+R.fanPart+')':'',hsPart=R.hsPart?' ('+R.hsPart+')':'';
+  var cpuq=Number(v('cpuq'))||0;
+  updateHardCaps(m,R,cpuq);
+
+  if(m&&cpu&&m.p.indexOf(cpu[2])<0)
+    checks.push(['stop','NOT SUPPORTED',cpu[0]+' does not fit '+m.m+' '+m.g+' — wrong processor platform.']);
+  if(m&&cpuq>m.s)
+    checks.push(['stop','TOO MANY CPUS',m.m+' '+m.g+' has '+m.s+' socket'+(m.s>1?'s':'')+' — '+cpuq+' processors will not fit.']);
+  if(R.riserMax&&Number(v('riserq'))>R.riserMax)
+    checks.push(['stop','TOO MANY RISERS',m.m+' '+m.g+' has '+R.riserMax+' physical riser position'+(R.riserMax>1?'s':'')+' — '+v('riserq')+' will not fit.']);
+
+  /* power supply bays */
+  var psuq=Number(v('psuq'))||0;
+  if(R.psuMax&&psuq>R.psuMax)
+    checks.push(['stop','TOO MANY PSUS',m.m+' '+m.g+' has '+R.psuMax+' power supply bay'+(R.psuMax>1?'s':'')+' — '+psuq+' will not fit.']);
+  else if(m&&!R.psuMax&&psuq>2)
+    checks.push(['verify','PSU BAYS','Confirm '+m.m+' '+m.g+' has '+psuq+' power supply bays — most 1U/2U ProLiants take 2. Not verified for this model.']);
+
+  /* rough power budget */
+  var psuNote=document.getElementById('psu-note');psuNote.className='cap-note';psuNote.textContent='';
+  var psuW=parseInt((v('psu').match(/(\d{3,4})\s*w/i)||[])[1]||0,10);
+  if(cpu&&psuW&&psuq>0){
+    var load=estPower(m,cpu,cpuq,v('dimmq'),dl,readLines(cards),v('flr'),v('fanq'));
+    var safePer=Math.round(psuW*0.9), totalCap=psuW*psuq;
+    var needPer=Math.ceil(load/0.9/50)*50;
+    psuNote.textContent='Rough peak draw ~'+load+'W · '+psuq+'x '+psuW+'W supply'+(psuq>1?' each':'')+' (safe to ~'+safePer+'W)';
+    if(load>totalCap){
+      psuNote.className='cap-note over';
+      checks.push(['stop','POWER','Rough peak draw ~'+load+'W but '+psuq+'x '+psuW+'W is '+totalCap+'W total — this build will not power on. Fit higher-wattage or more supplies. (Estimate only — confirm with HPE Power Advisor.)']);
+    }else if(psuq>=2&&psuW<needPer){
+      checks.push(['verify','POWER','Rough peak draw ~'+load+'W. For a redundant (1+1) build each supply must carry the whole load — that needs '+needPer+'W or higher; a single '+psuW+'W is safe to ~'+safePer+'W. Two '+psuW+'W load-sharing would run but is not redundant. (Estimate only.)']);
+    }else if(psuq===1&&load>safePer){
+      checks.push(['verify','POWER','Rough peak draw ~'+load+'W against a single '+psuW+'W supply (safe to ~'+safePer+'W). Size up or add a second supply. (Estimate only.)']);
+    }
+  }
+
+  /* PCIe add-in-card slots vs risers fitted */
+  var namedCards=readLines(cards).filter(function(c){return c.name;})
+    .reduce(function(t,c){return t+(Number(c.q)||1);},0);
+  var cardNoteEl=document.getElementById('card-note');cardNoteEl.className='cap-note';
+  if(m&&R.pcie&&namedCards>0){
+    var slotCap=(cpuq>=2)?R.pcie.two:R.pcie.one;
+    var oneCpuTail=(cpuq<2&&R.pcie.two>R.pcie.one)?' (1 CPU — '+R.pcie.two+' with two)':'';
+    cardNoteEl.textContent=namedCards+' of '+slotCap+' PCIe slots used'+oneCpuTail;
+    if(namedCards>slotCap){
+      cardNoteEl.className='cap-note over';
+      checks.push(['stop','TOO MANY CARDS',namedCards+' PCIe cards listed but '+m.m+' '+m.g+' offers '+slotCap+' add-in slot'+(slotCap>1?'s':'')+
+        oneCpuTail+'. The FlexibleLOM / OCP is separate and does not use a slot.']);
+    }
+  }else{
+    cardNoteEl.textContent='';
+  }
+
+  /* NVMe / Premium backplane needs SFF bays */
+  if(m&&/LFF/i.test(bays)&&!/SFF/i.test(bays)){
+    if(bp.indexOf('NVMe')>-1)
+      checks.push(['stop','BACKPLANE MISMATCH','NVMe backplanes are 2.5-inch (SFF) only — an LFF bay config uses SAS/SATA. Pick an SFF front config or a SAS/SATA backplane.']);
+    else if(bp.indexOf('Premium')>-1)
+      checks.push(['verify','BACKPLANE','Premium (SAS/SATA + NVMe) backplanes are SFF — confirm one exists for this LFF config, otherwise use SAS/SATA.']);
+  }
+
+  /* memory limits */
+  var dq=Number(v('dimmq'))||0, dsize=parseInt((v('dimm').match(/(\d+)\s*GB/i)||[])[1]||0,10);
+  var memNote=document.getElementById('mem-note');memNote.className='cap-note';memNote.textContent='';
+  if(m&&dq){
+    var slots=m.d, usable=cpuq>0&&cpuq<m.s?Math.round(m.d*cpuq/m.s):m.d;
+    if(dq>slots)
+      checks.push(['stop','TOO MANY DIMMS',m.m+' '+m.g+' has '+slots+' DIMM slots — '+dq+' modules will not fit.']);
+    else if(cpuq>0&&cpuq<m.s&&dq>usable)
+      checks.push(['stop','DIMM SLOTS UNAVAILABLE','With '+cpuq+' of '+m.s+' sockets populated only '+usable+' DIMM slots are usable — '+dq+' modules will not fit.']);
+    if(dsize){
+      var total=dq*dsize;
+      var perSock=R.memPerSocket||MEM_PER_SOCKET[m.p[0]]||0;
+      var cap=perSock*(cpuq||1);
+      memNote.textContent='Total '+(total>=1024?(total/1024)+'TB':total+'GB')+
+        (cap?' — platform ceiling '+(cap>=1024?(cap/1024)+'TB':cap+'GB')+' with '+(cpuq||1)+' processor'+((cpuq||1)>1?'s':''):'');
+      if(cap&&total>cap){
+        memNote.className='cap-note over';
+        checks.push(['stop','OVER MEMORY LIMIT','Total '+total+'GB exceeds what '+(cpuq||1)+' '+(cpu?cpu[0]:'processor')+
+          ' can address ('+cap+'GB). Reduce the module size or add a processor.']);
+      }
+    }
+  }
+
+  /* drive bay limits */
+  var capBays=bayCapacity(),used=drivesUsed();
+  var dn=document.getElementById('drive-note');dn.className='cap-note';
+  dn.textContent=capBays?(used+' of '+capBays+' bays used'):'';
+  document.getElementById('bay-note').textContent=capBays?(capBays+' bays in this chassis'):'';
+  if(capBays&&used>capBays){
+    dn.className='cap-note over';
+    checks.push(['stop','TOO MANY DRIVES',used+' drives specified but the chassis as configured has '+capBays+' bays.']);
+  }
+
+  /* SAS expander prompt */
+  if(capBays>8&&!v('expander')&&!hasNVMe)
+    checks.push(['verify','EXPANDER',capBays+' bays usually needs a SAS expander or a second controller — a single 8-port controller only addresses 8 drives directly.']);
+
+  if(R.coolTierW&&cpu&&cpu[3]>=R.coolTierW&&cpuq>=2)
+    checks.push(['stop','LIQUID COOLING REQUIRED',cpu[0]+' at '+cpu[3]+'W with two sockets needs closed-loop liquid cooling — air cooling is not supported at this wattage.']);
+  if(R.liquidReqW&&cpu&&cpu[3]>=R.liquidReqW)
+    checks.push(['stop','LIQUID COOLING REQUIRED',cpu[0]+' at '+cpu[3]+'W needs the closed-loop liquid cooling heatsink kit — no air-cooled option covers this wattage on this chassis.']);
+  if(R.singleMaxAirW&&cpu&&cpu[3]===R.singleMaxAirW&&cpuq>=2)
+    checks.push(['stop','NOT SUPPORTED',cpu[0]+' at '+cpu[3]+'W air-cooled is single-socket only — no field upgrade to a second socket.']);
+  if(R.validCounts&&cpuq>0&&R.validCounts.indexOf(cpuq)<0)
+    checks.push(['stop','INVALID CPU COUNT',m.m+' '+m.g+' only supports '+R.validCounts.join(', ')+' processors — not '+cpuq+'.']);
+  if(R.rearMaxW&&rear&&cpu&&cpu[3]>R.rearMaxW)
+    checks.push(['stop','NOT SUPPORTED','Rear drives do not support CPUs above '+R.rearMaxW+'W — '+cpu[0]+' is '+cpu[3]+'W.']);
+  if(R.rear2SFF&&/2SFF/i.test(rear)&&bays&&!R.rear2SFF.some(function(b){return bays.indexOf(b)>-1;}))
+    checks.push(['stop','NOT SUPPORTED','A 2SFF rear cage is only supported on '+R.rear2SFF.join(' or ')+' — not '+v('bays')+'.']);
+
+  var fanReasons=[];
+  if(R.fanNVMe&&hasNVMe)fanReasons.push('NVMe drives require high performance fans'+fanPart+'.');
+  if(has24G)fanReasons.push('24G SAS drives require high performance fans'+fanPart+'.');
+  if(R.fanRear&&rear)fanReasons.push('Rear/midtray drives require high performance fans'+fanPart+'.');
+  if(R.fanGPU&&hasGPU)fanReasons.push('GPUs and accelerators require high performance fans'+fanPart+'.');
+  (R.fanBays||[]).forEach(function(b){if(bays.indexOf(b)>-1)fanReasons.push(b+' ships with high performance fans as standard.');});
+  if(R.fanW&&cpu&&cpu[3]>=R.fanW)fanReasons.push(cpu[0]+' is '+cpu[3]+'W — '+R.fanW+'W or above requires the high performance fan kit'+fanPart+'.');
+  applyRec('fan',fanReasons.length?'Perf Fans':null,fanReasons,checks,'FANS',true);
+
+  /* fan kit + quantity by socket count, plus the "standard is fine" explainer */
+  if(m&&!R.fans&&!fanTouched&&!fanReasons.length&&document.getElementById('fanq').value)
+    document.getElementById('fanq').value='';
+  if(m&&R.fans){
+    var whyF=document.getElementById('why-fan');
+    if(!fanReasons.length&&!manualOverride.fan){
+      var stdEl=document.querySelector('input[name="fan"][value="Std Fans"]');
+      if(stdEl&&!stdEl.checked)stdEl.checked=true;
+      var extra=[];
+      if(R.fanW)extra.push('a processor at '+R.fanW+'W or more');
+      if(R.fanNVMe)extra.push('NVMe');
+      if(R.fanRear)extra.push('rear or midtray drives');
+      if(R.fanGPU)extra.push('a GPU');
+      var stdN=cpuq>=2?R.fans.two:(cpuq===1?R.fans.one:null);
+      whyF.className='why on';
+      whyF.textContent='Standard fans are adequate'+(stdN?' — '+stdN+' fans for '+cpuq+' processor'+(cpuq>1?'s':''):'')+
+        (extra.length?'. High performance would be needed for '+extra.join(', ')+'.':'.');
+    }
+    var perfNow=r('fan')==='Perf Fans';
+    var want=perfNow?R.fans.perf:(cpuq>=2?R.fans.two:(cpuq===1?R.fans.one:null));
+    var fq=document.getElementById('fanq');
+    if(want&&!fanTouched&&String(Number(fq.value))!==String(want))fq.value=want;
+    if(want&&fanTouched&&fq.value&&Number(fq.value)!==want)
+      checks.push(['verify','FAN QTY',m.m+' '+m.g+' with '+cpuq+' processor'+(cpuq>1?'s':'')+' takes '+want+' '+(perfNow?'high performance':'standard')+' fans — '+fq.value+' entered.']);
+  }
+
+  var hsReasons=[],recHs=null;
+  if(midtray&&m&&m.m==='DL380'&&m.g==='G11'&&cpu&&cpu[3]>150){
+    recHs='Perf Heatsinks';
+    hsReasons.push('Midtray with a >150W processor needs the DL3xx/560 Gen11 High Performance Heatsink (P48905-B21), not the standard performance part.');
+  }else if(midtray&&!(R.hsW&&cpu&&cpu[3]>=R.hsW)){
+    checks.push(['verify','THERMAL','Midtray cooling requirements vary by generation — confirm the correct heatsink for this model in QuickSpecs.']);
+  }
+  if(cpu&&!recHs){
+    if((R.hsStdException||[]).indexOf(cpu[0])>-1){
+      recHs='Std Heatsinks';hsReasons.push(cpu[0]+' is a listed exception and ships with the standard heatsink despite its TDP.');
+    }else if(R.hsW&&cpu[3]>=R.hsW){
+      recHs='Perf Heatsinks';hsReasons.push(cpu[0]+' is '+cpu[3]+'W — '+(R.hsWtext||R.hsW+'W or higher')+' takes performance heatsinks'+hsPart+'.');
+    }else if((R.hsSku||[]).indexOf(cpu[0])>-1){
+      recHs='Perf Heatsinks';hsReasons.push(cpu[0]+' always ships with performance heatsinks, whatever its TDP.');
+    }
+  }
+  applyRec('hs',recHs,hsReasons,checks,'HEATSINK');
+
+  if(!R.verified&&m)
+    checks.push(['verify','UNVERIFIED','Rules for '+m.m+' '+m.g+' are generation defaults, not this model\u2019s own QuickSpecs. Socket and DIMM counts are product data, worth a spot-check.']);
+  if(cpu&&hasNVMe&&!R.verified)
+    checks.push(['verify','QUICKSPECS','Some processors are unsupported alongside NVMe — check '+cpu[0]+'.']);
+  if(cpu&&hasGPU)
+    checks.push(['verify','QUICKSPECS','Confirm '+cpu[0]+' is supported with a GPU fitted, and check riser and controller clearance.']);
+  if(m&&m.p[0]==='xeon6')
+    checks.push(['verify','DATA','No processors are seeded for Gen12 yet — put it in the notes.']);
+  if(cpuq>1)
+    checks.push(['info','NOTE','Mixing two different processor models is not supported — both sockets must match.']);
+  (R.notes||[]).forEach(function(n){
+    if(noteRelevant(n,{bays:bays,rear:rear,cpuq:cpuq,hasNVMe:hasNVMe,hasGPU:hasGPU,has24G:has24G}))
+      checks.push(['info','MODEL',n]);
+  });
+
+  return {checks:checks,blocked:checks.some(function(c){return c[0]==='stop';})};
+}
+/* Only surface a model note when it bears on the current selection. A note that
+   names bay configs, NVMe, rear/midtray drives, a GPU, 24G SAS, or a 3-/4-
+   processor build is shown only once at least one of the things it names is
+   actually chosen. Notes that name none of these (general caveats) always show. */
+/* Rough peak-power estimate (W). Deliberately conservative-ish; for a real
+   number the trader should run HPE Power Advisor. */
+function estPower(m,cpu,cpuq,dimmq,drives,cardLines,flr,fanq){
+  var w = m ? (m.s>=4?170:(m.s>=2?110:80)) : 90;                 // board / iLO / baffles
+  w += (cpu?cpu[3]:150) * (Number(cpuq)||1);                     // processors (TDP)
+  w += 5 * (Number(dimmq)||0);                                   // DIMMs ~5W each
+  (drives||[]).forEach(function(d){
+    if(!d.cap) return;
+    var i=(d.int||'').toLowerCase();
+    var per = i.indexOf('nvme')>-1 ? 18 : (i.indexOf('ssd')>-1 ? 6 : 10);
+    w += per * (Number(d.q)||1);
+  });
+  var gpuRe=/nvidia|tesla|\bgpu\b|\ba2\b|\bl4\b|\ba16\b|\ba30\b|\ba40\b|\bh100\b|accelerat/i;
+  (cardLines||[]).forEach(function(c){
+    if(!c.name) return;
+    w += (gpuRe.test(c.name)?250:22) * (Number(c.q)||1);
+  });
+  if(flr) w += 15;                                               // FlexibleLOM / OCP
+  w += 6 * (Number(fanq)||6);                                    // fans
+  return Math.round(w);
+}
+function noteRelevant(n,c){
+  var t=' '+String(n).toLowerCase()+' ', mentions=0, active=0;
+  function tag(hit,on){ if(hit){ mentions++; if(on) active++; } }
+  var bayHits=t.match(/\b\d{1,2}\s*(?:lff|sff)\b/g);
+  var selb=((c.bays||'')+' '+(c.rear||'')).toLowerCase().replace(/\s+/g,'');
+  tag(!!bayHits, !!bayHits&&!!selb&&bayHits.some(function(b){return selb.indexOf(b.replace(/\s+/g,''))>-1;}));
+  tag(/\bnvme\b/.test(t), c.hasNVMe);
+  tag(/\b(rear|midtray|mid-tray|mid tray)\b/.test(t), !!c.rear);
+  tag(/\b(gpu|gpgpu|accelerator|graphics)\b/.test(t), c.hasGPU);
+  tag(/\b(24g|sas4|sas 4)\b/.test(t), c.has24G);
+  tag(/\b(?:3|three|4|four)[\s-]?processor/.test(t), c.cpuq>=3);
+  tag(/mixing (?:two |different )*processor/.test(t), c.cpuq>=2);
+  return mentions===0 || active>0;
+}
+function applyRec(field,rec,reasons,checks,tag,hard){
+  var name=field==='fan'?'fan':'hs',cur=r(name),whyEl=document.getElementById('why-'+field);
+  if(!rec){
+    whyEl.className='why';whyEl.textContent='';
+    if(!manualOverride[field]&&cur){
+      var stale=document.querySelector('input[name="'+name+'"]:checked');
+      if(stale)stale.checked=false;
+    }
+    return;
+  }
+  if(!manualOverride[field]){
+    if(cur!==rec){var el=document.querySelector('input[name="'+name+'"][value="'+rec+'"]');if(el)el.checked=true;cur=rec;}
+    checks.push(['auto',tag,reasons.join(' ')]);
+    whyEl.className='why on';whyEl.textContent='Set automatically — '+reasons[0];
+  }else if(cur!==rec){
+    if(hard){
+      checks.push(['stop',tag,rec+' is required — '+reasons.join(' ')+' Currently set to '+(cur||'nothing selected')+'.']);
+      whyEl.className='why on flag';
+      whyEl.textContent=rec+' is required — see Config checks.';
+    }else{
+      checks.push(['flag',tag,'Recommended: '+rec+' — '+reasons.join(' ')+' Currently set to '+(cur||'nothing selected')+'.']);
+      whyEl.className='why on flag';
+      whyEl.textContent='Recommended: '+rec+' — see Config checks.';
+    }
+  }else{
+    checks.push(['auto',tag,reasons.join(' ')]);
+    whyEl.className='why on';whyEl.textContent=reasons[0];
+  }
+}
+
+/* ---------------- capacity planner ---------------- */
+function raidPlan(targetTB,level,bays){
+  var out=[];
+  CAPS.forEach(function(c){
+    var cap=c[1],n=0,usable=0;
+    if(!cap)return;
+    if(level==='0'){n=Math.ceil(targetTB/cap);usable=n*cap;}
+    else if(level==='1'){n=2;usable=cap;if(usable<targetTB)return;}
+    else if(level==='10'){var pairs=Math.ceil(targetTB/cap);n=pairs*2;usable=pairs*cap;}
+    else if(level==='5'){var dn5=Math.ceil(targetTB/cap);n=dn5+1;usable=dn5*cap;if(n<3)return;}
+    else if(level==='6'){var dn6=Math.ceil(targetTB/cap);n=dn6+2;usable=dn6*cap;if(n<4)return;}
+    else if(level==='50'){var per=Math.ceil(targetTB/(2*cap));n=2*(per+1);usable=2*per*cap;if(per<2)return;}
+    else if(level==='60'){var per6=Math.ceil(targetTB/(2*cap));n=2*(per6+2);usable=2*per6*cap;if(per6<2)return;}
+    if(n<1||n>bays)return;
+    out.push({n:n,cap:c[0],capTB:cap,usable:usable,over:usable-targetTB});
+  });
+  out.sort(function(a,b){
+    if(a.over!==b.over)return a.over-b.over;
+    return a.n-b.n;});
+  return out.slice(0,5);
+}
+document.getElementById('plan-go').addEventListener('click',function(){
+  var t=parseFloat(v('plan-cap')),lvl=v('plan-raid'),box=document.getElementById('plan-out');
+  var bays=bayCapacity()||24;
+  if(!t||!lvl){
+    box.className='plan-out on';
+    box.innerHTML='<div class="plan-none">Enter a usable capacity and a RAID level first.</div>';return;}
+  var res=raidPlan(t,lvl,bays);
+  if(!res.length){
+    box.className='plan-out on';
+    box.innerHTML='<div class="plan-none">No single-size population reaches '+t+'TB usable at RAID '+lvl+
+      ' within '+bays+' bays. Try a larger drive, a different RAID level, or more bays.</div>';return;}
+  box.className='plan-out on';
+  box.innerHTML=res.map(function(o,i){
+    return '<div class="plan-row"><span class="pl-main"><b>'+o.n+'x '+esc(o.cap)+'</b> in RAID '+esc(lvl)+
+      '</span><span class="pl-use">'+o.usable.toFixed(2).replace(/\.?0+$/,'')+'TB usable · '+
+      (bays-o.n)+' bays spare</span><button type="button" data-plan="'+i+'">Use</button></div>';}).join('');
+  box.querySelectorAll('button[data-plan]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var o=res[Number(btn.getAttribute('data-plan'))];
+      var first=readLines(drives)[0];
+      if(drives.children.length===1&&(!first||!first.cap))drives.innerHTML='';
+      drives.appendChild(driveRow({q:String(o.n),cap:o.cap}));
+      run();});});
+});
+
+/* ---------------- spec slip ---------------- */
+function buildSlip(){
+  var L=[],gaps=[],m=currentModel();
+  var head=join(m?(m.m+' '+m.g):'',v('bays'));
+  if(v('rear'))head=join(head,'+ '+v('rear'));
+  if(head)L.push(head);else gaps.push('system model');
+  if(m&&!v('bays'))gaps.push('drive bay config');
+  if(r('bp'))L.push(r('bp'));
+  if(v('cpu'))L.push(join(v('cpuq')?v('cpuq')+'x':'',v('cpu')));else gaps.push('processor');
+  if(v('dimm'))L.push(join(v('dimmq')?v('dimmq')+'x':'',v('dimm'),r('auth')));else gaps.push('memory');
+  if(v('dimm')&&!picked('auth'))gaps.push('HP authenticated yes/no');
+  if(r('media'))L.push(r('media'));
+  if(v('ctrl')){
+    var c=v('ctrl');
+    if(v('bat')&&v('bat').toLowerCase().indexOf('no battery')<0)c+=' + '+v('bat');
+    if(v('batdate'))c+=' ('+v('batdate')+')';
+    L.push(c);
+  }else gaps.push('storage controller');
+  if(v('expander')&&v('expander').toLowerCase().indexOf('none')<0)L.push(v('expander'));
+  if(r('hs'))L.push(r('hs'));else gaps.push('heatsinks');
+  if(r('fan'))L.push(join(v('fanq')?v('fanq')+'x':'',r('fan')));else gaps.push('fans');
+  if(v('riser')||v('riserq'))L.push(join(v('riserq')?v('riserq')+'x':'',v('riser')||'riser'));
+  readLines(cards).forEach(function(c){if(c.name)L.push(join(c.q?c.q+'x':'',c.name));});
+  if(v('flr'))L.push(v('flr'));
+  if(v('psu'))L.push(join(v('psuq')?v('psuq')+'x':'',v('psu'),'PS'));else gaps.push('power supplies');
+  if(r('tpm'))L.push(join(r('tpm'),v('tpmv')));
+  if(r('mobo'))L.push(r('mobo'));
+  if(r('rail'))L.push(join(r('rail'),v('railt')));else gaps.push('rails');
+  if(r('bezel'))L.push(join(r('bezel'),r('bkey')));
+  if(isTower()){
+    ['feet','door','key'].forEach(function(n){if(r(n))L.push(r(n));});
+    if(v('towerx'))L.push(v('towerx'));
+    ['feet','door','key'].forEach(function(n){if(!picked(n))gaps.push('tower '+n);});
+  }
+  var dl=readLines(drives).filter(function(d){return d.cap;});
+  dl.forEach(function(d){L.push(join(d.q?d.q+'x':'',d.cap,d.spd,d.cls,d.int));});
+  if(!dl.length)gaps.push('drives');
+  if(v('plan-raid'))L.push('RAID '+v('plan-raid'));
+  if(v('notes'))L.push('','Notes: '+v('notes'));
+  if(v('modelq')&&Number(v('modelq'))>1)L.unshift('BUILD x'+v('modelq'));
+  return {lines:L,gaps:gaps};
+}
+function run(){
+  var ev=evaluate(),out=buildSlip();
+  document.getElementById('slip').innerHTML=
+    (out.lines.length?esc(out.lines.join('\n')):'Nothing entered yet.')+
+    (out.gaps.length?'\n\n<span class="gap">Still needed: '+esc(out.gaps.join(', '))+'</span>':'');
+  document.getElementById('gapcount').textContent=out.gaps.length?out.gaps.length+' gap'+(out.gaps.length>1?'s':''):'complete';
+  var box=document.getElementById('checks');
+  box.innerHTML=ev.checks.length
+    ? ev.checks.map(function(c){return '<div class="chk '+c[0]+'"><span class="tag">'+c[1]+'</span><span>'+esc(c[2])+'</span></div>';}).join('')
+    : '<div class="chk ok"><span class="tag">—</span><span>No rules triggered yet. Pick a system, processor and drives.</span></div>';
+  var nStop=ev.checks.filter(function(c){return c[0]==='stop';}).length;
+  var nFlag=ev.checks.filter(function(c){return c[0]==='verify'||c[0]==='flag';}).length;
+  document.getElementById('chkcount').textContent=nStop?nStop+' blocking':(nFlag?nFlag+' to review':(ev.checks.length?'all applied':''));
+  var cnt=document.getElementById('count');
+  cnt.classList.toggle('blocked',ev.blocked);
+  cnt.innerHTML=ev.blocked?'<b>Unsupported configuration</b> — see config checks'
+    :(out.gaps.length?'<b>'+out.gaps.length+'</b> item'+(out.gaps.length>1?'s':'')+' still to confirm'
+    :'<b>Ready to build</b> — nothing outstanding');
+  save();
+}
+function plain(){
+  var ev=evaluate(),out=buildSlip(),t=out.lines.join('\n');
+  if(out.gaps.length)t+='\n\nStill needed: '+out.gaps.join(', ');
+  var flags=ev.checks.filter(function(c){return c[0]==='stop'||c[0]==='verify'||c[0]==='flag';});
+  if(flags.length)t+='\n\n'+flags.map(function(c){return c[1]+': '+c[2];}).join('\n');
+  return t;}
+function sync(){
+  var t=isTower();
+  document.getElementById('tower-rows').hidden=!t;
+  document.getElementById('tower-locked').style.display=t?'none':'';
+  refreshDependents();run();}
+
+/* ---------------- paste-to-fill ---------------- */
+function findModelAndGen(text){
+  var fm=text.match(/\b(DL|ML)[\s-]?(\d{2,4}[Aa]?)\b/i);
+  if(!fm)return null;
+  var fam=(fm[1]+fm[2]).toUpperCase();
+  var tail=text.slice(fm.index+fm[0].length,fm.index+fm[0].length+30).toLowerCase();
+  var g=tail.match(/^[\s,\-]*(?:gen|g)?\s*(9|10|11|12)\s*(plus|\+)?\s*(v\s*2)?/);
+  if(!g)return null;
+  var gen='G'+g[1];
+  if(g[2])gen+='+';
+  if(g[3])gen+=' v2';
+  return {value:fam+' '+gen};
+}
+function parseClientText(text){
+  var found=[],guess=[],skip=[];
+  if(!text.trim())return {found:found,guess:guess,skip:skip,any:false};
+  var mg=findModelAndGen(text),m=null;
+  if(mg&&MODELS.some(function(x){return (x.m+' '+x.g)===mg.value;})){
+    modelCombo.setValue(mg.value,mg.value);refreshDependents();m=currentModel();
+    found.push('System: '+mg.value);
+  }else if(mg){
+    skip.push('Read "'+mg.value+'" but that combination isn\u2019t in the list — pick manually.');
+  }else{
+    skip.push('Couldn\u2019t identify a system model — pick manually.');
+  }
+
+  var valid=m?m.p:null,cpuFound=null;
+  for(var i=0;i<CPUS.length&&!cpuFound;i++){
+    var c=CPUS[i],isAMD=/^EPYC/i.test(c[0]);
+    var pat=isAMD?new RegExp('\\b'+c[0].replace(' ','\\s*')+'\\b','i')
+                 :new RegExp('\\b'+c[0].replace(/^[A-Za-z]+/,'').replace('+','\\+')+'\\b','i');
+    if(pat.test(text)&&(!valid||valid.indexOf(c[2])>-1))cpuFound=c;
+  }
+  var qtyMatch=text.match(/(\d+)\s*x\s*(?:\d+\s*c(?:ore)?s?\b|xeon|epyc|cpu|processor|proc\b)/i);
+  if(qtyMatch){
+    var q=Number(qtyMatch[1]);
+    if(m&&q>m.s){guess.push('Client asked for '+q+' processors but '+m.m+' '+m.g+' has '+m.s+' socket'+(m.s>1?'s':'')+' — capped at '+m.s+'.');q=m.s;}
+    document.getElementById('cpuq').value=q;found.push('Processor qty: '+q);
+  }
+  if(cpuFound){
+    cpuCombo.setValue(cpuFound[0],cpuFound[0]);
+    if(!v('cpuq'))document.getElementById('cpuq').value=1;
+    found.push('Processor: '+cpuFound[0]);
+  }else{
+    var coreMatch=text.match(/(\d+)\s*[-]?\s*c(?:ore)?\b/i);
+    if(coreMatch&&m){
+      var matches=CPUS.filter(function(c){return m.p.indexOf(c[2])>-1&&c[4]===Number(coreMatch[1]);});
+      cpuCombo.filterTo(coreMatch[1]+'C');
+      guess.push('Processor: '+coreMatch[1]+'-core asked for — '+matches.length+
+        ' part'+(matches.length===1?'':'s')+' on this platform match, list filtered. Pick one.');
+    }else{
+      skip.push('No processor identified — pick manually.');
+    }
+  }
+
+  var memMatch=text.match(/(\d+)\s*x\s*(\d+)\s*gb\b/i),textNoMem=text;
+  if(memMatch){
+    document.getElementById('dimmq').value=memMatch[1];
+    document.getElementById('dimm').value=memMatch[2]+'GB';
+    found.push('Memory: '+memMatch[1]+'x '+memMatch[2]+'GB');
+    textNoMem=text.replace(memMatch[0],' ');
+  }else{
+    var tot=text.match(/\b(\d+)\s*gb\b(?!\s*(?:6g|12g|24g))/i);
+    if(tot)guess.push('Memory: '+tot[1]+'GB total asked for — module size and count not given, split it manually.');
+  }
+
+  var ctrlPats=[[/p ?816/i,'P816i-a'],[/p ?408/i,'P408i-a'],[/p ?440/i,'P440ar'],[/p ?204/i,'P204i-c'],
+    [/e ?208/i,'E208i-a'],[/h ?240/i,'H240'],[/h ?241/i,'H241'],[/mr ?416/i,'MR416i-p'],
+    [/mr ?216/i,'MR216i-p'],[/b ?140/i,'B140i'],[/s ?100/i,'S100i']];
+  for(var j=0;j<ctrlPats.length;j++){
+    if(ctrlPats[j][0].test(text)){
+      document.getElementById('ctrl').value=ctrlPats[j][1];
+      guess.push('Controller: assumed '+ctrlPats[j][1]+' — confirm the exact suffix with the client.');
+      break;}
+  }
+  var psuMatch=text.match(/(\d+)\s*x\s*(\d{3,4})\s*w(?:att)?s?\b/i);
+  if(psuMatch){
+    var pq=Number(psuMatch[1]),pRules=rulesFor(m);
+    if(pRules.psuMax&&pq>pRules.psuMax){guess.push('Client asked for '+pq+' PSUs but '+m.m+' '+m.g+' has '+pRules.psuMax+' bays — capped at '+pRules.psuMax+'.');pq=pRules.psuMax;}
+    document.getElementById('psuq').value=pq;
+    document.getElementById('psu').value=psuMatch[2]+'w';
+    found.push('Power: '+pq+'x '+psuMatch[2]+'w');}
+  var bayM=text.match(/(\d{1,2})\s*(lff|sff)\b/gi);
+  if(bayM&&bayM[0]){document.getElementById('bays').value=bayM[0].toUpperCase().replace(/\s+/g,'');found.push('Bays: '+bayM[0]);}
+  if(bayM&&bayM[1]){document.getElementById('rear').value=bayM[1].toUpperCase().replace(/\s+/g,'')+' rear';found.push('Rear bays: '+bayM[1]);}
+  if(/\bnvme\b/i.test(text)){document.getElementById('bp2').checked=true;found.push('Backplane: NVMe');}
+  if(/\btpm\b/i.test(text)){document.getElementById('tp1').checked=true;found.push('TPM: Yes');}
+  if(/\brails?\b/i.test(text)){document.getElementById('rl1').checked=true;found.push('Rails: Yes');}
+  if(/\bbezel\b/i.test(text)){document.getElementById('bz1').checked=true;found.push('Bezel: Yes');}
+  if(/\bexpander\b/i.test(text)){document.getElementById('expander').value='12G SAS Expander Card (870549-B21, Gen10)';guess.push('SAS expander mentioned — part number assumed, confirm generation.');}
+  if(/dvd-?rw/i.test(text)){document.getElementById('md2').checked=true;found.push('Media bay: DVD-RW');}
+  else if(/dvd-?rom/i.test(text)){document.getElementById('md1').checked=true;found.push('Media bay: DVD-ROM');}
+  else if(/universal media/i.test(text)){document.getElementById('md3').checked=true;found.push('Media bay: Universal');}
+  var raidM=text.match(/raid\s*(0|1|5|6|10|50|60)\b/i);
+  if(raidM){document.getElementById('plan-raid').value=raidM[1];found.push('RAID '+raidM[1]);}
+
+  var driveRe=/(\d+)\s*x\s*([\d.]+\s*(?:GB|TB))\s*(6G|12G|24G|PCIe)?\s*(RI|MU|WI|VRO)?\s*(SATA|SAS|NVMe|SSD)?/gi;
+  var dm,added=false;
+  while((dm=driveRe.exec(textNoMem))){
+    if(!dm[3]&&!dm[4]&&!dm[5])continue;
+    var row={q:dm[1],cap:dm[2].replace(/\s+/g,''),spd:dm[3]||'',cls:dm[4]||'',
+      int:(dm[5]&&dm[5].toUpperCase()!=='SSD')?dm[5]:''};
+    if(!added&&drives.children.length===1&&!readLines(drives)[0].cap)drives.innerHTML='';
+    drives.appendChild(driveRow(row));added=true;
+    found.push('Drive: '+dm[1]+'x '+row.cap+' '+(row.spd||'')+' '+(row.cls||'')+' '+(row.int||dm[5]||''));
+    if(dm[5]&&dm[5].toUpperCase()==='SSD')guess.push('Drive said "SSD" — specify SATA SSD or SAS SSD manually.');
+  }
+  if(!drives.children.length)drives.appendChild(driveRow());
+  return {found:found,guess:guess,skip:skip,any:true};
+}
+document.getElementById('paste-fill').addEventListener('click',function(){
+  var res=parseClientText(document.getElementById('paste-text').value);
+  var box=document.getElementById('paste-result');
+  if(!res.any){box.classList.remove('on');return;}
+  var rows=[];
+  res.found.forEach(function(x){rows.push('<div class="paste-line found"><b>FILLED</b><span>'+esc(x)+'</span></div>');});
+  res.guess.forEach(function(x){rows.push('<div class="paste-line guess"><b>CHECK</b><span>'+esc(x)+'</span></div>');});
+  res.skip.forEach(function(x){rows.push('<div class="paste-line skip"><b>SKIPPED</b><span>'+esc(x)+'</span></div>');});
+  box.innerHTML=rows.join('')||'<div class="paste-line skip"><b>—</b><span>Nothing recognisable found.</span></div>';
+  box.classList.add('on');run();});
+
+/* ---------------- persistence ---------------- */
+function save(){
+  try{
+    var d={f:{},r:{},ov:manualOverride,ft:fanTouched,drives:readLines(drives),cards:readLines(cards)};
+    document.querySelectorAll('input[type=text],input[type=number],input[type=hidden],textarea,select').forEach(function(c){
+      if(c.id&&!c.hasAttribute('data-k'))d.f[c.id]=c.value;});
+    document.querySelectorAll('input[type=radio]:checked').forEach(function(c){d.r[c.name]=c.value;});
+    localStorage.setItem(KEY,JSON.stringify(d));
+    var s=document.getElementById('saved');s.classList.add('on');
+    clearTimeout(save.t);save.t=setTimeout(function(){s.classList.remove('on');},1200);
+  }catch(e){}}
+function load(){
+  try{
+    var raw=localStorage.getItem(KEY);if(!raw)return false;
+    var d=JSON.parse(raw);
+    Object.keys(d.f||{}).forEach(function(k){var e=document.getElementById(k);if(e)e.value=d.f[k];});
+    Object.keys(d.r||{}).forEach(function(k){
+      var e=document.querySelector('input[name="'+k+'"][value="'+d.r[k]+'"]');if(e)e.checked=true;});
+    if(d.ov)manualOverride=d.ov;
+    if(d.ft)fanTouched=true;
+    (d.drives||[]).forEach(function(x){drives.appendChild(driveRow(x));});
+    (d.cards||[]).forEach(function(x){cards.appendChild(cardRow(x));});
+    return true;
+  }catch(e){return false;}}
+function copySpec(btn){
+  var text=plain(),label=btn.textContent;
+  function done(ok){btn.textContent=ok?'Copied':'Copy failed';setTimeout(function(){btn.textContent=label;},1600);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){done(true);},function(){done(false);});
+  }else{
+    var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();
+    var ok=false;try{ok=document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);done(ok);}}
+document.getElementById('copy').addEventListener('click',function(){copySpec(this);});
+document.getElementById('copy2').addEventListener('click',function(){copySpec(this);});
+document.getElementById('print').addEventListener('click',function(){window.print();});
+document.getElementById('clear').addEventListener('click',function(){
+  if(!confirm('Clear every answer on this sheet?'))return;
+  document.querySelectorAll('input[type=text],input[type=number],textarea').forEach(function(c){c.value='';});
+  document.querySelectorAll('input[type=radio]').forEach(function(c){c.checked=false;});
+  document.getElementById('plan-raid').value='';
+  modelCombo.clear();cpuCombo.clear();
+  document.getElementById('ct-r').checked=true;
+  document.getElementById('bp1').checked=true;
+  document.getElementById('md0').checked=true;
+  document.getElementById('mb1').checked=true;
+  document.getElementById('tp0').checked=true;
+  document.getElementById('bz0').checked=true;
+  manualOverride={fan:false,hs:false};fanTouched=false;
+  document.getElementById('paste-result').classList.remove('on');
+  document.getElementById('plan-out').classList.remove('on');
+  drives.innerHTML='';cards.innerHTML='';drives.appendChild(driveRow());
+  try{localStorage.removeItem(KEY);}catch(e){}
+  sync();});
+
+refreshDependents();
+if(!load())drives.appendChild(driveRow());
+if(!drives.children.length)drives.appendChild(driveRow());
+refreshDependents();
+sync();
+})();
+</script>
+
+<button id="back-to-top" type="button" title="Back to top" aria-label="Back to top">&#x2303;</button>
+<script>
+(function(){
+  /* back to top */
+  var btt=document.getElementById('back-to-top');
+  if(btt){
+    btt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+    window.addEventListener('scroll',function(){
+      btt.classList.toggle('visible', window.scrollY>400);
+    },{passive:true});
+  }
+})();
+</script>
+</body>
+</html>

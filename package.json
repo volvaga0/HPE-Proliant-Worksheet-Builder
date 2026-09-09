@@ -1,0 +1,12 @@
+{
+  "name": "hpe-proliant-worksheet-builder",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Server build worksheet — single-file HTML tool + headless QA harness",
+  "scripts": {
+    "test": "node worksheet-qa.js"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0"
+  }
+}
