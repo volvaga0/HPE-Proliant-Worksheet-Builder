@@ -283,8 +283,11 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   The native `<select>`s in the drive lines are fine on mobile as-is.
 - **`stepper(input, {min,max,step})`** wraps a number input in `− [value] +`
   buttons (drive/card/riser line qty, memory qty, PSU qty, fan qty). Reads
-  `input.max` at click time so it respects the dynamic caps
-  (`updateHardCaps` sets `dimmq.max` / `psuq.max`). Typing still works.
+  `input.max` at click time so it respects the live caps: `updateHardCaps`
+  sets `dimmq.max` / `psuq.max`; `evaluate()` sets `fanq.max` (the fan-cage
+  count = max of `R.fans.one/two/perf`) and each drive line's `[data-k=q]`
+  `.max` (the chassis bay count), plus `field-over` when a typed value is
+  over. Typing still works; the cross-line drive total is still a `stop`.
   `#modelq` and `plan-cap` are deliberately not steppered (can be large /
   are decimals).
 - **The fixed action bar hides while the on-screen keyboard is up.** A

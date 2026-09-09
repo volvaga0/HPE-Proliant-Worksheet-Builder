@@ -2142,6 +2142,10 @@ function evaluate(){
   var dn=document.getElementById('drive-note');dn.className='cap-note';
   dn.textContent=capBays?(used+' of '+capBays+' bays used'):'';
   document.getElementById('bay-note').textContent=capBays?(capBays+' bays in this chassis'):'';
+  [].forEach.call(drives.querySelectorAll('[data-k=q]'),function(q){
+    if(capBays)q.max=capBays;else q.removeAttribute('max');
+    q.classList.toggle('field-over',!!(capBays&&Number(q.value)>capBays));
+  });
   if(capBays&&used>capBays){
     dn.className='cap-note over';
     checks.push(['stop','TOO MANY DRIVES',used+' drives specified but the chassis as configured has '+capBays+' bays.']);
@@ -2200,6 +2204,11 @@ function evaluate(){
   /* fan kit + quantity by socket count, plus the "standard is fine" explainer */
   if(m&&!R.fans&&!fanTouched&&!fanReasons.length&&document.getElementById('fanq').value)
     document.getElementById('fanq').value='';
+  var fqEl=document.getElementById('fanq');
+  if(m&&R.fans){
+    var fanCage=Math.max(R.fans.one||0,R.fans.two||0,R.fans.perf||0);
+    if(fanCage)fqEl.max=fanCage;else fqEl.removeAttribute('max');
+  }else{fqEl.removeAttribute('max');}
   if(m&&R.fans){
     var whyF=document.getElementById('why-fan');
     if(!fanReasons.length&&!manualOverride.fan){
@@ -2217,11 +2226,12 @@ function evaluate(){
     }
     var perfNow=r('fan')==='Perf Fans';
     var want=perfNow?R.fans.perf:(cpuq>=2?R.fans.two:(cpuq===1?R.fans.one:null));
-    var fq=document.getElementById('fanq');
+    var fq=fqEl;
     if(want&&!fanTouched&&String(Number(fq.value))!==String(want))fq.value=want;
+    fq.classList.toggle('field-over',!!(want&&fq.value&&Number(fq.value)!==want));
     if(want&&fanTouched&&fq.value&&Number(fq.value)!==want)
       checks.push(['verify','FAN QTY',m.m+' '+m.g+' with '+cpuq+' processor'+(cpuq>1?'s':'')+' takes '+want+' '+(perfNow?'high performance':'standard')+' fans — '+fq.value+' entered.']);
-  }
+  }else{fqEl.classList.remove('field-over');}
 
   var hsReasons=[],recHs=null;
   if(R.hsNoChoice){

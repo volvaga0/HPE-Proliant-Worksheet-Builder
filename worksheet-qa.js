@@ -113,7 +113,18 @@ setTimeout(()=>{
   { const dqm=d.getElementById('dimmq').parentElement;
     dqm.classList.contains('stepper')?pass('memory qty is steppered'):fail('dimmq not steppered'); }
 
-  // 8. bay overflow
+  // 7c. steppers respect the live cap (drive bays / fan cage), not just typing
+  d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
+  d.getElementById('bays').value='8SFF';fire(d.getElementById('bays'),'input');
+  dc.value='1.2TB';fire(dc,'input');dq.value='';
+  { const up=dq.parentElement.querySelector('.st-btn:last-child');
+    for(let i=0;i<15;i++)up.dispatchEvent(new w.MouseEvent('click',{bubbles:true})); }
+  dq.value==='8'?pass('drive qty stepper stops at the chassis bay count (8 on 8SFF)'):fail('drive stepper overshot to "'+dq.value+'"');
+  { const fmax=Number(d.getElementById('fanq').getAttribute('max'));
+    (fmax>0&&fmax<=8)?pass('fan qty stepper is capped by the fan cage (max='+fmax+')'):fail('fanq has no sane max cap: '+d.getElementById('fanq').getAttribute('max')); }
+  dq.value='';
+
+  // 8. bay overflow (typed values still caught even if the stepper won't go there)
   d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
   dq.value='12';dc.value='1.2TB';fire(dc,'input');
   checks=d.getElementById('checks').textContent;
