@@ -128,9 +128,11 @@ psuMax            power supply bays (hard cap on PSU qty). Only set where confir
 fans              {one,two,perf} standard fan count for 1 CPU / 2 CPUs and the
                   high-performance kit count. Auto-fills the fan qty and drives the
                   "standard is fine because…" note.
-pcie              {one,two} add-in-card slots with 1 CPU / 2 CPUs (secondary+tertiary
-                  risers need CPU 2, so the 1-CPU number is much smaller). FlexibleLOM
-                  is NOT counted — separate connector.
+pcie              {one,two} add-in-card slots — the CHASSIS ceiling with 1 / 2 CPUs.
+                  When the build has riser lines whose kits are in RISERS, the
+                  actual PCIe slot count is summed from those kits' `s` values and
+                  capped at this ceiling; `pcie` is only the fallback when no
+                  scoreable risers are entered. FlexibleLOM is NOT counted.
 memPerSocket      override for max GB per socket
 hsPart/fanPart    HPE option part numbers, shown in check text
 notes             model caveats. Shown filtered: `noteRelevant()` hides a note
@@ -140,13 +142,23 @@ notes             model caveats. Shown filtered: `noteRelevant()` hides a note
 verified          true = checked against THIS model's own QuickSpecs
 ```
 
-Riser-kit lists live in the separate **`RISERS`** map (keyed `"MODEL GEN"`),
-lifted from each model's QuickSpecs "Riser Information" table — currently
-DL380 Gen10 (full) and DL360 Gen10. Models without an entry fall back to
-`GENERIC_RISERS` hints. The `#riser` field is a datalist fed from whichever
-applies. Filling out `RISERS` / `fans` / `pcie` / `psuMax` for the rest of
-the verified fleet is the obvious next job — it needs the clean QuickSpecs
-tables (search-scraped text mangles the part-number columns; get the PDFs).
+**Risers are a repeatable line list** (`#risers`, like `#cards`) — a build can
+mix riser types. The **`RISERS`** map (keyed `"MODEL GEN"`) holds kit objects
+`{n:name, d:detail, s:card-slots (0 = NVMe/SlimSAS, -1 = consumes a slot),
+pos:'primary'|'secondary'|'tertiary'|'any', cpu2:true, def:true}` from each
+model's QuickSpecs "Riser Information" table — currently DL380 Gen10 (full,
+16 kits) and DL360 Gen10; the rest fall back to `GENERIC_RISERS`. The
+collapsible reference list under the field renders every kit as a wrapping
+row; clicking one appends a riser line. `evaluate()` then: counts lines vs
+`riserMax`, flags `cpu2` kits when only 1 CPU, blocks two risers in the same
+`pos`, and sums `s` for the PCIe slot count. Filling out `RISERS` / `fans` /
+`pcie` / `psuMax` for the rest of the verified fleet is the ongoing job.
+
+**`PSUS`** is a list of real HPE PSU kits with efficiency tier + wattage +
+option part number (Flex Slot Platinum 94% / Titanium 96%, Common Slot for
+Gen9, ATX Gold for entry towers). Confirmed against the HPE Flexible Slot
+Power Supplies QuickSpecs. The wattage still parses out of the string for
+the power-budget check.
 
 ### Engine (`evaluate()`)
 

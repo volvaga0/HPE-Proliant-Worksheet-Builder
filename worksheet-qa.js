@@ -222,16 +222,19 @@ setTimeout(()=>{
   let txt=d.getElementById('checks').textContent;
   txt.includes('TOO MANY DIMMS')&&dimmEl.classList.contains('field-over')?pass3('30 DIMMs on 24-slot board blocked + flagged'):fail3('30-DIMM overflow not caught: '+txt.slice(0,200));
 
-  // --- Riser cap: DL380 = 3, DL360 = 2 ---
-  const riserEl=d.getElementById('riserq');
-  riserEl.max==='3'?pass3('DL380: riserq capped at 3'):fail3('DL380 riser cap wrong: '+riserEl.max);
-  riserEl.value='4';fire(riserEl,'input');
+  // --- Riser lines: DL380 has 3 positions -> a 4th line blocks ---
+  const risersEl=d.getElementById('risers');
+  const addRiser=(name)=>{ d.getElementById('add-riser').click();
+    const rows=risersEl.querySelectorAll('[data-k=name]'); const el=rows[rows.length-1];
+    el.value=name; fire(el,'input'); };
+  risersEl.innerHTML='';
+  for(let i=0;i<4;i++) addRiser('custom riser '+i);
   txt=d.getElementById('checks').textContent;
-  txt.includes('TOO MANY RISERS')?pass3('4 risers on DL380 (max 3) blocked'):fail3('riser overflow not caught: '+txt.slice(0,200));
+  txt.includes('TOO MANY RISERS')?pass3('4 riser lines on DL380 (3 positions) blocked'):fail3('riser overflow not caught: '+txt.slice(0,200));
+  risersEl.innerHTML='';fire(d.getElementById('cpuq'),'input');
 
   setModel3('DL360 G10');
   pickCpu3('S4110');
-  riserEl.max==='2'?pass3('DL360: riserq capped at 2'):fail3('DL360 riser cap wrong: '+riserEl.max);
 
   // --- PSU bay cap: DL360/DL380 = 2 ---
   const psuEl=d.getElementById('psuq');
@@ -258,18 +261,23 @@ setTimeout(()=>{
     ?pass3('Standard fans with NVMe backplane -> blocking error'):fail3('Std-fans-when-perf-required not blocked: '+txt.slice(0,200));
   d.getElementById('fn1').checked=false;d.getElementById('bp1').checked=true;fire(d.getElementById('bp1'),'change');
 
-  // --- PCIe card slot cap (DL380 G10: 8 with 2 CPUs, 3 with 1) ---
+  // --- PCIe slots derive from the risers fitted ---
   setModel3('DL380 G10');pickCpu3('S4110');
   d.getElementById('cpuq').value='1';fire(d.getElementById('cpuq'),'input');
-  const cardsEl=d.getElementById('cards');cardsEl.innerHTML='';
+  const cardsEl=d.getElementById('cards');cardsEl.innerHTML='';d.getElementById('risers').innerHTML='';
+  addRiser('Default Primary riser');           // 3 slots
   for(let i=0;i<4;i++)d.getElementById('add-card').click();
   [...cardsEl.querySelectorAll('[data-k=name]')].forEach((el,i)=>{el.value='NIC'+i;fire(el,'input');});
   txt=d.getElementById('checks').textContent;
-  txt.includes('TOO MANY CARDS')?pass3('4 PCIe cards with 1 CPU on DL380 G10 (max 3) blocked'):fail3('card overflow not caught: '+txt.slice(0,200));
+  (txt.includes('TOO MANY CARDS')&&/from the risers fitted/.test(d.getElementById('riser-slot-note').textContent))
+    ?pass3('4 cards vs a 3-slot primary riser -> blocked, slot count is from the riser'):fail3('card/riser slot check wrong: '+d.getElementById('riser-slot-note').textContent);
+  addRiser('Secondary Riser Kit (870548-B21)'); // +3 slots, needs CPU 2
+  txt=d.getElementById('checks').textContent;
+  /needs the 2nd processor/.test(txt)?pass3('secondary riser flagged with 1 CPU'):fail3('CPU2 riser gate silent');
   d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
   txt=d.getElementById('checks').textContent;
-  !txt.includes('TOO MANY CARDS')?pass3('same 4 cards fit once the 2nd CPU opens the secondary riser'):fail3('4 cards wrongly blocked with 2 CPUs');
-  cardsEl.innerHTML='';d.getElementById('add-card').click();
+  !txt.includes('TOO MANY CARDS')?pass3('...and the 4 cards fit once CPU 2 opens the secondary riser (6 slots)'):fail3('4 cards wrongly blocked with 2 CPUs + secondary riser');
+  cardsEl.innerHTML='';d.getElementById('risers').innerHTML='';d.getElementById('add-card').click();
 
   // --- NVMe backplane on an LFF config -> blocked ---
   setModel3('DL380 G10');
@@ -279,11 +287,11 @@ setTimeout(()=>{
   txt.includes('BACKPLANE MISMATCH')?pass3('NVMe backplane on 12LFF blocked'):fail3('LFF+NVMe not caught: '+txt.slice(0,160));
   d.getElementById('bp1').checked=true;fire(d.getElementById('bp1'),'change');
 
-  // --- riser datalist populated from the model's QuickSpecs list ---
+  // --- riser kit reference list is per-model ---
   setModel3('DL380 G10');
-  const rOpts=[...d.querySelectorAll('#riseropts option')];
-  rOpts.length>5&&rOpts.some(o=>/870548-B21/.test(o.value))
-    ?pass3(`riser datalist has DL380 G10 kit list (${rOpts.length} options)`):fail3('riser datalist not model-specific: '+rOpts.length);
+  const rKits=[...d.querySelectorAll('#riser-kits .riser-kit')].map(b=>b.getAttribute('data-name'));
+  (rKits.length===16 && rKits.some(n=>/870548-B21/.test(n)))
+    ?pass3(`riser kit list has DL380 G10's 16 QuickSpecs kits`):fail3('riser kit list not model-specific: '+rKits.length);
 
   // --- "engineer to advise" removed ---
   (!d.getElementById('fn3')&&!d.getElementById('hs3'))?pass3('"engineer to advise" fan/heatsink options removed'):fail3('engineer-to-advise option still present');
@@ -309,9 +317,9 @@ setTimeout(()=>{
   d.getElementById('bp1').checked=true;fire(d.getElementById('bp1'),'change');
 
   // --- config checks box is no longer height-capped / scrollable ---
-  const cbOv=getComputedStyle(d.getElementById('checks')).overflowY;
-  (cbOv!=='auto'&&cbOv!=='scroll')
-    ?pass3('config checks box grows to fit — no inner scrollbar'):fail3('config checks box still scroll-capped: overflow-y='+cbOv);
+  const checksRule=(html.match(/\.checks\s*\{[^}]*\}/)||[''])[0];
+  (!/overflow\s*:\s*(auto|scroll)/.test(checksRule) && !/max-height/.test(checksRule))
+    ?pass3('config checks box grows to fit — no inner scrollbar'):fail3('config checks box still scroll-capped: '+checksRule);
 
   // --- DL560 / DL580 PSU bay counts (verified against QuickSpecs) ---
   const psuFor=(label)=>{ setModel3(label); return d.getElementById('psuq').max; };
@@ -377,16 +385,18 @@ setTimeout(()=>{
   mlChk('ML30 G10+','4 DIMM','2','v');
   mlChk('ML350 G9','24 DIMM','4','u');
 
-  // --- riser-kit picker (wrapping rows, not a cut-off datalist) ---
+  // --- riser-kit picker adds a riser LINE (repeatable, wrapping rows) ---
   setModel3('DL380 G10');
+  d.getElementById('risers').innerHTML='';
   const rkBox=d.getElementById('riser-kits'), rkTog=d.getElementById('riser-toggle');
-  (!rkTog.hidden && rkBox.children.length===16 && /Show 16 riser kits/.test(rkTog.textContent))
+  (!rkTog.hidden && rkBox.children.length===16)
     ?pass3('DL380 G10: 16 riser kits offered as expandable rows'):fail3('riser picker wrong: hidden='+rkTog.hidden+' n='+rkBox.children.length);
-  rkTog.click();
-  const rk1=rkBox.querySelector('.riser-kit');
-  rk1.click();
-  d.getElementById('riser').value===rk1.getAttribute('data-name') && !d.querySelector('datalist#riseropts')
-    ?pass3('clicking a riser kit fills the field with its short name; no datalist'):fail3('riser kit click: riser="'+d.getElementById('riser').value+'"');
+  if(rkTog.textContent.startsWith('Show')) rkTog.click();
+  rkBox.querySelector('.riser-kit').click();
+  rkBox.querySelectorAll('.riser-kit')[6].click();  // a second, different kit
+  const rlines=[...d.querySelectorAll('#risers [data-k=name]')].map(x=>x.value);
+  (rlines.length===2 && rlines[0]!==rlines[1] && !d.querySelector('datalist#riseropts'))
+    ?pass3('clicking two kits adds two riser lines (multiple risers supported)'):fail3('riser lines: '+JSON.stringify(rlines));
 
   // --- power budget check ---
   setModel3('DL380 G10');pickCpu3('G6148');
@@ -403,6 +413,15 @@ setTimeout(()=>{
   ptxt=d.getElementById('checks').textContent;
   (!ptxt.includes('will not power on')&&!ptxt.includes('redundant (1+1)'))
     ?pass3('...2x 1600W clears the power check'):fail3('power check still firing on 2x 1600W: '+ptxt.slice(0,180));
+
+  // --- PSU list carries efficiency tier + part number; wattage still parses ---
+  const psuList=[...d.querySelectorAll('#psus option')].map(o=>o.value);
+  (psuList.some(o=>/Titanium.*P03178-B21/.test(o)) && psuList.some(o=>/Platinum.*865414-B21/.test(o)))
+    ?pass3('PSU list has tier + part number (Platinum 865414-B21 / Titanium P03178-B21)'):fail3('PSU list missing tiers: '+psuList.slice(0,4));
+  d.getElementById('psu').value='800W Flex Slot Platinum (865414-B21)';fire(d.getElementById('psu'),'input');
+  d.getElementById('psuq').value='2';fire(d.getElementById('psuq'),'input');
+  /~\d+W .* 800W/.test(d.getElementById('psu-note').textContent)
+    ?pass3('a tier+PN PSU string still parses to 800W for the budget check'):fail3('psu note: '+d.getElementById('psu-note').textContent);
 
   // --- rear / mid-tray options validated against the chassis ---
   const rearTest=(model,rear)=>{

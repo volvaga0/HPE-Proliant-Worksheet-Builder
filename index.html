@@ -470,12 +470,10 @@ button.quiet{color:var(--ink-soft)}
     <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M11 9h4a2 2 0 0 0 2-2V3"/><circle cx="9" cy="9" r="2"/><path d="M7 21v-4a2 2 0 0 1 2-2h4"/><circle cx="15" cy="15" r="2"/></svg>Expansion</h2></div>
     <div class="rows">
       <div class="row full">
-        <div class="q" style="padding-bottom:7px"><span class="t">PCI risers</span><span class="note" id="riser-note">Qty is capped to the chassis riser positions.</span></div>
+        <div class="q" style="padding-bottom:7px"><span class="t">PCI risers</span><span class="note" id="riser-note">One line per riser cage. Add the kits this build uses — the PCIe slot count follows from them.</span></div>
         <div class="a">
-          <div class="pair">
-            <input type="number" id="riserq" min="0" placeholder="Qty">
-            <input type="text" id="riser" placeholder="Riser kit — pick from the list or type your own" autocomplete="off">
-          </div>
+          <div class="lines" id="risers"></div>
+          <button type="button" class="add" id="add-riser">Add riser line</button>
           <span class="cap-note" id="riser-slot-note"></span>
           <button type="button" class="riser-toggle" id="riser-toggle" hidden></button>
           <div class="riser-kits" id="riser-kits" hidden></div>
@@ -500,10 +498,10 @@ button.quiet{color:var(--ink-soft)}
     <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Power and fitting</h2></div>
     <div class="rows">
       <div class="row">
-        <div class="q"><span class="t">Power supplies</span><span class="note">Qty then wattage. A rough draw estimate checks it's enough.</span></div>
+        <div class="q"><span class="t">Power supplies</span><span class="note">Qty then wattage. Pick from the list for the tier + part number (Platinum 94% / Titanium 96%). A rough draw estimate checks it's enough.</span></div>
         <div class="a"><div class="pair">
           <input type="number" id="psuq" min="1" placeholder="Qty">
-          <input type="text" id="psu" list="psus" placeholder="e.g. 500w" autocomplete="off">
+          <input type="text" id="psu" list="psus" placeholder="e.g. 800W Flex Slot Platinum" autocomplete="off">
         </div>
         <span class="cap-note" id="psu-note"></span></div>
       </div>
@@ -1209,7 +1207,30 @@ var EXPANDERS=['12G SAS Expander Card (727250-B21, Gen9)','12G SAS Expander Card
  '12G SAS Expander Card (876907-B21, Gen10 2SFF rear)','Second controller instead of expander',
  'P408e-p external HBA','E208e-p external HBA','H241 external HBA','None needed'];
 var BATS=['96w bat','12w bat','No battery'];
-var PSUS=['500w','800w','1000w','1400w','1600w','2200w'];
+/* HPE power supply kits by efficiency tier + wattage, with option part numbers.
+   Flex Slot (Gen10 on) is Platinum (94%) or Titanium (96%); Gen9 uses Common
+   Slot; the entry towers use Gold-level ATX. Confirmed against the HPE Flexible
+   Slot Power Supplies QuickSpecs. */
+var PSUS=[
+ '500W Flex Slot Platinum (865408-B21)',
+ '800W Flex Slot Platinum (865414-B21)',
+ '800W Flex Slot Platinum — Gen11 / Gen10+ (P38995-B21)',
+ '800W Flex Slot Titanium (865438-B21)',
+ '1000W Flex Slot Titanium (P03178-B21)',
+ '1600W Flex Slot Platinum, high-line only (830272-B21)',
+ '1600W Flex Slot Platinum, high-line — Gen11 / Gen10+ (P38997-B21)',
+ '1800-2200W Flex Slot Titanium, high-line (P44712-B21)',
+ '800W Flex Slot -48VDC (865434-B21)',
+ '1600W Flex Slot -48VDC (P17023-B21)',
+ '800W Flex Slot Universal 277VAC / 380VDC (865428-B21)',
+ '— Gen9: Common Slot, not Flex Slot —',
+ '500W Common Slot Platinum Plus (720478-B21)',
+ '800W Common Slot Platinum Plus (720479-B21)',
+ '1400W Common Slot Platinum Plus (720620-B21)',
+ '— Entry towers (ML30 / ML110 / DL20): ATX —',
+ '350W ATX Gold (P21649-B21)',
+ '500W Flex Slot Platinum, RPS kit (865408-B21)'
+];
 var FLRS=['331FLR 4x1GbE','366FLR 4x1GbE','361i 2x1GbE','530FLR-SFP+ 2x10Gb','533FLR-T 2x10GbT',
  '561FLR-T 2x10GbT','562FLR-SFP+ 2x10Gb','631FLR-SFP28 2x25Gb','640FLR-SFP28 2x25Gb'];
 var CARDLIST=['366T 4x1GbE','530SFP+ 2x10Gb','560SFP+ 2x10Gb','561T 2x10GbT','562SFP+ 2x10Gb',
@@ -1223,53 +1244,53 @@ var CAPS=[['240GB',0.24],['480GB',0.48],['800GB',0.8],['960GB',0.96],['1.6TB',1.
 var GENERIC_BAYS=['4LFF','8LFF','12LFF','2SFF','4SFF','8SFF','10SFF','16SFF','24SFF'];
 var REAR=['2SFF rear','2SFF NVMe rear','3LFF rear','1SFF rear','4LFF midtray','2SFF rear + 4LFF midtray'];
 
-/* Generic riser hints — shown when a model has no RISERS entry of its own.
-   Slot counts are typical for the DL3xx family; always confirm the exact kit
-   in that model's QuickSpecs "Riser Information" table. */
+/* Riser kits. Each: {n:name, d:detail, s:add-in-card slots it yields
+   (0 = NVMe/SlimSAS, -1 = consumes a slot), pos:'primary'|'secondary'|
+   'tertiary'|'any', cpu2:true if it needs the 2nd processor, def:true for the
+   riser a model ships standard.
+   GENERIC_RISERS is the fallback when a model has no list of its own.
+   Per-model lists are from each model's QuickSpecs "Riser Information" table. */
 var GENERIC_RISERS=[
- 'Primary riser — ships standard, up to 3 FH slots (CPU 1)',
- 'Secondary riser — up to 3 FH slots, requires CPU 2',
- 'Tertiary riser — up to 2 FH slots, requires CPU 2',
- 'GPU riser (x16/x16 or x16/x16/x16) — replaces the primary, for accelerators',
- 'NVMe SlimSAS riser — routes PCIe lanes to NVMe drives, no add-in card slots',
- '2SFF SAS/SATA rear riser — rear drive cage in a riser bay'
+ {n:'Primary riser (ships standard)',d:'up to 3 FH slots, CPU 1',s:3,pos:'primary',def:true},
+ {n:'Secondary riser',d:'up to 3 FH slots, requires CPU 2',s:3,pos:'secondary',cpu2:true},
+ {n:'Tertiary riser',d:'up to 2 FH slots, requires CPU 2',s:2,pos:'tertiary',cpu2:true},
+ {n:'GPU riser (x16/x16 or x16/x16/x16)',d:'replaces the primary, for accelerators',s:3,pos:'primary'},
+ {n:'NVMe SlimSAS riser',d:'routes PCIe lanes to NVMe drives — no add-in-card slots',s:0,pos:'any'},
+ {n:'2SFF SAS/SATA rear riser',d:'rear drive cage in a riser bay',s:0,pos:'any'}
 ];
-/* Per-model riser-kit lists, verbatim from each model's QuickSpecs
-   "Riser Information" / "I/O Expansion Options" section. Part numbers only
-   where the QuickSpecs pairs them inline with the kit name. */
 var RISERS={
  'DL380 G10':[
-  'Default Primary riser — Slots 1-3, x8/x16/x8, FH-FL / FH-FL / FH-HL, dual M.2 (ships standard)',
-  'Primary Riser Removal FIO Option (875293-B21) — removes the shipping primary riser',
-  'Slot 1/2 x16/x16 FIO Riser — Slots 1-2 primary, 1 double-wide GPU, replaces default primary',
-  'x16/x16 GPU Slot 2/3 FIO Riser — Slots 2-3 primary, 1 double-wide GPU, replaces default primary',
-  'x16/x16/x16 Primary GPU FIO Riser — Slots 1-2-3 primary, up to 3 FH-HL single-width GPUs (FIO, all 3 must fill)',
-  '4-port 8 NVMe Primary SlimSAS FIO Riser (867807-B21) — 8 NVMe in primary, no card slots',
-  'Secondary Riser Kit (870548-B21) — Slots 4-6, x8/x16/x8, requires CPU 2',
-  'x16/x16 Riser Kit — Slots 4-5 secondary, 1 double-wide GPU, requires CPU 2',
-  'x8/x16/x8 Riser Kit — Slots 4-6 secondary, no M.2, requires CPU 2',
-  'x16/x16 GPU Riser Kit — Slots 5-6 secondary, 1 double-wide GPU, requires CPU 2',
-  'x16/x16/x16 Secondary GPU FIO Riser (826694-B21) — Slots 4-6 secondary, up to 3 GPUs (FIO), requires CPU 2',
-  'x8/x8/x8 1-port 2 NVMe SlimSAS Riser (871673-B21) — secondary slots + 2 NVMe, requires CPU 2',
-  '4-port 8 NVMe Secondary SlimSAS Riser — 8 NVMe in secondary, no card slots, requires CPU 2',
-  'Tertiary Riser Kit, 2x8 (875780-B21) — Slots 7-8, requires CPU 2',
-  '2-port 4 NVMe SlimSAS Riser — 4 NVMe in tertiary, no card slots, requires CPU 2',
-  '2SFF HDD SAS/SATA Riser Kit (826688-B21) — rear 2SFF cage in a primary or secondary riser bay'
+  {n:'Default Primary riser',d:'Slots 1-3 · x8/x16/x8 · dual M.2 · ships standard',s:3,pos:'primary',def:true},
+  {n:'Primary Riser Removal FIO (875293-B21)',d:'removes the shipping primary riser',s:0,pos:'primary'},
+  {n:'Slot 1/2 x16/x16 FIO Riser',d:'Slots 1-2 primary · 1 double-wide GPU · replaces default primary',s:2,pos:'primary'},
+  {n:'x16/x16 GPU Slot 2/3 FIO Riser',d:'Slots 2-3 primary · 1 double-wide GPU · replaces default primary',s:2,pos:'primary'},
+  {n:'x16/x16/x16 Primary GPU FIO Riser',d:'Slots 1-2-3 primary · up to 3 FH-HL single-width GPUs (FIO)',s:3,pos:'primary'},
+  {n:'4-port 8 NVMe Primary SlimSAS FIO Riser (867807-B21)',d:'8 NVMe in primary · no add-in-card slots',s:0,pos:'primary'},
+  {n:'Secondary Riser Kit (870548-B21)',d:'Slots 4-6 · x8/x16/x8 · requires CPU 2',s:3,pos:'secondary',cpu2:true},
+  {n:'x16/x16 Secondary Riser Kit',d:'Slots 4-5 · 1 double-wide GPU · requires CPU 2',s:2,pos:'secondary',cpu2:true},
+  {n:'x8/x16/x8 Secondary Riser Kit',d:'Slots 4-6 · no M.2 · requires CPU 2',s:3,pos:'secondary',cpu2:true},
+  {n:'x16/x16 GPU Secondary Riser Kit',d:'Slots 5-6 · 1 double-wide GPU · requires CPU 2',s:2,pos:'secondary',cpu2:true},
+  {n:'x16/x16/x16 Secondary GPU FIO Riser (826694-B21)',d:'Slots 4-6 · up to 3 GPUs (FIO) · requires CPU 2',s:3,pos:'secondary',cpu2:true},
+  {n:'x8/x8/x8 1-port 2 NVMe SlimSAS Riser (871673-B21)',d:'secondary slots + 2 NVMe · requires CPU 2',s:3,pos:'secondary',cpu2:true},
+  {n:'4-port 8 NVMe Secondary SlimSAS Riser',d:'8 NVMe in secondary · no card slots · requires CPU 2',s:0,pos:'secondary',cpu2:true},
+  {n:'Tertiary Riser Kit, 2x8 (875780-B21)',d:'Slots 7-8 · requires CPU 2',s:2,pos:'tertiary',cpu2:true},
+  {n:'2-port 4 NVMe SlimSAS Tertiary Riser',d:'4 NVMe in tertiary · no card slots · requires CPU 2',s:0,pos:'tertiary',cpu2:true},
+  {n:'2SFF HDD SAS/SATA Riser Kit (826688-B21)',d:'rear 2SFF cage in a primary or secondary riser bay',s:0,pos:'any'}
  ],
  'DL360 G10':[
-  'Primary riser — ships standard: 1x x16 FH + 1x x8 LP (GPU power connector), CPU 1',
-  'SATA M.2 2280 Riser Kit (867978-B21) — primary, adds 2x SATA M.2 + 2x x16',
-  '8 SFF only: 2x 4-NVMe + x16/x8 primary NVMe riser',
-  'Low Profile Riser Kit (867982-B21) — secondary LP slot, requires CPU 2',
-  '2P Full Height Riser and GPU Enablement Kit (867980-B21) — secondary FH x16, requires CPU 2 (disables primary slot 2 — max 2 FH slots)',
-  'Rear +1SFF / +1 dual-uFF (2x M.2) — consumes one FH PCIe slot',
-  '10 NVMe / 10SFF chassis — direct-attached NVMe riser, no secondary riser available'
+  {n:'Primary riser (ships standard)',d:'1x x16 FH + 1x x8 LP · CPU 1',s:2,pos:'primary',def:true},
+  {n:'SATA M.2 2280 Primary Riser Kit (867978-B21)',d:'2x SATA M.2 + 2x x16 · replaces primary',s:2,pos:'primary'},
+  {n:'8SFF NVMe Primary Riser',d:'2x 4-NVMe + x16/x8 · 8SFF only',s:1,pos:'primary'},
+  {n:'Low Profile Secondary Riser Kit (867982-B21)',d:'1 LP slot · requires CPU 2',s:1,pos:'secondary',cpu2:true},
+  {n:'2P Full Height Riser & GPU Enablement Kit (867980-B21)',d:'FH x16 secondary · requires CPU 2 · disables primary slot 2 (max 2 FH slots)',s:0,pos:'secondary',cpu2:true},
+  {n:'Rear +1SFF / +1 dual uFF (2x M.2)',d:'consumes one FH PCIe slot',s:-1,pos:'any'},
+  {n:'10 NVMe / 10SFF chassis',d:'direct-attached NVMe — no secondary riser available',s:0,pos:'primary'}
  ]
 };
 
 /* ========================================================================== */
 (function(){
-var KEY='sbw-draft-v7';
+var KEY='sbw-draft-v8';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
 function fill(id,arr){document.getElementById(id).innerHTML=arr.map(function(o){return '<option value="'+o+'">';}).join('');}
 fill('dimms',DIMMS);fill('ctrls',CTRLS);fill('bats',BATS);fill('psus',PSUS);
@@ -1389,18 +1410,21 @@ function refreshDependents(){
   var isOwn=!!(m&&RISERS[m.m+' '+m.g]);
   renderRiserKits(rk,isOwn);
   document.getElementById('riser-note').textContent=
-    !m?'Qty is capped to the chassis riser positions.'
+    !m?'One line per riser cage. The PCIe slot count follows from the kits you add.'
     :(R.riserMax?R.riserMax+' riser position'+(R.riserMax>1?'s':'')+' in this chassis'
-        +(rk.length?(isOwn?' — pick a kit below':' — see the generic guide below'):'')
+        +(rk.length?(isOwn?' — add from the kit list below':' — generic guide below'):'')
       :'Riser count for '+m.m+' '+m.g+' not confirmed — check QuickSpecs.');
   document.getElementById('badge-v').classList.toggle('on',!!(m&&R.verified));
   document.getElementById('badge-u').classList.toggle('on',!!(m&&!R.verified));
 }
 
-/* riser-kit picker: wrapping rows, not a cut-off <datalist> */
-function splitKit(s){
-  var i=s.indexOf(' — ');            // em-dash separator used in the RISERS data
-  return i<0?{name:s,detail:''}:{name:s.slice(0,i),detail:s.slice(i+3)};
+/* riser-kit reference list: wrapping rows; clicking one adds a riser line */
+var curRiserKits=[];
+function riserKitByName(name){
+  name=String(name||'').toLowerCase().trim();
+  for(var i=0;i<curRiserKits.length;i++)
+    if(curRiserKits[i].n.toLowerCase()===name) return curRiserKits[i];
+  return null;
 }
 function riserToggleLabel(){
   var box=document.getElementById('riser-kits'),tog=document.getElementById('riser-toggle');
@@ -1408,13 +1432,13 @@ function riserToggleLabel(){
   tog.textContent=(box.hidden?'Show ':'Hide ')+n+(own?' riser kits for this model':' generic riser types')+(box.hidden?' ▾':' ▴');
 }
 function renderRiserKits(list,isOwn){
+  curRiserKits=list||[];
   var box=document.getElementById('riser-kits'),tog=document.getElementById('riser-toggle');
   if(!list||!list.length){box.hidden=true;box.innerHTML='';tog.hidden=true;return;}
-  box.innerHTML=list.map(function(s){
-    var k=splitKit(s);
-    return '<button type="button" class="riser-kit" data-name="'+esc(k.name).replace(/"/g,'&quot;')+'">'+
-      '<span class="rk-name">'+esc(k.name)+'</span>'+
-      (k.detail?'<span class="rk-detail">'+esc(k.detail)+'</span>':'')+'</button>';
+  box.innerHTML=list.map(function(k){
+    return '<button type="button" class="riser-kit" data-name="'+esc(k.n).replace(/"/g,'&quot;')+'">'+
+      '<span class="rk-name">'+esc(k.n)+(k.def?' · standard':'')+'</span>'+
+      (k.d?'<span class="rk-detail">'+esc(k.d)+'</span>':'')+'</button>';
   }).join('');
   tog.hidden=false;
   tog.setAttribute('data-own',isOwn?'1':'0');
@@ -1427,12 +1451,21 @@ document.getElementById('riser-toggle').addEventListener('click',function(){
 });
 document.getElementById('riser-kits').addEventListener('click',function(e){
   var b=e.target.closest('.riser-kit');if(!b)return;
-  document.getElementById('riser').value=b.getAttribute('data-name');
+  risers.appendChild(riserRow({name:b.getAttribute('data-name')}));
   run();
 });
 
 /* ---------------- repeatable lines ---------------- */
-var drives=document.getElementById('drives'),cards=document.getElementById('cards');
+var drives=document.getElementById('drives'),cards=document.getElementById('cards'),
+    risers=document.getElementById('risers');
+function riserRow(v){
+  v=v||{};var d=document.createElement('div');d.className='line card';
+  d.innerHTML='<input type="number" min="1" placeholder="Qty" data-k="q" value="'+(v.q||'')+'">'+
+   '<input type="text" placeholder="Riser kit — add from the list below or type your own" data-k="name" autocomplete="off" value="'+(v.name||'').replace(/"/g,'&quot;')+'">'+
+   '<button type="button" class="kill" title="Remove line">&times;</button>';
+  d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
+  return d;}
+document.getElementById('add-riser').addEventListener('click',function(){risers.appendChild(riserRow());run();});
 function driveRow(v){
   v=v||{};var d=document.createElement('div');d.className='line drive';
   d.innerHTML='<input type="number" min="1" placeholder="Qty" data-k="q" value="'+(v.q||'')+'">'+
@@ -1486,9 +1519,6 @@ document.addEventListener('input',function(e){
   run();});
 
 function updateHardCaps(m,R,cpuq){
-  var riserEl=document.getElementById('riserq');
-  if(R.riserMax)riserEl.max=R.riserMax;else riserEl.removeAttribute('max');
-  riserEl.classList.toggle('field-over',!!(R.riserMax&&Number(riserEl.value)>R.riserMax));
   var psuEl=document.getElementById('psuq');
   if(R.psuMax)psuEl.max=R.psuMax;else psuEl.removeAttribute('max');
   psuEl.classList.toggle('field-over',!!(R.psuMax&&Number(psuEl.value)>R.psuMax));
@@ -1521,8 +1551,36 @@ function evaluate(){
     checks.push(['stop','NOT SUPPORTED',cpu[0]+' does not fit '+m.m+' '+m.g+' — wrong processor platform.']);
   if(m&&cpuq>m.s)
     checks.push(['stop','TOO MANY CPUS',m.m+' '+m.g+' has '+m.s+' socket'+(m.s>1?'s':'')+' — '+cpuq+' processors will not fit.']);
-  if(R.riserMax&&Number(v('riserq'))>R.riserMax)
-    checks.push(['stop','TOO MANY RISERS',m.m+' '+m.g+' has '+R.riserMax+' physical riser position'+(R.riserMax>1?'s':'')+' — '+v('riserq')+' will not fit.']);
+  /* risers: count vs positions, per-kit compatibility, slot total */
+  var riserLines=readLines(risers).filter(function(x){return x.name;});
+  var riserSlots=null;
+  if(m){
+    if(riserLines.length){
+      riserSlots=0;
+      var posCount={},cpu2Flagged={},unscored=0;
+      riserLines.forEach(function(x){
+        var k=riserKitByName(x.name);
+        if(k){
+          if(typeof k.s==='number') riserSlots+=k.s;
+          if(k.cpu2&&cpuq<2&&!cpu2Flagged[k.n]){
+            cpu2Flagged[k.n]=1;
+            checks.push(['flag','RISER','"'+k.n+'" needs the 2nd processor populated — its slots are dead with one CPU.']);
+          }
+          if(k.pos&&k.pos!=='any') posCount[k.pos]=(posCount[k.pos]||0)+1;
+        }else{ unscored++; }
+      });
+      Object.keys(posCount).forEach(function(p){
+        if(posCount[p]>1) checks.push(['stop','RISER CONFLICT',posCount[p]+' '+p+' risers entered — a chassis has one '+p+' riser bay.']);
+      });
+      if(unscored) riserSlots=null;   // a custom line we can't score — fall back to chassis max
+      else if(riserSlots<0) riserSlots=0;
+    }else if(curRiserKits.length){
+      var def=curRiserKits.filter(function(k){return k.def;})[0];
+      if(def&&typeof def.s==='number') riserSlots=def.s;   // nothing added -> the standard primary
+    }
+    if(R.riserMax&&riserLines.length>R.riserMax)
+      checks.push(['stop','TOO MANY RISERS',m.m+' '+m.g+' has '+R.riserMax+' riser position'+(R.riserMax>1?'s':'')+' — '+riserLines.length+' riser lines entered.']);
+  }
 
   /* power supply bays */
   var psuq=Number(v('psuq'))||0;
@@ -1549,18 +1607,25 @@ function evaluate(){
     }
   }
 
-  /* PCIe add-in-card slots vs risers fitted */
+  /* PCIe add-in-card slots vs the risers actually fitted */
   var namedCards=readLines(cards).filter(function(c){return c.name;})
     .reduce(function(t,c){return t+(Number(c.q)||1);},0);
   var cardNoteEl=document.getElementById('card-note');cardNoteEl.className='cap-note';
-  if(m&&R.pcie&&namedCards>0){
-    var slotCap=(cpuq>=2)?R.pcie.two:R.pcie.one;
-    var oneCpuTail=(cpuq<2&&R.pcie.two>R.pcie.one)?' (1 CPU — '+R.pcie.two+' with two)':'';
-    cardNoteEl.textContent=namedCards+' of '+slotCap+' PCIe slots used'+oneCpuTail;
+  var chassisMax=(m&&R.pcie)?(cpuq>=2?R.pcie.two:R.pcie.one):null;
+  var slotCap=null, capSrc='';
+  if(riserSlots!==null){ slotCap=chassisMax!=null?Math.min(riserSlots,chassisMax):riserSlots; capSrc=' (from the risers fitted)'; }
+  else if(chassisMax!=null){ slotCap=chassisMax; capSrc=(cpuq<2&&R.pcie.two>R.pcie.one)?' (1 CPU — '+R.pcie.two+' with two)':' (chassis maximum)'; }
+  var riserSlotNote=document.getElementById('riser-slot-note');
+  riserSlotNote.className='cap-note';
+  riserSlotNote.textContent=(m&&slotCap!=null&&(riserLines.length||namedCards))
+    ?(namedCards+' of '+slotCap+' PCIe add-in slot'+(slotCap===1?'':'s')+' used'+capSrc):'';
+  if(m&&slotCap!=null&&namedCards>0){
+    cardNoteEl.textContent=namedCards+' of '+slotCap+' PCIe slots used'+capSrc;
     if(namedCards>slotCap){
-      cardNoteEl.className='cap-note over';
-      checks.push(['stop','TOO MANY CARDS',namedCards+' PCIe cards listed but '+m.m+' '+m.g+' offers '+slotCap+' add-in slot'+(slotCap>1?'s':'')+
-        oneCpuTail+'. The FlexibleLOM / OCP is separate and does not use a slot.']);
+      cardNoteEl.className='cap-note over';riserSlotNote.className='cap-note over';
+      checks.push(['stop','TOO MANY CARDS',namedCards+' PCIe cards listed but only '+slotCap+' add-in slot'+(slotCap===1?'':'s')+' available'+capSrc+
+        (riserSlots===0?' — the fitted risers are NVMe/SlimSAS with no card slots':riserLines.length?'':' — add a riser')+
+        '. The FlexibleLOM / OCP is separate and does not use a slot.']);
     }
   }else{
     cardNoteEl.textContent='';
@@ -1858,7 +1923,7 @@ function buildSlip(){
   if(v('expander')&&v('expander').toLowerCase().indexOf('none')<0)L.push(v('expander'));
   if(r('hs'))L.push(r('hs'));else gaps.push('heatsinks');
   if(r('fan'))L.push(join(v('fanq')?v('fanq')+'x':'',r('fan')));else gaps.push('fans');
-  if(v('riser')||v('riserq'))L.push(join(v('riserq')?v('riserq')+'x':'',v('riser')||'riser'));
+  readLines(risers).forEach(function(x){if(x.name)L.push(join(x.q?x.q+'x':'',x.name));});
   readLines(cards).forEach(function(c){if(c.name)L.push(join(c.q?c.q+'x':'',c.name));});
   if(v('flr'))L.push(v('flr'));
   if(v('psu'))L.push(join(v('psuq')?v('psuq')+'x':'',v('psu'),'PS'));else gaps.push('power supplies');
@@ -2035,7 +2100,7 @@ document.getElementById('paste-fill').addEventListener('click',function(){
 /* ---------------- persistence ---------------- */
 function save(){
   try{
-    var d={f:{},r:{},ov:manualOverride,ft:fanTouched,drives:readLines(drives),cards:readLines(cards)};
+    var d={f:{},r:{},ov:manualOverride,ft:fanTouched,drives:readLines(drives),cards:readLines(cards),risers:readLines(risers)};
     document.querySelectorAll('input[type=text],input[type=number],input[type=hidden],textarea,select').forEach(function(c){
       if(c.id&&!c.hasAttribute('data-k'))d.f[c.id]=c.value;});
     document.querySelectorAll('input[type=radio]:checked').forEach(function(c){d.r[c.name]=c.value;});
@@ -2054,6 +2119,7 @@ function load(){
     if(d.ft)fanTouched=true;
     (d.drives||[]).forEach(function(x){drives.appendChild(driveRow(x));});
     (d.cards||[]).forEach(function(x){cards.appendChild(cardRow(x));});
+    (d.risers||[]).forEach(function(x){risers.appendChild(riserRow(x));});
     return true;
   }catch(e){return false;}}
 function copySpec(btn){
@@ -2083,7 +2149,7 @@ document.getElementById('clear').addEventListener('click',function(){
   manualOverride={fan:false,hs:false};fanTouched=false;
   document.getElementById('paste-result').classList.remove('on');
   document.getElementById('plan-out').classList.remove('on');
-  drives.innerHTML='';cards.innerHTML='';drives.appendChild(driveRow());
+  drives.innerHTML='';cards.innerHTML='';risers.innerHTML='';drives.appendChild(driveRow());
   try{localStorage.removeItem(KEY);}catch(e){}
   sync();});
 
