@@ -403,4 +403,23 @@ setTimeout(()=>{
   ptxt=d.getElementById('checks').textContent;
   (!ptxt.includes('will not power on')&&!ptxt.includes('redundant (1+1)'))
     ?pass3('...2x 1600W clears the power check'):fail3('power check still firing on 2x 1600W: '+ptxt.slice(0,180));
+
+  // --- rear / mid-tray options validated against the chassis ---
+  const rearTest=(model,rear)=>{
+    setModel3(model);
+    d.getElementById('rear').value=rear;fire(d.getElementById('rear'),'input');
+    return d.getElementById('checks').textContent;
+  };
+  rearTest('DL360 G10','4LFF midtray').includes('not a rear or mid-tray option on DL360 G10')
+    ?pass3('DL360 G10: "4LFF midtray" blocked (1U, no mid-tray)'):fail3('DL360 midtray not blocked: '+rearTest('DL360 G10','4LFF midtray').slice(0,160));
+  !rearTest('DL360 G10','1SFF rear').includes('REAR NOT SUPPORTED')
+    ?pass3('DL360 G10: "1SFF rear" accepted'):fail3('DL360 1SFF rear wrongly blocked');
+  !rearTest('DL380 G10','4LFF midtray').includes('REAR NOT SUPPORTED')
+    ?pass3('DL380 G10: "4LFF midtray" accepted (2U LFF chassis)'):fail3('DL380 midtray wrongly blocked');
+  rearTest('DL380 G10','8SFF midtray').includes('not a rear or mid-tray option on DL380 G10')
+    ?pass3('DL380 G10: "8SFF midtray" blocked (Gen10 mid cage is 4LFF)'):fail3('DL380 G10 8SFF midtray not blocked');
+  setModel3('DL360 G11');
+  const rOpts=[...d.querySelectorAll('#rearopts option')].map(o=>o.value);
+  (rOpts.length===3 && !rOpts.some(o=>/mid/i.test(o)))
+    ?pass3('rear datalist is per-model (DL360 G11: 3 options, no midtray)'):fail3('rear datalist not filtered: '+rOpts.join(', '));
 },1400);

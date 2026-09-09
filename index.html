@@ -618,6 +618,10 @@ button.quiet{color:var(--ink-soft)}
      fanW          TDP at/above this -> high performance fan kit
      fanNVMe/fanRear/fanGPU   condition requires performance fans
      fanBays       bay configs shipping performance fans as standard
+     rear          the rear / mid-tray drive options this exact chassis offers
+                   (array of strings). Feeds the Rear/midtray datalist and a
+                   hard check — anything else typed there is blocked. Omit and
+                   the sheet shows the generic list with only a soft warning.
      rearMaxW      rear drives unsupported above this CPU wattage
      rear2SFF      front configs a 2SFF rear cage is allowed on
      coolTierW     dual-socket TDP at/above which air cooling is unsupported
@@ -674,8 +678,8 @@ var MODELS=[
      'Mixing different processor models is not supported.',
      'Fan cage ships with 5 hot-swap fans for 2P redundancy.']}},
  {m:'DL360',g:'G9', p:['e5v34'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
-   rules:{verified:true,hsW:121,hsWtext:'above 120W',hsStdException:['E5-2690v4'],fanGPU:true,riserMax:2,
-     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},
+   rules:{verified:true,hsW:121,hsWtext:'above 120W',hsStdException:['E5-2690v4'],fanGPU:true,riserMax:2,fanRear:true,
+     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2SFF rear','2x M.2 (uFF) rear'],
      notes:['Processors up to 120W ship standard heatsink; over 120W ships performance — except the E5-2690v4, which ships standard despite being 135W.',
        'Ships 5 standard fans for 1P and 7 for 2P.',
        'Mixing E5-2600 v3 and v4 processors is not supported.',
@@ -686,6 +690,7 @@ var MODELS=[
        'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.']}},
  {m:'DL380',g:'G9', p:['e5v34'], s:2, d:24, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:121,hsWtext:'above 120W',rearMaxW:160,rear2SFF:['24SFF','12LFF'],riserMax:3,
+     rear:['2SFF rear','3LFF rear','4LFF midtray'],
      psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:3,two:6},
      fanRear:true,fanGPU:true,
      notes:['Ships with 6 standard hot-plug fans; high performance fans are the option.',
@@ -748,7 +753,7 @@ var MODELS=[
  {m:'DL360',g:'G10', p:['sp1','sp2'],  s:2, d:24, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
-     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},
+     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2x M.2 (dual uFF) rear'],
      fanNVMe:true,fanRear:true,fanGPU:true,fanPart:'871244-B21',memPerSocket:768,riserMax:2,
      notes:['Up to 7 fans with redundancy built in. High performance fan kit 871244-B21 includes 7.',
        'A 10 NVMe chassis always gets 7 high performance fans, one processor or two.',
@@ -764,6 +769,7 @@ var MODELS=[
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},
+     rear:['2SFF rear','2SFF NVMe rear','3LFF rear','4LFF midtray'],
      fanNVMe:true,fanRear:true,fanGPU:true,fanBays:['12LFF','24SFF'],
      rear2SFF:['24SFF','12LFF'],fanPart:'867810-B21',memPerSocket:768,riserMax:3,
      notes:['High performance fan kit 867810-B21 is required for NVMe, for GPUs, and when boxes 1, 2 and 3 are all populated.',
@@ -833,7 +839,7 @@ var MODELS=[
        'Select one or two Flex Slot power supplies.']}},
  {m:'DL360', g:'G10+', p:['sp3'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P26479-B21',riserMax:2,
-     psuMax:2,fans:{two:7,perf:7},pcie:{one:2,two:3},
+     psuMax:2,fans:{two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2x M.2 (dual uFF) rear'],
      fanW:205,fanPart:'P26477-B21',fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['Heatsink threshold is 150W (P26479-B21); the fan kit threshold is 205W (P26477-B21).',
        'Dual processor configurations require 7 fans, standard or high performance.',
@@ -845,7 +851,7 @@ var MODELS=[
        'Each processor feeds 2 x8 front NVMe connectors, supporting up to 4 drives — the socket must be populated for them to work.']}},
  {m:'DL365', g:'G10+', p:['rome','milan'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:156,hsWtext:'above 155W',fanW:156,hsPart:'P19368-B21',fanPart:'P26477-B21',
-     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,fanNVMe:true,fanRear:true,fanGPU:true,
+     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,rear:['1SFF rear','2x M.2 (dual uFF) rear'],fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['Processors above 155W need the High Performance Heat Sink (P19368-B21) and the High Performance Fan Kit (P26477-B21).',
        'Performance fans also for NVMe or SAS4 drives, 100GbE-plus NICs and OCP cards, and PCIe SATA or NVMe adapters.',
        '1 processor ships 5 standard fans; 2 processors ship 7 (standard or performance by CPU).',
@@ -853,6 +859,7 @@ var MODELS=[
  {m:'DL380', g:'G10+', p:['sp3'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P27095-B21',riserMax:3,
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},fanBays:['12LFF','24SFF'],
+     rear:['2SFF rear','2SFF NVMe rear','4LFF midtray'],
      fanW:205,fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['Heatsink threshold is 150W (P27095-B21).',
        'Maximum performance fan kit is required for rear drives, processors above 205W, Optane persistent memory, high performance NVMe, and certain backplanes.',
@@ -903,7 +910,7 @@ var MODELS=[
        '6 PCIe Gen5 x16 slots (3 primary + 3 secondary), all FH/HL. Up to 4 SW or 2 DW GPUs.']}},
  {m:'DL360',g:'G11', p:['sp4'], s:2, d:32,
    rules:{verified:true,hsW:186,hsWtext:'186W–270W',fanW:186,fanPart:'P48908-B21',hsPart:'P48905-B21',riserMax:2,
-     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},
+     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2SFF rear','2x M.2 (dual uFF) rear'],
      coolTierW:271,singleMaxAirW:300,fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['Standard fan kit (5 fans) covers TDP under 186W; the 2P standard kit adds 2 more for a second processor.',
        'High performance heatsink (P48905-B21) + high performance fan kit (P48908-B21) together cover 186W–270W, or a single 300W processor.',
@@ -914,7 +921,7 @@ var MODELS=[
        'Up to 7 fans with redundancy — one rotor failure degrades but keeps running.']}},
  {m:'DL365',g:'G11', p:['genoa'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:241,hsWtext:'above 240W (cTDP)',fanW:241,
-     memPerSocket:3072,psuMax:2,fans:{one:7,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,
+     memPerSocket:3072,psuMax:2,fans:{one:7,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,rear:['1SFF rear','2SFF rear','2x M.2 (dual uFF) rear'],
      fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['24 DIMM slots (12 per Genoa socket, 1 DIMM per channel).',
        '7 fans, one fan per kit. Standard fan kit for processors at or below cTDP 240W; Performance fan kit above 240W, or for NVMe / SAS4 drives, a 10SFF SAS/SATA/NVMe backplane, or EDSFF / GPU CTO servers.',
@@ -923,6 +930,7 @@ var MODELS=[
  {m:'DL380',g:'G11', p:['sp4'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:151,hsWtext:'above 150W, up to 350W',hsPart:'P48818-B21',fanW:206,riserMax:3,
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},fanBays:['24SFF'],
+     rear:['2SFF rear','2SFF NVMe rear','4LFF midtray','8SFF midtray'],
      fanNVMe:true,fanRear:true,fanGPU:true,fanPart:'P48820-B21',
      notes:['150W or under takes the standard heatsink (P49145-B21); above 150W through 350W needs P48818-B21.',
        'A midtray drive cage with a >150W processor needs the DL3xx/560 Gen11 High Performance Heatsink (P48905-B21) instead.',
@@ -1373,6 +1381,10 @@ function refreshDependents(){
   var q=document.getElementById('cpuq');
   if(m){q.max=m.s;if(Number(q.value)>m.s)q.value=m.s;}else{q.removeAttribute('max');}
   fill('bayopts',(m&&m.bays)?m.bays:GENERIC_BAYS);
+  fill('rearopts',(m&&R.rear)?R.rear:REAR);
+  document.getElementById('rear').placeholder=(m&&R.rear)
+    ?'Rear / midtray — '+R.rear.length+' option'+(R.rear.length>1?'s':'')+' for this model'
+    :'Rear / midtray — leave blank if none';
   var rk=(m&&RISERS[m.m+' '+m.g])||(m?GENERIC_RISERS:[]);
   var isOwn=!!(m&&RISERS[m.m+' '+m.g]);
   renderRiserKits(rk,isOwn);
@@ -1612,6 +1624,19 @@ function evaluate(){
   if(R.rear2SFF&&/2SFF/i.test(rear)&&bays&&!R.rear2SFF.some(function(b){return bays.indexOf(b)>-1;}))
     checks.push(['stop','NOT SUPPORTED','A 2SFF rear cage is only supported on '+R.rear2SFF.join(' or ')+' — not '+v('bays')+'.']);
 
+  /* rear / mid-tray option vs what this chassis actually offers */
+  if(m&&rear){
+    if(R.rear){
+      var allow={},allowMid=false;
+      R.rear.forEach(function(o){rearSigs(o).forEach(function(x){allow[x]=1;if(/:mid$/.test(x))allowMid=true;});});
+      var bad=rearSigs(rear).filter(function(x){return x==='any:mid'?!allowMid:!allow[x];});
+      if(bad.length)
+        checks.push(['stop','REAR NOT SUPPORTED','"'+v('rear')+'" is not a rear or mid-tray option on '+m.m+' '+m.g+' — it takes: '+R.rear.join('; ')+'.']);
+    }else if(/mid[\s-]?tray|midtray|\bmid\b/i.test(rear)){
+      checks.push(['verify','REAR','Confirm '+m.m+' '+m.g+' offers a mid-tray drive cage — 1U and non-LFF chassis do not. Not verified for this model.']);
+    }
+  }
+
   var fanReasons=[];
   if(R.fanNVMe&&hasNVMe)fanReasons.push('NVMe drives require high performance fans'+fanPart+'.');
   if(has24G)fanReasons.push('24G SAS drives require high performance fans'+fanPart+'.');
@@ -1686,6 +1711,21 @@ function evaluate(){
    names bay configs, NVMe, rear/midtray drives, a GPU, 24G SAS, or a 3-/4-
    processor build is shown only once at least one of the things it names is
    actually chosen. Notes that name none of these (general caveats) always show. */
+/* Reduce a rear / mid-tray string to comparable signatures, e.g.
+   "4LFF midtray" -> ["4lff:mid"], "2x M.2 uFF rear" -> ["m2:rear"]. */
+function rearSigs(s){
+  s=String(s).toLowerCase();
+  var mid=/mid[\s-]?tray|midtray|\bmid\b/.test(s);
+  var out=[], seen={}, re=/(\d+)?\s*x?\s*(sff|lff|uff|m\.?2)\b/g, mm;
+  while((mm=re.exec(s))){
+    var f=mm[2].replace(/\./g,'');
+    if(f==='uff') f='m2';
+    var sig=(mm[1]||'')+f+(mid?':mid':':rear');
+    if(!seen[sig]){seen[sig]=1;out.push(sig);}
+  }
+  if(!out.length&&mid) out.push('any:mid');
+  return out;
+}
 /* Rough peak-power estimate (W). Deliberately conservative-ish; for a real
    number the trader should run HPE Power Advisor. */
 function estPower(m,cpu,cpuq,dimmq,drives,cardLines,flr,fanq){

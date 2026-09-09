@@ -108,6 +108,13 @@ hsStdException    codes that ship STANDARD despite exceeding hsW
 fanW              TDP at/above this → high performance fan kit
 fanNVMe/fanRear/fanGPU   condition requires performance fans
 fanBays           bay configs shipping performance fans as standard
+rear              array of the rear / mid-tray drive options this chassis offers
+                  (e.g. `['1SFF rear','2x M.2 (dual uFF) rear']` for DL360). Feeds
+                  the Rear/midtray datalist AND a hard check — anything else typed
+                  there is a `stop`, via `rearSigs()` signature matching. Set on
+                  the DL360 and DL380 lines (all gens) + DL365. Models without it
+                  keep the generic list; only "midtray" on an unlisted model gets
+                  a soft `verify`.
 rearMaxW          rear drives unsupported above this CPU wattage
 rear2SFF          bay configs a 2SFF rear cage is allowed on
 coolTierW         dual-socket TDP at/above which air cooling is unsupported
