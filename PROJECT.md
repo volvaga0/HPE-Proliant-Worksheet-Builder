@@ -67,8 +67,24 @@ print view after any theme change. Semantic colours kept their meaning:
 the QUICKSPECS VERIFIED badge, `--check` amber = verify/guess, `--stop` red
 = blocked, `--auto` blue = applied, `--tower` periwinkle = the Tower-only
 section, `--paste` purple = the paste box. The bottom action `.bar` is
-`position:fixed` with `z-index:900` and `body` reserves `92px` of
-bottom padding so form content clears it.
+`position:fixed` with `z-index:900`; its content is wrapped in `.bar-inner`
+(max-width 1180px, centred) so on a wide monitor the counter and buttons
+line up with the form instead of the screen edges. `body` reserves
+`calc(84px + env(safe-area-inset-bottom))` of bottom padding.
+
+**Responsive — one page, not two.** A single responsive layout, tuned for
+touch; there is deliberately no separate mobile build (double maintenance,
+guaranteed drift). Breakpoints: `@media (max-width:980px)` collapses the
+form/slip grid to one column (slip drops below, `order:2`); `@media
+(max-width:640px)` is the phone pass — every form control goes to
+**16px** (below that iOS Safari zooms the page on focus), pills/buttons/kill
+get 42–44px min height, the drive/card/riser line lists switch from a
+squeezed 6-column grid to `flex-wrap` (qty+capacity on one row, the selects
+wrapping), `.pair` stacks, the planner goes full-width, and the bottom bar
+puts the status line on its own centred row with 50/50 Copy/Clear buttons.
+`viewport-fit=cover` + `env(safe-area-inset-*)` keep clear of the notch and
+home indicator; `body{overflow-x:hidden}` is a backstop against sideways
+scroll. Tapping the bar's status line smooth-scrolls to the spec slip.
 
 ## Architecture
 

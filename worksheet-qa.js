@@ -343,6 +343,14 @@ setTimeout(()=>{
   (!/overflow\s*:\s*(auto|scroll)/.test(checksRule) && !/max-height/.test(checksRule))
     ?pass3('config checks box grows to fit — no inner scrollbar'):fail3('config checks box still scroll-capped: '+checksRule);
 
+  // --- mobile: iOS focus-zoom guard + safe-area + touch targets ---
+  const mq=(html.match(/@media \(max-width:640px\)\{[\s\S]*?\n\}/)||[''])[0];
+  (/font-size:\s*16px/.test(mq) && /\.pills label\{[^}]*min-height:\s*4\dpx/.test(mq))
+    ?pass3('mobile CSS: 16px form controls (no iOS zoom) + 42px+ pill targets'):fail3('mobile control sizing missing: '+mq.slice(0,200));
+  (/env\(safe-area-inset-bottom\)/.test(html) && /viewport-fit=cover/.test(html))
+    ?pass3('mobile CSS: safe-area insets + viewport-fit=cover'):fail3('safe-area handling missing');
+  /overflow-x:\s*hidden/.test(html)?pass3('mobile: body overflow-x hidden (no sideways scroll)'):fail3('body overflow-x not guarded');
+
   // --- DL560 / DL580 PSU bay counts (verified against QuickSpecs) ---
   const psuFor=(label)=>{ setModel3(label); return d.getElementById('psuq').max; };
   psuFor('DL560 G10')==='4'?pass3('DL560 G10: 4 PSU bays'):fail3('DL560 G10 psuMax wrong: '+psuFor('DL560 G10'));

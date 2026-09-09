@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#19191a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Procurri — HPE ProLiant Worksheet Builder</title>
 <style>
 :root{
@@ -24,7 +27,9 @@ body{margin:0;
     radial-gradient(circle at 30% 92%, rgba(0,212,212,0.025), transparent 42%),
     var(--paper);
   background-attachment:fixed;color:var(--ink);
-  font-family:"Segoe UI","Helvetica Neue",Arial,system-ui,sans-serif;font-size:15.5px;line-height:1.45;padding:0 0 92px}
+  -webkit-tap-highlight-color:rgba(0,212,212,0.18);overflow-x:hidden;
+  font-family:"Segoe UI","Helvetica Neue",Arial,system-ui,sans-serif;font-size:15.5px;line-height:1.45;
+  padding:0 0 calc(84px + env(safe-area-inset-bottom))}
 .sheet{max-width:1180px;margin:0 auto;padding:24px 16px 0;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;align-items:start}
 .col-form{min-width:0}
 .head{display:flex;flex-direction:column;gap:14px;
@@ -196,11 +201,11 @@ pre.slip .gap{color:var(--check)}
 .slip-actions{display:flex;gap:7px;flex-wrap:wrap}
 
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:900;background:var(--card);border-top:1.5px solid var(--signal);
-  padding:9px 16px;box-shadow:0 -4px 16px rgba(0,0,0,0.35)}
+  padding:9px 16px calc(9px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,0.35)}
 .bar-inner{max-width:1180px;margin:0 auto;width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
 
 /* Back to top */
-#back-to-top{position:fixed;bottom:64px;right:18px;width:42px;height:42px;border-radius:50%;
+#back-to-top{position:fixed;bottom:calc(72px + env(safe-area-inset-bottom));right:16px;width:42px;height:42px;border-radius:50%;
   background:var(--card);border:2px solid var(--signal);color:var(--signal);font-size:1.2rem;line-height:1;
   display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;
   transition:opacity .3s,visibility .3s,transform .2s,box-shadow .2s;z-index:998;user-select:none;padding:0}
@@ -222,14 +227,65 @@ button.quiet{color:var(--ink-soft)}
 @media (max-width:980px){
   .sheet{grid-template-columns:1fr}
   .slip-wrap{position:static}
-  .col-slip{order:2}
+  .col-slip{order:2;min-width:0}
 }
+
+/* ---------- phones (iPhone defaults ~390px) ---------- */
 @media (max-width:640px){
-  .row{grid-template-columns:1fr}
-  .row .a{margin-top:7px}
-  h1{font-size:25px}
-  .line.drive{grid-template-columns:56px 1fr 28px}
-  .count{width:100%}
+  body{font-size:15px}
+  .sheet{padding:14px 11px 0;gap:16px}
+  .head{padding:15px 14px;border-radius:13px;gap:11px}
+  .brand{gap:7px}
+  .brand .logo{height:56px}
+  h1{font-size:21px;text-shadow:0 4px 12px rgba(0,212,212,0.22)}
+  .sub{font-size:13.5px;max-width:none}
+  .head-row{gap:12px}
+  .chassis{width:100%}
+
+  /* one column per question */
+  .row{grid-template-columns:1fr;padding:11px 12px 13px}
+  .row .a{margin-top:8px}
+  .q .note{max-width:none}
+  .sec-head h2,.panel-head h2{font-size:16.5px}
+  .sec-head .hint{font-size:12px}
+
+  /* 16px controls stop iOS Safari zooming on focus; taller = thumb-friendly */
+  input[type=text],input[type=number],textarea,select{font-size:16px;padding:9px 10px}
+  .pills{gap:6px}
+  .pills label{padding:10px 13px;font-size:15px;min-height:42px;display:inline-flex;align-items:center}
+  .chassis .pills label{padding:11px 19px}
+  button{padding:11px 15px;font-size:15px}
+  .add{padding:9px 13px}
+  .riser-toggle{padding:9px 13px;font-size:14px}
+  .kill{height:42px;font-size:19px}
+
+  /* repeatable line lists: wrap instead of crushing 6 columns into 350px */
+  .line.drive,.line.card{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}
+  .line.drive>*,.line.card>*{flex:1 1 45%;min-width:0}
+  .line.drive input[type=number],.line.card input[type=number]{flex:0 0 56px}
+  .line.drive .kill,.line.card .kill{flex:0 0 44px}
+  .line.drive input[list=caps]{flex:1 1 60%}
+
+  .pair,.pair.rev{grid-template-columns:1fr;gap:8px}
+  .inline{gap:8px}
+  .planner{gap:8px}
+  .planner input[type=number],.planner select,.planner .go{width:100%}
+
+  .combo-panel{max-height:52vh}
+  .combo-item{padding:11px 12px;font-size:15px}
+  .combo-item .ci-sub{font-size:11.5px}
+
+  .paste{padding:12px 12px 13px}
+  .paste-btn{padding:10px 15px}
+
+  /* bottom action bar: status on its own line, big split buttons */
+  .bar{padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+  .bar-inner{gap:8px}
+  .count{width:100%;order:-1;margin:0;text-align:center;font-size:13.5px}
+  .saved{display:none}
+  #copy2,#clear{flex:1 1 42%}
+  #back-to-top{width:44px;height:44px;right:12px}
+  pre.slip{max-height:none}
 }
 @media print{
   :root{--paper:#fff;--card:#fff;--shade:#fff;--ink:#000;--ink-soft:#333;--rule:#999;--rule-strong:#000;
@@ -2403,6 +2459,13 @@ function copySpec(btn){
 document.getElementById('copy').addEventListener('click',function(){copySpec(this);});
 document.getElementById('copy2').addEventListener('click',function(){copySpec(this);});
 document.getElementById('print').addEventListener('click',function(){window.print();});
+/* on a phone the spec slip sits below the whole form — let the status line jump to it */
+document.getElementById('count').addEventListener('click',function(){
+  var slip=document.getElementById('slip');
+  if(slip)slip.scrollIntoView({behavior:'smooth',block:'start'});
+});
+document.getElementById('count').style.cursor='pointer';
+document.getElementById('count').title='Jump to the spec slip';
 document.getElementById('clear').addEventListener('click',function(){
   if(!confirm('Clear every answer on this sheet?'))return;
   document.querySelectorAll('input[type=text],input[type=number],textarea').forEach(function(c){c.value='';});
