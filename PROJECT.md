@@ -201,9 +201,12 @@ cards that outnumber the FH slots get flagged). Filling out `RISERS` (incl.
 
 **`PSUS`** is a list of real HPE PSU kits with efficiency tier + wattage +
 option part number (Flex Slot Platinum 94% / Titanium 96%, Common Slot for
-Gen9, ATX Gold for entry towers). Confirmed against the HPE Flexible Slot
-Power Supplies QuickSpecs. The wattage still parses out of the string for
-the power-budget check.
+Gen9, ATX Gold for entry towers), split into three sections by `—`-prefixed
+divider rows. The wattage parses out of the string for the power-budget
+check. The PSU field's suggestions come from **`psuList()`**, not raw
+`PSUS`: a model's own `psu` rule if set (ML towers), else just the Common
+Slot section for a Gen9 rack or just the Flex Slot section for Gen10+ — so a
+DL380 Gen10 never sees Gen9 Common Slot or tower ATX supplies.
 
 ### Engine (`evaluate()`)
 

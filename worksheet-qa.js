@@ -397,6 +397,11 @@ setTimeout(()=>{
   txt.includes('Standard motherboard')?pass3('Standard motherboard shown by default'):fail3('motherboard default missing');
   txt.includes('No bezel')?pass3('No bezel shown by default'):fail3('bezel default missing');
   txt.includes('No media bay')?pass3('No media bay shown by default'):fail3('media bay default missing');
+  // rails = "No" must clear the "rails" gap, not keep nagging
+  d.getElementById('rl0').checked=true;fire(d.getElementById('rl0'),'change');
+  { const s=d.getElementById('slip').textContent, need=(s.split('Still needed')[1]||'');
+    (!/\brails?\b/i.test(need) && /No rail kit/.test(s))
+      ?pass3('Rails "No" -> "No rail kit" on the slip, no rails gap'):fail3('rails=No still gapping: '+need.slice(0,80)); }
 
   // --- model notes are filtered to the current selection ---
   setModel3('DL360 G10');pickCpu3('S4110');
@@ -577,10 +582,17 @@ setTimeout(()=>{
   (!ptxt.includes('will not power on')&&!ptxt.includes('redundant (1+1)'))
     ?pass3('...2x 1600W clears the power check'):fail3('power check still firing on 2x 1600W: '+ptxt.slice(0,180));
 
-  // --- PSU list carries efficiency tier + part number; wattage still parses ---
-  const psuList=[...d.querySelectorAll('#psus option')].map(o=>o.value);
-  (psuList.some(o=>/Titanium.*P03178-B21/.test(o)) && psuList.some(o=>/Platinum.*865414-B21/.test(o)))
-    ?pass3('PSU list has tier + part number (Platinum 865414-B21 / Titanium P03178-B21)'):fail3('PSU list missing tiers: '+psuList.slice(0,4));
+  // --- PSU list carries efficiency tier + part number, and is scoped to the model ---
+  const g10psu=[...d.querySelectorAll('#psus option')].map(o=>o.value);   // DL380 G10 context
+  (g10psu.some(o=>/Titanium.*P03178-B21/.test(o)) && g10psu.some(o=>/Platinum.*865414-B21/.test(o)))
+    ?pass3('PSU list has tier + part number (Platinum 865414-B21 / Titanium P03178-B21)'):fail3('PSU list missing tiers: '+g10psu.slice(0,4));
+  (!g10psu.some(o=>/common slot/i.test(o)) && !g10psu.some(o=>/\bATX\b/i.test(o)) && !g10psu.some(o=>/^—/.test(o)))
+    ?pass3('DL380 G10 PSU list is Flex Slot only — no Gen9 Common Slot / tower ATX / dividers'):fail3('DL380 G10 PSU list leaked: '+g10psu.filter(o=>/common|ATX|^—/i.test(o)));
+  setModel3('DL380 G9');
+  const g9psu=[...d.querySelectorAll('#psus option')].map(o=>o.value);
+  (g9psu.length && g9psu.every(o=>/common slot/i.test(o)))
+    ?pass3('DL380 G9 PSU list is Common Slot only'):fail3('DL380 G9 PSU list: '+g9psu);
+  setModel3('DL380 G10');pickCpu3('G6148');d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
   d.getElementById('psu').value='800W Flex Slot Platinum (865414-B21)';fire(d.getElementById('psu'),'input');
   d.getElementById('psuq').value='2';fire(d.getElementById('psuq'),'input');
   /~\d+W .* 800W/.test(d.getElementById('psu-note').textContent)

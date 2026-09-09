@@ -603,7 +603,7 @@ button.quiet{color:var(--ink-soft)}
         <div class="a"><div class="inline">
           <fieldset class="pills"><legend>Rails</legend>
             <input type="radio" id="rl1" name="rail" value="Rail kit"><label for="rl1">Yes</label>
-            <input type="radio" id="rl0" name="rail" value=""><label for="rl0">No</label>
+            <input type="radio" id="rl0" name="rail" value="No rail kit"><label for="rl0">No</label>
           </fieldset>
           <input type="text" id="railt" placeholder="Kit type, if specified" style="flex:1;min-width:130px">
         </div></div>
@@ -1538,7 +1538,7 @@ var RISERS={
 
 /* ========================================================================== */
 (function(){
-var KEY='sbw-draft-v9';
+var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
 function fill(id,arr){document.getElementById(id).innerHTML=arr.map(function(o){return '<option value="'+o+'">';}).join('');}
 fill('dimms',DIMMS);fill('ctrls',CTRLS);fill('bats',BATS);fill('psus',PSUS);
@@ -1748,7 +1748,21 @@ attachList(document.getElementById('ctrl'),function(){return CTRLS;});
 attachList(document.getElementById('bat'),function(){return BATS;});
 attachList(document.getElementById('flr'),function(){return FLRS;});
 attachList(document.getElementById('expander'),function(){return EXPANDERS;});
-attachList(document.getElementById('psu'),function(){var m=currentModel(),R=rulesFor(m);return (m&&R.psu)?R.psu:PSUS;});
+/* PSU suggestions scoped to the model: per-model list if set (ML towers),
+   else Common Slot for Gen9 racks / Flex Slot for Gen10 and newer racks —
+   the generic PSUS list mixes all three families with divider rows. */
+function psuList(){
+  var m=currentModel(),R=rulesFor(m);
+  if(m&&R.psu)return R.psu;
+  if(!m)return PSUS;
+  var seg=0,flex=[],common=[];
+  PSUS.forEach(function(s){
+    if(s.charAt(0)==='—'){seg++;return;}
+    if(seg===0)flex.push(s);else if(seg===1)common.push(s);
+  });
+  return m.g==='G9' ? common : flex;
+}
+attachList(document.getElementById('psu'),psuList);
 attachList(document.getElementById('bays'),function(){var m=currentModel();return (m&&m.bays)?m.bays:GENERIC_BAYS;});
 attachList(document.getElementById('rear'),function(){var m=currentModel(),R=rulesFor(m);return (m&&R.rear&&R.rear.length)?R.rear:REAR;});
 stepper(document.getElementById('dimmq'),{min:1});
@@ -1838,7 +1852,7 @@ function refreshDependents(){
     :rearListed
       ?'Rear / midtray — '+R.rear.length+' option'+(R.rear.length>1?'s':'')+' for this model'
       :'Rear / midtray — leave blank if none';
-  fill('psus',(m&&R.psu)?R.psu:PSUS);
+  fill('psus',psuList());
   var noRiser=!!(m&&R.riserMax===0);
   var rk=noRiser?[]:((m&&RISERS[m.m+' '+m.g])||(m?GENERIC_RISERS:[]));
   var isOwn=!!(m&&RISERS[m.m+' '+m.g]);
