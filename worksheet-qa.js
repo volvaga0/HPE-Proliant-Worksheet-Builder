@@ -71,14 +71,26 @@ setTimeout(()=>{
   const g9cpus=[...d.querySelectorAll('#cpu-panel .combo-item')].map(e=>e.textContent);
   g9cpus.some(t=>t.includes('6140'))?fail('6140 wrongly offered on G9'):pass('Gold 6140 correctly absent on G9');
 
-  // 5. cpu select auto-sets qty to 1
-  d.getElementById('cpuq').value='';
-  const pick=[...d.querySelectorAll('#cpu-panel .combo-item')].find(e=>e.textContent.includes('E5-2697v4'));
-  pick.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
-  d.getElementById('cpuq').value==='1'?pass('cpu qty auto-set to 1'):fail('cpu qty not auto-set (got "'+d.getElementById('cpuq').value+'")');
+  const pickModel1=(label)=>{mi.value=label;fire(mi,'input');
+    const o=[...d.querySelectorAll('#model-panel .combo-item')].find(e=>e.textContent.replace(/\s+/g,' ').includes(label)&&(label.includes('G10+')||!e.textContent.includes('G10+')));
+    if(o)o.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));};
+  const pickCpu1=(code)=>{ci.value='';fire(ci,'input');
+    const o=[...d.querySelectorAll('#cpu-panel .combo-item')].find(e=>e.querySelector('.ci-main').textContent===code);
+    if(o)o.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));};
 
-  // 6. socket cap
-  d.getElementById('cpuq').max==='2'?pass('cpu qty capped at 2 sockets for DL380'):fail('socket cap wrong: '+d.getElementById('cpuq').max);
+  // 5. cpu select auto-sets the count to 1
+  d.getElementById('cpuq').value='';
+  pickCpu1('E5-2697v4');
+  d.getElementById('cpuq').value==='1'?pass('cpu qty auto-set to 1 when a CPU is picked'):fail('cpu qty not auto-set (got "'+d.getElementById('cpuq').value+'")');
+
+  // 6. processor count is a button group scoped to the chassis' socket count
+  const cpuqBtns=()=>[...d.querySelectorAll('#cpuq-btns button')].map(b=>b.getAttribute('data-n'));
+  JSON.stringify(cpuqBtns())===JSON.stringify(['1','2'])?pass('DL380 G9: processor-count buttons are [1,2]'):fail('DL380 G9 cpuq buttons: '+cpuqBtns());
+  pickModel1('DL560 G10');
+  JSON.stringify(cpuqBtns())===JSON.stringify(['1','2','4'])?pass('DL560 G10: buttons are [1,2,4] — 3 not offered (validCounts)'):fail('DL560 G10 cpuq buttons: '+cpuqBtns());
+  pickModel1('DL20 G10');
+  (cpuqBtns().length===1&&d.getElementById('cpuq').value==='1')?pass('DL20 G10 (1 socket): single button, auto-selected'):fail('DL20 G10 cpuq: '+cpuqBtns()+' / '+d.getElementById('cpuq').value);
+  pickModel1('DL380 G10'); pickCpu1('S4110');
 
   // 7. rear-drive 160W rule should block with E5-2697v4 (145W ok) -> use 2699v4? 145W. Use rear + >160W none exist on g9.
   // instead test 2SFF rear on 8SFF chassis
@@ -170,7 +182,7 @@ setTimeout(()=>{
   pickCpu('EPYC 7452')?pass2('picked EPYC 7452 (155W) on DL325 G10'):fail2('could not pick EPYC 7452');
   d.getElementById('cpuq').value='1';fire(d.getElementById('cpuq'),'input');
   let txt=d.getElementById('checks').textContent;
-  !(d.querySelector('input[name="hs"]:checked'))?pass2('7452 (155W, below 170W) -> no heatsink forced, none needed'):fail2('7452 wrongly forced a heatsink: '+(d.querySelector('input[name="hs"]:checked')||{}).value);
+  (d.querySelector('input[name="hs"]:checked')||{}).value==='Std Heatsinks'?pass2('7452 (155W, below 170W) -> standard heatsink auto-selected'):fail2('7452 heatsink: '+((d.querySelector('input[name="hs"]:checked')||{}).value||'none'));
 
   pickCpu('EPYC 7532');
   txt=d.getElementById('checks').textContent;
@@ -194,15 +206,15 @@ setTimeout(()=>{
   setModel('DL385 G11');
   d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
   pickCpu('EPYC 9224'); // 200W, below the 240W tier - no rule should fire
-  !(d.querySelector('input[name="hs"]:checked'))?pass2('DL385 G11: 200W EPYC -> no heatsink forced (below 240W tier)'):fail2('DL385 G11 200W wrongly forced: '+(d.querySelector('input[name="hs"]:checked')||{}).value);
+  (d.querySelector('input[name="hs"]:checked')||{}).value==='Std Heatsinks'?pass2('DL385 G11: 200W EPYC -> standard heatsink auto-selected (below 240W tier)'):fail2('DL385 G11 200W heatsink: '+((d.querySelector('input[name="hs"]:checked')||{}).value||'none'));
   pickCpu('EPYC 9354'); // 280W - should be performance (240-300 tier)
   (d.querySelector('input[name="hs"]:checked')||{}).value==='Perf Heatsinks'?pass2('DL385 G11: 280W EPYC -> performance heatsink'):fail2('DL385 G11 280W got '+(d.querySelector('input[name="hs"]:checked')||{}).value);
 
   // ML350 G10 -> 85W threshold
   setModel('ML350 G10');
   d.getElementById('cpuq').value='1';fire(d.getElementById('cpuq'),'input');
-  pickCpu('S4110'); // exactly 85W - "above 85W" should NOT trigger
-  !(d.querySelector('input[name="hs"]:checked'))?pass2('ML350 G10: 85W (not above) -> no heatsink forced'):fail2('ML350 G10 85W wrongly forced: '+(d.querySelector('input[name="hs"]:checked')||{}).value);
+  pickCpu('S4110'); // exactly 85W - "above 85W" should NOT trigger perf
+  (d.querySelector('input[name="hs"]:checked')||{}).value==='Std Heatsinks'?pass2('ML350 G10: 85W (not above) -> standard heatsink, not performance'):fail2('ML350 G10 85W heatsink: '+((d.querySelector('input[name="hs"]:checked')||{}).value||'none'));
   pickCpu('G6140'); // 140W - clearly above 85W, should trigger
   (d.querySelector('input[name="hs"]:checked')||{}).value==='Perf Heatsinks'?pass2('ML350 G10: 140W part -> performance heatsink'):fail2('ML350 G10 140W got '+(d.querySelector('input[name="hs"]:checked')||{}).value);
 
@@ -215,7 +227,7 @@ setTimeout(()=>{
   (hsv()==='Std Heatsinks'&&/E5-2690v4 is a listed exception/.test(d.getElementById('checks').textContent))
     ?pass2('DL380 G9: E5-2690v4 (135W) keeps the standard heatsink — the QuickSpecs exception'):fail2('DL380 G9 E5-2690v4 got '+hsv());
   pickCpu('E5-2650v4');  // 105W
-  hsv()==='none'?pass2('DL380 G9: 105W processor -> no heatsink forced'):fail2('DL380 G9 105W wrongly forced '+hsv());
+  hsv()==='Std Heatsinks'?pass2('DL380 G9: 105W processor -> standard heatsink auto-selected'):fail2('DL380 G9 105W heatsink: '+hsv());
   // GPU forces the performance heatsink regardless of TDP
   d.getElementById('add-card').click();
   { const cn=d.querySelector('#cards [data-k=name]'); cn.value='NVIDIA T4'; fire(cn,'input'); }

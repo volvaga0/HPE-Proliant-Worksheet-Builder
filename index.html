@@ -120,6 +120,22 @@ section{margin-top:20px}
 .combo-item .ci-sub{color:var(--ink-soft);font-size:12.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .combo-item:hover .ci-sub,.combo-item.active .ci-sub{color:rgba(8,33,31,.7)}
 .combo-empty{padding:10px;color:var(--ink-soft);font-size:13px}
+/* shared floating autocomplete panel (memory, controller, PSU, bays … ) */
+#ac-panel{position:absolute;z-index:960;background:var(--field);border:1px solid var(--rule-strong);
+  max-height:min(320px,46vh);overflow:auto;box-shadow:0 10px 26px rgba(0,0,0,.4);border-radius:10px}
+#ac-panel[hidden]{display:none}
+#ac-panel .combo-item{white-space:normal}
+#ac-panel .combo-item .ci-main{white-space:normal}
+
+/* segmented count buttons (processor count) */
+.seg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.seg .seg-ph{font-size:13px;color:var(--ink-soft)}
+.seg button{font:inherit;font-size:14px;padding:7px 15px;border-radius:8px;border:1px solid var(--field-edge);
+  background:var(--field);color:var(--ink);cursor:pointer;min-width:52px}
+.seg button:hover{border-color:var(--rule-strong)}
+.seg button.on{background:var(--signal);border-color:var(--signal);color:var(--on-accent);font-weight:700;
+  box-shadow:0 0 12px rgba(0,212,212,0.22)}
+.seg button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
 
 fieldset{border:0;margin:0;padding:0}
 legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -258,6 +274,8 @@ button.quiet{color:var(--ink-soft)}
   .add{padding:9px 13px}
   .riser-toggle{padding:9px 13px;font-size:14px}
   .kill{height:42px;font-size:19px}
+  .seg button{min-height:44px;padding:10px 20px;font-size:15px;flex:1 1 auto}
+  #ac-panel .combo-item{padding:12px;font-size:15px}
 
   /* repeatable line lists: wrap instead of crushing 6 columns into 350px */
   .line.drive,.line.card{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}
@@ -413,14 +431,15 @@ button.quiet{color:var(--ink-soft)}
 
       <div class="row">
         <div class="q"><span class="t">Processor</span><span class="note" id="cpu-note">Pick a system model first.</span></div>
-        <div class="a"><div class="pair">
-          <input type="number" id="cpuq" min="1" placeholder="Qty">
+        <div class="a">
+          <input type="hidden" id="cpuq">
+          <div class="seg" id="cpuq-btns"><span class="seg-ph">How many processors?</span></div>
           <div class="combo" id="cpu-combo">
             <input type="text" class="combo-input" id="cpu-input" placeholder="Pick a system model first" autocomplete="off" disabled>
             <input type="hidden" id="cpu">
             <div class="combo-panel" id="cpu-panel" hidden></div>
           </div>
-        </div></div>
+        </div>
       </div>
 
       <div class="row">
@@ -1554,19 +1573,17 @@ function setupCombo(rootId,cfg){
     else if(e.key==='Enter'){e.preventDefault();if(activeIdx>-1)pick(items[activeIdx]);else if(items.length===1)pick(items[0]);}
     else if(e.key==='Escape'){close();}});
   /* Select an item. mousedown fires before the input blurs (desktop); touch
-     devices are unreliable there, so click is the real handler and a short
-     guard stops a double-pick when both fire. */
-  var pickGuard=0;
+     devices don't fire it reliably, so click is the real handler. picking
+     closes the panel, so the trailing same-gesture click is a no-op. */
   function choose(el){
-    if(!el)return;
+    if(!el||panel.hidden)return;
     var it=items[Number(el.getAttribute('data-i'))];
     if(it){pick(it);input.blur();}
   }
   panel.addEventListener('mousedown',function(e){
     var el=e.target.closest('.combo-item');if(!el)return;
-    e.preventDefault();pickGuard=Date.now();choose(el);});
+    e.preventDefault();choose(el);});
   panel.addEventListener('click',function(e){
-    if(Date.now()-pickGuard<500)return;
     choose(e.target.closest('.combo-item'));});
   document.addEventListener('click',function(e){if(!root.contains(e.target))close();});
   document.addEventListener('touchstart',function(e){if(!root.contains(e.target))close();},{passive:true});
@@ -1593,6 +1610,97 @@ function capTB(txt){
   if(m)return m[2].toUpperCase()==='TB'?parseFloat(m[1]):parseFloat(m[1])/1000;
   return 0;}
 
+/* ---------------- shared floating autocomplete ----------------
+   Upgrades the plain datalist text inputs (memory, controller, PSU, bays,
+   drives, cards…) to a real tap-to-pick dropdown that works on phones,
+   where <datalist> only shows ~3 hints on the keyboard bar. Free typing
+   still works — the list is only a set of suggestions. */
+var acPanel=document.createElement('div');
+acPanel.id='ac-panel';acPanel.className='combo-panel';acPanel.hidden=true;
+document.body.appendChild(acPanel);
+var acInput=null,acFn=null,acItems=[],acIdx=-1,acDown=null;
+function acData(){var v=typeof acFn==='function'?acFn():acFn;return (v||[]).map(String);}
+function acRender(){
+  var q=(acInput.value||'').toLowerCase().trim(),html='';acItems=[];
+  acData().forEach(function(s){
+    if(s.charAt(0)==='—'){html+='<div class="combo-group">'+esc(s.replace(/[—\-\s]/g,' ').trim())+'</div>';return;}
+    if(q&&s.toLowerCase().indexOf(q)<0)return;
+    var i=acItems.length;acItems.push(s);
+    html+='<div class="combo-item" data-i="'+i+'"><span class="ci-main">'+esc(s)+'</span></div>';
+  });
+  acPanel.innerHTML=acItems.length?html:'<div class="combo-empty">No match — type your own value</div>';
+  acIdx=-1;
+}
+function acPlace(){
+  if(!acInput)return;var r=acInput.getBoundingClientRect();
+  acPanel.style.left=(r.left+window.scrollX)+'px';
+  acPanel.style.top=(r.bottom+window.scrollY+2)+'px';
+  acPanel.style.width=r.width+'px';
+}
+function acOpen(inp,fn){
+  if(inp.disabled)return;
+  acInput=inp;acFn=fn;acRender();acPlace();acPanel.hidden=false;
+  if(window.matchMedia&&window.matchMedia('(max-width:640px)').matches){
+    setTimeout(function(){
+      if(acPanel.hidden||acInput!==inp)return;
+      var t=inp.getBoundingClientRect().top;
+      if(t>112||t<8)window.scrollBy({top:t-84,left:0,behavior:'smooth'});
+      acPlace();
+    },70);
+  }
+}
+function acClose(){acPanel.hidden=true;acInput=null;acIdx=-1;}
+function acPick(s){
+  var inp=acInput;if(!inp)return;
+  inp.value=s;
+  inp.dispatchEvent(new Event('input',{bubbles:true}));
+  acClose();inp.blur();
+}
+function acHi(){
+  [].forEach.call(acPanel.querySelectorAll('.combo-item'),function(el){
+    el.classList.toggle('active',Number(el.getAttribute('data-i'))===acIdx);});
+  var a=acPanel.querySelector('.combo-item.active');if(a)a.scrollIntoView({block:'nearest'});
+}
+acPanel.addEventListener('pointerdown',function(e){acDown=[e.clientX,e.clientY];});
+acPanel.addEventListener('pointerup',function(e){
+  var el=e.target.closest('.combo-item');
+  if(el&&acDown&&Math.abs(e.clientX-acDown[0])+Math.abs(e.clientY-acDown[1])<12){
+    e.preventDefault();acPick(acItems[Number(el.getAttribute('data-i'))]);
+  }
+  acDown=null;
+});
+acPanel.addEventListener('click',function(e){
+  var el=e.target.closest('.combo-item');
+  if(el&&!acPanel.hidden)acPick(acItems[Number(el.getAttribute('data-i'))]);
+});
+document.addEventListener('click',function(e){if(acInput&&e.target!==acInput&&!acPanel.contains(e.target))acClose();});
+document.addEventListener('touchstart',function(e){if(acInput&&e.target!==acInput&&!acPanel.contains(e.target))acClose();},{passive:true});
+window.addEventListener('scroll',function(){if(!acPanel.hidden)acPlace();},{passive:true});
+window.addEventListener('resize',function(){if(!acPanel.hidden)acPlace();});
+function attachList(inp,fn){
+  if(!inp)return;
+  inp.removeAttribute('list');inp.setAttribute('autocomplete','off');
+  inp.addEventListener('focus',function(){acOpen(inp,fn);});
+  inp.addEventListener('input',function(){
+    if(acInput===inp){acRender();acPlace();}else acOpen(inp,fn);});
+  inp.addEventListener('keydown',function(e){
+    if(acInput!==inp){if(e.key==='ArrowDown')acOpen(inp,fn);return;}
+    if(e.key==='ArrowDown'){e.preventDefault();acIdx=Math.min(acIdx+1,acItems.length-1);acHi();}
+    else if(e.key==='ArrowUp'){e.preventDefault();acIdx=Math.max(acIdx-1,0);acHi();}
+    else if(e.key==='Enter'){if(acIdx>-1){e.preventDefault();acPick(acItems[acIdx]);}}
+    else if(e.key==='Escape'){acClose();}
+  });
+  inp.addEventListener('blur',function(){setTimeout(function(){if(acInput===inp)acClose();},250);});
+}
+attachList(document.getElementById('dimm'),function(){return DIMMS;});
+attachList(document.getElementById('ctrl'),function(){return CTRLS;});
+attachList(document.getElementById('bat'),function(){return BATS;});
+attachList(document.getElementById('flr'),function(){return FLRS;});
+attachList(document.getElementById('expander'),function(){return EXPANDERS;});
+attachList(document.getElementById('psu'),function(){var m=currentModel(),R=rulesFor(m);return (m&&R.psu)?R.psu:PSUS;});
+attachList(document.getElementById('bays'),function(){var m=currentModel();return (m&&m.bays)?m.bays:GENERIC_BAYS;});
+attachList(document.getElementById('rear'),function(){var m=currentModel(),R=rulesFor(m);return (m&&R.rear&&R.rear.length)?R.rear:REAR;});
+
 var modelCombo=setupCombo('model-combo',{
   getGroups:function(){
     var order=['G9','G10','G10+','G10+ v2','G11','G12'];
@@ -1617,9 +1725,38 @@ var cpuCombo=setupCombo('cpu-combo',{
   },
   displayValue:function(it){return it.value;},
   onSelect:function(){
-    var q=document.getElementById('cpuq');
-    if(!q.value||Number(q.value)<1)q.value=1;
+    if(!document.getElementById('cpuq').value){
+      var m=currentModel(),R=rulesFor(m);
+      var counts=(R.validCounts&&R.validCounts.length)?R.validCounts.slice().sort(function(a,b){return a-b;}):[1];
+      setCpuq(counts[0]);
+    }
     run();}
+});
+
+/* processor count: tap buttons, offering only the counts this chassis supports */
+function setCpuq(n){
+  var el=document.getElementById('cpuq');
+  el.value=(n===''||n==null)?'':String(n);
+  [].forEach.call(document.querySelectorAll('#cpuq-btns button'),function(b){
+    b.classList.toggle('on',b.getAttribute('data-n')===el.value);});
+}
+function renderCpuqBtns(m,R){
+  var box=document.getElementById('cpuq-btns'),cur=document.getElementById('cpuq').value;
+  if(!m){box.innerHTML='<span class="seg-ph">Pick a system model first</span>';return;}
+  var counts=(R.validCounts&&R.validCounts.length)
+    ? R.validCounts.slice().sort(function(a,b){return a-b;})
+    : (function(){var a=[];for(var i=1;i<=m.s;i++)a.push(i);return a;})();
+  box.innerHTML=counts.map(function(n){
+    return '<button type="button" data-n="'+n+'">'+n+(n===1?' CPU':' CPUs')+'</button>';
+  }).join('');
+  if(cur&&counts.indexOf(Number(cur))<0)cur='';          // stale count for this model
+  if(!cur&&counts.length===1)cur=String(counts[0]);      // only one choice → pick it
+  setCpuq(cur);
+}
+document.getElementById('cpuq-btns').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-n]');if(!b)return;
+  setCpuq(Number(b.getAttribute('data-n')));
+  document.getElementById('cpuq').dispatchEvent(new Event('input',{bubbles:true}));
 });
 
 function refreshDependents(){
@@ -1634,8 +1771,7 @@ function refreshDependents(){
   var spds=m?m.p.map(function(p){return MEMSPEED[p];}).filter(Boolean).filter(function(x,i,a){return a.indexOf(x)===i;}):[];
   document.getElementById('dimm-note').textContent=m?('Platform speed: '+(spds.join('  ·  ')||'—')+' MHz'):'';
   document.getElementById('sys-note').textContent=m?(m.s+' socket'+(m.s>1?'s':'')+', '+m.d+' DIMM slots'):'';
-  var q=document.getElementById('cpuq');
-  if(m){q.max=m.s;if(Number(q.value)>m.s)q.value=m.s;}else{q.removeAttribute('max');}
+  renderCpuqBtns(m,R);
   fill('bayopts',(m&&m.bays)?m.bays:GENERIC_BAYS);
   var rearNone=!!(m&&R.rear&&!R.rear.length);
   var rearListed=!!(m&&R.rear&&R.rear.length);
@@ -1707,28 +1843,31 @@ var drives=document.getElementById('drives'),cards=document.getElementById('card
 function riserRow(v){
   v=v||{};var d=document.createElement('div');d.className='line card';
   d.innerHTML='<input type="number" min="1" placeholder="Qty" data-k="q" value="'+(v.q||'')+'">'+
-   '<input type="text" placeholder="Riser kit — add from the list below or type your own" data-k="name" autocomplete="off" value="'+(v.name||'').replace(/"/g,'&quot;')+'">'+
+   '<input type="text" placeholder="Riser kit — tap for the list or type your own" data-k="name" autocomplete="off" value="'+(v.name||'').replace(/"/g,'&quot;')+'">'+
    '<button type="button" class="kill" title="Remove line">&times;</button>';
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
+  attachList(d.querySelector('[data-k=name]'),function(){return curRiserKits.map(function(k){return k.n;});});
   return d;}
 document.getElementById('add-riser').addEventListener('click',function(){risers.appendChild(riserRow());run();});
 function driveRow(v){
   v=v||{};var d=document.createElement('div');d.className='line drive';
   d.innerHTML='<input type="number" min="1" placeholder="Qty" data-k="q" value="'+(v.q||'')+'">'+
-   '<input type="text" list="caps" placeholder="Capacity" data-k="cap" autocomplete="off" value="'+(v.cap||'')+'">'+
+   '<input type="text" placeholder="Capacity" data-k="cap" autocomplete="off" value="'+(v.cap||'')+'">'+
    '<select data-k="spd"><option value="">Speed</option><option>6G</option><option>12G</option><option>24G</option><option>PCIe</option></select>'+
    '<select data-k="cls"><option value="">Class</option><option>RI</option><option>MU</option><option>WI</option><option>VRO</option></select>'+
    '<select data-k="int"><option value="">Interface</option><option>SATA</option><option>SAS</option><option>NVMe</option><option>SATA SSD</option><option>SAS SSD</option></select>'+
    '<button type="button" class="kill" title="Remove line">&times;</button>';
   ['spd','cls','int'].forEach(function(k){if(v[k])d.querySelector('[data-k='+k+']').value=v[k];});
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
+  attachList(d.querySelector('[data-k=cap]'),function(){return CAPS.map(function(c){return c[0];});});
   return d;}
 function cardRow(v){
   v=v||{};var d=document.createElement('div');d.className='line card';
   d.innerHTML='<input type="number" min="1" placeholder="Qty" data-k="q" value="'+(v.q||'')+'">'+
-   '<input type="text" list="cardlist" placeholder="Card — model and slot if it matters" data-k="name" autocomplete="off" value="'+(v.name||'').replace(/"/g,'&quot;')+'">'+
+   '<input type="text" placeholder="Card — model and slot if it matters" data-k="name" autocomplete="off" value="'+(v.name||'').replace(/"/g,'&quot;')+'">'+
    '<button type="button" class="kill" title="Remove line">&times;</button>';
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
+  attachList(d.querySelector('[data-k=name]'),function(){return CARDLIST;});
   return d;}
 document.getElementById('add-drive').addEventListener('click',function(){drives.appendChild(driveRow());run();});
 document.getElementById('add-card').addEventListener('click',function(){cards.appendChild(cardRow());run();});
@@ -2056,7 +2195,19 @@ function evaluate(){
       hsReasons.push('Double-wide PCIe / GPU cards are only supported on the High Performance heatsink'+
         (m&&m.g==='G9'?' — with a standard-heatsink processor, order the Graphics Enablement Kit (719082-B21) which bundles the alternative heatsinks':'')+'.');
     }
-    applyRec('hs',recHs,hsReasons,checks,'HEATSINK');
+    if(recHs){
+      applyRec('hs',recHs,hsReasons,checks,'HEATSINK');
+    }else if(cpu&&m&&!manualOverride.hs){
+      /* no perf requirement — default to Standard so it isn't left as a gap */
+      var hsS=document.querySelector('input[name="hs"][value="Std Heatsinks"]');
+      if(hsS)hsS.checked=true;
+      var wHs=document.getElementById('why-hs');
+      wHs.className='why on';
+      wHs.textContent='Standard heatsinks — '+cpu[0]+' ('+cpu[3]+'W) is below the performance-heatsink step'+
+        (R.hsW?' ('+(R.hsWtext||R.hsW+'W')+')':'')+'.';
+    }else{
+      applyRec('hs',null,hsReasons,checks,'HEATSINK');
+    }
   }
 
   if(!R.verified&&m)
@@ -2354,11 +2505,11 @@ function parseClientText(text){
   var q=grabCpuQty(text);
   if(q){
     if(m&&q>m.s){guess.push('Client asked for '+q+' processors but '+m.m+' '+m.g+' has '+m.s+' socket'+(m.s>1?'s':'')+' — capped at '+m.s+'.');q=m.s;}
-    document.getElementById('cpuq').value=q;found.push('Processor qty: '+q);
+    setCpuq(q);found.push('Processor qty: '+q);
   }
   if(cpuFound){
     cpuCombo.setValue(cpuFound[0],cpuFound[0]);
-    if(!v('cpuq'))document.getElementById('cpuq').value=1;
+    if(!v('cpuq'))setCpuq(1);
     found.push('Processor: '+cpuFound[0]);
   }else{
     var coreMatch=text.match(/(\d+)\s*[-]?\s*c(?:ore)?\b/i);
@@ -2519,6 +2670,7 @@ document.getElementById('clear').addEventListener('click',function(){
   document.querySelectorAll('input[type=text],input[type=number],textarea').forEach(function(c){c.value='';});
   document.querySelectorAll('input[type=radio]').forEach(function(c){c.checked=false;});
   document.getElementById('plan-raid').value='';
+  document.getElementById('cpuq').value='';
   modelCombo.clear();cpuCombo.clear();
   document.getElementById('ct-r').checked=true;
   document.getElementById('bp1').checked=true;

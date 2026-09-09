@@ -261,16 +261,29 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
 
 ### UI pieces
 
-- **Combobox** (`setupCombo()`) — generic searchable dropdown used for
-  both System model and Processor. Type-to-filter, grouped headers
-  (generation for models, platform for CPUs), keyboard nav. Item selection
-  is wired to **`click`** (with a `mousedown` fast-path + a 500ms guard so
-  it never double-picks) — `mousedown`-only was dead on touch devices,
-  which fire pointer/click, not `mousedown`. On phones `open()` also nudges
-  the field up ~80px so the panel isn't left under the keyboard, and an
-  outside `touchstart` closes it. The datalist-backed text inputs (bays,
-  rear, controller, PSU, DIMM, cards…) and the native `<select>`s in the
-  drive lines are browser-native and need no such handling.
+- **Combobox** (`setupCombo()`) — grouped searchable dropdown for System
+  model and Processor. Type-to-filter, grouped headers, keyboard nav.
+  Selection runs on **`click`** (with a `mousedown` fast-path); picking
+  closes the panel so the trailing same-gesture click is a no-op — no timer
+  guard. `mousedown`-only was dead on touch devices.
+- **`attachList(input, listFn)`** — upgrades the former datalist text
+  inputs (memory, controller, battery, PSU, FlexibleLOM, expander, bays,
+  rear, and the drive `cap` / card `name` / riser `name` line inputs) to a
+  real tap-to-pick dropdown via one shared floating `#ac-panel`. `<datalist>`
+  on iOS only shows ~3 hints on the keyboard bar and no dropdown, which read
+  as "broken" to users. Free typing still works — the list is suggestions.
+  `listFn` returns a `string[]` (or a function for the model-dependent ones);
+  entries starting with `—` render as non-selectable dividers. Selection is
+  `pointerup` (movement < 12px = a tap, not a scroll) + a `click` fallback.
+- **Processor count** is a `#cpuq-btns` segmented button group, rebuilt in
+  `refreshDependents()` from `R.validCounts` or `1..m.s` — so DL580 shows
+  1/2/3/4, DL560 shows 1/2/4, a single-socket box shows just 1 and
+  auto-selects it. `#cpuq` is now a hidden input the buttons drive
+  (`setCpuq()`); paste and the CPU-combo `onSelect` call `setCpuq()` too.
+  The native `<select>`s in the drive lines are fine on mobile as-is.
+- **Standard heatsinks now auto-select** when a CPU is chosen that doesn't
+  need the performance heatsink (mirrors the fan "std is fine" path — a
+  `why-hs` note, no checks-panel line), so it's not left as a gap.
 - **Paste-to-fill** (`parseClientText()`) — regex-driven best-effort
   parser for pasted client text. Reports FILLED / CHECK (guessed) /
   SKIPPED so the trader knows what to verify. Never silently guesses a
