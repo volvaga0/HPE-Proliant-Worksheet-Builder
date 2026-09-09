@@ -158,7 +158,9 @@ mix riser types. The **`RISERS`** map (keyed `"MODEL GEN"`) holds kit objects
 fh/lp:full-height vs low-profile split of s (optional), pos:'primary'|'secondary'
 |'tertiary'|'any', cpu2:true, def:true}` from each
 model's QuickSpecs "Riser Information" table — currently DL380 Gen10 (full,
-16 kits) and DL360 Gen10; the rest fall back to `GENERIC_RISERS`. The
+16 kits), DL360 Gen10, DL560 Gen10 (7 kits) and DL580 Gen10 (5 kits, incl. the
+6/7-slot primaries and the 8/9-slot secondary+tertiary); the rest fall back to
+`GENERIC_RISERS`. The
 collapsible reference list under the field renders every kit as a wrapping
 row; clicking one appends a riser line. `evaluate()` then: counts lines vs
 `riserMax`, blocks a `cpu2` kit when exactly 1 CPU is set (`stop`) or soft-flags
@@ -239,6 +241,14 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   SKIPPED so the trader knows what to verify. Never silently guesses a
   consequential field (e.g. ambiguous controller suffix gets a CHECK
   flag, not a silent fill).
+  Shorthand grabbers (`grabPSU` / `grabMem` / `grabCpuQty` / `grabTier`)
+  tolerate `2x800`, `800w x2`, `dual 800w`, `800w psu`, bare `550w atx`,
+  `4x32gb`, `64gb x2`, `dual 6248`, `2P`, `dl380g10` (no spaces), and
+  `Gen10 v2` (→ G10+ v2). A tier word near the wattage (`800w titanium`)
+  snaps the PSU field to the full kit string incl. part number. Bare AMD
+  codes (`7443`) resolve without the "EPYC" prefix; Intel codes tolerate a
+  trailing letter (`6248R`). Obvious GPUs / FC HBAs / boot cards get added
+  as CHECK lines. `no tpm` no longer trips the TPM control.
 - **Capacity planner** — enter usable TB + RAID level, get up to 5
   drive-population suggestions ranked by least wasted capacity, with a
   one-click "Use" that drops the line into the drive list.

@@ -801,19 +801,22 @@ var MODELS=[
        '4 power supply bays. Tertiary risers can only be fitted with 2 PSUs — a 4-PSU build leaves no room for them.',
        '6 hot-plug fans, N+1 redundancy, shipped standard.',
        '3 PCIe slots with 1 processor; up to 8 with the 2nd processor and secondary/tertiary risers.',
+       'Riser positions (QuickSpecs): primary slots 1-3 (x8/x16/x8, ships standard), secondary slots 4-6 (x8/x16/x8, 870548-B21), tertiary slots 7-8 (x8/x8, 872253-B21). All full-height. Secondary and tertiary both need the 2nd processor.',
+       'A double-wide GPU goes in primary slot 2 or secondary slot 5 only (x16/x16 GPU riser 826704-B21) — 2 GPUs maximum.',
        '4-processor builds need the CPU Mezzanine Board Kit: 872222-B21 for 1st Gen Scalable, P07991-B21 for 2nd Gen.',
        '12 DIMM slots per processor (48 total).']}},
  {m:'DL580',g:'G10', p:['sp1','sp2'],  s:4, d:48, bays:['8SFF','16SFF','24SFF','32SFF','40SFF','48SFF'],
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
-     psuMax:4,fans:{one:12,two:12,perf:12},pcie:{one:6,two:16},riserMax:3,rear:[],
+     psuMax:4,fans:{one:12,two:12,perf:12},pcie:{one:6,two:16},riserMax:2,rear:[],
      notes:['Front drive boxes only, all 2.5-inch (up to six boxes; NVMe in boxes 1-3, box 1 limited to drives 1-4). No rear or mid-tray drive cage (DL580 Gen10 QuickSpecs).',
        'Supports 1, 2, 3 or 4 processors.',
        '3- or 4-processor builds need the CPU Mezzanine Board Kit: 872222-B21 for 1st Gen Scalable, P07991-B21 for 2nd Gen.',
        '12 DIMM slots per processor (48 total), up to 6TB total memory.',
        'Up to 4 hot-plug redundant power supplies (800W / 1600W Flex Slot).',
        '12 hot-plug fans, N+1 redundancy, shipped standard.',
-       'Primary riser is 6 or 7 slots; secondary (bundles tertiary) adds up to 9 more — 16 PCIe slots total with 4 processors. Internal storage controllers/SAS expanders only fit the primary and tertiary risers.']}},
+       'Order one primary riser (required): 6-slot 872336-B21 or 7-slot 878214-B21. The secondary riser (8-slot 872338-B21 or 9-slot 872340-B21) bundles the tertiary and only installs after the primary — 16 PCIe slots total with 4 processors. All slots are full-height.',
+       'Internal storage controllers and SAS expanders fit only the primary and tertiary risers — not the secondary.']}},
 
  {m:'DL20',  g:'G10+', p:['xeone3'], s:1, d:4,
    rules:{verified:true,psuMax:2,pcie:{one:2,two:2},riserMax:1,
@@ -1325,6 +1328,29 @@ var RISERS={
   {n:'2P Full Height Riser & GPU Enablement Kit (867980-B21)',d:'FH x16 secondary · requires CPU 2 · disables primary slot 2 (max 2 FH slots)',s:0,pos:'secondary',cpu2:true},
   {n:'Rear +1SFF / +1 dual uFF (2x M.2)',d:'consumes one PCIe slot',s:-1,pos:'any'},
   {n:'10 NVMe / 10SFF chassis',d:'direct-attached NVMe — no secondary riser available',s:0,pos:'primary'}
+ ],
+ /* DL560 Gen10 QuickSpecs (DA-15931) "Expansion Slots" + I/O Expansion Options.
+    Max 1 primary + 1 secondary + 1 tertiary. Secondary/tertiary need Proc 2.
+    Tertiary needs 2 PSUs (no room with 4). All slots full-height. */
+ 'DL560 G10':[
+  {n:'Default Primary riser (slots 1-3)',d:'x8 / x16 / x8 · full-height · Proc 1 · ships standard',s:3,fh:3,lp:0,pos:'primary',def:true},
+  {n:'x8/x16/x8 Secondary Riser Kit (870548-B21)',d:'slots 4-6 · x8/x16/x8 · full-height · needs the secondary cage + Proc 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'x8/x8 Tertiary Riser Kit (872253-B21)',d:'slots 7-8 · x8/x8 · full-height · Proc 2 · only with 2 PSUs (no room with 4)',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true},
+  {n:'x16/x16 Slot 2/3 Double-Wide GPU Riser (826704-B21)',d:'replaces primary slots 2-3 (or secondary 5-6) with x16/x16 for a double-wide GPU',s:2,fh:2,lp:0,pos:'primary'},
+  {n:'x8/x8/x8 1-port 2 NVMe Slimline Riser (873420-B21)',d:'3 card slots + routes 2 NVMe · secondary position · Proc 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'4-port 8 NVMe Slimline Riser (873418-B21)',d:'8 NVMe · no add-in-card slots · Proc 2',s:0,pos:'secondary',cpu2:true},
+  {n:'4-port NVMe Mezzanine card (874633-B21)',d:'up to 8 NVMe · sits on the CPU Mezzanine board · needs 4 processors · not a PCIe slot',s:0,pos:'any'}
+ ],
+ /* DL580 Gen10 QuickSpecs "Expansion Slots". Order 1 primary (required) and
+    optionally 1 secondary (ships with the tertiary). Max 16 slots (7-slot
+    primary + 9-slot secondary/tertiary). All slots full-height. Storage
+    controllers / SAS expanders fit only the primary and tertiary risers. */
+ 'DL580 G10':[
+  {n:'Primary 6-slot Riser (872336-B21)',d:'slots 1-6 · full-height · slots 2-3 need Proc 3, 4-6 need Proc 1 · also routes 2 NVMe · ships standard',s:6,fh:6,lp:0,pos:'primary',def:true},
+  {n:'Primary 7-slot Riser (878214-B21)',d:'slots 1-7 · full-height · all on Proc 1',s:7,fh:7,lp:0,pos:'primary'},
+  {n:'Primary NVMe Slimline Riser (878360-B21)',d:'up to 16 NVMe · includes the 4-port NVMe mezzanine card · no add-in-card slots',s:0,pos:'primary'},
+  {n:'Secondary + Tertiary 8-slot Riser (872338-B21)',d:'slots 9-16 · full-height · slots 9/10/16 need Proc 4, 11-15 need Proc 2 · secondary ships with the tertiary',s:8,fh:8,lp:0,pos:'secondary',cpu2:true},
+  {n:'Secondary + Tertiary 9-slot Riser (872340-B21)',d:'slots 8-16 · full-height · needs Proc 2, and Proc 4 for the tertiary slots',s:9,fh:9,lp:0,pos:'secondary',cpu2:true}
  ]
 };
 
@@ -2073,17 +2099,54 @@ function sync(){
 
 /* ---------------- paste-to-fill ---------------- */
 function findModelAndGen(text){
-  var fm=text.match(/\b(DL|ML)[\s-]?(\d{2,4}[Aa]?)\b/i);
+  /* accepts "DL380 Gen10", "dl380 g10", "dl380g10", "DL380-G10+", "ml350 gen 10 plus" */
+  var fm=text.match(/\b(DL|ML)[\s-]?(\d{2,4})(a)?/i);
   if(!fm)return null;
-  var fam=(fm[1]+fm[2]).toUpperCase();
+  var fam=(fm[1]+fm[2]+(fm[3]||'')).toUpperCase();
   var tail=text.slice(fm.index+fm[0].length,fm.index+fm[0].length+30).toLowerCase();
-  var g=tail.match(/^[\s,\-]*(?:gen|g)?\s*(9|10|11|12)\s*(plus|\+)?\s*(v\s*2)?/);
+  var g=tail.match(/^[\s,\-]*(?:gen|g)\s*(9|10|11|12)\s*(plus|\+|p\b)?\s*(?:\(?v\s*2\)?)?/);
   if(!g)return null;
   var gen='G'+g[1];
   if(g[2])gen+='+';
-  if(g[3])gen+=' v2';
+  if(/v\s*2/.test(tail)){ if(gen.indexOf('+')<0)gen+='+'; gen+=' v2'; }  /* the "v2" boards are all Gen10 Plus */
   return {value:fam+' '+gen};
 }
+/* shorthand grabbers — tolerant of "2x800", "800w x2", "dual 800w", "800w psu" */
+function grabPSU(t){
+  t=' '+String(t).toLowerCase().replace(/watts?/g,'w')+' ';
+  var m,PW=[230,290,300,350,500,550,800,900,1000,1200,1400,1500,1600,1800,2000,2200,2600];
+  if(m=t.match(/(\d)\s*[x*]\s*(\d{3,4})\s*(?:w\b|(?=\W*(?:psu|ps|power)))/)) return {q:+m[1],w:+m[2]};
+  if(m=t.match(/(\d{3,4})\s*w\s*[x*]\s*(\d)\b/))                  return {q:+m[2],w:+m[1]};
+  if(m=t.match(/\b(?:dual|redundant|two|2)\s+(\d{3,4})\s*w\b/))   return {q:2,w:+m[1]};
+  if(m=t.match(/\b(?:single|one|1)\s+(\d{3,4})\s*w\b/))           return {q:1,w:+m[1]};
+  if(m=t.match(/(\d{3,4})\s*w\b(?=[^.]{0,22}\b(?:psu|ps|power|suppl|atx|flex\s*slot|hot\s*plug))/)) return {q:0,w:+m[1]};
+  if(m=t.match(/\b(?:psu|ps|power|suppl\w*|atx)\b[^.]{0,22}?(\d{3,4})\s*w?\b/)) return {q:0,w:+m[1]};
+  if(m=t.match(/\b(\d{3,4})\s*w\b/)) if(PW.indexOf(+m[1])>-1) return {q:0,w:+m[1]};
+  return null;
+}
+function grabTier(t){
+  var m=String(t).match(/(?:\d{3,4}\s*w[a-z]*|psu|power\s*suppl\w*)\s*[,\-]?\s*(platinum|titanium|gold)\b/i)
+      ||String(t).match(/\b(platinum|titanium|gold)\s*[,\-]?\s*(?:\d{3,4}\s*w|psu\b|power)/i);
+  return m?m[1]:null;
+}
+function grabMem(t){
+  t=' '+String(t).toLowerCase()+' ';
+  var m;
+  if(m=t.match(/(\d{1,2})\s*[x*]\s*(\d{1,3})\s*gb\b/))           return {q:+m[1],size:+m[2]};
+  if(m=t.match(/(\d{1,3})\s*gb\s*[x*]\s*(\d{1,2})\b/))           return {q:+m[2],size:+m[1]};
+  if(m=t.match(/\b(?:dual|two|2)\s+(\d{1,3})\s*gb\b(?!\s*(?:6g|12g|24g))/)) return {q:2,size:+m[1]};
+  return null;
+}
+function grabCpuQty(t){
+  var m,proc='(?:\\d{1,2}\\s*c(?:ore)?s?\\b|xeon|epyc|gold|silver|platinum|bronze|amd|intel|cpu|processors?\\b|proc\\b|\\d{4}(?!\\s*w)[a-z]?\\b)';
+  if(m=t.match(new RegExp('(\\d)\\s*[x*]\\s*'+proc,'i'))) return +m[1];
+  if(new RegExp('\\b(?:dual|two)[\\s-]+'+proc,'i').test(t)) return 2;
+  if(/\bdual[\s-]?socket\b/i.test(t)||/\b2\s*[ps]\b/i.test(t)) return 2;
+  if(new RegExp('\\b(?:single|one)[\\s-]+'+proc,'i').test(t)) return 1;
+  if(/\bsingle[\s-]?socket\b/i.test(t)||/\b1\s*[ps]\b/i.test(t)) return 1;
+  return 0;
+}
+
 function parseClientText(text){
   var found=[],guess=[],skip=[];
   if(!text.trim())return {found:found,guess:guess,skip:skip,any:false};
@@ -2100,13 +2163,12 @@ function parseClientText(text){
   var valid=m?m.p:null,cpuFound=null;
   for(var i=0;i<CPUS.length&&!cpuFound;i++){
     var c=CPUS[i],isAMD=/^EPYC/i.test(c[0]);
-    var pat=isAMD?new RegExp('\\b'+c[0].replace(' ','\\s*')+'\\b','i')
-                 :new RegExp('\\b'+c[0].replace(/^[A-Za-z]+/,'').replace('+','\\+')+'\\b','i');
+    var pat=isAMD?new RegExp('\\b(?:epyc\\s*)?'+c[0].replace(/^EPYC\s*/i,'')+'[a-z]?\\b','i')
+                 :new RegExp('\\b'+c[0].replace(/^[A-Za-z]+/,'').replace('+','\\+')+'[A-Za-z]?\\b','i');
     if(pat.test(text)&&(!valid||valid.indexOf(c[2])>-1))cpuFound=c;
   }
-  var qtyMatch=text.match(/(\d+)\s*x\s*(?:\d+\s*c(?:ore)?s?\b|xeon|epyc|cpu|processor|proc\b)/i);
-  if(qtyMatch){
-    var q=Number(qtyMatch[1]);
+  var q=grabCpuQty(text);
+  if(q){
     if(m&&q>m.s){guess.push('Client asked for '+q+' processors but '+m.m+' '+m.g+' has '+m.s+' socket'+(m.s>1?'s':'')+' — capped at '+m.s+'.');q=m.s;}
     document.getElementById('cpuq').value=q;found.push('Processor qty: '+q);
   }
@@ -2126,12 +2188,11 @@ function parseClientText(text){
     }
   }
 
-  var memMatch=text.match(/(\d+)\s*x\s*(\d+)\s*gb\b/i),textNoMem=text;
-  if(memMatch){
-    document.getElementById('dimmq').value=memMatch[1];
-    document.getElementById('dimm').value=memMatch[2]+'GB';
-    found.push('Memory: '+memMatch[1]+'x '+memMatch[2]+'GB');
-    textNoMem=text.replace(memMatch[0],' ');
+  var mem=grabMem(text),textNoMem=text.replace(/\d{1,2}\s*[x*]\s*\d{1,3}\s*gb\b/gi,' ').replace(/\d{1,3}\s*gb\s*[x*]\s*\d{1,2}\b/gi,' ');
+  if(mem){
+    document.getElementById('dimmq').value=mem.q;
+    document.getElementById('dimm').value=mem.size+'GB';
+    found.push('Memory: '+mem.q+'x '+mem.size+'GB');
   }else{
     var tot=text.match(/\b(\d+)\s*gb\b(?!\s*(?:6g|12g|24g))/i);
     if(tot)guess.push('Memory: '+tot[1]+'GB total asked for — module size and count not given, split it manually.');
@@ -2146,18 +2207,22 @@ function parseClientText(text){
       guess.push('Controller: assumed '+ctrlPats[j][1]+' — confirm the exact suffix with the client.');
       break;}
   }
-  var psuMatch=text.match(/(\d+)\s*x\s*(\d{3,4})\s*w(?:att)?s?\b/i);
-  if(psuMatch){
-    var pq=Number(psuMatch[1]),pRules=rulesFor(m);
-    if(pRules.psuMax&&pq>pRules.psuMax){guess.push('Client asked for '+pq+' PSUs but '+m.m+' '+m.g+' has '+pRules.psuMax+' bays — capped at '+pRules.psuMax+'.');pq=pRules.psuMax;}
-    document.getElementById('psuq').value=pq;
-    document.getElementById('psu').value=psuMatch[2]+'w';
-    found.push('Power: '+pq+'x '+psuMatch[2]+'w');}
+  var psu=grabPSU(text);
+  if(psu&&psu.w){
+    var pRules=rulesFor(m),pq=psu.q;
+    if(m&&pRules.psuMax&&pq>pRules.psuMax){guess.push('Client asked for '+pq+' PSUs but '+m.m+' '+m.g+' has '+pRules.psuMax+' bays — capped at '+pRules.psuMax+'.');pq=pRules.psuMax;}
+    /* if a tier word is present, snap to the matching kit string so the PN carries over */
+    var tier=grabTier(text),psuOpts=[].slice.call(document.getElementById('psus').options).map(function(o){return o.value;});
+    var hit=tier&&psuOpts.filter(function(o){return o.indexOf(psu.w+'W')===0&&new RegExp(tier,'i').test(o);})[0];
+    document.getElementById('psu').value=hit||(psu.w+'W'+(tier?' '+tier.charAt(0).toUpperCase()+tier.slice(1):''));
+    if(pq){document.getElementById('psuq').value=pq;found.push('Power: '+pq+'x '+document.getElementById('psu').value);}
+    else{found.push('Power: '+document.getElementById('psu').value);guess.push('PSU quantity not stated — set it (1 non-redundant / 2 for 1+1).');}
+  }
   var bayM=text.match(/(\d{1,2})\s*(lff|sff)\b/gi);
   if(bayM&&bayM[0]){document.getElementById('bays').value=bayM[0].toUpperCase().replace(/\s+/g,'');found.push('Bays: '+bayM[0]);}
   if(bayM&&bayM[1]){document.getElementById('rear').value=bayM[1].toUpperCase().replace(/\s+/g,'')+' rear';found.push('Rear bays: '+bayM[1]);}
   if(/\bnvme\b/i.test(text)){document.getElementById('bp2').checked=true;found.push('Backplane: NVMe');}
-  if(/\btpm\b/i.test(text)){
+  if(/\btpm\b/i.test(text)&&!/\b(no|without|w\/o|n\/a)\s+tpm\b/i.test(text)){
     var tpm12=/\btpm\s*1\.2\b/i.test(text);
     document.getElementById(tpm12?'tp1':'tp2').checked=true;
     found.push('TPM: '+(tpm12?'1.2':'2.0'));
@@ -2170,6 +2235,31 @@ function parseClientText(text){
   else if(/universal media/i.test(text)){document.getElementById('md3').checked=true;found.push('Media bay: Universal');}
   var raidM=text.match(/raid\s*(0|1|5|6|10|50|60)\b/i);
   if(raidM){document.getElementById('plan-raid').value=raidM[1];found.push('RAID '+raidM[1]);}
+
+  /* FlexibleLOM / OCP */
+  var flrM=text.match(/\b(\d{3})\s*flr\b/i);
+  if(flrM){
+    var flrHit=FLRS.filter(function(f){return f.indexOf(flrM[1]+'FLR')===0;})[0];
+    if(flrHit){document.getElementById('flr').value=flrHit;found.push('FlexibleLOM: '+flrHit);}
+  }
+
+  /* add-in cards — obvious GPUs / NICs / HBAs; slot placement still needs a human */
+  var cardPats=[
+    [/\bnvidia\s*(t4|a2|a16|a30|a40|a100|l4|l40s?|h100)\b/i,function(x){return 'NVIDIA '+x[1].toUpperCase();}],
+    [/\btesla\s*(p4|p40|p100|v100|t4)\b/i,function(x){return 'Tesla '+x[1].toUpperCase();}],
+    [/\b(SN1100Q|SN1600Q|SN1610Q|SN1700Q|SN1100E|SN1600E)\b/i,function(x){return x[1].toUpperCase()+' FC';}],
+    [/\b(P408e-p|E208e-p|H241)\b(?!\s*(?:int|\bi\b))/i,function(x){return x[1]+' external HBA';}],
+    [/\bNS204i-?(p|r)\b/i,function(x){return 'NS204i-'+x[1].toLowerCase()+' boot';}]
+  ];
+  var cardHits=[];
+  cardPats.forEach(function(p){var mm=text.match(p[0]);if(mm)cardHits.push(p[1](mm));});
+  if(cardHits.length){
+    var qByCard=text.match(/(\d)\s*[x*]\s*(?=[^,;]*(?:nvidia|tesla|SN1\d00|MR\d16|NS204|P408e|E208e|H241))/i);
+    if(cards.children.length===1&&!readLines(cards)[0].name)cards.innerHTML='';
+    cardHits.forEach(function(n){cards.appendChild(cardRow({q:qByCard?qByCard[1]:'',name:n}));});
+    if(!cards.children.length)cards.appendChild(cardRow());
+    guess.push('Card'+(cardHits.length>1?'s':'')+': '+cardHits.join(', ')+' — added; set the quantity and slot / riser.');
+  }
 
   var driveRe=/(\d+)\s*x\s*([\d.]+\s*(?:GB|TB))\s*(6G|12G|24G|PCIe)?\s*(RI|MU|WI|VRO)?\s*(SATA|SAS|NVMe|SSD)?/gi;
   var dm,added=false;

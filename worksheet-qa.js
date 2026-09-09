@@ -93,10 +93,29 @@ setTimeout(()=>{
   // 10. paste parser: lowercase "dl380 g10"
   d.getElementById('paste-text').value='dl380 g10 with 2x 12C cpu, 64gb memory, p408, 2x 800w';
   d.getElementById('paste-fill').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
-  const pr=d.getElementById('paste-result').textContent;
+  let pr=d.getElementById('paste-result').textContent;
   d.getElementById('model').value==='DL380 G10'?pass('paste "dl380 g10" resolved to DL380 G10'):fail('paste model failed -> "'+d.getElementById('model').value+'"');
-  pr.includes('800w')?pass('paste picked up PSU'):fail('paste missed PSU');
+  (/800\s*w/i.test(pr)&&d.getElementById('psuq').value==='2')?pass('paste picked up PSU (2x 800W)'):fail('paste missed PSU -> psu="'+d.getElementById('psu').value+'" q="'+d.getElementById('psuq').value+'"');
   d.getElementById('ctrl').value.startsWith('P408')?pass('paste picked up P408 controller'):fail('paste missed controller');
+
+  // 10b. shorthand paste variants
+  const pasteCase=(s)=>{d.getElementById('paste-text').value=s;d.getElementById('paste-fill').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));};
+  pasteCase('DL360 Gen10, dual 6248, 4x32gb, 2x800 psu, titanium');
+  (d.getElementById('psuq').value==='2' && /800/.test(d.getElementById('psu').value))
+    ?pass('"2x800 psu" -> 2x 800W'):fail('"2x800 psu" missed -> "'+d.getElementById('psu').value+'" q'+d.getElementById('psuq').value);
+  /titanium/i.test(d.getElementById('psu').value)?pass('"titanium" -> snapped to the Titanium kit string'):fail('tier not applied: '+d.getElementById('psu').value);
+  d.getElementById('cpuq').value==='2'?pass('"dual 6248" -> 2 processors'):fail('"dual" cpu qty missed -> '+d.getElementById('cpuq').value);
+  (d.getElementById('dimmq').value==='4'&&d.getElementById('dimm').value==='32GB')?pass('"4x32gb" -> 4x 32GB'):fail('mem shorthand missed -> '+d.getElementById('dimmq').value+' / '+d.getElementById('dimm').value);
+  d.getElementById('model').value==='DL360 G10'?pass('"DL360 Gen10" resolved'):fail('gen-word model parse failed -> '+d.getElementById('model').value);
+  pasteCase('dl380g10 800w x2');
+  (d.getElementById('model').value==='DL380 G10'&&d.getElementById('psuq').value==='2'&&/800/.test(d.getElementById('psu').value))
+    ?pass('"dl380g10" (no spaces) + "800w x2" parsed'):fail('no-space model / reversed psu missed -> m="'+d.getElementById('model').value+'" q'+d.getElementById('psuq').value);
+  pasteCase('DL385 Gen10 v2, 2P 7443, 8x 32gb, 550w atx');
+  d.getElementById('model').value==='DL385 G10+ v2'?pass('"DL385 Gen10 v2" -> G10+ v2 (v2 boards are Gen10 Plus)'):fail('v2 model -> '+d.getElementById('model').value);
+  d.getElementById('cpu').value==='EPYC 7443'?pass('bare "7443" -> EPYC 7443'):fail('bare AMD code missed -> '+d.getElementById('cpu').value);
+  (/550/.test(d.getElementById('psu').value)&&/quantity not stated/i.test(d.getElementById('paste-result').textContent))
+    ?pass('"550w atx" -> 550W + qty-not-stated CHECK'):fail('atx psu missed -> "'+d.getElementById('psu').value+'"');
+  pasteCase('dl380 g10');  // restore state for the tests below
 
   // 11. capacity planner
   d.getElementById('bays').value='24SFF';fire(d.getElementById('bays'),'input');
