@@ -37,11 +37,21 @@ setTimeout(()=>{
   const items=d.querySelectorAll('#model-panel .combo-item');
   items.length>0?pass(`model search "DL380" -> ${items.length} results`):fail('model search returned nothing');
 
+  // 2b. combo items respond to a plain click, not just mousedown (touch devices
+  //     fire pointer/click, not mousedown — the picker was dead on phones)
+  mi.value='DL160 G9';fire(mi,'input');
+  const clickTarget=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.includes('DL160 G9'));
+  clickTarget && clickTarget.dispatchEvent(new w.MouseEvent('click',{bubbles:true,cancelable:true}));
+  d.getElementById('model').value==='DL160 G9'
+    ?pass('combo item selects on click (mobile-safe), panel '+(d.getElementById('model-panel').hidden?'closed':'still open'))
+    :fail('combo item click did not select — mobile picker broken');
+  mi.value='DL380';fire(mi,'input');
+
   // 3. pick DL380 G10 and confirm CPU list filters to sp1+sp2 only
-  const target=[...items].find(el=>el.textContent.includes('DL380 G10')&&!el.textContent.includes('G10+'));
+  const target=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.includes('DL380 G10')&&!el.textContent.includes('G10+'));
   if(!target)return fail('DL380 G10 not in results');
   target.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
-  d.getElementById('model').value==='DL380 G10'?pass('selected DL380 G10'):fail('model hidden value not set');
+  d.getElementById('model').value==='DL380 G10'?pass('selected DL380 G10 (mousedown/desktop path)'):fail('model hidden value not set');
 
   const ci=d.getElementById('cpu-input');
   ci.disabled===false?pass('cpu box enabled after model pick'):fail('cpu box still disabled');

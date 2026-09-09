@@ -1517,7 +1517,19 @@ function setupCombo(rootId,cfg){
     });
     panel.innerHTML=html||'<div class="combo-empty">'+(cfg.emptyText||'No matches')+'</div>';activeIdx=-1;
   }
-  function open(f){if(input.disabled)return;render(f!=null?f:input.value);panel.hidden=false;}
+  function open(f){
+    if(input.disabled)return;
+    render(f!=null?f:input.value);panel.hidden=false;
+    /* on a phone the panel drops below the field and lands under the keyboard —
+       nudge the field up so the list sits in the visible band above it */
+    if(window.matchMedia&&window.matchMedia('(max-width:640px)').matches){
+      setTimeout(function(){
+        if(panel.hidden)return;
+        var top=input.getBoundingClientRect().top;
+        if(top>96||top<8)window.scrollBy({top:top-80,left:0,behavior:'smooth'});
+      },60);
+    }
+  }
   function close(){panel.hidden=true;activeIdx=-1;}
   function highlight(){
     panel.querySelectorAll('.combo-item').forEach(function(el){el.classList.remove('active');});
@@ -1532,10 +1544,23 @@ function setupCombo(rootId,cfg){
     else if(e.key==='ArrowUp'){e.preventDefault();activeIdx=Math.max(activeIdx-1,0);highlight();}
     else if(e.key==='Enter'){e.preventDefault();if(activeIdx>-1)pick(items[activeIdx]);else if(items.length===1)pick(items[0]);}
     else if(e.key==='Escape'){close();}});
+  /* Select an item. mousedown fires before the input blurs (desktop); touch
+     devices are unreliable there, so click is the real handler and a short
+     guard stops a double-pick when both fire. */
+  var pickGuard=0;
+  function choose(el){
+    if(!el)return;
+    var it=items[Number(el.getAttribute('data-i'))];
+    if(it){pick(it);input.blur();}
+  }
   panel.addEventListener('mousedown',function(e){
     var el=e.target.closest('.combo-item');if(!el)return;
-    e.preventDefault();pick(items[Number(el.getAttribute('data-i'))]);});
+    e.preventDefault();pickGuard=Date.now();choose(el);});
+  panel.addEventListener('click',function(e){
+    if(Date.now()-pickGuard<500)return;
+    choose(e.target.closest('.combo-item'));});
   document.addEventListener('click',function(e){if(!root.contains(e.target))close();});
+  document.addEventListener('touchstart',function(e){if(!root.contains(e.target))close();},{passive:true});
   return {setValue:function(val,lab){hidden.value=val;input.value=lab;},
     clear:function(){hidden.value='';input.value='';},
     setDisabled:function(b){input.disabled=b;if(b)close();},

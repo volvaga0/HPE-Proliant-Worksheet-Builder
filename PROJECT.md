@@ -256,7 +256,14 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
 
 - **Combobox** (`setupCombo()`) — generic searchable dropdown used for
   both System model and Processor. Type-to-filter, grouped headers
-  (generation for models, platform for CPUs), keyboard nav.
+  (generation for models, platform for CPUs), keyboard nav. Item selection
+  is wired to **`click`** (with a `mousedown` fast-path + a 500ms guard so
+  it never double-picks) — `mousedown`-only was dead on touch devices,
+  which fire pointer/click, not `mousedown`. On phones `open()` also nudges
+  the field up ~80px so the panel isn't left under the keyboard, and an
+  outside `touchstart` closes it. The datalist-backed text inputs (bays,
+  rear, controller, PSU, DIMM, cards…) and the native `<select>`s in the
+  drive lines are browser-native and need no such handling.
 - **Paste-to-fill** (`parseClientText()`) — regex-driven best-effort
   parser for pasted client text. Reports FILLED / CHECK (guessed) /
   SKIPPED so the trader knows what to verify. Never silently guesses a
