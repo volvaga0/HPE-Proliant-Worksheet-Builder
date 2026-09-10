@@ -483,6 +483,15 @@ setTimeout(()=>{
   (()=>{ const g=cpuGroups('DL380 G9');
     (g.length===2 && /v3/.test(g[0]) && /v4/.test(g[1]))
       ?pass3('DL380 G9: E5-2600 v3 and v4 are separate CPU groups'):fail3('G9 v3/v4 not split: '+JSON.stringify(g)); })();
+  // E5-2600 v3/v4 list includes the common OEM / workstation SKUs
+  (()=>{ setModel3('DL380 G9'); ci3.disabled=false; ci3.value='';fire(ci3,'focus');fire(ci3,'input');
+    const codes=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(x=>x.textContent);
+    (codes.includes('E5-2673v3') && codes.includes('E5-2687Wv3') && codes.includes('E5-2648Lv3'))
+      ?pass3('DL380 G9: E5-2673v3 / 2687Wv3 / 2648Lv3 now in the list'):fail3('missing G9 SKUs: '+codes.filter(c=>/2673|2687W|2648L/.test(c))); })();
+  { setModel3('DL380 G9'); d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
+    pickCpu3('E5-2687Wv3');
+    (d.querySelector('input[name="hs"]:checked')||{}).value==='Perf Heatsinks'
+      ?pass3('E5-2687W v3 (160W) -> performance heatsink'):fail3('E5-2687Wv3 heatsink: '+((d.querySelector('input[name="hs"]:checked')||{}).value||'none')); }
   (()=>{ const g=cpuGroups('DL560 G9');
     (g.length===2 && g.every(x=>/E5-4600/.test(x)))
       ?pass3('DL560 G9: CPU list is E5-4600 v3/v4 (4-socket parts)'):fail3('DL560 G9 cpu groups: '+JSON.stringify(g)); })();
@@ -591,6 +600,15 @@ setTimeout(()=>{
   d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
   !d.getElementById('checks').textContent.includes('TOO MANY CARDS')?pass3('...and the 6 fit once the 2nd CPU opens slots 5-8'):fail3('ML350 G10 2-CPU slots not opened');
   mlCardsEl.innerHTML='';d.getElementById('add-card').click();
+
+  // --- picking a PSU wattage sets the count to 1 ---
+  setModel3('DL380 G10');
+  d.getElementById('psuq').value='';d.getElementById('psu').value='';
+  d.getElementById('psu').value='800W';fire(d.getElementById('psu'),'input');
+  d.getElementById('psuq').value==='1'?pass3('picking a PSU wattage sets the qty to 1'):fail3('psuq after picking 800W: "'+d.getElementById('psuq').value+'"');
+  d.getElementById('psuq').value='3';fire(d.getElementById('psuq'),'input');
+  d.getElementById('psu').value='1000W';fire(d.getElementById('psu'),'input');
+  d.getElementById('psuq').value==='3'?pass3('...but leaves an already-set qty alone'):fail3('psuq clobbered to '+d.getElementById('psuq').value);
 
   // --- riser-kit picker adds a riser LINE (repeatable, wrapping rows) ---
   setModel3('DL380 G10');

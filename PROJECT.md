@@ -106,10 +106,17 @@ a no-op under jsdom).
 - **`GEN_DEFAULTS`** — fallback rules by generation (G9/G10/G10+/G11/G12),
   used when a model has no rules of its own or doesn't override a key
 
-- **`CPUS`** — `[code, description, platform, TDP watts, cores]` for every
-  seeded processor. Gen9 v3 and v4 are **separate platforms** so the picker
-  groups them (like sp1/sp2): `e5v3`/`e5v4` (E5-2600, 2-socket),
-  `e5v3x4`/`e5v4x4` (E5-4600, DL560 Gen9), `e7v3`/`e7v4` (E7, DL580 Gen9).
+- **`CPUS`** — `[code, description, platform, base-GHz-in-description, TDP
+  watts, cores]` — actually `[code, description, platform, TDP, cores]`, the
+  clock lives in the description string. ~350 seeded processors. Gen9 v3 and
+  v4 are **separate platforms** so the picker groups them (like sp1/sp2):
+  `e5v3`/`e5v4` (E5-2600, 2-socket), `e5v3x4`/`e5v4x4` (E5-4600, DL560 Gen9),
+  `e7v3`/`e7v4` (E7, DL580 Gen9). The E5-2600 lists include common OEM /
+  hyperscaler parts (E5-2673 v3/v4 Azure, E5-2666/2676/2686 AWS) and the
+  low-power L / workstation W SKUs — refurb servers routinely ship with
+  these even though HPE never listed them in QuickSpecs. `code` is the
+  matcher key (no space before the v-suffix: `E5-2673v3`); the description
+  carries the readable `E5-2673 v3`.
 
 - **`PLATFORM_LABELS`** — display names for the CPU dropdown's group
   headers (e.g. `sp2` → "2nd Gen Xeon Scalable — Cascade Lake"). Each entry
@@ -328,6 +335,9 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
 - **Spec slip** — plain-text output on the right, copy-to-clipboard
   button, matches the shorthand format the traders already use
   (`2x S4110`, `8LFF + 2SFF`, etc.).
+- **Picking a value implies a count** — selecting a CPU sets the processor
+  count to 1 (min valid); selecting a PSU wattage sets the PSU qty to 1.
+  Both only fire when the count is still blank.
 - **"Standard" defaults are shown, not omitted** — Backplane defaults to
   "SAS/SATA backplane", Motherboard to "Standard motherboard", Media bay
   to "No media bay", Bezel to "No bezel" — pre-checked radios with real
