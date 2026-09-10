@@ -45,6 +45,13 @@ setTimeout(()=>{
   d.getElementById('model').value==='DL160 G9'
     ?pass('combo item selects on click (mobile-safe), panel '+(d.getElementById('model-panel').hidden?'closed':'still open'))
     :fail('combo item click did not select — mobile picker broken');
+  // 2c. re-focusing shows the WHOLE list again, not just what matches the filled text
+  const allModels=[...d.querySelectorAll('#model-panel .combo-item')].length;  // (panel still open from the pick, value "DL160 G9")
+  mi.dispatchEvent(new w.FocusEvent('focus'));
+  const onRefocus=[...d.querySelectorAll('#model-panel .combo-item')].length;
+  (onRefocus>10 && onRefocus>allModels)
+    ?pass('re-focusing the picker shows all models again ('+onRefocus+'), not just the 1 matching "DL160 G9"')
+    :fail('re-focus did not un-filter: '+allModels+' -> '+onRefocus);
   mi.value='DL380';fire(mi,'input');
 
   // 3. pick DL380 G10 and confirm CPU list filters to sp1+sp2 only
@@ -483,11 +490,12 @@ setTimeout(()=>{
   (()=>{ const g=cpuGroups('DL380 G9');
     (g.length===2 && /v3/.test(g[0]) && /v4/.test(g[1]))
       ?pass3('DL380 G9: E5-2600 v3 and v4 are separate CPU groups'):fail3('G9 v3/v4 not split: '+JSON.stringify(g)); })();
-  // E5-2600 v3/v4 list includes the common OEM / workstation SKUs
+  // E5-2600 v3/v4 list: E5-2687W (HPE QuickSpecs) + the tagged OEM parts
   (()=>{ setModel3('DL380 G9'); ci3.disabled=false; ci3.value='';fire(ci3,'focus');fire(ci3,'input');
     const codes=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(x=>x.textContent);
-    (codes.includes('E5-2673v3') && codes.includes('E5-2687Wv3') && codes.includes('E5-2648Lv3'))
-      ?pass3('DL380 G9: E5-2673v3 / 2687Wv3 / 2648Lv3 now in the list'):fail3('missing G9 SKUs: '+codes.filter(c=>/2673|2687W|2648L/.test(c))); })();
+    const subs=[...d.querySelectorAll('#cpu-panel .combo-item .ci-sub')].map(x=>x.textContent).join(' | ');
+    (codes.includes('E5-2673v3') && codes.includes('E5-2687Wv3') && codes.includes('E5-2687Wv4') && /2673 v3 · 12C 2.4GHz — OEM/.test(subs))
+      ?pass3('DL380 G9: E5-2687W v3/v4 + E5-2673 v3/v4 (tagged OEM) in the list'):fail3('G9 SKU check: '+codes.filter(c=>/2673|2687W/.test(c))); })();
   { setModel3('DL380 G9'); d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
     pickCpu3('E5-2687Wv3');
     (d.querySelector('input[name="hs"]:checked')||{}).value==='Perf Heatsinks'

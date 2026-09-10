@@ -106,17 +106,20 @@ a no-op under jsdom).
 - **`GEN_DEFAULTS`** — fallback rules by generation (G9/G10/G10+/G11/G12),
   used when a model has no rules of its own or doesn't override a key
 
-- **`CPUS`** — `[code, description, platform, base-GHz-in-description, TDP
-  watts, cores]` — actually `[code, description, platform, TDP, cores]`, the
-  clock lives in the description string. ~350 seeded processors. Gen9 v3 and
-  v4 are **separate platforms** so the picker groups them (like sp1/sp2):
+- **`CPUS`** — `[code, description, platform, TDP watts, cores]`, the clock
+  lives in the description. ~335 seeded processors. Gen9 v3 and v4 are
+  **separate platforms** so the picker groups them (like sp1/sp2):
   `e5v3`/`e5v4` (E5-2600, 2-socket), `e5v3x4`/`e5v4x4` (E5-4600, DL560 Gen9),
-  `e7v3`/`e7v4` (E7, DL580 Gen9). The E5-2600 lists include common OEM /
-  hyperscaler parts (E5-2673 v3/v4 Azure, E5-2666/2676/2686 AWS) and the
-  low-power L / workstation W SKUs — refurb servers routinely ship with
-  these even though HPE never listed them in QuickSpecs. `code` is the
-  matcher key (no space before the v-suffix: `E5-2673v3`); the description
-  carries the readable `E5-2673 v3`.
+  `e7v3`/`e7v4` (E7, DL580 Gen9). `code` is the matcher key (no space before
+  the v-suffix: `E5-2673v3`); the description carries the readable form.
+  Verified Sept 2026 against the DL380 Gen10 / Gen10 Plus / Gen11 and DL325 /
+  DL345 / DL385 / DL365 QuickSpecs processor tables — SKUs not in any of
+  them were dropped. **Exception:** a handful of E5-2600 v3/v4 OEM parts
+  (E5-2673 v3/v4 Azure, E5-2666/2676 v3 and E5-2686/2696 v4 AWS/Azure) are
+  kept but tagged "— OEM (…)" in the description: they're not in HPE
+  QuickSpecs by nature, but refurb stock ships with them. Everything else
+  should trace to a QuickSpecs. Known gap: the picker filters by platform,
+  not model, so a 350W part still shows for a chassis that can't cool it.
 
 - **`PLATFORM_LABELS`** — display names for the CPU dropdown's group
   headers (e.g. `sp2` → "2nd Gen Xeon Scalable — Cascade Lake"). Each entry
@@ -273,6 +276,10 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   Selection runs on **`click`** (with a `mousedown` fast-path); picking
   closes the panel so the trailing same-gesture click is a no-op — no timer
   guard. `mousedown`-only was dead on touch devices.
+- **Re-focusing a picker shows the full list again.** Both `setupCombo` and
+  `attachList` filter only while you *type* — `focus` (and ArrowDown from a
+  closed panel) renders everything, so clicking back into a field that got
+  filled from a pick doesn't strand you on the one matching row.
 - **`attachList(input, listFn)`** — upgrades the former datalist text
   inputs (memory, controller, battery, PSU, FlexibleLOM, expander, bays,
   rear, and the drive `cap` / card `name` / riser `name` line inputs) to a
