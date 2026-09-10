@@ -119,6 +119,9 @@ section{margin-top:20px}
 .why.on.flag{background:var(--check-bg);color:var(--check)}
 .cap-note{font-size:12.4px;color:var(--ink-soft)}
 .cap-note.over{color:var(--stop);font-weight:600}
+.chk-line{display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer;user-select:none;padding:3px 0 6px}
+.chk-line input[type=checkbox]{width:18px;height:18px;accent-color:var(--signal);cursor:pointer;flex:0 0 auto;margin:0}
+#drives-wrap[hidden]{display:none}
 
 .combo{position:relative}
 .combo-panel{position:absolute;top:calc(100% + 2px);left:0;right:0;z-index:30;background:var(--field);
@@ -293,6 +296,8 @@ button.quiet{color:var(--ink-soft)}
   .kill{height:42px;font-size:19px}
   .seg button{min-height:44px;padding:10px 20px;font-size:15px;flex:1 1 auto}
   #ac-panel .combo-item{padding:12px;font-size:15px}
+  .chk-line{font-size:15px;padding:6px 0 8px}
+  .chk-line input[type=checkbox]{width:22px;height:22px}
 
   /* repeatable line lists: wrap instead of crushing 6 columns into 350px */
   .line.drive,.line.card{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}
@@ -551,9 +556,12 @@ button.quiet{color:var(--ink-soft)}
       <div class="row full">
         <div class="q" style="padding-bottom:7px"><span class="t">Drives</span><span class="note">One line per type — qty, capacity, speed, endurance, interface.</span></div>
         <div class="a">
-          <div class="lines" id="drives"></div>
-          <button type="button" class="add" id="add-drive">Add drive line</button>
-          <span class="cap-note" id="drive-note"></span>
+          <label class="chk-line"><input type="checkbox" id="nodrives"> No drives on this build (ships diskless)</label>
+          <div id="drives-wrap">
+            <div class="lines" id="drives"></div>
+            <button type="button" class="add" id="add-drive">Add drive line</button>
+            <span class="cap-note" id="drive-note"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -591,10 +599,10 @@ button.quiet{color:var(--ink-soft)}
     <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Power and fitting</h2></div>
     <div class="rows">
       <div class="row">
-        <div class="q"><span class="t">Power supplies</span><span class="note">Qty then wattage. Pick from the list for the tier + part number (Platinum 94% / Titanium 96%). A rough draw estimate checks it's enough.</span></div>
+        <div class="q"><span class="t">Power supplies</span><span class="note">Quantity, then wattage. A rough draw estimate checks it's enough.</span></div>
         <div class="a"><div class="pair">
           <input type="number" id="psuq" min="1" placeholder="Qty">
-          <input type="text" id="psu" list="psus" placeholder="e.g. 800W Flex Slot Platinum" autocomplete="off">
+          <input type="text" id="psu" list="psus" placeholder="e.g. 800W" autocomplete="off">
         </div>
         <span class="cap-note" id="psu-note"></span></div>
       </div>
@@ -732,9 +740,9 @@ button.quiet{color:var(--ink-soft)}
      liquidReqW    TDP at/above which liquid cooling is mandatory regardless of socket count
      validCounts   the only processor counts this board actually supports (e.g. [1,2,4])
      psuMax        power supply bays in the chassis (hard cap on PSU qty)
-     psu           array of the PSU option strings this model offers (kit name +
-                   part number). Feeds the wattage datalist; falls back to the
-                   generic PSUS list when unset.
+     psu           (kept for reference only — the PSU picker now shows plain
+                   wattages from PSUS, not per-model kit strings) the kit names
+                   + option part numbers this model's QuickSpecs lists
      riserMax      physical riser positions; 0 = no riser cages, PCIe slots are
                    on the system board (blocks any riser line)
      fans          {one,two,perf} standard fan count for 1 CPU / 2 CPUs, and the
@@ -815,24 +823,22 @@ var MODELS=[
        'Rear drives will not support CPUs above 160W, or special/unique SKUs.',
        'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.']}},
  {m:'DL560',g:'G9', p:['e5v3x4','e5v4x4'], s:4, d:48, bays:['8SFF','10SFF'],
-   rules:{psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:3,two:7},riserMax:3,rear:[],validCounts:[2,3,4],hsNoChoice:true,
-     notes:['Takes Xeon E5-4600 v3 / v4 (4-socket parts, up to 135W), minimum 2 processors. Do not mix v3 and v4.',
+   rules:{verified:true,psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:3,two:7},riserMax:3,rear:[],validCounts:[1,2,4],hsNoChoice:true,
+     notes:['Takes Xeon E5-4600 v3 / v4 (4-socket parts, up to 135W). Supports 1, 2 or 4 processors — not 3. Do not mix v3 and v4.',
        'Front 2.5-inch bays only; the Universal Media Bay adds 2 more. No rear or mid-tray drive cage.',
-       'Entry model ships 1 PSU; Base/Performance ship 2 (redundant). Common Slot 1200W/1500W.',
-       '6 hot-plug fans, N+1 redundancy.',
+       '2 power supply bays: entry model ships 1, Base / Performance ship 2 (redundant). Common Slot 1200W or 1500W Platinum Plus (QuickSpecs DA-15187).',
+       '6 hot-plug fans, N+1 redundancy, shipped standard.',
        'Riser positions (QuickSpecs DA-15187): primary riser slots 1-3 (Proc 1, full-height, ships standard); optional Secondary 3-Slot Riser Kit 793474-B21 slots 4-6 (Proc 2); Slot 7 is a low-profile slot on the board (Proc 2). Up to 7 PCIe 3.0 slots with the secondary riser and 2+ processors.',
-       'Storage controllers (H240 / P440 / P840) can sit in the primary riser or Slot 7.',
-       'PSU bay count and fan/slot counts verified against DL560 Gen9 QuickSpecs; cooling thresholds are still generation defaults.']}},
+       'Storage controllers (H240 / P440 / P840) can sit in the primary riser or Slot 7.']}},
  {m:'DL580',g:'G9', p:['e7v3','e7v4'], s:4, d:96, bays:['5SFF','8SFF','10SFF'],
-   rules:{psuMax:4,fans:{two:4,perf:4},pcie:{one:5,two:9},validCounts:[2,3,4],rear:[],riserMax:1,hsNoChoice:true,
-     notes:['Takes Xeon E7-4800 / E7-8800 v3 / v4, minimum 2 processors. Do not mix v3 and v4.',
-       'Front 2.5-inch drive cage only — no rear or mid-tray drive cage.',
-       'Minimum 2 power supplies; up to 4 for N+N redundancy (1200W / 1500W Common Slot).',
-       '4 hot-plug fans (eight rotors), N+1 redundancy.',
+   rules:{verified:true,psuMax:4,fans:{one:4,two:4,perf:4},pcie:{one:5,two:9},validCounts:[2,3,4],rear:[],riserMax:1,hsNoChoice:true,
+     notes:['Takes Xeon E7-4800 / E7-8800 v3 / v4, minimum 2 processors (2, 3 or 4). Do not mix v3 and v4.',
+       'Front 2.5-inch drive cage only — no rear or mid-tray drive cage. No drives ship standard.',
+       '4 power supply bays, minimum 2 populated; up to 4 for N+N redundancy. Common Slot 1200W or 1500W Platinum Plus — the 1500W is high-line only (QuickSpecs DA-15187).',
+       '4 hot-plug fans (eight rotors) with N+1 redundancy, shipped standard.',
        '96 DIMM slots via up to 8 memory cartridges (12 slots each).',
        'One standard I/O riser carries all 9 PCIe 3.0 slots (4x x8 + 5x x16), all full-length/full-height (QuickSpecs DA-15187). Slot availability scales with processor count — the full nine need all four sockets; a two-socket build lights the five Proc 1/2 slots, a three-socket build adds two more.',
-       'Double-wide GPU placement: 2 cards (slots 6, 9) with 2 processors; 3 (slots 3, 6, 9) with 3; up to 5 (slots 1, 2, 3, 6, 9) with 4. Slots 5 and 8 are blocked when double-wide cards are fitted.',
-       'PSU / fan / slot counts verified against DL580 Gen9 QuickSpecs; cooling thresholds are still generation defaults.']}},
+       'Double-wide GPU placement: 2 cards (slots 6, 9) with 2 processors; 3 (slots 3, 6, 9) with 3; up to 5 (slots 1, 2, 3, 6, 9) with 4. Slots 5 and 8 are blocked when double-wide cards are fitted.']}},
 
  {m:'DL20', g:'G10', p:['xeone'],      s:1, d:4,
    rules:{psuMax:2,pcie:{one:2,two:2},
@@ -1396,30 +1402,9 @@ var EXPANDERS=['12G SAS Expander Card (727250-B21, Gen9)','12G SAS Expander Card
  '12G SAS Expander Card (876907-B21, Gen10 2SFF rear)','Second controller instead of expander',
  'P408e-p external HBA','E208e-p external HBA','H241 external HBA','None needed'];
 var BATS=['96w bat','12w bat','No battery'];
-/* HPE power supply kits by efficiency tier + wattage, with option part numbers.
-   Flex Slot (Gen10 on) is Platinum (94%) or Titanium (96%); Gen9 uses Common
-   Slot; the entry towers use Gold-level ATX. Confirmed against the HPE Flexible
-   Slot Power Supplies QuickSpecs. */
-var PSUS=[
- '500W Flex Slot Platinum (865408-B21)',
- '800W Flex Slot Platinum (865414-B21)',
- '800W Flex Slot Platinum — Gen11 / Gen10+ (P38995-B21)',
- '800W Flex Slot Titanium (865438-B21)',
- '1000W Flex Slot Titanium (P03178-B21)',
- '1600W Flex Slot Platinum, high-line only (830272-B21)',
- '1600W Flex Slot Platinum, high-line — Gen11 / Gen10+ (P38997-B21)',
- '1800-2200W Flex Slot Titanium, high-line (P44712-B21)',
- '800W Flex Slot -48VDC (865434-B21)',
- '1600W Flex Slot -48VDC (P17023-B21)',
- '800W Flex Slot Universal 277VAC / 380VDC (865428-B21)',
- '— Gen9: Common Slot, not Flex Slot —',
- '500W Common Slot Platinum Plus (720478-B21)',
- '800W Common Slot Platinum Plus (720479-B21)',
- '1400W Common Slot Platinum Plus (720620-B21)',
- '— Entry towers (ML30 / ML110 / DL20): ATX —',
- '350W ATX Gold (P21649-B21)',
- '500W Flex Slot Platinum, RPS kit (865408-B21)'
-];
+/* Just the wattages — the slip only needs "2x 800W". The efficiency tier /
+   part number doesn't matter for this worksheet. */
+var PSUS=['290W','350W','500W','550W','800W','900W','1000W','1200W','1400W','1500W','1600W','1800W','2200W'];
 var FLRS=['331FLR 4x1GbE','366FLR 4x1GbE','361i 2x1GbE','530FLR-SFP+ 2x10Gb','533FLR-T 2x10GbT',
  '561FLR-T 2x10GbT','562FLR-SFP+ 2x10Gb','631FLR-SFP28 2x25Gb','640FLR-SFP28 2x25Gb'];
 /* A starter list only — the field is free text, type any card. Bracket / slot
@@ -1748,21 +1733,7 @@ attachList(document.getElementById('ctrl'),function(){return CTRLS;});
 attachList(document.getElementById('bat'),function(){return BATS;});
 attachList(document.getElementById('flr'),function(){return FLRS;});
 attachList(document.getElementById('expander'),function(){return EXPANDERS;});
-/* PSU suggestions scoped to the model: per-model list if set (ML towers),
-   else Common Slot for Gen9 racks / Flex Slot for Gen10 and newer racks —
-   the generic PSUS list mixes all three families with divider rows. */
-function psuList(){
-  var m=currentModel(),R=rulesFor(m);
-  if(m&&R.psu)return R.psu;
-  if(!m)return PSUS;
-  var seg=0,flex=[],common=[];
-  PSUS.forEach(function(s){
-    if(s.charAt(0)==='—'){seg++;return;}
-    if(seg===0)flex.push(s);else if(seg===1)common.push(s);
-  });
-  return m.g==='G9' ? common : flex;
-}
-attachList(document.getElementById('psu'),psuList);
+attachList(document.getElementById('psu'),function(){return PSUS;});
 attachList(document.getElementById('bays'),function(){var m=currentModel();return (m&&m.bays)?m.bays:GENERIC_BAYS;});
 attachList(document.getElementById('rear'),function(){var m=currentModel(),R=rulesFor(m);return (m&&R.rear&&R.rear.length)?R.rear:REAR;});
 stepper(document.getElementById('dimmq'),{min:1});
@@ -1852,11 +1823,24 @@ function refreshDependents(){
     :rearListed
       ?'Rear / midtray — '+R.rear.length+' option'+(R.rear.length>1?'s':'')+' for this model'
       :'Rear / midtray — leave blank if none';
-  fill('psus',psuList());
+  fill('psus',PSUS);
   var noRiser=!!(m&&R.riserMax===0);
   var rk=noRiser?[]:((m&&RISERS[m.m+' '+m.g])||(m?GENERIC_RISERS:[]));
   var isOwn=!!(m&&RISERS[m.m+' '+m.g]);
   renderRiserKits(rk,isOwn);
+  /* pre-fill the riser line(s) the chassis ships with, at qty 1 — unless the
+     user has already put their own risers in */
+  if(m){
+    var wantDef=noRiser?[]:rk.filter(function(k){return k.def;}).map(function(k){return k.n;});
+    var curNames=[].slice.call(risers.querySelectorAll('[data-k=name]'))
+      .map(function(x){return x.value.trim();}).filter(Boolean);
+    var untouched=curNames.length===0||curNames.every(function(n){return curRiserDefaults.indexOf(n)>-1;});
+    if(untouched&&curNames.join('|')!==wantDef.join('|')){
+      risers.innerHTML='';
+      wantDef.forEach(function(n){risers.appendChild(riserRow({q:'1',name:n}));});
+    }
+    curRiserDefaults=wantDef;
+  }
   document.getElementById('add-riser').hidden=noRiser;
   document.getElementById('riser-note').textContent=
     !m?'One line per riser cage. The PCIe slot count follows from the kits you add.'
@@ -1869,7 +1853,7 @@ function refreshDependents(){
 }
 
 /* riser-kit reference list: wrapping rows; clicking one adds a riser line */
-var curRiserKits=[];
+var curRiserKits=[], curRiserDefaults=[];
 function riserKitByName(name){
   name=String(name||'').toLowerCase().trim();
   for(var i=0;i<curRiserKits.length;i++)
@@ -1941,6 +1925,10 @@ function cardRow(v){
   stepper(d.querySelector('[data-k=q]'),{min:1});
   return d;}
 document.getElementById('add-drive').addEventListener('click',function(){drives.appendChild(driveRow());run();});
+document.getElementById('nodrives').addEventListener('change',function(){
+  document.getElementById('drives-wrap').hidden=this.checked;
+  run();
+});
 document.getElementById('add-card').addEventListener('click',function(){cards.appendChild(cardRow());run();});
 
 function v(id){var e=document.getElementById(id);return e?String(e.value).trim():'';}
@@ -1994,7 +1982,8 @@ function evaluate(){
   var checks=[];
   var m=currentModel(),R=rulesFor(m),cpu=cpuByCode(v('cpu'));
   var bays=v('bays').toUpperCase(),rear=v('rear'),bp=r('bp');
-  var dl=readLines(drives).filter(function(d){return d.cap;});
+  var noDrives=document.getElementById('nodrives').checked;
+  var dl=noDrives?[]:readLines(drives).filter(function(d){return d.cap;});
   var hasNVMe=bp.indexOf('NVMe')>-1||dl.some(function(d){return (d.int||'').indexOf('NVMe')>-1;});
   var has24G=dl.some(function(d){return d.spd==='24G';});
   var hasGPU=readLines(cards).some(function(c){return /nvidia|tesla|gpu|\ba2\b|\bl4\b|accelerat/i.test(c.name||'');});
@@ -2152,9 +2141,9 @@ function evaluate(){
   }
 
   /* drive bay limits */
-  var capBays=bayCapacity(),used=drivesUsed();
+  var capBays=bayCapacity(),used=noDrives?0:drivesUsed();
   var dn=document.getElementById('drive-note');dn.className='cap-note';
-  dn.textContent=capBays?(used+' of '+capBays+' bays used'):'';
+  dn.textContent=noDrives?'':capBays?(used+' of '+capBays+' bays used'):'';
   document.getElementById('bay-note').textContent=capBays?(capBays+' bays in this chassis'):'';
   [].forEach.call(drives.querySelectorAll('[data-k=q]'),function(q){
     if(capBays)q.max=capBays;else q.removeAttribute('max');
@@ -2166,7 +2155,7 @@ function evaluate(){
   }
 
   /* SAS expander prompt */
-  if(capBays>8&&!v('expander')&&!hasNVMe)
+  if(capBays>8&&!v('expander')&&!hasNVMe&&!noDrives)
     checks.push(['verify','EXPANDER',capBays+' bays usually needs a SAS expander or a second controller — a single 8-port controller only addresses 8 drives directly.']);
 
   if(R.coolTierW&&cpu&&cpu[3]>=R.coolTierW&&cpuq>=2)
@@ -2444,7 +2433,7 @@ function buildSlip(){
   var head=join(m?(m.m+' '+m.g):'',v('bays'));
   if(v('rear'))head=join(head,'+ '+v('rear'));
   if(head)L.push(head);else gaps.push('system model');
-  if(m&&!v('bays'))gaps.push('drive bay config');
+  if(m&&!v('bays')&&!document.getElementById('nodrives').checked)gaps.push('drive bay config');
   if(r('bp'))L.push(r('bp'));
   if(v('cpu'))L.push(join(v('cpuq')?v('cpuq')+'x':'',v('cpu')));else gaps.push('processor');
   if(v('dimm'))L.push(join(v('dimmq')?v('dimmq')+'x':'',v('dimm'),r('auth')));else gaps.push('memory');
@@ -2473,8 +2462,12 @@ function buildSlip(){
     ['feet','door','key'].forEach(function(n){if(!picked(n))gaps.push('tower '+n);});
   }
   var dl=readLines(drives).filter(function(d){return d.cap;});
-  dl.forEach(function(d){L.push(join(d.q?d.q+'x':'',d.cap,d.spd,d.cls,d.int));});
-  if(!dl.length)gaps.push('drives');
+  if(document.getElementById('nodrives').checked){
+    L.push('No drives (ships diskless)');
+  }else{
+    dl.forEach(function(d){L.push(join(d.q?d.q+'x':'',d.cap,d.spd,d.cls,d.int));});
+    if(!dl.length)gaps.push('drives');
+  }
   if(v('plan-raid'))L.push('RAID '+v('plan-raid'));
   if(v('notes'))L.push('','Notes: '+v('notes'));
   if(v('modelq')&&Number(v('modelq'))>1)L.unshift('BUILD x'+v('modelq'));
@@ -2510,6 +2503,7 @@ function sync(){
   var t=isTower();
   document.getElementById('tower-rows').hidden=!t;
   document.getElementById('tower-locked').style.display=t?'none':'';
+  document.getElementById('drives-wrap').hidden=document.getElementById('nodrives').checked;
   refreshDependents();run();}
 
 /* ---------------- paste-to-fill ---------------- */
@@ -2538,11 +2532,6 @@ function grabPSU(t){
   if(m=t.match(/\b(?:psu|ps|power|suppl\w*|atx)\b[^.]{0,22}?(\d{3,4})\s*w?\b/)) return {q:0,w:+m[1]};
   if(m=t.match(/\b(\d{3,4})\s*w\b/)) if(PW.indexOf(+m[1])>-1) return {q:0,w:+m[1]};
   return null;
-}
-function grabTier(t){
-  var m=String(t).match(/(?:\d{3,4}\s*w[a-z]*|psu|power\s*suppl\w*)\s*[,\-]?\s*(platinum|titanium|gold)\b/i)
-      ||String(t).match(/\b(platinum|titanium|gold)\s*[,\-]?\s*(?:\d{3,4}\s*w|psu\b|power)/i);
-  return m?m[1]:null;
 }
 function grabMem(t){
   t=' '+String(t).toLowerCase()+' ';
@@ -2627,12 +2616,9 @@ function parseClientText(text){
   if(psu&&psu.w){
     var pRules=rulesFor(m),pq=psu.q;
     if(m&&pRules.psuMax&&pq>pRules.psuMax){guess.push('Client asked for '+pq+' PSUs but '+m.m+' '+m.g+' has '+pRules.psuMax+' bays — capped at '+pRules.psuMax+'.');pq=pRules.psuMax;}
-    /* if a tier word is present, snap to the matching kit string so the PN carries over */
-    var tier=grabTier(text),psuOpts=[].slice.call(document.getElementById('psus').options).map(function(o){return o.value;});
-    var hit=tier&&psuOpts.filter(function(o){return o.indexOf(psu.w+'W')===0&&new RegExp(tier,'i').test(o);})[0];
-    document.getElementById('psu').value=hit||(psu.w+'W'+(tier?' '+tier.charAt(0).toUpperCase()+tier.slice(1):''));
-    if(pq){document.getElementById('psuq').value=pq;found.push('Power: '+pq+'x '+document.getElementById('psu').value);}
-    else{found.push('Power: '+document.getElementById('psu').value);guess.push('PSU quantity not stated — set it (1 non-redundant / 2 for 1+1).');}
+    document.getElementById('psu').value=psu.w+'W';
+    if(pq){document.getElementById('psuq').value=pq;found.push('Power: '+pq+'x '+psu.w+'W');}
+    else{found.push('Power: '+psu.w+'W');guess.push('PSU quantity not stated — set it (1 non-redundant / 2 for 1+1).');}
   }
   var bayM=text.match(/(\d{1,2})\s*(lff|sff)\b/gi);
   if(bayM&&bayM[0]){document.getElementById('bays').value=bayM[0].toUpperCase().replace(/\s+/g,'');found.push('Bays: '+bayM[0]);}
@@ -2705,10 +2691,11 @@ document.getElementById('paste-fill').addEventListener('click',function(){
 /* ---------------- persistence ---------------- */
 function save(){
   try{
-    var d={f:{},r:{},ov:manualOverride,ft:fanTouched,drives:readLines(drives),cards:readLines(cards),risers:readLines(risers)};
+    var d={f:{},r:{},c:{},ov:manualOverride,ft:fanTouched,drives:readLines(drives),cards:readLines(cards),risers:readLines(risers)};
     document.querySelectorAll('input[type=text],input[type=number],input[type=hidden],textarea,select').forEach(function(c){
       if(c.id&&!c.hasAttribute('data-k'))d.f[c.id]=c.value;});
     document.querySelectorAll('input[type=radio]:checked').forEach(function(c){d.r[c.name]=c.value;});
+    document.querySelectorAll('input[type=checkbox]').forEach(function(c){if(c.id)d.c[c.id]=c.checked;});
     localStorage.setItem(KEY,JSON.stringify(d));
     var s=document.getElementById('saved');s.classList.add('on');
     clearTimeout(save.t);save.t=setTimeout(function(){s.classList.remove('on');},1200);
@@ -2720,6 +2707,7 @@ function load(){
     Object.keys(d.f||{}).forEach(function(k){var e=document.getElementById(k);if(e)e.value=d.f[k];});
     Object.keys(d.r||{}).forEach(function(k){
       var e=document.querySelector('input[name="'+k+'"][value="'+d.r[k]+'"]');if(e)e.checked=true;});
+    Object.keys(d.c||{}).forEach(function(k){var e=document.getElementById(k);if(e&&e.type==='checkbox')e.checked=!!d.c[k];});
     if(d.ov)manualOverride=d.ov;
     if(d.ft)fanTouched=true;
     (d.drives||[]).forEach(function(x){drives.appendChild(driveRow(x));});
@@ -2749,9 +2737,10 @@ document.getElementById('count').title='Jump to the spec slip';
 document.getElementById('clear').addEventListener('click',function(){
   if(!confirm('Clear every answer on this sheet?'))return;
   document.querySelectorAll('input[type=text],input[type=number],textarea').forEach(function(c){c.value='';});
-  document.querySelectorAll('input[type=radio]').forEach(function(c){c.checked=false;});
+  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(function(c){c.checked=false;});
   document.getElementById('plan-raid').value='';
   document.getElementById('cpuq').value='';
+  curRiserDefaults=[];
   modelCombo.clear();cpuCombo.clear();
   document.getElementById('ct-r').checked=true;
   document.getElementById('bp1').checked=true;

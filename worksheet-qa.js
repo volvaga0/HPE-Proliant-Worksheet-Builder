@@ -146,10 +146,9 @@ setTimeout(()=>{
 
   // 10b. shorthand paste variants
   const pasteCase=(s)=>{d.getElementById('paste-text').value=s;d.getElementById('paste-fill').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));};
-  pasteCase('DL360 Gen10, dual 6248, 4x32gb, 2x800 psu, titanium');
-  (d.getElementById('psuq').value==='2' && /800/.test(d.getElementById('psu').value))
-    ?pass('"2x800 psu" -> 2x 800W'):fail('"2x800 psu" missed -> "'+d.getElementById('psu').value+'" q'+d.getElementById('psuq').value);
-  /titanium/i.test(d.getElementById('psu').value)?pass('"titanium" -> snapped to the Titanium kit string'):fail('tier not applied: '+d.getElementById('psu').value);
+  pasteCase('DL360 Gen10, dual 6248, 4x32gb, 2x800 psu');
+  (d.getElementById('psuq').value==='2' && d.getElementById('psu').value==='800W')
+    ?pass('"2x800 psu" -> 2 x 800W (plain wattage)'):fail('"2x800 psu" missed -> "'+d.getElementById('psu').value+'" q'+d.getElementById('psuq').value);
   d.getElementById('cpuq').value==='2'?pass('"dual 6248" -> 2 processors'):fail('"dual" cpu qty missed -> '+d.getElementById('cpuq').value);
   (d.getElementById('dimmq').value==='4'&&d.getElementById('dimm').value==='32GB')?pass('"4x32gb" -> 4x 32GB'):fail('mem shorthand missed -> '+d.getElementById('dimmq').value+' / '+d.getElementById('dimm').value);
   d.getElementById('model').value==='DL360 G10'?pass('"DL360 Gen10" resolved'):fail('gen-word model parse failed -> '+d.getElementById('model').value);
@@ -313,8 +312,20 @@ setTimeout(()=>{
   let txt=d.getElementById('checks').textContent;
   txt.includes('TOO MANY DIMMS')&&dimmEl.classList.contains('field-over')?pass3('30 DIMMs on 24-slot board blocked + flagged'):fail3('30-DIMM overflow not caught: '+txt.slice(0,200));
 
-  // --- Riser lines: DL380 has 3 positions -> a 4th line blocks ---
+  // --- the chassis' default riser is pre-filled at qty 1 ---
   const risersEl=d.getElementById('risers');
+  risersEl.innerHTML='';
+  setModel3('DL380 G10');
+  { const rows=[...risersEl.querySelectorAll('.line')].map(r=>({q:r.querySelector('[data-k=q]').value,name:r.querySelector('[data-k=name]').value}));
+    (rows.length===1 && rows[0].q==='1' && /Default Primary riser/.test(rows[0].name))
+      ?pass3('DL380 G10: the default primary riser is pre-filled at 1x'):fail3('default riser not pre-filled: '+JSON.stringify(rows)); }
+  setModel3('DL360 G10');
+  { const rows=[...risersEl.querySelectorAll('.line [data-k=name]')].map(x=>x.value);
+    (rows.length===1 && /ships standard/.test(rows[0]))
+      ?pass3('switching model swaps the pre-filled default riser (DL360 primary)'):fail3('riser default not swapped: '+JSON.stringify(rows)); }
+
+  // --- Riser lines: DL380 has 3 positions -> a 4th line blocks ---
+  setModel3('DL380 G10');
   const addRiser=(name)=>{ d.getElementById('add-riser').click();
     const rows=risersEl.querySelectorAll('[data-k=name]'); const el=rows[rows.length-1];
     el.value=name; fire(el,'input'); };
@@ -403,6 +414,19 @@ setTimeout(()=>{
     (!/\brails?\b/i.test(need) && /No rail kit/.test(s))
       ?pass3('Rails "No" -> "No rail kit" on the slip, no rails gap'):fail3('rails=No still gapping: '+need.slice(0,80)); }
 
+  // --- "No drives" checkbox: hides the drive list, clears the drives gap ---
+  d.getElementById('drives').innerHTML='';fire(d.getElementById('add-drive'),'click');
+  { const need=(d.getElementById('slip').textContent.split('Still needed')[1]||'');
+    /\bdrives\b/.test(need)?pass3('empty drive list -> "drives" is a gap'):fail3('drives not gapping when empty: '+need.slice(0,60)); }
+  d.getElementById('nodrives').checked=true;fire(d.getElementById('nodrives'),'change');
+  { const s=d.getElementById('slip').textContent, need=(s.split('Still needed')[1]||'');
+    (d.getElementById('drives-wrap').hidden && /No drives/.test(s) && !/\bdrives\b/.test(need))
+      ?pass3('"No drives" hides the drive list and clears the drives gap'):fail3('no-drives: hidden='+d.getElementById('drives-wrap').hidden+' need='+need.slice(0,60)); }
+  d.getElementById('nodrives').checked=false;fire(d.getElementById('nodrives'),'change');
+  { const s=d.getElementById('slip').textContent, need=(s.split('Still needed')[1]||'');
+    (!d.getElementById('drives-wrap').hidden && !/No drives/.test(s) && /\bdrives\b/.test(need))
+      ?pass3('unchecking "No drives" brings the drive list and its gap back'):fail3('no-drives untoggle: need='+need.slice(0,60)); }
+
   // --- model notes are filtered to the current selection ---
   setModel3('DL360 G10');pickCpu3('S4110');
   d.getElementById('bays').value='8SFF';fire(d.getElementById('bays'),'input');
@@ -435,6 +459,23 @@ setTimeout(()=>{
   psuFor('DL560 G9')==='2'?pass3('DL560 G9: 2 PSU bays'):fail3('DL560 G9 psuMax wrong');
   psuFor('DL580 G9')==='4'?pass3('DL580 G9: 4 PSU bays'):fail3('DL580 G9 psuMax wrong');
   psuFor('DL560 G11')==='4'?pass3('DL560 G11: 4 PSU bays'):fail3('DL560 G11 psuMax wrong');
+
+  // --- DL560 / DL580 Gen9: proc counts + fan counts verified vs QuickSpecs DA-15187 ---
+  const btns=(l)=>{ setModel3(l); return [...d.querySelectorAll('#cpuq-btns button')].map(b=>b.getAttribute('data-n')); };
+  JSON.stringify(btns('DL560 G9'))===JSON.stringify(['1','2','4'])?pass3('DL560 G9: 1/2/4 processors (not 3)'):fail3('DL560 G9 cpu counts: '+btns('DL560 G9'));
+  JSON.stringify(btns('DL580 G9'))===JSON.stringify(['2','3','4'])?pass3('DL580 G9: 2/3/4 processors (min 2)'):fail3('DL580 G9 cpu counts: '+btns('DL580 G9'));
+  { setModel3('DL580 G9');
+    [...d.querySelectorAll('#cpuq-btns button')].find(b=>b.getAttribute('data-n')==='2').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    ci3.disabled=false;ci3.value='E7-8890v4';fire(ci3,'input');
+    const o=[...d.querySelectorAll('#cpu-panel .combo-item')].find(x=>x.querySelector('.ci-main').textContent==='E7-8890v4');o&&o.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+    (d.getElementById('fanq').value==='4' && d.getElementById('fanq').getAttribute('max')==='4')
+      ?pass3('DL580 G9: 4 hot-plug fans (auto-filled, cage cap 4)'):fail3('DL580 G9 fanq: '+d.getElementById('fanq').value+' max='+d.getElementById('fanq').getAttribute('max')); }
+  { setModel3('DL560 G9');
+    [...d.querySelectorAll('#cpuq-btns button')].find(b=>b.getAttribute('data-n')==='2').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    ci3.disabled=false;ci3.value='E5-4650v4';fire(ci3,'input');
+    const o=[...d.querySelectorAll('#cpu-panel .combo-item')].find(x=>x.querySelector('.ci-main').textContent==='E5-4650v4');o&&o.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+    (d.getElementById('fanq').value==='6' && d.getElementById('fanq').getAttribute('max')==='6')
+      ?pass3('DL560 G9: 6 hot-plug fans (auto-filled, cage cap 6)'):fail3('DL560 G9 fanq: '+d.getElementById('fanq').value+' max='+d.getElementById('fanq').getAttribute('max')); }
 
   // --- Gen9: v3 and v4 processors are separate picker groups ---
   const cpuGroups=(label)=>{ setModel3(label); ci3.disabled=false; ci3.value='';fire(ci3,'focus');fire(ci3,'input');
@@ -524,14 +565,12 @@ setTimeout(()=>{
   mlChk('ML30 G10+','4 DIMM','2','v');
   mlChk('ML350 G9','24 DIMM','4','u');
 
-  // --- ML towers: no riser cages, model-specific PSU list ---
+  // --- ML towers: no riser cages ---
   setModel3('ML30 G10+');
-  const mlPsus=[...d.querySelectorAll('#psus option')].map(o=>o.value);
   (d.getElementById('add-riser').hidden
-    && /system board/.test(d.getElementById('riser-note').textContent)
-    && mlPsus.some(o=>/P45209-B21/.test(o)) && mlPsus.some(o=>/865438-B21/.test(o)))
-    ?pass3('ML30 G10+: no riser section, PSU list is model-specific (RPS kit P45209-B21, 800W Titanium 865438-B21)')
-    :fail3('ML30 G10+ riser/PSU: addHidden='+d.getElementById('add-riser').hidden+' psus='+mlPsus.slice(0,2));
+    && /system board/.test(d.getElementById('riser-note').textContent))
+    ?pass3('ML30 G10+: no riser section (PCIe slots on the system board)')
+    :fail3('ML30 G10+ riser: addHidden='+d.getElementById('add-riser').hidden);
   // a riser line on a no-riser chassis blocks
   d.getElementById('risers').innerHTML='';
   const rl=d.createElement('div');rl.className='line card';
@@ -582,18 +621,12 @@ setTimeout(()=>{
   (!ptxt.includes('will not power on')&&!ptxt.includes('redundant (1+1)'))
     ?pass3('...2x 1600W clears the power check'):fail3('power check still firing on 2x 1600W: '+ptxt.slice(0,180));
 
-  // --- PSU list carries efficiency tier + part number, and is scoped to the model ---
-  const g10psu=[...d.querySelectorAll('#psus option')].map(o=>o.value);   // DL380 G10 context
-  (g10psu.some(o=>/Titanium.*P03178-B21/.test(o)) && g10psu.some(o=>/Platinum.*865414-B21/.test(o)))
-    ?pass3('PSU list has tier + part number (Platinum 865414-B21 / Titanium P03178-B21)'):fail3('PSU list missing tiers: '+g10psu.slice(0,4));
-  (!g10psu.some(o=>/common slot/i.test(o)) && !g10psu.some(o=>/\bATX\b/i.test(o)) && !g10psu.some(o=>/^—/.test(o)))
-    ?pass3('DL380 G10 PSU list is Flex Slot only — no Gen9 Common Slot / tower ATX / dividers'):fail3('DL380 G10 PSU list leaked: '+g10psu.filter(o=>/common|ATX|^—/i.test(o)));
-  setModel3('DL380 G9');
-  const g9psu=[...d.querySelectorAll('#psus option')].map(o=>o.value);
-  (g9psu.length && g9psu.every(o=>/common slot/i.test(o)))
-    ?pass3('DL380 G9 PSU list is Common Slot only'):fail3('DL380 G9 PSU list: '+g9psu);
+  // --- PSU list is just wattages (no tier / part number clutter) ---
+  const psuOpts=[...d.querySelectorAll('#psus option')].map(o=>o.value);
+  (psuOpts.length && psuOpts.every(o=>/^\d{3,4}W$/.test(o)) && psuOpts.includes('800W'))
+    ?pass3('PSU list is plain wattages (800W, 1600W …) — no tier or part number'):fail3('PSU list not plain: '+psuOpts.slice(0,4));
   setModel3('DL380 G10');pickCpu3('G6148');d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
-  d.getElementById('psu').value='800W Flex Slot Platinum (865414-B21)';fire(d.getElementById('psu'),'input');
+  d.getElementById('psu').value='800W';fire(d.getElementById('psu'),'input');
   d.getElementById('psuq').value='2';fire(d.getElementById('psuq'),'input');
   /~\d+W .* 800W/.test(d.getElementById('psu-note').textContent)
     ?pass3('a tier+PN PSU string still parses to 800W for the budget check'):fail3('psu note: '+d.getElementById('psu-note').textContent);

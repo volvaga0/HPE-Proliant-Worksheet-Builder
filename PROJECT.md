@@ -199,14 +199,11 @@ and raises a `BRACKETS` check (LP slots need low-profile brackets; GPU / FH
 cards that outnumber the FH slots get flagged). Filling out `RISERS` (incl.
 `fh`/`lp`) / `fans` / `pcie` / `psuMax` for the rest of the fleet is ongoing.
 
-**`PSUS`** is a list of real HPE PSU kits with efficiency tier + wattage +
-option part number (Flex Slot Platinum 94% / Titanium 96%, Common Slot for
-Gen9, ATX Gold for entry towers), split into three sections by `—`-prefixed
-divider rows. The wattage parses out of the string for the power-budget
-check. The PSU field's suggestions come from **`psuList()`**, not raw
-`PSUS`: a model's own `psu` rule if set (ML towers), else just the Common
-Slot section for a Gen9 rack or just the Flex Slot section for Gen10+ — so a
-DL380 Gen10 never sees Gen9 Common Slot or tower ATX supplies.
+**`PSUS`** is just a list of wattages (`'290W'`…`'2200W'`). The worksheet
+only needs the slip to read "2x 800W" — efficiency tier and part number were
+dropped as noise. The wattage parses straight out for the power-budget
+check. (Model `psu` rule arrays are kept as reference data but no longer
+feed the picker.)
 
 ### Engine (`evaluate()`)
 
@@ -318,8 +315,16 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
 - **Capacity planner** — enter usable TB + RAID level, get up to 5
   drive-population suggestions ranked by least wasted capacity, with a
   one-click "Use" that drops the line into the drive list.
-- **Repeatable lines** — drives and PCI cards are add/remove line lists,
-  not fixed fields.
+- **Repeatable lines** — drives, PCI cards and PCI risers are add/remove
+  line lists. Each line's qty is a `stepper()`. On model pick the chassis'
+  **default riser** (the `def:true` kit, or the generic primary) is
+  pre-filled at 1x — switching models swaps it as long as the user hasn't
+  put their own risers in (`curRiserDefaults` tracks the auto-added set).
+- **"No drives" checkbox** (`#nodrives`) — hides the drive lines + planner
+  wrapper (`#drives-wrap`), puts "No drives (ships diskless)" on the slip,
+  and drops the `drives` / `drive bay config` gaps. `evaluate()` reads it as
+  `noDrives` and treats the drive list as empty. Saved under `d.c` (the
+  first checkbox in the sheet — save/load/clear now handle `input[type=checkbox]`).
 - **Spec slip** — plain-text output on the right, copy-to-clipboard
   button, matches the shorthand format the traders already use
   (`2x S4110`, `8LFF + 2SFF`, etc.).
@@ -387,15 +392,19 @@ heatsink for *every* seeded SKU, so standard is the exception there.
 **Verified in the Sept 2026 hardware-data pass (PSU bays / fan counts /
 PCIe slot counts / riser positions, from each model's own QuickSpecs —
 cooling thresholds separately noted per model):**
-- DL560 Gen9 (2 PSU, 6 fans, 3→7 PCIe, riserMax 3), DL580 Gen9 (4 PSU, 4 fans,
-  9 PCIe, 96 DIMM via 8 cartridges, 2-proc minimum, riserMax 1)
+- DL560 Gen9 (**2 PSU bays** — 1200/1500W Common Slot, **6 hot-plug fans N+1**,
+  3→7 PCIe, riserMax 3, **1/2/4 processors — not 3**) and DL580 Gen9 (**4 PSU
+  bays** min 2, **4 hot-plug fans / eight rotors N+1**, 9 PCIe, 96 DIMM via 8
+  cartridges, 2/3/4 processors, riserMax 1) — Sept 2026 fan + PSU pass against
+  QuickSpecs DA-15187, both now `verified:true`. DL560 G9 `validCounts` was
+  wrongly `[2,3,4]`, corrected to `[1,2,4]`.
 - **DL560/DL580 Gen9 risers (QuickSpecs DA-15187):** DL560 G9 — standard
   3-slot primary (Proc 1), optional Secondary 3-Slot Riser Kit 793474-B21
   (slots 4-6, Proc 2), Slot 7 low-profile on the board (Proc 2); a 2-slot
   primary variant 793475-B21. DL580 G9 — one standard I/O riser carries all
   9 full-length/full-height slots (4x x8 + 5x x16); no secondary kits, slot
   availability gated by processor count (2P→5, 3P→7, 4P→9). Double-wide GPU
-  slot map in the notes. Both got `validCounts:[2,3,4]`.
+  slot map in the notes.
 - **Gen9 v3/v4 CPU split:** `e5v34`→`e5v3`/`e5v4`, added `e5v3x4`/`e5v4x4`
   (E5-4600, DL560 G9) and `e7v3`/`e7v4` (E7, DL580 G9). ~90 Gen9 CPU rows.
   DL560 G9 no longer shows 2-socket E5-2600 parts.
