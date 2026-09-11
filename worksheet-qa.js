@@ -471,6 +471,13 @@ setTimeout(()=>{
     ?pass3('mobile CSS: safe-area insets + viewport-fit=cover'):fail3('safe-area handling missing');
   /overflow-x:\s*hidden/.test(html)?pass3('mobile: body overflow-x hidden (no sideways scroll)'):fail3('body overflow-x not guarded');
 
+  // --- scrolling a dropdown to its end doesn't chain into the page behind it ---
+  const comboPanelRule=(html.match(/\.combo-panel\s*\{[^}]*\}/)||[''])[0];
+  const acPanelRule=(html.match(/#ac-panel\s*\{[^}]*\}/)||[''])[0];
+  (/overscroll-behavior:\s*contain/.test(comboPanelRule) && /overscroll-behavior:\s*contain/.test(acPanelRule))
+    ?pass3('dropdown panels contain scroll — reaching the end doesn\u2019t scroll the page behind them')
+    :fail3('overscroll-behavior:contain missing on a dropdown panel — combo:'+comboPanelRule+' ac:'+acPanelRule);
+
   // --- DL560 / DL580 PSU bay counts (verified against QuickSpecs) ---
   const psuFor=(label)=>{ setModel3(label); return d.getElementById('psuq').max; };
   psuFor('DL560 G10')==='4'?pass3('DL560 G10: 4 PSU bays'):fail3('DL560 G10 psuMax wrong: '+psuFor('DL560 G10'));

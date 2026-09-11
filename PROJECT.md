@@ -285,6 +285,10 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   `attachList` filter only while you *type* — `focus` (and ArrowDown from a
   closed panel) renders everything, so clicking back into a field that got
   filled from a pick doesn't strand you on the one matching row.
+- **Dropdown scroll containment** — both `.combo-panel` (model/CPU) and
+  `#ac-panel` (memory/controller/PSU/etc.) have `overscroll-behavior:
+  contain`, so scrolling a long list to its end doesn't chain into
+  scrolling the page behind it once the mouse/touch keeps moving.
 - **`attachList(input, listFn)`** — upgrades the former datalist text
   inputs (memory, controller, battery, PSU, FlexibleLOM, expander, bays,
   rear, and the drive `cap` / card `name` / riser `name` line inputs) to a

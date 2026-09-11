@@ -147,7 +147,8 @@ section{margin-top:20px}
 
 .combo{position:relative}
 .combo-panel{position:absolute;top:calc(100% + 2px);left:0;right:0;z-index:30;background:var(--field);
-  border:1px solid var(--rule-strong);max-height:300px;overflow:auto;box-shadow:0 8px 20px rgba(0,0,0,.18);border-radius:10px}
+  border:1px solid var(--rule-strong);max-height:300px;overflow:auto;overscroll-behavior:contain;
+  box-shadow:0 8px 20px rgba(0,0,0,.18);border-radius:10px}
 .combo-panel[hidden]{display:none}
 .combo-group{padding:6px 10px 4px;font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--ink-soft);
   text-transform:uppercase;background:var(--shade);position:sticky;top:0}
@@ -161,7 +162,7 @@ section{margin-top:20px}
 .combo-empty{padding:10px;color:var(--ink-soft);font-size:13px}
 /* shared floating autocomplete panel (memory, controller, PSU, bays … ) */
 #ac-panel{position:absolute;z-index:960;background:var(--field);border:1px solid var(--rule-strong);
-  max-height:min(320px,46vh);overflow:auto;box-shadow:0 10px 26px rgba(0,0,0,.4);border-radius:10px}
+  max-height:min(320px,46vh);overflow:auto;overscroll-behavior:contain;box-shadow:0 10px 26px rgba(0,0,0,.4);border-radius:10px}
 #ac-panel[hidden]{display:none}
 #ac-panel .combo-item{white-space:normal}
 #ac-panel .combo-item .ci-main{white-space:normal}
@@ -1721,7 +1722,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.11.5';  // 6th build shipped today
+var BUILD_VERSION='2026.09.11.6';  // 7th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
