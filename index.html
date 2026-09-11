@@ -175,7 +175,7 @@ section{margin-top:20px}
 .seg button.on{background:var(--signal);border-color:var(--signal);color:var(--on-accent);font-weight:700;
   box-shadow:0 0 12px rgba(0,212,212,0.22)}
 .seg button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
-.gen-filter{margin-top:7px}
+.gen-filter{margin-bottom:7px}
 .gen-filter button{font-size:12.5px;padding:4px 10px;min-width:0}
 
 fieldset{border:0;margin:0;padding:0}
@@ -425,7 +425,8 @@ button.quiet{color:var(--ink-soft)}
 
       <div class="row">
         <div class="q"><span class="t">System model and Gen</span><span class="note">Type to search — sets what's offered everywhere else.</span></div>
-        <div class="a"><div class="pair rev">
+        <div class="a"><div class="seg gen-filter" id="model-gen-btns"></div>
+        <div class="pair rev">
           <div class="combo" id="model-combo">
             <input type="text" class="combo-input" id="model-input" placeholder="Type to search — e.g. DL380 G10" autocomplete="off">
             <input type="hidden" id="model">
@@ -433,7 +434,6 @@ button.quiet{color:var(--ink-soft)}
           </div>
           <input type="number" id="modelq" min="1" placeholder="Builds" title="Number of identical builds">
         </div>
-        <div class="seg gen-filter" id="model-gen-btns"></div>
         <span class="cap-note" id="sys-note"></span></div>
       </div>
 
@@ -1721,7 +1721,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.11.4';  // 5th build shipped today
+var BUILD_VERSION='2026.09.11.5';  // 6th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
