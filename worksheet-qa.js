@@ -12,7 +12,10 @@ const html=fs.readFileSync(HTML_PATH,'utf8');
 console.log('testing '+HTML_PATH+'\n');
 
 const errors=[];
-const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,
+// A real http(s) url (not the default about:blank) — jsdom disables
+// localStorage for opaque/null origins, and the app now uses it for the
+// recent-builds list as well as the draft, so tests need it to actually work.
+const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,url:'https://worksheet.test/',
   virtualConsole:new (require('jsdom').VirtualConsole)().on('jsdomError',e=>errors.push('JSDOM: '+e.message))
 });
 const w=dom.window,d=w.document;
@@ -869,3 +872,92 @@ setTimeout(()=>{
     q.value==='1'?pass4('picking a card name defaults the qty to 1'):fail4('card qty not defaulted: "'+q.value+'"');
   }
 },1900);
+
+// ---- round 5: shareable link + recent builds ----
+setTimeout(()=>{
+  function pass5(m){console.log('ok    '+m);}
+  function fail5(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi5=d.getElementById('model-input'), ci5=d.getElementById('cpu-input');
+  function setModel5(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi5.value='';fire(mi5,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
+    if(!opt)return fail5('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function pickCpu5(code){
+    ci5.value='';fire(ci5,'input');
+    const opt=[...d.querySelectorAll('#cpu-panel .combo-item')].find(el=>el.textContent.includes(code));
+    if(opt)opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+
+  // clean slate for the recent-builds checks below
+  d.getElementById('recent-list').innerHTML='';
+  try{w.localStorage.removeItem('sbw-recent-v1');}catch(e){}
+
+  setModel5('DL380 G10');pickCpu5('G6148');
+  d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
+
+  let capturedLinkText=null;
+  try{ w.navigator.clipboard={writeText:(t)=>{capturedLinkText=t;return Promise.resolve();}}; }catch(e){}
+  d.getElementById('copylink').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+
+  setTimeout(()=>{
+    // --- "Copy link" produces a decodable #s= payload matching the sheet ---
+    let ok=false;
+    try{
+      const m=(capturedLinkText||'').match(/#s=([^&]+)/);
+      const decoded=JSON.parse(Buffer.from(m[1],'base64').toString('utf8'));
+      ok=decoded.f.model==='DL380 G10' && decoded.f.cpu==='G6148';
+    }catch(e){}
+    ok?pass5('"Copy link" produces a decodable #s= URL matching the current sheet')
+      :fail5('copy-link payload wrong/missing: '+capturedLinkText);
+
+    // --- ...and copying auto-snapshots a "recent build" entry ---
+    const items=[...d.querySelectorAll('#recent-list .recent-pick')];
+    (items.length===1 && items[0].textContent.includes('DL380 G10') && items[0].textContent.includes('G6148'))
+      ?pass5('copying a link auto-snapshots a "recent build" entry')
+      :fail5('recent-build snapshot missing/wrong: '+items.map(x=>x.textContent).join(' | '));
+    d.getElementById('recent-section').hidden
+      ?fail5('recent-builds section stayed hidden after a snapshot')
+      :pass5('the recent-builds section un-hides once something is saved');
+
+    // repeating the same build within the window updates in place, not a dupe
+    d.getElementById('copylink').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    const items2=[...d.querySelectorAll('#recent-list .recent-pick')];
+    (items2.length===1)
+      ?pass5('re-saving the same build updates the existing recent entry instead of duplicating it')
+      :fail5('recent list duplicated an identical build: '+items2.length+' entries');
+
+    // --- switching model, then clicking the recent entry, restores it ---
+    setModel5('DL360 G10');
+    d.querySelector('#recent-list .recent-pick').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    (d.getElementById('model').value==='DL380 G10' && d.getElementById('cpu').value==='G6148')
+      ?pass5('clicking a recent-build entry restores that exact model + CPU')
+      :fail5('recent-build restore failed: model="'+d.getElementById('model').value+'"');
+
+    // --- delete removes the entry and re-hides the (now empty) list ---
+    d.querySelector('#recent-list .recent-del').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    (d.querySelectorAll('#recent-list .recent-pick').length===0 && d.getElementById('recent-section').hidden)
+      ?pass5('deleting the last recent build empties and re-hides the list')
+      :fail5('recent build not removed / list not re-hidden');
+  },0);
+
+  // --- opening the page with a #s= share-link hash restores state, then cleans the URL ---
+  const state5={f:{model:'DL380 G10',cpu:'G6148',cpuq:'2'},r:{chassis:'Rack'},c:{},drives:[],cards:[],risers:[]};
+  const payload5=Buffer.from(JSON.stringify(state5),'utf8').toString('base64');
+  const dom5=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,
+    url:'https://example.test/page.html#s='+payload5,
+    virtualConsole:new (require('jsdom').VirtualConsole)()});
+  setTimeout(()=>{
+    const d5=dom5.window.document;
+    (d5.getElementById('model').value==='DL380 G10' && d5.getElementById('cpu').value==='G6148')
+      ?pass5('opening the page with a #s= share-link hash restores the model + CPU')
+      :fail5('share-link restore failed: model="'+d5.getElementById('model').value+'" cpu="'+d5.getElementById('cpu').value+'"');
+    dom5.window.location.hash===''
+      ?pass5('...and the hash is cleaned off the address bar afterwards')
+      :fail5('hash not cleared: '+dom5.window.location.hash);
+    dom5.window.close();
+  },600);
+},2400);

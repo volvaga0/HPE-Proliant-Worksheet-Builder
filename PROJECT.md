@@ -365,6 +365,26 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
 - **Spec slip** — plain-text output on the right, copy-to-clipboard
   button, matches the shorthand format the traders already use
   (`2x S4110`, `8LFF + 2SFF`, etc.).
+- **Shareable link + recent builds (2026-09-11).** `collectState()` /
+  `applyState(d)` are the one state shape shared by three consumers:
+  the localStorage draft (`save()`/`load()`), a `#s=<base64 JSON>` URL
+  hash anyone can open to reopen this exact sheet (**Copy link** button
+  next to Copy spec/Print), and a **Recent builds** list (`sbw-recent-v1`
+  in localStorage, up to 10). `resetForm()` was pulled out of the old
+  Clear-sheet handler so `applyState()` can reuse it — every restore
+  starts from a clean baseline, not whatever was on screen before.
+  Recent builds auto-snapshot on **Copy spec / Copy link / Print** (the
+  natural "this is done, handing it off" moments) rather than a separate
+  Save button; re-triggering the same build within 10 minutes updates
+  the existing entry instead of piling up duplicates. On load, a `#s=`
+  hash wins over the local draft, gets applied, snapshotted, and then
+  `history.replaceState` strips it from the address bar (the *original*
+  link, e.g. from an email, still works — this only tidies the tab going
+  forward). **Gotcha for the QA harness:** jsdom disables `localStorage`
+  for the default `about:blank` origin — the harness's `JSDOM(...)` call
+  needs a real `url:` (`https://worksheet.test/` is fine) or every
+  localStorage-backed feature silently no-ops and looks "fine" while
+  testing nothing.
 - **Picking a value implies a count** — selecting a CPU sets the processor
   count to 1 (min valid); selecting a PSU wattage sets the PSU qty to 1.
   Both only fire when the count is still blank.

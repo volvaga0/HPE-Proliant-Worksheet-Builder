@@ -80,6 +80,20 @@ input.field-over{border-color:var(--stop);background:var(--stop-bg);color:var(--
 .paste-line.guess b{background:var(--check-bg);color:var(--check)}
 .paste-line.skip b{background:var(--shade);color:var(--ink-soft)}
 
+.recent-list{background:var(--card);border:1px solid var(--rule);border-radius:10px;overflow:hidden;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25), inset 0 1px 0 var(--glass-highlight)}
+.recent-item{display:flex;align-items:stretch;gap:8px;padding:2px;border-bottom:1px solid var(--rule)}
+.recent-item:last-child{border-bottom:0}
+.recent-item:nth-child(even){background:var(--shade)}
+.recent-pick{flex:1 1 auto;display:flex;justify-content:space-between;align-items:center;gap:10px;
+  text-align:left;font-size:14px;padding:8px 10px;border:0;background:transparent;color:var(--ink);
+  cursor:pointer;border-radius:7px}
+.recent-pick:hover{background:var(--field)}
+.recent-ts{font-size:11.5px;color:var(--ink-soft);white-space:nowrap;flex:0 0 auto}
+.recent-del{flex:0 0 31px;margin:2px 2px 2px 0;border:1px solid var(--field-edge);background:var(--field);
+  color:var(--ink-soft);border-radius:7px;cursor:pointer;font-size:15px;line-height:1;padding:0}
+.recent-del:hover{color:var(--stop);border-color:var(--stop)}
+
 section{margin-top:20px}
 .sec-head{display:flex;align-items:center;gap:10px;padding-bottom:6px;border-bottom:2px solid var(--rule-strong)}
 .sec-head h2{font-weight:600;font-size:18.5px;margin:0;letter-spacing:-0.01em;color:var(--signal);
@@ -397,6 +411,11 @@ button.quiet{color:var(--ink-soft)}
     </div>
   </section>
 
+  <section class="no-print" id="recent-section" hidden>
+    <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 16 14"/></svg>Recent builds</h2><span class="hint">Click to reload</span></div>
+    <div class="recent-list" id="recent-list"></div>
+  </section>
+
   <section>
     <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>Base system</h2>
       <span class="hint"><span class="badge v" id="badge-v">QUICKSPECS VERIFIED</span><span class="badge u" id="badge-u">GENERATION DEFAULTS — UNVERIFIED</span></span></div>
@@ -704,6 +723,7 @@ button.quiet{color:var(--ink-soft)}
     </div>
     <div class="slip-actions no-print">
       <button type="button" id="copy" class="primary">Copy spec</button>
+      <button type="button" id="copylink" title="Copies a link that reopens this exact sheet">Copy link</button>
       <button type="button" id="print">Print</button>
     </div>
   </div>
@@ -2992,46 +3012,128 @@ document.getElementById('paste-fill').addEventListener('click',function(){
   box.classList.add('on');run();});
 
 /* ---------------- persistence ---------------- */
+/* collectState()/applyState() are the one shape shared by the localStorage
+   draft, the shareable link and the recent-builds list — write it once,
+   read it back the same way everywhere. */
+function collectState(){
+  var d={f:{},r:{},c:{},ov:manualOverride,ft:fanTouched,drives:readLines(drives),cards:readLines(cards),risers:readLines(risers)};
+  document.querySelectorAll('input[type=text],input[type=number],input[type=hidden],textarea,select').forEach(function(c){
+    if(c.id&&!c.hasAttribute('data-k'))d.f[c.id]=c.value;});
+  document.querySelectorAll('input[type=radio]:checked').forEach(function(c){d.r[c.name]=c.value;});
+  document.querySelectorAll('input[type=checkbox]').forEach(function(c){if(c.id)d.c[c.id]=c.checked;});
+  return d;
+}
+function applyState(d){
+  resetForm();
+  Object.keys(d.f||{}).forEach(function(k){var e=document.getElementById(k);if(e)e.value=d.f[k];});
+  Object.keys(d.r||{}).forEach(function(k){
+    var e=document.querySelector('input[name="'+k+'"][value="'+d.r[k]+'"]');if(e)e.checked=true;});
+  var flrfit=document.querySelector('input[name=flrfit]:checked');
+  if(flrfit)document.getElementById('flr').disabled=(flrfit.value==='No FlexibleLOM / OCP fitted');
+  Object.keys(d.c||{}).forEach(function(k){var e=document.getElementById(k);if(e&&e.type==='checkbox')e.checked=!!d.c[k];});
+  if(d.ov)manualOverride=d.ov;
+  if(d.ft)fanTouched=true;
+  (d.drives||[]).forEach(function(x){drives.appendChild(driveRow(x));});
+  (d.cards||[]).forEach(function(x){cards.appendChild(cardRow(x));});
+  (d.risers||[]).forEach(function(x){risers.appendChild(riserRow(x));});
+  if(!drives.children.length)drives.appendChild(driveRow());
+  refreshDependents();
+  sync();
+}
 function save(){
   try{
-    var d={f:{},r:{},c:{},ov:manualOverride,ft:fanTouched,drives:readLines(drives),cards:readLines(cards),risers:readLines(risers)};
-    document.querySelectorAll('input[type=text],input[type=number],input[type=hidden],textarea,select').forEach(function(c){
-      if(c.id&&!c.hasAttribute('data-k'))d.f[c.id]=c.value;});
-    document.querySelectorAll('input[type=radio]:checked').forEach(function(c){d.r[c.name]=c.value;});
-    document.querySelectorAll('input[type=checkbox]').forEach(function(c){if(c.id)d.c[c.id]=c.checked;});
-    localStorage.setItem(KEY,JSON.stringify(d));
+    localStorage.setItem(KEY,JSON.stringify(collectState()));
     var s=document.getElementById('saved');s.classList.add('on');
     clearTimeout(save.t);save.t=setTimeout(function(){s.classList.remove('on');},1200);
   }catch(e){}}
 function load(){
   try{
     var raw=localStorage.getItem(KEY);if(!raw)return false;
-    var d=JSON.parse(raw);
-    Object.keys(d.f||{}).forEach(function(k){var e=document.getElementById(k);if(e)e.value=d.f[k];});
-    Object.keys(d.r||{}).forEach(function(k){
-      var e=document.querySelector('input[name="'+k+'"][value="'+d.r[k]+'"]');if(e)e.checked=true;});
-    var flrfit=document.querySelector('input[name=flrfit]:checked');
-    if(flrfit)document.getElementById('flr').disabled=(flrfit.value==='No FlexibleLOM / OCP fitted');
-    Object.keys(d.c||{}).forEach(function(k){var e=document.getElementById(k);if(e&&e.type==='checkbox')e.checked=!!d.c[k];});
-    if(d.ov)manualOverride=d.ov;
-    if(d.ft)fanTouched=true;
-    (d.drives||[]).forEach(function(x){drives.appendChild(driveRow(x));});
-    (d.cards||[]).forEach(function(x){cards.appendChild(cardRow(x));});
-    (d.risers||[]).forEach(function(x){risers.appendChild(riserRow(x));});
+    applyState(JSON.parse(raw));
     return true;
   }catch(e){return false;}}
-function copySpec(btn){
-  var text=plain(),label=btn.textContent;
-  function done(ok){btn.textContent=ok?'Copied':'Copy failed';setTimeout(function(){btn.textContent=label;},1600);}
+
+/* ---------------- shareable link ---------------- */
+function b64EncodeUtf8(str){return btoa(unescape(encodeURIComponent(str)));}
+function b64DecodeUtf8(str){return decodeURIComponent(escape(atob(str)));}
+function buildShareUrl(){
+  return location.origin+location.pathname+'#s='+b64EncodeUtf8(JSON.stringify(collectState()));
+}
+function tryLoadFromHash(){
+  var m=location.hash.match(/#s=([^&]+)/);
+  if(!m)return false;
+  try{
+    applyState(JSON.parse(b64DecodeUtf8(m[1])));
+    snapshotToRecents();
+    save();
+    /* clean the shared payload out of the address bar once it's loaded and
+       saved — reopening the ORIGINAL link (from an email/chat) still works,
+       this only tidies up this tab going forward. */
+    history.replaceState(null,'',location.pathname+location.search);
+    return true;
+  }catch(e){return false;}
+}
+
+/* ---------------- recent builds ---------------- */
+/* Auto-snapshots on Copy spec / Copy link / Print — the natural "this build
+   is done, handing it off" moments — rather than a separate Save button the
+   trader has to remember to press. Same-build repeats within 10 minutes
+   update the existing entry instead of piling up near-duplicates. */
+var RECENT_KEY='sbw-recent-v1', RECENT_MAX=10;
+function loadRecents(){try{return JSON.parse(localStorage.getItem(RECENT_KEY)||'[]');}catch(e){return [];}}
+function saveRecents(list){try{localStorage.setItem(RECENT_KEY,JSON.stringify(list));}catch(e){}}
+function recentLabel(state){
+  var m=(state.f&&state.f.model)||'Unnamed build',cpu=state.f&&state.f.cpu,q=state.f&&state.f.cpuq;
+  return m+(cpu?' · '+(q?q+'x ':'')+cpu:'');
+}
+function fmtRecentTime(ts){
+  var dt=new Date(ts);
+  return dt.toLocaleDateString(undefined,{month:'short',day:'numeric'})+' '+dt.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'});
+}
+function renderRecents(){
+  var list=loadRecents(),wrap=document.getElementById('recent-section'),box=document.getElementById('recent-list');
+  wrap.hidden=!list.length;
+  box.innerHTML=list.map(function(item,i){
+    return '<div class="recent-item"><button type="button" class="recent-pick" data-i="'+i+'">'+
+      '<span>'+esc(item.label)+'</span><span class="recent-ts">'+esc(fmtRecentTime(item.ts))+'</span></button>'+
+      '<button type="button" class="recent-del" data-i="'+i+'" title="Remove">&times;</button></div>';
+  }).join('');
+}
+function snapshotToRecents(){
+  var state=collectState();
+  if(!state.f.model)return;   // nothing picked yet — not worth remembering
+  var label=recentLabel(state),list=loadRecents(),now=Date.now();
+  if(list.length&&list[0].label===label&&(now-list[0].ts)<10*60*1000)list[0]={ts:now,label:label,state:state};
+  else list.unshift({ts:now,label:label,state:state});
+  saveRecents(list.slice(0,RECENT_MAX));
+  renderRecents();
+}
+document.getElementById('recent-list').addEventListener('click',function(e){
+  var pick=e.target.closest('.recent-pick'),del=e.target.closest('.recent-del');
+  if(pick){
+    var list=loadRecents(),item=list[Number(pick.getAttribute('data-i'))];
+    if(item)applyState(item.state);
+  }else if(del){
+    var list2=loadRecents();
+    list2.splice(Number(del.getAttribute('data-i')),1);
+    saveRecents(list2);renderRecents();
+  }
+});
+
+function copyToClipboard(btn,text,successLabel){
+  var label=btn.textContent;
+  function done(ok){btn.textContent=ok?(successLabel||'Copied'):'Copy failed';setTimeout(function(){btn.textContent=label;},1600);}
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(text).then(function(){done(true);},function(){done(false);});
   }else{
     var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();
     var ok=false;try{ok=document.execCommand('copy');}catch(e){}
     document.body.removeChild(ta);done(ok);}}
+function copySpec(btn){copyToClipboard(btn,plain());snapshotToRecents();}
 document.getElementById('copy').addEventListener('click',function(){copySpec(this);});
 document.getElementById('copy2').addEventListener('click',function(){copySpec(this);});
-document.getElementById('print').addEventListener('click',function(){window.print();});
+document.getElementById('copylink').addEventListener('click',function(){copyToClipboard(this,buildShareUrl(),'Link copied');snapshotToRecents();});
+document.getElementById('print').addEventListener('click',function(){snapshotToRecents();window.print();});
 /* on a phone the spec slip sits below the whole form — let the status line jump to it */
 document.getElementById('count').addEventListener('click',function(){
   var slip=document.getElementById('slip');
@@ -3039,8 +3141,10 @@ document.getElementById('count').addEventListener('click',function(){
 });
 document.getElementById('count').style.cursor='pointer';
 document.getElementById('count').title='Jump to the spec slip';
-document.getElementById('clear').addEventListener('click',function(){
-  if(!confirm('Clear every answer on this sheet?'))return;
+/* full reset to the blank-sheet baseline — used by Clear sheet, and by
+   applyState() before laying down a saved/shared/recent build so stale
+   values from whatever was on screen before don't leak into it. */
+function resetForm(){
   document.querySelectorAll('input[type=text],input[type=number],textarea').forEach(function(c){c.value='';});
   document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(function(c){c.checked=false;});
   document.getElementById('plan-raid').value='';
@@ -3058,14 +3162,22 @@ document.getElementById('clear').addEventListener('click',function(){
   manualOverride={fan:false,hs:false};fanTouched=false;
   document.getElementById('paste-result').classList.remove('on');
   document.getElementById('plan-out').classList.remove('on');
-  drives.innerHTML='';cards.innerHTML='';risers.innerHTML='';drives.appendChild(driveRow());
+  drives.innerHTML='';cards.innerHTML='';risers.innerHTML='';
   document.getElementById('mem-suggestions').hidden=true;
   document.getElementById('mem-suggestions').innerHTML='';
+}
+document.getElementById('clear').addEventListener('click',function(){
+  if(!confirm('Clear every answer on this sheet?'))return;
+  resetForm();
+  drives.appendChild(driveRow());
   try{localStorage.removeItem(KEY);}catch(e){}
   sync();});
 
+renderRecents();
 refreshDependents();
-if(!load())drives.appendChild(driveRow());
+if(!tryLoadFromHash()){
+  if(!load())drives.appendChild(driveRow());
+}
 if(!drives.children.length)drives.appendChild(driveRow());
 refreshDependents();
 sync();
