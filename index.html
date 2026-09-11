@@ -175,6 +175,8 @@ section{margin-top:20px}
 .seg button.on{background:var(--signal);border-color:var(--signal);color:var(--on-accent);font-weight:700;
   box-shadow:0 0 12px rgba(0,212,212,0.22)}
 .seg button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.gen-filter{margin-top:7px}
+.gen-filter button{font-size:12.5px;padding:4px 10px;min-width:0}
 
 fieldset{border:0;margin:0;padding:0}
 legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -431,6 +433,7 @@ button.quiet{color:var(--ink-soft)}
           </div>
           <input type="number" id="modelq" min="1" placeholder="Builds" title="Number of identical builds">
         </div>
+        <div class="seg gen-filter" id="model-gen-btns"></div>
         <span class="cap-note" id="sys-note"></span></div>
       </div>
 
@@ -1718,7 +1721,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.11.3';  // 4th build shipped today
+var BUILD_VERSION='2026.09.11.4';  // 5th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -1990,15 +1993,36 @@ stepper(document.getElementById('dimmq'),{min:1});
 stepper(document.getElementById('psuq'),{min:1});
 stepper(document.getElementById('fanq'),{min:0});
 
+/* generation quick-filter above the model picker — tapping "G10" (etc.)
+   scopes the dropdown to just that generation, so opening it blind doesn't
+   dump every generation this chassis type offers into one long list. */
+var GEN_ORDER=['G9','G10','G10+','G10+ v2','G11','G12'];
+var modelGenFilter=null;
+function renderModelGenBtns(){
+  var wantTower=isTower();
+  var avail=GEN_ORDER.filter(function(g){return MODELS.some(function(m){return m.g===g&&!!m.tower===wantTower;});});
+  if(modelGenFilter&&avail.indexOf(modelGenFilter)<0)modelGenFilter=null;
+  document.getElementById('model-gen-btns').innerHTML=avail.map(function(g){
+    return '<button type="button" data-g="'+g+'" class="'+(modelGenFilter===g?'on':'')+'">'+g+'</button>';
+  }).join('');
+}
+document.getElementById('model-gen-btns').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-g]');if(!b)return;
+  modelGenFilter=(modelGenFilter===b.getAttribute('data-g'))?null:b.getAttribute('data-g');
+  renderModelGenBtns();
+  modelCombo.filterTo('');
+});
 var modelCombo=setupCombo('model-combo',{
   getGroups:function(){
-    var order=['G9','G10','G10+','G10+ v2','G11','G12'],wantTower=isTower();
+    var order=modelGenFilter?[modelGenFilter]:GEN_ORDER,wantTower=isTower();
     return order.map(function(g){
       return {label:g,items:MODELS.filter(function(m){return m.g===g&&!!m.tower===wantTower;}).map(function(m){
         return {value:m.m+' '+m.g,label:m.m+' '+m.g,
           sub:(m.s+(m.s>1?' sockets':' socket'))+' · '+m.d+' DIMM'+((m.rules&&m.rules.verified)?' · verified':'')};
       })};}).filter(function(gr){return gr.items.length;});},
-  onSelect:function(){refreshDependents();run();}
+  onSelect:function(){
+    if(!document.getElementById('modelq').value)document.getElementById('modelq').value='1';
+    refreshDependents();run();}
 });
 var cpuCombo=setupCombo('cpu-combo',{
   emptyText:'No processors seeded for this platform',
@@ -2790,6 +2814,7 @@ function sync(){
   var m=currentModel();
   if(m&&!!m.tower!==t)modelCombo.clear();   // switching chassis invalidates the picked model
   document.getElementById('model-input').placeholder=t?'Type to search — e.g. ML350 G10':'Type to search — e.g. DL380 G10';
+  renderModelGenBtns();
   refreshDependents();run();}
 
 /* ---------------- paste-to-fill ---------------- */
@@ -2858,6 +2883,7 @@ function parseClientText(text){
     document.getElementById('tower-rows').hidden=!pickedM.tower;
     document.getElementById('tower-locked').style.display=pickedM.tower?'none':'';
     modelCombo.setValue(mg.value,mg.value);refreshDependents();m=currentModel();
+    if(!v('modelq'))document.getElementById('modelq').value='1';
     found.push('System: '+mg.value);
   }else if(mg){
     skip.push('Read "'+mg.value+'" but that combination isn\u2019t in the list — pick manually.');

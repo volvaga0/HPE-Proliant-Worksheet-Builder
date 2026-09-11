@@ -898,6 +898,48 @@ setTimeout(()=>{
     ?pass4('DL385 G11: "4LFF rear" accepted as a rear option')
     :fail4('DL385 G11 "4LFF rear" wrongly blocked: '+d.getElementById('checks').textContent.slice(0,200));
   d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
+
+  // --- picking a model defaults "Builds" to 1 (UI pick + paste), and the
+  // generation quick-filter buttons scope the picker ---
+  d.getElementById('modelq').value='';
+  setModel4('DL380 G10');
+  d.getElementById('modelq').value==='1'
+    ?pass4('picking a model sets "Builds" to 1')
+    :fail4('modelq after picking a model: "'+d.getElementById('modelq').value+'"');
+  d.getElementById('modelq').value='4';fire(d.getElementById('modelq'),'input');
+  setModel4('DL360 G10');
+  d.getElementById('modelq').value==='4'
+    ?pass4('...but leaves an already-set "Builds" count alone')
+    :fail4('modelq clobbered to '+d.getElementById('modelq').value);
+  d.getElementById('modelq').value='';
+  pasteCase4('dl380 g10');
+  d.getElementById('modelq').value==='1'
+    ?pass4('paste resolving a model also sets "Builds" to 1')
+    :fail4('paste modelq: "'+d.getElementById('modelq').value+'"');
+
+  { const genBtns=()=>[...d.querySelectorAll('#model-gen-btns button')].map(b=>b.getAttribute('data-g'));
+    (genBtns().includes('G9') && genBtns().includes('G12') && genBtns().includes('G10+ v2'))
+      ?pass4('Rack: generation filter buttons offered (G9…G12, incl. G10+ v2)')
+      :fail4('Rack gen buttons: '+genBtns().join(', '));
+    d.querySelector('#model-gen-btns button[data-g="G9"]').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    mi4.value='';fire(mi4,'input');
+    const shown=[...d.querySelectorAll('#model-panel .combo-group')].map(g=>g.textContent);
+    (shown.length===1 && shown[0]==='G9')
+      ?pass4('clicking "G9" scopes the model dropdown to just that generation')
+      :fail4('gen filter did not scope the panel: groups='+shown.join(', '));
+    d.querySelector('#model-gen-btns button[data-g="G9"]').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    mi4.value='';fire(mi4,'input');
+    const shown2=[...d.querySelectorAll('#model-panel .combo-group')].map(g=>g.textContent);
+    (shown2.length>1)
+      ?pass4('clicking the active generation again clears the filter')
+      :fail4('gen filter did not clear: groups='+shown2.join(', '));
+    d.getElementById('ct-t').checked=true;fire(d.getElementById('ct-t'),'change');
+    const towerBtns=genBtns();
+    (!towerBtns.includes('G10+ v2') && towerBtns.includes('G9'))
+      ?pass4('Tower: generation buttons drop G10+ v2 (no tower ever shipped it)')
+      :fail4('Tower gen buttons: '+towerBtns.join(', '));
+    d.getElementById('ct-r').checked=true;fire(d.getElementById('ct-r'),'change');
+  }
 },1900);
 
 // ---- round 5: shareable link + recent builds ----

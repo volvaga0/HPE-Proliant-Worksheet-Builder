@@ -391,8 +391,17 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   localStorage-backed feature silently no-ops and looks "fine" while
   testing nothing.
 - **Picking a value implies a count** — selecting a CPU sets the processor
-  count to 1 (min valid); selecting a PSU wattage sets the PSU qty to 1.
-  Both only fire when the count is still blank.
+  count to 1 (min valid); selecting a PSU wattage sets the PSU qty to 1;
+  selecting a system model sets "Builds" (`#modelq`) to 1 (both the UI pick
+  and the paste parser's model match do this). All only fire when the
+  count is still blank.
+- **Generation quick-filter above the model picker** (`#model-gen-btns`,
+  `renderModelGenBtns()`) — tapping "G10" etc. scopes `modelCombo`'s
+  dropdown to just that generation (`modelGenFilter` closure var, read by
+  `getGroups()`); tapping the active one again clears it. The button list
+  itself is generation-aware of the Rack/Tower toggle (e.g. no tower ever
+  shipped "G10+ v2", so that pill doesn't show under Tower) and re-renders
+  from `sync()` whenever the chassis changes.
 - **"Standard" defaults are shown, not omitted** — Backplane defaults to
   "SAS/SATA backplane", Motherboard to "Standard motherboard", Media bay
   to "No media bay", Bezel to "No bezel" — pre-checked radios with real
