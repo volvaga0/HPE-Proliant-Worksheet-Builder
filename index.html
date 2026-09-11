@@ -42,9 +42,9 @@ body{margin:0;
 .brand #logo-fallback{font-weight:700;letter-spacing:2px;color:var(--signal);font-size:1.15rem}
 h1{font-weight:600;font-size:29px;line-height:1.05;margin:0;letter-spacing:-0.015em;
   color:var(--signal);text-shadow:0 6px 16px rgba(0,212,212,0.25)}
-.ver{display:inline-block;font-weight:500;font-size:11px;letter-spacing:0.02em;
-  color:var(--ink-soft);text-shadow:none;vertical-align:middle;margin-left:8px;
-  padding:2px 7px;border:1px solid var(--rule-strong);border-radius:20px;opacity:.75}
+.page-foot{text-align:center;padding:16px 0 10px;margin-top:4px}
+.page-foot .ver{display:inline-block;font-weight:500;font-size:11px;letter-spacing:0.02em;
+  color:var(--ink-soft);opacity:.65;padding:3px 9px;border:1px solid var(--rule-strong);border-radius:20px}
 .head-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px}
 .sub{margin:0;color:var(--ink-soft);font-size:14.5px;max-width:60ch}
 .chassis{display:flex;flex-direction:column;align-items:flex-start;gap:6px;flex:0 0 auto}
@@ -374,7 +374,7 @@ button.quiet{color:var(--ink-soft)}
              onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block';" />
         <span id="logo-fallback" style="display:none">PROCURRI</span>
       </div>
-      <h1>HPE ProLiant Worksheet Builder<span class="ver" id="build-ver" title="Page build — bumps whenever this tool changes"></span></h1>
+      <h1>HPE ProLiant Worksheet Builder</h1>
     </div>
     <div class="head-row">
       <p class="sub">Pick the system first — the processor list, socket and slot limits, and cooling rules all follow that model. The spec slip on the right builds itself as you go.</p>
@@ -709,6 +709,10 @@ button.quiet{color:var(--ink-soft)}
   </div>
 </div>
 </div>
+
+<footer class="page-foot no-print">
+  <span class="ver" id="build-ver" title="Page build — bumps whenever this tool changes"></span>
+</footer>
 
 <div class="bar no-print">
   <div class="bar-inner">
@@ -1661,7 +1665,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.11';
+var BUILD_VERSION='2026.09.11.1';  // 2nd build shipped today — see the ".1"
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

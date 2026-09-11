@@ -386,11 +386,15 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   have that reach the slip instead of leaving the field blank and
   ambiguous between "forgot" and "genuinely none". The "HP authenticated
   memory" yes/no was removed outright (2026-09-11, not used by this team).
-- **Build version badge** next to the `<h1>` (`#build-ver`, filled from
-  `BUILD_VERSION` near the top of the script) — calendar-versioned
-  (`vYYYY.MM.DD`, add `.n` for a same-day repeat) so anyone looking at the
-  page can tell whether they're on a stale cached copy. **Bump it on every
-  meaningful change** — it's manual, there's no build step to do it for you.
+- **Build version badge in the page footer** (`<footer class="page-foot">`,
+  after `.sheet` closes and before the sticky `.bar` — not inside it, so it
+  doesn't compete for space there) — `#build-ver`, filled from
+  `BUILD_VERSION` near the top of the script. Calendar-versioned
+  (`vYYYY.MM.DD`); **plain `vYYYY.MM.DD` alone can't tell two same-day
+  changes apart, so append `.n` (`.1`, `.2`…) whenever `BUILD_VERSION`
+  already matches today's date** — this session shipped `2026.09.11` then
+  `2026.09.11.1` for exactly that reason. **Bump it on every meaningful
+  change** — it's manual, there's no build step to do it for you.
 - **Rack/Tower gates the system model list.** `modelCombo.getGroups()`
   filters `MODELS` by `!!m.tower===isTower()`; `sync()` clears the picked
   model on a chassis switch if it no longer matches. Paste sets the
