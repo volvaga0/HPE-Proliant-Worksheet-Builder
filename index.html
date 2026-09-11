@@ -119,6 +119,12 @@ section{margin-top:20px}
 .why.on.flag{background:var(--check-bg);color:var(--check)}
 .cap-note{font-size:12.4px;color:var(--ink-soft)}
 .cap-note.over{color:var(--stop);font-weight:600}
+.mem-target-row input{width:120px}
+.mem-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.mem-suggestions button{font-size:13px;padding:6px 10px;border:1px solid var(--field-edge);
+  background:var(--field);color:var(--ink);border-radius:7px;cursor:pointer;text-align:left}
+.mem-suggestions button:hover{border-color:var(--signal);color:var(--signal)}
+.mem-suggestions .none{font-size:12.5px;color:var(--ink-soft);padding:4px 0}
 .chk-line{display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer;user-select:none;padding:3px 0 6px}
 .chk-line input[type=checkbox]{width:18px;height:18px;accent-color:var(--signal);cursor:pointer;flex:0 0 auto;margin:0}
 #drives-wrap[hidden]{display:none}
@@ -311,6 +317,9 @@ button.quiet{color:var(--ink-soft)}
 
   .pair,.pair.rev{grid-template-columns:1fr;gap:8px}
   .inline{gap:8px}
+  .mem-target-row{width:100%}
+  .mem-target-row input{width:100%;flex:1 1 100%}
+  .mem-target-row button{flex:1 1 100%}
   .planner{gap:8px}
   .planner input[type=number],.planner select,.planner .go{width:100%}
 
@@ -501,12 +510,12 @@ button.quiet{color:var(--ink-soft)}
             <input type="text" id="dimm" list="dimms" placeholder="e.g. 16GB 2666" autocomplete="off">
           </div>
           <span class="cap-note" id="mem-note"></span>
-          <div class="inline"><span>HP authenticated</span>
-            <fieldset class="pills"><legend>HP authenticated memory</legend>
-              <input type="radio" id="au1" name="auth" value="HP auth"><label for="au1">Yes</label>
-              <input type="radio" id="au2" name="auth" value=""><label for="au2">No</label>
-            </fieldset>
+          <div class="inline mem-target-row">
+            <span>Reach a total</span>
+            <input type="text" id="memtarget" placeholder="e.g. 384GB" autocomplete="off">
+            <button type="button" id="mem-suggest" class="add">Suggest even configs</button>
           </div>
+          <div id="mem-suggestions" class="mem-suggestions" hidden></div>
         </div>
       </div>
 
@@ -590,7 +599,22 @@ button.quiet{color:var(--ink-soft)}
       </div>
       <div class="row">
         <div class="q"><span class="t">FlexibleLOM / OCP</span></div>
-        <div class="a"><input type="text" id="flr" list="flrs" placeholder="e.g. 366FLR 4x1GbE" autocomplete="off"></div>
+        <div class="a"><div class="inline">
+          <fieldset class="pills"><legend>FlexibleLOM / OCP</legend>
+            <input type="radio" id="fl1" name="flrfit" value="Fitted"><label for="fl1">Yes</label>
+            <input type="radio" id="fl0" name="flrfit" value="No FlexibleLOM / OCP fitted"><label for="fl0">No</label>
+          </fieldset>
+          <input type="text" id="flr" list="flrs" placeholder="e.g. 366FLR 4x1GbE" autocomplete="off" style="flex:1;min-width:150px">
+        </div></div>
+      </div>
+
+      <div class="row">
+        <div class="q"><span class="t">iLO license</span><span class="note">Standard ships free on every board — Advanced/Advanced Premium is a paid activation key.</span></div>
+        <div class="a"><fieldset class="pills"><legend>iLO license</legend>
+          <input type="radio" id="il0" name="ilo" value="iLO Standard (included)" checked><label for="il0">Standard</label>
+          <input type="radio" id="il1" name="ilo" value="iLO Advanced license"><label for="il1">Advanced</label>
+          <input type="radio" id="il2" name="ilo" value="iLO Advanced Premium license"><label for="il2">Advanced Premium</label>
+        </fieldset></div>
       </div>
     </div>
   </section>
@@ -1838,6 +1862,56 @@ function stepper(input,opt){
   return wrap;
 }
 
+/* memory-total helper: given a target like "384GB", suggest DIMM qty/size
+   combos that split evenly across the sockets in use and fit the slots
+   actually available on the selected chassis/CPU-count. */
+var DIMM_SIZES=[8,16,32,64,128,256]; // GB — standard HPE RDIMM/LRDIMM capacities, Gen9-Gen11
+var memSuggestOpts=[];
+function parseGB(txt){
+  var mm=String(txt).match(/([\d.]+)\s*(TB|GB)/i);
+  if(!mm)return 0;
+  var n=parseFloat(mm[1]);
+  return mm[2].toUpperCase()==='TB'?n*1024:n;
+}
+function suggestMemoryConfigs(targetGB){
+  var m=currentModel();
+  if(!m||!targetGB)return [];
+  var cpuq=Number(v('cpuq'))||m.s;
+  var dimmEl=document.getElementById('dimmq'),maxSlots=dimmEl.max?Number(dimmEl.max):m.d;
+  var out=[];
+  DIMM_SIZES.forEach(function(size){
+    if(targetGB%size)return;
+    var qty=targetGB/size;
+    if(qty<cpuq||qty%cpuq||qty>maxSlots)return;   // must split evenly per socket and fit the slots
+    out.push({qty:qty,size:size,perCpu:qty/cpuq});
+  });
+  out.sort(function(a,b){return b.size-a.size;});  // fewest/largest DIMMs first
+  return out;
+}
+function renderMemSuggestions(){
+  var box=document.getElementById('mem-suggestions'),targetGB=parseGB(v('memtarget'));
+  if(!targetGB){box.hidden=true;box.innerHTML='';return;}
+  var m=currentModel();
+  box.hidden=false;
+  if(!m){box.innerHTML='<span class="none">Pick a system model first.</span>';return;}
+  memSuggestOpts=suggestMemoryConfigs(targetGB);
+  box.innerHTML=memSuggestOpts.length
+    ? memSuggestOpts.map(function(o,i){
+        return '<button type="button" data-i="'+i+'">'+o.qty+' x '+o.size+'GB &nbsp;('+o.perCpu+' per CPU)</button>';
+      }).join('')
+    : '<span class="none">No even split across the sockets in use reaches '+targetGB+'GB within the DIMM slots available — split manually or check the target.</span>';
+}
+document.getElementById('mem-suggest').addEventListener('click',renderMemSuggestions);
+document.getElementById('memtarget').addEventListener('input',renderMemSuggestions);
+document.getElementById('mem-suggestions').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-i]');if(!b)return;
+  var o=memSuggestOpts[Number(b.getAttribute('data-i'))];if(!o)return;
+  var dimmq=document.getElementById('dimmq'),dimm=document.getElementById('dimm');
+  dimmq.value=o.qty;dimm.value=o.size+'GB';
+  dimmq.dispatchEvent(new Event('input',{bubbles:true}));
+  dimm.dispatchEvent(new Event('input',{bubbles:true}));
+});
+
 attachList(document.getElementById('dimm'),function(){return DIMMS;});
 attachList(document.getElementById('ctrl'),function(){return CTRLS;});
 attachList(document.getElementById('bat'),function(){return BATS;});
@@ -1852,9 +1926,9 @@ stepper(document.getElementById('fanq'),{min:0});
 
 var modelCombo=setupCombo('model-combo',{
   getGroups:function(){
-    var order=['G9','G10','G10+','G10+ v2','G11','G12'];
+    var order=['G9','G10','G10+','G10+ v2','G11','G12'],wantTower=isTower();
     return order.map(function(g){
-      return {label:g,items:MODELS.filter(function(m){return m.g===g;}).map(function(m){
+      return {label:g,items:MODELS.filter(function(m){return m.g===g&&!!m.tower===wantTower;}).map(function(m){
         return {value:m.m+' '+m.g,label:m.m+' '+m.g,
           sub:(m.s+(m.s>1?' sockets':' socket'))+' · '+m.d+' DIMM'+((m.rules&&m.rules.verified)?' · verified':'')};
       })};}).filter(function(gr){return gr.items.length;});},
@@ -2002,6 +2076,15 @@ document.getElementById('riser-kits').addEventListener('click',function(e){
 /* ---------------- repeatable lines ---------------- */
 var drives=document.getElementById('drives'),cards=document.getElementById('cards'),
     risers=document.getElementById('risers');
+/* picking/typing an item into a line's key field (capacity, card, riser kit…)
+   implies at least one of it — default the qty to 1 if it's still blank. */
+function autoQty(d,keyAttr){
+  var keyEl=d.querySelector('[data-k='+keyAttr+']'),qEl=d.querySelector('[data-k=q]');
+  if(!keyEl||!qEl)return;
+  keyEl.addEventListener('input',function(){
+    if(keyEl.value.trim()&&!qEl.value.trim()){qEl.value='1';qEl.dispatchEvent(new Event('input',{bubbles:true}));}
+  });
+}
 function riserRow(v){
   v=v||{};var d=document.createElement('div');d.className='line card';
   d.innerHTML='<input type="number" min="1" placeholder="Qty" data-k="q" value="'+(v.q||'')+'">'+
@@ -2010,6 +2093,7 @@ function riserRow(v){
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
   attachList(d.querySelector('[data-k=name]'),function(){return curRiserKits.map(function(k){return k.n;});});
   stepper(d.querySelector('[data-k=q]'),{min:1});
+  autoQty(d,'name');
   return d;}
 document.getElementById('add-riser').addEventListener('click',function(){risers.appendChild(riserRow());run();});
 function driveRow(v){
@@ -2024,6 +2108,7 @@ function driveRow(v){
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
   attachList(d.querySelector('[data-k=cap]'),function(){return CAPS.map(function(c){return c[0];});});
   stepper(d.querySelector('[data-k=q]'),{min:1});
+  autoQty(d,'cap');
   return d;}
 function cardRow(v){
   v=v||{};var d=document.createElement('div');d.className='line card';
@@ -2033,6 +2118,7 @@ function cardRow(v){
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
   attachList(d.querySelector('[data-k=name]'),function(){return CARDLIST;});
   stepper(d.querySelector('[data-k=q]'),{min:1});
+  autoQty(d,'name');
   return d;}
 document.getElementById('add-drive').addEventListener('click',function(){drives.appendChild(driveRow());run();});
 document.getElementById('nodrives').addEventListener('change',function(){
@@ -2043,6 +2129,28 @@ document.getElementById('nodrives').addEventListener('change',function(){
 document.getElementById('psu').addEventListener('input',function(){
   var q=document.getElementById('psuq');
   if(this.value.trim()&&!q.value){q.value='1';q.dispatchEvent(new Event('input',{bubbles:true}));}
+});
+/* FlexibleLOM/OCP: typing a model implies "Yes, fitted"; picking "No" clears
+   and locks the text field so it can't silently disagree with the pill. */
+document.getElementById('flr').addEventListener('input',function(){
+  if(this.value.trim())document.getElementById('fl1').checked=true;
+});
+[].forEach.call(document.querySelectorAll('input[name=flrfit]'),function(rad){
+  rad.addEventListener('change',function(){
+    var flr=document.getElementById('flr'),none=this.value==='No FlexibleLOM / OCP fitted'&&this.checked;
+    flr.disabled=none;
+    if(none)flr.value='';
+  });
+});
+/* picking a storage controller implies a battery choice — nearly every Smart
+   Array RAID controller ships the 96W Smart Storage Battery; the cache-less
+   HBAs / software RAID controllers need none at all. */
+var CTRL_NO_BATTERY=['H240','H241','B140i','S100i'];
+document.getElementById('ctrl').addEventListener('input',function(){
+  var bat=document.getElementById('bat'),val=this.value.trim();
+  if(!val||bat.value.trim())return;
+  bat.value=CTRL_NO_BATTERY.indexOf(val)>-1?'No battery':'96w bat';
+  bat.dispatchEvent(new Event('input',{bubbles:true}));
 });
 document.getElementById('add-card').addEventListener('click',function(){cards.appendChild(cardRow());run();});
 
@@ -2551,8 +2659,7 @@ function buildSlip(){
   if(m&&!v('bays')&&!document.getElementById('nodrives').checked)gaps.push('drive bay config');
   if(r('bp'))L.push(r('bp'));
   if(v('cpu'))L.push(join(v('cpuq')?v('cpuq')+'x':'',v('cpu')));else gaps.push('processor');
-  if(v('dimm'))L.push(join(v('dimmq')?v('dimmq')+'x':'',v('dimm'),r('auth')));else gaps.push('memory');
-  if(v('dimm')&&!picked('auth'))gaps.push('HP authenticated yes/no');
+  if(v('dimm'))L.push(join(v('dimmq')?v('dimmq')+'x':'',v('dimm')));else gaps.push('memory');
   if(r('media'))L.push(r('media'));
   if(v('ctrl')){
     var c=v('ctrl');
@@ -2565,9 +2672,12 @@ function buildSlip(){
   if(r('fan'))L.push(join(v('fanq')?v('fanq')+'x':'',r('fan')));else gaps.push('fans');
   readLines(risers).forEach(function(x){if(x.name)L.push(join(x.q?x.q+'x':'',x.name));});
   readLines(cards).forEach(function(c){if(c.name)L.push(join(c.q?c.q+'x':'',c.name));});
-  if(v('flr'))L.push(v('flr'));
+  if(r('flrfit')==='No FlexibleLOM / OCP fitted')L.push(r('flrfit'));
+  else if(v('flr'))L.push(v('flr'));
+  else gaps.push('FlexibleLOM / OCP');
   if(v('psu'))L.push(join(v('psuq')?v('psuq')+'x':'',v('psu'),'PS'));else gaps.push('power supplies');
   if(r('tpm'))L.push(r('tpm'));
+  if(r('ilo'))L.push(r('ilo'));
   if(r('mobo'))L.push(r('mobo'));
   if(r('rail'))L.push(join(r('rail'),v('railt')));else gaps.push('rails');
   if(r('bezel'))L.push(join(r('bezel'),r('bkey')));
@@ -2589,6 +2699,8 @@ function buildSlip(){
   return {lines:L,gaps:gaps};
 }
 function run(){
+  var msBox=document.getElementById('mem-suggestions');
+  if(msBox&&!msBox.hidden)renderMemSuggestions();
   var ev=evaluate(),out=buildSlip();
   document.getElementById('slip').innerHTML=
     (out.lines.length?esc(out.lines.join('\n')):'Nothing entered yet.')+
@@ -2619,6 +2731,9 @@ function sync(){
   document.getElementById('tower-rows').hidden=!t;
   document.getElementById('tower-locked').style.display=t?'none':'';
   document.getElementById('drives-wrap').hidden=document.getElementById('nodrives').checked;
+  var m=currentModel();
+  if(m&&!!m.tower!==t)modelCombo.clear();   // switching chassis invalidates the picked model
+  document.getElementById('model-input').placeholder=t?'Type to search — e.g. ML350 G10':'Type to search — e.g. DL380 G10';
   refreshDependents();run();}
 
 /* ---------------- paste-to-fill ---------------- */
@@ -2648,12 +2763,23 @@ function grabPSU(t){
   if(m=t.match(/\b(\d{3,4})\s*w\b/)) if(PW.indexOf(+m[1])>-1) return {q:0,w:+m[1]};
   return null;
 }
+function escRe(s){return String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+/* "2x 600GB" reads exactly like "2x 16GB" of RAM — only treat an "NxNNgb"
+   shape as memory when it ISN'T sitting next to drive-ish words (SAS/SATA/
+   SSD/HDD/NVMe/an RPM speed like "15K"). Returns the raw matched text too,
+   so the caller can blank out just that substring instead of every NxNNgb
+   shape in the pasted text (which would also eat real drive lines). */
 function grabMem(t){
-  t=' '+String(t).toLowerCase()+' ';
+  var tt=' '+String(t).toLowerCase()+' ';
+  var noDrive='(?![^,;\\n]{0,24}(?:sas|sata|ssd|hdd|nvme|lff|sff|rpm|\\d{1,2}(?:\\.\\d)?\\s*k\\b))';
   var m;
-  if(m=t.match(/(\d{1,2})\s*[x*]\s*(\d{1,3})\s*gb\b/))           return {q:+m[1],size:+m[2]};
-  if(m=t.match(/(\d{1,3})\s*gb\s*[x*]\s*(\d{1,2})\b/))           return {q:+m[2],size:+m[1]};
-  if(m=t.match(/\b(?:dual|two|2)\s+(\d{1,3})\s*gb\b(?!\s*(?:6g|12g|24g))/)) return {q:2,size:+m[1]};
+  if(m=tt.match(new RegExp('\\d{1,2}\\s*[x*]\\s*\\d{1,3}\\s*gb\\b'+noDrive))){
+    var a=m[0].match(/(\d{1,2})\s*[x*]\s*(\d{1,3})\s*gb/i);return {q:+a[1],size:+a[2],raw:m[0]};
+  }
+  if(m=tt.match(new RegExp('\\d{1,3}\\s*gb\\s*[x*]\\s*\\d{1,2}\\b'+noDrive))){
+    var b=m[0].match(/(\d{1,3})\s*gb\s*[x*]\s*(\d{1,2})/i);return {q:+b[2],size:+b[1],raw:m[0]};
+  }
+  if(m=tt.match(/\b(?:dual|two|2)\s+(\d{1,3})\s*gb\b(?!\s*(?:6g|12g|24g))/)) return {q:2,size:+m[1],raw:m[0]};
   return null;
 }
 function grabCpuQty(t){
@@ -2671,6 +2797,10 @@ function parseClientText(text){
   if(!text.trim())return {found:found,guess:guess,skip:skip,any:false};
   var mg=findModelAndGen(text),m=null;
   if(mg&&MODELS.some(function(x){return (x.m+' '+x.g)===mg.value;})){
+    var pickedM=MODELS.filter(function(x){return (x.m+' '+x.g)===mg.value;})[0];
+    document.getElementById(pickedM.tower?'ct-t':'ct-r').checked=true;
+    document.getElementById('tower-rows').hidden=!pickedM.tower;
+    document.getElementById('tower-locked').style.display=pickedM.tower?'none':'';
     modelCombo.setValue(mg.value,mg.value);refreshDependents();m=currentModel();
     found.push('System: '+mg.value);
   }else if(mg){
@@ -2708,7 +2838,10 @@ function parseClientText(text){
     }
   }
 
-  var mem=grabMem(text),textNoMem=text.replace(/\d{1,2}\s*[x*]\s*\d{1,3}\s*gb\b/gi,' ').replace(/\d{1,3}\s*gb\s*[x*]\s*\d{1,2}\b/gi,' ');
+  var mem=grabMem(text);
+  /* blank out only the exact substring grabMem matched — not every "NxNNgb"
+     shape in the text, which would also eat real drive lines like "2x 600GB". */
+  var textNoMem=mem?text.replace(new RegExp(escRe(mem.raw),'i'),' '):text;
   if(mem){
     document.getElementById('dimmq').value=mem.q;
     document.getElementById('dimm').value=mem.size+'GB';
@@ -2726,6 +2859,13 @@ function parseClientText(text){
       document.getElementById('ctrl').value=ctrlPats[j][1];
       guess.push('Controller: assumed '+ctrlPats[j][1]+' — confirm the exact suffix with the client.');
       break;}
+  }
+  /* "+ bat" / "with battery" suffix on a controller mention — most Smart Array
+     kits ship the 96W Smart Storage Battery, but older/low-end ones use the 12W
+     one, so this is a guess to confirm, not an auto-applied fact. */
+  if(/\bbatt?(?:ery)?\b/i.test(text)){
+    document.getElementById('bat').value='96w bat';
+    guess.push('Battery mentioned — assumed the 96W Smart Storage Battery, check the suffix against the controller generation (some older kits use the 12W battery).');
   }
   var psu=grabPSU(text);
   if(psu&&psu.w){
@@ -2746,7 +2886,13 @@ function parseClientText(text){
   }
   if(/\brails?\b/i.test(text)){document.getElementById('rl1').checked=true;found.push('Rails: Yes');}
   if(/\bbezel\b/i.test(text)){document.getElementById('bz1').checked=true;found.push('Bezel: Yes');}
-  if(/\bexpander\b/i.test(text)){document.getElementById('expander').value='12G SAS Expander Card (870549-B21, Gen10)';guess.push('SAS expander mentioned — part number assumed, confirm generation.');}
+  if(/\bexpander\b/i.test(text)){
+    /* the system model (if identified above) already tells us the generation —
+       no need to assume Gen10 and ask the trader to double check it. */
+    var expGenIsG9=m&&m.g==='G9',expPart=expGenIsG9?EXPANDERS[0]:EXPANDERS[1];
+    document.getElementById('expander').value=expPart;
+    guess.push('SAS expander mentioned — assumed '+expPart+(m?' for the '+m.m+' '+m.g:' (system model not identified — confirm generation)')+'.');
+  }
   if(/dvd-?rw/i.test(text)){document.getElementById('md2').checked=true;found.push('Media bay: DVD-RW');}
   else if(/dvd-?rom/i.test(text)){document.getElementById('md1').checked=true;found.push('Media bay: DVD-ROM');}
   else if(/universal media/i.test(text)){document.getElementById('md3').checked=true;found.push('Media bay: Universal');}
@@ -2754,13 +2900,28 @@ function parseClientText(text){
   if(raidM){document.getElementById('plan-raid').value=raidM[1];found.push('RAID '+raidM[1]);}
 
   /* FlexibleLOM / OCP */
-  var flrM=text.match(/\b(\d{3})\s*flr\b/i);
-  if(flrM){
-    var flrHit=FLRS.filter(function(f){return f.indexOf(flrM[1]+'FLR')===0;})[0];
-    if(flrHit){document.getElementById('flr').value=flrHit;found.push('FlexibleLOM: '+flrHit);}
+  if(/\b(no|without|w\/o|n\/a)\s+(flr|flexiblelom|ocp)\b/i.test(text)){
+    document.getElementById('fl0').checked=true;
+    document.getElementById('flr').disabled=true;document.getElementById('flr').value='';
+    found.push('FlexibleLOM / OCP: none fitted');
+  }else{
+    var flrM=text.match(/\b(\d{3})\s*flr\b/i);
+    if(flrM){
+      var flrHit=FLRS.filter(function(f){return f.indexOf(flrM[1]+'FLR')===0;})[0];
+      if(flrHit){document.getElementById('fl1').checked=true;document.getElementById('flr').value=flrHit;found.push('FlexibleLOM: '+flrHit);}
+    }
   }
 
-  /* add-in cards — obvious GPUs / NICs / HBAs; slot placement still needs a human */
+  /* iLO license */
+  if(/\bilo\b/i.test(text)){
+    if(/\b(?:ilo\s*)?advanced\s*premium\b/i.test(text)){document.getElementById('il2').checked=true;found.push('iLO: Advanced Premium');}
+    else if(/\badvanced\b/i.test(text)){document.getElementById('il1').checked=true;found.push('iLO: Advanced');}
+  }
+
+  /* add-in cards — obvious GPUs / FC HBAs / storage controllers by known model
+     number, plus any NIC/FLR/OCP code straight out of CARDLIST (562SFP+,
+     530T, 631SFP28…) so a plain paste like "2x 562SFP+ 2P 10Gb" is picked up
+     too, not just the hand-picked list below. Slot placement still needs a human. */
   var cardPats=[
     [/\bnvidia\s*(t4|a2|a16|a30|a40|a100|l4|l40s?|h100)\b/i,function(x){return 'NVIDIA '+x[1].toUpperCase();}],
     [/\btesla\s*(p4|p40|p100|v100|t4)\b/i,function(x){return 'Tesla '+x[1].toUpperCase();}],
@@ -2768,26 +2929,53 @@ function parseClientText(text){
     [/\b(P408e-p|E208e-p|H241)\b(?!\s*(?:int|\bi\b))/i,function(x){return x[1]+' external HBA';}],
     [/\bNS204i-?(p|r)\b/i,function(x){return 'NS204i-'+x[1].toLowerCase()+' boot';}]
   ];
-  var cardHits=[];
-  cardPats.forEach(function(p){var mm=text.match(p[0]);if(mm)cardHits.push(p[1](mm));});
-  if(cardHits.length){
-    var qByCard=text.match(/(\d)\s*[x*]\s*(?=[^,;]*(?:nvidia|tesla|SN1\d00|MR\d16|NS204|P408e|E208e|H241))/i);
+  var cardHitsRaw=[];  // {label, idx} — idx lets us look just before it for a qty
+  cardPats.forEach(function(p){var mm=text.match(p[0]);if(mm)cardHitsRaw.push({label:p[1](mm),idx:mm.index});});
+  var cardCodeList=CARDLIST.map(function(c){return {code:c.match(/^\S+/)[0],label:c};})
+    .filter(function(x){return x.code.length>=3&&!/^\d+[x*]$/i.test(x.code)&&!/^\d+(\.\d+)?(gb|tb)$/i.test(x.code);})
+    .filter(function(x,i,a){return a.findIndex(function(y){return y.code.toLowerCase()===x.code.toLowerCase();})===i;});
+  var codeAlt=cardCodeList.map(function(x){return escRe(x.code);}).sort(function(a,b){return b.length-a.length;}).join('|');
+  if(codeAlt){
+    var codeRe=new RegExp('(?:^|[^a-z0-9])('+codeAlt+')(?=[^a-z0-9]|$)','gi'),cm;
+    while((cm=codeRe.exec(text))){
+      var entry=cardCodeList.filter(function(x){return x.code.toLowerCase()===cm[1].toLowerCase();})[0];
+      if(!entry)continue;
+      if(cardHitsRaw.some(function(h){return h.label.toLowerCase().indexOf(entry.code.toLowerCase())>-1;}))continue;
+      cardHitsRaw.push({label:entry.label,idx:cm.index});
+    }
+  }
+  if(cardHitsRaw.length){
     if(cards.children.length===1&&!readLines(cards)[0].name)cards.innerHTML='';
-    cardHits.forEach(function(n){cards.appendChild(cardRow({q:qByCard?qByCard[1]:'',name:n}));});
+    cardHitsRaw.forEach(function(h){
+      var before=text.slice(Math.max(0,h.idx-8),h.idx),qm=before.match(/(\d+)\s*[x*]\s*$/);
+      cards.appendChild(cardRow({q:qm?qm[1]:'1',name:h.label}));  // default qty 1 — that's the base intention
+    });
     if(!cards.children.length)cards.appendChild(cardRow());
-    guess.push('Card'+(cardHits.length>1?'s':'')+': '+cardHits.join(', ')+' — added; set the quantity and slot / riser.');
+    guess.push('Card'+(cardHitsRaw.length>1?'s':'')+': '+cardHitsRaw.map(function(h){return h.label;}).join(', ')+' — added; confirm quantity and slot / riser.');
   }
 
-  var driveRe=/(\d+)\s*x\s*([\d.]+\s*(?:GB|TB))\s*(6G|12G|24G|PCIe)?\s*(RI|MU|WI|VRO)?\s*(SATA|SAS|NVMe|SSD)?/gi;
+  /* drives — capacity + whatever speed/RAID-class/interface/RPM words sit
+     around it, in any order ("2x 600GB 15K SAS", "4x 1.2TB 10K SAS"). A
+     lazy tail stops at the next comma/newline/drive so back-to-back lines
+     without punctuation between them still split correctly. */
+  var driveRe=/(\d+)\s*[x*]\s*([\d.]+\s*(?:GB|TB))\b([\s\S]{0,30}?)(?=,|;|\n|\s*\d+\s*[x*]\s*[\d.]+\s*(?:GB|TB)\b|$)/gi;
   var dm,added=false;
   while((dm=driveRe.exec(textNoMem))){
-    if(!dm[3]&&!dm[4]&&!dm[5])continue;
-    var row={q:dm[1],cap:dm[2].replace(/\s+/g,''),spd:dm[3]||'',cls:dm[4]||'',
-      int:(dm[5]&&dm[5].toUpperCase()!=='SSD')?dm[5]:''};
+    var tail=dm[3]||'';
+    var spdM=tail.match(/\b(6G|12G|24G|PCIe)\b/i),clsM=tail.match(/\b(RI|MU|WI|VRO)\b/i),
+      rpmM=tail.match(/\b(\d{1,2}(?:\.\d)?)\s*K\b/i),
+      intM=tail.match(/\b(SATA\s*SSD|SAS\s*SSD|SATA|SAS|NVMe|SSD|HDD)\b/i);
+    if(!spdM&&!clsM&&!rpmM&&!intM)continue;   // nothing drive-ish in the tail — could be anything else, skip
+    var intRaw=intM?intM[1].toUpperCase().replace(/\s+/g,' '):'',intVal='';
+    if(intRaw==='SATA SSD'||intRaw==='SAS SSD')intVal=intRaw;
+    else if(intRaw==='SATA'||intRaw==='SAS')intVal=intRaw;
+    else if(intRaw==='NVME')intVal='NVMe';
+    var row={q:dm[1],cap:dm[2].replace(/\s+/g,''),spd:spdM?spdM[1].toUpperCase():'',cls:clsM?clsM[1].toUpperCase():'',int:intVal};
     if(!added&&drives.children.length===1&&!readLines(drives)[0].cap)drives.innerHTML='';
     drives.appendChild(driveRow(row));added=true;
-    found.push('Drive: '+dm[1]+'x '+row.cap+' '+(row.spd||'')+' '+(row.cls||'')+' '+(row.int||dm[5]||''));
-    if(dm[5]&&dm[5].toUpperCase()==='SSD')guess.push('Drive said "SSD" — specify SATA SSD or SAS SSD manually.');
+    var descBits=[row.spd,rpmM?rpmM[1]+'K':'',row.cls,row.int||intRaw].filter(Boolean).join(' ');
+    found.push('Drive: '+dm[1]+'x '+row.cap+(descBits?' '+descBits:''));
+    if(intRaw==='SSD'||intRaw==='HDD')guess.push('Drive said "'+intRaw+'" — specify SATA SSD / SAS SSD (or the SAS/SATA interface) manually.');
   }
   if(!drives.children.length)drives.appendChild(driveRow());
   return {found:found,guess:guess,skip:skip,any:true};
@@ -2822,6 +3010,8 @@ function load(){
     Object.keys(d.f||{}).forEach(function(k){var e=document.getElementById(k);if(e)e.value=d.f[k];});
     Object.keys(d.r||{}).forEach(function(k){
       var e=document.querySelector('input[name="'+k+'"][value="'+d.r[k]+'"]');if(e)e.checked=true;});
+    var flrfit=document.querySelector('input[name=flrfit]:checked');
+    if(flrfit)document.getElementById('flr').disabled=(flrfit.value==='No FlexibleLOM / OCP fitted');
     Object.keys(d.c||{}).forEach(function(k){var e=document.getElementById(k);if(e&&e.type==='checkbox')e.checked=!!d.c[k];});
     if(d.ov)manualOverride=d.ov;
     if(d.ft)fanTouched=true;
@@ -2863,10 +3053,14 @@ document.getElementById('clear').addEventListener('click',function(){
   document.getElementById('mb1').checked=true;
   document.getElementById('tp0').checked=true;
   document.getElementById('bz0').checked=true;
+  document.getElementById('il0').checked=true;
+  document.getElementById('flr').disabled=false;
   manualOverride={fan:false,hs:false};fanTouched=false;
   document.getElementById('paste-result').classList.remove('on');
   document.getElementById('plan-out').classList.remove('on');
   drives.innerHTML='';cards.innerHTML='';risers.innerHTML='';drives.appendChild(driveRow());
+  document.getElementById('mem-suggestions').hidden=true;
+  document.getElementById('mem-suggestions').innerHTML='';
   try{localStorage.removeItem(KEY);}catch(e){}
   sync();});
 

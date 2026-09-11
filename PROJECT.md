@@ -326,6 +326,29 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   codes (`7443`) resolve without the "EPYC" prefix; Intel codes tolerate a
   trailing letter (`6248R`). Obvious GPUs / FC HBAs / boot cards get added
   as CHECK lines. `no tpm` no longer trips the TPM control.
+  **`grabMem` is drive-context-aware** (2026-09-11): "2x 600GB" reads
+  exactly like "2x 16GB" of RAM, so it only counts as memory when it
+  ISN'T sitting next to drive words (`SAS`/`SATA`/`SSD`/`HDD`/`NVMe`/an
+  RPM speed like `15K`) within ~24 chars — otherwise `textNoMem` only
+  blanks the exact substring it matched (`mem.raw`), not every `NxNNgb`
+  shape in the text, so a real drive line right next to it survives.
+  **Drive-line parsing** (`driveRe`) now accepts any order of
+  speed/RAID-class/interface/RPM around the capacity, with a lazy tail
+  that stops at the next comma/newline/drive so "2x 600GB 15K SAS, 4x
+  1.2TB 10K SAS" splits into two lines instead of being silently skipped
+  (the old pattern required speed/class/interface immediately adjacent
+  to the capacity with nothing — like an RPM figure — in between).
+  **Card-line parsing** also scans every `CARDLIST` entry's leading code
+  (`562SFP+`, `530T`, `631SFP28`…) against the text, not just the small
+  hand-picked GPU/FC/HBA list, so plain NIC/FLR shorthand like "2x
+  562SFP+ 2P 10Gb" gets picked up too (codes under 3 chars or shaped like
+  a qty/capacity are excluded to avoid false hits).
+  **The SAS-expander guess now reads the identified model's generation**
+  instead of always assuming Gen10 — Gen9 gets the 727250-B21 part,
+  everything else gets 870549-B21 (only those two are seeded).
+  A **"+ bat" / "battery" mention** next to a controller assumes the
+  96W Smart Storage Battery and flags it as a CHECK line to confirm
+  against the controller generation.
 - **Capacity planner** — enter usable TB + RAID level, get up to 5
   drive-population suggestions ranked by least wasted capacity, with a
   one-click "Use" that drops the line into the drive list.
@@ -352,9 +375,36 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   of going silent and needing a follow-up question to the trader.
   **TPM** is the exception: it is a 3-way choice (None / TPM 1.2 / TPM 2.0)
   and "None" carries an empty value, so it stays off the slip. A `flag`
-  fires if TPM 1.2 is picked on Gen10+ (that generation is TPM 2.0 only). Rails and HP-authenticated-memory
-  are deliberately NOT defaulted — those are consequential enough that
-  silence should stay a visible gap, not get papered over.
+  fires if TPM 1.2 is picked on Gen10+ (that generation is TPM 2.0 only).
+  **iLO license** defaults to "iLO Standard (included)" for the same
+  reason — every board ships it, so the slip states it rather than going
+  quiet; Advanced / Advanced Premium are the paid pills next to it.
+  Rails and FlexibleLOM/OCP are deliberately NOT defaulted to a positive
+  value — those are consequential enough that silence should stay a
+  visible gap. FlexibleLOM/OCP does get an explicit **"No" pill**
+  (`#fl0`/`#fl1` on `name=flrfit`) so a trader can say "none fitted" and
+  have that reach the slip instead of leaving the field blank and
+  ambiguous between "forgot" and "genuinely none". The "HP authenticated
+  memory" yes/no was removed outright (2026-09-11, not used by this team).
+- **Rack/Tower gates the system model list.** `modelCombo.getGroups()`
+  filters `MODELS` by `!!m.tower===isTower()`; `sync()` clears the picked
+  model on a chassis switch if it no longer matches. Paste sets the
+  chassis radio from the identified model, not the other way round.
+- **Memory "reach a total" suggester** (`suggestMemoryConfigs()`) — type a
+  target like `384GB`, get every DIMM qty×size combination from the
+  standard HPE capacities (`DIMM_SIZES = [8,16,32,64,128,256]` GB) that
+  divides evenly across the sockets in use (`cpuq`) and fits the DIMM
+  slots actually available (`dimmq.max`). Click a suggestion to fill
+  `dimmq`/`dimm` directly.
+- **Picking a storage controller implies a battery choice** — most Smart
+  Array RAID controllers ship the 96W Smart Storage Battery; the
+  cache-less HBAs / software RAID (`H240`, `H241`, `B140i`, `S100i`) need
+  none. Only fills `#bat` when it's still blank.
+- **Dropdown-driven qty defaults to 1** (`autoQty(row, keyAttr)`) —
+  drive/card/riser line rows call this on their capacity/name field, so
+  picking (or typing) a value with the qty still blank sets it to 1. Same
+  idea as "picking a CPU/PSU implies a count", generalised to every
+  repeatable line and to cards added by the paste parser.
 
 ## Verification status (as of this handoff)
 

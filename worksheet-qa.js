@@ -193,6 +193,8 @@ setTimeout(()=>{
   function fail2(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi2=d.getElementById('model-input'), ci2=d.getElementById('cpu-input');
   function setModel(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi2.value='';fire(mi2,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
     if(!opt)return fail2('model not found in list: '+label);
@@ -292,6 +294,8 @@ setTimeout(()=>{
   function fail3(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi3=d.getElementById('model-input'), ci3=d.getElementById('cpu-input');
   function setModel3(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi3.value='';fire(mi3,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
     if(!opt)return fail3('model not found: '+label);
@@ -709,3 +713,158 @@ setTimeout(()=>{
      :fail3('bracket awareness missing — note: '+rn+' | checks: '+ck.slice(0,160));}
   d.getElementById('risers').innerHTML='';d.getElementById('cards').innerHTML='';d.getElementById('add-card').click();
 },1400);
+
+// ---- round 4: rack/tower gating, iLO, FLR "no", mem-target suggester,
+// controller->battery default, and the paste-parser fixes ----
+setTimeout(()=>{
+  function pass4(m){console.log('ok    '+m);}
+  function fail4(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi4=d.getElementById('model-input'), ci4=d.getElementById('cpu-input');
+  function setModel4(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi4.value='';fire(mi4,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
+    if(!opt)return fail4('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function pickCpu4(code){
+    ci4.value='';fire(ci4,'input');
+    const opt=[...d.querySelectorAll('#cpu-panel .combo-item')].find(el=>el.textContent.includes(code));
+    if(opt)opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  const pasteCase4=(s)=>{d.getElementById('paste-text').value=s;d.getElementById('paste-fill').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));};
+
+  // --- Rack/Tower gates the model list ---
+  d.getElementById('ct-r').checked=true;fire(d.getElementById('ct-r'),'change');
+  mi4.value='';fire(mi4,'input');
+  { const rackList=[...d.querySelectorAll('#model-panel .combo-item')].map(e=>e.textContent);
+    (rackList.some(t=>t.includes('DL380 G10')) && !rackList.some(t=>t.includes('ML350')))
+      ?pass4('Rack chassis: model list has DL380 G10, no ML towers')
+      :fail4('rack model list wrong: '+rackList.filter(t=>/ML/.test(t)).join('|'));
+  }
+  d.getElementById('ct-t').checked=true;fire(d.getElementById('ct-t'),'change');
+  mi4.value='';fire(mi4,'input');
+  { const towerList=[...d.querySelectorAll('#model-panel .combo-item')].map(e=>e.textContent);
+    (towerList.some(t=>t.includes('ML350')) && !towerList.some(t=>t.includes('DL380')))
+      ?pass4('Tower chassis: model list has ML towers, no DL rack models')
+      :fail4('tower model list wrong: '+towerList.filter(t=>/DL/.test(t)).join('|'));
+  }
+  setModel4('ML350 G10');
+  d.getElementById('ct-r').checked=true;fire(d.getElementById('ct-r'),'change');
+  d.getElementById('model').value===''
+    ?pass4('switching Rack/Tower clears a model that no longer matches')
+    :fail4('model not cleared on chassis switch: '+d.getElementById('model').value);
+
+  // --- "HP authenticated memory" radios removed ---
+  (!d.getElementById('au1')&&!d.getElementById('au2'))
+    ?pass4('"HP authenticated memory" radios removed')
+    :fail4('HP authenticated memory radios still present');
+
+  // --- iLO license: defaults to Standard, selectable, reaches the slip ---
+  setModel4('DL380 G10');pickCpu4('G6148');d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
+  d.getElementById('slip').textContent.includes('iLO Standard (included)')
+    ?pass4('iLO defaults to Standard (included) on the slip')
+    :fail4('iLO default missing from slip: '+d.getElementById('slip').textContent.slice(0,200));
+  d.getElementById('il1').checked=true;fire(d.getElementById('il1'),'change');
+  d.getElementById('slip').textContent.includes('iLO Advanced license')
+    ?pass4('iLO Advanced selectable and reaches the slip')
+    :fail4('iLO Advanced missing from slip');
+  d.getElementById('il0').checked=true;fire(d.getElementById('il0'),'change');
+
+  // --- FlexibleLOM/OCP: blank is a gap, explicit "No" is not ---
+  d.getElementById('fl1').checked=false;d.getElementById('fl0').checked=false;
+  d.getElementById('flr').disabled=false;d.getElementById('flr').value='';fire(d.getElementById('flr'),'input');
+  d.getElementById('slip').textContent.includes('FlexibleLOM / OCP')
+    ?pass4('FlexibleLOM/OCP left entirely blank is a gap')
+    :fail4('blank FlexibleLOM/OCP not flagged as a gap');
+  d.getElementById('fl0').checked=true;fire(d.getElementById('fl0'),'change');
+  (d.getElementById('slip').textContent.includes('No FlexibleLOM / OCP fitted') && d.getElementById('flr').disabled)
+    ?pass4('FlexibleLOM/OCP "No" gives an explicit slip line, not a gap, and locks the text field')
+    :fail4('FlexibleLOM/OCP "No" not handled: '+d.getElementById('slip').textContent.slice(0,220));
+  d.getElementById('fl1').checked=true;fire(d.getElementById('fl1'),'change');
+  d.getElementById('flr').value='366FLR 4x1GbE';fire(d.getElementById('flr'),'input');
+  d.getElementById('slip').textContent.includes('366FLR 4x1GbE')
+    ?pass4('FlexibleLOM/OCP model reaches the slip once fitted')
+    :fail4('FlexibleLOM/OCP model missing from slip');
+
+  // --- picking a storage controller implies a battery ---
+  d.getElementById('bat').value='';
+  d.getElementById('ctrl').value='P408i-a';fire(d.getElementById('ctrl'),'input');
+  d.getElementById('bat').value==='96w bat'
+    ?pass4('picking P408i-a defaults the battery to 96w bat')
+    :fail4('controller->battery default missed: "'+d.getElementById('bat').value+'"');
+  d.getElementById('bat').value='';
+  d.getElementById('ctrl').value='H240';fire(d.getElementById('ctrl'),'input');
+  d.getElementById('bat').value==='No battery'
+    ?pass4('picking the H240 HBA defaults to "No battery" (cache-less)')
+    :fail4('HBA battery default wrong: "'+d.getElementById('bat').value+'"');
+  d.getElementById('bat').value='';d.getElementById('ctrl').value='';fire(d.getElementById('ctrl'),'input');
+
+  // --- memory "reach a total" suggester ---
+  setModel4('DL380 G10');pickCpu4('G6148');d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
+  d.getElementById('dimmq').value='';d.getElementById('dimm').value='';
+  d.getElementById('memtarget').value='384GB';fire(d.getElementById('memtarget'),'input');
+  const msBtns=[...d.querySelectorAll('#mem-suggestions button')];
+  (msBtns.length>0 && !d.getElementById('mem-suggestions').hidden)
+    ?pass4('memory target "384GB" suggests '+msBtns.length+' even DIMM-per-socket config(s)')
+    :fail4('no memory configs suggested for 384GB: '+d.getElementById('mem-suggestions').textContent);
+  if(msBtns.length){
+    msBtns[0].dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    const q=Number(d.getElementById('dimmq').value), sz=Number((d.getElementById('dimm').value||'').replace(/GB/i,''));
+    (q*sz===384 && q%2===0)
+      ?pass4('clicking a suggestion fills qty x size to exactly the target, split evenly per socket')
+      :fail4('suggestion fill wrong: qty='+d.getElementById('dimmq').value+' size='+d.getElementById('dimm').value);
+  }
+  d.getElementById('memtarget').value='';fire(d.getElementById('memtarget'),'input');
+
+  // --- paste: "P408i-a + bat" — controller found, battery guessed ---
+  pasteCase4('P408i-a + bat');
+  (d.getElementById('ctrl').value==='P408i-a' && d.getElementById('bat').value==='96w bat'
+    && /Battery mentioned/.test(d.getElementById('paste-result').textContent))
+    ?pass4('"P408i-a + bat" -> controller + assumed 96W battery, flagged to confirm')
+    :fail4('"P408i-a + bat" mishandled: ctrl="'+d.getElementById('ctrl').value+'" bat="'+d.getElementById('bat').value+'"');
+
+  // --- paste: SAS expander part follows the identified model's generation ---
+  pasteCase4('DL380 Gen9, needs a SAS expander');
+  /727250-B21/.test(d.getElementById('expander').value)
+    ?pass4('SAS expander on a Gen9 model assumes the Gen9 part (727250-B21)')
+    :fail4('Gen9 expander part wrong: '+d.getElementById('expander').value);
+  pasteCase4('DL380 Gen10, needs a SAS expander');
+  /870549-B21/.test(d.getElementById('expander').value)
+    ?pass4('SAS expander on a Gen10 model assumes the Gen10 part (870549-B21)')
+    :fail4('Gen10 expander part wrong: '+d.getElementById('expander').value);
+
+  // --- paste: "2x 600GB 15K SAS" no longer misread as memory, drive lines populate ---
+  d.getElementById('drives').innerHTML='';d.getElementById('add-drive').click();  // clear stray rows from earlier tests
+  pasteCase4('DL380 Gen10, 2x 600GB 15K SAS, 4x 1.2TB 10K SAS, 6x 960Gb SSD');
+  const dCaps=[...d.querySelectorAll('#drives [data-k=cap]')].map(x=>x.value.toLowerCase());
+  (dCaps.includes('600gb')&&dCaps.includes('1.2tb')&&dCaps.includes('960gb'))
+    ?pass4('"2x 600GB 15K SAS, 4x 1.2TB 10K SAS, 6x 960Gb SSD" -> 3 drive lines')
+    :fail4('drive shorthand missed, caps: '+dCaps.join(', '));
+  (d.getElementById('dimm').value===''||!/600/.test(d.getElementById('dimm').value))
+    ?pass4('...and "600GB" was NOT misread as a memory size')
+    :fail4('600GB drive capacity leaked into memory: '+d.getElementById('dimm').value);
+
+  // --- paste: PCI card shorthand straight out of CARDLIST ---
+  pasteCase4('DL380 Gen10, 2x 562SFP+ 2P 10Gb');
+  const cNames=[...d.querySelectorAll('#cards [data-k=name]')].map(x=>x.value);
+  cNames.some(n=>/562SFP\+/.test(n))
+    ?pass4('"2x 562SFP+ 2P 10Gb" -> a card line added from the CARDLIST code')
+    :fail4('562SFP+ card shorthand missed: '+cNames.join(', '));
+
+  pasteCase4('dl380 g10');  // restore a clean baseline
+
+  // --- picking from a dropdown defaults a blank qty to 1 ---
+  setModel4('DL380 G10');
+  d.getElementById('drives').innerHTML='';d.getElementById('add-drive').click();
+  { const cap=d.querySelector('#drives [data-k=cap]'),q=d.querySelector('#drives [data-k=q]');
+    q.value='';cap.value='1.92TB';fire(cap,'input');
+    q.value==='1'?pass4('picking a drive capacity defaults the qty to 1'):fail4('drive qty not defaulted: "'+q.value+'"');
+  }
+  d.getElementById('cards').innerHTML='';d.getElementById('add-card').click();
+  { const name=d.querySelector('#cards [data-k=name]'),q=d.querySelector('#cards [data-k=q]');
+    q.value='';name.value='530SFP+ 2x10Gb';fire(name,'input');
+    q.value==='1'?pass4('picking a card name defaults the qty to 1'):fail4('card qty not defaulted: "'+q.value+'"');
+  }
+},1900);
