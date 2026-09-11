@@ -915,6 +915,21 @@ setTimeout(()=>{
       :fail4('DL385 G11 default riser line: '+defLine.join(', '));
   }
 
+  // --- DL560 G11: real riser-kit part numbers, ships with NONE by default ---
+  setModel4('DL560 G11');
+  { const kits=[...d.querySelectorAll('#riser-kits .riser-kit')].map(x=>x.getAttribute('data-name'));
+    (kits.length===4 && kits.some(k=>k.includes('P54779-B21')&&k.includes('Primary'))
+      && kits.some(k=>k.includes('P54780-B21')&&k.includes('Secondary')))
+      ?pass4('DL560 G11: real riser-kit part numbers offered (P54779/P54780, both positions)')
+      :fail4('DL560 G11 riser kits: '+kits.join(' | '));
+    [...d.querySelectorAll('#risers [data-k=name]')].length===0
+      ?pass4('DL560 G11: no riser pre-filled — the CTO base config ships with none')
+      :fail4('DL560 G11 wrongly pre-filled a riser: '+[...d.querySelectorAll('#risers [data-k=name]')].map(x=>x.value).join(', '));
+  }
+  d.getElementById('checks').textContent.includes('Ships with NO riser')
+    ?pass4('DL560 G11: "ships with no riser" reminder surfaces in config checks')
+    :fail4('DL560 G11 riser reminder missing from checks');
+
   // --- picking a model defaults "Builds" to 1 (UI pick + paste), and the
   // generation quick-filter buttons scope the picker ---
   d.getElementById('modelq').value='';

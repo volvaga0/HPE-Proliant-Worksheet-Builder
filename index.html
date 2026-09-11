@@ -1141,7 +1141,9 @@ var MODELS=[
        'A 4-processor build requires the Liquid Cooling FIO Heat Sink Kit (P54791-B21) — 4P air cooling is not offered.',
        '2 to 4 power supplies (min 2), redundancy 1+1 / 2+2 / 3+1.',
        'Air-cooled CTO ships 6 high-performance fans; liquid-cooled CTO ships 5.',
-       '64 DIMM slots (16 per processor). 6 PCIe Gen5 slots (3 primary + 3 secondary) plus 2 OCP. Both riser cages take an x8/x16/x8 (P54779-B21) or x16/x16/x16 (P54780-B21) kit; a double-wide GPU only fits primary slot 2 or secondary slot 5.']}},
+       '64 DIMM slots (16 per processor). 6 PCIe Gen5 slots (3 primary + 3 secondary) plus 2 OCP. Both riser cages take an x8/x16/x8 (P54779-B21) or x16/x16/x16 (P54780-B21) kit; a double-wide GPU only fits primary slot 2 or secondary slot 5.',
+       'Ships with NO riser at all ("None riser included" in the CTO base config) — at least one must be selected, it is not a given.',
+       'The x16/x16/x16 kit (P54780-B21) also needs a cable kit to the motherboard (2P) or the mezzanine board (4P) — order that alongside it.']}},
  /* DL580 has no Gen11 — the line went DL580 Gen10 -> DL580 Gen12. */
 
  {m:'DL110', g:'G12', p:['xeon6'], s:1, d:16},
@@ -1733,6 +1735,18 @@ var RISERS={
   {n:'Secondary FIO Riser — LFF Rear Cage (P57892-B21)',d:'1 slot, positioned below the 4LFF rear cage · Proc 2 required · only one Secondary riser is supported when that cage is fitted',s:1,fh:1,lp:0,pos:'secondary',cpu2:true},
   {n:'Low Profile Secondary Riser Kit (P59260-B21)',d:'1 low-profile slot below the 4LFF rear cage · Proc 2 required · needed alongside the NS204i-u NVMe boot device',s:1,fh:0,lp:1,pos:'secondary',cpu2:true},
   {n:'2x16 Tertiary Riser FIO Kit (P57893-B21)',d:'Slots 7-8, full-height · Proc 2 required',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true}
+ ],
+ /* DL560 Gen11 QuickSpecs (DA-17093, servercenter24.com mirror, 2026-09-11).
+    Only 2 riser kits exist and either can go in EITHER cage — listed once
+    per position so the Proc-2 requirement only applies to the Secondary
+    line. No `def` — the CTO base config explicitly ships "None riser
+    included", so nothing pre-fills automatically; the trader has to add
+    at least one (see the model's own notes). */
+ 'DL560 G11':[
+  {n:'x8/x16/x8 Riser Kit (P54779-B21) — Primary',d:'3 slots, full-height 3/4-length · Proc 1',s:3,fh:3,lp:0,pos:'primary'},
+  {n:'x8/x16/x8 Riser Kit (P54779-B21) — Secondary',d:'3 slots, full-height 3/4-length · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'x16/x16/x16 Riser Kit (P54780-B21) — Primary',d:'3 slots, full-height · needs the motherboard (2P) or mezzanine (4P) cable kit · GPU-capable in slot 2',s:3,fh:3,lp:0,pos:'primary'},
+  {n:'x16/x16/x16 Riser Kit (P54780-B21) — Secondary',d:'3 slots, full-height · needs the motherboard (2P) or mezzanine (4P) cable kit · GPU-capable in slot 5 · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true}
  ]
 };
 
@@ -1742,7 +1756,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.11.7';  // 8th build shipped today
+var BUILD_VERSION='2026.09.11.8';  // 9th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
