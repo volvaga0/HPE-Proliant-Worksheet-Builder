@@ -25,6 +25,11 @@ setTimeout(()=>{
   if(errors.length){errors.forEach(e=>fail(e));}
   else pass('page loaded with no script errors');
 
+  // 0. build version marker present (so a stale cached page is obvious)
+  /^v\d{4}\.\d{2}\.\d{2}/.test(d.getElementById('build-ver').textContent)
+    ?pass('build version marker rendered ('+d.getElementById('build-ver').textContent+')')
+    :fail('build version marker missing/malformed: "'+d.getElementById('build-ver').textContent+'"');
+
   // 1. datalists populated
   ['dimms','ctrls','psus','caps','expanders','rearopts'].forEach(id=>{
     const n=d.getElementById(id).children.length;
