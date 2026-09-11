@@ -396,10 +396,11 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   divides evenly across the sockets in use (`cpuq`) and fits the DIMM
   slots actually available (`dimmq.max`). Click a suggestion to fill
   `dimmq`/`dimm` directly.
-- **Picking a storage controller implies a battery choice** — most Smart
-  Array RAID controllers ship the 96W Smart Storage Battery; the
-  cache-less HBAs / software RAID (`H240`, `H241`, `B140i`, `S100i`) need
-  none. Only fills `#bat` when it's still blank.
+- **The battery field is manual, on purpose** — an earlier pass
+  auto-filled it from the controller pick, but some traders build
+  without a battery even on a RAID controller, so that was removed
+  (2026-09-11). The paste parser's own "+ bat"/"battery" mention
+  detection (below) is unrelated and still assumes 96W as a CHECK line.
 - **Dropdown-driven qty defaults to 1** (`autoQty(row, keyAttr)`) —
   drive/card/riser line rows call this on their capacity/name field, so
   picking (or typing) a value with the qty still blank sets it to 1. Same

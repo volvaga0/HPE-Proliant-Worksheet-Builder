@@ -788,18 +788,14 @@ setTimeout(()=>{
     ?pass4('FlexibleLOM/OCP model reaches the slip once fitted')
     :fail4('FlexibleLOM/OCP model missing from slip');
 
-  // --- picking a storage controller implies a battery ---
+  // --- picking a storage controller does NOT auto-fill the battery — some
+  // traders build without one, so it stays a manual field (2026-09-11) ---
   d.getElementById('bat').value='';
   d.getElementById('ctrl').value='P408i-a';fire(d.getElementById('ctrl'),'input');
-  d.getElementById('bat').value==='96w bat'
-    ?pass4('picking P408i-a defaults the battery to 96w bat')
-    :fail4('controller->battery default missed: "'+d.getElementById('bat').value+'"');
-  d.getElementById('bat').value='';
-  d.getElementById('ctrl').value='H240';fire(d.getElementById('ctrl'),'input');
-  d.getElementById('bat').value==='No battery'
-    ?pass4('picking the H240 HBA defaults to "No battery" (cache-less)')
-    :fail4('HBA battery default wrong: "'+d.getElementById('bat').value+'"');
-  d.getElementById('bat').value='';d.getElementById('ctrl').value='';fire(d.getElementById('ctrl'),'input');
+  d.getElementById('bat').value===''
+    ?pass4('picking a controller leaves the battery field blank — set manually')
+    :fail4('controller wrongly auto-filled the battery: "'+d.getElementById('bat').value+'"');
+  d.getElementById('ctrl').value='';fire(d.getElementById('ctrl'),'input');
 
   // --- memory "reach a total" suggester ---
   setModel4('DL380 G10');pickCpu4('G6148');d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');

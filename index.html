@@ -2142,16 +2142,6 @@ document.getElementById('flr').addEventListener('input',function(){
     if(none)flr.value='';
   });
 });
-/* picking a storage controller implies a battery choice — nearly every Smart
-   Array RAID controller ships the 96W Smart Storage Battery; the cache-less
-   HBAs / software RAID controllers need none at all. */
-var CTRL_NO_BATTERY=['H240','H241','B140i','S100i'];
-document.getElementById('ctrl').addEventListener('input',function(){
-  var bat=document.getElementById('bat'),val=this.value.trim();
-  if(!val||bat.value.trim())return;
-  bat.value=CTRL_NO_BATTERY.indexOf(val)>-1?'No battery':'96w bat';
-  bat.dispatchEvent(new Event('input',{bubbles:true}));
-});
 document.getElementById('add-card').addEventListener('click',function(){cards.appendChild(cardRow());run();});
 
 function v(id){var e=document.getElementById(id);return e?String(e.value).trim():'';}
