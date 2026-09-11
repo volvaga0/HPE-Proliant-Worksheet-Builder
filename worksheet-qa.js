@@ -905,6 +905,15 @@ setTimeout(()=>{
     ?pass4('DL385 G11: "4LFF rear" accepted as a rear option')
     :fail4('DL385 G11 "4LFF rear" wrongly blocked: '+d.getElementById('checks').textContent.slice(0,200));
   d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
+  { const kits=[...d.querySelectorAll('#riser-kits .riser-kit')].map(x=>x.getAttribute('data-name'));
+    (kits.length===9 && kits.some(k=>k.includes('P57890-B21')) && kits.some(k=>k.includes('P57893-B21')))
+      ?pass4('DL385 G11: real riser-kit part numbers offered (9 kits, not the generic fallback)')
+      :fail4('DL385 G11 riser kits: '+kits.join(' | '));
+    const defLine=[...d.querySelectorAll('#risers [data-k=name]')].map(x=>x.value);
+    defLine[0]==='Default Primary riser (Slot 3 only)'
+      ?pass4('DL385 G11: default primary riser pre-filled on model pick')
+      :fail4('DL385 G11 default riser line: '+defLine.join(', '));
+  }
 
   // --- picking a model defaults "Builds" to 1 (UI pick + paste), and the
   // generation quick-filter buttons scope the picker ---

@@ -604,10 +604,9 @@ with PSU / fan / PCIe / riser data from each model's own QuickSpecs:**
   DL325/DL345/DL365/**DL385** Gen11, DL160/DL180 Gen10 and ML350 Gen10/11.
   Everything else: PSU qty is uncapped (soft "not verified" prompt over 2),
   no fan auto-count, no card-slot check.
-- DL385 Gen11 (and DL325/DL345/DL365 Gen11) have no `RISERS[...]` kit list
-  with real part numbers yet — the riser picker falls back to generic
-  entries. Filling those in is the natural next step if one of them comes
-  up in a real build.
+- DL385 Gen11 now has its real `RISERS[...]` kit list (9 kits, 2026-09-11).
+  DL325/DL345/DL365 Gen11 and DL560/DL580 Gen11 still don't — the riser
+  picker falls back to generic entries for those.
 - The "fans not tied to CPU wattage" finding is specific to plain Gen9
   and Gen10 DL360/DL380 — don't assume it generalizes to every
   unverified model; it was confirmed by direct QuickSpecs text, not
@@ -615,13 +614,13 @@ with PSU / fan / PCIe / riser data from each model's own QuickSpecs:**
 
 ## Priority order for continuing verification
 
-Given refurb volume is likely rack-server-heavy: DL385 Gen11's riser-kit
-part numbers (`riserMax`/`fans`/`bays`/`rear` are now filled — 2026-09-11 —
-but there's still no `RISERS['DL385 G11']` list, just the generic
-fallback), then DL560/DL580 Gen11's riser-kit part numbers (same gap), then
-the ML tower line, then the entry-level DL20/60/80/110/320/340 family.
-Gen12 can wait until HPE actually publishes Xeon 6 QuickSpecs — there's
-nothing to verify yet.
+Given refurb volume is likely rack-server-heavy: DL385 Gen11 is now fully
+covered (`riserMax`/`fans`/`bays`/`rear`/`RISERS[...]` all filled —
+2026-09-11). Next: DL560/DL580 Gen11's riser-kit part numbers (same gap
+DL385 just had), then DL325/DL345/DL365 Gen11's (currently generic too),
+then the ML tower line, then the entry-level DL20/60/80/110/320/340
+family. Gen12 can wait until HPE actually publishes Xeon 6 QuickSpecs —
+there's nothing to verify yet.
 
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.

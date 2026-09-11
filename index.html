@@ -1713,6 +1713,26 @@ var RISERS={
   {n:'Primary NVMe Slimline Riser (878360-B21)',d:'up to 16 NVMe · includes the 4-port NVMe mezzanine card · no add-in-card slots',s:0,pos:'primary'},
   {n:'Secondary + Tertiary 8-slot Riser (872338-B21)',d:'slots 9-16 · full-height · slots 9/10/16 need Proc 4, 11-15 need Proc 2 · secondary ships with the tertiary',s:8,fh:8,lp:0,pos:'secondary',cpu2:true},
   {n:'Secondary + Tertiary 9-slot Riser (872340-B21)',d:'slots 8-16 · full-height · needs Proc 2, and Proc 4 for the tertiary slots',s:9,fh:9,lp:0,pos:'secondary',cpu2:true}
+ ],
+ /* DL385 Gen11 QuickSpecs "Riser Kits" (unicomengineering.com mirror,
+    2026-09-11). Each entry is the TOTAL slot count for that position once
+    the named kit is fitted (matching the DL560/DL580 G10 convention) —
+    e.g. the 2x16 Secondary Upgrade Kit is ordered on top of the base x16
+    Secondary Riser Kit, but the combined result (3 slots) is one line
+    here, not two. Skipped the NEBS/Telco-compliant riser variants
+    (P65830-B21 primary, P65833-B21 tertiary) — same slot counts as their
+    standard counterparts, just a compliance SKU a refurb worksheet
+    doesn't need to distinguish. */
+ 'DL385 G11':[
+  {n:'Default Primary riser (Slot 3 only)',d:'1 slot · full-height/half-length · x16 · Proc 1 · ships standard',s:1,fh:1,lp:0,pos:'primary',def:true},
+  {n:'2x16 Primary FIO Upgrade Riser Kit (P57890-B21)',d:'adds Slots 1-2 to the default Slot 3 = 3 slots total · Proc 1 · not selectable with the 4LFF rear cage',s:3,fh:3,lp:0,pos:'primary'},
+  {n:'x16 Primary FIO Riser — LFF Rear Cage (P55098-B21)',d:'1 slot, positioned below the 4LFF rear cage · only one Primary riser is supported when that cage is fitted',s:1,fh:1,lp:0,pos:'primary'},
+  {n:'x16 Secondary Riser Kit (P55097-B21)',d:'1 slot (Slot 6) · Proc 2 required',s:1,fh:1,lp:0,pos:'secondary',cpu2:true},
+  {n:'2-slot Secondary Riser (P55097-B21 + P68392-B21)',d:'Slot 6 + Slot 5 · Proc 2 required · also the 3rd slot needed for the GPU CTO server',s:2,fh:2,lp:0,pos:'secondary',cpu2:true},
+  {n:'3-slot Secondary Riser (P55097-B21 + P57891-B21)',d:'Slots 4-6 · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'Secondary FIO Riser — LFF Rear Cage (P57892-B21)',d:'1 slot, positioned below the 4LFF rear cage · Proc 2 required · only one Secondary riser is supported when that cage is fitted',s:1,fh:1,lp:0,pos:'secondary',cpu2:true},
+  {n:'Low Profile Secondary Riser Kit (P59260-B21)',d:'1 low-profile slot below the 4LFF rear cage · Proc 2 required · needed alongside the NS204i-u NVMe boot device',s:1,fh:0,lp:1,pos:'secondary',cpu2:true},
+  {n:'2x16 Tertiary Riser FIO Kit (P57893-B21)',d:'Slots 7-8, full-height · Proc 2 required',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true}
  ]
 };
 
@@ -1722,7 +1742,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.11.6';  // 7th build shipped today
+var BUILD_VERSION='2026.09.11.7';  // 8th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
