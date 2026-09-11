@@ -930,6 +930,39 @@ setTimeout(()=>{
     ?pass4('DL560 G11: "ships with no riser" reminder surfaces in config checks')
     :fail4('DL560 G11 riser reminder missing from checks');
 
+  // --- DL325/DL345/DL365 G11: real riser-kit part numbers (2026-09-11) ---
+  setModel4('DL325 G11');
+  { const kits=[...d.querySelectorAll('#riser-kits .riser-kit')].map(x=>x.getAttribute('data-name'));
+    const defLine=[...d.querySelectorAll('#risers [data-k=name]')].map(x=>x.value);
+    (kits.length===3 && kits.some(k=>k.includes('P56915-B21')) && kits.some(k=>k.includes('P55029-B21'))
+      && defLine[0]==='Default Primary riser (Slot 1)')
+      ?pass4('DL325 G11: real riser kits (P56915/P55029-B21), default primary pre-filled')
+      :fail4('DL325 G11 risers: kits='+kits.join(' | ')+' def='+defLine.join(', '));
+  }
+  setModel4('DL345 G11');
+  { const kits=[...d.querySelectorAll('#riser-kits .riser-kit')].map(x=>x.getAttribute('data-name'));
+    const defLine=[...d.querySelectorAll('#risers [data-k=name]')].map(x=>x.value);
+    (kits.length===8 && kits.some(k=>k.includes('P57116-B21')) && kits.some(k=>k.includes('P57117-B21'))
+      && defLine.includes('Default Primary riser (Slot 3)') && defLine.includes('Default Secondary riser (Slot 6)'))
+      ?pass4('DL345 G11: real riser kits (8, incl. both enablement kits), both defaults pre-filled')
+      :fail4('DL345 G11 risers: kits='+kits.join(' | ')+' def='+defLine.join(', '));
+  }
+  setModel4('DL365 G11');
+  { const kits=[...d.querySelectorAll('#riser-kits .riser-kit')].map(x=>x.getAttribute('data-name'));
+    const defLine=[...d.querySelectorAll('#risers [data-k=name]')].map(x=>x.value);
+    (kits.length===3 && kits.some(k=>k.includes('P56915-B21')) && defLine[0]==='Primary riser (Slot 1)')
+      ?pass4('DL365 G11: real riser kits (shares P56915/P55029-B21 with DL325), primary pre-filled')
+      :fail4('DL365 G11 risers: kits='+kits.join(' | ')+' def='+defLine.join(', '));
+  }
+  d.getElementById('risers').innerHTML='';d.getElementById('add-riser').click();
+  d.getElementById('add-riser').click();
+  d.getElementById('add-riser').click();
+  [...d.querySelectorAll('#risers [data-k=name]')].forEach((el,i)=>{el.value='Riser line '+i;fire(el,'input');});
+  !d.getElementById('checks').textContent.includes('TOO MANY RISERS')
+    ?pass4('DL365 G11: riserMax corrected 2->3 (GPU Riser 2 is a confirmed 3rd position) — 3 riser lines no longer blocked')
+    :fail4('DL365 G11 riserMax still capped at 2: '+d.getElementById('checks').textContent.slice(0,200));
+  d.getElementById('risers').innerHTML='';d.getElementById('add-riser').click();
+
   // --- picking a model defaults "Builds" to 1 (UI pick + paste), and the
   // generation quick-filter buttons scope the picker ---
   d.getElementById('modelq').value='';

@@ -1088,7 +1088,8 @@ var MODELS=[
      notes:['12 DIMM slots (1 DIMM per channel, single Genoa socket).',
        'Up to 6 fans, redundancy built in. ≤240W: Standard Heat Sink (P58458-B21) + Standard Fan Kit (P58464-B21). ≥260W: Performance Heat Sink (P58459-B21) + Performance Fan Kit (P58465-B21).',
        'Performance fans also required for NVMe, SAS4, EDSFF and GPU configurations.',
-       '6 PCIe Gen5 x16 slots (3 primary + 3 secondary), all FH/HL. Up to 4 SW or 2 DW GPUs.']}},
+       '6 PCIe Gen5 x16 slots (3 primary + 3 secondary), all FH/HL. Up to 4 SW or 2 DW GPUs.',
+       'Ships with 1 slot in each position by default (Slot 3 primary, Slot 6 secondary) — the 4/6 PCIe Enablement Kits upgrade one or both to 3 slots, but neither is selectable once the 4LFF rear cage is fitted; swap in the LFF Rear Cage riser variants instead.']}},
  {m:'DL360',g:'G11', p:['sp4'], s:2, d:32,
    rules:{verified:true,hsW:186,hsWtext:'186W–270W',fanW:186,fanPart:'P48908-B21',hsPart:'P48905-B21',riserMax:2,
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2SFF rear','2x M.2 (dual uFF) rear'],
@@ -1102,11 +1103,11 @@ var MODELS=[
        'Up to 7 fans with redundancy — one rotor failure degrades but keeps running.']}},
  {m:'DL365',g:'G11', p:['genoa'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:241,hsWtext:'above 240W (cTDP)',fanW:241,
-     memPerSocket:3072,psuMax:2,fans:{one:7,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,rear:['1SFF rear','2SFF rear','2x M.2 (dual uFF) rear'],
+     memPerSocket:3072,psuMax:2,fans:{one:7,two:7,perf:7},pcie:{one:2,two:3},riserMax:3,rear:['1SFF rear','2SFF rear','2x M.2 (dual uFF) rear'],
      fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['24 DIMM slots (12 per Genoa socket, 1 DIMM per channel).',
        '7 fans, one fan per kit. Standard fan kit for processors at or below cTDP 240W; Performance fan kit above 240W, or for NVMe / SAS4 drives, a 10SFF SAS/SATA/NVMe backplane, or EDSFF / GPU CTO servers.',
-       'Primary riser (FH/FL, Proc 1) + secondary riser (LP or HH/HL, Proc 2) — about 3 PCIe slots.',
+       'Primary riser (Slot 1, Proc 1) always available; Secondary riser (Slot 2, Proc 2) needs the 2nd processor — 2 slots max on 1 CPU, 3 on 2 (the 3rd being GPU Riser 2 / Slot 5, Proc 1). GPU Riser 1 (Slot 4) shares the secondary bay and GPU Riser 2 (Slot 5) — neither has a confirmed standalone kit part number, so they are not in the riser picker; note them manually for a GPU build.',
        '"F" processors and 400W parts may need the liquid-cooling or high-performance tier — check the cooling matrix.']}},
  {m:'DL380',g:'G11', p:['sp4'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:151,hsWtext:'above 150W, up to 350W',hsPart:'P48818-B21',fanW:206,riserMax:3,
@@ -1747,6 +1748,52 @@ var RISERS={
   {n:'x8/x16/x8 Riser Kit (P54779-B21) — Secondary',d:'3 slots, full-height 3/4-length · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
   {n:'x16/x16/x16 Riser Kit (P54780-B21) — Primary',d:'3 slots, full-height · needs the motherboard (2P) or mezzanine (4P) cable kit · GPU-capable in slot 2',s:3,fh:3,lp:0,pos:'primary'},
   {n:'x16/x16/x16 Riser Kit (P54780-B21) — Secondary',d:'3 slots, full-height · needs the motherboard (2P) or mezzanine (4P) cable kit · GPU-capable in slot 5 · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true}
+ ],
+ /* DL325 Gen11 QuickSpecs (a50004297enw, servercomputeworks.com mirror,
+    2026-09-11). Simplest of the three 1-socket Genoa boxes: one fixed
+    x16 primary slot (always there, no kit), one secondary slot that's
+    either the plain kit or the low-profile one (LP required alongside
+    the NS204i-u boot device). Single-socket chassis — no cpu2 flags. */
+ 'DL325 G11':[
+  {n:'Default Primary riser (Slot 1)',d:'1 slot · x16 · full-height/full-length · ships standard, no kit needed',s:1,fh:1,lp:0,pos:'primary',def:true},
+  {n:'1U x16 Riser Kit (P56915-B21) — Secondary',d:'1 slot · x16 · half-height/half-length',s:1,fh:1,lp:0,pos:'secondary'},
+  {n:'1U x16 Low Profile Riser Kit (P55029-B21) — Secondary',d:'1 low-profile slot · required alongside the NS204i-u NVMe boot device',s:1,fh:0,lp:1,pos:'secondary'}
+ ],
+ /* DL345 Gen11 QuickSpecs (promisegulf.com mirror, 2026-09-11). Ships with
+    1 slot in EACH position by default (Slot 3 primary, Slot 6 secondary)
+    — represented as two separate `def:true` lines. The 4/6-PCIe
+    Enablement Kits upgrade one or both positions to 3 slots each (same
+    part number cited on both lines when a kit spans both positions, same
+    as how the physical kit works); neither enablement kit is selectable
+    once the 4LFF rear cage is fitted — the LFF Rear Cage riser (shared
+    with DL385 G11, P55098-B21) and the Low Profile kit (P59260-B21,
+    needs the NS204i-u boot device too) replace them instead. Skipped the
+    GPU-CTO-server-only front-riser enablement kits (2/4 GPU Front FIO) —
+    that's a distinct factory SKU, not a field-upgradeable option on the
+    standard chassis this tool models. */
+ 'DL345 G11':[
+  {n:'Default Primary riser (Slot 3)',d:'1 slot · x16 FHHL · ships standard',s:1,fh:1,lp:0,pos:'primary',def:true},
+  {n:'Default Secondary riser (Slot 6)',d:'1 slot · x16 FHHL · ships standard',s:1,fh:1,lp:0,pos:'secondary',def:true},
+  {n:'4 PCIe x16 Enablement Kit (P57116-B21) — Primary',d:'upgrades the primary to 3 slots (1,2,3) · not selectable with the 4LFF rear cage · max 1 enablement kit total',s:3,fh:3,lp:0,pos:'primary'},
+  {n:'6 PCIe x16 Enablement Kit (P57117-B21) — Primary',d:'upgrades the primary to 3 slots (1,2,3) · pick the matching Secondary line too for all 6 · not selectable with the 4LFF rear cage · max 1 enablement kit total',s:3,fh:3,lp:0,pos:'primary'},
+  {n:'6 PCIe x16 Enablement Kit (P57117-B21) — Secondary',d:'upgrades the secondary to 3 slots (4,5,6) · pick the matching Primary line too for all 6',s:3,fh:3,lp:0,pos:'secondary'},
+  {n:'Primary FIO Riser Kit — LFF Rear Cage (P55098-B21)',d:'1 slot below the 4LFF rear cage · replaces the default primary when that cage is fitted',s:1,fh:1,lp:0,pos:'primary'},
+  {n:'Secondary FIO Riser Kit — LFF Rear Cage (P55098-B21)',d:'1 slot below the 4LFF rear cage · replaces the default secondary when that cage is fitted',s:1,fh:1,lp:0,pos:'secondary'},
+  {n:'Low Profile Secondary Riser Kit (P59260-B21)',d:'1 low-profile slot · requires the 4LFF rear cage AND the NS204i-u NVMe boot device',s:1,fh:0,lp:1,pos:'secondary'}
+ ],
+ /* DL365 Gen11 QuickSpecs (unicomengineering.com mirror, 2026-09-11).
+    Shares its Secondary/LP-Secondary kit part numbers with DL325 G11
+    (same "DL3X5 Gen11 1U x16..." kits), but is 2-socket so the Secondary
+    position needs Proc 2 (DL325 never does). The doc also lists "GPU
+    Riser 1" (Slot 4, Proc 2) and "GPU Riser 2" (Slot 5, Proc 1) as extra
+    expansion slots, worth up to 1 more each — but neither has a
+    standalone kit part number in the Riser Kits/Additional Options
+    section the way Primary/Secondary/LP do, so they're left out of the
+    picker rather than guessed at (see the model's own notes). */
+ 'DL365 G11':[
+  {n:'Primary riser (Slot 1)',d:'1 slot · x16 FHHL · Proc 1 · ships standard, no kit needed',s:1,fh:1,lp:0,pos:'primary',def:true},
+  {n:'1U x16 Riser Kit (P56915-B21) — Secondary',d:'1 slot · x16 FHHL · Proc 2 required',s:1,fh:1,lp:0,pos:'secondary',cpu2:true},
+  {n:'1U x16 Low Profile Riser Kit (P55029-B21) — Secondary',d:'1 low-profile slot · Proc 2 required · needed alongside the NS204i-u NVMe boot device',s:1,fh:0,lp:1,pos:'secondary',cpu2:true}
  ]
 };
 
@@ -1756,7 +1803,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.11.8';  // 9th build shipped today
+var BUILD_VERSION='2026.09.11.9';  // 10th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

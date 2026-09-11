@@ -604,9 +604,14 @@ with PSU / fan / PCIe / riser data from each model's own QuickSpecs:**
   DL325/DL345/DL365/**DL385** Gen11, DL160/DL180 Gen10 and ML350 Gen10/11.
   Everything else: PSU qty is uncapped (soft "not verified" prompt over 2),
   no fan auto-count, no card-slot check.
-- DL385 Gen11 and DL560 Gen11 now have real `RISERS[...]` kit lists
-  (2026-09-11). DL325/DL345/DL365 Gen11 still don't — the riser picker
-  falls back to generic entries for those. (DL580 has no Gen11.)
+- All the Gen11 AMD/Intel 4-socket-and-under lines now have real
+  `RISERS[...]` kit lists (DL385, DL560, DL325, DL345, DL365 — all done
+  2026-09-11; DL580 has no Gen11). Remaining riser gap is the ML tower
+  line and the entry-level DL family.
+- DL365 Gen11's `riserMax` was corrected 2→3 in the same pass (its own
+  QuickSpecs "GPU Riser 2" slot is a confirmed 3rd achievable position —
+  `riserMax` had been under-counting it even though `pcie.two:3` already
+  assumed it existed).
 - The "fans not tied to CPU wattage" finding is specific to plain Gen9
   and Gen10 DL360/DL380 — don't assume it generalizes to every
   unverified model; it was confirmed by direct QuickSpecs text, not
@@ -614,12 +619,12 @@ with PSU / fan / PCIe / riser data from each model's own QuickSpecs:**
 
 ## Priority order for continuing verification
 
-Given refurb volume is likely rack-server-heavy: DL385 Gen11 and DL560
-Gen11 are now fully covered (riser/fan/bay/rear/PSU all filled —
-2026-09-11). Next: DL325/DL345/DL365 Gen11's riser-kit part numbers
-(currently generic fallback), then the ML tower line, then the
-entry-level DL20/60/80/110/320/340 family. Gen12 can wait until HPE
-actually publishes Xeon 6 QuickSpecs — there's nothing to verify yet.
+Given refurb volume is likely rack-server-heavy: all the Gen11 rack lines
+(DL385, DL560, DL325, DL345, DL365) are now fully covered — riser/fan/
+bay/rear/PSU all filled, 2026-09-11. Next: the ML tower line (Gen9
+stragglers, then Gen11), then the entry-level DL20/60/80/110/320/340
+family. Gen12 can wait until HPE actually publishes Xeon 6 QuickSpecs —
+there's nothing to verify yet.
 
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.
