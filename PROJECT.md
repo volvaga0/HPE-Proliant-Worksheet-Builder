@@ -386,10 +386,12 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   have that reach the slip instead of leaving the field blank and
   ambiguous between "forgot" and "genuinely none". The "HP authenticated
   memory" yes/no was removed outright (2026-09-11, not used by this team).
-- **Build version badge in the page footer** (`<footer class="page-foot">`,
-  after `.sheet` closes and before the sticky `.bar` — not inside it, so it
-  doesn't compete for space there) — `#build-ver`, filled from
-  `BUILD_VERSION` near the top of the script. Calendar-versioned
+- **Build version badge under the `<h1>`** (`#build-ver`, filled from
+  `BUILD_VERSION` near the top of the script) — a separate flex child of
+  `.brand` (not inline text inside the `<h1>`, which threw off its
+  centering) so it sits centered on its own line beneath the title.
+  Went header → footer → back to under-the-title over three requests in
+  one session; under-the-title is where it landed. Calendar-versioned
   (`vYYYY.MM.DD`); **plain `vYYYY.MM.DD` alone can't tell two same-day
   changes apart, so append `.n` (`.1`, `.2`…) whenever `BUILD_VERSION`
   already matches today's date** — this session shipped `2026.09.11` then
