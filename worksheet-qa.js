@@ -871,6 +871,33 @@ setTimeout(()=>{
     q.value='';name.value='530SFP+ 2x10Gb';fire(name,'input');
     q.value==='1'?pass4('picking a card name defaults the qty to 1'):fail4('card qty not defaulted: "'+q.value+'"');
   }
+
+  // --- DL385 G11: riser/fan/bay/rear coverage + Turin platform (2026-09-11) ---
+  setModel4('DL385 G11');
+  { const bayopts=[...d.querySelectorAll('#bayopts option')].map(o=>o.value);
+    (bayopts.includes('8SFF')&&bayopts.includes('24SFF')&&bayopts.includes('8LFF'))
+      ?pass4('DL385 G11: bay list populated (8SFF/24SFF/8LFF/…)')
+      :fail4('DL385 G11 bay list: '+bayopts.join(', '));
+  }
+  d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
+  (d.getElementById('fanq').getAttribute('max')==='6' && d.getElementById('fanq').value==='6')
+    ?pass4('DL385 G11: fan count auto-fills to 6 (fixed cage regardless of CPU count)')
+    :fail4('DL385 G11 fan auto-fill: max='+d.getElementById('fanq').getAttribute('max')+' val='+d.getElementById('fanq').value);
+  { ci4.value='';fire(ci4,'input');
+    const groups=[...d.querySelectorAll('#cpu-panel .combo-group')].map(g=>g.textContent);
+    (groups.some(g=>/Genoa/.test(g)) && groups.some(g=>/Turin/.test(g)))
+      ?pass4('DL385 G11: CPU picker groups Genoa and Turin separately')
+      :fail4('DL385 G11 CPU groups: '+groups.join(' | '));
+  }
+  pickCpu4('EPYC 9555'); // Turin, 360W
+  (d.getElementById('dimm-note').textContent.includes('4800') && d.getElementById('dimm-note').textContent.includes('6000'))
+    ?pass4('DL385 G11: memory-speed note shows both Genoa (4800) and Turin (6000) MT/s')
+    :fail4('DL385 G11 dimm-note: '+d.getElementById('dimm-note').textContent);
+  d.getElementById('rear').value='4LFF rear';fire(d.getElementById('rear'),'input');
+  !d.getElementById('checks').textContent.includes('REAR NOT SUPPORTED')
+    ?pass4('DL385 G11: "4LFF rear" accepted as a rear option')
+    :fail4('DL385 G11 "4LFF rear" wrongly blocked: '+d.getElementById('checks').textContent.slice(0,200));
+  d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
 },1900);
 
 // ---- round 5: shareable link + recent builds ----

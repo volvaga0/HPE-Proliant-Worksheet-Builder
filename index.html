@@ -817,11 +817,11 @@ var PLATFORM_LABELS={
  sp3:'3rd Gen Xeon Scalable — Ice Lake', sp4:'4th/5th Gen Xeon Scalable — Sapphire/Emerald Rapids',
  naples:'AMD EPYC 7001 — Naples', rome:'AMD EPYC 7002 — Rome',
  milan:'AMD EPYC 7003 — Milan', genoa:'AMD EPYC 9004 — Genoa',
- xeon6:'Intel Xeon 6 (Gen12)'
+ turin:'AMD EPYC 9005 — Turin', xeon6:'Intel Xeon 6 (Gen12)'
 };
 /* max GB of memory per socket, by processor platform */
 var MEM_PER_SOCKET={e5v3:768,e5v4:1536,e5v3x4:1536,e5v4x4:1536,e7v3:1536,e7v4:3072,e3:64,xeone:128,xeone3:128,
- sp1:768,sp2:1024,sp3:4096,sp4:4096,naples:2048,rome:2048,milan:4096,genoa:3072,xeon6:8192};
+ sp1:768,sp2:1024,sp3:4096,sp4:4096,naples:2048,rome:2048,milan:4096,genoa:3072,turin:3072,xeon6:8192};
 
 var GEN_DEFAULTS={
  'G9'   :{hsW:121,hsWtext:'above 120W',fanRear:true,fanGPU:true},
@@ -1116,13 +1116,19 @@ var MODELS=[
        'Fan kit needed for rear drives, >205W processors, high performance NVMe, three drive cages, midtray, GPU, or certain backplanes.',
        'A 24SFF CTO server already includes the high performance fans.',
        'Any NVMe bundle requires the high performance fan kit and a second processor.']}},
- {m:'DL385',g:'G11', p:['genoa'], s:2, d:24,
+ {m:'DL385',g:'G11', p:['genoa','turin'], s:2, d:24, bays:['8SFF','16SFF','24SFF','8LFF','12LFF','48SFF'],
    rules:{verified:true,hsW:240,hsWtext:'240W–300W (above 300W needs the max-performance tier)',fanW:240,memPerSocket:3072,psuMax:2,pcie:{one:3,two:8},
+     fans:{one:6,two:6,perf:6},riserMax:3,rear:['2SFF rear','4LFF midtray','4LFF rear'],
+     fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['Below 240W: standard heatsink and standard fan kit. 240W–300W: high performance heatsink and fans. Above 300W: max-performance heatsink and fans.',
        'Up to 6TB of memory across both sockets (3TB per socket).',
        'Drive-count limits shrink at high CPU TDP unless ambient is kept to 25°C — e.g. 8LFF/12LFF/16SFF/24SFF all drop to 8 drives above 290W at normal ambient, but allow full population at 25°C ambient (some configs stay capped at 24).',
        'CPUs over 290W with all 24 DIMM slots at 256GB each need the Performance Air Baffle (P57886-B21) and the Performance 2U Heatsink Kit (P58459-B21).',
-       'Mixing two different power supplies is not allowed.']}},
+       'Mixing two different power supplies is not allowed.',
+       'Fixed 6-fan cage regardless of CPU count — standard or performance kit depending on TDP/config, never a different fan count.',
+       'Primary riser (up to 3 slots, Proc 1) + secondary riser (up to 3 slots, Proc 2) + tertiary (2 slots, Proc 2) = up to 8 total with two processors.',
+       'The 8LFF chassis can add a 4LFF mid-tray AND a separate 4LFF rear cage at once (up to 20 LFF total) — this tool can only record one rear/mid selection at a time, so note the other on the slip manually if both are ordered.',
+       '12 EDSFF / 36 EDSFF and the GPU CTO (8SFF or 8EDSFF backplane) chassis variants are not modeled here — pick manually and flag it if quoting one.']}},
  {m:'DL560',g:'G11', p:['sp4'], s:4, d:64, bays:['8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:151,hsWtext:'above 150W',psuMax:4,fans:{two:6,perf:6},pcie:{one:3,two:6},riserMax:2,rear:[],
      fanNVMe:true,fanRear:true,fanGPU:true,
@@ -1535,14 +1541,44 @@ var CPUS=[
  ['EPYC 9634','EPYC 9634 · 84C 2.25GHz','genoa',290,84],
  ['EPYC 9654','EPYC 9654 · 96C 2.4GHz','genoa',360,96],
  ['EPYC 9654P','EPYC 9654P · 96C 2.4GHz','genoa',360,96],
+ ['EPYC 9184X','EPYC 9184X · 16C 3.55GHz','genoa',320,16],
+ ['EPYC 9384X','EPYC 9384X · 32C 3.1GHz','genoa',320,32],
  ['EPYC 9684X','EPYC 9684X · 96C 2.55GHz','genoa',400,96],
  ['EPYC 9734','EPYC 9734 · 112C 2.2GHz','genoa',340,112],
- ['EPYC 9754','EPYC 9754 · 128C 2.25GHz','genoa',360,128]
+ ['EPYC 9754','EPYC 9754 · 128C 2.25GHz','genoa',360,128],
+ /* 5th Gen AMD EPYC 9005 ("Turin") — confirmed on the DL385 Gen11 QuickSpecs
+    (unicomengineering.com mirror, fetched 2026-09-11). Tagged 'turin', not
+    'genoa' — same socket, but a different DIMM speed (6000 vs 4800 MT/s),
+    so the memory-speed note on the slip needs the split to stay accurate.
+    Only DL385 Gen11 is confirmed to offer it so far; add 'turin' to
+    DL325/DL345/DL365 Gen11's platform list once THEIR QuickSpecs confirm
+    the same 5th-gen option — don't assume the whole line refreshed together. */
+ ['EPYC 9015','EPYC 9015 · 8C 3.6GHz','turin',125,8],
+ ['EPYC 9115','EPYC 9115 · 16C 2.6GHz','turin',125,16],
+ ['EPYC 9135','EPYC 9135 · 16C 3.65GHz','turin',200,16],
+ ['EPYC 9175F','EPYC 9175F · 16C 4.2GHz','turin',320,16],
+ ['EPYC 9255','EPYC 9255 · 24C 3.25GHz','turin',200,24],
+ ['EPYC 9275F','EPYC 9275F · 24C 4.1GHz','turin',320,24],
+ ['EPYC 9335','EPYC 9335 · 32C 3.0GHz','turin',210,32],
+ ['EPYC 9355','EPYC 9355 · 32C 3.55GHz','turin',280,32],
+ ['EPYC 9375F','EPYC 9375F · 32C 3.85GHz','turin',320,32],
+ ['EPYC 9365','EPYC 9365 · 36C 3.4GHz','turin',300,36],
+ ['EPYC 9455','EPYC 9455 · 48C 3.15GHz','turin',300,48],
+ ['EPYC 9475F','EPYC 9475F · 48C 3.65GHz','turin',400,48],
+ ['EPYC 9535','EPYC 9535 · 64C 2.4GHz','turin',300,64],
+ ['EPYC 9555','EPYC 9555 · 64C 3.2GHz','turin',360,64],
+ ['EPYC 9575F','EPYC 9575F · 64C 3.3GHz','turin',400,64],
+ ['EPYC 9565','EPYC 9565 · 72C 3.15GHz','turin',400,72],
+ ['EPYC 9645','EPYC 9645 · 96C 2.3GHz','turin',320,96],
+ ['EPYC 9655','EPYC 9655 · 96C 2.6GHz','turin',400,96],
+ ['EPYC 9745','EPYC 9745 · 128C 2.4GHz','turin',400,128],
+ ['EPYC 9825','EPYC 9825 · 144C 2.2GHz','turin',390,144],
+ ['EPYC 9845','EPYC 9845 · 160C 2.1GHz','turin',390,160]
 ];
 
 var MEMSPEED={e5v3:'1866 / 2133',e5v4:'2133 / 2400',e5v3x4:'1866 / 2133',e5v4x4:'1866 / 2400',
   e7v3:'1333 / 1866',e7v4:'1600 / 1866',sp1:'2400 / 2666',sp2:'2666 / 2933',sp3:'2933 / 3200',
-  sp4:'4400 / 4800',naples:'2666',rome:'3200',milan:'3200',genoa:'4800',e3:'2133 / 2400',
+  sp4:'4400 / 4800',naples:'2666',rome:'3200',milan:'3200',genoa:'4800',turin:'6000',e3:'2133 / 2400',
   xeone:'2666',xeone3:'3200',xeon6:'6400'};
 
 var DIMMS=[];
@@ -1682,7 +1718,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.11.2';  // 3rd build shipped today
+var BUILD_VERSION='2026.09.11.3';  // 4th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

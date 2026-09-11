@@ -107,7 +107,7 @@ a no-op under jsdom).
   used when a model has no rules of its own or doesn't override a key
 
 - **`CPUS`** — `[code, description, platform, TDP watts, cores]`, the clock
-  lives in the description. ~335 seeded processors. Gen9 v3 and v4 are
+  lives in the description. ~357 seeded processors. Gen9 v3 and v4 are
   **separate platforms** so the picker groups them (like sp1/sp2):
   `e5v3`/`e5v4` (E5-2600, 2-socket), `e5v3x4`/`e5v4x4` (E5-4600, DL560 Gen9),
   `e7v3`/`e7v4` (E7, DL580 Gen9). `code` is the matcher key (no space before
@@ -120,6 +120,11 @@ a no-op under jsdom).
   QuickSpecs by nature, but refurb stock ships with them. Everything else
   should trace to a QuickSpecs. Known gap: the picker filters by platform,
   not model, so a 350W part still shows for a chassis that can't cool it.
+  **5th Gen AMD EPYC 9005 ("Turin", 21 parts) added 2026-09-11**, sourced
+  from the DL385 Gen11 QuickSpecs — tagged its own `turin` platform rather
+  than folded into `genoa`, because it runs DIMMs at 6000 MT/s vs Genoa's
+  4800 (see `MEMSPEED`). Only `DL385 G11`'s `p:[]` includes `turin` so far —
+  DL325/DL345/DL365 Gen11 haven't been individually confirmed to offer it.
 
 - **`PLATFORM_LABELS`** — display names for the CPU dropdown's group
   headers (e.g. `sp2` → "2nd Gen Xeon Scalable — Cascade Lake"). Each entry
@@ -580,12 +585,16 @@ with PSU / fan / PCIe / riser data from each model's own QuickSpecs:**
   guesses the common one and flags it as a CHECK item rather than
   silently picking.
 - `riserMax` is set on the DL360/DL380 line plus DL560/DL580 Gen10,
-  DL560 Gen11, DL325/DL345/DL365 Gen11. Others still have no riser cap —
-  not because it's unlimited, the number just isn't sourced yet.
+  DL560 Gen11, DL325/DL345/DL365/**DL385** Gen11. Others still have no
+  riser cap — not because it's unlimited, the number just isn't sourced yet.
 - `psuMax` / `fans` / `pcie` cover the DL360/DL380/DL560/DL580 lines,
-  DL325/DL345/DL365 Gen11, DL385/DL325 (2U/1U AMD), DL160/DL180 Gen10
-  and ML350 Gen10/11. Everything else: PSU qty is uncapped (soft "not
-  verified" prompt over 2), no fan auto-count, no card-slot check.
+  DL325/DL345/DL365/**DL385** Gen11, DL160/DL180 Gen10 and ML350 Gen10/11.
+  Everything else: PSU qty is uncapped (soft "not verified" prompt over 2),
+  no fan auto-count, no card-slot check.
+- DL385 Gen11 (and DL325/DL345/DL365 Gen11) have no `RISERS[...]` kit list
+  with real part numbers yet — the riser picker falls back to generic
+  entries. Filling those in is the natural next step if one of them comes
+  up in a real build.
 - The "fans not tied to CPU wattage" finding is specific to plain Gen9
   and Gen10 DL360/DL380 — don't assume it generalizes to every
   unverified model; it was confirmed by direct QuickSpecs text, not
@@ -593,10 +602,13 @@ with PSU / fan / PCIe / riser data from each model's own QuickSpecs:**
 
 ## Priority order for continuing verification
 
-Given refurb volume is likely rack-server-heavy: DL385/DL325 remaining
-gaps (DL345/DL365 Genoa), then DL560/DL580 Gen11, then the ML tower line,
-then the entry-level DL20/60/80/110/320/340 family. Gen12 can wait until
-HPE actually publishes Xeon 6 QuickSpecs — there's nothing to verify yet.
+Given refurb volume is likely rack-server-heavy: DL385 Gen11's riser-kit
+part numbers (`riserMax`/`fans`/`bays`/`rear` are now filled — 2026-09-11 —
+but there's still no `RISERS['DL385 G11']` list, just the generic
+fallback), then DL560/DL580 Gen11's riser-kit part numbers (same gap), then
+the ML tower line, then the entry-level DL20/60/80/110/320/340 family.
+Gen12 can wait until HPE actually publishes Xeon 6 QuickSpecs — there's
+nothing to verify yet.
 
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.
