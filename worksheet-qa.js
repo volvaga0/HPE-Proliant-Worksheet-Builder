@@ -1437,15 +1437,28 @@ function runRound7(){
   (dOpts7.some(o=>/^32GB 2400 MT\/s$/.test(o)) && !dOpts7.some(o=>/4800|5600|6400|6000/.test(o)))
     ?pass7('DL380 G9 (E5-2680v4): DDR4 combos only, no DDR5 speed anywhere in the panel')
     :fail7('DL380 G9 dimm panel wrong: '+dOpts7.join(', '));
-  setModel7('DL380 G11');pickCpu7('G5416S'); // Sapphire Rapids, sp4
+  // --- DL380 G11 now splits 4th Gen (sp4, DDR5-4800) from 5th Gen (sp5,
+  // DDR5-5600-and-tier-capped) — same idea as genoa/turin for AMD
+  // (2026-09-14, sp4/sp5 split + 36 missing CPUs added) ---
+  setModel7('DL380 G11'); // no CPU picked yet — union of both Gen11 Intel tiers
   dOpts7=dimmOpts7();
   (dOpts7.some(o=>/^64GB 4800 MT\/s$/.test(o)) && dOpts7.some(o=>/^64GB 5600 MT\/s$/.test(o)) &&
    !dOpts7.some(o=>/2133|2400|2666|2933|3200/.test(o)))
-    ?pass7('DL380 G11 (Sapphire Rapids): DDR5 combos only (4800/5600) — zero DDR4 speeds offered')
-    :fail7('DL380 G11 dimm panel wrong: '+dOpts7.join(', '));
-  (d.getElementById('dimm-size-btns').children.length>0 && [...d.querySelectorAll('#dimm-speed-btns button')].map(b=>b.textContent).join(',')==='4800 MT/s,5600 MT/s')
-    ?pass7('DL380 G11 speed buttons are exactly "4800 MT/s"/"5600 MT/s", no DDR4 numbers')
-    :fail7('DL380 G11 speed buttons wrong: '+[...d.querySelectorAll('#dimm-speed-btns button')].map(b=>b.textContent).join(','));
+    ?pass7('DL380 G11 (no CPU yet): unions 4th Gen 4800 and 5th Gen 5600, zero DDR4 speeds offered')
+    :fail7('DL380 G11 dimm panel (no CPU) wrong: '+dOpts7.join(', '));
+  pickCpu7('G5416S'); // 4th Gen Sapphire Rapids, sp4
+  dOpts7=dimmOpts7();
+  (dOpts7.some(o=>/^64GB 4800 MT\/s$/.test(o)) && !dOpts7.some(o=>/5600|5200|4400|4000/.test(o)))
+    ?pass7('DL380 G11 (4th Gen G5416S): narrows to just 4800 — no 5th-Gen speeds offered for a 4th-Gen CPU')
+    :fail7('DL380 G11 dimm panel (4th Gen CPU) wrong: '+dOpts7.join(', '));
+  pickCpu7('G6530'); // 5th Gen Emerald Rapids, sp5
+  dOpts7=dimmOpts7();
+  // sp5's real tier-capped grid legitimately includes 4800 too (some 5th-Gen
+  // tiers cap there) — 4000 is the value that only exists on sp5, so that's
+  // the one that actually proves the narrowing happened.
+  (dOpts7.some(o=>/^64GB 5600 MT\/s$/.test(o)) && dOpts7.some(o=>/^64GB 4000 MT\/s$/.test(o)))
+    ?pass7('DL380 G11 (5th Gen G6530): narrows to the sp5 grid, including its lower tier-capped speeds')
+    :fail7('DL380 G11 dimm panel (5th Gen CPU) wrong: '+dOpts7.join(', '));
   // tapping a size then a speed button assembles one value, each preserving the other
   const szBtn7=d.querySelector('#dimm-size-btns button[data-sz="64"]'),spBtn7=d.querySelector('#dimm-speed-btns button[data-sp="5600"]');
   szBtn7.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
@@ -1453,6 +1466,26 @@ function runRound7(){
   (dimm7.value==='64GB 5600 MT/s' && szBtn7.classList.contains('on') && spBtn7.classList.contains('on'))
     ?pass7('tapping size then speed assembles "64GB 5600 MT/s" and highlights both buttons')
     :fail7('dimm size/speed buttons did not assemble correctly: "'+dimm7.value+'"');
+
+  // --- CPU picker groups 4th Gen and 5th Gen separately (same as
+  // genoa/turin), and the 36 previously-missing SKUs are seeded ---
+  ci7.value='';fire(ci7,'input');
+  const g11CpuGroups=[...d.querySelectorAll('#cpu-panel .combo-group')].map(g=>g.textContent);
+  (g11CpuGroups.some(g=>/4th Gen/.test(g)) && g11CpuGroups.some(g=>/5th Gen/.test(g)))
+    ?pass7('DL380 G11 CPU picker groups 4th Gen (Sapphire Rapids) and 5th Gen (Emerald Rapids) separately')
+    :fail7('DL380 G11 CPU groups wrong: '+g11CpuGroups.join(' | '));
+  const g11CpuCodes=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(el=>el.textContent);
+  (['B3408U','G6458Q','P9462','G5418N','G5411N','G6418H','P8470N'].every(c=>g11CpuCodes.includes(c)) &&
+   ['S4509Y','P8593Q','P8581V','B3508U','G6530','P8558U'].every(c=>g11CpuCodes.includes(c)))
+    ?pass7('DL380 G11: previously-missing 4th-Gen and 5th-Gen SKUs are now seeded and offered')
+    :fail7('DL380 G11 CPU list still missing SKUs: '+g11CpuCodes.join(', '));
+  // the 8581V single-socket exception (a "V" suffix, not the usual "U")
+  pickCpu7('P8581V');
+  d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
+  d.getElementById('checks').textContent.includes('single-socket-only')
+    ?pass7('P8581V (5th Gen, "V" suffix) is still caught as single-socket-only via SINGLE_SOCKET_EXTRA')
+    :fail7('P8581V single-socket exception not caught: '+d.getElementById('checks').textContent.slice(0,200));
+  d.getElementById('cpuq').value='1';fire(d.getElementById('cpuq'),'input');
   dimm7.value='';fire(dimm7,'input');
 
   // --- a mismatched DDR4 speed typed/pasted/restored into a DDR5 build is

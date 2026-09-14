@@ -777,6 +777,64 @@ DL380 models verified") is met:**
   each has open caveats (bay-dependent fan counts, config-dependent
   heatsink tiers) noted rather than force-fit into the simple model.
 
+**DL380 Gen11 CPU list audit (2026-09-14) — the "QuickSpecs verified"
+badge was covering structural rules, not full CPU coverage.** User
+manually checked the tool against the actual DL380 Gen11 QuickSpecs
+(a50004307enw, SHI mirror) and found it was missing 36 real, orderable
+Xeon Scalable SKUs — 7 4th Gen (Sapphire Rapids: G5411N, G5418N, G6418H,
+G6458Q, B3408U, P8470N, P9462) and the ENTIRE 5th Gen (Emerald Rapids)
+tier, 29 SKUs, which the tool didn't model at all. Also split the
+combined `sp4` platform code into `sp4` (4th Gen only) and a new `sp5`
+(5th Gen) — same treatment AMD's `genoa`/`turin` already got — since
+the two generations have genuinely different memory grids (DDR5-4800
+vs DDR5-5600) and it's what the user explicitly asked for ("split the
+two generations of cpu in the drop down"). Fixed:
+- `MEM_SPEEDS`/`MEM_CAPS`/`MEM_DDR`/`MEM_PER_SOCKET` gained an `sp5`
+  entry: DDR5-5600, capacities 16/32/64/96/128GB (**no 256GB kit exists
+  at 5600 MT/s** — the doc's 8TB/256GB headline max is 4th-Gen-only; a
+  5th-Gen build tops out at 4TB on 2 sockets). `sp4`'s own speed list
+  was corrected from `[4800,5600]` (a leftover from before the split
+  existed, when one platform code had to carry both) down to just
+  `[4800]`, since 5600 is now correctly sp5-only.
+- 5th Gen's real memory-speed rule is tier-dependent (Platinum mostly
+  5600, but V/U-suffix parts capped at 4800, Gold-6 at 5200, Gold-5 at
+  4800, Silver/Bronze at 4400, two SKUs at 4000) — every real value is
+  offered so nothing selectable is fabricated, but this is NOT enforced
+  per-exact-SKU (documented as a known gap, same reasoning as other
+  gaps below — the rule is finer-grained than anything else this tool
+  models).
+- `P8581V` (5th Gen) is single-socket-only despite a "V" suffix, not
+  the usual "U" — Intel's "U" convention isn't the ONLY single-socket
+  marker (`P8592V` is dual-socket, just memory-speed-capped, proving
+  "V" alone isn't a rule). Added a small `SINGLE_SOCKET_EXTRA` array
+  next to the existing regex-based "U"-suffix check for exceptions like
+  this rather than hardcoding one more special case inline.
+- `P8593Q` (5th Gen) is 385W — above every other Gen11 CPU's TDP and
+  above the DL380 G11 rule's own 350W heatsink-bracket ceiling; needs
+  the Max Performance heatsink or a DLC (liquid cooling) module, neither
+  of which this tool's two-tier (Standard/Performance) heatsink model
+  can select. Flagged as a model note rather than building a third
+  heatsink tier for one SKU.
+  Two more Speed-Select "Q" SKUs were also added (`G6458Q` 4th Gen,
+  `G6558Q` 5th Gen) — already covered by the existing generic "Q suffix
+  needs Max Performance heatsink" note, no new logic needed there.
+- Only DL380 Gen11 got `sp5` added to its platform list so far — same
+  conservative precedent as `turin` (only added to DL385 Gen11 until
+  each OTHER model's own QuickSpecs confirms it). DL110/DL320/DL340/
+  DL360/DL560/ML110/ML350 Gen11 likely also take 5th Gen (same LGA4677
+  socket) but this is unconfirmed per-model, so left as `['sp4']` only
+  for now — a clear next step for someone with time to check each one.
+- Noticed but NOT fixed (flagged rather than built, out of proportion
+  to fix alongside this): 96GB DIMMs on 5th Gen need XCC/MCC-die CPUs
+  and can't mix with other capacities (mixing isn't reachable in this
+  tool's one-qty×size×speed-for-the-whole-system UI anyway); the
+  tertiary riser (Slot 8) on 5th-Gen builds is PCIe 4.0 by default, not
+  5.0 (this tool tracks slot COUNT only, not per-slot PCIe generation,
+  a pre-existing whole-tool simplification, not new); the doc's
+  Technical Specifications section mentions an "800W Universal
+  (200-277VAC)" PSU option not repeated in its own ordering-section PSU
+  list — worth a follow-up look at the tool's generic PSU list.
+
 **Also verified this session:**
 - DL120, DL160, DL180 Gen10 (share a heatsink SKU/threshold with
   DL360/DL380 Gen10 — confirmed)
