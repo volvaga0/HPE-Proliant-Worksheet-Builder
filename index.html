@@ -489,15 +489,17 @@ button.quiet{color:var(--ink-soft)}
       <div class="row">
         <div class="q"><span class="t">System model and Gen</span><span class="note">Type to search — sets what's offered everywhere else.</span></div>
         <div class="a"><div class="seg gen-filter" id="model-gen-btns"></div>
-        <div class="pair rev">
           <div class="combo" id="model-combo">
             <input type="text" class="combo-input" id="model-input" placeholder="Type to search — e.g. DL380 G10" autocomplete="off">
             <input type="hidden" id="model">
             <div class="combo-panel" id="model-panel" hidden></div>
           </div>
-          <input type="number" id="modelq" min="1" placeholder="Builds" title="Number of identical builds">
-        </div>
         <span class="cap-note" id="sys-note"></span></div>
+      </div>
+
+      <div class="row">
+        <div class="q"><span class="t">Number of builds</span><span class="note">How many identical units to this exact spec.</span></div>
+        <div class="a"><input type="number" id="modelq" min="1" placeholder="1"></div>
       </div>
 
       <div class="row">
@@ -1982,7 +1984,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.13'; // 14th build shipped today
+var BUILD_VERSION='2026.09.14.14'; // 15th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2337,6 +2339,7 @@ attachList(document.getElementById('plan-raid'),function(){return RAID_LEVELS;})
 stepper(document.getElementById('dimmq'),{min:1});
 stepper(document.getElementById('psuq'),{min:1});
 stepper(document.getElementById('fanq'),{min:0});
+stepper(document.getElementById('modelq'),{min:1});
 
 /* generation quick-filter above the model picker — tapping "G10" (etc.)
    scopes the dropdown to just that generation, so opening it blind doesn't
