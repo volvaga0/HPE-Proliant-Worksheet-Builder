@@ -54,6 +54,12 @@ input[type=text],input[type=number],textarea,select{
   border:1px solid var(--field-edge);border-radius:6px;padding:6px 8px;width:100%}
 textarea{min-height:66px;resize:vertical;line-height:1.4}
 input::placeholder,textarea::placeholder{color:var(--ink-soft);opacity:.75}
+/* <select> has no ::placeholder pseudo-element at all — its "nothing
+   chosen yet" option otherwise renders in the same full-brightness text
+   color as a real selection, which reads as already-filled-in. .ph is
+   toggled every run() cycle (see syncSelectPlaceholders()) whenever a
+   select's value is still the empty placeholder option. */
+select.ph{color:var(--ink-soft)}
 input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--signal);outline-offset:1px;border-color:var(--signal)}
 input:disabled{opacity:.5;cursor:not-allowed}
 input.field-over{border-color:var(--stop);background:var(--stop-bg);color:var(--stop);font-weight:600}
@@ -202,7 +208,7 @@ legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)
 
 .lines{display:flex;flex-direction:column;gap:5px}
 .line{display:grid;gap:5px;align-items:center}
-.line.drive{grid-template-columns:auto minmax(64px,1fr) 74px 72px 96px 28px}
+.line.drive{grid-template-columns:auto minmax(64px,1fr) 82px 80px 108px 28px}
 .line.card{grid-template-columns:auto 1fr 28px}
 .line.rear{grid-template-columns:1fr 28px}
 .kill{border:1px solid var(--field-edge);background:var(--field);color:var(--ink-soft);
@@ -300,11 +306,11 @@ button.quiet{color:var(--ink-soft)}
    further down — so this is scoped above the phone breakpoint. */
 @media (min-width:641px){
   select{appearance:none;-webkit-appearance:none;-moz-appearance:none;cursor:pointer;
-    padding-right:26px;
+    padding-right:19px;
     background-image:linear-gradient(45deg,transparent 50%,var(--ink-soft) 50%),
       linear-gradient(135deg,var(--ink-soft) 50%,transparent 50%);
-    background-position:calc(100% - 17px) calc(50% - 3px),calc(100% - 12px) calc(50% - 3px);
-    background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+    background-position:calc(100% - 12px) calc(50% - 2px),calc(100% - 8px) calc(50% - 2px);
+    background-size:4px 4px,4px 4px;background-repeat:no-repeat}
 }
 
 @media (max-width:980px){
@@ -472,6 +478,7 @@ button.quiet{color:var(--ink-soft)}
       <div class="row">
         <div class="q"><span class="t">Drive bay config</span><span class="note">Front bays as they should read on the slip.</span></div>
         <div class="a">
+          <div class="seg" id="bays-btns"></div>
           <input type="text" id="bays" list="bayopts" placeholder="e.g. 8LFF" autocomplete="off">
           <div class="lines" id="rear-lines"></div>
           <button type="button" class="add" id="add-rear">Add rear / mid-tray line</button>
@@ -1860,7 +1867,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.4';  // 5th build shipped today
+var BUILD_VERSION='2026.09.14.5';  // 6th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -1907,7 +1914,36 @@ function setupCombo(rootId,cfg){
     panel.querySelectorAll('.combo-item').forEach(function(el){el.classList.remove('active');});
     var el=panel.querySelector('.combo-item[data-i="'+activeIdx+'"]');
     if(el){el.classList.add('active');el.scrollIntoView({block:'nearest'});}}
-  function pick(it){hidden.value=it.value;input.value=cfg.displayValue?cfg.displayValue(it):it.label;close();cfg.onSelect(it.value);}
+  /* phone-native <select> mirror — same idea as attachNativeMirror(), but
+     model/CPU are pick-only (typing free text never actually selects
+     anything here — hidden.value only ever changes via pick()/setValue()),
+     so there's no "Other — type your own" fallback to build in. */
+  var mWrap=document.createElement('span');mWrap.className='ac-wrap';
+  input.parentNode.insertBefore(mWrap,input);mWrap.appendChild(input);
+  var mSel=document.createElement('select');mWrap.appendChild(mSel);
+  function buildMirror(){
+    var groups=cfg.getGroups(),html='<option value="">'+esc(input.placeholder||'Choose…')+'</option>';
+    groups.forEach(function(g){
+      html+='<optgroup label="'+esc(g.label)+'">';
+      g.items.forEach(function(it){
+        html+='<option value="'+esc(it.value)+'">'+esc(it.label)+(it.sub?' — '+esc(it.sub):'')+'</option>';
+      });
+      html+='</optgroup>';
+    });
+    mSel.innerHTML=html;
+    mSel.value=hidden.value||'';
+    mSel.disabled=input.disabled;
+  }
+  mSel.addEventListener('focus',buildMirror);   // picks up rack/tower or gen-filter changes made since the last build
+  mSel.addEventListener('change',function(){
+    if(!mSel.value){hidden.value='';input.value='';cfg.onSelect('');return;}
+    var found=null;
+    cfg.getGroups().some(function(g){return g.items.some(function(it){
+      if(it.value===mSel.value){found=it;return true;}return false;});});
+    if(found)pick(found);
+  });
+  buildMirror();
+  function pick(it){hidden.value=it.value;input.value=cfg.displayValue?cfg.displayValue(it):it.label;close();cfg.onSelect(it.value);buildMirror();}
   input.addEventListener('input',function(){hidden.value='';open(input.value);});
   /* clicking back in shows the whole list again — you're browsing, not
      re-filtering by the text that got filled in. Type to filter. */
@@ -1933,9 +1969,9 @@ function setupCombo(rootId,cfg){
     choose(e.target.closest('.combo-item'));});
   document.addEventListener('click',function(e){if(!root.contains(e.target))close();});
   document.addEventListener('touchstart',function(e){if(!root.contains(e.target))close();},{passive:true});
-  return {setValue:function(val,lab){hidden.value=val;input.value=lab;},
-    clear:function(){hidden.value='';input.value='';},
-    setDisabled:function(b){input.disabled=b;if(b)close();},
+  return {setValue:function(val,lab){hidden.value=val;input.value=lab;buildMirror();},
+    clear:function(){hidden.value='';input.value='';buildMirror();},
+    setDisabled:function(b){input.disabled=b;if(b)close();mSel.disabled=b;},
     setPlaceholder:function(t){input.placeholder=t;},
     filterTo:function(t){if(!input.disabled){input.value=t;open(t);}}};
 }
@@ -2262,6 +2298,28 @@ document.getElementById('cpuq-btns').addEventListener('click',function(e){
   setCpuq(Number(b.getAttribute('data-n')));
   document.getElementById('cpuq').dispatchEvent(new Event('input',{bubbles:true}));
 });
+/* bay-config quick-pick — few enough options per model that a tap beats
+   typing, same idea as the riser-kit buttons above the riser lines. The
+   text field stays underneath (unlike cpuq/model-gen, which are buttons
+   only) so an unusual config not on this list can still be typed. */
+function renderBaysBtns(list){
+  var box=document.getElementById('bays-btns');
+  box.innerHTML=(list||[]).map(function(b){
+    return '<button type="button" data-b="'+esc(b).replace(/"/g,'&quot;')+'">'+esc(b)+'</button>';
+  }).join('');
+  syncBaysBtns();
+}
+function syncBaysBtns(){
+  var cur=v('bays');
+  [].forEach.call(document.querySelectorAll('#bays-btns button'),function(b){
+    b.classList.toggle('on',b.getAttribute('data-b')===cur);
+  });
+}
+document.getElementById('bays-btns').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-b]');if(!b)return;
+  document.getElementById('bays').value=b.getAttribute('data-b');
+  document.getElementById('bays').dispatchEvent(new Event('input',{bubbles:true}));
+});
 
 function refreshDependents(){
   var m=currentModel(),R=rulesFor(m);
@@ -2276,7 +2334,9 @@ function refreshDependents(){
   document.getElementById('dimm-note').textContent=m?('Platform speed: '+(spds.join('  ·  ')||'—')+' MHz'):'';
   document.getElementById('sys-note').textContent=m?(m.s+' socket'+(m.s>1?'s':'')+', '+m.d+' DIMM slots'):'';
   renderCpuqBtns(m,R);
-  fill('bayopts',(m&&m.bays)?m.bays:GENERIC_BAYS);
+  var bayList=(m&&m.bays)?m.bays:GENERIC_BAYS;
+  renderBaysBtns(bayList);
+  fill('bayopts',bayList);
   var rearNone=!!(m&&R.rear&&!R.rear.length);
   var rearListed=!!(m&&R.rear&&R.rear.length);
   fill('rearopts',rearListed?R.rear:REAR); // dead as a <datalist> (attachList strips list=) — kept only as a test probe of the per-model list
@@ -3037,8 +3097,13 @@ function buildSlip(){
   if(v('modelq')&&Number(v('modelq'))>1)L.unshift('BUILD x'+v('modelq'));
   return {lines:L,gaps:gaps};
 }
+function syncSelectPlaceholders(){
+  [].forEach.call(document.querySelectorAll('select'),function(s){s.classList.toggle('ph',s.value==='');});
+}
 function run(){
   syncNativeMirrors();
+  syncSelectPlaceholders();
+  syncBaysBtns();
   var msBox=document.getElementById('mem-suggestions');
   if(msBox&&!msBox.hidden)renderMemSuggestions();
   var ev=evaluate(),out=buildSlip();

@@ -347,7 +347,37 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   plain `<select>`s' (speed/class/interface, RAID planner) native OS chrome
   via `appearance:none` + a CSS-drawn chevron, scoped to `min-width:641px`,
   so they read the same as the text-input combo fields next to them —
-  phones keep the OS glass-picker chrome on those too.
+  phones keep the OS glass-picker chrome on those too. **The chevron's
+  padding needs the column to actually have room for it** (2026-09-14) —
+  the drive spd/cls/int columns were narrow enough (74-96px) that the
+  original chevron padding clipped "Speed"/"Interface"; fixed by shrinking
+  the chevron/padding (19px) and widening those three grid columns
+  (82/80/108px). Check both if a flattened select ever looks cramped.
+- **`setupCombo()` (model/CPU) also has a native mirror now** (2026-09-14)
+  — built inline inside `setupCombo` itself (`buildMirror()`), same
+  `.ac-wrap` idea as `attachNativeMirror` but with no "Other" option:
+  model/CPU are pick-only (`hidden.value` only ever changes via
+  `pick()`/`setValue()`, never from typing), so a free-type fallback
+  wouldn't do anything. Rebuilds lazily on the mirror `<select>`'s own
+  `focus` — these lists run into the hundreds of options for some
+  platforms, too costly to rebuild every `run()` cycle like the smaller
+  `attachNativeMirror` fields do. `pick()`/`setValue()`/`clear()`/
+  `setDisabled()` keep the mirror's value/disabled state synced either way.
+- **`<select>` placeholder dimming** (`syncSelectPlaceholders()`, called
+  every `run()`) — `<select>` has no `::placeholder` pseudo-element in any
+  browser, so its "nothing chosen" option rendered at full `--ink`
+  brightness, reading as already-filled-in. Toggles a `.ph` class
+  (`color:var(--ink-soft)`, not `opacity` — that would dim the whole
+  control, border included) on every `<select>` on the page whose value
+  is empty; covers drive spd/cls/int, the RAID planner, and every mirror
+  uniformly with one rule, present and future.
+- **Bay-config quick-pick buttons** (`#bays-btns`, `renderBaysBtns()`,
+  rendered from `refreshDependents()`) — tap one of the model's own
+  `m.bays` (or `GENERIC_BAYS`) options instead of typing; `#bays` stays a
+  free-type field underneath for a config not on the list, same pattern
+  as the riser-kit quick-pick buttons above the riser lines.
+  `syncBaysBtns()` (every `run()`) keeps the `.on` highlight following
+  whichever way the field last changed, button tap or typed text.
 - **Rear/mid-tray bays are repeatable lines** (`#rear-lines`, `rearRow()`),
   not one field — a chassis can have a rear cage AND a separate mid-tray
   cage at once (e.g. DL385 G11 8LFF: 4LFF mid-tray + 4LFF rear

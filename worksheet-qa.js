@@ -1383,4 +1383,101 @@ function runRound8(){
   d.getElementById('expander-note').textContent===''
     ?pass8('P440 (no fixed port count known) gets no expander suggestion — avoids guessing')
     :fail8('unexpected expander suggestion for P440: "'+d.getElementById('expander-note').textContent+'"');
+  runRound9();   // chained — round 8 has no nested timers, so this is safe immediately
+}
+
+// ---- round 9: model/CPU native <select> mirrors, select placeholder dimming, bay-config buttons ----
+// Chained from the end of round 8 — see the comment above runRound6().
+function runRound9(){
+  function pass9(m){console.log('ok    '+m);}
+  function fail9(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi9=d.getElementById('model-input'), ci9=d.getElementById('cpu-input');
+  function setModel9(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi9.value='';fire(mi9,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
+    if(!opt)return fail9('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+
+  // --- model combo got a native <select> mirror, grouped by generation ---
+  const modelSel=mi9.closest('.combo').querySelector('select');
+  modelSel?pass9('model combo got a native <select> mirror'):fail9('model combo has no native mirror');
+  if(modelSel){
+    fire(modelSel,'focus');
+    const modelGroups=[...modelSel.querySelectorAll('optgroup')].map(g=>g.label);
+    modelGroups.some(g=>g==='G9')
+      ?pass9('model mirror groups options by generation (G9 group present)')
+      :fail9('model mirror groups missing G9: '+modelGroups.join(', '));
+    modelSel.value='DL380 G9';fire(modelSel,'change');
+    (d.getElementById('model').value==='DL380 G9' && mi9.value==='DL380 G9')
+      ?pass9('picking a model via the native mirror sets the field, same as the desktop panel')
+      :fail9('model mirror pick did not propagate: model="'+d.getElementById('model').value+'"');
+  }
+
+  // --- CPU combo got a native <select> mirror too, enabled once a model is picked, grouped by platform ---
+  const cpuSel=ci9.closest('.combo').querySelector('select');
+  (cpuSel && !cpuSel.disabled)
+    ?pass9('CPU combo got a native <select> mirror, enabled once a model is picked')
+    :fail9('CPU mirror missing or still disabled: '+(cpuSel&&cpuSel.disabled));
+  if(cpuSel){
+    fire(cpuSel,'focus');
+    const cpuGroups=[...cpuSel.querySelectorAll('optgroup')].map(g=>g.label);
+    (cpuGroups.length>0 && cpuSel.options.length>1)
+      ?pass9('CPU mirror is grouped by platform ('+cpuGroups.join(', ')+')')
+      :fail9('CPU mirror not populated: groups='+cpuGroups.join(', '));
+    const firstCode=cpuSel.querySelector('option[value]:not([value=""])').value;
+    cpuSel.value=firstCode;fire(cpuSel,'change');
+    (d.getElementById('cpu').value===firstCode)
+      ?pass9('picking a CPU via the native mirror sets the field')
+      :fail9('CPU mirror pick did not propagate: cpu="'+d.getElementById('cpu').value+'"');
+  }
+
+  // --- switching models rebuilds the model mirror's value (not just the desktop panel) ---
+  setModel9('DL360 G10');
+  (d.getElementById('model').value==='DL360 G10' && modelSel.value==='DL360 G10')
+    ?pass9('the model mirror select stays in sync when picking via the desktop panel too')
+    :fail9('model mirror out of sync after a desktop-panel pick: sel.value="'+modelSel.value+'"');
+
+  // --- <select> "nothing chosen" option is dimmed (.ph class), same idea as input::placeholder ---
+  const emptySelectRule=/select\.ph\{color:var\(--ink-soft\)\}/.test(html);
+  emptySelectRule
+    ?pass9('a placeholder-state <select> gets the dimmed .ph class/CSS rule')
+    :fail9('select.ph dimming CSS rule not found');
+  const spdSel9=d.querySelector('#drives [data-k=spd]');
+  if(spdSel9){
+    spdSel9.value='';fire(spdSel9,'change');
+    spdSel9.classList.contains('ph')
+      ?pass9('an empty drive speed/class/interface select gets the .ph dimmed class')
+      :fail9('.ph class not applied to an empty select');
+    spdSel9.value='6G';fire(spdSel9,'change');
+    !spdSel9.classList.contains('ph')
+      ?pass9('.ph clears once a real value is picked')
+      :fail9('.ph class stuck after picking a real value');
+  }
+
+  // --- bay-config quick-pick buttons, scoped to the current model's own bay list ---
+  setModel9('DL380 G9');
+  const bayBtnLabels=[...d.querySelectorAll('#bays-btns button')].map(b=>b.textContent);
+  (bayBtnLabels.length>0 && bayBtnLabels.includes('8SFF') && !bayBtnLabels.includes('10SFF'))
+    ?pass9('bay-config buttons are scoped to this model\'s own bay list (DL380 G9: no 10SFF)')
+    :fail9('bay-config buttons wrong for DL380 G9: '+bayBtnLabels.join(', '));
+  const bayBtn9=[...d.querySelectorAll('#bays-btns button')].find(b=>b.textContent==='8SFF');
+  bayBtn9.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  (d.getElementById('bays').value==='8SFF' && bayBtn9.classList.contains('on'))
+    ?pass9('clicking a bay-config button fills the field and highlights itself')
+    :fail9('bay-config button click did not fill/highlight: bays="'+d.getElementById('bays').value+'"');
+  d.getElementById('bays').value='12LFF';fire(d.getElementById('bays'),'input');
+  (!bayBtn9.classList.contains('on') && [...d.querySelectorAll('#bays-btns button')].find(b=>b.textContent==='12LFF').classList.contains('on'))
+    ?pass9('typing a value that matches another button re-highlights that one instead')
+    :fail9('bay-config highlight did not follow a typed value');
+  d.getElementById('bays').value='';fire(d.getElementById('bays'),'input');
+
+  // --- switching to a model with a different bay list rebuilds the buttons ---
+  setModel9('DL560 G10');
+  const dl560BayBtns=[...d.querySelectorAll('#bays-btns button')].map(b=>b.textContent);
+  !dl560BayBtns.some(b=>/lff/i.test(b))
+    ?pass9('bay-config buttons rebuild per model (DL560 G10: SFF only, no LFF)')
+    :fail9('DL560 G10 bay buttons still show LFF: '+dl560BayBtns.join(', '));
 }
