@@ -1516,6 +1516,14 @@ function runRound9(){
     ?pass9('the model field carries .combo-input (static class, same chevron rule)')
     :fail9('model field missing .combo-input class');
 
+  // --- "back to top" button hidden on phones — they already have a native
+  // scroll-to-top gesture, the floating button was just redundant clutter ---
+  const bttMobileHideRule=/#back-to-top\{display:none !important\}/.test(html);
+  const mobileBlock9=(html.match(/@media \(max-width:640px\)\{[\s\S]*?\n\}/)||[''])[0];
+  (bttMobileHideRule && mobileBlock9.includes('#back-to-top{display:none !important}'))
+    ?pass9('"back to top" is hidden inside the phone breakpoint, not just globally')
+    :fail9('"back to top" mobile-hide rule missing or not scoped to the phone breakpoint');
+
   // --- bay-config quick-pick buttons, scoped to the current model's own bay list ---
   setModel9('DL380 G9');
   const bayBtnLabels=[...d.querySelectorAll('#bays-btns button')].map(b=>b.textContent);

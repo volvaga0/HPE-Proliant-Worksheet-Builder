@@ -414,7 +414,9 @@ button.quiet{color:var(--ink-soft)}
   .count{width:100%;order:-1;margin:0;text-align:center;font-size:13.5px}
   .saved{display:none}
   #copy2,#clear{flex:1 1 42%}
-  #back-to-top{width:44px;height:44px;right:12px}
+  /* phones already have a native swipe/scroll-to-top gesture (tap the
+     status bar) — the floating button is redundant clutter here. */
+  #back-to-top{display:none !important}
   pre.slip{max-height:none}
 }
 @media print{
@@ -1890,7 +1892,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.8';  // 9th build shipped today
+var BUILD_VERSION='2026.09.14.9';  // 10th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
