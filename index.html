@@ -1704,11 +1704,19 @@ var CARDLIST=[
  'NVIDIA A100 80GB','NVIDIA H100 80GB','NVIDIA L40S','AMD MI210','Tesla P4','Tesla V100',
  /* Other */
  'iLO dedicated NIC (already onboard)','Serial port kit'];
-/* capacity list, with TB value for the planner */
-var CAPS=[['240GB',0.24],['480GB',0.48],['800GB',0.8],['960GB',0.96],['1.6TB',1.6],['1.92TB',1.92],
- ['3.84TB',3.84],['7.68TB',7.68],['300GB',0.3],['600GB',0.6],['900GB',0.9],['1.2TB',1.2],
- ['1.8TB',1.8],['2.4TB',2.4],['1TB',1],['2TB',2],['4TB',4],['6TB',6],['8TB',8],['10TB',10],
- ['12TB',12],['14TB',14],['16TB',16],['18TB',18]];
+/* capacity list, with TB value for the planner. Grouped by drive family
+   here for readability, then sorted by actual size below — the picker
+   was showing SSD sizes, then SAS sizes, then nearline sizes, so the
+   numbers ran 240GB…7.68TB, back to 300GB, back again to 1TB. Sorting
+   programmatically (rather than hand-ordering the literal) keeps it
+   right whatever order a new capacity gets added in. */
+var CAPS=[
+ /* SSD */      ['240GB',0.24],['480GB',0.48],['800GB',0.8],['960GB',0.96],['1.6TB',1.6],['1.92TB',1.92],
+                ['3.84TB',3.84],['7.68TB',7.68],
+ /* SAS HDD */  ['300GB',0.3],['600GB',0.6],['900GB',0.9],['1.2TB',1.2],['1.8TB',1.8],['2.4TB',2.4],
+ /* nearline */ ['1TB',1],['2TB',2],['4TB',4],['6TB',6],['8TB',8],['10TB',10],
+                ['12TB',12],['14TB',14],['16TB',16],['18TB',18]];
+CAPS.sort(function(a,b){return a[1]-b[1];});
 var GENERIC_BAYS=['4LFF','8LFF','12LFF','2SFF','4SFF','8SFF','10SFF','16SFF','24SFF'];
 /* drive speed/class/interface — plain <select>s used to render with the
    browser's own native popup list (unfixable via CSS: appearance:none
@@ -1892,7 +1900,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.9';  // 10th build shipped today
+var BUILD_VERSION='2026.09.14.10'; // 11th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2594,6 +2602,13 @@ function evaluate(){
 
   if(m&&cpu&&m.p.indexOf(cpu[2])<0)
     checks.push(['stop','NOT SUPPORTED',cpu[0]+' does not fit '+m.m+' '+m.g+' — wrong processor platform.']);
+  /* A model whose platform has no seeded processors is a dead end — the CPU
+     picker is pick-only, so there is literally nothing to choose and the slip
+     can never lose its "processor" gap. Say so plainly rather than leaving
+     the trader clicking an empty dropdown (Gen12 / Xeon 6 today). */
+  if(m&&!CPUS.some(function(c){return m.p.indexOf(c[2])>-1;}))
+    checks.push(['verify','NO PROCESSORS SEEDED',m.m+' '+m.g+' takes '+m.p.map(function(p){return PLATFORM_LABELS[p]||p;}).join(' / ')+
+      ', which has no processors loaded in this tool yet — the picker will be empty. Add the SKU to the slip by hand and confirm it against QuickSpecs.']);
   if(m&&cpuq>m.s)
     checks.push(['stop','TOO MANY CPUS',m.m+' '+m.g+' has '+m.s+' socket'+(m.s>1?'s':'')+' — '+cpuq+' processors will not fit.']);
   /* Intel's "U"-suffix Xeon Scalable SKUs (Gold 6209U/6210U/6312U/6414U here)
@@ -2713,6 +2728,19 @@ function evaluate(){
     if(m&&profileKnown&&lpSlots===0&&(fhSlots>0))
       checks.push(['info','BRACKETS','"'+n+'" is noted low-profile — every slot here is full-height, so fit it with the full-height bracket.']);
   });
+
+  /* front bays vs what this chassis actually offers. The rear field has had a
+     hard allow-list check all along; the front field had none, so e.g. 24SFF
+     on a 1U DL360 passed silently and then fed bayCapacity() a bay count that
+     doesn't exist. Only checked where m.bays is a real per-model list (models
+     without one fall back to GENERIC_BAYS, which proves nothing), and kept to
+     `verify` rather than `stop` since a bay list can be incomplete. */
+  if(m&&bays&&m.bays&&m.bays.length){
+    var baysNorm=bays.replace(/\s+/g,'');
+    if(!m.bays.some(function(b){return b.toUpperCase().replace(/\s+/g,'')===baysNorm;}))
+      checks.push(['verify','BAY CONFIG','"'+v('bays')+'" is not a front-bay config listed for '+m.m+' '+m.g+
+        ' — it takes: '+m.bays.join('; ')+'. Confirm against QuickSpecs before quoting.']);
+  }
 
   /* NVMe / Premium backplane needs SFF bays */
   if(m&&/LFF/i.test(bays)&&!/SFF/i.test(bays)){

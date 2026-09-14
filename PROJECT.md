@@ -715,6 +715,48 @@ with PSU / fan / PCIe / riser data from each model's own QuickSpecs:**
 
 ## Known limitations, stated plainly
 
+### Data debt found by the 2026-09-14 audit (not guessed at — needs QuickSpecs)
+
+A full cross-check of all 61 models — every model selected in turn, its
+rendered UI compared against its own data, plus consistency checks across
+the tables — came back clean on **rendering**: every model shows its own
+sockets/DIMMs, CPU groups and count, bay list and buttons, rear list,
+riser kits, PSU and DIMM caps, verified badge and notes. Nothing leaks
+between models. What it did surface is data that is missing or inert:
+
+- **8 Gen12 models are skeletons** (`DL110/DL320/DL340/DL360/DL380/
+  DL380a/DL580/ML350 G12`): `{m,g,p,s,d}` and nothing else — no rules, and
+  the `xeon6` platform has **zero seeded processors**, so the CPU picker
+  is empty and (being pick-only) impossible to satisfy. They now raise a
+  `NO PROCESSORS SEEDED` check saying so outright instead of silently
+  dead-ending; seeding Xeon 6 SKUs is the actual fix, when QuickSpecs
+  for them is to hand.
+- **`fanBays` names bay configs some models don't offer** — DL160 G10
+  (`12LFF`/`24SFF` vs its 4LFF/8SFF/10SFF), DL180 G10 (`24SFF`), DL360
+  G10 (`12LFF`/`24SFF`), DL560/DL580 G10 (`12LFF`). Inherited from
+  `GEN_DEFAULTS.G10`. The rule is dead on those models — which may mean a
+  *missing* performance-fan rule for their own dense configs, so it needs
+  checking per model rather than deleting.
+- **`hsSku`'s Intel list is inherited by non-Intel G10 boards** (DL325/
+  DL385 G10 on EPYC, DL20/ML30 G10 on Xeon E). Matching is by exact CPU
+  code, so it's inert — never fires, never misfires.
+- **`fans.two` on three 1-socket boards** (DL325 G10+, DL345 G10+/G11) —
+  same value as `fans.one`, and unreachable since those models only offer
+  one processor. Cosmetic.
+- **52 of 61 models are missing at least one rule key.** The thinnest are
+  the 8 Gen12 skeletons, then the Gen9 entry-level (DL20/60/80/120/160,
+  ML10/30/110/150) and Gen11 entry-level (DL20/320/340, ML30/110) — which
+  is exactly where the verification queue already points.
+
+Round 10 of the QA harness now keeps the *consistency* half of that audit
+permanent (duplicate models, unreadable bay strings, dead rear options,
+`rear2SFF` naming bays a model lacks, riser kits needing a second CPU on a
+one-socket board, riser positions exceeding `riserMax`, CPU table dupes /
+odd TDPs / unknown platforms). The four classes above are deliberately
+NOT asserted, because making them pass would mean inventing data.
+
+### Longer-standing limitations
+
 - Socket count (`s`) and DIMM slot count (`d`) for models I HAVEN'T
   explicitly verified come from general HPE product specs, not
   QuickSpecs read alongside the cooling data. They're very likely right

@@ -1547,4 +1547,160 @@ function runRound9(){
   !dl560BayBtns.some(b=>/lff/i.test(b))
     ?pass9('bay-config buttons rebuild per model (DL560 G10: SFF only, no LFF)')
     :fail9('DL560 G10 bay buttons still show LFF: '+dl560BayBtns.join(', '));
+  runRound10();   // chained — round 9 has no nested timers
+}
+
+// ---- round 10: per-model data sanity — the model/CPU/riser tables themselves ----
+// Chained from the end of round 9 — see the comment above runRound6().
+// The rule data lives inside the page's IIFE, so these pull the array
+// literals straight out of the source text and eval them. That's the only
+// way to check the DATA (rather than one model's rendering) from here.
+function runRound10(){
+  function pass10(m){console.log('ok    '+m);}
+  function fail10(m){console.log('FAIL  '+m);process.exitCode=1;}
+  function grab(name){
+    const start=html.indexOf('var '+name+'=');
+    if(start<0)return null;
+    let i=html.indexOf('=',start)+1;
+    while(' \n\r\t'.includes(html[i]))i++;
+    const open=html[i], close=open==='['?']':'}';
+    let depth=0,q=null,esc=false,j=i;
+    for(;j<html.length;j++){
+      const c=html[j];
+      if(esc){esc=false;continue;}
+      if(q){ if(c==='\\')esc=true; else if(c===q)q=null; continue; }
+      if(c==='\''||c==='"'){q=c;continue;}
+      if(c==='/'&&html[j+1]==='*'){ j=html.indexOf('*/',j)+1; continue; }
+      if(c===open)depth++;
+      else if(c===close){depth--; if(!depth){j++;break;}}
+    }
+    try{ return eval('('+html.slice(i,j)+')'); }catch(e){ return null; }
+  }
+  const MODELS=grab('MODELS'), CPUS=grab('CPUS'), RISERS=grab('RISERS'),
+        GEN_DEFAULTS=grab('GEN_DEFAULTS'), PLATFORM_LABELS=grab('PLATFORM_LABELS'),
+        MEM_PER_SOCKET=grab('MEM_PER_SOCKET');
+  if(!MODELS||!CPUS||!RISERS||!GEN_DEFAULTS){
+    return fail10('could not read the data tables out of index.html — did the "var NAME=[...]" shape change?');
+  }
+  const rulesFor=m=>{
+    const d0=GEN_DEFAULTS[m.g]||{},own=m.rules||{},out={};
+    Object.keys(d0).forEach(k=>out[k]=d0[k]);
+    Object.keys(own).forEach(k=>out[k]=own[k]);
+    return out;
+  };
+  const bad=[];
+  const note=(k,msg)=>bad.push(k+': '+msg);
+
+  const seen={};
+  MODELS.forEach(m=>{
+    const key=m.m+' '+m.g, R=rulesFor(m);
+    if(seen[key])note(key,'duplicate model entry');
+    seen[key]=1;
+    if(!m.p||!m.p.length)note(key,'no processor platforms');
+    (m.p||[]).forEach(p=>{
+      if(!PLATFORM_LABELS[p])note(key,'platform "'+p+'" has no PLATFORM_LABELS entry');
+      if(!MEM_PER_SOCKET[p])note(key,'platform "'+p+'" has no MEM_PER_SOCKET entry');
+    });
+    if(m.d%m.s)note(key,m.d+' DIMM slots does not divide by '+m.s+' sockets');
+    if(R.validCounts&&R.validCounts.some(n=>n>m.s||n<1))
+      note(key,'validCounts ['+R.validCounts+'] outside 1..'+m.s);
+    if(m.s>1&&R.fans&&R.fans.one!=null&&R.fans.two==null)
+      note(key,'multi-socket but fans.one with no fans.two');
+    // bayCapacity() reads /(\d{1,2})\s*(LFF|SFF)/ — anything else silently counts as 0 bays
+    (m.bays||[]).forEach(b=>{
+      if(!/^\d{1,2}\s*(LFF|SFF)$/i.test(b))note(key,'bay string "'+b+'" is not a shape bayCapacity() can read');
+    });
+    if(R.rear2SFF&&m.bays){
+      const miss=R.rear2SFF.filter(b=>m.bays.indexOf(b)<0);
+      if(miss.length)note(key,'rear2SFF names bays it does not offer: '+miss.join(', '));
+    }
+    // a rear option that parses to no signature can never match the allow-list
+    (R.rear||[]).forEach(o=>{
+      let n=0;
+      String(o).toLowerCase().split('+').forEach(cl=>{
+        const mid=/mid[\s-]?tray|midtray|\bmid\b/.test(cl);
+        const re=/(\d+)?\s*x?\s*(sff|lff|uff|m\.?2)\b/g;let mm,found=false;
+        while((mm=re.exec(cl))){found=true;n++;}
+        if(!found&&mid)n++;
+      });
+      if(!n)note(key,'rear option "'+o+'" parses to no signature (rule is dead)');
+    });
+    ['hsStdException','hsSku'].forEach(k=>{
+      (R[k]||[]).forEach(code=>{
+        if(!CPUS.some(c=>c[0]===code))note(key,k+' names "'+code+'", which is not in CPUS');
+      });
+    });
+    if(R.psuMax!=null&&(R.psuMax<1||R.psuMax>4))note(key,'psuMax '+R.psuMax+' looks wrong');
+    if(R.hsW&&R.fanW&&R.fanW<R.hsW)note(key,'fanW '+R.fanW+' below hsW '+R.hsW);
+    const rk=RISERS[key];
+    if(rk){
+      if(R.riserMax===0)note(key,'riserMax 0 but it has riser kits');
+      rk.forEach(k=>{
+        if(k.cpu2&&m.s<2)note(key,'riser kit "'+k.n+'" needs CPU 2 on a 1-socket board');
+        if(typeof k.s!=='number')note(key,'riser kit "'+k.n+'" has no slot count');
+      });
+      const pos={};rk.forEach(k=>{if(k.pos&&k.pos!=='any')pos[k.pos]=1;});
+      if(typeof R.riserMax==='number'&&Object.keys(pos).length>R.riserMax)
+        note(key,Object.keys(pos).length+' riser positions but riserMax '+R.riserMax);
+      const dp={};rk.filter(k=>k.def).forEach(k=>{if(dp[k.pos])note(key,'two default risers for '+k.pos);dp[k.pos]=1;});
+    }
+  });
+  const cpuSeen={};
+  CPUS.forEach(c=>{
+    if(cpuSeen[c[0]])note('CPUS','duplicate code '+c[0]);
+    cpuSeen[c[0]]=1;
+    if(!PLATFORM_LABELS[c[2]])note('CPUS',c[0]+' is on unknown platform '+c[2]);
+    if(!(c[3]>0&&c[3]<1000))note('CPUS',c[0]+' has an odd TDP: '+c[3]);
+    if(!(c[4]>0&&c[4]<=256))note('CPUS',c[0]+' has an odd core count: '+c[4]);
+  });
+
+  bad.length===0
+    ?pass10('model/CPU/riser data is internally consistent across all '+MODELS.length+' models')
+    :fail10('data inconsistencies ('+bad.length+'):\n      '+bad.join('\n      '));
+
+  // --- a model whose platform has no seeded CPUs says so, instead of just
+  // handing the trader an empty picker it is impossible to satisfy ---
+  const mi10=d.getElementById('model-input');
+  function setModel10(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi10.value='';fire(mi10,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.querySelector('.ci-main').textContent.trim()===label);
+    if(!opt)return fail10('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  const unseeded=MODELS.filter(m=>!CPUS.some(c=>(m.p||[]).indexOf(c[2])>-1)).map(m=>m.m+' '+m.g);
+  if(unseeded.length){
+    setModel10(unseeded[0]);
+    d.getElementById('checks').textContent.includes('no processors loaded in this tool yet')
+      ?pass10(unseeded.length+' model(s) have no seeded processors ('+unseeded[0]+'…) and the sheet says so plainly')
+      :fail10('a model with zero seeded processors gave no warning: '+unseeded[0]);
+  }else{
+    pass10('every model has at least one seeded processor');
+  }
+
+  // --- a front-bay config the model does not offer is flagged (the rear
+  // field has always had this check; the front field had none) ---
+  setModel10('DL360 G10');   // 1U: 4LFF / 8SFF / 10SFF, definitely not 24SFF
+  d.getElementById('bays').value='24SFF';fire(d.getElementById('bays'),'input');
+  d.getElementById('checks').textContent.includes('not a front-bay config listed for DL360 G10')
+    ?pass10('a front-bay config this chassis does not offer is flagged')
+    :fail10('24SFF on a DL360 G10 passed without comment');
+  d.getElementById('bays').value='8SFF';fire(d.getElementById('bays'),'input');
+  !d.getElementById('checks').textContent.includes('not a front-bay config listed')
+    ?pass10('...and a listed one is not flagged')
+    :fail10('8SFF on a DL360 G10 was wrongly flagged');
+  d.getElementById('bays').value='';fire(d.getElementById('bays'),'input');
+
+  // --- the drive capacity picker is in size order ---
+  {
+    const capInp=d.querySelector('#drives [data-k=cap]');
+    fire(capInp,'focus');
+    const shown=[...d.getElementById('ac-panel').querySelectorAll('.combo-item')].map(x=>x.textContent);
+    const tb=s=>/TB/i.test(s)?parseFloat(s):parseFloat(s)/1000;
+    const outOfOrder=shown.filter((s,i)=>i&&tb(s)<tb(shown[i-1]));
+    (shown.length>10&&!outOfOrder.length)
+      ?pass10('drive capacity list is in size order ('+shown[0]+' … '+shown[shown.length-1]+')')
+      :fail10('capacity list out of order at: '+outOfOrder.join(', '));
+  }
 }
