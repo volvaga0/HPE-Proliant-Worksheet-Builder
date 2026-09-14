@@ -167,6 +167,12 @@ section{margin-top:20px}
 #ac-panel .combo-item{white-space:normal}
 #ac-panel .combo-item .ci-main{white-space:normal}
 
+/* phone-only native <select> mirror for the free-type combo fields — see
+   attachNativeMirror(). display:contents means whichever child (input or
+   select) is visible sits directly in the parent's own grid/flex track. */
+.ac-wrap{display:contents}
+.ac-wrap>select{display:none}
+
 /* segmented count buttons (processor count) */
 .seg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .seg .seg-ph{font-size:13px;color:var(--ink-soft)}
@@ -321,6 +327,15 @@ button.quiet{color:var(--ink-soft)}
   .kill{height:42px;font-size:19px}
   .seg button{min-height:44px;padding:10px 20px;font-size:15px;flex:1 1 auto}
   #ac-panel .combo-item{padding:12px;font-size:15px}
+  /* swap the free-type combo fields for the OS's native picker on phones —
+     desktop keeps the searchable panel above */
+  .ac-wrap:not(.ac-editing)>input{display:none}
+  .ac-wrap:not(.ac-editing)>select{display:block;width:100%}
+  .ac-wrap.ac-editing>select{display:none}
+  /* display:contents promotes the wrap's child into .line's flex row, but
+     the sizing rule below is selector-matched (not inherited) so it needs
+     its own line to reach past the extra wrapper */
+  .line.drive .ac-wrap>*,.line.card .ac-wrap>*{flex:1 1 45%;min-width:0}
   .chk-line{font-size:15px;padding:6px 0 8px}
   .chk-line input[type=checkbox]{width:22px;height:22px}
 
@@ -1803,7 +1818,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.11.9';  // 10th build shipped today
+var BUILD_VERSION='2026.09.14';  // 1st build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -1981,6 +1996,57 @@ function attachList(inp,fn){
     else if(e.key==='Escape'){acClose();}
   });
   inp.addEventListener('blur',function(){setTimeout(function(){if(acInput===inp)acClose();},250);});
+  attachNativeMirror(inp,fn);
+}
+
+/* On phones, mirror this field as a real <select> so tapping it opens the
+   OS's own glass picker wheel instead of our floating panel — desktop still
+   gets the searchable combo above. A wrapping span with display:contents
+   lets whichever of the two is visible sit directly in the parent's
+   grid/flex track, so it never needs its own layout rule. Free typing is
+   kept as an "Other" option that swaps back to the plain input. */
+var OTHER_OPT='other';
+var acNativePairs=[];
+function attachNativeMirror(inp,fn){
+  var wrap=document.createElement('span');wrap.className='ac-wrap';
+  inp.parentNode.insertBefore(wrap,inp);wrap.appendChild(inp);
+  var sel=document.createElement('select');
+  wrap.appendChild(sel);
+  function build(){
+    var list=(typeof fn==='function'?fn():fn)||[],html='<option value="">'+esc(inp.placeholder||'Choose…')+'</option>',inGroup=false;
+    list.map(String).forEach(function(s){
+      if(s.charAt(0)==='—'){
+        if(inGroup)html+='</optgroup>';
+        html+='<optgroup label="'+esc(s.replace(/[—\-\s]/g,' ').trim())+'">';inGroup=true;return;
+      }
+      html+='<option value="'+esc(s)+'">'+esc(s)+'</option>';
+    });
+    if(inGroup)html+='</optgroup>';
+    html+='<option value="'+OTHER_OPT+'">Other — type your own…</option>';
+    sel.innerHTML=html;
+    var cur=inp.value;
+    if(cur){
+      if(![].some.call(sel.options,function(o){return o.value===cur;})){
+        var o=document.createElement('option');o.value=cur;o.textContent=cur;sel.insertBefore(o,sel.children[1]||null);
+      }
+      sel.value=cur;
+    }else sel.value='';
+    sel.disabled=inp.disabled;
+  }
+  sel.addEventListener('change',function(){
+    if(sel.value===OTHER_OPT){
+      wrap.classList.add('ac-editing');inp.value='';inp.focus();return;
+    }
+    inp.value=sel.value;
+    inp.dispatchEvent(new Event('input',{bubbles:true}));
+    inp.dispatchEvent(new Event('change',{bubbles:true}));
+  });
+  inp.addEventListener('blur',function(){setTimeout(function(){build();wrap.classList.remove('ac-editing');},260);});
+  build();
+  acNativePairs.push({build:build,sel:sel});
+}
+function syncNativeMirrors(){
+  acNativePairs.forEach(function(p){if(document.activeElement!==p.sel)p.build();});
 }
 
 /* wrap a number input with − / + buttons so counts can be tapped, not typed */
@@ -2861,6 +2927,7 @@ function buildSlip(){
   return {lines:L,gaps:gaps};
 }
 function run(){
+  syncNativeMirrors();
   var msBox=document.getElementById('mem-suggestions');
   if(msBox&&!msBox.hidden)renderMemSuggestions();
   var ev=evaluate(),out=buildSlip();

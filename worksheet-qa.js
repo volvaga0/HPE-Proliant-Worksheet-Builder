@@ -1094,3 +1094,59 @@ setTimeout(()=>{
     dom5.window.close();
   },600);
 },2400);
+
+// ---- round 6: phone-native <select> mirror for the free-type combo fields ----
+setTimeout(()=>{
+  function pass6(m){console.log('ok    '+m);}
+  function fail6(m){console.log('FAIL  '+m);process.exitCode=1;}
+
+  // --- every attachList() field got wrapped with a mirrored native select ---
+  const mirroredIds=['dimm','ctrl','bat','flr','expander','psu','bays','rear'];
+  const missing=mirroredIds.filter(id=>{
+    const inp=d.getElementById(id),wrap=inp.closest('.ac-wrap');
+    return !(wrap && wrap.querySelector('select'));
+  });
+  missing.length===0
+    ?pass6('all 8 top-level combo fields got a native <select> mirror')
+    :fail6('missing native mirror on: '+missing.join(', '));
+
+  // --- row-based fields (drive capacity, card/riser name) get it too ---
+  d.getElementById('add-drive').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  d.getElementById('add-card').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  d.getElementById('add-riser').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  const rowFields=[['#drives [data-k=cap]','drive capacity'],['#cards [data-k=name]','card name'],['#risers [data-k=name]','riser kit name']];
+  rowFields.forEach(([sel,label])=>{
+    const inp=d.querySelector(sel),wrap=inp&&inp.closest('.ac-wrap');
+    (wrap&&wrap.querySelector('select'))
+      ?pass6('row field ('+label+') got a native <select> mirror')
+      :fail6('row field ('+label+') missing native mirror');
+  });
+
+  // --- picking a real option in the mirror select updates the input and reaches run()/the slip ---
+  const ctrlWrap=d.getElementById('ctrl').closest('.ac-wrap'),ctrlSel=ctrlWrap.querySelector('select');
+  ctrlSel.value='P408i-a';fire(ctrlSel,'change');
+  (d.getElementById('ctrl').value==='P408i-a' && d.getElementById('slip').textContent.includes('P408i-a'))
+    ?pass6('picking a value in the native mirror updates the field and reaches the slip')
+    :fail6('mirror pick did not propagate: ctrl.value="'+d.getElementById('ctrl').value+'"');
+
+  // --- picking "Other" swaps to the free-type input instead ---
+  const otherOpt=[...ctrlSel.options].find(o=>o.textContent.includes('Other'));
+  ctrlSel.value=otherOpt.value;fire(ctrlSel,'change');
+  (ctrlWrap.classList.contains('ac-editing') && d.getElementById('ctrl').value===''&&d.activeElement===d.getElementById('ctrl'))
+    ?pass6('"Other" in the mirror swaps back to the free-type input, focused and cleared')
+    :fail6('"Other" did not hand off to free typing (editing='+ctrlWrap.classList.contains('ac-editing')+')');
+
+  // --- typing a custom value then blurring re-shows it as a selected mirror option ---
+  d.getElementById('ctrl').value='Custom-Ctrl-XYZ';fire(d.getElementById('ctrl'),'input');
+  d.getElementById('ctrl').dispatchEvent(new w.Event('blur',{bubbles:true}));
+  setTimeout(()=>{
+    (!ctrlWrap.classList.contains('ac-editing') && ctrlSel.value==='Custom-Ctrl-XYZ')
+      ?pass6('a typed custom value re-appears as the selected mirror option after blur')
+      :fail6('custom value not reflected back into the mirror select: sel.value="'+ctrlSel.value+'"');
+  },320);
+
+  // --- desktop keeps the searchable combo hidden-select CSS rule present (mobile-only swap) ---
+  /\.ac-wrap:not\(\.ac-editing\)>select\{display:block/.test(html)
+    ?pass6('mobile-breakpoint CSS swaps the mirror select in, leaving desktop on the searchable combo')
+    :fail6('mobile <select>-swap CSS rule not found');
+},3000);
