@@ -1413,35 +1413,47 @@ function runRound9(){
     opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
   }
 
-  // --- model/CPU deliberately get NO native <select> mirror (reverted
-  // 2026-09-14 — a real phone lost the ability to type-to-search a 60+
-  // model / hundreds-of-CPU list once it swapped to a flat OS wheel, which
-  // matters far more here than on the short attachList() fields that kept
-  // the mirror). Regression guard: no <select>, and no .ac-wrap either, so
-  // the phone CSS swap rule (@media(max-width:640px) .ac-wrap>select) has
-  // nothing to grab onto and can't silently start hiding these again. ---
-  !mi9.closest('.combo').querySelector('select')
-    ?pass9('model combo has no native <select> mirror to swap to on phones')
-    :fail9('model combo still has a native mirror — phones would lose type-to-search again');
-  !mi9.closest('.ac-wrap')
-    ?pass9('model input is not wrapped in .ac-wrap — the phone mirror-swap CSS cannot apply to it')
-    :fail9('model input is wrapped in .ac-wrap — phones could swap it for a select again');
+  // --- model combo has a native <select> mirror again (re-added 2026-09-14,
+  // after a same-day revert-of-the-revert): user's call — model's list is
+  // short once a generation is picked via the G9/G10/… buttons, so a phone
+  // browsing a wheel beats typing there, and there's nothing to type that
+  // the gen filter wouldn't already have excluded. CPU keeps NO mirror —
+  // its list still runs into the hundreds even with a model picked, where
+  // typing still beats a flat wheel. ---
+  const modelSel=mi9.closest('.combo').querySelector('select');
+  modelSel?pass9('model combo has a native <select> mirror'):fail9('model combo is missing its native mirror');
+  if(modelSel){
+    fire(modelSel,'focus');
+    const modelGroups=[...modelSel.querySelectorAll('optgroup')].map(g=>g.label);
+    modelGroups.some(g=>g==='G9')
+      ?pass9('model mirror groups options by generation (G9 group present)')
+      :fail9('model mirror groups missing G9: '+modelGroups.join(', '));
+    modelSel.value='DL380 G9';fire(modelSel,'change');
+    (d.getElementById('model').value==='DL380 G9' && mi9.value==='DL380 G9')
+      ?pass9('picking a model via the native mirror sets the field, same as the desktop panel')
+      :fail9('model mirror pick did not propagate: model="'+d.getElementById('model').value+'"');
+  }
   !ci9.closest('.combo').querySelector('select')
-    ?pass9('CPU combo has no native <select> mirror either')
-    :fail9('CPU combo still has a native mirror — phones would lose type-to-search again');
+    ?pass9('CPU combo still has no native <select> mirror — its list is too big for a flat wheel')
+    :fail9('CPU combo got a native mirror — its list is too big to browse without typing');
   !ci9.closest('.ac-wrap')
-    ?pass9('CPU input is not wrapped in .ac-wrap — same phone-mirror guard as the model field')
-    :fail9('CPU input is wrapped in .ac-wrap — phones could swap it for a select again');
+    ?pass9('CPU input is not wrapped in .ac-wrap — phones keep the searchable panel there')
+    :fail9('CPU input is wrapped in .ac-wrap — phones would lose CPU search');
 
-  // --- typing still opens/filters the panel on the actual input (this is
-  // the exact interaction a phone does through its on-screen keyboard —
-  // there is no separate "mobile mode" input to fake here) ---
-  setModel9('DL380 G9');
+  // --- switching models via the desktop panel keeps the mirror in sync ---
+  setModel9('DL360 G10');
+  (d.getElementById('model').value==='DL360 G10' && modelSel.value==='DL360 G10')
+    ?pass9('the model mirror select stays in sync when picking via the desktop panel too')
+    :fail9('model mirror out of sync after a desktop-panel pick: sel.value="'+modelSel.value+'"');
+
+  // --- desktop keeps typing/search on the model field regardless (the
+  // mirror is phone-only via CSS; the text input + panel are still there
+  // underneath for every viewport that doesn't hide them) ---
   mi9.value='DL560';fire(mi9,'input');
   const dl560Matches=[...d.querySelectorAll('#model-panel .combo-item')];
   (!d.getElementById('model-panel').hidden && dl560Matches.length>0 &&
    dl560Matches.every(el=>/dl560/i.test(el.textContent)))
-    ?pass9('typing into the model field filters the panel down to matches (search works on the real input)')
+    ?pass9('typing into the model field still filters the desktop panel down to matches')
     :fail9('typing into the model field did not filter the panel: '+dl560Matches.length+' items shown');
   // typing (without picking) blanks the hidden model value — same as real
   // usage, where a half-typed search shouldn't leave a stale model active.

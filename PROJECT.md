@@ -369,20 +369,21 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   genuinely free text like `#batdate` (no `attachList()` call → no
   chevron, correctly). Suppressed during `.ac-editing` (the phone
   "Other" free-type fallback) since that's real typing, not a list tap.
-- **`setupCombo()` (model/CPU) tried a native mirror too, then reverted it**
-  (added 2026-09-14, reverted the same day after a real phone check) — the
-  first attempt gave model/CPU the same `.ac-wrap` native-`<select>` swap as
-  `attachNativeMirror`, on the theory that a picker wheel beats typing. In
-  practice it did the opposite: on a real phone the field silently stopped
-  being a text box at all (the mobile CSS breakpoint hides `.ac-wrap>input`
-  unconditionally), so tapping "Type to search" just opened a flat,
-  hundreds-of-options OS wheel with no way to filter it down — worse than
-  before for the one field where the list is actually too big to browse.
-  Removed the mirror entirely for model/CPU; phones now get the exact same
-  searchable text input + dark panel as desktop (the panel's mobile
-  scroll-into-view nudge already existed for this). `attachNativeMirror`'s
-  fields are unaffected — those lists are short and keep the "Other"
-  free-type fallback, so the OS wheel is a genuine improvement there.
+- **`setupCombo()` native mirror: added for model+CPU, reverted for both,
+  re-added for model only** (all 2026-09-14) — first attempt gave both
+  fields the same `.ac-wrap` native-`<select>` swap as `attachNativeMirror`.
+  On a real phone that broke search entirely (the mobile CSS breakpoint
+  hides `.ac-wrap>input` unconditionally, and neither combo has an "Other"
+  typing fallback to fall back to), so it was reverted for both. User's
+  call on reconsideration: model's list is short once a generation is
+  picked via the G9/G10/… buttons above it — nothing you'd type isn't
+  already excluded by that filter — so a native wheel is fine there and
+  was put back (`nativeMirror:true` in `modelCombo`'s config, a new
+  opt-in flag on `setupCombo()`). CPU stays without one: even with a
+  model picked its list can run into the hundreds, where a flat wheel is
+  still worse than typing. `attachNativeMirror`'s own fields (memory,
+  controller, PSU, etc.) were never affected either way — short lists,
+  kept their "Other" free-type fallback throughout.
 - **`<select>` placeholder dimming** (`syncSelectPlaceholders()`, called
   every `run()`) — `<select>` has no `::placeholder` pseudo-element in any
   browser, so its "nothing chosen" option rendered at full `--ink`

@@ -1984,7 +1984,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.15'; // 16th build shipped today
+var BUILD_VERSION='2026.09.14.16'; // 17th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2031,14 +2031,45 @@ function setupCombo(rootId,cfg){
     panel.querySelectorAll('.combo-item').forEach(function(el){el.classList.remove('active');});
     var el=panel.querySelector('.combo-item[data-i="'+activeIdx+'"]');
     if(el){el.classList.add('active');el.scrollIntoView({block:'nearest'});}}
-  /* Deliberately no phone-native <select> mirror here, unlike attachList()'s
-     fields (2026-09-14 attempt, reverted) — model/CPU lists run into the
-     hundreds of grouped options, and swapping to a flat OS picker wheel on
-     phones lost the one thing that list size actually needs: typing to
-     filter it down. open() already nudges the field above the phone
-     keyboard so the panel stays visible, so phones keep the same searchable
-     combo as desktop instead. */
-  function pick(it){hidden.value=it.value;input.value=cfg.displayValue?cfg.displayValue(it):it.label;close();cfg.onSelect(it.value);}
+  /* phone-native <select> mirror — opt-in per combo via cfg.nativeMirror
+     (2026-09-14: added for both model+CPU, reverted for both, re-added for
+     model only). Model's list is short once a generation is picked (the
+     G9/G10/… buttons above it), so browsing beats typing — and there's
+     nothing to type that the gen filter wouldn't have already excluded
+     anyway. CPU is left on the searchable panel: its list still runs into
+     the hundreds even with a model picked, where a flat wheel is worse
+     than typing, not better. No "Other — type your own" option here
+     either way, unlike attachNativeMirror() — both combos are pick-only. */
+  var mWrap,mSel;
+  function buildMirror(){
+    if(!mSel)return;
+    var groups=cfg.getGroups(),html='<option value="">'+esc(input.placeholder||'Choose…')+'</option>';
+    groups.forEach(function(g){
+      html+='<optgroup label="'+esc(g.label)+'">';
+      g.items.forEach(function(it){
+        html+='<option value="'+esc(it.value)+'">'+esc(it.label)+(it.sub?' — '+esc(it.sub):'')+'</option>';
+      });
+      html+='</optgroup>';
+    });
+    mSel.innerHTML=html;
+    mSel.value=hidden.value||'';
+    mSel.disabled=input.disabled;
+  }
+  if(cfg.nativeMirror){
+    mWrap=document.createElement('span');mWrap.className='ac-wrap';
+    input.parentNode.insertBefore(mWrap,input);mWrap.appendChild(input);
+    mSel=document.createElement('select');mWrap.appendChild(mSel);
+    mSel.addEventListener('focus',buildMirror);   // picks up rack/tower or gen-filter changes made since the last build
+    mSel.addEventListener('change',function(){
+      if(!mSel.value){hidden.value='';input.value='';cfg.onSelect('');return;}
+      var found=null;
+      cfg.getGroups().some(function(g){return g.items.some(function(it){
+        if(it.value===mSel.value){found=it;return true;}return false;});});
+      if(found)pick(found);
+    });
+    buildMirror();
+  }
+  function pick(it){hidden.value=it.value;input.value=cfg.displayValue?cfg.displayValue(it):it.label;close();cfg.onSelect(it.value);buildMirror();}
   input.addEventListener('input',function(){hidden.value='';open(input.value);});
   /* clicking back in shows the whole list again — you're browsing, not
      re-filtering by the text that got filled in. Type to filter. */
@@ -2064,9 +2095,9 @@ function setupCombo(rootId,cfg){
     choose(e.target.closest('.combo-item'));});
   document.addEventListener('click',function(e){if(!root.contains(e.target))close();});
   document.addEventListener('touchstart',function(e){if(!root.contains(e.target))close();},{passive:true});
-  return {setValue:function(val,lab){hidden.value=val;input.value=lab;},
-    clear:function(){hidden.value='';input.value='';},
-    setDisabled:function(b){input.disabled=b;if(b)close();},
+  return {setValue:function(val,lab){hidden.value=val;input.value=lab;buildMirror();},
+    clear:function(){hidden.value='';input.value='';buildMirror();},
+    setDisabled:function(b){input.disabled=b;if(b)close();if(mSel)mSel.disabled=b;},
     setPlaceholder:function(t){input.placeholder=t;},
     filterTo:function(t){if(!input.disabled){input.value=t;open(t);}}};
 }
@@ -2339,6 +2370,7 @@ document.getElementById('model-gen-btns').addEventListener('click',function(e){
   modelCombo.filterTo('');
 });
 var modelCombo=setupCombo('model-combo',{
+  nativeMirror:true,
   getGroups:function(){
     var order=modelGenFilter?[modelGenFilter]:GEN_ORDER,wantTower=isTower();
     return order.map(function(g){
