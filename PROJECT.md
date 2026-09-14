@@ -347,12 +347,17 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   plain `<select>`s' (speed/class/interface, RAID planner) native OS chrome
   via `appearance:none` + a CSS-drawn chevron, scoped to `min-width:641px`,
   so they read the same as the text-input combo fields next to them —
-  phones keep the OS glass-picker chrome on those too. **The chevron's
-  padding needs the column to actually have room for it** (2026-09-14) —
-  the drive spd/cls/int columns were narrow enough (74-96px) that the
-  original chevron padding clipped "Speed"/"Interface"; fixed by shrinking
-  the chevron/padding (19px) and widening those three grid columns
-  (82/80/108px). Check both if a flattened select ever looks cramped.
+  phones keep the OS glass-picker chrome on those too.
+  **Superseded for drive speed/class/interface** (2026-09-14, same day):
+  `appearance:none` only themes a `<select>`'s CLOSED box — the open
+  listbox popup is browser/OS-native with no cross-browser CSS override,
+  so it still didn't match the dark `#ac-panel` combo panel every other
+  dropdown uses. Converted those three to plain `attachList()` text
+  inputs (`SPDS`/`CLASSES`/`INTERFACES`, near `CAPS`) instead — desktop
+  now shows the literal same panel as Capacity; phones are unaffected
+  (their native-picker mirror was always a real `<select>`, this whole
+  time). The `select{appearance:none...}` rule stays for `#plan-raid`
+  only now.
 - **`setupCombo()` (model/CPU) also has a native mirror now** (2026-09-14)
   — built inline inside `setupCombo` itself (`buildMirror()`), same
   `.ac-wrap` idea as `attachNativeMirror` but with no "Other" option:

@@ -299,8 +299,11 @@ button.quiet{color:var(--ink-soft)}
 .saved{font-size:13px;color:var(--signal);opacity:0}
 .saved.on{opacity:1}
 
-/* Desktop only: flatten the browser's own <select> chrome (drive speed/
-   class/interface, the RAID planner) so it reads the same as the plain
+/* Desktop only: flatten the browser's own <select> chrome (now only the
+   RAID planner — drive speed/class/interface moved to attachList() combo
+   fields, since appearance:none only themes the CLOSED box; the open
+   listbox popup stays native/unthemeable no matter what, which was the
+   actual mismatch people were seeing) so it reads the same as the plain
    text-input combo fields next to it, instead of the OS control look.
    Phones keep that native chrome on purpose — see the .ac-wrap rules
    further down — so this is scoped above the phone breakpoint. */
@@ -1695,6 +1698,15 @@ var CAPS=[['240GB',0.24],['480GB',0.48],['800GB',0.8],['960GB',0.96],['1.6TB',1.
  ['1.8TB',1.8],['2.4TB',2.4],['1TB',1],['2TB',2],['4TB',4],['6TB',6],['8TB',8],['10TB',10],
  ['12TB',12],['14TB',14],['16TB',16],['18TB',18]];
 var GENERIC_BAYS=['4LFF','8LFF','12LFF','2SFF','4SFF','8SFF','10SFF','16SFF','24SFF'];
+/* drive speed/class/interface — plain <select>s used to render with the
+   browser's own native popup list (unfixable via CSS: appearance:none
+   only themes the closed box, never the open listbox), which stood out
+   next to the custom dark #ac-panel every other dropdown uses. Now
+   attachList() text/combo fields like the rest — same dark panel on
+   desktop, same native OS picker mirror on phones. */
+var SPDS=['6G','12G','24G','PCIe'];
+var CLASSES=['RI','MU','WI','VRO'];
+var INTERFACES=['SATA','SAS','NVMe','SATA SSD','SAS SSD'];
 var REAR=['2SFF rear','2SFF NVMe rear','3LFF rear','1SFF rear','4LFF midtray','2SFF rear + 4LFF midtray'];
 
 /* Riser kits. Each: {n:name, d:detail, s:add-in-card slots it yields
@@ -1867,7 +1879,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.5';  // 6th build shipped today
+var BUILD_VERSION='2026.09.14.6';  // 7th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2458,13 +2470,15 @@ function driveRow(v){
   v=v||{};var d=document.createElement('div');d.className='line drive';
   d.innerHTML='<input type="number" min="1" placeholder="Qty" data-k="q" value="'+(v.q||'')+'">'+
    '<input type="text" placeholder="Capacity" data-k="cap" autocomplete="off" value="'+(v.cap||'')+'">'+
-   '<select data-k="spd"><option value="">Speed</option><option>6G</option><option>12G</option><option>24G</option><option>PCIe</option></select>'+
-   '<select data-k="cls"><option value="">Class</option><option>RI</option><option>MU</option><option>WI</option><option>VRO</option></select>'+
-   '<select data-k="int"><option value="">Interface</option><option>SATA</option><option>SAS</option><option>NVMe</option><option>SATA SSD</option><option>SAS SSD</option></select>'+
+   '<input type="text" placeholder="Speed" data-k="spd" autocomplete="off" value="'+(v.spd||'')+'">'+
+   '<input type="text" placeholder="Class" data-k="cls" autocomplete="off" value="'+(v.cls||'')+'">'+
+   '<input type="text" placeholder="Interface" data-k="int" autocomplete="off" value="'+(v.int||'')+'">'+
    '<button type="button" class="kill" title="Remove line">&times;</button>';
-  ['spd','cls','int'].forEach(function(k){if(v[k])d.querySelector('[data-k='+k+']').value=v[k];});
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
   attachList(d.querySelector('[data-k=cap]'),function(){return CAPS.map(function(c){return c[0];});});
+  attachList(d.querySelector('[data-k=spd]'),function(){return SPDS;});
+  attachList(d.querySelector('[data-k=cls]'),function(){return CLASSES;});
+  attachList(d.querySelector('[data-k=int]'),function(){return INTERFACES;});
   stepper(d.querySelector('[data-k=q]'),{min:1});
   autoQty(d,'cap');
   return d;}

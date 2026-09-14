@@ -1445,17 +1445,30 @@ function runRound9(){
   emptySelectRule
     ?pass9('a placeholder-state <select> gets the dimmed .ph class/CSS rule')
     :fail9('select.ph dimming CSS rule not found');
-  const spdSel9=d.querySelector('#drives [data-k=spd]');
-  if(spdSel9){
-    spdSel9.value='';fire(spdSel9,'change');
-    spdSel9.classList.contains('ph')
-      ?pass9('an empty drive speed/class/interface select gets the .ph dimmed class')
-      :fail9('.ph class not applied to an empty select');
-    spdSel9.value='6G';fire(spdSel9,'change');
-    !spdSel9.classList.contains('ph')
-      ?pass9('.ph clears once a real value is picked')
-      :fail9('.ph class stuck after picking a real value');
-  }
+  const planRaid9=d.getElementById('plan-raid');
+  planRaid9.value='';fire(planRaid9,'change');
+  planRaid9.classList.contains('ph')
+    ?pass9('an empty <select> (RAID planner) gets the .ph dimmed class')
+    :fail9('.ph class not applied to an empty select');
+  planRaid9.value='1';fire(planRaid9,'change');
+  !planRaid9.classList.contains('ph')
+    ?pass9('.ph clears once a real value is picked')
+    :fail9('.ph class stuck after picking a real value');
+
+  // --- drive speed/class/interface are now attachList combo fields, not <select> —
+  // same dark #ac-panel as every other dropdown, and their own native mirror on phones ---
+  d.getElementById('add-drive').click();
+  const spdRows9=[...d.querySelectorAll('#drives [data-k=spd]')];
+  const spdInp9=spdRows9[spdRows9.length-1];
+  const spdWrap9=spdInp9.closest('.ac-wrap');
+  (spdInp9.tagName==='INPUT' && spdWrap9 && spdWrap9.querySelector('select'))
+    ?pass9('drive Speed is now a themed combo field (dark panel + phone-native mirror), not a plain <select>')
+    :fail9('drive Speed did not convert to an attachList combo field');
+  fire(spdInp9,'focus');
+  const spdPanelItems=[...d.getElementById('ac-panel').querySelectorAll('.combo-item')].map(x=>x.textContent);
+  spdPanelItems.includes('12G')
+    ?pass9('drive Speed\'s dark combo panel offers the same list as before (6G/12G/24G/PCIe)')
+    :fail9('drive Speed combo panel missing options: '+spdPanelItems.join(', '));
 
   // --- bay-config quick-pick buttons, scoped to the current model's own bay list ---
   setModel9('DL380 G9');
