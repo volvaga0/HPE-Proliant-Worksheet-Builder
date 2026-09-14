@@ -882,7 +882,7 @@ var PLATFORM_LABELS={
 };
 /* max GB of memory per socket, by processor platform */
 var MEM_PER_SOCKET={e5v3:768,e5v4:1536,e5v3x4:1536,e5v4x4:1536,e7v3:1536,e7v4:3072,e3:64,xeone:128,xeone3:128,
- sp1:768,sp2:1024,sp3:4096,sp4:4096,naples:2048,rome:2048,milan:4096,genoa:3072,turin:3072,xeon6:8192};
+ sp1:768,sp2:1024,sp3:4096,sp4:4096,naples:2048,rome:2048,milan:4096,genoa:3072,turin:3072,xeon6:4096};
 
 var GEN_DEFAULTS={
  'G9'   :{hsW:121,hsWtext:'above 120W',fanRear:true,fanGPU:true},
@@ -1204,13 +1204,44 @@ var MODELS=[
        'The x16/x16/x16 kit (P54780-B21) also needs a cable kit to the motherboard (2P) or the mezzanine board (4P) — order that alongside it.']}},
  /* DL580 has no Gen11 — the line went DL580 Gen10 -> DL580 Gen12. */
 
- {m:'DL110', g:'G12', p:['xeon6'], s:1, d:16},
- {m:'DL320', g:'G12', p:['xeon6'], s:1, d:16},
- {m:'DL340', g:'G12', p:['xeon6'], s:2, d:16},
- {m:'DL360', g:'G12', p:['xeon6'], s:2, d:32},
- {m:'DL380', g:'G12', p:['xeon6'], s:2, d:32},
- {m:'DL380a',g:'G12', p:['xeon6'], s:2, d:32},
- {m:'DL580', g:'G12', p:['xeon6'], s:4, d:64},
+ /* Gen12 (Intel Xeon 6) — sourced 2026-09-14 from each model's own
+    QuickSpecs (May-2025-dated docs, "DA - 17094" series). d: confirmed
+    against the "DIMM Slots Available" line, not assumed — e.g. DL340/
+    DL320 genuinely have only 16 total (8 per socket), not the 32 a
+    DL360/DL380 socket gets; DL580's 64 is the 4-socket physical max,
+    correctly halving to 32 usable at 2 sockets via the existing
+    cpuq-vs-m.s DIMM math. */
+ {m:'DL110', g:'G12', p:['xeon6'], s:1, d:16,
+   rules:{notes:['This is an edge/telecom box built around a single FIXED SoC (Xeon 6716P-B, 40C/2.5GHz/235W) soldered to the board — not a socketed, swappable processor. Pick "6716P-B" at qty 1; every other Xeon 6 SKU in the list is really for the other Gen12 rack models.',
+     'Bay/PSU/fan/riser data for this model specifically has not been sourced yet — QuickSpecs wouldn’t download from the mirrors tried. Confirm those against HPE QuickSpecs before quoting.']}},
+ {m:'DL320', g:'G12', p:['xeon6'], s:1, d:16, bays:['8SFF','10SFF','4LFF','12LFF'],
+   rules:{hsW:185,hsWtext:'above 185W',fans:{one:7,perf:7},psuMax:1,riserMax:2,pcie:{one:2},
+     notes:['Fixed 7-fan cage (single socket, no fan-count split to model).',
+       'A Closed-loop Liquid Cooling heat sink + 7x DLC fan kit is required above 270W instead of the air-cooled Performance heat sink.',
+       'Also offers a 10SFF/20 E3.S EDSFF front cage and a dedicated GPU-server chassis variant (up to 2 DW or 4 SW GPUs) — neither is modeled in the bay list above; note it manually if quoting one.',
+       'Single power supply bay — no redundant PSU option on this chassis.']}},
+ {m:'DL340', g:'G12', p:['xeon6'], s:2, d:16, bays:['8SFF','12LFF'],
+   rules:{hsW:250,hsWtext:'above 250W on an 8SFF (≤2 cages) config',fans:{one:6,two:6,perf:6},psuMax:2,riserMax:2,pcie:{one:1,two:2},
+     notes:['Heat sink threshold is config-dependent, not just wattage: 8SFF with ≤2 drive cages (or ≤4 EDSFF) ships Standard up to 250W, Performance above; a 3rd 8SFF cage, any LFF config, the front-GPU variant, or a NEBS build all need the Performance heat sink at ANY wattage.',
+       'Fixed 6-fan cage (DL3X5 Gen11 fan kit part numbers, reused) regardless of processor count.',
+       'Also offers a 36-EDSFF front cage and a front-GPU CTO variant — neither is in the bay list above.']}},
+ {m:'DL360', g:'G12', p:['xeon6'], s:2, d:32, bays:['4LFF','10SFF'],
+   rules:{hsW:185,hsWtext:'above 185W',fans:{one:5,two:7,perf:7},psuMax:2,riserMax:2,pcie:{one:2,two:3},
+     notes:['Also offers a 20x E3.S EDSFF front cage — not modeled in the bay list above.',
+       'Above 270W (2P) needs Closed-loop liquid cooling instead of an air-cooled heat sink; up to 350W is DLC-only. Confirm the exact tier for high-wattage picks.']}},
+ {m:'DL380', g:'G12', p:['xeon6'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
+   rules:{hsW:185,hsWtext:'above 185W',fans:{one:4,two:4,perf:6},psuMax:2,riserMax:3,pcie:{one:3,two:8},
+     notes:['Standard fan count is tied to the BAY config, not CPU count: SFF/8LFF ship 4 standard fans, 12LFF and the EDSFF variant ship 6, 24SFF ships 6 high-performance as standard — the fans:{one,two} split above is a simplification, confirm the fan kit against the actual bay pick.',
+       'Above 225W on an 8LFF/12LFF Mid-Tray config needs the High-Performance heat sink specifically (P74787-B21); 2P configs above that band need the Max-Performance kit (2 heat sinks, P74794-B21). Treat 185W as the floor only.',
+       'Also offers 36 EDSFF and 12 EDSFF+16SFF front cage variants — not modeled in the bay list above.',
+       'Rear bays: up to 6SFF (stacked 2SFF cages) or 2LFF variants exist — not modeled as a rear option list yet.']}},
+ {m:'DL380a',g:'G12', p:['xeon6'], s:2, d:32, bays:['4SFF'],
+   rules:{psuMax:2,notes:['A fixed GPU-dense chassis, not a menu of front-bay choices — ships with exactly one 4SFF x4 U.3 NVMe cage, and up to 10 double-wide GPUs is the point of the box. Fan count (4 dedicated hot-plug assemblies) and heat sink data haven’t been sourced yet — confirm against QuickSpecs before quoting cooling.']}},
+ {m:'DL580', g:'G12', p:['xeon6'], s:4, d:64, bays:['8SFF','16SFF','24SFF','32SFF'],
+   rules:{psuMax:2,validCounts:[2,4],notes:['Field-upgradeable 2→4 sockets only — 1 and 3 processors are not valid configurations.',
+     'P-core Xeon 6 only; the E-core SKUs in the CPU list are for the 2-socket DL360/DL380/ML350, not this one.',
+     'Fan count and the heat-sink wattage threshold for this model have not been sourced yet (its QuickSpecs did not give a single clear number the way DL360/DL320/ML350 did) — confirm both against QuickSpecs before quoting cooling.',
+     'PSU options include Modular Common Redundant Power Supply (M-CRPS) kits up to 3200W in addition to the usual Flex Slot range — psuMax above reflects only the confirmed "1 min / 2 max" note; a 4-socket build may support more and needs checking.']}},
 
  {m:'ML10', g:'G9',  p:['e3'],    s:1, d:4,  tower:true},
  {m:'ML30', g:'G9',  p:['e3'],    s:1, d:4,  tower:true},
@@ -1261,7 +1292,12 @@ var MODELS=[
      fanW:300,fanPart:'P47219-B21 + Second CPU Fan Kit P47902-B21',
      notes:['Intel VROC NVMe is not supported with the 4510, 4509Y or 3508U processors.',
        'PCIe slots are on the system board (like every ML350) — around half need the 2nd processor. Exact slot map not re-checked against the Gen11 QuickSpecs.']}},
- {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true}
+ {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true,
+   rules:{hsW:225,hsWtext:'225W or higher',fans:{one:3,two:3,perf:3},psuMax:2,riserMax:2,pcie:{one:4,two:8},
+     notes:['Fixed 3-fan baseline for any config; a 2nd processor, a GPU, or certain other options additionally require the Redundant Fan Kit (P47219-B21) AND the Second CPU Fan Kit (P47902-B21) together — the fans:{one,two} split above does not capture that, it is a simple base count.',
+       'P-core Xeon 6 only — no E-core SKUs are listed for this model in its own QuickSpecs, unlike DL360/DL380.',
+       'Default riser is 4x8 (4 slots @ x8) per position; an optional 2x16 FIO riser (2 slots @ x16) can replace either one.',
+       'Also offers 8 NVMe x4 and 12 EDSFF front cage options — not modeled in the bay list, which stays generic for this entry.']}}
 ];
 
 /* code, description, platform, TDP watts, cores */
@@ -1637,7 +1673,52 @@ var CPUS=[
  ['EPYC 9655','EPYC 9655 · 96C 2.6GHz','turin',400,96],
  ['EPYC 9745','EPYC 9745 · 128C 2.4GHz','turin',400,128],
  ['EPYC 9825','EPYC 9825 · 144C 2.2GHz','turin',390,144],
- ['EPYC 9845','EPYC 9845 · 160C 2.1GHz','turin',390,160]
+ ['EPYC 9845','EPYC 9845 · 160C 2.1GHz','turin',390,160],
+ /* Intel Xeon 6 ("xeon6", Gen12) — sourced 2026-09-14 from the DL380/DL360/
+    DL580 Gen12 QuickSpecs "Core Options" processor lists (the orderable
+    SKU + HPE part-number table, not the "publicly supported" overview
+    table above it — the two didn't always agree in the scraped text).
+    DL580 (4-socket) is P-core only; DL360/DL380 (2-socket) offer both
+    E-core and P-core. Known gap, same as every other platform here: the
+    picker filters by platform only, not by which of these a specific
+    Gen12 model's own QuickSpecs actually lists. */
+ ['6710E','Xeon 6710E · 64C 2.4GHz (E-core)','xeon6',205,64],
+ ['6731E','Xeon 6731E · 96C 2.2GHz (E-core)','xeon6',250,96],
+ ['6740E','Xeon 6740E · 96C 2.4GHz (E-core)','xeon6',250,96],
+ ['6746E','Xeon 6746E · 112C 2.0GHz (E-core)','xeon6',250,112],
+ ['6756E','Xeon 6756E · 128C 1.8GHz (E-core)','xeon6',225,128],
+ ['6766E','Xeon 6766E · 144C 1.9GHz (E-core)','xeon6',250,144],
+ ['6780E','Xeon 6780E · 144C 2.2GHz (E-core)','xeon6',330,144],
+ ['6505P','Xeon 6505P · 12C 2.2GHz','xeon6',150,12],
+ ['6507P','Xeon 6507P · 8C 3.5GHz','xeon6',150,8],
+ ['6515P','Xeon 6515P · 16C 2.3GHz','xeon6',150,16],
+ ['6517P','Xeon 6517P · 16C 3.2GHz','xeon6',190,16],
+ ['6520P','Xeon 6520P · 24C 2.4GHz','xeon6',210,24],
+ ['6527P','Xeon 6527P · 24C 3.0GHz','xeon6',255,24],
+ ['6530P','Xeon 6530P · 32C 2.3GHz','xeon6',225,32],
+ ['6730P','Xeon 6730P · 32C 2.5GHz','xeon6',250,32],
+ ['6736P','Xeon 6736P · 36C 2.0GHz','xeon6',205,36],
+ ['6737P','Xeon 6737P · 32C 2.9GHz','xeon6',270,32],
+ ['6740P','Xeon 6740P · 48C 2.1GHz','xeon6',270,48],
+ ['6745P','Xeon 6745P · 32C 3.1GHz','xeon6',300,32],
+ ['6747P','Xeon 6747P · 48C 2.7GHz','xeon6',330,48],
+ ['6760P','Xeon 6760P · 64C 2.2GHz','xeon6',330,64],
+ ['6767P','Xeon 6767P · 64C 2.4GHz','xeon6',350,64],
+ ['6787P','Xeon 6787P · 86C 2.0GHz','xeon6',350,86],
+ /* Socket-Scalable — validated for 4S/8S NUMA configs (DL580), also sold
+    for 2S boards */
+ ['6714P','Xeon 6714P · 8C 4.0GHz (Socket Scalable)','xeon6',165,8],
+ ['6724P','Xeon 6724P · 16C 3.6GHz (Socket Scalable)','xeon6',210,16],
+ ['6728P','Xeon 6728P · 24C 2.7GHz (Socket Scalable)','xeon6',210,24],
+ ['6738P','Xeon 6738P · 32C 2.9GHz (Socket Scalable)','xeon6',270,32],
+ ['6748P','Xeon 6748P · 48C 2.5GHz (Socket Scalable)','xeon6',300,48],
+ ['6768P','Xeon 6768P · 64C 2.4GHz (Socket Scalable)','xeon6',330,64],
+ ['6788P','Xeon 6788P · 86C 2.0GHz (Socket Scalable)','xeon6',350,86],
+ /* DL110 Gen12 only — a fixed SoC soldered to the board, not a socketed
+    choice (this is an edge/telecom box, not a general-purpose rack
+    server). Listed so the picker isn't empty; the "1 CPU" count is the
+    only one that will ever make sense for it. */
+ ['6716P-B','Xeon 6716P-B · 40C 2.5GHz — DL110 Gen12 fixed SoC, not swappable','xeon6',235,40]
 ];
 
 var MEMSPEED={e5v3:'1866 / 2133',e5v4:'2133 / 2400',e5v3x4:'1866 / 2133',e5v4x4:'1866 / 2400',
@@ -1900,7 +1981,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.10'; // 11th build shipped today
+var BUILD_VERSION='2026.09.14.11'; // 12th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2958,8 +3039,6 @@ function evaluate(){
     checks.push(['verify','QUICKSPECS','Some processors are unsupported alongside NVMe — check '+cpu[0]+'.']);
   if(cpu&&hasGPU)
     checks.push(['verify','QUICKSPECS','Confirm '+cpu[0]+' is supported with a GPU fitted, and check riser and controller clearance.']);
-  if(m&&m.p[0]==='xeon6')
-    checks.push(['verify','DATA','No processors are seeded for Gen12 yet — put it in the notes.']);
   if(cpuq>1)
     checks.push(['info','NOTE','Mixing two different processor models is not supported — both sockets must match.']);
   (R.notes||[]).forEach(function(n){

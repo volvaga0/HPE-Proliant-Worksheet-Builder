@@ -588,9 +588,10 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
 DL380 models verified") is met:**
 - DL360: Gen9, Gen10, Gen10 Plus, Gen11
 - DL380: Gen9, Gen10, Gen10 Plus, Gen11
-- (Gen12 for both is NOT verified — there's no QuickSpecs data to verify
-  against yet, since HPE hasn't published Xeon 6 processor kits. This
-  isn't a gap in effort, it's a gap in what exists to check.)
+- Gen12 for both now HAS real QuickSpecs (see the 2026-09-14 entry below) —
+  structural rules are sourced, but neither carries `verified:true` yet;
+  each has open caveats (bay-dependent fan counts, config-dependent
+  heatsink tiers) noted rather than force-fit into the simple model.
 
 **Also verified this session:**
 - DL120, DL160, DL180 Gen10 (share a heatsink SKU/threshold with
@@ -700,18 +701,86 @@ with PSU / fan / PCIe / riser data from each model's own QuickSpecs:**
   865408 · 865438 + RPS P45209/P06305), ML110 (350·550W ATX + Flex Slot), ML350
   Gen10 (837074 · 865408 · 865414 · 865438 · 865428 · 830272-B21 + RPS cage
   874571-B21), ML350 Gen9 (Common Slot 720478 · 720479 · 720620-B21).
-- **Still to do:** ML10 / ML30 / ML110 / ML150 Gen9, ML30 / ML110 Gen11,
-  ML350 Gen12; re-check the ML350 Gen11 slot map against its own QuickSpecs.
+- **Still to do:** ML10 / ML30 / ML110 / ML150 Gen9, ML30 / ML110 Gen11;
+  re-check the ML350 Gen11 slot map against its own QuickSpecs.
+  (ML350 Gen12 done 2026-09-14 — see the Gen12 entry below.)
 
 **Removed — HPE never made these:**
 - DL580 Gen11 (the 4-socket line went DL580 Gen10 → DL580 Gen12)
 - DL560 Gen10 Plus, DL580 Gen10 Plus (no Ice Lake 4-socket server)
 
 **Still generation-default / cooling-unverified** (amber badge in the UI):
-- DL20/60/80/120, DL110, DL320, DL340 across generations
+- DL20/60/80/120, DL110, DL320, DL340 across generations (Gen9/Gen10/
+  Gen10+/Gen11 — the Gen12 models of the same names are a separate,
+  now-sourced entry below, not to be confused with these)
 - DL345/DL365 Gen10 Plus (Milan)
 - ML110, ML30, ML150, ML10, ML350 Gen9
-- All of Gen12 (Xeon 6 — no processor data exists yet to verify against)
+- All 8 Gen12 models — structural data is now sourced from real
+  QuickSpecs (below), but none carry `verified:true` yet: several have
+  bay- or config-dependent fan/heatsink rules that don't fit the simple
+  threshold model cleanly and are left as notes instead of forced numbers.
+
+**Gen12 (Intel Xeon 6) — sourced 2026-09-14.** HPE's Xeon 6 QuickSpecs
+turned out to already exist (May 2025-dated docs) — this doc previously
+said there was nothing to verify against yet; that was wrong, corrected
+here. `CPUS` gained 31 `xeon6` entries (7 E-core + 24 P-core, including
+the Socket-Scalable 4S/8S tier DL580 needs) sourced from the DL380/DL360/
+DL580 QuickSpecs' processor **Core Options** tables specifically — the
+"publicly supported" overview table above it in the same PDFs didn't
+always agree with the orderable-SKU-with-part-number list, so the latter
+was treated as authoritative. `MEM_PER_SOCKET.xeon6` was corrected from
+8192 to 4096 — "up to 8TB" in the marketing copy is the 2-socket DL380's
+TOTAL, i.e. 4096/socket at 16×256GB, not a per-socket figure.
+- **DL360 G12** (`verified` pending): bays 4LFF/10SFF (+20×E3.S EDSFF, not
+  modeled), `hsW:185`, `fans:{one:5,two:7,perf:7}`, `psuMax:2`,
+  `riserMax:2`, `pcie:{one:2,two:3}`.
+- **DL380 G12**: bays 8LFF/12LFF/8SFF/16SFF/24SFF (+36 EDSFF and a 12
+  EDSFF+16SFF variant, not modeled), `hsW:185`, `psuMax:2`, `riserMax:3`,
+  `pcie:{one:3,two:8}`. Fan count is actually tied to the BAY pick, not
+  CPU count (4 for SFF/8LFF, 6 for 12LFF/EDSFF, 6 HP for 24SFF) — the
+  `fans:{one:4,two:4,perf:6}` rule is a simplification, noted as such.
+  Heatsink is a 4-tier system (185W standard / mid-tier / 225W
+  High-Performance on Mid-Tray configs / Max-Performance 2P-only) —
+  185W is recorded as the floor only, the rest is a note.
+- **DL380a G12** (4U GPU server): fixed single 4SFF cage, not a bay menu
+  — `bays:['4SFF']`. Fan count (4 dedicated assemblies) and heat sink
+  data weren't sourced; flagged rather than guessed.
+- **DL580 G12** (4-socket): bays 8/16/24/32SFF, `validCounts:[2,4]`
+  (field-upgrade 2→4 sockets only — 1P and 3P aren't real configs),
+  P-core only. Fan count and heat-sink threshold weren't sourced (no
+  single clear number the way DL360/DL320/ML350 gave one) — flagged.
+  `psuMax:2` reflects only the confirmed Flex Slot "1 min / 2 max" note;
+  4-socket builds also list M-CRPS kits up to 3200W, unconfirmed count.
+- **DL320 G12** (1-socket 1U): bays 8SFF/10SFF/4LFF/12LFF (+10SFF/20EDSFF
+  and a GPU-server variant, not modeled), `hsW:185`, `fans:{one:7,
+  perf:7}` (fixed 7-fan cage), **`psuMax:1`** — genuinely single-PSU,
+  no redundant bay on this chassis. `riserMax:2`, `pcie:{one:2}`.
+- **DL340 G12** (2-socket): bays 8SFF/12LFF (+36 EDSFF and a front-GPU
+  variant, not modeled), `fans:{one:6,two:6,perf:6}` (fixed, reuses
+  DL3X5 Gen11 fan kit part numbers), `psuMax:2`, `riserMax:2`,
+  `pcie:{one:1,two:2}`. Heatsink threshold is config-dependent, not just
+  wattage — 250W on plain SFF, but LFF/GPU/NEBS need the Performance
+  heat sink at ANY wattage; `hsW:250` records the SFF-baseline case only.
+- **ML350 G12** (2-socket tower): `hsW:225`, `fans:{one:3,two:3,perf:3}`
+  (a 3-fan baseline that a 2nd CPU or a GPU can additionally require the
+  Redundant Fan Kit + Second CPU Fan Kit for — not captured by the
+  simple split), `psuMax:2`, `riserMax:2`, `pcie:{one:4,two:8}`. P-core
+  only per its own QuickSpecs (unlike DL360/DL380, which also list
+  E-core) — the shared `xeon6` platform still shows both on it, same
+  "known gap" as every other platform here.
+- **DL110 G12** — genuinely different from the rest: an edge/telecom box
+  built around one **fixed SoC** (`6716P-B`, 40C/2.5GHz/235W) soldered to
+  the board, not a socketed choice. Its own QuickSpecs would not
+  download from any mirror tried, so ONLY the fixed-SoC fact is sourced
+  (from Intel ARK / a SPEC.org result / an HPE newsroom post, cross-
+  checked across those three) — no bay/PSU/fan/riser data. Flagged in
+  its own notes rather than guessed; still an open TODO.
+- **Removed a stale check**: a hardcoded `'No processors are seeded for
+  Gen12 yet'` message fired unconditionally for every `xeon6` model —
+  left over from before any SKUs existed. Now dead code was removed;
+  the general-purpose `NO PROCESSORS SEEDED` check (added the same day,
+  for ANY model on a platform with zero matching CPUs) covers this
+  correctly and would still catch a future platform in the same state.
 
 ## Known limitations, stated plainly
 
@@ -724,13 +793,11 @@ sockets/DIMMs, CPU groups and count, bay list and buttons, rear list,
 riser kits, PSU and DIMM caps, verified badge and notes. Nothing leaks
 between models. What it did surface is data that is missing or inert:
 
-- **8 Gen12 models are skeletons** (`DL110/DL320/DL340/DL360/DL380/
+- **8 Gen12 models were skeletons** (`DL110/DL320/DL340/DL360/DL380/
   DL380a/DL580/ML350 G12`): `{m,g,p,s,d}` and nothing else — no rules, and
-  the `xeon6` platform has **zero seeded processors**, so the CPU picker
-  is empty and (being pick-only) impossible to satisfy. They now raise a
-  `NO PROCESSORS SEEDED` check saying so outright instead of silently
-  dead-ending; seeding Xeon 6 SKUs is the actual fix, when QuickSpecs
-  for them is to hand.
+  the `xeon6` platform had **zero seeded processors**, so the CPU picker
+  was empty and (being pick-only) impossible to satisfy. **Fixed
+  2026-09-14** — see the dedicated verification entry further down.
 - **`fanBays` names bay configs some models don't offer** — DL160 G10
   (`12LFF`/`24SFF` vs its 4LFF/8SFF/10SFF), DL180 G10 (`24SFF`), DL360
   G10 (`12LFF`/`24SFF`), DL560/DL580 G10 (`12LFF`). Inherited from
@@ -789,10 +856,19 @@ NOT asserted, because making them pass would mean inventing data.
 
 Given refurb volume is likely rack-server-heavy: all the Gen11 rack lines
 (DL385, DL560, DL325, DL345, DL365) are now fully covered — riser/fan/
-bay/rear/PSU all filled, 2026-09-11. Next: the ML tower line (Gen9
-stragglers, then Gen11), then the entry-level DL20/60/80/110/320/340
-family. Gen12 can wait until HPE actually publishes Xeon 6 QuickSpecs —
-there's nothing to verify yet.
+bay/rear/PSU all filled, 2026-09-11.
+
+**Gen12 turned out to already be real** (2026-09-14) — HPE published Xeon 6
+QuickSpecs back in May 2025, contrary to what this doc said before. All 8
+Gen12 models now have sourced structural rules and the `xeon6` CPU list is
+seeded (31 SKUs) — see "Verification status" below for exactly what's
+confirmed vs. still flagged per model (DL110 in particular: its QuickSpecs
+wouldn't download from any mirror tried, so only its fixed-SoC note is
+sourced, nothing structural).
+
+Next: the ML tower line (Gen9 stragglers, then Gen11), then the entry-level
+DL20/60/80/110/320/340 family (the **Gen9/Gen11** entry-level line — not to
+be confused with the Gen12 models of the same names just verified).
 
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.

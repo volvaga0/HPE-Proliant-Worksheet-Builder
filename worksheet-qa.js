@@ -1703,4 +1703,139 @@ function runRound10(){
       ?pass10('drive capacity list is in size order ('+shown[0]+' … '+shown[shown.length-1]+')')
       :fail10('capacity list out of order at: '+outOfOrder.join(', '));
   }
+  runRound11();   // chained — round 10 has no nested timers
+}
+
+// ---- round 11: Gen12 (Intel Xeon 6) QuickSpecs verification, 2026-09-14 ----
+// Chained from the end of round 10 — see the comment above runRound6().
+// Sourced from each model's own QuickSpecs (DL110's wouldn't download from
+// any mirror tried — left flagged rather than guessed at). See PROJECT.md
+// "Verification status" and the memory notes for the source docs.
+function runRound11(){
+  function pass11(m){console.log('ok    '+m);}
+  function fail11(m){console.log('FAIL  '+m);process.exitCode=1;}
+  function grab(name){
+    const start=html.indexOf('var '+name+'=');
+    if(start<0)return null;
+    let i=html.indexOf('=',start)+1;
+    while(' \n\r\t'.includes(html[i]))i++;
+    const open=html[i], close=open==='['?']':'}';
+    let depth=0,q=null,esc=false,j=i;
+    for(;j<html.length;j++){
+      const c=html[j];
+      if(esc){esc=false;continue;}
+      if(q){ if(c==='\\')esc=true; else if(c===q)q=null; continue; }
+      if(c==='\''||c==='"'){q=c;continue;}
+      if(c==='/'&&html[j+1]==='*'){ j=html.indexOf('*/',j)+1; continue; }
+      if(c===open)depth++;
+      else if(c===close){depth--; if(!depth){j++;break;}}
+    }
+    try{ return eval('('+html.slice(i,j)+')'); }catch(e){ return null; }
+  }
+  const MODELS=grab('MODELS'), CPUS=grab('CPUS'), MEM_PER_SOCKET=grab('MEM_PER_SOCKET'),
+        GEN_DEFAULTS=grab('GEN_DEFAULTS');
+  if(!MODELS||!CPUS||!MEM_PER_SOCKET||!GEN_DEFAULTS)return fail11('could not re-read the data tables for round 11');
+  const rulesFor11=m=>{
+    const d0=GEN_DEFAULTS[m.g]||{},own=m.rules||{},out={};
+    Object.keys(d0).forEach(k=>out[k]=d0[k]);
+    Object.keys(own).forEach(k=>out[k]=own[k]);
+    return out;
+  };
+
+  const g12=MODELS.filter(m=>m.g==='G12');
+  g12.length===8
+    ?pass11('all 8 Gen12 models are present (DL110/320/340/360/380/380a/580, ML350)')
+    :fail11('expected 8 Gen12 models, found '+g12.length+': '+g12.map(m=>m.m).join(', '));
+
+  const xeon6=CPUS.filter(c=>c[2]==='xeon6');
+  xeon6.length>=30
+    ?pass11('xeon6 CPU list is seeded ('+xeon6.length+' SKUs) — the picker is no longer empty')
+    :fail11('xeon6 CPU list looks unseeded: only '+xeon6.length+' entries');
+  xeon6.some(c=>c[0]==='6716P-B')
+    ?pass11('DL110 G12’s fixed SoC (6716P-B) is in the list so its picker has something to select')
+    :fail11('6716P-B (DL110 G12’s fixed SoC) missing from CPUS');
+
+  // regression guard: 8TB is the DL380's TOTAL (2-socket) capacity, i.e.
+  // 4096/socket, not 8192 — this was wrong before the 2026-09-14 audit fixed it
+  MEM_PER_SOCKET.xeon6===4096
+    ?pass11('MEM_PER_SOCKET.xeon6 is 4096 (per-socket), not the old wrong 8192 (that was the 2-socket total)')
+    :fail11('MEM_PER_SOCKET.xeon6 is '+MEM_PER_SOCKET.xeon6+', expected 4096');
+
+  // regression guard: the old hardcoded "no processors seeded" check must be
+  // gone now that xeon6 actually has CPUs — it fired unconditionally for
+  // EVERY xeon6 model regardless of whether any were seeded
+  !/No processors are seeded for Gen12 yet/.test(html)
+    ?pass11('the old unconditional "no processors seeded" check was removed (now inaccurate)')
+    :fail11('stale hardcoded Gen12 CPU warning is still in the source');
+
+  const mi11=d.getElementById('model-input');
+  function setModel11(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi11.value='';fire(mi11,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.querySelector('.ci-main').textContent.trim()===label);
+    if(!opt)return fail11('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+
+  // --- DL580 G12: field-upgradeable 2->4 sockets only, no 1 or 3 ---
+  setModel11('DL580 G12');
+  const dl580Counts=[...d.querySelectorAll('#cpuq-btns button')].map(b=>b.getAttribute('data-n'));
+  JSON.stringify(dl580Counts)===JSON.stringify(['2','4'])
+    ?pass11('DL580 G12 offers only 2 or 4 processors (field-upgrade only, no 1P/3P)')
+    :fail11('DL580 G12 processor-count buttons: '+dl580Counts.join(','));
+
+  // --- DL380 G12: 3 riser positions ---
+  setModel11('DL380 G12');
+  const dl380RiserNote=d.getElementById('riser-note').textContent;
+  dl380RiserNote.includes('3 riser position')
+    ?pass11('DL380 G12 states 3 riser positions')
+    :fail11('DL380 G12 riser-position note missing/wrong: "'+dl380RiserNote+'"');
+  // 4 NAMED riser lines should trip the riserMax=3 check (an empty line
+  // doesn't count — readLines(...).filter(x=>x.name) skips it)
+  for(let i=0;i<4;i++){
+    d.getElementById('add-riser').click();
+    const rows=[...d.querySelectorAll('#risers [data-k=name]')];
+    const last=rows[rows.length-1];
+    last.value='Riser line '+i;fire(last,'input');
+  }
+  const dl380Checks=d.getElementById('checks').textContent;
+  dl380Checks.includes('TOO MANY RISERS')
+    ?pass11('DL380 G12 blocks more than 3 riser lines')
+    :fail11('DL380 G12 did not block 4 named riser lines: '+dl380Checks.slice(0,200));
+  [...d.querySelectorAll('#risers .kill')].forEach(k=>k.click());
+
+  // --- DL360 G12: 5/7 fan split (data-level — fanq.max is always
+  // Math.max(one,two,perf) regardless of the current CPU count by design,
+  // and the live auto-fill value depends on `fanTouched`, which earlier
+  // rounds may have already flipped; the {one,two,perf} shape itself is
+  // what's actually being verified against QuickSpecs here) ---
+  {
+    const dl360=MODELS.find(m=>m.m==='DL360'&&m.g==='G12');
+    const R360=dl360&&rulesFor11(dl360);
+    (R360&&R360.fans&&R360.fans.one===5&&R360.fans.two===7&&R360.fans.perf===7)
+      ?pass11('DL360 G12 fan rule is {one:5,two:7,perf:7} per its own QuickSpecs')
+      :fail11('DL360 G12 fans rule: '+JSON.stringify(R360&&R360.fans));
+  }
+
+  // --- ML350 G12: 225W heatsink threshold, P-core Xeon 6 ---
+  setModel11('ML350 G12');
+  const ml350Sys=d.getElementById('sys-note').textContent;
+  ml350Sys==='2 sockets, 32 DIMM slots'
+    ?pass11('ML350 G12 sockets/DIMM slots match its own QuickSpecs (2 sockets, 32 DIMM)')
+    :fail11('ML350 G12 sys-note: "'+ml350Sys+'"');
+
+  // --- DL320 G12: single PSU bay (not the usual 2) ---
+  setModel11('DL320 G12');
+  const dl320PsuMax=d.getElementById('psuq').getAttribute('max');
+  dl320PsuMax==='1'
+    ?pass11('DL320 G12 caps at 1 power supply (no redundant PSU bay on this chassis)')
+    :fail11('DL320 G12 PSU cap: '+dl320PsuMax+' (expected 1)');
+
+  // --- DL110 G12: fixed-SoC note actually reaches the checks panel ---
+  setModel11('DL110 G12');
+  const dl110Checks=d.getElementById('checks').textContent;
+  dl110Checks.includes('FIXED SoC')
+    ?pass11('DL110 G12 states its fixed-SoC note (not a socketed, swappable processor)')
+    :fail11('DL110 G12 fixed-SoC note missing: '+dl110Checks.slice(0,300));
 }
