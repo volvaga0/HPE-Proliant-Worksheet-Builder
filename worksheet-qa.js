@@ -1422,24 +1422,24 @@ function runRound7(){
   function dimmOpts7(){dimm7.dispatchEvent(new w.Event('focus'));return [...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);}
   setModel7('DL380 G9');pickCpu7('E5-2680v4');
   let dOpts7=dimmOpts7();
-  (dOpts7.some(o=>/^32GB 2400$/.test(o)) && !dOpts7.some(o=>/4800|5600|6400|6000/.test(o)))
+  (dOpts7.some(o=>/^32GB 2400 MT\/s$/.test(o)) && !dOpts7.some(o=>/4800|5600|6400|6000/.test(o)))
     ?pass7('DL380 G9 (E5-2680v4): DDR4 combos only, no DDR5 speed anywhere in the panel')
     :fail7('DL380 G9 dimm panel wrong: '+dOpts7.join(', '));
   setModel7('DL380 G11');pickCpu7('G5416S'); // Sapphire Rapids, sp4
   dOpts7=dimmOpts7();
-  (dOpts7.some(o=>/^64GB 4800$/.test(o)) && dOpts7.some(o=>/^64GB 5600$/.test(o)) &&
+  (dOpts7.some(o=>/^64GB 4800 MT\/s$/.test(o)) && dOpts7.some(o=>/^64GB 5600 MT\/s$/.test(o)) &&
    !dOpts7.some(o=>/2133|2400|2666|2933|3200/.test(o)))
     ?pass7('DL380 G11 (Sapphire Rapids): DDR5 combos only (4800/5600) — zero DDR4 speeds offered')
     :fail7('DL380 G11 dimm panel wrong: '+dOpts7.join(', '));
-  (d.getElementById('dimm-size-btns').children.length>0 && [...d.querySelectorAll('#dimm-speed-btns button')].map(b=>b.textContent).join(',')==='4800,5600')
-    ?pass7('DL380 G11 speed buttons are exactly 4800/5600, no DDR4 numbers')
+  (d.getElementById('dimm-size-btns').children.length>0 && [...d.querySelectorAll('#dimm-speed-btns button')].map(b=>b.textContent).join(',')==='4800 MT/s,5600 MT/s')
+    ?pass7('DL380 G11 speed buttons are exactly "4800 MT/s"/"5600 MT/s", no DDR4 numbers')
     :fail7('DL380 G11 speed buttons wrong: '+[...d.querySelectorAll('#dimm-speed-btns button')].map(b=>b.textContent).join(','));
   // tapping a size then a speed button assembles one value, each preserving the other
   const szBtn7=d.querySelector('#dimm-size-btns button[data-sz="64"]'),spBtn7=d.querySelector('#dimm-speed-btns button[data-sp="5600"]');
   szBtn7.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
   spBtn7.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
-  (dimm7.value==='64GB 5600' && szBtn7.classList.contains('on') && spBtn7.classList.contains('on'))
-    ?pass7('tapping size then speed assembles "64GB 5600" and highlights both buttons')
+  (dimm7.value==='64GB 5600 MT/s' && szBtn7.classList.contains('on') && spBtn7.classList.contains('on'))
+    ?pass7('tapping size then speed assembles "64GB 5600 MT/s" and highlights both buttons')
     :fail7('dimm size/speed buttons did not assemble correctly: "'+dimm7.value+'"');
   dimm7.value='';fire(dimm7,'input');
 

@@ -600,7 +600,7 @@ button.quiet{color:var(--ink-soft)}
         <div class="a">
           <div class="pair">
             <input type="number" id="dimmq" min="1" placeholder="Qty">
-            <input type="text" id="dimm" list="dimms" placeholder="e.g. 16GB 2666" autocomplete="off">
+            <input type="text" id="dimm" list="dimms" placeholder="e.g. 16GB 2666 MT/s" autocomplete="off">
           </div>
           <div class="seg" id="dimm-size-btns"></div>
           <div class="seg" id="dimm-speed-btns"></div>
@@ -1802,7 +1802,7 @@ var DIMMS=[];
 Object.keys(MEM_CAPS).forEach(function(p){
   MEM_CAPS[p].forEach(function(c){
     MEM_SPEEDS[p].forEach(function(s){
-      var val=c+'GB '+s;
+      var val=c+'GB '+s+' MT/s';
       if(DIMMS.indexOf(val)<0)DIMMS.push(val);
     });
   });
@@ -2174,7 +2174,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.19'; // 20th build shipped today
+var BUILD_VERSION='2026.09.14.20'; // 21st build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2691,7 +2691,7 @@ function parseDimmValue(val){
 function setDimmValue(size,speed){
   var cur=parseDimmValue(v('dimm')),s=size!=null?size:cur.size,sp=speed!=null?speed:cur.speed;
   var dimmEl=document.getElementById('dimm');
-  dimmEl.value=s?(s+'GB'+(sp?(' '+sp):'')):(sp||'');
+  dimmEl.value=s?(s+'GB'+(sp?(' '+sp+' MT/s'):'')):(sp?(sp+' MT/s'):'');
   dimmEl.dispatchEvent(new Event('input',{bubbles:true}));
 }
 /* narrows to the SELECTED cpu's own grid once one's picked (e.g. a
@@ -2729,7 +2729,7 @@ function dimmsFor(m){
   var caps=unionVals(pls.map(function(p){return MEM_CAPS[p];})),
       spds=unionVals(pls.map(function(p){return MEM_SPEEDS[p];})),
       out=[];
-  caps.forEach(function(c){spds.forEach(function(s){out.push(c+'GB '+s);});});
+  caps.forEach(function(c){spds.forEach(function(s){out.push(c+'GB '+s+' MT/s');});});
   return out;
 }
 function renderDimmBtns(){
@@ -2739,7 +2739,7 @@ function renderDimmBtns(){
   document.getElementById('dimm-size-btns').innerHTML=caps.map(function(c){
     return '<button type="button" data-sz="'+c+'">'+c+'GB</button>';}).join('');
   document.getElementById('dimm-speed-btns').innerHTML=spds.map(function(s){
-    return '<button type="button" data-sp="'+s+'">'+s+'</button>';}).join('');
+    return '<button type="button" data-sp="'+s+'">'+s+' MT/s</button>';}).join('');
   syncDimmBtns();
 }
 function syncDimmBtns(){
