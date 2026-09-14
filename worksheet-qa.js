@@ -1343,11 +1343,74 @@ function runRound7(){
     ?pass7('a Gen11-only controller typed directly into a G10 build is flagged, not silently accepted')
     :fail7('mismatched typed controller value was not caught: '+d.getElementById('checks').textContent.slice(0,200));
   setModel7('DL380 G12');
-  ctrl.value='MR416i-o';fire(ctrl,'input');
+  ctrl.value='P408i-a';fire(ctrl,'input'); // still unconfirmed for G12 — not one of the 6 sourced MR-series names
   (d.getElementById('checks').textContent.includes('CONTROLLER GENERATION') && !d.getElementById('checks').textContent.includes('does not work in'))
-    ?pass7('Gen12 gets a verify note instead of a hard stop — its controller data isn\'t sourced yet')
+    ?pass7('Gen12 gets a verify note (not a hard stop) for a controller that still isn\'t sourced for it')
     :fail7('Gen12 controller check wrong: '+d.getElementById('checks').textContent.slice(0,200));
+  ctrl.value='MR416i-o';fire(ctrl,'input'); // one of the 6 MR-series names confirmed for G12 — no note needed
+  !d.getElementById('checks').textContent.includes('CONTROLLER GENERATION')
+    ?pass7('...but a Gen12-confirmed MR-series controller (MR416i-o) gets no note at all')
+    :fail7('confirmed G12 controller still nagging: '+d.getElementById('checks').textContent.slice(0,200));
   ctrl.value='';fire(ctrl,'input');
+
+  // --- SAS expander: chassis-family + generation aware, not a flat list
+  // (2026-09-14, EXPANDER_PARTS) — each real HPE expander-card part is
+  // scoped to a specific chassis family (DL38X / ML350 / DL5x0), most
+  // chassis never had one at all, and Gen11/Gen12 dropped the whole
+  // product line. Also drops the fabricated "876907-B21" entry. ---
+  const exp=d.getElementById('expander');
+  function expOpts(){exp.dispatchEvent(new w.Event('focus'));return [...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);}
+  setModel7('DL380 G9');
+  let expOpts7=expOpts();
+  (expOpts7.some(o=>/727250-B21/.test(o)) && !expOpts7.some(o=>/870549-B21/.test(o)) && !expOpts7.some(o=>/876907/.test(o)) &&
+   expOpts7.includes('H241 external HBA') && !expOpts7.includes('E208e-p external HBA') && !expOpts7.includes('P408e-p external HBA'))
+    ?pass7('DL380 G9: Gen9 expander part (727250-B21) + H241 HBA only — no fabricated 876907, no Gen10+/G11 HBAs')
+    :fail7('DL380 G9 expander list wrong: '+expOpts7.join(', '));
+  setModel7('DL380 G10');
+  expOpts7=expOpts();
+  (expOpts7.some(o=>/870549-B21/.test(o)) && !expOpts7.some(o=>/727250-B21/.test(o)) && !expOpts7.some(o=>/876907/.test(o)) &&
+   expOpts7.includes('P408e-p external HBA') && !expOpts7.includes('H241 external HBA'))
+    ?pass7('DL380 G10: Gen10 DL38X part (870549-B21), not the Gen9 one or the fabricated 876907')
+    :fail7('DL380 G10 expander list wrong: '+expOpts7.join(', '));
+  setModel7('ML350 G10');
+  expOpts7=expOpts();
+  expOpts7.some(o=>/874576-B21/.test(o))
+    ?pass7('ML350 G10 gets its OWN expander part (874576-B21), not DL380\'s 870549-B21')
+    :fail7('ML350 G10 expander list wrong: '+expOpts7.join(', '));
+  setModel7('DL560 G10');
+  expOpts7=expOpts();
+  expOpts7.some(o=>/873444-B21/.test(o))
+    ?pass7('DL560 G10 gets its OWN expander part (873444-B21)')
+    :fail7('DL560 G10 expander list wrong: '+expOpts7.join(', '));
+  setModel7('DL360 G10');
+  expOpts7=expOpts();
+  (!expOpts7.some(o=>/SAS Expander Card/.test(o)) && expOpts7.includes('Second controller instead of expander') && expOpts7.includes('None needed'))
+    ?pass7('DL360 G10 never had an expander-card SKU at all — no card offered, just the generic fallbacks')
+    :fail7('DL360 G10 should offer no expander card: '+expOpts7.join(', '));
+  setModel7('DL380 G10+');
+  expOpts7=expOpts();
+  expOpts7.some(o=>/P23388-B21/.test(o))
+    ?pass7('DL380 G10+ gets its own new part (P23388-B21), not the Gen10 870549-B21')
+    :fail7('DL380 G10+ expander list wrong: '+expOpts7.join(', '));
+  setModel7('DL380 G11');
+  expOpts7=expOpts();
+  (!expOpts7.some(o=>/SAS Expander Card/.test(o)) && expOpts7.includes('E208e-p external HBA') && !expOpts7.includes('H241 external HBA') && !expOpts7.includes('P408e-p external HBA'))
+    ?pass7('DL380 G11: no expander card exists for this generation at all (confirmed dropped) — E208e-p HBA is the one survivor')
+    :fail7('DL380 G11 expander list wrong: '+expOpts7.join(', '));
+
+  // --- a mismatched expander value typed/pasted/restored is still caught,
+  // same severity as CONTROLLER GENERATION ---
+  setModel7('DL380 G11');
+  exp.value='12G SAS Expander Card (870549-B21)';fire(exp,'input');
+  d.getElementById('checks').textContent.includes('EXPANDER GENERATION')
+    ?pass7('a Gen10 expander part typed directly into a G11 build is flagged (no expander card exists for G11 at all)')
+    :fail7('mismatched typed expander value on G11 was not caught: '+d.getElementById('checks').textContent.slice(0,200));
+  setModel7('DL380 G10');
+  exp.value='12G SAS Expander Card (727250-B21)';fire(exp,'input'); // the Gen9 part, on a Gen10 build
+  (d.getElementById('checks').textContent.includes('EXPANDER GENERATION') && d.getElementById('checks').textContent.includes('870549-B21'))
+    ?pass7('the Gen9 expander part typed into a G10 build is flagged, naming the part this chassis actually takes')
+    :fail7('wrong-generation expander part on same chassis family not caught: '+d.getElementById('checks').textContent.slice(0,300));
+  exp.value='';fire(exp,'input');
 
   // --- "U"-suffix (single-socket-only) Xeon SKUs blocked above 1 processor ---
   setModel7('DL360 G10+');pickCpu7('G6312U');

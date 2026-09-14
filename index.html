@@ -1742,7 +1742,7 @@ var DIMMS=[];
    the suffix describes. */
 var CTRLS=[
  '— Type-a (embedded slimline) —','P408i-a','P816i-a','E208i-a',
- '— PCI (plug-in card) —','P408i-p','P408e-p','P816i-p','P824i-p','E208i-p','E208e-p','SR932i-p','MR216i-p','MR416i-p',
+ '— PCI (plug-in card) —','P408i-p','P408e-p','P816i-p','P824i-p','E208i-p','E208e-p','SR932i-p','MR216i-p','MR416i-p','MR408i-p',
  '— OCP (mezzanine) —','MR216i-o','MR416i-o','MR408i-o',
  '— Entry-tier (Gen10, DL20/ML30-class) —','P204i-b','P204i-c',
  '— Other / no suffix (Gen8–9) —','P440','P440ar','P840','P840ar','H240','H241','B140i','S100i'
@@ -1755,11 +1755,11 @@ var CTRLS=[
    the two embedded software-RAID controllers, since their port count
    isn't fixed by the SKU the way the Gen10+ cards' is. */
 var CACHED_CTRLS={'P204i-b':1,'P204i-c':1,'P408i-a':1,'P408i-p':1,'P408e-p':1,'P816i-a':1,'P816i-p':1,'P824i-p':1,
-  'P440':1,'P440ar':1,'P840':1,'P840ar':1,'SR932i-p':1,'MR216i-o':1,'MR216i-p':1,'MR416i-o':1,'MR416i-p':1,'MR408i-o':1};
+  'P440':1,'P440ar':1,'P840':1,'P840ar':1,'SR932i-p':1,'MR216i-o':1,'MR216i-p':1,'MR416i-o':1,'MR416i-p':1,'MR408i-o':1,'MR408i-p':1};
 var NOCACHE_CTRLS={'E208i-a':1,'E208i-p':1,'E208e-p':1,'H240':1,'H241':1,'B140i':1,'S100i':1};
 var CTRL_PORTS={'P204i-b':4,'P204i-c':4,'P408i-a':8,'P408i-p':8,'P408e-p':8,'P816i-a':16,'P816i-p':16,
   'P824i-p':24,'E208i-a':8,'E208i-p':8,'E208e-p':8,'SR932i-p':32,'MR216i-o':16,'MR216i-p':16,
-  'MR416i-o':16,'MR416i-p':16,'MR408i-o':8};
+  'MR416i-o':16,'MR416i-p':16,'MR408i-o':8,'MR408i-p':8};
 /* Which ProLiant generation(s) each controller is a genuinely orderable
    option for, sourced from HPE QuickSpecs (2026-09-14 — see PROJECT.md for
    full citations). This was the actual bug: CTRLS was one flat list shown
@@ -1770,11 +1770,20 @@ var CTRL_PORTS={'P204i-b':4,'P204i-c':4,'P408i-a':8,'P408i-p':8,'P408e-p':8,'P81
    - P824i-p's exact generation scope wasn't in any primary QuickSpecs doc
      found — assumed G10/G10+ by family pattern with its P408i-p/P816i-p
      siblings. Flag if that's wrong.
-   - G12 (Xeon 6) isn't in this map — its QuickSpecs controller section
-     wouldn't load while sourcing this. ctrlsFor() falls back to the full
-     unfiltered CTRLS list for G12 rather than guessing, and evaluate()
-     raises a verify note whenever a G12 model has a controller picked, so
-     the gap stays visible instead of silently "working".
+   - G12 (Xeon 6) is mostly still an open gap, EXCEPT for the MR-series
+     Tri-Mode controllers (MR216i-o/p, MR416i-o/p, MR408i-o/p) — a later
+     pass sourcing the SAS-expander field directly read the DL380 Gen12
+     QuickSpecs and found its storage-controller lineup IS this same
+     Gen11 MR family carried forward (still Gen11-branded even on Gen12
+     chassis — an HPE naming quirk, confirmed not a typo) plus the new
+     MR408i-p. Added 'G12' to just those six. Nothing else (P-series,
+     E-series, SR932i-p, the legacy/entry groups) has G12 confirmed
+     either way, so ctrlsFor() still falls back to the full unfiltered
+     CTRLS list for G12 rather than pruning based on one incidental
+     mention, and evaluate() still raises a verify note for a G12 build
+     — but ONLY when the picked controller isn't one of those six now-
+     confirmed names, so a correctly-picked MR-series G12 controller no
+     longer nags for confirmation it doesn't need.
    - P204i-b/P204i-c are real Gen10 parts, but specifically for entry-tier
      boxes (DL20/ML30), not the mainstream DL380/DL360-class Gen10 lineup —
      gated to G10 here (fixing the previous wrong "Gen8-9" bucket) but not
@@ -1785,8 +1794,10 @@ var CTRL_GENS={
  'P408i-p':['G10','G10+','G10+ v2'],'P408e-p':['G10','G10+','G10+ v2'],'P816i-p':['G10','G10+','G10+ v2'],
  'P824i-p':['G10','G10+','G10+ v2'],'E208i-p':['G10','G10+','G10+ v2'],
  'E208e-p':['G10','G10+','G10+ v2','G11'],
- 'SR932i-p':['G10+','G10+ v2','G11'],'MR216i-p':['G10+','G10+ v2','G11'],'MR416i-p':['G10+','G10+ v2','G11'],
- 'MR216i-o':['G11'],'MR416i-o':['G11'],'MR408i-o':['G11'],
+ 'SR932i-p':['G10+','G10+ v2','G11'],
+ 'MR216i-p':['G10+','G10+ v2','G11','G12'],'MR416i-p':['G10+','G10+ v2','G11','G12'],
+ 'MR216i-o':['G11','G12'],'MR416i-o':['G11','G12'],'MR408i-o':['G11','G12'],
+ 'MR408i-p':['G12'],
  'P204i-b':['G10'],'P204i-c':['G10'],
  'P440':['G9'],'P440ar':['G9'],'P840':['G9'],'P840ar':['G9'],'H240':['G9'],'H241':['G9'],'B140i':['G9'],'S100i':['G9']
 };
@@ -1810,9 +1821,64 @@ function ctrlsFor(m){
   });
   return out;
 }
-var EXPANDERS=['12G SAS Expander Card (727250-B21, Gen9)','12G SAS Expander Card (870549-B21, Gen10)',
- '12G SAS Expander Card (876907-B21, Gen10 2SFF rear)','Second controller instead of expander',
- 'P408e-p external HBA','E208e-p external HBA','H241 external HBA','None needed'];
+/* Which chassis+generation combos actually have a real HPE SAS Expander
+   Card SKU — sourced from HPE QuickSpecs c04346272 V6 (2026-09-14; see
+   PROJECT.md/memory for full citations). This used to be one flat list
+   of 3 part numbers offered for every model, which was wrong two ways:
+   each part is chassis-family-scoped (DL380/DL385 "DL38X" only, or
+   ML350's own SKU, or DL560/DL580's own SKU — never interchangeable),
+   and the third entry, "876907-B21, Gen10 2SFF rear", isn't a real
+   orderable part at all — 876907-001 is just the internal spare number
+   for the SAME card as 870549-B21, not a distinct variant. Removed.
+   Gen10 Plus got its own new DL38X-only part (P23388-B21) rather than
+   reusing 870549-B21. Gen11 and Gen12 dropped the standalone expander
+   card entirely, confirmed by a direct full-text search of the actual
+   DL380/ML350 Gen11 QuickSpecs and the DL380 Gen12 QuickSpecs (zero
+   hits for "expander" in any of them) — their higher-port Tri-Mode
+   MR/SR controllers (SR932i-p alone reaches 32 direct-connected drives)
+   absorbed the job the expander card used to do. Every chassis NOT
+   listed here (DL360, DL160, DL180, DL325, DL20, DL120, DL110, DL320,
+   DL340, DL345, DL365, every ML/DL not named below, and every G11/G12
+   model) never had an expander-card SKU in the first place — HPE's own
+   fallback for those is a second/higher-port controller, same as
+   expandersFor() offers below. */
+var EXPANDER_PARTS={
+ 'DL380 G9':'12G SAS Expander Card (727250-B21)',
+ 'ML350 G9':'12G SAS Expander Card (769635-B21)',
+ 'DL560 G9':'12G SAS Expander Card (804228-B21)',
+ 'DL380 G10':'12G SAS Expander Card (870549-B21)',
+ 'DL385 G10':'12G SAS Expander Card (870549-B21)',
+ 'ML350 G10':'12G SAS Expander Card (874576-B21) — SFF only, not supported on LFF',
+ 'DL560 G10':'12G SAS Expander Card (873444-B21)',
+ 'DL580 G10':'12G SAS Expander Card (873444-B21)',
+ 'DL380 G10+':'12G SAS Expander Card (P23388-B21)',
+ 'DL385 G10+':'12G SAS Expander Card (P23388-B21)',
+ 'DL385 G10+ v2':'12G SAS Expander Card (P23388-B21)'
+};
+/* the three "external HBA" fallbacks are controllers reused as a way to
+   add ports without an expander card — gated by the same CTRL_GENS
+   scope already sourced for the controller picker, so e.g. H241 (G9
+   only) never shows on a G10+ build and E208e-p (the one part that
+   survives to G11) isn't wrongly excluded there. */
+var EXPANDER_HBAS=[['P408e-p','P408e-p external HBA'],['E208e-p','E208e-p external HBA'],['H241','H241 external HBA']];
+function expandersFor(m){
+  var out=[];
+  if(m&&EXPANDER_PARTS[m.m+' '+m.g])out.push(EXPANDER_PARTS[m.m+' '+m.g]);
+  out.push('Second controller instead of expander');
+  EXPANDER_HBAS.forEach(function(h){
+    if(m&&(CTRL_GENS[h[0]]||[]).indexOf(m.g)>-1)out.push(h[1]);
+  });
+  out.push('None needed');
+  return out;
+}
+/* static full list — feeds only the inert <datalist> probe (attachList
+   strips the input's list= attribute), never the live combo panel,
+   which always goes through expandersFor(currentModel()) instead. */
+var EXPANDERS=[].concat(
+  Object.keys(EXPANDER_PARTS).map(function(k){return EXPANDER_PARTS[k];})
+    .filter(function(v,i,a){return a.indexOf(v)===i;}),
+  ['Second controller instead of expander','P408e-p external HBA','E208e-p external HBA','H241 external HBA','None needed']
+);
 var BATS=['96w bat','12w bat','No battery'];
 /* Just the wattages — the slip only needs "2x 800W". The efficiency tier /
    part number doesn't matter for this worksheet. */
@@ -2035,7 +2101,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.17'; // 18th build shipped today
+var BUILD_VERSION='2026.09.14.18'; // 19th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2393,7 +2459,7 @@ attachList(document.getElementById('dimm'),function(){return DIMMS;});
 attachList(document.getElementById('ctrl'),function(){return ctrlsFor(currentModel());});
 attachList(document.getElementById('bat'),function(){return BATS;});
 attachList(document.getElementById('flr'),function(){return FLRS;});
-attachList(document.getElementById('expander'),function(){return EXPANDERS;});
+attachList(document.getElementById('expander'),function(){return expandersFor(currentModel());});
 attachList(document.getElementById('psu'),function(){return PSUS;});
 attachList(document.getElementById('plan-raid'),function(){return RAID_LEVELS;});
 stepper(document.getElementById('dimmq'),{min:1});
@@ -2991,16 +3057,38 @@ function evaluate(){
      restored draft, or a model switch after the controller was already
      set). Only fires for a name this tool actually recognizes — a
      genuinely custom/unlisted value is left alone, same as every other
-     free-type field. G12 is exempt (see the CTRL_GENS comment — its
-     controller generations aren't sourced yet, flagged separately below
-     rather than treated as a hard mismatch). */
+     free-type field. G12 is mostly exempt (see the CTRL_GENS comment)
+     except for the six MR-series names now confirmed for it, which are
+     checked exactly like every other generation. */
   if(m&&ctrlV&&m.g!=='G12'&&CTRL_GENS[ctrlV]&&CTRL_GENS[ctrlV].indexOf(m.g)<0)
     checks.push(['stop','CONTROLLER GENERATION',ctrlV+' is only offered for '+CTRL_GENS[ctrlV].join('/')+' — it does not work in '+m.m+' '+m.g+'.']);
-  if(m&&ctrlV&&m.g==='G12')
-    checks.push(['verify','CONTROLLER GENERATION','Storage controller generation compatibility for Gen12 (Xeon 6) hasn\'t been sourced from QuickSpecs yet — confirm '+ctrlV+' actually works with '+m.m+' '+m.g+' before quoting.']);
+  if(m&&ctrlV&&m.g==='G12'&&(CTRL_GENS[ctrlV]||[]).indexOf('G12')<0)
+    checks.push(['verify','CONTROLLER GENERATION','Storage controller generation compatibility for Gen12 (Xeon 6) hasn\'t been fully sourced from QuickSpecs yet — confirm '+ctrlV+' actually works with '+m.m+' '+m.g+' before quoting.']);
 
-  /* SAS-expander suggestion — names the specific gen-correct part, using
-     the same Gen9-vs-Gen10+ split the paste parser already assumes.
+  /* expander-vs-chassis hard check — same idea as CONTROLLER GENERATION
+     above: a specific SAS Expander Card part number that landed in the
+     field some other way (typed, paste-fill, a restored draft, a model
+     switch) is caught even though expandersFor() already keeps the
+     wrong ones off the tap-to-pick panel. Most chassis, and all of
+     G11/G12, never had an expander-card SKU at all — see EXPANDER_PARTS. */
+  var expV=v('expander');
+  if(m&&expV){
+    var knownExpParts=['727250-B21','769635-B21','804228-B21','870549-B21','874576-B21','873444-B21','P23388-B21'];
+    var typedExpPart=null;
+    knownExpParts.some(function(p){if(expV.indexOf(p)>-1){typedExpPart=p;return true;}return false;});
+    if(typedExpPart){
+      var validExpPart=EXPANDER_PARTS[m.m+' '+m.g];
+      if(!validExpPart||validExpPart.indexOf(typedExpPart)<0)
+        checks.push(['stop','EXPANDER GENERATION',validExpPart
+          ?('The '+typedExpPart+' SAS Expander Card doesn\'t fit '+m.m+' '+m.g+' — this chassis takes '+validExpPart+' instead.')
+          :('HPE never made a SAS Expander Card for '+m.m+' '+m.g+' — the '+typedExpPart+' card doesn\'t fit here. Use a second (or higher-port) controller instead.')]);
+    }
+  }
+
+  /* SAS-expander suggestion — names the specific chassis+gen-correct
+     part via EXPANDER_PARTS, not a Gen9-vs-everything-else guess (most
+     chassis never had an expander-card SKU at all, and Gen11/Gen12
+     dropped the whole product line — see the EXPANDER_PARTS comment).
      Skipped for NVMe (routes around the SAS expander entirely) and for
      controllers whose port count isn't fixed by the SKU (see CTRL_PORTS). */
   var expNote=document.getElementById('expander-note');
@@ -3008,10 +3096,11 @@ function evaluate(){
   if(m&&capBays&&!hasNVMe&&!noDrives&&!v('expander')){
     var ports=CTRL_PORTS[ctrlV];
     if(ports!=null&&capBays>ports){
-      var genIsG9=m.g==='G9',expPart=genIsG9?EXPANDERS[0]:EXPANDERS[1];
+      var expPart=EXPANDER_PARTS[m.m+' '+m.g];
       expNote.className='cap-note suggest';
-      expNote.textContent='Suggested: '+expPart+' — '+capBays+' bays exceeds '+ctrlV+'\'s '+ports+' ports.'+
-        (genIsG9||m.g==='G10'?'':' (Gen10 part shown — confirm it still applies to '+m.g+'.)');
+      expNote.textContent=expPart
+        ?('Suggested: '+expPart+' — '+capBays+' bays exceeds '+ctrlV+'\'s '+ports+' ports.')
+        :('No SAS Expander Card exists for '+m.m+' '+m.g+' — '+capBays+' bays exceeds '+ctrlV+'\'s '+ports+' ports. Use a second (or higher-port) controller instead.');
     }
   }
 
@@ -3545,11 +3634,17 @@ function parseClientText(text){
   if(/\brails?\b/i.test(text)){document.getElementById('rl1').checked=true;found.push('Rails: Yes');}
   if(/\bbezel\b/i.test(text)){document.getElementById('bz1').checked=true;found.push('Bezel: Yes');}
   if(/\bexpander\b/i.test(text)){
-    /* the system model (if identified above) already tells us the generation —
-       no need to assume Gen10 and ask the trader to double check it. */
-    var expGenIsG9=m&&m.g==='G9',expPart=expGenIsG9?EXPANDERS[0]:EXPANDERS[1];
-    document.getElementById('expander').value=expPart;
-    guess.push('SAS expander mentioned — assumed '+expPart+(m?' for the '+m.m+' '+m.g:' (system model not identified — confirm generation)')+'.');
+    /* the system model (if identified above) already tells us the exact
+       chassis+generation part — most chassis, and all of G11/G12, never
+       had an expander-card SKU at all, so there's nothing to assume for
+       those; say so instead of defaulting to the Gen10 DL38X part. */
+    var expPart=m&&EXPANDER_PARTS[m.m+' '+m.g];
+    if(expPart){
+      document.getElementById('expander').value=expPart;
+      guess.push('SAS expander mentioned — assumed '+expPart+' for the '+m.m+' '+m.g+'.');
+    }else{
+      guess.push('SAS expander mentioned, but '+(m?('HPE never made an expander-card SKU for the '+m.m+' '+m.g+' — use a second controller instead'):'the system model wasn\'t identified, so the exact part can\'t be assumed')+'.');
+    }
   }
   if(/dvd-?rw/i.test(text)){document.getElementById('md2').checked=true;found.push('Media bay: DVD-RW');}
   else if(/dvd-?rom/i.test(text)){document.getElementById('md1').checked=true;found.push('Media bay: DVD-ROM');}

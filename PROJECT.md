@@ -523,15 +523,23 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   - `P440`/`P440ar`/`P840`/`P840ar`/`H240`/`H241`/`B140i`/`S100i`:
     confirmed **G9 only** (shared Gen8/Gen9 lineup, no Gen10 overlap) via
     HPE's own [Gen8→Gen9→Gen10 transition chart](https://www.also.com/ec/cms5/media/documents/6110/microsites_5/hpe_4/produkte_uebersicht/smartarraycontroller.pdf).
-  - **G12 (Xeon 6) has no entry at all.** Its QuickSpecs controller
-    section wouldn't load while sourcing this (repeated timeouts). Rather
-    than guess, `ctrlsFor()` falls back to the full unfiltered list for
-    G12 and `evaluate()` raises a `verify` note (not a hard `stop`)
-    whenever a G12 build has a controller picked, so the gap stays
-    visible instead of silently "working". Secondary-only sourcing
-    suggests Gen12 reuses the Gen11 MR/SR names rather than minting new
-    ones (plus a new MR932i-p, not yet in the tool's list) — needs a
-    primary-doc re-check before acting on it.
+  - **G12 (Xeon 6) is mostly still an open gap — except 6 MR-series
+    names, confirmed while sourcing the SAS-expander fix below.** The
+    original controller-verification pass couldn't load a Gen12
+    QuickSpecs PDF at all (repeated timeouts). A later pass, sourcing the
+    SAS-expander field, successfully fetched and grepped the actual
+    DL380 Gen12 QuickSpecs and found its storage-controller lineup IS the
+    Gen11 MR family carried forward (`MR216i-o`/`MR216i-p`/`MR416i-o`/
+    `MR416i-p`/`MR408i-o`, still Gen11-branded even on Gen12 chassis — an
+    HPE naming quirk, not a typo) plus one new part, `MR408i-p` (added to
+    `CTRLS`/`CACHED_CTRLS`/`CTRL_PORTS`, port count 8 by the same
+    SKU-number-is-port-count convention as `MR408i-o`). `CTRL_GENS` now
+    has `'G12'` on just those six. Everything else (P-series, E-series,
+    `SR932i-p`, the legacy/entry groups) still has no G12 confirmation
+    either way — `ctrlsFor()` still shows the full unfiltered list for
+    G12 rather than pruning based on one incidental mention, and
+    `evaluate()`'s `verify` note now only fires when the picked
+    controller ISN'T one of those six confirmed names.
   A mismatched value that lands in `#ctrl` some other way (typed directly,
   paste-fill, a restored draft, a model switch after the field was already
   set) is still caught — `evaluate()` raises a `stop` if the current value
@@ -539,6 +547,58 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   isn't in its list, same severity as `BACKPLANE MISMATCH`. A genuinely
   unlisted/custom typed value is left alone, same as every other
   free-type field.
+- **SAS expanders are filtered by chassis family AND generation**
+  (`EXPANDER_PARTS`, `expandersFor()`, 2026-09-14) — the same class of
+  bug as the controller picker, plus an extra dimension: `EXPANDERS` was
+  one flat list of 3 part numbers shown for every model, but a real SAS
+  Expander Card SKU is scoped to a specific chassis family, not just a
+  generation. Sourced from the official HPE QuickSpecs **"HPE 12G SAS
+  Expander Card," doc c04346272 V6** (its "Models"/"Server Support"
+  tables settle this directly), plus a direct primary-doc search for
+  Gen10 Plus/Gen11/Gen12:
+  - `727250-B21` (Gen9) is **DL380 Gen9 only** — ML350 Gen9 has its own
+    part (`769635-B21`), DL560 Gen9 has its own (`804228-B21`), and no
+    SKU exists for any other Gen9 chassis this tool models (DL360, DL160,
+    DL180, DL60, DL80, DL120, DL20, every ML except ML350).
+  - `870549-B21` ("DL38X Gen10" — the SKU's own name says DL380/DL385
+    only) is **DL380/DL385 Gen10 only** — ML350 Gen10 has its own part
+    (`874576-B21`, **SFF only** — the QuickSpecs explicitly says NOT
+    supported on ML350 Gen10 LFF), DL560/DL580 Gen10 share `873444-B21`.
+    No SKU for DL360/DL160/DL180/DL325 Gen10.
+  - **`876907-B21` ("Gen10 2SFF rear" in the old list) was fabricated —
+    removed.** Every real source (official QuickSpecs, HPE support docs,
+    multiple resellers) lists `876907-001` as the internal spare/board
+    number for the SAME physical card as `870549-B21` kit — not a real,
+    separately-orderable "2SFF rear" variant. There was nothing to gate,
+    the SKU didn't check out.
+  - Gen10 Plus got a **new** DL380/DL385-only part, `P23388-B21`
+    ("DL38X Gen10 Plus"), rather than reusing the Gen10 part.
+  - **Gen11 and Gen12 dropped the standalone SAS Expander Card product
+    line entirely** — confirmed by a direct full-text search of the
+    actual DL380 Gen11, ML350 Gen11, and DL380 Gen12 QuickSpecs PDFs:
+    zero hits for "expander" in any of them. Their higher-port Tri-Mode
+    MR/SR controllers (`SR932i-p` alone reaches 32 direct-connected
+    drives) absorbed the job the expander card used to do. No chassis in
+    G11 or G12 gets an expander-card option any more — the fallback is a
+    second (or higher-port) controller, exactly what HPE itself offers
+    instead.
+  - The three "external HBA" fallback entries (`P408e-p`/`E208e-p`/
+    `H241`, each a controller reused as a way to add ports without an
+    expander card) are gated by the same `CTRL_GENS` scope already
+    sourced for the controller picker — `H241 external HBA` only shows
+    for G9, `E208e-p external HBA` for G10/G10+/G11 (the one survivor),
+    `P408e-p external HBA` for G10/G10+ only.
+  Every chassis not named above (DL360, DL160, DL180, DL325, DL20,
+  DL120, DL110, DL320, DL340, DL345, DL365, and every ML except ML350)
+  never had an expander-card SKU in any generation this tool models —
+  `expandersFor()` correctly offers none for them, just the generic
+  fallbacks. The bay-count-vs-port-count suggestion (`expander-note`)
+  and the paste-parser's expander guess both now name the actual
+  chassis-correct part via `EXPANDER_PARTS` instead of a blanket
+  "Gen9-or-else-Gen10-part" guess, and say plainly when no part exists
+  for the current chassis+generation rather than defaulting to one that
+  doesn't fit. A mismatched part typed/pasted/restored is caught the
+  same way as `CONTROLLER GENERATION`, tagged `EXPANDER GENERATION`.
 - **Capacity planner** — enter usable TB + RAID level, get up to 5
   drive-population suggestions ranked by least wasted capacity, with a
   one-click "Use" that drops the line into the drive list.
