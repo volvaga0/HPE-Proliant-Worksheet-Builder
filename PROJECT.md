@@ -348,16 +348,27 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   via `appearance:none` + a CSS-drawn chevron, scoped to `min-width:641px`,
   so they read the same as the text-input combo fields next to them —
   phones keep the OS glass-picker chrome on those too.
-  **Superseded for drive speed/class/interface** (2026-09-14, same day):
-  `appearance:none` only themes a `<select>`'s CLOSED box — the open
-  listbox popup is browser/OS-native with no cross-browser CSS override,
-  so it still didn't match the dark `#ac-panel` combo panel every other
-  dropdown uses. Converted those three to plain `attachList()` text
-  inputs (`SPDS`/`CLASSES`/`INTERFACES`, near `CAPS`) instead — desktop
-  now shows the literal same panel as Capacity; phones are unaffected
-  (their native-picker mirror was always a real `<select>`, this whole
-  time). The `select{appearance:none...}` rule stays for `#plan-raid`
-  only now.
+  **Superseded for drive speed/class/interface, and RAID level**
+  (2026-09-14, same day): `appearance:none` only themes a `<select>`'s
+  CLOSED box — the open listbox popup is browser/OS-native with no
+  cross-browser CSS override, so it still didn't match the dark
+  `#ac-panel` combo panel every other dropdown uses. Converted all four
+  to plain `attachList()` text inputs (`SPDS`/`CLASSES`/`INTERFACES`/
+  `RAID_LEVELS`, near `CAPS`) instead — desktop now shows the literal
+  same panel as Capacity; phones are unaffected (their native-picker
+  mirror was always a real `<select>`, this whole time). **No static
+  `<select>` remains anywhere in the page** — the `select{appearance:
+  none...}` rule now only matters for the dynamically-created phone
+  mirrors (which don't need it — they want native chrome). RAID level's
+  list reads `'RAID 5'` for a decent panel; `raidPlan()`'s click handler
+  strips it back to the bare digit via `.match(/\d+/)` since that's what
+  `raidPlan()`/the slip/paste-parser all still key off internally.
+- **Themed combo text fields get a chevron** (`.ac-input`, added inside
+  `attachList()`; `.combo-input`, model/CPU's existing static class) —
+  otherwise a tap-for-a-list field was visually indistinguishable from
+  genuinely free text like `#batdate` (no `attachList()` call → no
+  chevron, correctly). Suppressed during `.ac-editing` (the phone
+  "Other" free-type fallback) since that's real typing, not a list tap.
 - **`setupCombo()` (model/CPU) also has a native mirror now** (2026-09-14)
   — built inline inside `setupCombo` itself (`buildMirror()`), same
   `.ac-wrap` idea as `attachNativeMirror` but with no "Other" option:

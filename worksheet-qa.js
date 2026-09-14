@@ -1445,13 +1445,15 @@ function runRound9(){
   emptySelectRule
     ?pass9('a placeholder-state <select> gets the dimmed .ph class/CSS rule')
     :fail9('select.ph dimming CSS rule not found');
-  const planRaid9=d.getElementById('plan-raid');
-  planRaid9.value='';fire(planRaid9,'change');
-  planRaid9.classList.contains('ph')
-    ?pass9('an empty <select> (RAID planner) gets the .ph dimmed class')
+  // every <select> left on the page is now a phone-only mirror (attachNativeMirror/
+  // setupCombo's buildMirror) — no static <select> remains, so test one of those.
+  const phSel9=d.getElementById('ctrl').closest('.ac-wrap').querySelector('select');
+  phSel9.value='';fire(phSel9,'change');
+  phSel9.classList.contains('ph')
+    ?pass9('an empty <select> (native mirror) gets the .ph dimmed class')
     :fail9('.ph class not applied to an empty select');
-  planRaid9.value='1';fire(planRaid9,'change');
-  !planRaid9.classList.contains('ph')
+  phSel9.value='P408i-a';fire(phSel9,'change');
+  !phSel9.classList.contains('ph')
     ?pass9('.ph clears once a real value is picked')
     :fail9('.ph class stuck after picking a real value');
 
@@ -1469,6 +1471,42 @@ function runRound9(){
   spdPanelItems.includes('12G')
     ?pass9('drive Speed\'s dark combo panel offers the same list as before (6G/12G/24G/PCIe)')
     :fail9('drive Speed combo panel missing options: '+spdPanelItems.join(', '));
+
+  // --- RAID level (capacity planner) converted the same way, for the same reason ---
+  const raidInp9=d.getElementById('plan-raid');
+  (raidInp9.tagName==='INPUT' && raidInp9.closest('.ac-wrap'))
+    ?pass9('RAID level is now a themed combo field, not a plain <select>')
+    :fail9('RAID level did not convert to an attachList combo field');
+  raidInp9.value='';fire(raidInp9,'input');
+  fire(raidInp9,'focus');
+  const raidPanelItems=[...d.getElementById('ac-panel').querySelectorAll('.combo-item')].map(x=>x.textContent);
+  raidPanelItems.includes('RAID 10')
+    ?pass9('RAID level combo panel offers the same levels as before')
+    :fail9('RAID level combo panel missing options: '+raidPanelItems.join(', '));
+  // picking from the panel must still store the bare number the rest of the
+  // tool expects (raidPlan(), the slip line) — not the display string "RAID 5"
+  const raid5Item=[...d.getElementById('ac-panel').querySelectorAll('.combo-item')].find(x=>x.textContent==='RAID 5');
+  raid5Item.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  setModel9('DL380 G10');
+  d.getElementById('plan-cap').value='20';fire(d.getElementById('plan-cap'),'input');
+  d.getElementById('bays').value='24SFF';fire(d.getElementById('bays'),'input');
+  d.getElementById('plan-go').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  d.querySelectorAll('#plan-out .plan-row').length>0
+    ?pass9('picking "RAID 5" from the panel still drives the drive-population planner correctly')
+    :fail9('RAID level pick did not feed the planner: '+d.getElementById('plan-out').textContent.slice(0,160));
+  raidInp9.value='';fire(raidInp9,'input');
+
+  // --- themed combo text fields (attachList + model/CPU) get a chevron, like a real <select> ---
+  const chevronRule=/\.ac-input,\.combo-input\{/.test(html);
+  chevronRule
+    ?pass9('attachList/combo text fields get a chevron CSS rule (.ac-input,.combo-input)')
+    :fail9('chevron rule for themed combo fields not found');
+  d.getElementById('ctrl').classList.contains('ac-input')
+    ?pass9('a live attachList field (controller) actually carries the .ac-input chevron class')
+    :fail9('controller field missing .ac-input class');
+  mi9.classList.contains('combo-input')
+    ?pass9('the model field carries .combo-input (static class, same chevron rule)')
+    :fail9('model field missing .combo-input class');
 
   // --- bay-config quick-pick buttons, scoped to the current model's own bay list ---
   setModel9('DL380 G9');

@@ -60,6 +60,19 @@ input::placeholder,textarea::placeholder{color:var(--ink-soft);opacity:.75}
    toggled every run() cycle (see syncSelectPlaceholders()) whenever a
    select's value is still the empty placeholder option. */
 select.ph{color:var(--ink-soft)}
+/* a small chevron on every "tap for a list" text field — attachList()
+   tags its input .ac-input, and .combo-input (model/CPU) already has a
+   static class — so it reads as a dropdown at a glance, same as a real
+   <select>, instead of looking like plain free text. Suppressed while
+   actually free-typing (.ac-editing, the "Other" fallback on phones —
+   see attachNativeMirror) since that's genuinely just text entry then. */
+.ac-input,.combo-input{
+  padding-right:19px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink-soft) 50%),
+    linear-gradient(135deg,var(--ink-soft) 50%,transparent 50%);
+  background-position:calc(100% - 12px) calc(50% - 2px),calc(100% - 8px) calc(50% - 2px);
+  background-size:4px 4px,4px 4px;background-repeat:no-repeat}
+.ac-wrap.ac-editing>.ac-input{background-image:none;padding-right:8px}
 input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--signal);outline-offset:1px;border-color:var(--signal)}
 input:disabled{opacity:.5;cursor:not-allowed}
 input.field-over{border-color:var(--stop);background:var(--stop-bg);color:var(--stop);font-weight:600}
@@ -220,7 +233,7 @@ legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)
 
 .planner{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
 .planner input[type=number]{width:130px}
-.planner select{width:150px}
+.planner input[type=text]{width:150px}
 .planner .go{flex:0 0 auto;width:auto;font-size:14px;padding:7px 14px;border:1px solid var(--signal);background:var(--signal);color:var(--on-accent);border-radius:8px;cursor:pointer;font-weight:700}
 .plan-out{margin-top:7px;display:none;border:1px solid var(--rule);border-radius:9px;overflow:hidden}
 .plan-out.on{display:block}
@@ -380,7 +393,7 @@ button.quiet{color:var(--ink-soft)}
   .mem-target-row input{width:100%;flex:1 1 100%}
   .mem-target-row button{flex:1 1 100%}
   .planner{gap:8px}
-  .planner input[type=number],.planner select,.planner .go{width:100%}
+  .planner input[type=number],.planner input[type=text],.planner .go{width:100%}
 
   .combo-panel{max-height:52vh}
   .combo-item{padding:11px 12px;font-size:15px}
@@ -617,16 +630,7 @@ button.quiet{color:var(--ink-soft)}
         <div class="a">
           <div class="planner">
             <input type="number" id="plan-cap" min="0" step="0.1" placeholder="Usable TB">
-            <select id="plan-raid">
-              <option value="">RAID level</option>
-              <option value="0">RAID 0</option>
-              <option value="1">RAID 1</option>
-              <option value="5">RAID 5</option>
-              <option value="6">RAID 6</option>
-              <option value="10">RAID 10</option>
-              <option value="50">RAID 50</option>
-              <option value="60">RAID 60</option>
-            </select>
+            <input type="text" id="plan-raid" placeholder="RAID level" autocomplete="off">
             <button type="button" class="go" id="plan-go">Suggest drives</button>
           </div>
           <div class="plan-out" id="plan-out"></div>
@@ -1707,6 +1711,7 @@ var GENERIC_BAYS=['4LFF','8LFF','12LFF','2SFF','4SFF','8SFF','10SFF','16SFF','24
 var SPDS=['6G','12G','24G','PCIe'];
 var CLASSES=['RI','MU','WI','VRO'];
 var INTERFACES=['SATA','SAS','NVMe','SATA SSD','SAS SSD'];
+var RAID_LEVELS=['RAID 0','RAID 1','RAID 5','RAID 6','RAID 10','RAID 50','RAID 60'];
 var REAR=['2SFF rear','2SFF NVMe rear','3LFF rear','1SFF rear','4LFF midtray','2SFF rear + 4LFF midtray'];
 
 /* Riser kits. Each: {n:name, d:detail, s:add-in-card slots it yields
@@ -1879,7 +1884,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.6';  // 7th build shipped today
+var BUILD_VERSION='2026.09.14.7';  // 8th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2074,6 +2079,7 @@ window.addEventListener('resize',function(){if(!acPanel.hidden)acPlace();});
 function attachList(inp,fn){
   if(!inp)return;
   inp.removeAttribute('list');inp.setAttribute('autocomplete','off');
+  inp.classList.add('ac-input');   // marks it as "tap for a list" — see the .ac-input chevron rule
   /* clicking back in shows every option again; typing filters */
   inp.addEventListener('focus',function(){acOpen(inp,fn,true);});
   inp.addEventListener('input',function(){
@@ -2228,6 +2234,7 @@ attachList(document.getElementById('flr'),function(){return FLRS;});
 attachList(document.getElementById('expander'),function(){return EXPANDERS;});
 attachList(document.getElementById('psu'),function(){return PSUS;});
 attachList(document.getElementById('bays'),function(){var m=currentModel();return (m&&m.bays)?m.bays:GENERIC_BAYS;});
+attachList(document.getElementById('plan-raid'),function(){return RAID_LEVELS;});
 stepper(document.getElementById('dimmq'),{min:1});
 stepper(document.getElementById('psuq'),{min:1});
 stepper(document.getElementById('fanq'),{min:0});
@@ -3039,7 +3046,7 @@ function raidPlan(targetTB,level,bays){
   return out.slice(0,5);
 }
 document.getElementById('plan-go').addEventListener('click',function(){
-  var t=parseFloat(v('plan-cap')),lvl=v('plan-raid'),box=document.getElementById('plan-out');
+  var t=parseFloat(v('plan-cap')),lvl=(v('plan-raid').match(/\d+/)||[])[0]||'',box=document.getElementById('plan-out');
   var bays=bayCapacity()||24;
   if(!t||!lvl){
     box.className='plan-out on';
@@ -3106,7 +3113,7 @@ function buildSlip(){
     dl.forEach(function(d){L.push(join(d.q?d.q+'x':'',d.cap,d.spd,d.cls,d.int));});
     if(!dl.length)gaps.push('drives');
   }
-  if(v('plan-raid'))L.push('RAID '+v('plan-raid'));
+  if(v('plan-raid'))L.push(v('plan-raid'));
   if(v('notes'))L.push('','Notes: '+v('notes'));
   if(v('modelq')&&Number(v('modelq'))>1)L.unshift('BUILD x'+v('modelq'));
   return {lines:L,gaps:gaps};
@@ -3318,7 +3325,7 @@ function parseClientText(text){
   else if(/dvd-?rom/i.test(text)){document.getElementById('md1').checked=true;found.push('Media bay: DVD-ROM');}
   else if(/universal media/i.test(text)){document.getElementById('md3').checked=true;found.push('Media bay: Universal');}
   var raidM=text.match(/raid\s*(0|1|5|6|10|50|60)\b/i);
-  if(raidM){document.getElementById('plan-raid').value=raidM[1];found.push('RAID '+raidM[1]);}
+  if(raidM){document.getElementById('plan-raid').value='RAID '+raidM[1];found.push('RAID '+raidM[1]);}
 
   /* FlexibleLOM / OCP */
   if(/\b(no|without|w\/o|n\/a)\s+(flr|flexiblelom|ocp)\b/i.test(text)){
