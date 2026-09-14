@@ -49,6 +49,32 @@ without being run first. Rebuild the same habit here: after any edit to
 the `<script>` block, run `node --check` on the extracted script, then run
 the harness, before calling it done.
 
+**Chain rounds that share mutable state instead of independent fixed
+delays** (2026-09-14 — cost real debugging time, worth flagging): rounds
+1-8 each start via `setTimeout(fn, N)` at their own fixed `N`, all
+registered up front. That's fine as long as every round finishes well
+inside its own slot — but a round with its OWN nested `setTimeout` (a
+genuine async wait, e.g. round 6's 320ms wait for the app's own blur
+debounce) has its nested callback's due time computed *relative to when
+that round's outer callback actually ran* — which drifts later as the
+file accumulates more rounds/tests and the whole suite gets slower. Once
+that drift pushes a nested callback's due time past a LATER round's fixed
+absolute delay, the later round fires first and can mutate shared state
+(the model, a field value) out from under the still-pending nested check.
+This hit round 5's recent-builds assertions once already (surfaced as
+"model=DL560 G10" — that was round 7's own model pick leaking in) and
+round 6's custom-value mirror check a second time after round 8 was
+added. Fix applied both times: (1) if the nested wait wasn't actually
+needed — round 5's was, since nothing it read was genuinely async — just
+run synchronously; (2) if it IS a real async wait — round 6's 320ms is
+the app's own debounce — convert the rounds from independent fixed delays
+to an explicit chain (`function runRound7(){...}`, called from inside
+round 6's nested callback instead of its own `setTimeout(fn7, N)`), so a
+later round can never start before an earlier one's async tail resolves,
+regardless of how slow the suite gets. Any NEW round added after round 8
+that touches shared DOM state should chain off round 8's end the same
+way, not add another independent fixed delay.
+
 ## Visual theme
 
 Styled to match the Procurri "HPE ProLiant Inventory Report" export
@@ -125,6 +151,12 @@ a no-op under jsdom).
   than folded into `genoa`, because it runs DIMMs at 6000 MT/s vs Genoa's
   4800 (see `MEMSPEED`). Only `DL385 G11`'s `p:[]` includes `turin` so far —
   DL325/DL345/DL365 Gen11 haven't been individually confirmed to offer it.
+  **"U"-suffix Xeon Scalable SKUs are single-socket-only** (Intel disables
+  the cross-socket UPI link on these — `G6209U`/`G6210U`/`G6312U`/`G6414U`
+  here) on every generation HPE has shipped them; `evaluate()` hard-stops
+  picking 2+ processors with one (2026-09-14, matched by a plain `/U$/`
+  test on `cpu[0]` — not a per-CPU data field, since it's true for all of
+  them and every future one Intel ships under this convention).
 
 - **`PLATFORM_LABELS`** — display names for the CPU dropdown's group
   headers (e.g. `sp2` → "2nd Gen Xeon Scalable — Cascade Lake"). Each entry
@@ -291,13 +323,44 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   scrolling the page behind it once the mouse/touch keeps moving.
 - **`attachList(input, listFn)`** — upgrades the former datalist text
   inputs (memory, controller, battery, PSU, FlexibleLOM, expander, bays,
-  rear, and the drive `cap` / card `name` / riser `name` line inputs) to a
-  real tap-to-pick dropdown via one shared floating `#ac-panel`. `<datalist>`
-  on iOS only shows ~3 hints on the keyboard bar and no dropdown, which read
-  as "broken" to users. Free typing still works — the list is suggestions.
-  `listFn` returns a `string[]` (or a function for the model-dependent ones);
-  entries starting with `—` render as non-selectable dividers. Selection is
-  `pointerup` (movement < 12px = a tap, not a scroll) + a `click` fallback.
+  and the drive `cap` / card `name` / riser `name` / rear-line `v` inputs)
+  to a real tap-to-pick dropdown via one shared floating `#ac-panel`.
+  `<datalist>` on iOS only shows ~3 hints on the keyboard bar and no
+  dropdown, which read as "broken" to users. Free typing still works — the
+  list is suggestions. `listFn` returns a `string[]` (or a function for the
+  model-dependent ones); entries starting with `—` render as non-selectable
+  dividers (both here and in `attachNativeMirror`'s `<optgroup>`s — see
+  below) — used for `CTRLS` (grouped Type-a / PCI / OCP / no-suffix).
+  Selection is `pointerup` (movement < 12px = a tap, not a scroll) + a
+  `click` fallback.
+- **`attachNativeMirror(input, listFn)`** (called from inside `attachList`)
+  — wraps the field in a `span.ac-wrap` (`display:contents`) holding the
+  original input plus a sibling `<select>` built from the same list. A
+  `@media(max-width:640px)` rule swaps to the `<select>` so tapping it opens
+  the phone's own picker wheel (matching the drive speed/class/interface
+  `<select>`s' look) instead of `#ac-panel`; desktop keeps the searchable
+  panel. A trailing "Other — type your own…" option flips the wrap into
+  `.ac-editing` (shows the input, focused) so free typing still works;
+  blurring rebuilds the select with the typed value as a synthetic selected
+  option. `run()` calls `syncNativeMirrors()` every cycle to rebuild every
+  mirror (skipping one that currently has focus). Desktop also flattens the
+  plain `<select>`s' (speed/class/interface, RAID planner) native OS chrome
+  via `appearance:none` + a CSS-drawn chevron, scoped to `min-width:641px`,
+  so they read the same as the text-input combo fields next to them —
+  phones keep the OS glass-picker chrome on those too.
+- **Rear/mid-tray bays are repeatable lines** (`#rear-lines`, `rearRow()`),
+  not one field — a chassis can have a rear cage AND a separate mid-tray
+  cage at once (e.g. DL385 G11 8LFF: 4LFF mid-tray + 4LFF rear
+  simultaneously). `rearJoined()` joins every line's value with `" + "`
+  into the one string every existing rule/slip/paste-parser call already
+  expected, so `rearSigs()` (now tagging each `"+"`-split clause
+  independently, not one global mid/rear flag for the whole string — that
+  was quietly wrong for the pre-existing `'2SFF rear + 4LFF midtray'` combo
+  entry too) is the only piece of the rules engine that needed to change.
+  A new check blocks two lines that conflict for the *same* bay location
+  (two rear-cage picks, or two mid-tray picks) while allowing one of each
+  together. `refreshDependents()` disables "Add rear line" and clears any
+  existing lines when `R.rear` is `[]` (no rear bays on this model at all).
 - **Processor count** is a `#cpuq-btns` segmented button group, rebuilt in
   `refreshDependents()` from `R.validCounts` or `1..m.s` — so DL580 shows
   1/2/3/4, DL560 shows 1/2/4, a single-socket box shows just 1 and
@@ -358,6 +421,23 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   A **"+ bat" / "battery" mention** next to a controller assumes the
   96W Smart Storage Battery and flags it as a CHECK line to confirm
   against the controller generation.
+- **Battery and SAS-expander live suggestions** (amber `.cap-note.suggest`,
+  `--check` color) — hints under the Battery and SAS-expander fields,
+  computed in `evaluate()`. Neither auto-fills or blocks anything;
+  `[[worksheet-tool-conventions]]`'s battery-is-manual rule stays in force.
+  `CACHED_CTRLS`/`NOCACHE_CTRLS` classify a controller by its HPE/Broadcom
+  prefix ("P"/"MR" = write-back cache, needs a battery; "E"/"H"/"B140i"/
+  "S100i" = no cache) — suggests 96W when a cached controller has no
+  battery entered, and gently flags the reverse (a battery entered on a
+  no-cache controller). `CTRL_PORTS` gives the fixed port count for the
+  Gen10+ SKUs whose SKU number IS the port count (`P408i-a`→8,
+  `P816i-a`→16, `MR216i-p`→16…) — when the bay count exceeds it, suggests
+  the same Gen9-vs-Gen10+ expander part the paste parser already assumes.
+  Deliberately has NO entry for the Gen8/9 cards (`P440`/`P440ar`/`P840`/
+  `P840ar`/`H240`/`H241`) or the two embedded software-RAID controllers —
+  their port count isn't fixed by the SKU, so no guess rather than a wrong
+  one. Both notes clear the moment the field they're about actually has a
+  value, so they never nag once acted on.
 - **Capacity planner** — enter usable TB + RAID level, get up to 5
   drive-population suggestions ranked by least wasted capacity, with a
   one-click "Use" that drops the line into the drive list.

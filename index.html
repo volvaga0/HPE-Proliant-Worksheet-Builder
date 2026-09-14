@@ -135,6 +135,7 @@ section{margin-top:20px}
 .why.on.flag{background:var(--check-bg);color:var(--check)}
 .cap-note{font-size:12.4px;color:var(--ink-soft)}
 .cap-note.over{color:var(--stop);font-weight:600}
+.cap-note.suggest{color:var(--check);font-weight:600}
 .mem-target-row input{width:120px}
 .mem-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .mem-suggestions button{font-size:13px;padding:6px 10px;border:1px solid var(--field-edge);
@@ -589,6 +590,7 @@ button.quiet{color:var(--ink-soft)}
           <input type="text" id="ctrl" list="ctrls" placeholder="e.g. P816i-a" autocomplete="off">
           <input type="text" id="bat" list="bats" placeholder="Battery — e.g. 96w bat" autocomplete="off">
           <input type="text" id="batdate" placeholder="Battery date requirement, if the client has one">
+          <span class="cap-note" id="bat-note"></span>
         </div>
       </div>
 
@@ -596,6 +598,7 @@ button.quiet{color:var(--ink-soft)}
         <div class="q"><span class="t">SAS expander / extra HBA</span><span class="note">Needed when the bay count exceeds the controller's ports.</span></div>
         <div class="a">
           <input type="text" id="expander" list="expanders" placeholder="e.g. 12G SAS Expander Card" autocomplete="off">
+          <span class="cap-note" id="expander-note"></span>
         </div>
       </div>
 
@@ -1637,6 +1640,19 @@ var CTRLS=[
  '— OCP (mezzanine) —','MR216i-o','MR416i-o','MR408i-o',
  '— Other / no suffix (Gen8–9) —','P204i-b','P204i-c','P440','P440ar','P840','P840ar','H240','H241','B140i','S100i'
 ];
+/* "P" = Smart Array with a write-back cache (needs a battery); "E"/"H" =
+   HBA, no cache; "B140i"/"S100i" = embedded SATA software RAID, no cache;
+   "MR" = MegaRAID, cached. Port counts are HPE/Broadcom's own SKU
+   convention (the number in the name IS the port count) — left out
+   entirely for the Gen8/9 cards (P440/P440ar/P840/P840ar/H240/H241) and
+   the two embedded software-RAID controllers, since their port count
+   isn't fixed by the SKU the way the Gen10+ cards' is. */
+var CACHED_CTRLS={'P204i-b':1,'P204i-c':1,'P408i-a':1,'P408i-p':1,'P408e-p':1,'P816i-a':1,'P816i-p':1,'P824i-p':1,
+  'P440':1,'P440ar':1,'P840':1,'P840ar':1,'SR932i-p':1,'MR216i-o':1,'MR216i-p':1,'MR416i-o':1,'MR416i-p':1,'MR408i-o':1};
+var NOCACHE_CTRLS={'E208i-a':1,'E208i-p':1,'E208e-p':1,'H240':1,'H241':1,'B140i':1,'S100i':1};
+var CTRL_PORTS={'P204i-b':4,'P204i-c':4,'P408i-a':8,'P408i-p':8,'P408e-p':8,'P816i-a':16,'P816i-p':16,
+  'P824i-p':24,'E208i-a':8,'E208i-p':8,'E208e-p':8,'SR932i-p':32,'MR216i-o':16,'MR216i-p':16,
+  'MR416i-o':16,'MR416i-p':16,'MR408i-o':8};
 var EXPANDERS=['12G SAS Expander Card (727250-B21, Gen9)','12G SAS Expander Card (870549-B21, Gen10)',
  '12G SAS Expander Card (876907-B21, Gen10 2SFF rear)','Second controller instead of expander',
  'P408e-p external HBA','E208e-p external HBA','H241 external HBA','None needed'];
@@ -1844,7 +1860,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.2';  // 3rd build shipped today
+var BUILD_VERSION='2026.09.14.3';  // 4th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2655,6 +2671,34 @@ function evaluate(){
   /* SAS expander prompt */
   if(capBays>8&&!v('expander')&&!hasNVMe&&!noDrives)
     checks.push(['verify','EXPANDER',capBays+' bays usually needs a SAS expander or a second controller — a single 8-port controller only addresses 8 drives directly.']);
+
+  /* battery suggestion — a hint, not an auto-fill or a block: some traders
+     deliberately ship a cached controller without one. */
+  var ctrlV=v('ctrl'),batV=v('bat'),batNote=document.getElementById('bat-note');
+  batNote.className='cap-note';batNote.textContent='';
+  if(ctrlV&&CACHED_CTRLS[ctrlV]&&!batV){
+    batNote.className='cap-note suggest';
+    batNote.textContent='Suggested: 96W battery — '+ctrlV+' has a write-back cache that normally needs one.';
+  }else if(ctrlV&&NOCACHE_CTRLS[ctrlV]&&batV&&batV.toLowerCase().indexOf('no battery')<0){
+    batNote.className='cap-note suggest';
+    batNote.textContent=ctrlV+' has no cache — a battery is not normally needed here. Confirm with the client if one was requested anyway.';
+  }
+
+  /* SAS-expander suggestion — names the specific gen-correct part, using
+     the same Gen9-vs-Gen10+ split the paste parser already assumes.
+     Skipped for NVMe (routes around the SAS expander entirely) and for
+     controllers whose port count isn't fixed by the SKU (see CTRL_PORTS). */
+  var expNote=document.getElementById('expander-note');
+  expNote.className='cap-note';expNote.textContent='';
+  if(m&&capBays&&!hasNVMe&&!noDrives&&!v('expander')){
+    var ports=CTRL_PORTS[ctrlV];
+    if(ports!=null&&capBays>ports){
+      var genIsG9=m.g==='G9',expPart=genIsG9?EXPANDERS[0]:EXPANDERS[1];
+      expNote.className='cap-note suggest';
+      expNote.textContent='Suggested: '+expPart+' — '+capBays+' bays exceeds '+ctrlV+'\'s '+ports+' ports.'+
+        (genIsG9||m.g==='G10'?'':' (Gen10 part shown — confirm it still applies to '+m.g+'.)');
+    }
+  }
 
   if(R.coolTierW&&cpu&&cpu[3]>=R.coolTierW&&cpuq>=2)
     checks.push(['stop','LIQUID COOLING REQUIRED',cpu[0]+' at '+cpu[3]+'W with two sockets needs closed-loop liquid cooling — air cooling is not supported at this wattage.']);

@@ -1116,7 +1116,13 @@ setTimeout(()=>{
 },2400);
 
 // ---- round 6: phone-native <select> mirror for the free-type combo fields ----
-setTimeout(()=>{
+// Chains into round 7 from inside its own nested 320ms callback (see below)
+// instead of an independent fixed delay — round 7/8 mutate the same shared
+// `ctrl` field this round's delayed assertion still needs to read; letting
+// them run on schedule regardless of how long rounds 1-6 actually took
+// (once the suite has enough tests, a fixed delay is no guarantee of "after")
+// is exactly the bug that hit round 5's recent-builds check earlier.
+function runRound6(){
   function pass6(m){console.log('ok    '+m);}
   function fail6(m){console.log('FAIL  '+m);process.exitCode=1;}
 
@@ -1165,6 +1171,7 @@ setTimeout(()=>{
     (!ctrlWrap.classList.contains('ac-editing') && ctrlSel.value==='Custom-Ctrl-XYZ')
       ?pass6('a typed custom value re-appears as the selected mirror option after blur')
       :fail6('custom value not reflected back into the mirror select: sel.value="'+ctrlSel.value+'"');
+    runRound7();   // chained — see the comment above runRound6()
   },320);
 
   // --- desktop keeps the searchable combo hidden-select CSS rule present (mobile-only swap) ---
@@ -1178,10 +1185,13 @@ setTimeout(()=>{
   (/select\{appearance:none/.test(desktopSelectRule) && /min-width:641px/.test(desktopSelectRule))
     ?pass6('desktop-only rule flattens <select> chrome to match the other combo fields')
     :fail6('desktop select-flattening rule missing or not scoped to min-width:641px');
-},3000);
+}
+setTimeout(runRound6,3000);
 
 // ---- round 7: rear/mid-tray as independent lines (more than one cage at once) ----
-setTimeout(()=>{
+// Entirely synchronous (no nested timers of its own) — chained from round 6's
+// nested callback above, and chains into round 8 at its own end below.
+function runRound7(){
   function pass7(m){console.log('ok    '+m);}
   function fail7(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi7=d.getElementById('model-input');
@@ -1278,4 +1288,86 @@ setTimeout(()=>{
   txt.includes('single-socket-only')
     ?pass7('G6312U (U-suffix) with 2 processors is blocked — single-socket-only SKU')
     :fail7('U-suffix 2-CPU conflict not caught: '+txt.slice(0,220));
-},3600);
+  runRound8();   // chained — round 7 has no nested timers, so this is safe immediately
+}
+
+// ---- round 8: battery + SAS-expander suggestions (amber hints, not auto-fill/blocks) ----
+// Chained from the end of round 7 — see the comment above runRound6().
+function runRound8(){
+  function pass8(m){console.log('ok    '+m);}
+  function fail8(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi8=d.getElementById('model-input');
+  function setModel8(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi8.value='';fire(mi8,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
+    if(!opt)return fail8('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  const ctrl8=d.getElementById('ctrl'),bat8=d.getElementById('bat');
+  // round 4's Gen9/Gen10 expander-guess tests (via the paste parser) never
+  // clear #expander afterward — clean it so this round's own suggestion
+  // checks (which only show while the field is blank) aren't starting
+  // from that leftover value.
+  d.getElementById('expander').value='';fire(d.getElementById('expander'),'input');
+
+  // --- battery suggestion for a cached controller, left blank ---
+  bat8.value='';fire(bat8,'input');
+  ctrl8.value='P408i-a';fire(ctrl8,'input');
+  /96W battery/.test(d.getElementById('bat-note').textContent)
+    ?pass8('P408i-a (cached) with no battery entered -> suggests a 96W battery')
+    :fail8('battery suggestion missing for P408i-a: "'+d.getElementById('bat-note').textContent+'"');
+
+  // --- suggestion clears once a battery is actually entered ---
+  bat8.value='96w bat';fire(bat8,'input');
+  d.getElementById('bat-note').textContent===''
+    ?pass8('battery suggestion clears once a battery value is entered')
+    :fail8('battery suggestion still showing after a battery was entered: "'+d.getElementById('bat-note').textContent+'"');
+
+  // --- battery is never auto-filled — only ever a suggestion ---
+  bat8.value='';fire(bat8,'input');
+  ctrl8.value='P408i-a';fire(ctrl8,'input');
+  bat8.value===''
+    ?pass8('battery field is never auto-filled from the controller (manual, by design)')
+    :fail8('battery field got auto-filled: "'+bat8.value+'"');
+
+  // --- no-cache controller with a battery entered anyway -> gently flagged ---
+  ctrl8.value='H240';fire(ctrl8,'input');
+  bat8.value='96w bat';fire(bat8,'input');
+  /no cache/.test(d.getElementById('bat-note').textContent)
+    ?pass8('H240 (no cache) + a battery entered anyway -> flagged to confirm')
+    :fail8('no-cache battery flag missing: "'+d.getElementById('bat-note').textContent+'"');
+  bat8.value='';fire(bat8,'input');
+
+  // --- SAS expander: bay count vs the controller's actual port count ---
+  setModel8('DL380 G10');
+  d.getElementById('bays').value='16SFF';fire(d.getElementById('bays'),'input');
+  ctrl8.value='P408i-a';fire(ctrl8,'input'); // 8 ports, 16 bays -> needs one
+  var expTxt=d.getElementById('expander-note').textContent;
+  (/727250-B21|870549-B21/.test(expTxt) && /8 ports/.test(expTxt))
+    ?pass8('16 bays on an 8-port P408i-a -> suggests the gen-correct SAS expander part')
+    :fail8('expander suggestion missing/wrong for P408i-a/16 bays: "'+expTxt+'"');
+
+  // --- the Gen9 vs Gen10 part actually differs ---
+  setModel8('DL380 G9');
+  ctrl8.value='';fire(ctrl8,'input');ctrl8.value='P408i-a';fire(ctrl8,'input');
+  const g9ExpTxt=d.getElementById('expander-note').textContent;
+  /727250-B21/.test(g9ExpTxt)
+    ?pass8('DL380 G9 gets the Gen9 SAS expander part number, not the Gen10 one')
+    :fail8('Gen9 expander part wrong: "'+g9ExpTxt+'"');
+
+  // --- suggestion disappears once an expander is actually entered ---
+  d.getElementById('expander').value='12G SAS Expander Card (727250-B21, Gen9)';
+  fire(d.getElementById('expander'),'input');
+  d.getElementById('expander-note').textContent===''
+    ?pass8('expander suggestion clears once an expander is entered')
+    :fail8('expander suggestion still showing: "'+d.getElementById('expander-note').textContent+'"');
+  d.getElementById('expander').value='';fire(d.getElementById('expander'),'input');
+
+  // --- no port-count data for a Gen8/9 card (P440) -> no fabricated suggestion ---
+  ctrl8.value='';fire(ctrl8,'input');ctrl8.value='P440';fire(ctrl8,'input');
+  d.getElementById('expander-note').textContent===''
+    ?pass8('P440 (no fixed port count known) gets no expander suggestion — avoids guessing')
+    :fail8('unexpected expander suggestion for P440: "'+d.getElementById('expander-note').textContent+'"');
+}
