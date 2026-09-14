@@ -489,6 +489,56 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   their port count isn't fixed by the SKU, so no guess rather than a wrong
   one. Both notes clear the moment the field they're about actually has a
   value, so they never nag once acted on.
+- **Storage controllers are filtered by generation** (`CTRL_GENS`,
+  `ctrlsFor()`, 2026-09-14) — a real bug report: `CTRLS` used to be one
+  flat list offered for every model regardless of generation, so a DL380
+  G10 could "pick" an OCP-mezzanine MR-card its chassis has no slot for,
+  or an MR-p card that didn't exist until Gen10 Plus. Sourced from HPE
+  QuickSpecs (fetched/read directly except where noted):
+  - `P408i-a`/`P816i-a`/`E208i-a`/`P408i-p`/`P408e-p`/`P816i-p`/`E208i-p`:
+    **G10, G10+ only** — absent from the DL380 Gen11 and ML350 Gen11
+    QuickSpecs (both read directly: [DL380 G11](https://www.hpe.com/psnow/doc/a50004307enw),
+    [ML350 G11](https://www.hpe.com/psnow/doc/a50004308enw)). `P824i-p`'s
+    exact scope wasn't found in a primary doc — assumed G10/G10+ by family
+    pattern with its P408i-p/P816i-p siblings; flag if that's wrong.
+  - `E208e-p`: **G10, G10+, AND G11** — the one Smart Array part that
+    survives into Gen11, confirmed directly in both QuickSpecs above
+    ("Essential RAID Controller: HPE Smart Array E208e-p SR Gen10
+    Controller"), consistently across a rack and a tower model.
+  - `SR932i-p`/`MR216i-p`/`MR416i-p`: **G10+, G11** — confirmed G11 direct
+    from the same two docs; G10+ existence via [HPE SR Gen10 Plus Controllers QuickSpecs](https://www.hpe.com/us/en/collaterals/collateral.a50002562enw.html)
+    and reseller-quoted part lists.
+  - `MR216i-o`/`MR416i-o`/`MR408i-o`: **G11 only** — confirmed directly in
+    both docs above; does not exist as a Gen10 Plus product at all (the
+    OCP-mezzanine mounting is a Gen11 addition, not just a new SKU of an
+    existing Gen10 Plus part).
+  - `P204i-b`/`P204i-c`: **G10 only** — moved out of the old (wrong)
+    "Gen8-9" bucket. These are real "SR Gen10" parts
+    ([P204i-b](https://www.hpe.com/psnow/doc/a00008195enw),
+    [P204i-c](https://www.hpe.com/psnow/doc/a00008196enw)) but for
+    entry-tier boxes (DL20/ML30-class), not the mainstream DL380/DL360
+    Gen10 lineup — gated to G10 generation-wide rather than the wrong
+    generation, but not narrowed to specific models since nothing else in
+    this tool tracks a tier distinction within one generation.
+  - `P440`/`P440ar`/`P840`/`P840ar`/`H240`/`H241`/`B140i`/`S100i`:
+    confirmed **G9 only** (shared Gen8/Gen9 lineup, no Gen10 overlap) via
+    HPE's own [Gen8→Gen9→Gen10 transition chart](https://www.also.com/ec/cms5/media/documents/6110/microsites_5/hpe_4/produkte_uebersicht/smartarraycontroller.pdf).
+  - **G12 (Xeon 6) has no entry at all.** Its QuickSpecs controller
+    section wouldn't load while sourcing this (repeated timeouts). Rather
+    than guess, `ctrlsFor()` falls back to the full unfiltered list for
+    G12 and `evaluate()` raises a `verify` note (not a hard `stop`)
+    whenever a G12 build has a controller picked, so the gap stays
+    visible instead of silently "working". Secondary-only sourcing
+    suggests Gen12 reuses the Gen11 MR/SR names rather than minting new
+    ones (plus a new MR932i-p, not yet in the tool's list) — needs a
+    primary-doc re-check before acting on it.
+  A mismatched value that lands in `#ctrl` some other way (typed directly,
+  paste-fill, a restored draft, a model switch after the field was already
+  set) is still caught — `evaluate()` raises a `stop` if the current value
+  is a name `CTRL_GENS` recognizes and the current model's generation
+  isn't in its list, same severity as `BACKPLANE MISMATCH`. A genuinely
+  unlisted/custom typed value is left alone, same as every other
+  free-type field.
 - **Capacity planner** — enter usable TB + RAID level, get up to 5
   drive-population suggestions ranked by least wasted capacity, with a
   one-click "Use" that drops the line into the drive list.
@@ -780,6 +830,17 @@ TOTAL, i.e. 4096/socket at 16×256GB, not a per-socket figure.
   (from Intel ARK / a SPEC.org result / an HPE newsroom post, cross-
   checked across those three) — no bay/PSU/fan/riser data. Flagged in
   its own notes rather than guessed; still an open TODO.
+- **Storage controller generation compatibility is unsourced for all 8
+  Gen12 models** (see the `CTRL_GENS`/`ctrlsFor()` entry in Architecture,
+  above) — `CTRL_GENS` has no G12 entry at all, so `ctrlsFor()` falls back
+  to the full unfiltered controller list for every Gen12 build rather than
+  guessing which of the Gen11 MR/SR names (or a new Gen12-specific one)
+  actually apply. `evaluate()` raises a `verify` note whenever a G12 build
+  has a controller picked, so this doesn't silently look solved. Still an
+  open TODO — Gen12's own QuickSpecs controller section wouldn't load
+  during sourcing (repeated timeouts); secondary sourcing hints Gen12
+  reuses the Gen11 MR/SR names plus a new MR932i-p, but that needs a
+  primary-doc re-check before it goes into `CTRL_GENS`.
 - **Removed a stale check**: a hardcoded `'No processors are seeded for
   Gen12 yet'` message fired unconditionally for every `xeon6` model —
   left over from before any SKUs existed. Now dead code was removed;

@@ -1744,7 +1744,8 @@ var CTRLS=[
  '— Type-a (embedded slimline) —','P408i-a','P816i-a','E208i-a',
  '— PCI (plug-in card) —','P408i-p','P408e-p','P816i-p','P824i-p','E208i-p','E208e-p','SR932i-p','MR216i-p','MR416i-p',
  '— OCP (mezzanine) —','MR216i-o','MR416i-o','MR408i-o',
- '— Other / no suffix (Gen8–9) —','P204i-b','P204i-c','P440','P440ar','P840','P840ar','H240','H241','B140i','S100i'
+ '— Entry-tier (Gen10, DL20/ML30-class) —','P204i-b','P204i-c',
+ '— Other / no suffix (Gen8–9) —','P440','P440ar','P840','P840ar','H240','H241','B140i','S100i'
 ];
 /* "P" = Smart Array with a write-back cache (needs a battery); "E"/"H" =
    HBA, no cache; "B140i"/"S100i" = embedded SATA software RAID, no cache;
@@ -1759,6 +1760,56 @@ var NOCACHE_CTRLS={'E208i-a':1,'E208i-p':1,'E208e-p':1,'H240':1,'H241':1,'B140i'
 var CTRL_PORTS={'P204i-b':4,'P204i-c':4,'P408i-a':8,'P408i-p':8,'P408e-p':8,'P816i-a':16,'P816i-p':16,
   'P824i-p':24,'E208i-a':8,'E208i-p':8,'E208e-p':8,'SR932i-p':32,'MR216i-o':16,'MR216i-p':16,
   'MR416i-o':16,'MR416i-p':16,'MR408i-o':8};
+/* Which ProLiant generation(s) each controller is a genuinely orderable
+   option for, sourced from HPE QuickSpecs (2026-09-14 — see PROJECT.md for
+   full citations). This was the actual bug: CTRLS was one flat list shown
+   for every model regardless of generation, so a DL380 G10 could "pick" an
+   OCP-mezzanine MR-card its chassis has no slot for, or an MR-p card that
+   didn't exist until Gen10 Plus. ctrlsFor() filters CTRLS through this map.
+   Deliberate gaps, left as gaps rather than guessed at:
+   - P824i-p's exact generation scope wasn't in any primary QuickSpecs doc
+     found — assumed G10/G10+ by family pattern with its P408i-p/P816i-p
+     siblings. Flag if that's wrong.
+   - G12 (Xeon 6) isn't in this map — its QuickSpecs controller section
+     wouldn't load while sourcing this. ctrlsFor() falls back to the full
+     unfiltered CTRLS list for G12 rather than guessing, and evaluate()
+     raises a verify note whenever a G12 model has a controller picked, so
+     the gap stays visible instead of silently "working".
+   - P204i-b/P204i-c are real Gen10 parts, but specifically for entry-tier
+     boxes (DL20/ML30), not the mainstream DL380/DL360-class Gen10 lineup —
+     gated to G10 here (fixing the previous wrong "Gen8-9" bucket) but not
+     narrowed to specific models, since nothing else in this tool tracks a
+     tier distinction within one generation. */
+var CTRL_GENS={
+ 'P408i-a':['G10','G10+','G10+ v2'],'P816i-a':['G10','G10+','G10+ v2'],'E208i-a':['G10','G10+','G10+ v2'],
+ 'P408i-p':['G10','G10+','G10+ v2'],'P408e-p':['G10','G10+','G10+ v2'],'P816i-p':['G10','G10+','G10+ v2'],
+ 'P824i-p':['G10','G10+','G10+ v2'],'E208i-p':['G10','G10+','G10+ v2'],
+ 'E208e-p':['G10','G10+','G10+ v2','G11'],
+ 'SR932i-p':['G10+','G10+ v2','G11'],'MR216i-p':['G10+','G10+ v2','G11'],'MR416i-p':['G10+','G10+ v2','G11'],
+ 'MR216i-o':['G11'],'MR416i-o':['G11'],'MR408i-o':['G11'],
+ 'P204i-b':['G10'],'P204i-c':['G10'],
+ 'P440':['G9'],'P440ar':['G9'],'P840':['G9'],'P840ar':['G9'],'H240':['G9'],'H241':['G9'],'B140i':['G9'],'S100i':['G9']
+};
+function ctrlGroups(){
+  var groups=[],cur=null;
+  CTRLS.forEach(function(s){
+    if(s.charAt(0)==='—'){cur={label:s,items:[]};groups.push(cur);}
+    else if(cur)cur.items.push(s);
+  });
+  return groups;
+}
+/* filters CTRLS down to what the model's generation actually offers,
+   dropping any group whose every item got filtered out (an empty "—
+   Type-a —" header with nothing under it would otherwise still render). */
+function ctrlsFor(m){
+  if(!m||m.g==='G12')return CTRLS;
+  var out=[];
+  ctrlGroups().forEach(function(g){
+    var items=g.items.filter(function(c){return (CTRL_GENS[c]||[]).indexOf(m.g)>-1;});
+    if(items.length){out.push(g.label);out=out.concat(items);}
+  });
+  return out;
+}
 var EXPANDERS=['12G SAS Expander Card (727250-B21, Gen9)','12G SAS Expander Card (870549-B21, Gen10)',
  '12G SAS Expander Card (876907-B21, Gen10 2SFF rear)','Second controller instead of expander',
  'P408e-p external HBA','E208e-p external HBA','H241 external HBA','None needed'];
@@ -1984,7 +2035,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.16'; // 17th build shipped today
+var BUILD_VERSION='2026.09.14.17'; // 18th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2339,7 +2390,7 @@ document.getElementById('mem-suggestions').addEventListener('click',function(e){
 });
 
 attachList(document.getElementById('dimm'),function(){return DIMMS;});
-attachList(document.getElementById('ctrl'),function(){return CTRLS;});
+attachList(document.getElementById('ctrl'),function(){return ctrlsFor(currentModel());});
 attachList(document.getElementById('bat'),function(){return BATS;});
 attachList(document.getElementById('flr'),function(){return FLRS;});
 attachList(document.getElementById('expander'),function(){return EXPANDERS;});
@@ -2930,6 +2981,23 @@ function evaluate(){
     batNote.className='cap-note suggest';
     batNote.textContent=ctrlV+' has no cache — a battery is not normally needed here. Confirm with the client if one was requested anyway.';
   }
+
+  /* controller-vs-generation hard check — CTRLS used to be one flat list
+     shown for every model, so e.g. an OCP-mezzanine MR-card (Gen11 only)
+     or an MR-p card (Gen10 Plus+) could get "picked" for a DL380 G10,
+     which doesn't have the slot/bus for either. ctrlsFor() already keeps
+     these out of the tap-to-pick panel; this catches a mismatched value
+     that landed in the field some other way (free-typed, paste-fill, a
+     restored draft, or a model switch after the controller was already
+     set). Only fires for a name this tool actually recognizes — a
+     genuinely custom/unlisted value is left alone, same as every other
+     free-type field. G12 is exempt (see the CTRL_GENS comment — its
+     controller generations aren't sourced yet, flagged separately below
+     rather than treated as a hard mismatch). */
+  if(m&&ctrlV&&m.g!=='G12'&&CTRL_GENS[ctrlV]&&CTRL_GENS[ctrlV].indexOf(m.g)<0)
+    checks.push(['stop','CONTROLLER GENERATION',ctrlV+' is only offered for '+CTRL_GENS[ctrlV].join('/')+' — it does not work in '+m.m+' '+m.g+'.']);
+  if(m&&ctrlV&&m.g==='G12')
+    checks.push(['verify','CONTROLLER GENERATION','Storage controller generation compatibility for Gen12 (Xeon 6) hasn\'t been sourced from QuickSpecs yet — confirm '+ctrlV+' actually works with '+m.m+' '+m.g+' before quoting.']);
 
   /* SAS-expander suggestion — names the specific gen-correct part, using
      the same Gen9-vs-Gen10+ split the paste parser already assumes.

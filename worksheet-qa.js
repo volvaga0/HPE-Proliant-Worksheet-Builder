@@ -1288,18 +1288,66 @@ function runRound7(){
     :fail7('per-clause rear/mid tagging regressed: '+txt.slice(0,220));
   clearRear();
 
-  // --- controller list grouped by suffix (Type-a / PCI / OCP / no-suffix) ---
+  // --- controller list grouped by suffix (Type-a / PCI / OCP / Entry-tier /
+  // other). Gen12 is used here on purpose: its controller compatibility
+  // isn't sourced yet, so ctrlsFor() deliberately returns the full
+  // unfiltered CTRLS for it (see CTRL_GENS in index.html) — the one
+  // generation guaranteed to show every group for this structural check. ---
+  setModel7('DL380 G12');
   const ctrl=d.getElementById('ctrl');
   ctrl.dispatchEvent(new w.Event('focus'));
   const groups=[...d.getElementById('ac-panel').querySelectorAll('.combo-group')].map(g=>g.textContent);
-  (groups.length===4 && groups.some(g=>/type.a/i.test(g)) && groups.some(g=>/^pci/i.test(g)) && groups.some(g=>/ocp/i.test(g)))
-    ?pass7('controller combo panel groups into Type-a / PCI / OCP / other')
+  (groups.length===5 && groups.some(g=>/type.a/i.test(g)) && groups.some(g=>/^pci/i.test(g)) &&
+   groups.some(g=>/ocp/i.test(g)) && groups.some(g=>/entry/i.test(g)))
+    ?pass7('controller combo panel groups into Type-a / PCI / OCP / Entry-tier / other')
     :fail7('controller groups wrong: '+groups.join(' | '));
   const ctrlSel=ctrl.closest('.ac-wrap').querySelector('select');
   const optgroups=[...ctrlSel.querySelectorAll('optgroup')].map(g=>g.label);
-  (optgroups.length===4 && ctrlSel.querySelector('optgroup[label*="Type"] option[value="P408i-a"]') && ctrlSel.querySelector('optgroup[label*="OCP"] option[value="MR408i-o"]'))
-    ?pass7('controller native-select mirror keeps the same 4 optgroups')
+  (optgroups.length===5 && ctrlSel.querySelector('optgroup[label*="Type"] option[value="P408i-a"]') && ctrlSel.querySelector('optgroup[label*="OCP"] option[value="MR408i-o"]'))
+    ?pass7('controller native-select mirror keeps the same 5 optgroups')
     :fail7('controller mirror optgroups wrong: '+optgroups.join(' | '));
+
+  // --- the actual bug report: controllers are now filtered by generation,
+  // not shown as one flat list for every model (2026-09-14, CTRL_GENS) ---
+  setModel7('DL380 G10');
+  ctrl.dispatchEvent(new w.Event('focus'));
+  let ctrlOpts=[...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);
+  (!ctrlOpts.includes('MR416i-o') && !ctrlOpts.includes('MR216i-p') && !ctrlOpts.includes('MR416i-p') && !ctrlOpts.includes('SR932i-p') && ctrlOpts.includes('P408i-a'))
+    ?pass7('DL380 G10: no OCP-mezz or MR-p/SR932i-p cards offered (Gen10 Plus+ only) — P408i-a still is')
+    :fail7('DL380 G10 controller list wrong: '+ctrlOpts.join(', '));
+  setModel7('DL380 G10+');
+  ctrl.dispatchEvent(new w.Event('focus'));
+  ctrlOpts=[...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);
+  (ctrlOpts.includes('MR216i-p') && ctrlOpts.includes('SR932i-p') && ctrlOpts.includes('P408i-a') && !ctrlOpts.includes('MR416i-o'))
+    ?pass7('DL380 G10+: MR-p/SR932i-p cards now offered, still no OCP-mezz (Gen11 only)')
+    :fail7('DL380 G10+ controller list wrong: '+ctrlOpts.join(', '));
+  setModel7('DL380 G11');
+  ctrl.dispatchEvent(new w.Event('focus'));
+  ctrlOpts=[...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);
+  (ctrlOpts.includes('MR416i-o') && ctrlOpts.includes('MR216i-p') && ctrlOpts.includes('E208e-p') && !ctrlOpts.includes('P408i-a') && !ctrlOpts.includes('P408i-p'))
+    ?pass7('DL380 G11: OCP-mezz + MR-p offered, old Smart Array P-series dropped (E208e-p is the one survivor)')
+    :fail7('DL380 G11 controller list wrong: '+ctrlOpts.join(', '));
+  setModel7('DL380 G9');
+  ctrl.dispatchEvent(new w.Event('focus'));
+  ctrlOpts=[...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);
+  (ctrlOpts.includes('P440') && ctrlOpts.includes('H240') && !ctrlOpts.includes('P408i-a') && !ctrlOpts.includes('MR216i-p'))
+    ?pass7('DL380 G9: only the Gen8/9 P440/H240-era lineup offered')
+    :fail7('DL380 G9 controller list wrong: '+ctrlOpts.join(', '));
+
+  // --- a mismatched value that lands in the field some other way (typed,
+  // pasted, a restored draft) is caught even though it can't be tapped
+  // from the panel any more ---
+  setModel7('DL380 G10');
+  ctrl.value='MR416i-o';fire(ctrl,'input');
+  d.getElementById('checks').textContent.includes('CONTROLLER GENERATION')
+    ?pass7('a Gen11-only controller typed directly into a G10 build is flagged, not silently accepted')
+    :fail7('mismatched typed controller value was not caught: '+d.getElementById('checks').textContent.slice(0,200));
+  setModel7('DL380 G12');
+  ctrl.value='MR416i-o';fire(ctrl,'input');
+  (d.getElementById('checks').textContent.includes('CONTROLLER GENERATION') && !d.getElementById('checks').textContent.includes('does not work in'))
+    ?pass7('Gen12 gets a verify note instead of a hard stop — its controller data isn\'t sourced yet')
+    :fail7('Gen12 controller check wrong: '+d.getElementById('checks').textContent.slice(0,200));
+  ctrl.value='';fire(ctrl,'input');
 
   // --- "U"-suffix (single-socket-only) Xeon SKUs blocked above 1 processor ---
   setModel7('DL360 G10+');pickCpu7('G6312U');
@@ -1480,7 +1528,7 @@ function runRound9(){
   phSel9.classList.contains('ph')
     ?pass9('an empty <select> (native mirror) gets the .ph dimmed class')
     :fail9('.ph class not applied to an empty select');
-  phSel9.value='P408i-a';fire(phSel9,'change');
+  phSel9.value='P440';fire(phSel9,'change'); // P408i-a isn't offered on this G9 model post-CTRL_GENS filtering — P440 is
   !phSel9.classList.contains('ph')
     ?pass9('.ph clears once a real value is picked')
     :fail9('.ph class stuck after picking a real value');
