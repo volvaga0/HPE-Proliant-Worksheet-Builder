@@ -1488,6 +1488,79 @@ function runRound7(){
   d.getElementById('cpuq').value='1';fire(d.getElementById('cpuq'),'input');
   dimm7.value='';fire(dimm7,'input');
 
+  // --- 5th Gen rollout to the other Gen11 models it's actually confirmed
+  // for (2026-09-14) — DL360/ML350/DL320/ML110 yes, DL110/DL560 no, and
+  // DL340 G11 removed entirely (never a real HPE product) ---
+  ['DL360 G11','ML350 G11','DL320 G11','ML110 G11'].forEach(function(model){
+    setModel7(model);ci7.value='';fire(ci7,'input');
+    const groups=[...d.querySelectorAll('#cpu-panel .combo-group')].map(g=>g.textContent);
+    (groups.some(g=>/4th Gen/.test(g)) && groups.some(g=>/5th Gen/.test(g)))
+      ?pass7(model+': 5th Gen (Emerald Rapids) is offered alongside 4th Gen, confirmed against its own QuickSpecs')
+      :fail7(model+' CPU groups missing 5th Gen: '+groups.join(' | '));
+  });
+  ['DL110 G11','DL560 G11'].forEach(function(model){
+    setModel7(model);ci7.value='';fire(ci7,'input');
+    const groups=[...d.querySelectorAll('#cpu-panel .combo-group')].map(g=>g.textContent);
+    (groups.some(g=>/4th Gen/.test(g)) && !groups.some(g=>/5th Gen/.test(g)))
+      ?pass7(model+': stays 4th-Gen-only — its own QuickSpecs hasn\'t added 5th Gen')
+      :fail7(model+' should not offer 5th Gen: '+groups.join(' | '));
+  });
+  // DL320/ML110 G11's new single-socket "U" SKUs (found during the sp5
+  // rollout, not previously seeded at all) are caught by the existing
+  // generic U-suffix rule, no new code needed
+  setModel7('DL320 G11');pickCpu7('G5412U');
+  d.getElementById('cpuq').value='1';fire(d.getElementById('cpuq'),'input');
+  ci7.value='';fire(ci7,'input');
+  const g5412Item=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].find(el=>el.textContent==='G5412U');
+  g5412Item
+    ?pass7('DL320 G11: newly-seeded G5412U (4th Gen, single-socket) is offered')
+    :fail7('G5412U not found in DL320 G11\'s CPU list');
+  // DL340 G11 no longer exists as a pickable model
+  mi7.value='DL340';fire(mi7,'input');
+  const dl340Match=[...d.querySelectorAll('#model-panel .combo-item')].some(el=>/DL340\s*G11\b/.test(el.textContent.replace(/\s+/g,' ')));
+  !dl340Match
+    ?pass7('DL340 G11 no longer offered as a model — it was never a real HPE product')
+    :fail7('DL340 G11 still appears in the model picker');
+  mi7.value='';fire(mi7,'input');
+
+  // --- FlexibleLOM vs OCP 3.0 are physically different connectors, not
+  // interchangeable — the field used to offer nothing but FlexibleLOM
+  // cards for every model, even Gen10 Plus/11/12 chassis that dropped
+  // FlexibleLOM entirely in favor of OCP 3.0 (2026-09-14, flrKind()/
+  // flrCardsFor()) ---
+  const flr7=d.getElementById('flr');
+  function flrOpts7(){flr7.dispatchEvent(new w.Event('focus'));return [...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);}
+  setModel7('DL380 G9'); // pre-Gen10-Plus — FlexibleLOM only, no OCP existed yet
+  let flrOpts=flrOpts7();
+  (flrOpts.some(o=>/^366FLR/.test(o)) && !flrOpts.some(o=>/^I350-T4|^BCM5719/.test(o)))
+    ?pass7('DL380 G9: FlexibleLOM cards only — OCP 3.0 didn\'t exist yet')
+    :fail7('DL380 G9 FLR panel wrong: '+flrOpts.join(', '));
+  setModel7('DL380 G11'); // OCP-only — FlexibleLOM was retired at Gen10 Plus
+  flrOpts=flrOpts7();
+  (flrOpts.some(o=>/^I350-T4/.test(o)) && !flrOpts.some(o=>/FLR/.test(o)))
+    ?pass7('DL380 G11: OCP 3.0 cards only — no FlexibleLOM option anywhere (retired at Gen10 Plus)')
+    :fail7('DL380 G11 FLR panel wrong: '+flrOpts.join(', '));
+  d.getElementById('flr-note').textContent.includes('OCP 3.0 only')
+    ?pass7('DL380 G11 flr-note explains it\'s OCP-only')
+    :fail7('DL380 G11 flr-note wrong: '+d.getElementById('flr-note').textContent);
+  setModel7('ML30 G10+'); // one of the 3 confirmed "neither slot" exceptions
+  flrOpts=flrOpts7();
+  (flrOpts.length===0 && d.getElementById('flr-note').textContent.includes('No FlexibleLOM/OCP mezzanine'))
+    ?pass7('ML30 G10+: no FlexibleLOM or OCP option at all — this chassis has neither slot')
+    :fail7('ML30 G10+ should offer nothing: '+flrOpts.join(', ')+' / note: '+d.getElementById('flr-note').textContent);
+  setModel7('DL20 G11'); // NOT an exception — gained real OCP at G11 despite DL20 G10+ having neither
+  flrOpts=flrOpts7();
+  flrOpts.some(o=>/^I350-T4|^BCM5719/.test(o))
+    ?pass7('DL20 G11 gained a real OCP slot (unlike DL20 G10+) — same model name, different generation, different answer')
+    :fail7('DL20 G11 should offer OCP cards: '+flrOpts.join(', '));
+  // a mismatched card typed/pasted/restored is still caught
+  setModel7('DL380 G11');
+  flr7.value='366FLR 4x1GbE';fire(flr7,'input');
+  d.getElementById('checks').textContent.includes('FLEXLOM/OCP MISMATCH')
+    ?pass7('a FlexibleLOM card typed directly into a G11 (OCP-only) build is flagged')
+    :fail7('mismatched FLR/OCP card not caught: '+d.getElementById('checks').textContent.slice(0,200));
+  flr7.value='';fire(flr7,'input');
+
   // --- a mismatched DDR4 speed typed/pasted/restored into a DDR5 build is
   // caught (hard stop) even though it can't be tapped from the panel any
   // more; capacity gets a softer verify, not a stop (lower confidence) ---

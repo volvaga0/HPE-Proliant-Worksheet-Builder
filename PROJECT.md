@@ -668,6 +668,50 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
     combo without a rank field existing in the first place. Documented
     in the storage-controller-verification memory for reference if a
     future need for it comes up, rather than built speculatively now.
+- **FlexibleLOM and OCP 3.0 are different, non-interchangeable
+  connectors — `flrKind()`/`flrCardsFor()`/`OCP_CARDS`, 2026-09-14.**
+  User reported the "FlexibleLOM / OCP" field only ever offered
+  FlexibleLOM cards, with zero real OCP options anywhere, even though
+  FlexibleLOM was fully retired starting at Gen10 Plus. Checked every
+  Gen10 Plus/Gen11 model this tool offers (Gen12 as a bonus) directly
+  against its own QuickSpecs:
+  - **Every Gen10 Plus/11/12 model checked is OCP-3.0-only** — no
+    FlexibleLOM slot exists any more. A few QuickSpecs PDFs (DL365/
+    DL380 G10+, DL380 G11) have one leftover "FlexibleLOM" sentence
+    that every physical slot diagram and SKU table in the SAME
+    document contradicts — treated as an un-scrubbed copy-paste
+    artifact, not a real second slot.
+  - **Three confirmed exceptions have NEITHER slot at all** (just an
+    embedded LOM chip + plain PCIe): `DL20 G10+`, `ML30 G10+`,
+    `ML30 G11`. Notably `DL20 G11` is **not** an exception — it gained
+    a real OCP slot despite `DL20 G10+` having none, so this can't be
+    shortcut by model name alone; `flrKind(m)` keys off `m.m+' '+m.g`
+    for the exception list, generation alone otherwise.
+  - `OCP_CARDS` is one shared ~18-card catalog (I350-T4, BCM5719/57412/
+    57416/57414/57504, X710-DA2, Marvell QL41132/QL41232, Mellanox
+    MCX562A/MCX631432AS, Intel E810-XXVDA2/XXVDA4/CQDA2, the Gen12-new
+    BCM57608 100Gb, and two InfiniBand 200Gb options) — the same
+    catalog turned up on nearly every model checked, unlike controllers/
+    expanders/memory where exact part numbers genuinely differed by
+    generation. `FLRS` (the original FlexibleLOM list) is untouched and
+    still feeds G9/G10 models, which predate OCP entirely.
+  - A stray `'366M 4x1GbE (OCP)'` entry in the unrelated PCI **add-in
+    card** suggestion list (`CARDLIST`) was removed — a real OCP NIC
+    doesn't occupy a PCI slot at all (it has its own mezzanine
+    connector, same as FlexibleLOM did), so listing one there
+    perpetuated the exact FLR/OCP conflation this fix corrects.
+  - A new `#flr-note` explains which connector the current chassis
+    actually has; a mismatched card typed/pasted/restored is a hard
+    `stop` (`FLEXLOM/OCP MISMATCH`), same severity as
+    `CONTROLLER GENERATION`/`MEMORY SPEED`.
+  - **Unresolved:** `DL110 G12`'s slot type — every mirror tried
+    blocked or 404'd. Defaulted to `'ocp'` (matching every other G12
+    model checked) rather than left unhandled, flagged as unverified
+    in its own model notes rather than silently assumed solid.
+  - **Noticed but not built:** several Gen11/Gen12 models have **2**
+    OCP slots (DL360/365/560 G11, most G12 rack models) vs 1 elsewhere
+    — this tool's single free-type field doesn't track "how many," the
+    same simplification already applied to PCIe/riser slot counts.
 - **Capacity planner** — enter usable TB + RAID level, get up to 5
   drive-population suggestions ranked by least wasted capacity, with a
   one-click "Use" that drops the line into the drive list.
@@ -818,12 +862,38 @@ two generations of cpu in the drop down"). Fixed:
   Two more Speed-Select "Q" SKUs were also added (`G6458Q` 4th Gen,
   `G6558Q` 5th Gen) — already covered by the existing generic "Q suffix
   needs Max Performance heatsink" note, no new logic needed there.
-- Only DL380 Gen11 got `sp5` added to its platform list so far — same
-  conservative precedent as `turin` (only added to DL385 Gen11 until
-  each OTHER model's own QuickSpecs confirms it). DL110/DL320/DL340/
-  DL360/DL560/ML110/ML350 Gen11 likely also take 5th Gen (same LGA4677
-  socket) but this is unconfirmed per-model, so left as `['sp4']` only
-  for now — a clear next step for someone with time to check each one.
+- **Rolled out to the other Gen11 models the same day, once checked
+  individually** (user reported "5th gen cpu's are missing from the
+  G11 servers" after the DL380-only fix) — turned out genuinely
+  per-model, not a blanket Gen11 rule:
+  - **Confirmed YES, `sp5` added:** DL360 (same 29-SKU pool as DL380,
+    verified SKU-for-SKU against its own QuickSpecs), ML350 (same pool
+    minus 4 DLC-only parts — 8593Q/8562Y+/6544Y/6558Q — its tower can't
+    cool, noted but not excluded from the picker), DL320 and ML110
+    (1-socket boards, a smaller Silver/Gold-5/Bronze subset). DL320 and
+    ML110 also each turned up one brand-new single-socket "U"-suffix
+    SKU not previously seeded at all: `G5412U` (4th Gen, `sp4`) and
+    `G5512U` (5th Gen, `sp5`) — both caught by the existing generic
+    `/U$/` single-socket check automatically, no new logic needed.
+  - **Confirmed NO:** DL110 (QuickSpecs still 4th-Gen-only) and DL560
+    (doc frozen since Jan 2024, still 4th-Gen-only — and DL560's real
+    CPU pool looks like it's mostly a distinct 4-socket-rated
+    "H"-suffix subset rather than the general `sp4` list shared with
+    2-socket boards; **open TODO, not fixed here** — this tool has no
+    per-model CPU allow-list to restrict `sp4` down to just the
+    confirmed 4-socket-valid SKUs for DL560 specifically).
+  - **DL340 Gen11 doesn't exist as a real HPE product at all** —
+    removed from `MODELS` entirely. HPE's DL340 line starts at Gen12
+    (a new 2U single-socket Xeon 6 SKU); there was never a Gen11
+    DL340 in any QuickSpecs or catalog. The old entry was a bare,
+    never-verified `{m,g,p,s,d}` skeleton with zero rules — a genuine
+    data-entry error, not a spec gap.
+  - Found but NOT added: DL110 Gen11's own QuickSpecs lists 5 telco/
+    vRAN "N"-suffix SKUs (Gold 5423N/6403N/6423N/6433N/6443N) this tool
+    doesn't seed — web sourcing gave conflicting base-clock figures for
+    6443N (1.90 vs 2.00GHz across sources), so left out rather than
+    guessed. Someone with Intel ARK access or the raw QuickSpecs PDF in
+    front of them could resolve this in five minutes.
 - Noticed but NOT fixed (flagged rather than built, out of proportion
   to fix alongside this): 96GB DIMMs on 5th Gen need XCC/MCC-die CPUs
   and can't mix with other capacities (mixing isn't reachable in this

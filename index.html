@@ -690,7 +690,7 @@ button.quiet{color:var(--ink-soft)}
         </div>
       </div>
       <div class="row">
-        <div class="q"><span class="t">FlexibleLOM / OCP</span></div>
+        <div class="q"><span class="t">FlexibleLOM / OCP</span><span class="note" id="flr-note"></span></div>
         <div class="a"><div class="inline">
           <fieldset class="pills"><legend>FlexibleLOM / OCP</legend>
             <input type="radio" id="fl1" name="flrfit" value="Fitted"><label for="fl1">Yes</label>
@@ -1141,8 +1141,9 @@ var MODELS=[
 
  {m:'DL20', g:'G11', p:['xeone3'], s:1, d:4},
  {m:'DL110',g:'G11', p:['sp4'],    s:1, d:16,
-   rules:{notes:['Processors at 185W TDP or higher need the DIMM Blank kit (P43725-B21) fitted in any unpopulated slots.']}},
- {m:'DL320',g:'G11', p:['sp4'],    s:1, d:16},
+   rules:{notes:['Processors at 185W TDP or higher need the DIMM Blank kit (P43725-B21) fitted in any unpopulated slots.',
+     'No 5th Gen (sp5) Xeon Scalable — checked directly against this model\'s own QuickSpecs (2026-09-14), still 4th-Gen-only as of its latest revision. Its own QuickSpecs also lists 5 telco/vRAN "N"-suffix SKUs (Gold 5423N/6403N/6423N/6433N/6443N) this tool doesn\'t seed yet — found while researching, but not added: web sourcing gave conflicting base-clock figures for 6443N (1.90 vs 2.00GHz across sources), so it was left out rather than guessed.']}},
+ {m:'DL320',g:'G11', p:['sp4','sp5'],    s:1, d:16},
  {m:'DL325',g:'G11', p:['genoa'],  s:1, d:12,
    rules:{verified:true,liquidReqW:320,memPerSocket:3072,fanPart:'P58462-B21',psuMax:2,fans:{one:7,perf:7},pcie:{one:2,two:2},riserMax:2,
      notes:['12 DIMM slots (1 DIMM per channel, single Genoa socket) — up to 3TB.',
@@ -1152,7 +1153,13 @@ var MODELS=[
        'Up to 7 fans with redundancy — one rotor failure degrades but keeps running.',
        'Up to 3TB of memory supported (single socket).',
        'NVMe/SAS/SATA U.3 backplane needs Tri-Mode controllers for the SAS/SATA drives.']}},
- {m:'DL340',g:'G11', p:['sp4'],    s:2, d:16},
+ /* DL340 G11 removed 2026-09-14 — it never existed as a real HPE product.
+    HPE's DL340 line starts at Gen12 (a new 2U single-socket Xeon 6 SKU,
+    HPE's first 1P rack server in that class); there is no Gen11 DL340 in
+    any QuickSpecs, buy.hpe.com listing, or reseller catalog found while
+    researching the Gen11 CPU list. This entry was a fabricated skeleton
+    (bare {m,g,p,s,d}, no rules, never verified) — removed rather than
+    left in place offering a product that was never orderable. */
  {m:'DL345',g:'G11', p:['genoa'],  s:1, d:12,
    rules:{verified:true,hsW:260,hsWtext:'260W or higher (241–259W: check the cooling matrix)',fanW:260,
      memPerSocket:3072,psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:6,two:6},riserMax:2,
@@ -1162,7 +1169,7 @@ var MODELS=[
        'Performance fans also required for NVMe, SAS4, EDSFF and GPU configurations.',
        '6 PCIe Gen5 x16 slots (3 primary + 3 secondary), all FH/HL. Up to 4 SW or 2 DW GPUs.',
        'Ships with 1 slot in each position by default (Slot 3 primary, Slot 6 secondary) — the 4/6 PCIe Enablement Kits upgrade one or both to 3 slots, but neither is selectable once the 4LFF rear cage is fitted; swap in the LFF Rear Cage riser variants instead.']}},
- {m:'DL360',g:'G11', p:['sp4'], s:2, d:32,
+ {m:'DL360',g:'G11', p:['sp4','sp5'], s:2, d:32,
    rules:{verified:true,hsW:186,hsWtext:'186W–270W',fanW:186,fanPart:'P48908-B21',hsPart:'P48905-B21',riserMax:2,
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2SFF rear','2x M.2 (dual uFF) rear'],
      coolTierW:271,singleMaxAirW:300,fanNVMe:true,fanRear:true,fanGPU:true,
@@ -1214,6 +1221,7 @@ var MODELS=[
      notes:['Front drive boxes only, all 2.5-inch — no rear or mid-tray drive cage.',
        'Processors above 150W need the High Performance Heat Sink; processors ship with no heatsink or fan kit — select both.',
        'A 4-processor build requires the Liquid Cooling FIO Heat Sink Kit (P54791-B21) — 4P air cooling is not offered.',
+       'No 5th Gen (sp5) Xeon Scalable — checked directly, QuickSpecs frozen at 4th-Gen-only since Jan 2024. OPEN TODO, not fixed here: this model\'s real CPU pool also looks like it\'s mostly a distinct 4-socket-rated "H"-suffix subset (8490H/8468H/8460H/8450H/8444H/6448H/6434H/6418H/6416H) rather than the general sp4 list shared with 2-socket boards — the sp4 pool as currently modeled may offer CPUs here that HPE never actually validated for a 4-socket DL560 build. Confirm against QuickSpecs before quoting a non-H-suffix CPU on this model; this tool has no per-model CPU allow-list to enforce it structurally yet.',
        '2 to 4 power supplies (min 2), redundancy 1+1 / 2+2 / 3+1.',
        'Air-cooled CTO ships 6 high-performance fans; liquid-cooled CTO ships 5.',
        '64 DIMM slots (16 per processor). 6 PCIe Gen5 slots (3 primary + 3 secondary) plus 2 OCP. Both riser cages take an x8/x16/x8 (P54779-B21) or x16/x16/x16 (P54780-B21) kit; a double-wide GPU only fits primary slot 2 or secondary slot 5.',
@@ -1303,12 +1311,13 @@ var MODELS=[
        'Standard PSU is a single non-hot-plug 350W Gold (P21652-B21); Flex Slot supplies (500W Platinum 865408-B21 / 800W Titanium 865438-B21) need the RPS Enablement Kit (P45209-B21) — 2 bays, 1+1.',
        '4 PCIe slots on the system board (slot 1 x16 PCIe 4.0 from the CPU — PCIe 3.0 with a Pentium; slots 2-4 x4 from the PCH). No riser cages.']}},
  {m:'ML30', g:'G11', p:['xeone3'],s:1, d:4,  tower:true},
- {m:'ML110',g:'G11', p:['sp4'],   s:1, d:16, tower:true},
- {m:'ML350',g:'G11', p:['sp4'],   s:2, d:32, tower:true,
+ {m:'ML110',g:'G11', p:['sp4','sp5'],   s:1, d:16, tower:true},
+ {m:'ML350',g:'G11', p:['sp4','sp5'],   s:2, d:32, tower:true,
    rules:{verified:true,hsW:195,hsWtext:'195W or higher',hsPart:'P47224-B21',psuMax:2,pcie:{one:4,two:8},riserMax:0,
      fanW:300,fanPart:'P47219-B21 + Second CPU Fan Kit P47902-B21',
      notes:['Intel VROC NVMe is not supported with the 4510, 4509Y or 3508U processors.',
-       'PCIe slots are on the system board (like every ML350) — around half need the 2nd processor. Exact slot map not re-checked against the Gen11 QuickSpecs.']}},
+       'PCIe slots are on the system board (like every ML350) — around half need the 2nd processor. Exact slot map not re-checked against the Gen11 QuickSpecs.',
+       '4 of the sp5 (5th Gen) CPUs need DLC liquid cooling this tower doesn\'t support and are not realistically orderable here: 8593Q, 8562Y+, 6544Y, 6558Q. Not excluded from the picker (this tool doesn\'t have a per-model CPU-exclusion mechanism) — confirm against QuickSpecs before quoting one of these four.']}},
  {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true,
    rules:{hsW:225,hsWtext:'225W or higher',fans:{one:3,two:3,perf:3},psuMax:2,riserMax:2,pcie:{one:4,two:8},
      notes:['Fixed 3-fan baseline for any config; a 2nd processor, a GPU, or certain other options additionally require the Redundant Fan Kit (P47219-B21) AND the Second CPU Fan Kit (P47902-B21) together — the fans:{one,two} split above does not capture that, it is a simple base count.',
@@ -1554,6 +1563,7 @@ var CPUS=[
  ['S4410Y','Xeon Silver 4410Y · 12C 2.0GHz','sp4',150,12],
  ['S4416+','Xeon Silver 4416+ · 20C 2.0GHz','sp4',165,20],
  ['G5411N','Xeon Gold 5411N · 24C 1.9GHz','sp4',165,24], // added
+ ['G5412U','Xeon Gold 5412U · 24C 2.1GHz — single-socket only ("U" suffix); confirmed on DL320/ML110 G11','sp4',185,24], // added
  ['G5415+','Xeon Gold 5415+ · 8C 2.9GHz','sp4',150,8],
  ['G5416S','Xeon Gold 5416S · 16C 2.0GHz','sp4',150,16],
  ['G5418N','Xeon Gold 5418N · 24C 1.8GHz','sp4',165,24], // added
@@ -1599,17 +1609,26 @@ var CPUS=[
     comment); the tool offers the real discrete speed values but doesn't
     block a higher one on a capped-tier CPU. Tagged 'sp5', not 'sp4', so
     the memory grid split stays accurate — same idea as genoa/turin.
-    Only DL380 Gen11 is confirmed to offer 5th Gen so far; add 'sp5' to
-    DL110/DL320/DL340/DL360/DL560/ML110/ML350 Gen11's platform lists
-    once EACH of their own QuickSpecs confirms it too (Xeon Scalable 5th
-    Gen is the same LGA4677 socket as 4th, so it's likely, but unconfirmed
-    per-model — don't assume). P8581V and P8558U/B3508U are single-
+    5th Gen support turned out to be genuinely per-model, not a blanket
+    Gen11 rule (checked directly against each model's own QuickSpecs,
+    2026-09-14): CONFIRMED YES — DL380, DL360, ML350 (same 29-SKU pool,
+    minus 4 DLC-only parts ML350's tower can't cool: 8593Q/8562Y+/6544Y/
+    6558Q — not excluded in code, just noted here) — and DL320/ML110
+    (1-socket boards, a smaller Silver/Gold-5/Bronze-tier subset of the
+    same pool). CONFIRMED NO — DL110 (QuickSpecs still 4th-Gen-only as of
+    its latest revision) and DL560 (doc frozen since Jan 2024, still
+    4th-Gen-only; DL560's real CPU pool is ALSO mostly a distinct
+    4-socket-rated "H"-suffix subset rather than the general sp4 list —
+    open TODO, not fixed here, see PROJECT.md). DL340 G11 doesn't exist
+    as a real product at all — removed, see the comment where its
+    MODELS entry used to be. P8581V and P8558U/B3508U are single-
     socket-only — see the SINGLE_SOCKET_EXTRA note near the U-suffix
     check in evaluate(). */
  ['S4509Y','Xeon Silver 4509Y · 8C 2.6GHz','sp5',125,8],
  ['S4510','Xeon Silver 4510 · 12C 2.4GHz','sp5',150,12],
  ['S4514Y','Xeon Silver 4514Y · 16C 2.0GHz','sp5',150,16],
  ['S4516Y+','Xeon Silver 4516Y+ · 24C 2.2GHz','sp5',185,24],
+ ['G5512U','Xeon Gold 5512U · 28C 2.1GHz — single-socket only ("U" suffix); confirmed on DL320/ML110 G11','sp5',185,28], // added
  ['G5515+','Xeon Gold 5515+ · 8C 3.2GHz','sp5',165,8],
  ['G5520+','Xeon Gold 5520+ · 28C 2.2GHz','sp5',205,28],
  ['G6526Y','Xeon Gold 6526Y · 16C 2.8GHz','sp5',195,16],
@@ -2048,11 +2067,57 @@ var BATS=['96w bat','12w bat','No battery'];
 var PSUS=['290W','350W','500W','550W','800W','900W','1000W','1200W','1400W','1500W','1600W','1800W','2200W'];
 var FLRS=['331FLR 4x1GbE','366FLR 4x1GbE','361i 2x1GbE','530FLR-SFP+ 2x10Gb','533FLR-T 2x10GbT',
  '561FLR-T 2x10GbT','562FLR-SFP+ 2x10Gb','631FLR-SFP28 2x25Gb','640FLR-SFP28 2x25Gb'];
+/* FlexibleLOM vs OCP 3.0 — physically DIFFERENT connectors (a FlexibleLOM
+   card does not fit an OCP slot, and vice versa), not two names for the
+   same thing. Sourced across every Gen10 Plus/Gen11/Gen12 model this
+   tool offers (2026-09-14), after a user reported the "FlexibleLOM /
+   OCP" field only ever offered FlexibleLOM cards — zero real OCP
+   options existed anywhere, even though FlexibleLOM was fully retired
+   starting at Gen10 Plus.
+   The rule that emerged: every Gen10 Plus/11/12 model checked is
+   OCP-3.0-only (no FlexibleLOM slot at all — a few QuickSpecs PDFs have
+   one leftover "FlexibleLOM" sentence that every physical slot diagram
+   and SKU table in the SAME document contradicts; treated as a
+   copy-paste artifact HPE never scrubbed, not a real second slot) —
+   EXCEPT the smallest/cheapest chassis in a family, which have NEITHER
+   slot (just an embedded LOM chip + plain PCIe): DL20 G10+, ML30 G10+,
+   ML30 G11. DL20 G11 is NOT an exception — it gained a real OCP slot at
+   G11 despite DL20 G10+ having none, so this can't be shortcut by model
+   name alone, has to be checked per model+generation.
+   G9/G10 keep FlexibleLOM (FLRS) — OCP didn't exist yet.
+   Known gap: DL110 G12's slot type couldn't be sourced (every mirror
+   tried blocked/404'd) — defaulted to 'ocp' (matching every other G12
+   model checked) rather than left unhandled, flagged as unverified in
+   its own model notes instead. */
+var FLR_NONE=['DL20 G10+','ML30 G10+','ML30 G11'];
+function flrKind(m){
+  if(!m)return 'flexlom';
+  if(m.g==='G9'||m.g==='G10')return 'flexlom';
+  if(FLR_NONE.indexOf(m.m+' '+m.g)>-1)return 'none';
+  return 'ocp';
+}
+/* the shared OCP 3.0 NIC catalog — the same ~12 cards turned up across
+   nearly every Gen10 Plus/11/12 model checked; InfiniBand and the
+   Gen12-new BCM57608 100Gb were only confirmed on a subset, kept in the
+   shared list anyway since nothing suggested they're chassis-specific,
+   just newer/higher-end options some builds won't need. */
+var OCP_CARDS=['I350-T4 1Gb 4p','BCM5719 1Gb 4p (P51181-B21)',
+ 'X710-DA2 10Gb 2p (P28778-B21)','BCM57412 10Gb 2p (P10097-B21)','BCM57416 10Gb 2p (P26256-B21)',
+ 'QL41132HQCU 10/25Gb 2p','QL41132HQRJ 10/25Gb 2p','QL41232HQCU 10/25Gb 2p',
+ 'BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)',
+ 'MCX562A 10/25Gb 2p (P10112-B21)','MCX631432AS 25Gb 2p (P42041-B21)',
+ 'E810-XXVDA2 25Gb 2p (P10106-B21)','E810-XXVDA4 25Gb 4p (P41614-B21)',
+ 'E810-CQDA2 100Gb 2p (P22767-B21)','BCM57608 100Gb 2p (P73114-B21) — Gen12',
+ 'InfiniBand HDR100/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR100/Eth 200Gb 2p (P31348-B21)'];
+function flrCardsFor(m){
+  var k=flrKind(m);
+  return k==='flexlom'?FLRS:k==='ocp'?OCP_CARDS:[];
+}
 /* A starter list only — the field is free text, type any card. Bracket / slot
    form factor is checked separately against the fitted risers. */
 var CARDLIST=[
  /* Ethernet */
- '366T 4x1GbE','366M 4x1GbE (OCP)','562T 2x10GbT','562SFP+ 2x10Gb','530T 2x10GbT','530SFP+ 2x10Gb',
+ '366T 4x1GbE','562T 2x10GbT','562SFP+ 2x10Gb','530T 2x10GbT','530SFP+ 2x10Gb',
  '557SFP+ 2x10Gb','561T 2x10GbT','640SFP28 2x25Gb','640FLR-SFP28 2x25Gb','631SFP28 2x25Gb',
  '620QSFP28 2x50Gb','621SFP28 2x25Gb','MCX4 2x100Gb','E810 2x100Gb','537SFP28 2x25Gb',
  /* Fibre Channel */
@@ -2264,7 +2329,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.22'; // 23rd build shipped today
+var BUILD_VERSION='2026.09.14.23'; // 24th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2624,7 +2689,7 @@ document.getElementById('mem-suggestions').addEventListener('click',function(e){
 attachList(document.getElementById('dimm'),function(){return dimmsFor(currentModel());});
 attachList(document.getElementById('ctrl'),function(){return ctrlsFor(currentModel());});
 attachList(document.getElementById('bat'),function(){return BATS;});
-attachList(document.getElementById('flr'),function(){return FLRS;});
+attachList(document.getElementById('flr'),function(){return flrCardsFor(currentModel());});
 attachList(document.getElementById('expander'),function(){return expandersFor(currentModel());});
 attachList(document.getElementById('psu'),function(){return PSUS;});
 attachList(document.getElementById('plan-raid'),function(){return RAID_LEVELS;});
@@ -2859,6 +2924,11 @@ function refreshDependents(){
   document.getElementById('cpu-note').textContent=m?'Only processors supported by '+m.m+' '+m.g+' are listed.':'Pick a system model first.';
   updateDimmNote();
   renderDimmBtns();
+  var flrK=flrKind(m);
+  document.getElementById('flr-note').textContent=!m?''
+    :flrK==='ocp'?'OCP 3.0 only on this chassis — FlexibleLOM was retired at Gen10 Plus.'
+    :flrK==='none'?'No FlexibleLOM/OCP mezzanine on this chassis — networking is a plain PCIe NIC (see PCI cards) or the embedded LOM.'
+    :'FlexibleLOM on this chassis (pre-Gen10-Plus — no OCP 3.0 slot exists yet).';
   document.getElementById('sys-note').textContent=m?(m.s+' socket'+(m.s>1?'s':'')+', '+m.d+' DIMM slots'):'';
   renderCpuqBtns(m,R);
   var bayList=(m&&m.bays)?m.bays:GENERIC_BAYS;
@@ -3296,6 +3366,22 @@ function evaluate(){
       if(validCaps.length&&validCaps.indexOf(dsize)<0)
         checks.push(['verify','MEMORY CAPACITY',dsize+'GB is not a capacity confirmed for '+(cpu?cpu[0]:(m.m+' '+m.g))+' — check it\'s a real orderable module before quoting.']);
     }
+  }
+
+  /* FlexibleLOM vs OCP 3.0 — physically different connectors, not
+     interchangeable (see the flrKind() comment). flrCardsFor() already
+     keeps the wrong list off the tap-to-pick panel; this catches a
+     mismatched card that landed in the field some other way (typed,
+     paste-fill, a restored draft, a model switch after it was set). */
+  var flrV=v('flr');
+  if(m&&flrV){
+    var flrK=flrKind(m),inFLRS=FLRS.indexOf(flrV)>-1,inOCP=OCP_CARDS.indexOf(flrV)>-1;
+    if(flrK==='ocp'&&inFLRS)
+      checks.push(['stop','FLEXLOM/OCP MISMATCH',flrV+' is a FlexibleLOM card — '+m.m+' '+m.g+' only has an OCP 3.0 slot (FlexibleLOM was retired at Gen10 Plus). Pick an OCP 3.0 card instead.']);
+    else if(flrK==='flexlom'&&inOCP)
+      checks.push(['stop','FLEXLOM/OCP MISMATCH',flrV+' is an OCP 3.0 card — '+m.m+' '+m.g+' only has a FlexibleLOM slot (OCP didn\'t exist before Gen10 Plus). Pick a FlexibleLOM card instead.']);
+    else if(flrK==='none'&&(inFLRS||inOCP))
+      checks.push(['stop','FLEXLOM/OCP MISMATCH',m.m+' '+m.g+' has no FlexibleLOM or OCP mezzanine slot at all — '+flrV+' will not fit. Use a plain PCIe NIC (PCI cards) instead.']);
   }
 
   /* drive bay limits */
