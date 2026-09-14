@@ -571,7 +571,7 @@ button.quiet{color:var(--ink-soft)}
           <span class="cap-note" id="mem-note"></span>
           <div class="inline mem-target-row">
             <span>Reach a total</span>
-            <input type="text" id="memtarget" placeholder="e.g. 384GB" autocomplete="off">
+            <input type="text" id="memtarget" placeholder="e.g. 384 (GB) or 1.5TB" autocomplete="off">
             <button type="button" id="mem-suggest" class="add">Suggest even configs</button>
           </div>
           <div id="mem-suggestions" class="mem-suggestions" hidden></div>
@@ -1860,7 +1860,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.3';  // 4th build shipped today
+var BUILD_VERSION='2026.09.14.4';  // 5th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2127,10 +2127,12 @@ function stepper(input,opt){
 var DIMM_SIZES=[8,16,32,64,128,256]; // GB — standard HPE RDIMM/LRDIMM capacities, Gen9-Gen11
 var memSuggestOpts=[];
 function parseGB(txt){
-  var mm=String(txt).match(/([\d.]+)\s*(TB|GB)/i);
-  if(!mm)return 0;
+  // a bare number ("256") defaults to GB — GB is what traders type most;
+  // "TB" only matters when they actually write it.
+  var mm=String(txt).match(/([\d.]+)\s*(TB|GB)?/i);
+  if(!mm||!mm[1])return 0;
   var n=parseFloat(mm[1]);
-  return mm[2].toUpperCase()==='TB'?n*1024:n;
+  return (mm[2]&&mm[2].toUpperCase()==='TB')?n*1024:n;
 }
 function suggestMemoryConfigs(targetGB){
   var m=currentModel();

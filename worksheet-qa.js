@@ -839,6 +839,19 @@ setTimeout(()=>{
   }
   d.getElementById('memtarget').value='';fire(d.getElementById('memtarget'),'input');
 
+  // --- a bare number defaults to GB (no need to type the unit) ---
+  d.getElementById('memtarget').value='384';fire(d.getElementById('memtarget'),'input');
+  const msBtnsBare=[...d.querySelectorAll('#mem-suggestions button')];
+  (msBtnsBare.length===msBtns.length && !d.getElementById('mem-suggestions').hidden)
+    ?pass4('typing a bare "384" (no unit) suggests the same configs as "384GB"')
+    :fail4('bare-number memory target did not default to GB: '+d.getElementById('mem-suggestions').textContent);
+  d.getElementById('memtarget').value='1.5TB';fire(d.getElementById('memtarget'),'input');
+  const msBtnsTB=[...d.querySelectorAll('#mem-suggestions button')];
+  (msBtnsTB.length>0 && msBtnsTB[0].textContent.includes('per CPU'))
+    ?pass4('"1.5TB" is still read as TB, not misread as a bare 1.5GB')
+    :fail4('TB suffix stopped working: '+d.getElementById('mem-suggestions').textContent);
+  d.getElementById('memtarget').value='';fire(d.getElementById('memtarget'),'input');
+
   // --- paste: "P408i-a + bat" — controller found, battery guessed ---
   pasteCase4('P408i-a + bat');
   (d.getElementById('ctrl').value==='P408i-a' && d.getElementById('bat').value==='96w bat'
