@@ -602,6 +602,8 @@ button.quiet{color:var(--ink-soft)}
             <input type="number" id="dimmq" min="1" placeholder="Qty">
             <input type="text" id="dimm" list="dimms" placeholder="e.g. 16GB 2666" autocomplete="off">
           </div>
+          <div class="seg" id="dimm-size-btns"></div>
+          <div class="seg" id="dimm-speed-btns"></div>
           <span class="cap-note" id="mem-note"></span>
           <div class="inline mem-target-row">
             <span>Reach a total</span>
@@ -1724,16 +1726,87 @@ var CPUS=[
  ['6716P-B','Xeon 6716P-B · 40C 2.5GHz — DL110 Gen12 fixed SoC, not swappable','xeon6',235,40]
 ];
 
-var MEMSPEED={e5v3:'1866 / 2133',e5v4:'2133 / 2400',e5v3x4:'1866 / 2133',e5v4x4:'1866 / 2400',
-  e7v3:'1333 / 1866',e7v4:'1600 / 1866',sp1:'2400 / 2666',sp2:'2666 / 2933',sp3:'2933 / 3200',
-  sp4:'4400 / 4800',naples:'2666',rome:'3200',milan:'3200',genoa:'4800',turin:'6000',e3:'2133 / 2400',
-  xeone:'2666',xeone3:'3200',xeon6:'6400'};
-
+/* DDR generation + real discrete speed grades + real capacities per CPU
+   platform code, sourced from HPE QuickSpecs (2026-09-14 — see
+   PROJECT.md/memory for full citations). Replaces the old MEMSPEED
+   min/max HINT strings and one flat, DDR4-only DIMMS list that used to
+   be offered for every platform regardless of DDR generation — a DDR5
+   Gen11/Gen12 build could "select" a 2133-3200 DDR4 speed that isn't
+   just wrong, the module physically doesn't fit a DDR5 slot (different
+   pin/notch layout) and vice versa.
+   Speed lists are the DIMM's own distinct HPE-sold rated speed grade(s)
+   — where a platform has genuinely different natively-rated SKUs tied
+   to a CPU tier/generation (e.g. sp4's 4800 for 4th Gen Xeon vs 5600
+   for 5th Gen), both are listed; where the only variation is the SAME
+   rated part running slower at 2 DIMMs/channel (a populated-density
+   derate, not a different part — confirmed for sp3/rome/milan/sp4/
+   xeon6), only the rated speed is listed and dimm-note carries a
+   generic reminder instead of a precise-but-unconfirmed derate number.
+   turin is the one deliberate exception: HPE's own QuickSpecs states the
+   DIMM part is rated DDR5-6400 but 5th Gen EPYC (Turin) only drives it
+   at 6000 — the effective/installed speed, not a derate scenario — so
+   6000 (what the box actually runs, matching what a build worksheet
+   should report) is listed rather than the DIMM's own rating.
+   Known gaps, left as gaps rather than guessed at:
+   - naples' 2DPC derate is unresolved (the one source found contradicted
+     itself); only the confirmed 1DPC speed (2666) is listed.
+   - e3's capacity ceiling above 16GB, and xeone/xeone3's exact
+     rank/organization, weren't found in a primary source — capacities
+     kept to what was actually confirmed.
+   - xeon6's capacity list isn't itemized in Gen12-specific sourcing —
+     reused from sp4's confirmed DDR5 RDIMM list (same DDR5 RDIMM
+     generation, high cross-platform consistency) but flagged here as
+     inferred, not directly confirmed for Gen12.
+   - Gen12 also supports MRDIMM up to 8800 MT/s (P-core SKUs, 1DPC only)
+     but HPE hadn't released MRDIMM kits into the standard orderable
+     ProLiant Compute portfolio as of sourcing — deliberately not added
+     as a selectable speed; it's not something a trader can normally
+     order yet, unlike everything else in this table. */
+var MEM_DDR={e3:4,xeone:4,xeone3:4,e5v3:4,e5v4:4,e5v3x4:4,e5v4x4:4,e7v3:4,e7v4:4,
+  sp1:4,sp2:4,sp3:4,naples:4,rome:4,milan:4,
+  sp4:5,genoa:5,turin:5,xeon6:5};
+var MEM_SPEEDS={
+ e3:[2133,2400],xeone:[2400,2666],xeone3:[2666,3200],
+ e5v3:[1600,1866,2133],e5v4:[1866,2133,2400],e5v3x4:[1600,1866,2133],e5v4x4:[1866,2133,2400],
+ e7v3:[1333,1600,1866],e7v4:[2400],
+ sp1:[2400,2666],sp2:[2666,2933],sp3:[3200],
+ naples:[2666],rome:[3200],milan:[3200],
+ sp4:[4800,5600],genoa:[4800],turin:[6000],
+ xeon6:[6400]
+};
+var MEM_CAPS={
+ e3:[8,16],xeone:[8,16,32],xeone3:[8,16,32],
+ e5v3:[8,16,32,64],e5v4:[8,16,32,64,128],e5v3x4:[8,16,32,64],e5v4x4:[8,16,32,64,128],
+ e7v3:[8,16,32,64,128],e7v4:[8,16,32,64,128],
+ sp1:[8,16,32,64,128],sp2:[8,16,32,64,128],sp3:[8,16,32,64,128,256],
+ naples:[8,16,32,64,128],rome:[16,32,64,128,256],milan:[16,32,64,128,256],
+ sp4:[16,32,64,96,128,256],genoa:[16,32,64,96,128],turin:[16,32,64,96,128],
+ xeon6:[16,32,64,96,128,256]
+};
+function unionVals(lists){
+  var out=[];
+  lists.forEach(function(l){(l||[]).forEach(function(x){if(out.indexOf(x)<0)out.push(x);});});
+  out.sort(function(a,b){return a-b;});
+  return out;
+}
+/* memPlatforms()/dimmsFor() live inside the app IIFE further down (they
+   need cpuByCode()/v(), which are IIFE-local) — this data section only
+   holds the plain lookup tables. */
+/* static full list — every combo that's real for AT LEAST ONE platform
+   (not a blind cross-product of every capacity against every speed,
+   which would fabricate combos no platform actually offers, e.g. "8GB
+   6400"). Feeds only the inert <datalist> probe and the pre-model-pick
+   fallback above; the live combo panel always goes through
+   dimmsFor(currentModel()) instead. */
 var DIMMS=[];
-[['8GB',['2133','2400','2666']],['16GB',['2133','2400','2666','2933','3200']],
- ['32GB',['2133','2400','2666','2933','3200']],['64GB',['2400','2666','2933','3200']],
- ['128GB',['2666','2933','3200']]].forEach(function(d){
-  d[1].forEach(function(s){DIMMS.push(d[0]+' '+s);});});
+Object.keys(MEM_CAPS).forEach(function(p){
+  MEM_CAPS[p].forEach(function(c){
+    MEM_SPEEDS[p].forEach(function(s){
+      var val=c+'GB '+s;
+      if(DIMMS.indexOf(val)<0)DIMMS.push(val);
+    });
+  });
+});
 /* Grouped by the HPE/Broadcom suffix convention — "-a" = Type-a embedded
    slimline connector, "-p" = plug-in PCIe card, "-o" = OCP mezzanine.
    Pre-Gen10 parts (and B140i/S100i, embedded but not slimline) never got
@@ -2101,7 +2174,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.18'; // 19th build shipped today
+var BUILD_VERSION='2026.09.14.19'; // 20th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2405,8 +2478,10 @@ function stepper(input,opt){
 
 /* memory-total helper: given a target like "384GB", suggest DIMM qty/size
    combos that split evenly across the sockets in use and fit the slots
-   actually available on the selected chassis/CPU-count. */
-var DIMM_SIZES=[8,16,32,64,128,256]; // GB — standard HPE RDIMM/LRDIMM capacities, Gen9-Gen11
+   actually available on the selected chassis/CPU-count. Candidate sizes
+   come from the current platform's own confirmed MEM_CAPS (falls back
+   to the generic union if a model's platform somehow isn't in the map)
+   so it doesn't suggest a capacity the platform never shipped. */
 var memSuggestOpts=[];
 function parseGB(txt){
   // a bare number ("256") defaults to GB — GB is what traders type most;
@@ -2421,8 +2496,10 @@ function suggestMemoryConfigs(targetGB){
   if(!m||!targetGB)return [];
   var cpuq=Number(v('cpuq'))||m.s;
   var dimmEl=document.getElementById('dimmq'),maxSlots=dimmEl.max?Number(dimmEl.max):m.d;
+  var sizes=unionVals(memPlatforms(m).map(function(p){return MEM_CAPS[p];}));
+  if(!sizes.length)sizes=[8,16,32,64,128,256];
   var out=[];
-  DIMM_SIZES.forEach(function(size){
+  sizes.forEach(function(size){
     if(targetGB%size)return;
     var qty=targetGB/size;
     if(qty<cpuq||qty%cpuq||qty>maxSlots)return;   // must split evenly per socket and fit the slots
@@ -2449,13 +2526,12 @@ document.getElementById('memtarget').addEventListener('input',renderMemSuggestio
 document.getElementById('mem-suggestions').addEventListener('click',function(e){
   var b=e.target.closest('button[data-i]');if(!b)return;
   var o=memSuggestOpts[Number(b.getAttribute('data-i'))];if(!o)return;
-  var dimmq=document.getElementById('dimmq'),dimm=document.getElementById('dimm');
-  dimmq.value=o.qty;dimm.value=o.size+'GB';
+  var dimmq=document.getElementById('dimmq');
+  dimmq.value=o.qty;setDimmValue(o.size,null);   // setDimmValue() already dispatches its own input event
   dimmq.dispatchEvent(new Event('input',{bubbles:true}));
-  dimm.dispatchEvent(new Event('input',{bubbles:true}));
 });
 
-attachList(document.getElementById('dimm'),function(){return DIMMS;});
+attachList(document.getElementById('dimm'),function(){return dimmsFor(currentModel());});
 attachList(document.getElementById('ctrl'),function(){return ctrlsFor(currentModel());});
 attachList(document.getElementById('bat'),function(){return BATS;});
 attachList(document.getElementById('flr'),function(){return FLRS;});
@@ -2518,6 +2594,7 @@ var cpuCombo=setupCombo('cpu-combo',{
       var counts=(R.validCounts&&R.validCounts.length)?R.validCounts.slice().sort(function(a,b){return a-b;}):[1];
       setCpuq(counts[0]);
     }
+    updateDimmNote();renderDimmBtns();   // a specific CPU can narrow the memory speed/cap grid further than the model alone (e.g. e5v3 vs e5v4)
     run();}
 });
 
@@ -2601,6 +2678,86 @@ document.getElementById('bays').addEventListener('blur',function(){
   setTimeout(function(){if(!v('bays')){baysOtherOpen=false;syncBaysBtns();}},200);
 });
 
+/* memory size/speed quick-pick — same idea as the bay-config buttons:
+   tap a real capacity, then a real speed, for the currently selected
+   CPU (or the model's platform union before one's picked); the field
+   stays free-type underneath for an unusual combo not on the list.
+   Two independent button rows feeding one "<size>GB <speed>" value —
+   clicking either preserves whatever the other one already set. */
+function parseDimmValue(val){
+  var mm=String(val||'').match(/^(\d+)\s*GB\s*(\d+)?/i);
+  return {size:mm?Number(mm[1]):null,speed:mm&&mm[2]?Number(mm[2]):null};
+}
+function setDimmValue(size,speed){
+  var cur=parseDimmValue(v('dimm')),s=size!=null?size:cur.size,sp=speed!=null?speed:cur.speed;
+  var dimmEl=document.getElementById('dimm');
+  dimmEl.value=s?(s+'GB'+(sp?(' '+sp):'')):(sp||'');
+  dimmEl.dispatchEvent(new Event('input',{bubbles:true}));
+}
+/* narrows to the SELECTED cpu's own grid once one's picked (e.g. a
+   DL385 G11 shows both Genoa 4800 and Turin 6000 before a CPU is
+   chosen, then only Turin's 6000 once an actual Turin part is picked —
+   only one of the two is ever physically installed). */
+function updateDimmNote(){
+  var m=currentModel(),dpls=memPlatforms(m),
+      ddrGens=unionVals(dpls.map(function(p){return [MEM_DDR[p]];})),
+      spds=unionVals(dpls.map(function(p){return MEM_SPEEDS[p];}));
+  document.getElementById('dimm-note').textContent=m
+    ?('DDR'+(ddrGens.join('/')||'—')+' · '+(spds.join('/')||'—')+' MT/s — running speed can be lower at 2 DIMMs per channel, confirm against QuickSpecs.')
+    :'';
+}
+/* the platform(s) memory choices should be driven by: the SELECTED cpu's
+   own platform if one's picked (its exact speed/capacity grid, e.g. e5v3
+   vs e5v4 differ), else the union of every platform the model's CPUs
+   could use (same fallback the old dimm-note used before a CPU is
+   chosen). Lives here (not with the MEM_* data tables above) because it
+   needs cpuByCode()/v(), both local to this IIFE. */
+function memPlatforms(m){
+  if(!m)return [];
+  var cpu=cpuByCode(v('cpu'));
+  if(cpu&&MEM_SPEEDS[cpu[2]])return [cpu[2]];
+  return m.p.filter(function(pf){return MEM_SPEEDS[pf];});
+}
+/* full cross-product of the current platform's real caps x real speeds —
+   feeds the themed combo panel/native mirror so typing-to-search still
+   only offers combos that actually exist, same idea as ctrlsFor()/
+   expandersFor(). Falls back to the static generic DIMMS list (every
+   platform's combos, deduped) before a model is picked. */
+function dimmsFor(m){
+  var pls=memPlatforms(m);
+  if(!pls.length)return DIMMS;
+  var caps=unionVals(pls.map(function(p){return MEM_CAPS[p];})),
+      spds=unionVals(pls.map(function(p){return MEM_SPEEDS[p];})),
+      out=[];
+  caps.forEach(function(c){spds.forEach(function(s){out.push(c+'GB '+s);});});
+  return out;
+}
+function renderDimmBtns(){
+  var m=currentModel(),pls=memPlatforms(m);
+  var caps=unionVals(pls.map(function(p){return MEM_CAPS[p];})),
+      spds=unionVals(pls.map(function(p){return MEM_SPEEDS[p];}));
+  document.getElementById('dimm-size-btns').innerHTML=caps.map(function(c){
+    return '<button type="button" data-sz="'+c+'">'+c+'GB</button>';}).join('');
+  document.getElementById('dimm-speed-btns').innerHTML=spds.map(function(s){
+    return '<button type="button" data-sp="'+s+'">'+s+'</button>';}).join('');
+  syncDimmBtns();
+}
+function syncDimmBtns(){
+  var cur=parseDimmValue(v('dimm'));
+  [].forEach.call(document.querySelectorAll('#dimm-size-btns button'),function(b){
+    b.classList.toggle('on',Number(b.getAttribute('data-sz'))===cur.size);});
+  [].forEach.call(document.querySelectorAll('#dimm-speed-btns button'),function(b){
+    b.classList.toggle('on',Number(b.getAttribute('data-sp'))===cur.speed);});
+}
+document.getElementById('dimm-size-btns').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-sz]');if(!b)return;
+  setDimmValue(Number(b.getAttribute('data-sz')),null);
+});
+document.getElementById('dimm-speed-btns').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-sp]');if(!b)return;
+  setDimmValue(null,Number(b.getAttribute('data-sp')));
+});
+
 function refreshDependents(){
   var m=currentModel(),R=rulesFor(m);
   var valid=m?CPUS.filter(function(c){return m.p.indexOf(c[2])>-1;}):[];
@@ -2610,8 +2767,8 @@ function refreshDependents(){
   cpuCombo.setPlaceholder(m?(valid.length?'Type to search — e.g. '+valid[0][0]:'none seeded for this platform'):'Pick a system model first');
   document.getElementById('cpu-scope').textContent=m?(valid.length+' processors fit this system'):'';
   document.getElementById('cpu-note').textContent=m?'Only processors supported by '+m.m+' '+m.g+' are listed.':'Pick a system model first.';
-  var spds=m?m.p.map(function(p){return MEMSPEED[p];}).filter(Boolean).filter(function(x,i,a){return a.indexOf(x)===i;}):[];
-  document.getElementById('dimm-note').textContent=m?('Platform speed: '+(spds.join('  ·  ')||'—')+' MHz'):'';
+  updateDimmNote();
+  renderDimmBtns();
   document.getElementById('sys-note').textContent=m?(m.s+' socket'+(m.s>1?'s':'')+', '+m.d+' DIMM slots'):'';
   renderCpuqBtns(m,R);
   var bayList=(m&&m.bays)?m.bays:GENERIC_BAYS;
@@ -3015,6 +3172,34 @@ function evaluate(){
         checks.push(['stop','OVER MEMORY LIMIT','Total '+total+'GB exceeds what '+(cpuq||1)+' '+(cpu?cpu[0]:'processor')+
           ' can address ('+cap+'GB). Reduce the module size or add a processor.']);
       }
+    }
+  }
+
+  /* DDR generation / speed hard check — DIMMS used to be one flat,
+     DDR4-only list (topping out at 3200) offered for every model, so a
+     DDR5 Gen11/Gen12 build could "select" a DDR4 speed that isn't just
+     wrong, the module doesn't physically fit the slot. dimmsFor()
+     already keeps the wrong ones off the tap-to-pick panel and buttons;
+     this catches a mismatched speed that landed in the field some other
+     way (free-typed, paste-fill, a restored draft). Capacity gets only a
+     soft verify, not a hard stop — several platforms' exact capacity
+     ceilings weren't confirmed as precisely as their speeds (see the
+     MEM_CAPS comment), so a stop there would risk being wrong itself. */
+  var dspeed=parseInt((v('dimm').match(/^\d+\s*GB\s*(\d+)/i)||[])[1]||0,10);
+  if(m){
+    var dPlats=memPlatforms(m);
+    if(dspeed){
+      var validSpeeds=unionVals(dPlats.map(function(p){return MEM_SPEEDS[p];}));
+      if(validSpeeds.length&&validSpeeds.indexOf(dspeed)<0){
+        var ddrOf=unionVals(dPlats.map(function(p){return [MEM_DDR[p]];}));
+        checks.push(['stop','MEMORY SPEED',dspeed+' MT/s is not a real speed for '+(cpu?cpu[0]:(m.m+' '+m.g))+
+          ' (DDR'+ddrOf.join('/')+') — this platform takes '+validSpeeds.join('/')+' MT/s.']);
+      }
+    }
+    if(dsize){
+      var validCaps=unionVals(dPlats.map(function(p){return MEM_CAPS[p];}));
+      if(validCaps.length&&validCaps.indexOf(dsize)<0)
+        checks.push(['verify','MEMORY CAPACITY',dsize+'GB is not a capacity confirmed for '+(cpu?cpu[0]:(m.m+' '+m.g))+' — check it\'s a real orderable module before quoting.']);
     }
   }
 
@@ -3444,6 +3629,7 @@ function run(){
   syncNativeMirrors();
   syncSelectPlaceholders();
   syncBaysBtns();
+  syncDimmBtns();
   var msBox=document.getElementById('mem-suggestions');
   if(msBox&&!msBox.hidden)renderMemSuggestions();
   var ev=evaluate(),out=buildSlip();

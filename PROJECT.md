@@ -599,6 +599,75 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   for the current chassis+generation rather than defaulting to one that
   doesn't fit. A mismatched part typed/pasted/restored is caught the
   same way as `CONTROLLER GENERATION`, tagged `EXPANDER GENERATION`.
+- **Memory is DDR-generation + platform aware, with real speed/capacity
+  grids and quick-pick buttons** (`MEM_DDR`/`MEM_SPEEDS`/`MEM_CAPS`,
+  `memPlatforms()`/`dimmsFor()`, 2026-09-14) — the DIMM field used to be
+  one flat, DDR4-only list (8-128GB × 2133-3200 MT/s) offered for every
+  model, so a DDR5 Gen11/Gen12 build could "select" a DDR4 speed that
+  isn't just wrong, the module has a different pin/notch layout and
+  physically won't go in the slot. Sourced from HPE's DDR4/DDR5 memory
+  QuickSpecs and per-model QuickSpecs memory tables (see PROJECT.md's
+  citations below and the storage-controller-verification memory —
+  despite the name, it now covers memory too):
+  - Every platform this tool models (`e3`/`xeone`/`xeone3`/`e5v3`/`e5v4`/
+    `e5v3x4`/`e5v4x4`/`e7v3`/`e7v4`/`sp1`/`sp2`/`sp3`/`naples`/`rome`/
+    `milan` = DDR4; `sp4`/`genoa`/`turin`/`xeon6` = DDR5) has its own
+    confirmed discrete speed grade(s) and capacity list, not a shared
+    generic range.
+  - Speed lists are the DIMM's own distinct rated speed(s) — two are
+    listed only where the platform genuinely has different natively-
+    rated parts tied to a CPU tier (`sp4`: 4800 for 4th Gen Xeon, 5600
+    for 5th Gen); where it's the same rated part running slower at 2
+    DIMMs/channel (confirmed for `sp3`/`rome`/`milan`/`sp4`/`xeon6`),
+    only the rated speed is listed and the note carries a generic
+    derate reminder instead of a precise-but-unconfirmed number. `turin`
+    is the deliberate exception: HPE's QuickSpecs states the DIMM is
+    rated DDR5-6400 but 5th Gen EPYC only drives it at 6000 — the
+    *installed* speed, not a derate — so 6000 is listed since that's
+    what the box actually runs and what a build worksheet should say.
+  - `memPlatforms(m)` narrows to the SELECTED cpu's own platform once
+    one's picked (e.g. e5v3 vs e5v4 have different real grids, and only
+    one CPU is ever actually installed); before a CPU is chosen it
+    falls back to the union of every platform the model's CPUs could
+    use (e.g. DL385 G11 shows both Genoa's 4800 and Turin's 6000 until
+    a specific part is picked, then narrows to just one).
+  - Two new quick-pick button rows (`#dimm-size-btns`/`#dimm-speed-btns`)
+    tap a real capacity and a real speed independently into one
+    `"<size>GB <speed>"` field value — same tap-a-button-onto-a-shared-
+    field idea as the bay-config buttons, just two rows instead of one.
+    The "Suggest even configs" total-memory suggester and its size list
+    are now platform-aware too (`suggestMemoryConfigs()`), and its "Use"
+    button preserves whatever speed was already picked instead of
+    clearing it.
+  - A hard `stop` (`MEMORY SPEED`) catches a speed that lands in the
+    field some other way (typed, paste-fill, a restored draft) and
+    isn't in the current platform's real list — same severity as
+    `CONTROLLER GENERATION`/`EXPANDER GENERATION`. Capacity gets only a
+    soft `verify` (`MEMORY CAPACITY`), not a hard stop — several
+    platforms' exact capacity ceilings weren't sourced as precisely as
+    their speeds (see the data-gaps note below), so a stop there risked
+    being wrong itself.
+  - **Known gaps, left as gaps:** `naples`'s 2DPC derate is unresolved
+    (the one source found contradicted itself); `e3`'s capacity ceiling
+    above 16GB and `xeone`/`xeone3`'s exact rank/organization weren't
+    found in a primary source; `xeon6`'s capacity list is inferred from
+    `sp4`'s confirmed DDR5 RDIMM list (same DDR5 RDIMM generation, high
+    cross-platform consistency) rather than directly confirmed for
+    Gen12. Gen12 also supports **MRDIMM up to 8800 MT/s** (P-core SKUs,
+    1 DIMM/channel only) but HPE hadn't released MRDIMM kits into the
+    standard orderable ProLiant Compute portfolio as of sourcing —
+    deliberately not added as a selectable speed, since it's not
+    something a trader can normally order yet.
+  - **DIMM rank/organization** (1Rx8, 2Rx4, 4Rx4, etc.) was sourced
+    per-capacity (8GB≈1Rx8, 16GB≈1Rx4/2Rx8, 32GB≈2Rx4, 64GB+≈4Rx4/8Rx4
+    LRDIMM 3DS, roughly consistent across generations) but was
+    deliberately **not** built into a UI field or a validation check —
+    the tool has no repeatable-DIMM-lines input the way drives/cards/
+    risers do (one qty × one size × one speed for the whole system), so
+    there's no reachable UI state that could produce an invalid rank
+    combo without a rank field existing in the first place. Documented
+    in the storage-controller-verification memory for reference if a
+    future need for it comes up, rather than built speculatively now.
 - **Capacity planner** — enter usable TB + RAID level, get up to 5
   drive-population suggestions ranked by least wasted capacity, with a
   one-click "Use" that drops the line into the drive list.

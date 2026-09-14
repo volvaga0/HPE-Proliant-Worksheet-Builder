@@ -919,10 +919,13 @@ setTimeout(()=>{
       ?pass4('DL385 G11: CPU picker groups Genoa and Turin separately')
       :fail4('DL385 G11 CPU groups: '+groups.join(' | '));
   }
-  pickCpu4('EPYC 9555'); // Turin, 360W
   (d.getElementById('dimm-note').textContent.includes('4800') && d.getElementById('dimm-note').textContent.includes('6000'))
-    ?pass4('DL385 G11: memory-speed note shows both Genoa (4800) and Turin (6000) MT/s')
-    :fail4('DL385 G11 dimm-note: '+d.getElementById('dimm-note').textContent);
+    ?pass4('DL385 G11 (no CPU picked yet): memory-speed note unions Genoa (4800) and Turin (6000) MT/s')
+    :fail4('DL385 G11 dimm-note before CPU pick: '+d.getElementById('dimm-note').textContent);
+  pickCpu4('EPYC 9555'); // Turin, 360W
+  (d.getElementById('dimm-note').textContent.includes('6000') && !d.getElementById('dimm-note').textContent.includes('4800'))
+    ?pass4('DL385 G11 (Turin CPU picked): memory-speed note narrows to just Turin\'s 6000 MT/s, not Genoa\'s 4800')
+    :fail4('DL385 G11 dimm-note after CPU pick: '+d.getElementById('dimm-note').textContent);
   setRear('4LFF rear');
   !d.getElementById('checks').textContent.includes('REAR NOT SUPPORTED')
     ?pass4('DL385 G11: "4LFF rear" accepted as a rear option')
@@ -1411,6 +1414,53 @@ function runRound7(){
     ?pass7('the Gen9 expander part typed into a G10 build is flagged, naming the part this chassis actually takes')
     :fail7('wrong-generation expander part on same chassis family not caught: '+d.getElementById('checks').textContent.slice(0,300));
   exp.value='';fire(exp,'input');
+
+  // --- memory speed/capacity is now DDR-generation + platform aware, not
+  // one flat DDR4-only list topping out at 3200 for every model
+  // (2026-09-14, MEM_DDR/MEM_SPEEDS/MEM_CAPS/dimmsFor()) ---
+  const dimmq7=d.getElementById('dimmq'),dimm7=d.getElementById('dimm');
+  function dimmOpts7(){dimm7.dispatchEvent(new w.Event('focus'));return [...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);}
+  setModel7('DL380 G9');pickCpu7('E5-2680v4');
+  let dOpts7=dimmOpts7();
+  (dOpts7.some(o=>/^32GB 2400$/.test(o)) && !dOpts7.some(o=>/4800|5600|6400|6000/.test(o)))
+    ?pass7('DL380 G9 (E5-2680v4): DDR4 combos only, no DDR5 speed anywhere in the panel')
+    :fail7('DL380 G9 dimm panel wrong: '+dOpts7.join(', '));
+  setModel7('DL380 G11');pickCpu7('G5416S'); // Sapphire Rapids, sp4
+  dOpts7=dimmOpts7();
+  (dOpts7.some(o=>/^64GB 4800$/.test(o)) && dOpts7.some(o=>/^64GB 5600$/.test(o)) &&
+   !dOpts7.some(o=>/2133|2400|2666|2933|3200/.test(o)))
+    ?pass7('DL380 G11 (Sapphire Rapids): DDR5 combos only (4800/5600) — zero DDR4 speeds offered')
+    :fail7('DL380 G11 dimm panel wrong: '+dOpts7.join(', '));
+  (d.getElementById('dimm-size-btns').children.length>0 && [...d.querySelectorAll('#dimm-speed-btns button')].map(b=>b.textContent).join(',')==='4800,5600')
+    ?pass7('DL380 G11 speed buttons are exactly 4800/5600, no DDR4 numbers')
+    :fail7('DL380 G11 speed buttons wrong: '+[...d.querySelectorAll('#dimm-speed-btns button')].map(b=>b.textContent).join(','));
+  // tapping a size then a speed button assembles one value, each preserving the other
+  const szBtn7=d.querySelector('#dimm-size-btns button[data-sz="64"]'),spBtn7=d.querySelector('#dimm-speed-btns button[data-sp="5600"]');
+  szBtn7.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  spBtn7.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  (dimm7.value==='64GB 5600' && szBtn7.classList.contains('on') && spBtn7.classList.contains('on'))
+    ?pass7('tapping size then speed assembles "64GB 5600" and highlights both buttons')
+    :fail7('dimm size/speed buttons did not assemble correctly: "'+dimm7.value+'"');
+  dimm7.value='';fire(dimm7,'input');
+
+  // --- a mismatched DDR4 speed typed/pasted/restored into a DDR5 build is
+  // caught (hard stop) even though it can't be tapped from the panel any
+  // more; capacity gets a softer verify, not a stop (lower confidence) ---
+  setModel7('DL380 G11');pickCpu7('G5416S');
+  dimmq7.value='4';fire(dimmq7,'input');
+  dimm7.value='32GB 2933';fire(dimm7,'input');
+  d.getElementById('checks').textContent.includes('MEMORY SPEED')
+    ?pass7('a DDR4 speed (2933) typed into a DDR5 (Sapphire Rapids) build is flagged, not silently accepted')
+    :fail7('mismatched DDR4 speed on a DDR5 build was not caught: '+d.getElementById('checks').textContent.slice(0,200));
+  dimm7.value='32GB 4800';fire(dimm7,'input');
+  !d.getElementById('checks').textContent.includes('MEMORY SPEED')
+    ?pass7('...but the real DDR5 speed (4800) for this platform raises no note at all')
+    :fail7('a real, valid speed still raised MEMORY SPEED: '+d.getElementById('checks').textContent.slice(0,200));
+  dimm7.value='384GB 4800';fire(dimm7,'input');
+  (d.getElementById('checks').textContent.includes('MEMORY CAPACITY') && !d.getElementById('checks').textContent.includes('MEMORY SPEED'))
+    ?pass7('an unconfirmed capacity (384GB) gets a soft verify note, not a hard stop, and the valid speed stays clean')
+    :fail7('unconfirmed capacity check wrong: '+d.getElementById('checks').textContent.slice(0,200));
+  dimmq7.value='';dimm7.value='';fire(dimm7,'input');
 
   // --- "U"-suffix (single-socket-only) Xeon SKUs blocked above 1 processor ---
   setModel7('DL360 G10+');pickCpu7('G6312U');
