@@ -869,6 +869,18 @@ setTimeout(()=>{
     ?pass4('SAS expander on a Gen10 model assumes the Gen10 part (870549-B21)')
     :fail4('Gen10 expander part wrong: '+d.getElementById('expander').value);
 
+  // --- paste: a leading "5x" right before the model is a BUILD count, not
+  // anything else the text might contain a number for ---
+  pasteCase4('5x DL360g10');
+  (d.getElementById('model').value==='DL360 G10' && d.getElementById('modelq').value==='5')
+    ?pass4('"5x DL360g10" sets the model AND the build count to 5')
+    :fail4('"5x DL360g10" build count wrong: model="'+d.getElementById('model').value+'" modelq="'+d.getElementById('modelq').value+'"');
+  d.getElementById('modelq').value='';
+  pasteCase4('2x 800w DL360 G10, needs a SAS expander');
+  (d.getElementById('model').value==='DL360 G10' && d.getElementById('modelq').value==='1')
+    ?pass4('an earlier, unrelated "2x 800w" doesn\'t get misread as the build count')
+    :fail4('unrelated leading "2x" wrongly set the build count: modelq="'+d.getElementById('modelq').value+'"');
+
   // --- paste: "2x 600GB 15K SAS" no longer misread as memory, drive lines populate ---
   d.getElementById('drives').innerHTML='';d.getElementById('add-drive').click();  // clear stray rows from earlier tests
   pasteCase4('DL380 Gen10, 2x 600GB 15K SAS, 4x 1.2TB 10K SAS, 6x 960Gb SSD');
