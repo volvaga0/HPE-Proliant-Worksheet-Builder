@@ -1497,10 +1497,18 @@ function runRound9(){
   raidInp9.value='';fire(raidInp9,'input');
 
   // --- themed combo text fields (attachList + model/CPU) get a chevron, like a real <select> ---
-  const chevronRule=/\.ac-input,\.combo-input\{/.test(html);
+  // jsdom's CSS engine doesn't resolve real cascade/specificity, so this can
+  // only check the rule exists, not that it actually wins — it does NOT catch
+  // a regression back to the bare-class form, which real Chrome silently loses
+  // to the shared "input[type=text]{background:var(--field)...}" rule (that's
+  // a shorthand, so it resets background-image too, and an attribute+type
+  // selector out-specifies a bare class regardless of source order). Checking
+  // for the specificity-matched selector form specifically for that reason —
+  // verify visually in a real browser (getComputedStyle) after touching this.
+  const chevronRule=/input\[type=text\]\.ac-input,input\[type=text\]\.combo-input\{/.test(html);
   chevronRule
-    ?pass9('attachList/combo text fields get a chevron CSS rule (.ac-input,.combo-input)')
-    :fail9('chevron rule for themed combo fields not found');
+    ?pass9('attachList/combo text fields get a specificity-safe chevron CSS rule')
+    :fail9('chevron rule for themed combo fields missing, or reverted to a bare class selector that a real browser would lose to the shorthand background: rule');
   d.getElementById('ctrl').classList.contains('ac-input')
     ?pass9('a live attachList field (controller) actually carries the .ac-input chevron class')
     :fail9('controller field missing .ac-input class');

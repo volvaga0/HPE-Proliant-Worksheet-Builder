@@ -66,13 +66,19 @@ select.ph{color:var(--ink-soft)}
    <select>, instead of looking like plain free text. Suppressed while
    actually free-typing (.ac-editing, the "Other" fallback on phones —
    see attachNativeMirror) since that's genuinely just text entry then. */
-.ac-input,.combo-input{
+/* input[type=text].ac-input, not just .ac-input — the shared base rule
+   above is "input[type=text],input[type=number],textarea,select" with a
+   `background` SHORTHAND (resets background-image too), and that
+   attribute+type selector out-specifies a bare class regardless of
+   source order. Matching its specificity (element + attribute/class,
+   same tier) so this rule's later position in the file actually wins. */
+input[type=text].ac-input,input[type=text].combo-input{
   padding-right:19px;
   background-image:linear-gradient(45deg,transparent 50%,var(--ink-soft) 50%),
     linear-gradient(135deg,var(--ink-soft) 50%,transparent 50%);
   background-position:calc(100% - 12px) calc(50% - 2px),calc(100% - 8px) calc(50% - 2px);
   background-size:4px 4px,4px 4px;background-repeat:no-repeat}
-.ac-wrap.ac-editing>.ac-input{background-image:none;padding-right:8px}
+.ac-wrap.ac-editing>input[type=text].ac-input{background-image:none;padding-right:8px}
 input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--signal);outline-offset:1px;border-color:var(--signal)}
 input:disabled{opacity:.5;cursor:not-allowed}
 input.field-over{border-color:var(--stop);background:var(--stop-bg);color:var(--stop);font-weight:600}
@@ -1884,7 +1890,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.7';  // 8th build shipped today
+var BUILD_VERSION='2026.09.14.8';  // 9th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
