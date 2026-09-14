@@ -291,6 +291,20 @@ button.quiet{color:var(--ink-soft)}
 .saved{font-size:13px;color:var(--signal);opacity:0}
 .saved.on{opacity:1}
 
+/* Desktop only: flatten the browser's own <select> chrome (drive speed/
+   class/interface, the RAID planner) so it reads the same as the plain
+   text-input combo fields next to it, instead of the OS control look.
+   Phones keep that native chrome on purpose — see the .ac-wrap rules
+   further down — so this is scoped above the phone breakpoint. */
+@media (min-width:641px){
+  select{appearance:none;-webkit-appearance:none;-moz-appearance:none;cursor:pointer;
+    padding-right:26px;
+    background-image:linear-gradient(45deg,transparent 50%,var(--ink-soft) 50%),
+      linear-gradient(135deg,var(--ink-soft) 50%,transparent 50%);
+    background-position:calc(100% - 17px) calc(50% - 3px),calc(100% - 12px) calc(50% - 3px);
+    background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+}
+
 @media (max-width:980px){
   .sheet{grid-template-columns:1fr}
   .slip-wrap{position:static}
@@ -1818,7 +1832,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14';  // 1st build shipped today
+var BUILD_VERSION='2026.09.14.1';  // 2nd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

@@ -1149,4 +1149,11 @@ setTimeout(()=>{
   /\.ac-wrap:not\(\.ac-editing\)>select\{display:block/.test(html)
     ?pass6('mobile-breakpoint CSS swaps the mirror select in, leaving desktop on the searchable combo')
     :fail6('mobile <select>-swap CSS rule not found');
+
+  // --- desktop flattens native <select> chrome (speed/class/interface, RAID planner) to match the
+  // text-input combo fields, but only above the phone breakpoint — phones keep the OS glass picker ---
+  const desktopSelectRule=(html.match(/@media \(min-width:641px\)\{[\s\S]*?\n\}/)||[''])[0];
+  (/select\{appearance:none/.test(desktopSelectRule) && /min-width:641px/.test(desktopSelectRule))
+    ?pass6('desktop-only rule flattens <select> chrome to match the other combo fields')
+    :fail6('desktop select-flattening rule missing or not scoped to min-width:641px');
 },3000);
