@@ -1559,7 +1559,43 @@ function runRound9(){
   !dl560BayBtns.some(b=>/lff/i.test(b))
     ?pass9('bay-config buttons rebuild per model (DL560 G10: SFF only, no LFF)')
     :fail9('DL560 G10 bay buttons still show LFF: '+dl560BayBtns.join(', '));
-  runRound10();   // chained — round 9 has no nested timers
+
+  // --- the free-type box stays hidden until "Other" is tapped (added 2026-09-14
+  // so the row doesn't show a redundant text box next to a button for every
+  // real option — see the comment above renderBaysBtns() in index.html) ---
+  const baysInp9=d.getElementById('bays'),otherBtn9=d.getElementById('bays-other-btn');
+  (baysInp9.hidden && !otherBtn9.classList.contains('on'))
+    ?pass9('bay free-type box starts hidden with nothing entered and "Other" not tapped')
+    :fail9('bay free-type box should start hidden: hidden='+baysInp9.hidden);
+  otherBtn9.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  (!baysInp9.hidden && otherBtn9.classList.contains('on') && baysInp9.value==='')
+    ?pass9('tapping "Other" reveals the free-type box, empty, and highlights itself')
+    :fail9('Other tap did not reveal the box: hidden='+baysInp9.hidden+' on='+otherBtn9.classList.contains('on')+' value="'+baysInp9.value+'"');
+  baysInp9.value='6LFF+2SFF custom';fire(baysInp9,'input');
+  (!baysInp9.hidden && otherBtn9.classList.contains('on') &&
+   ![...d.querySelectorAll('#bays-btns button[data-b]')].some(b=>b.classList.contains('on')))
+    ?pass9('typing an off-list value keeps the box open under "Other", no preset button lit')
+    :fail9('off-list typed value did not keep the box open under "Other"');
+  baysInp9.value='8SFF';fire(baysInp9,'input');
+  const sffBtn9=[...d.querySelectorAll('#bays-btns button[data-b]')].find(b=>b.getAttribute('data-b')==='8SFF');
+  (baysInp9.hidden && !otherBtn9.classList.contains('on') && sffBtn9.classList.contains('on'))
+    ?pass9('typing a value that matches a listed preset collapses back out of "Other" mode')
+    :fail9('matching-preset typed value did not collapse the Other box');
+  baysInp9.value='36 EDSFF custom';fire(baysInp9,'input');
+  !baysInp9.hidden
+    ?pass9('an off-list value landed any other way (e.g. paste-fill) still reveals the box, without tapping "Other" first')
+    :fail9('off-list value via direct fill did not reveal the box');
+  baysInp9.value='';fire(baysInp9,'input');
+  !baysInp9.hidden
+    ?pass9('clearing the typed text while still focused keeps the box open (does not vanish mid-edit)')
+    :fail9('box collapsed while the field was still being cleared/edited');
+  baysInp9.dispatchEvent(new w.Event('blur',{bubbles:true}));
+  setTimeout(()=>{
+    (baysInp9.hidden && !otherBtn9.classList.contains('on'))
+      ?pass9('blurring an abandoned empty "Other" box collapses it back to buttons-only')
+      :fail9('empty Other box did not auto-collapse on blur');
+    runRound10();   // chained — see the comment above runRound6()
+  },260);
 }
 
 // ---- round 10: per-model data sanity — the model/CPU/riser tables themselves ----

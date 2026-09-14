@@ -170,6 +170,7 @@ section{margin-top:20px}
 .chk-line{display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer;user-select:none;padding:3px 0 6px}
 .chk-line input[type=checkbox]{width:18px;height:18px;accent-color:var(--signal);cursor:pointer;flex:0 0 auto;margin:0}
 #drives-wrap[hidden]{display:none}
+#bays[hidden]{display:none}
 
 .combo{position:relative}
 .combo-panel{position:absolute;top:calc(100% + 2px);left:0;right:0;z-index:30;background:var(--field);
@@ -503,7 +504,7 @@ button.quiet{color:var(--ink-soft)}
         <div class="q"><span class="t">Drive bay config</span><span class="note">Front bays as they should read on the slip.</span></div>
         <div class="a">
           <div class="seg" id="bays-btns"></div>
-          <input type="text" id="bays" placeholder="e.g. 8LFF" autocomplete="off">
+          <input type="text" id="bays" placeholder="e.g. 8LFF" autocomplete="off" hidden>
           <div class="lines" id="rear-lines"></div>
           <button type="button" class="add" id="add-rear">Add rear / mid-tray line</button>
           <span class="cap-note" id="rear-note"></span>
@@ -1981,7 +1982,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.12'; // 13th build shipped today
+var BUILD_VERSION='2026.09.14.13'; // 14th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2416,26 +2417,58 @@ document.getElementById('cpuq-btns').addEventListener('click',function(e){
   document.getElementById('cpuq').dispatchEvent(new Event('input',{bubbles:true}));
 });
 /* bay-config quick-pick — few enough options per model that a tap beats
-   typing, same idea as the riser-kit buttons above the riser lines. The
-   text field stays underneath (unlike cpuq/model-gen, which are buttons
-   only) so an unusual config not on this list can still be typed. */
+   typing, same idea as the riser-kit buttons above the riser lines. An
+   "Other" button reveals the text field for anything off this list
+   (EDSFF/GPU variants, etc.) — kept hidden otherwise so the row doesn't
+   show a redundant free-text box next to a button for every real option.
+   baysOtherOpen tracks an Other tap with nothing typed yet, so the box
+   stays open while empty instead of collapsing the instant it's shown;
+   it's irrelevant once cur is non-empty — the box then shows purely
+   because cur doesn't match a listed button (paste-fill, a restored
+   draft, or a model switch can all land a custom value here too). */
+var baysOtherOpen=false;
 function renderBaysBtns(list){
   var box=document.getElementById('bays-btns');
   box.innerHTML=(list||[]).map(function(b){
     return '<button type="button" data-b="'+esc(b).replace(/"/g,'&quot;')+'">'+esc(b)+'</button>';
-  }).join('');
+  }).join('')+'<button type="button" id="bays-other-btn">Other</button>';
   syncBaysBtns();
 }
 function syncBaysBtns(){
-  var cur=v('bays');
-  [].forEach.call(document.querySelectorAll('#bays-btns button'),function(b){
-    b.classList.toggle('on',b.getAttribute('data-b')===cur);
+  var cur=v('bays'),bays=document.getElementById('bays');
+  var matched=false;
+  [].forEach.call(document.querySelectorAll('#bays-btns button[data-b]'),function(b){
+    var on=b.getAttribute('data-b')===cur;
+    if(on)matched=true;
+    b.classList.toggle('on',on);
   });
+  var showOther=!matched&&(!!cur||baysOtherOpen);
+  baysOtherOpen=showOther;
+  document.getElementById('bays-other-btn').classList.toggle('on',showOther);
+  bays.hidden=!showOther;
 }
 document.getElementById('bays-btns').addEventListener('click',function(e){
-  var b=e.target.closest('button[data-b]');if(!b)return;
-  document.getElementById('bays').value=b.getAttribute('data-b');
-  document.getElementById('bays').dispatchEvent(new Event('input',{bubbles:true}));
+  var b=e.target.closest('button[data-b]');
+  if(b){
+    baysOtherOpen=false;
+    document.getElementById('bays').value=b.getAttribute('data-b');
+    document.getElementById('bays').dispatchEvent(new Event('input',{bubbles:true}));
+    return;
+  }
+  if(!e.target.closest('#bays-other-btn'))return;
+  baysOtherOpen=true;
+  var bays=document.getElementById('bays');
+  if(matchesAnyBaysBtn(v('bays'))){ // switching off a listed pick starts the custom box empty
+    bays.value='';
+    bays.dispatchEvent(new Event('input',{bubbles:true}));
+  }else syncBaysBtns();
+  bays.focus();
+});
+function matchesAnyBaysBtn(val){
+  return [].some.call(document.querySelectorAll('#bays-btns button[data-b]'),function(b){return b.getAttribute('data-b')===val;});
+}
+document.getElementById('bays').addEventListener('blur',function(){
+  setTimeout(function(){if(!v('bays')){baysOtherOpen=false;syncBaysBtns();}},200);
 });
 
 function refreshDependents(){
