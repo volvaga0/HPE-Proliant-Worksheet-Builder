@@ -369,16 +369,20 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   genuinely free text like `#batdate` (no `attachList()` call → no
   chevron, correctly). Suppressed during `.ac-editing` (the phone
   "Other" free-type fallback) since that's real typing, not a list tap.
-- **`setupCombo()` (model/CPU) also has a native mirror now** (2026-09-14)
-  — built inline inside `setupCombo` itself (`buildMirror()`), same
-  `.ac-wrap` idea as `attachNativeMirror` but with no "Other" option:
-  model/CPU are pick-only (`hidden.value` only ever changes via
-  `pick()`/`setValue()`, never from typing), so a free-type fallback
-  wouldn't do anything. Rebuilds lazily on the mirror `<select>`'s own
-  `focus` — these lists run into the hundreds of options for some
-  platforms, too costly to rebuild every `run()` cycle like the smaller
-  `attachNativeMirror` fields do. `pick()`/`setValue()`/`clear()`/
-  `setDisabled()` keep the mirror's value/disabled state synced either way.
+- **`setupCombo()` (model/CPU) tried a native mirror too, then reverted it**
+  (added 2026-09-14, reverted the same day after a real phone check) — the
+  first attempt gave model/CPU the same `.ac-wrap` native-`<select>` swap as
+  `attachNativeMirror`, on the theory that a picker wheel beats typing. In
+  practice it did the opposite: on a real phone the field silently stopped
+  being a text box at all (the mobile CSS breakpoint hides `.ac-wrap>input`
+  unconditionally), so tapping "Type to search" just opened a flat,
+  hundreds-of-options OS wheel with no way to filter it down — worse than
+  before for the one field where the list is actually too big to browse.
+  Removed the mirror entirely for model/CPU; phones now get the exact same
+  searchable text input + dark panel as desktop (the panel's mobile
+  scroll-into-view nudge already existed for this). `attachNativeMirror`'s
+  fields are unaffected — those lists are short and keep the "Other"
+  free-type fallback, so the OS wheel is a genuine improvement there.
 - **`<select>` placeholder dimming** (`syncSelectPlaceholders()`, called
   every `run()`) — `<select>` has no `::placeholder` pseudo-element in any
   browser, so its "nothing chosen" option rendered at full `--ink`

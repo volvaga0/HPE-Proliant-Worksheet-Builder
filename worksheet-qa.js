@@ -1413,44 +1413,48 @@ function runRound9(){
     opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
   }
 
-  // --- model combo got a native <select> mirror, grouped by generation ---
-  const modelSel=mi9.closest('.combo').querySelector('select');
-  modelSel?pass9('model combo got a native <select> mirror'):fail9('model combo has no native mirror');
-  if(modelSel){
-    fire(modelSel,'focus');
-    const modelGroups=[...modelSel.querySelectorAll('optgroup')].map(g=>g.label);
-    modelGroups.some(g=>g==='G9')
-      ?pass9('model mirror groups options by generation (G9 group present)')
-      :fail9('model mirror groups missing G9: '+modelGroups.join(', '));
-    modelSel.value='DL380 G9';fire(modelSel,'change');
-    (d.getElementById('model').value==='DL380 G9' && mi9.value==='DL380 G9')
-      ?pass9('picking a model via the native mirror sets the field, same as the desktop panel')
-      :fail9('model mirror pick did not propagate: model="'+d.getElementById('model').value+'"');
-  }
+  // --- model/CPU deliberately get NO native <select> mirror (reverted
+  // 2026-09-14 — a real phone lost the ability to type-to-search a 60+
+  // model / hundreds-of-CPU list once it swapped to a flat OS wheel, which
+  // matters far more here than on the short attachList() fields that kept
+  // the mirror). Regression guard: no <select>, and no .ac-wrap either, so
+  // the phone CSS swap rule (@media(max-width:640px) .ac-wrap>select) has
+  // nothing to grab onto and can't silently start hiding these again. ---
+  !mi9.closest('.combo').querySelector('select')
+    ?pass9('model combo has no native <select> mirror to swap to on phones')
+    :fail9('model combo still has a native mirror — phones would lose type-to-search again');
+  !mi9.closest('.ac-wrap')
+    ?pass9('model input is not wrapped in .ac-wrap — the phone mirror-swap CSS cannot apply to it')
+    :fail9('model input is wrapped in .ac-wrap — phones could swap it for a select again');
+  !ci9.closest('.combo').querySelector('select')
+    ?pass9('CPU combo has no native <select> mirror either')
+    :fail9('CPU combo still has a native mirror — phones would lose type-to-search again');
+  !ci9.closest('.ac-wrap')
+    ?pass9('CPU input is not wrapped in .ac-wrap — same phone-mirror guard as the model field')
+    :fail9('CPU input is wrapped in .ac-wrap — phones could swap it for a select again');
 
-  // --- CPU combo got a native <select> mirror too, enabled once a model is picked, grouped by platform ---
-  const cpuSel=ci9.closest('.combo').querySelector('select');
-  (cpuSel && !cpuSel.disabled)
-    ?pass9('CPU combo got a native <select> mirror, enabled once a model is picked')
-    :fail9('CPU mirror missing or still disabled: '+(cpuSel&&cpuSel.disabled));
-  if(cpuSel){
-    fire(cpuSel,'focus');
-    const cpuGroups=[...cpuSel.querySelectorAll('optgroup')].map(g=>g.label);
-    (cpuGroups.length>0 && cpuSel.options.length>1)
-      ?pass9('CPU mirror is grouped by platform ('+cpuGroups.join(', ')+')')
-      :fail9('CPU mirror not populated: groups='+cpuGroups.join(', '));
-    const firstCode=cpuSel.querySelector('option[value]:not([value=""])').value;
-    cpuSel.value=firstCode;fire(cpuSel,'change');
-    (d.getElementById('cpu').value===firstCode)
-      ?pass9('picking a CPU via the native mirror sets the field')
-      :fail9('CPU mirror pick did not propagate: cpu="'+d.getElementById('cpu').value+'"');
-  }
+  // --- typing still opens/filters the panel on the actual input (this is
+  // the exact interaction a phone does through its on-screen keyboard —
+  // there is no separate "mobile mode" input to fake here) ---
+  setModel9('DL380 G9');
+  mi9.value='DL560';fire(mi9,'input');
+  const dl560Matches=[...d.querySelectorAll('#model-panel .combo-item')];
+  (!d.getElementById('model-panel').hidden && dl560Matches.length>0 &&
+   dl560Matches.every(el=>/dl560/i.test(el.textContent)))
+    ?pass9('typing into the model field filters the panel down to matches (search works on the real input)')
+    :fail9('typing into the model field did not filter the panel: '+dl560Matches.length+' items shown');
+  // typing (without picking) blanks the hidden model value — same as real
+  // usage, where a half-typed search shouldn't leave a stale model active.
+  // Re-pick before testing the CPU field, which needs a model to be enabled.
+  setModel9('DL380 G9');
 
-  // --- switching models rebuilds the model mirror's value (not just the desktop panel) ---
-  setModel9('DL360 G10');
-  (d.getElementById('model').value==='DL360 G10' && modelSel.value==='DL360 G10')
-    ?pass9('the model mirror select stays in sync when picking via the desktop panel too')
-    :fail9('model mirror out of sync after a desktop-panel pick: sel.value="'+modelSel.value+'"');
+  ci9.value='2680';fire(ci9,'input');
+  (!d.getElementById('cpu-panel').hidden &&
+   [...d.querySelectorAll('#cpu-panel .combo-item')].length>0 &&
+   [...d.querySelectorAll('#cpu-panel .combo-item')].every(el=>/2680/i.test(el.textContent)))
+    ?pass9('typing into the CPU field filters its panel too')
+    :fail9('typing into the CPU field did not filter its panel');
+  ci9.value='';fire(ci9,'input');ci9.dispatchEvent(new w.Event('blur',{bubbles:true}));
 
   // --- <select> "nothing chosen" option is dimmed (.ph class), same idea as input::placeholder ---
   const emptySelectRule=/select\.ph\{color:var\(--ink-soft\)\}/.test(html);
