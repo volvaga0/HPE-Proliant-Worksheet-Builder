@@ -1140,14 +1140,26 @@ function runRound6(){
   function fail6(m){console.log('FAIL  '+m);process.exitCode=1;}
 
   // --- every attachList() field got wrapped with a mirrored native select ---
-  const mirroredIds=['dimm','ctrl','bat','flr','expander','psu','bays'];
+  const mirroredIds=['dimm','ctrl','bat','flr','expander','psu'];
   const missing=mirroredIds.filter(id=>{
     const inp=d.getElementById(id),wrap=inp.closest('.ac-wrap');
     return !(wrap && wrap.querySelector('select'));
   });
   missing.length===0
-    ?pass6('all 7 top-level combo fields got a native <select> mirror')
+    ?pass6('all 6 top-level combo fields got a native <select> mirror')
     :fail6('missing native mirror on: '+missing.join(', '));
+  // bays deliberately opted out (removed 2026-09-14) — the quick-pick buttons
+  // above the field already do the tap-to-pick job, so it should NOT get the
+  // combo-panel/native-mirror/chevron treatment attachList() applies.
+  d.getElementById('bays').closest('.ac-wrap')
+    ?fail6('bays field got an .ac-wrap mirror it should not have (dropdown was supposed to be removed)')
+    :pass6('bays correctly has no .ac-wrap/native-select mirror — buttons only');
+  d.getElementById('bays').classList.contains('ac-input')
+    ?fail6('bays field carries .ac-input (chevron) — dropdown was supposed to be removed')
+    :pass6('bays correctly has no .ac-input chevron class');
+  d.getElementById('bays').hasAttribute('list')
+    ?fail6('bays field still has list=bayopts — a native browser datalist dropdown is still active')
+    :pass6('bays correctly has no list= attribute — no native datalist dropdown either');
 
   // --- row-based fields (drive capacity, card/riser/rear name) get it too ---
   d.getElementById('add-drive').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));

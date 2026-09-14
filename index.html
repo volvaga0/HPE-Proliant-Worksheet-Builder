@@ -503,7 +503,7 @@ button.quiet{color:var(--ink-soft)}
         <div class="q"><span class="t">Drive bay config</span><span class="note">Front bays as they should read on the slip.</span></div>
         <div class="a">
           <div class="seg" id="bays-btns"></div>
-          <input type="text" id="bays" list="bayopts" placeholder="e.g. 8LFF" autocomplete="off">
+          <input type="text" id="bays" placeholder="e.g. 8LFF" autocomplete="off">
           <div class="lines" id="rear-lines"></div>
           <button type="button" class="add" id="add-rear">Add rear / mid-tray line</button>
           <span class="cap-note" id="rear-note"></span>
@@ -1981,7 +1981,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.11'; // 12th build shipped today
+var BUILD_VERSION='2026.09.14.12'; // 13th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2107,10 +2107,12 @@ function capTB(txt){
   return 0;}
 
 /* ---------------- shared floating autocomplete ----------------
-   Upgrades the plain datalist text inputs (memory, controller, PSU, bays,
+   Upgrades the plain datalist text inputs (memory, controller, PSU,
    drives, cards…) to a real tap-to-pick dropdown that works on phones,
    where <datalist> only shows ~3 hints on the keyboard bar. Free typing
-   still works — the list is only a set of suggestions. */
+   still works — the list is only a set of suggestions. Bays isn't in
+   this list: the quick-pick buttons above it already do the "tap to
+   pick" job, so a second dropdown would just be a redundant control. */
 var acPanel=document.createElement('div');
 acPanel.id='ac-panel';acPanel.className='combo-panel';acPanel.hidden=true;
 document.body.appendChild(acPanel);
@@ -2330,7 +2332,6 @@ attachList(document.getElementById('bat'),function(){return BATS;});
 attachList(document.getElementById('flr'),function(){return FLRS;});
 attachList(document.getElementById('expander'),function(){return EXPANDERS;});
 attachList(document.getElementById('psu'),function(){return PSUS;});
-attachList(document.getElementById('bays'),function(){var m=currentModel();return (m&&m.bays)?m.bays:GENERIC_BAYS;});
 attachList(document.getElementById('plan-raid'),function(){return RAID_LEVELS;});
 stepper(document.getElementById('dimmq'),{min:1});
 stepper(document.getElementById('psuq'),{min:1});
@@ -2452,7 +2453,7 @@ function refreshDependents(){
   renderCpuqBtns(m,R);
   var bayList=(m&&m.bays)?m.bays:GENERIC_BAYS;
   renderBaysBtns(bayList);
-  fill('bayopts',bayList);
+  fill('bayopts',bayList); // not a live dropdown (input has no list= anymore) — kept only as a test probe of the per-model list
   var rearNone=!!(m&&R.rear&&!R.rear.length);
   var rearListed=!!(m&&R.rear&&R.rear.length);
   fill('rearopts',rearListed?R.rear:REAR); // dead as a <datalist> (attachList strips list=) — kept only as a test probe of the per-model list
