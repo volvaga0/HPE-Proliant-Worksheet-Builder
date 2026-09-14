@@ -23,6 +23,15 @@ const w=dom.window,d=w.document;
 function fail(m){console.log('FAIL  '+m);process.exitCode=1;}
 function pass(m){console.log('ok    '+m);}
 function fire(el,type){el.dispatchEvent(new w.Event(type,{bubbles:true}));}
+// rear/mid-tray is now a repeatable-lines list (like risers/cards), not one field —
+// these mirror the old "set the #rear input" test shorthand.
+function setRear(val){
+  const box=d.getElementById('rear-lines');box.innerHTML='';
+  d.getElementById('add-rear').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  const inp=box.querySelector('[data-k=v]');inp.value=val;fire(inp,'input');
+}
+function clearRear(){d.getElementById('rear-lines').innerHTML='';}
+function rearValues(){return [...d.querySelectorAll('#rear-lines [data-k=v]')].map(x=>x.value);}
 
 setTimeout(()=>{
   if(errors.length){errors.forEach(e=>fail(e));}
@@ -110,7 +119,7 @@ setTimeout(()=>{
   // 7. rear-drive 160W rule should block with E5-2697v4 (145W ok) -> use 2699v4? 145W. Use rear + >160W none exist on g9.
   // instead test 2SFF rear on 8SFF chassis
   d.getElementById('bays').value='8SFF';fire(d.getElementById('bays'),'input');
-  d.getElementById('rear').value='2SFF rear';fire(d.getElementById('rear'),'input');
+  setRear('2SFF rear');
   let checks=d.getElementById('checks').textContent;
   checks.includes('2SFF rear cage is only supported')?pass('2SFF-on-8SFF blocked correctly'):fail('2SFF rule did not fire');
 
@@ -129,7 +138,7 @@ setTimeout(()=>{
     dqm.classList.contains('stepper')?pass('memory qty is steppered'):fail('dimmq not steppered'); }
 
   // 7c. steppers respect the live cap (drive bays / fan cage), not just typing
-  d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
+  clearRear();
   d.getElementById('bays').value='8SFF';fire(d.getElementById('bays'),'input');
   dc.value='1.2TB';fire(dc,'input');dq.value='';
   { const up=dq.parentElement.querySelector('.st-btn:last-child');
@@ -140,7 +149,7 @@ setTimeout(()=>{
   dq.value='';
 
   // 8. bay overflow (typed values still caught even if the stepper won't go there)
-  d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
+  clearRear();
   dq.value='12';dc.value='1.2TB';fire(dc,'input');
   checks=d.getElementById('checks').textContent;
   checks.includes('TOO MANY DRIVES')||checks.includes('12 drives specified')?pass('drive overflow blocked (12 in 8SFF)'):fail('drive overflow not caught');
@@ -679,7 +688,7 @@ setTimeout(()=>{
   // --- rear / mid-tray options validated against the chassis ---
   const rearTest=(model,rear)=>{
     setModel3(model);
-    d.getElementById('rear').value=rear;fire(d.getElementById('rear'),'input');
+    setRear(rear);
     return d.getElementById('checks').textContent;
   };
   rearTest('DL360 G10','4LFF midtray').includes('not a rear or mid-tray option on DL360 G10')
@@ -700,20 +709,21 @@ setTimeout(()=>{
   const dl560bays=[...d.querySelectorAll('#bayopts option')].map(o=>o.value);
   (dl560bays.length && !dl560bays.some(o=>/lff/i.test(o)))
     ?pass3('DL560 G10: bay list is SFF only, no LFF'):fail3('DL560 G10 bay list: '+dl560bays.join(', '));
-  d.getElementById('rear').disabled
-    ?pass3('DL560 G10: rear/mid-tray field disabled (no rear bays)'):fail3('DL560 G10 rear field still enabled');
-  d.getElementById('rear').value='4LFF midtray';fire(d.getElementById('rear'),'input');
-  d.getElementById('checks').textContent.includes('no rear or mid-tray drive bays')
-    ?pass3('DL560 G10: a rear/mid-tray entry is blocked'):fail3('DL560 G10 rear entry not blocked: '+d.getElementById('checks').textContent.slice(0,160));
-  d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
+  d.getElementById('add-rear').disabled
+    ?pass3('DL560 G10: "Add rear line" disabled (no rear bays)'):fail3('DL560 G10 add-rear button still enabled');
+  rearValues().length===0
+    ?pass3('DL560 G10: no rear/mid-tray lines exist (auto-cleared)'):fail3('DL560 G10 still has rear lines: '+rearValues());
+  setModel3('DL380 G10');setRear('4LFF midtray');setModel3('DL560 G10');
+  rearValues().length===0
+    ?pass3('switching to a no-rear-bays model clears any entered rear/mid-tray line'):fail3('rear line survived the model switch: '+rearValues());
 
   // --- no 3.5in NVMe backplane ---
   setModel3('DL380 G10');
   d.getElementById('bays').value='24SFF';fire(d.getElementById('bays'),'input');
-  d.getElementById('rear').value='4LFF midtray NVMe';fire(d.getElementById('rear'),'input');
+  setRear('4LFF midtray NVMe');
   d.getElementById('checks').textContent.includes('no 3.5-inch (LFF) NVMe backplane')
     ?pass3('LFF NVMe rear cage blocked (no such backplane)'):fail3('LFF NVMe rear not blocked: '+d.getElementById('checks').textContent.slice(0,160));
-  d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
+  clearRear();
 
   // --- low-profile bracket awareness (DL360 G10 primary = 1 FH + 1 LP) ---
   setModel3('DL360 G10');pickCpu3('S4110');
@@ -900,11 +910,11 @@ setTimeout(()=>{
   (d.getElementById('dimm-note').textContent.includes('4800') && d.getElementById('dimm-note').textContent.includes('6000'))
     ?pass4('DL385 G11: memory-speed note shows both Genoa (4800) and Turin (6000) MT/s')
     :fail4('DL385 G11 dimm-note: '+d.getElementById('dimm-note').textContent);
-  d.getElementById('rear').value='4LFF rear';fire(d.getElementById('rear'),'input');
+  setRear('4LFF rear');
   !d.getElementById('checks').textContent.includes('REAR NOT SUPPORTED')
     ?pass4('DL385 G11: "4LFF rear" accepted as a rear option')
     :fail4('DL385 G11 "4LFF rear" wrongly blocked: '+d.getElementById('checks').textContent.slice(0,200));
-  d.getElementById('rear').value='';fire(d.getElementById('rear'),'input');
+  clearRear();
   { const kits=[...d.querySelectorAll('#riser-kits .riser-kit')].map(x=>x.getAttribute('data-name'));
     (kits.length===9 && kits.some(k=>k.includes('P57890-B21')) && kits.some(k=>k.includes('P57893-B21')))
       ?pass4('DL385 G11: real riser-kit part numbers offered (9 kits, not the generic fallback)')
@@ -1036,7 +1046,17 @@ setTimeout(()=>{
   try{ w.navigator.clipboard={writeText:(t)=>{capturedLinkText=t;return Promise.resolve();}}; }catch(e){}
   d.getElementById('copylink').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
 
-  setTimeout(()=>{
+  // Everything "Copy link" touches (capturedLinkText, the recents write, the
+  // DOM) happens synchronously inside the click handler — the mocked
+  // clipboard.writeText sets capturedLinkText before returning, it doesn't
+  // wait for its .then(). Deferring these checks via setTimeout(0) used to
+  // just cost a tick; once enough rounds/tests piled up in this file, that
+  // tick became large enough for round 6/7's OWN (fixed, absolute-delay)
+  // timers to become due first and race ahead of it, mutating the shared
+  // model/cpu out from under this block (surfaced as "model=DL560 G10" —
+  // that's round 7's own model pick leaking in). Running synchronously
+  // removes the gap those races needed.
+  {
     // --- "Copy link" produces a decodable #s= payload matching the sheet ---
     let ok=false;
     try{
@@ -1075,7 +1095,7 @@ setTimeout(()=>{
     (d.querySelectorAll('#recent-list .recent-pick').length===0 && d.getElementById('recent-section').hidden)
       ?pass5('deleting the last recent build empties and re-hides the list')
       :fail5('recent build not removed / list not re-hidden');
-  },0);
+  }
 
   // --- opening the page with a #s= share-link hash restores state, then cleans the URL ---
   const state5={f:{model:'DL380 G10',cpu:'G6148',cpuq:'2'},r:{chassis:'Rack'},c:{},drives:[],cards:[],risers:[]};
@@ -1101,20 +1121,22 @@ setTimeout(()=>{
   function fail6(m){console.log('FAIL  '+m);process.exitCode=1;}
 
   // --- every attachList() field got wrapped with a mirrored native select ---
-  const mirroredIds=['dimm','ctrl','bat','flr','expander','psu','bays','rear'];
+  const mirroredIds=['dimm','ctrl','bat','flr','expander','psu','bays'];
   const missing=mirroredIds.filter(id=>{
     const inp=d.getElementById(id),wrap=inp.closest('.ac-wrap');
     return !(wrap && wrap.querySelector('select'));
   });
   missing.length===0
-    ?pass6('all 8 top-level combo fields got a native <select> mirror')
+    ?pass6('all 7 top-level combo fields got a native <select> mirror')
     :fail6('missing native mirror on: '+missing.join(', '));
 
-  // --- row-based fields (drive capacity, card/riser name) get it too ---
+  // --- row-based fields (drive capacity, card/riser/rear name) get it too ---
   d.getElementById('add-drive').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
   d.getElementById('add-card').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
   d.getElementById('add-riser').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
-  const rowFields=[['#drives [data-k=cap]','drive capacity'],['#cards [data-k=name]','card name'],['#risers [data-k=name]','riser kit name']];
+  d.getElementById('add-rear').disabled=false; // whatever model round 4/5 left selected may have no rear bays
+  d.getElementById('add-rear').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  const rowFields=[['#drives [data-k=cap]','drive capacity'],['#cards [data-k=name]','card name'],['#risers [data-k=name]','riser kit name'],['#rear-lines [data-k=v]','rear/mid-tray line']];
   rowFields.forEach(([sel,label])=>{
     const inp=d.querySelector(sel),wrap=inp&&inp.closest('.ac-wrap');
     (wrap&&wrap.querySelector('select'))
@@ -1157,3 +1179,103 @@ setTimeout(()=>{
     ?pass6('desktop-only rule flattens <select> chrome to match the other combo fields')
     :fail6('desktop select-flattening rule missing or not scoped to min-width:641px');
 },3000);
+
+// ---- round 7: rear/mid-tray as independent lines (more than one cage at once) ----
+setTimeout(()=>{
+  function pass7(m){console.log('ok    '+m);}
+  function fail7(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi7=d.getElementById('model-input');
+  function setModel7(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi7.value='';fire(mi7,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
+    if(!opt)return fail7('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function addRear(val){
+    d.getElementById('add-rear').disabled=false;
+    d.getElementById('add-rear').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    const rows=d.querySelectorAll('#rear-lines [data-k=v]'),inp=rows[rows.length-1];
+    inp.value=val;fire(inp,'input');
+    return inp;
+  }
+  const ci7=d.getElementById('cpu-input');
+  function pickCpu7(code){
+    ci7.value='';fire(ci7,'input');
+    const opt=[...d.querySelectorAll('#cpu-panel .combo-item')].find(el=>el.textContent.includes(code));
+    if(opt)opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+
+  setModel7('DL385 G11');clearRear();
+  addRear('4LFF midtray');addRear('4LFF rear');
+  let txt=d.getElementById('checks').textContent;
+  (!txt.includes('REAR NOT SUPPORTED') && !txt.includes('REAR CONFLICT'))
+    ?pass7('DL385 G11: a mid-tray line + a separate rear line coexist (different bay locations)')
+    :fail7('DL385 G11 mid+rear combo wrongly blocked: '+txt.slice(0,220));
+  d.getElementById('slip').textContent.includes('4LFF midtray + 4LFF rear')
+    ?pass7('both rear/mid-tray lines reach the slip, joined with "+"')
+    :fail7('slip missing joined rear lines: '+d.getElementById('slip').textContent.slice(0,200));
+
+  clearRear();
+  addRear('2SFF rear');addRear('4LFF rear');
+  txt=d.getElementById('checks').textContent;
+  txt.includes('REAR CONFLICT')
+    ?pass7('two different rear-cage picks at once is blocked (one rear-cage bay location)')
+    :fail7('conflicting rear picks not caught: '+txt.slice(0,220));
+
+  clearRear();
+  addRear('4LFF midtray');
+  d.querySelector('#rear-lines .kill').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  rearValues().length===0
+    ?pass7('removing a rear line via its kill button clears it')
+    :fail7('kill button left a stale rear line: '+rearValues());
+
+  // bay-capacity math should sum across all rear/mid-tray lines, not just one
+  clearRear();
+  setModel7('DL380 G11');
+  d.getElementById('bays').value='8LFF';fire(d.getElementById('bays'),'input');
+  addRear('4LFF midtray');
+  const capNoRear=Number((d.getElementById('bay-note').textContent.match(/(\d+) bays/)||[])[1]||0);
+  addRear('2SFF rear');
+  const capWithRear=Number((d.getElementById('bay-note').textContent.match(/(\d+) bays/)||[])[1]||0);
+  (capWithRear===capNoRear+2)
+    ?pass7('bay capacity sums across every rear/mid-tray line (8LFF+4LFF midtray+2SFF rear)')
+    :fail7('bay capacity did not sum lines: '+capNoRear+' then '+capWithRear);
+  clearRear();
+
+  // the historical rearSigs() bug: a combo string's mid-flag must be per-clause, not global
+  setModel7('DL560 G10');clearRear();
+  addRear('2SFF rear');addRear('4LFF midtray');
+  txt=d.getElementById('checks').textContent;
+  (!txt.includes('REAR NOT SUPPORTED'))
+    ?pass7('DL560 G10: "2SFF rear" + "4LFF midtray" both individually-allowed lines pass together')
+    :fail7('per-clause rear/mid tagging regressed: '+txt.slice(0,220));
+  clearRear();
+
+  // --- controller list grouped by suffix (Type-a / PCI / OCP / no-suffix) ---
+  const ctrl=d.getElementById('ctrl');
+  ctrl.dispatchEvent(new w.Event('focus'));
+  const groups=[...d.getElementById('ac-panel').querySelectorAll('.combo-group')].map(g=>g.textContent);
+  (groups.length===4 && groups.some(g=>/type.a/i.test(g)) && groups.some(g=>/^pci/i.test(g)) && groups.some(g=>/ocp/i.test(g)))
+    ?pass7('controller combo panel groups into Type-a / PCI / OCP / other')
+    :fail7('controller groups wrong: '+groups.join(' | '));
+  const ctrlSel=ctrl.closest('.ac-wrap').querySelector('select');
+  const optgroups=[...ctrlSel.querySelectorAll('optgroup')].map(g=>g.label);
+  (optgroups.length===4 && ctrlSel.querySelector('optgroup[label*="Type"] option[value="P408i-a"]') && ctrlSel.querySelector('optgroup[label*="OCP"] option[value="MR408i-o"]'))
+    ?pass7('controller native-select mirror keeps the same 4 optgroups')
+    :fail7('controller mirror optgroups wrong: '+optgroups.join(' | '));
+
+  // --- "U"-suffix (single-socket-only) Xeon SKUs blocked above 1 processor ---
+  setModel7('DL360 G10+');pickCpu7('G6312U');
+  d.getElementById('cpuq').value='1';fire(d.getElementById('cpuq'),'input');
+  txt=d.getElementById('checks').textContent;
+  !txt.includes('single-socket-only')
+    ?pass7('G6312U (U-suffix) with 1 processor is not blocked')
+    :fail7('U-suffix CPU wrongly blocked at qty 1: '+txt.slice(0,200));
+  d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
+  txt=d.getElementById('checks').textContent;
+  txt.includes('single-socket-only')
+    ?pass7('G6312U (U-suffix) with 2 processors is blocked — single-socket-only SKU')
+    :fail7('U-suffix 2-CPU conflict not caught: '+txt.slice(0,220));
+},3600);

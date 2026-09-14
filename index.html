@@ -203,6 +203,7 @@ legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)
 .line{display:grid;gap:5px;align-items:center}
 .line.drive{grid-template-columns:auto minmax(64px,1fr) 74px 72px 96px 28px}
 .line.card{grid-template-columns:auto 1fr 28px}
+.line.rear{grid-template-columns:1fr 28px}
 .kill{border:1px solid var(--field-edge);background:var(--field);color:var(--ink-soft);
   border-radius:7px;height:31px;cursor:pointer;font-size:16px;line-height:1;padding:0}
 .kill:hover{color:var(--ink);border-color:var(--rule-strong)}
@@ -471,7 +472,9 @@ button.quiet{color:var(--ink-soft)}
         <div class="q"><span class="t">Drive bay config</span><span class="note">Front bays as they should read on the slip.</span></div>
         <div class="a">
           <input type="text" id="bays" list="bayopts" placeholder="e.g. 8LFF" autocomplete="off">
-          <input type="text" id="rear" list="rearopts" placeholder="Rear / midtray — leave blank if none" autocomplete="off">
+          <div class="lines" id="rear-lines"></div>
+          <button type="button" class="add" id="add-rear">Add rear / mid-tray line</button>
+          <span class="cap-note" id="rear-note"></span>
         </div>
       </div>
 
@@ -1161,7 +1164,7 @@ var MODELS=[
        'Mixing two different power supplies is not allowed.',
        'Fixed 6-fan cage regardless of CPU count — standard or performance kit depending on TDP/config, never a different fan count.',
        'Primary riser (up to 3 slots, Proc 1) + secondary riser (up to 3 slots, Proc 2) + tertiary (2 slots, Proc 2) = up to 8 total with two processors.',
-       'The 8LFF chassis can add a 4LFF mid-tray AND a separate 4LFF rear cage at once (up to 20 LFF total) — this tool can only record one rear/mid selection at a time, so note the other on the slip manually if both are ordered.',
+       'The 8LFF chassis can add a 4LFF mid-tray AND a separate 4LFF rear cage at once (up to 20 LFF total) — add both as separate rear/midtray lines.',
        '12 EDSFF / 36 EDSFF and the GPU CTO (8SFF or 8EDSFF backplane) chassis variants are not modeled here — pick manually and flag it if quoting one.']}},
  {m:'DL560',g:'G11', p:['sp4'], s:4, d:64, bays:['8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:151,hsWtext:'above 150W',psuMax:4,fans:{two:6,perf:6},pcie:{one:3,two:6},riserMax:2,rear:[],
@@ -1622,9 +1625,18 @@ var DIMMS=[];
  ['32GB',['2133','2400','2666','2933','3200']],['64GB',['2400','2666','2933','3200']],
  ['128GB',['2666','2933','3200']]].forEach(function(d){
   d[1].forEach(function(s){DIMMS.push(d[0]+' '+s);});});
-var CTRLS=['P204i-b','P204i-c','P408i-a','P408i-p','P408e-p','P816i-a','P816i-p','P824i-p',
- 'P440','P440ar','P840','P840ar','E208i-a','E208i-p','E208e-p','H240','H241','B140i','S100i',
- 'SR932i-p','MR216i-o','MR416i-o','MR216i-p','MR416i-p','MR408i-o'];
+/* Grouped by the HPE/Broadcom suffix convention — "-a" = Type-a embedded
+   slimline connector, "-p" = plug-in PCIe card, "-o" = OCP mezzanine.
+   Pre-Gen10 parts (and B140i/S100i, embedded but not slimline) never got
+   a suffix letter at all — grouped separately rather than guessed into
+   one of the three, since their physical mounting isn't the same thing
+   the suffix describes. */
+var CTRLS=[
+ '— Type-a (embedded slimline) —','P408i-a','P816i-a','E208i-a',
+ '— PCI (plug-in card) —','P408i-p','P408e-p','P816i-p','P824i-p','E208i-p','E208e-p','SR932i-p','MR216i-p','MR416i-p',
+ '— OCP (mezzanine) —','MR216i-o','MR416i-o','MR408i-o',
+ '— Other / no suffix (Gen8–9) —','P204i-b','P204i-c','P440','P440ar','P840','P840ar','H240','H241','B140i','S100i'
+];
 var EXPANDERS=['12G SAS Expander Card (727250-B21, Gen9)','12G SAS Expander Card (870549-B21, Gen10)',
  '12G SAS Expander Card (876907-B21, Gen10 2SFF rear)','Second controller instead of expander',
  'P408e-p external HBA','E208e-p external HBA','H241 external HBA','None needed'];
@@ -1832,7 +1844,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.1';  // 2nd build shipped today
+var BUILD_VERSION='2026.09.14.2';  // 3rd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2150,7 +2162,6 @@ attachList(document.getElementById('flr'),function(){return FLRS;});
 attachList(document.getElementById('expander'),function(){return EXPANDERS;});
 attachList(document.getElementById('psu'),function(){return PSUS;});
 attachList(document.getElementById('bays'),function(){var m=currentModel();return (m&&m.bays)?m.bays:GENERIC_BAYS;});
-attachList(document.getElementById('rear'),function(){var m=currentModel(),R=rulesFor(m);return (m&&R.rear&&R.rear.length)?R.rear:REAR;});
 stepper(document.getElementById('dimmq'),{min:1});
 stepper(document.getElementById('psuq'),{min:1});
 stepper(document.getElementById('fanq'),{min:0});
@@ -2250,15 +2261,15 @@ function refreshDependents(){
   fill('bayopts',(m&&m.bays)?m.bays:GENERIC_BAYS);
   var rearNone=!!(m&&R.rear&&!R.rear.length);
   var rearListed=!!(m&&R.rear&&R.rear.length);
-  fill('rearopts',rearListed?R.rear:REAR);
-  var rearEl=document.getElementById('rear');
-  rearEl.disabled=rearNone;
-  if(rearNone&&rearEl.value){rearEl.value='';}
-  rearEl.placeholder=rearNone
+  fill('rearopts',rearListed?R.rear:REAR); // dead as a <datalist> (attachList strips list=) — kept only as a test probe of the per-model list
+  var addRearBtn=document.getElementById('add-rear');
+  addRearBtn.disabled=rearNone;
+  if(rearNone&&rearLinesEl.children.length){rearLinesEl.innerHTML='';}
+  document.getElementById('rear-note').textContent=rearNone
     ?'No rear or mid-tray drive bays on this model'
     :rearListed
-      ?'Rear / midtray — '+R.rear.length+' option'+(R.rear.length>1?'s':'')+' for this model'
-      :'Rear / midtray — leave blank if none';
+      ?'Rear / midtray — '+R.rear.length+' option'+(R.rear.length>1?'s':'')+' for this model. Add a line per cage if the chassis fits more than one at once.'
+      :'Rear / midtray — leave blank if none. Add a line per cage if the chassis fits more than one at once.';
   fill('psus',PSUS);
   var noRiser=!!(m&&R.riserMax===0);
   var rk=noRiser?[]:((m&&RISERS[m.m+' '+m.g])||(m?GENERIC_RISERS:[]));
@@ -2327,7 +2338,24 @@ document.getElementById('riser-kits').addEventListener('click',function(e){
 
 /* ---------------- repeatable lines ---------------- */
 var drives=document.getElementById('drives'),cards=document.getElementById('cards'),
-    risers=document.getElementById('risers');
+    risers=document.getElementById('risers'),rearLinesEl=document.getElementById('rear-lines');
+/* rear/mid-tray bays: independent lines (like risers/cards) rather than one
+   field, so a chassis with both a rear cage AND a separate mid-tray cage
+   (e.g. DL385 G11 8LFF) can actually record both instead of just one. */
+function rearRow(v){
+  v=v||{};var d=document.createElement('div');d.className='line rear';
+  d.innerHTML='<input type="text" placeholder="Rear / midtray — tap for the list or type your own" data-k="v" autocomplete="off" value="'+(v.v||'').replace(/"/g,'&quot;')+'">'+
+   '<button type="button" class="kill" title="Remove line">&times;</button>';
+  d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
+  attachList(d.querySelector('[data-k=v]'),function(){var m=currentModel(),R=rulesFor(m);return (m&&R.rear&&R.rear.length)?R.rear:REAR;});
+  return d;}
+document.getElementById('add-rear').addEventListener('click',function(){rearLinesEl.appendChild(rearRow());run();});
+/* the joined value every existing rule/slip/paste check reads — kept as a
+   single "+"-joined string so all of that logic needed no further changes;
+   rearSigs() below tags each "+"-separated clause independently. */
+function rearJoined(){
+  return [].slice.call(rearLinesEl.querySelectorAll('[data-k=v]')).map(function(x){return x.value.trim();}).filter(Boolean).join(' + ');
+}
 /* picking/typing an item into a line's key field (capacity, card, riser kit…)
    implies at least one of it — default the qty to 1 if it's still blank. */
 function autoQty(d,keyAttr){
@@ -2406,7 +2434,7 @@ function readLines(h){return [].slice.call(h.children).map(function(row){
 
 /* total physical bays from the bay + rear text */
 function bayCapacity(){
-  var n=0,txt=v('bays')+' '+v('rear'),re=/(\d{1,2})\s*(?:LFF|SFF)/gi,mm;
+  var n=0,txt=v('bays')+' '+rearJoined(),re=/(\d{1,2})\s*(?:LFF|SFF)/gi,mm;
   while((mm=re.exec(txt)))n+=Number(mm[1]);
   return n;}
 function drivesUsed(){
@@ -2446,7 +2474,7 @@ function updateHardCaps(m,R,cpuq){
 function evaluate(){
   var checks=[];
   var m=currentModel(),R=rulesFor(m),cpu=cpuByCode(v('cpu'));
-  var bays=v('bays').toUpperCase(),rear=v('rear'),bp=r('bp');
+  var bays=v('bays').toUpperCase(),rear=rearJoined(),bp=r('bp');
   var noDrives=document.getElementById('nodrives').checked;
   var dl=noDrives?[]:readLines(drives).filter(function(d){return d.cap;});
   var hasNVMe=bp.indexOf('NVMe')>-1||dl.some(function(d){return (d.int||'').indexOf('NVMe')>-1;});
@@ -2461,6 +2489,11 @@ function evaluate(){
     checks.push(['stop','NOT SUPPORTED',cpu[0]+' does not fit '+m.m+' '+m.g+' — wrong processor platform.']);
   if(m&&cpuq>m.s)
     checks.push(['stop','TOO MANY CPUS',m.m+' '+m.g+' has '+m.s+' socket'+(m.s>1?'s':'')+' — '+cpuq+' processors will not fit.']);
+  /* Intel's "U"-suffix Xeon Scalable SKUs (Gold 6209U/6210U/6312U/6414U here)
+     are validated for a single socket only — no cross-socket UPI link — on
+     every generation HPE has shipped them. Block picking more than one. */
+  if(cpu&&cpuq>1&&/U$/.test(cpu[0]))
+    checks.push(['stop','NOT SUPPORTED',cpu[0]+' is a single-socket-only ("U"-suffix) processor — it cannot be used with '+cpuq+' processors.']);
   /* risers: count vs positions, per-kit compatibility, slot total */
   var riserLines=readLines(risers).filter(function(x){return x.name;});
   var riserSlots=null, fhSlots=0, lpSlots=0, profileKnown=false;
@@ -2636,21 +2669,32 @@ function evaluate(){
   if(R.rear2SFF&&/2SFF/i.test(rear)&&bays&&!R.rear2SFF.some(function(b){return bays.indexOf(b)>-1;}))
     checks.push(['stop','NOT SUPPORTED','A 2SFF rear cage is only supported on '+R.rear2SFF.join(' or ')+' — not '+v('bays')+'.']);
 
-  /* rear / mid-tray option vs what this chassis actually offers */
+  /* rear / mid-tray option(s) vs what this chassis actually offers */
   if(m&&rear){
     if(R.rear&&!R.rear.length){
-      checks.push(['stop','NO REAR BAYS',m.m+' '+m.g+' has no rear or mid-tray drive bays — every drive mounts in the front boxes. Remove "'+v('rear')+'".']);
+      checks.push(['stop','NO REAR BAYS',m.m+' '+m.g+' has no rear or mid-tray drive bays — every drive mounts in the front boxes. Remove "'+rear+'".']);
     }else if(R.rear){
       var allow={},allowMid=false;
       R.rear.forEach(function(o){rearSigs(o).forEach(function(x){allow[x]=1;if(/:mid$/.test(x))allowMid=true;});});
       var bad=rearSigs(rear).filter(function(x){return x==='any:mid'?!allowMid:!allow[x];});
       if(bad.length)
-        checks.push(['stop','REAR NOT SUPPORTED','"'+v('rear')+'" is not a rear or mid-tray option on '+m.m+' '+m.g+' — it takes: '+R.rear.join('; ')+'.']);
+        checks.push(['stop','REAR NOT SUPPORTED','"'+rear+'" is not a rear or mid-tray option on '+m.m+' '+m.g+' — it takes: '+R.rear.join('; ')+'.']);
     }else if(/mid[\s-]?tray|midtray|\bmid\b/i.test(rear)){
       checks.push(['verify','REAR','Confirm '+m.m+' '+m.g+' offers a mid-tray drive cage — 1U and non-LFF chassis do not. Not verified for this model.']);
     }
     if(/lff/i.test(rear)&&(/nvme/i.test(rear)||(bp.indexOf('NVMe')>-1&&!/sff/i.test(bays)&&!/sff/i.test(rear))))
       checks.push(['stop','NO LFF NVMe','There is no 3.5-inch (LFF) NVMe backplane — a rear or mid-tray LFF cage is SAS/SATA only. Use SFF for NVMe.']);
+    /* a chassis has exactly one rear-cage bay location and, separately, at most
+       one mid-tray bay location — a rear cage AND a mid-tray cage together is
+       fine (different physical locations, e.g. DL385 G11 8LFF), but two
+       different options fighting for the SAME location is a trader mistake. */
+    var rSigs=rearSigs(rear);
+    var rearDistinct=rSigs.filter(function(x){return /:rear$/.test(x);}).length;
+    var midDistinct=rSigs.filter(function(x){return /:mid$/.test(x)||x==='any:mid';}).length;
+    if(rearDistinct>1)
+      checks.push(['stop','REAR CONFLICT','More than one rear-cage option entered ("'+rear+'") — a chassis has one rear-cage bay location. Remove all but one rear line.']);
+    if(midDistinct>1)
+      checks.push(['stop','REAR CONFLICT','More than one mid-tray option entered ("'+rear+'") — a chassis has one mid-tray bay location. Remove all but one mid-tray line.']);
   }
 
   /* TPM version vs generation */
@@ -2767,18 +2811,25 @@ function evaluate(){
    processor build is shown only once at least one of the things it names is
    actually chosen. Notes that name none of these (general caveats) always show. */
 /* Reduce a rear / mid-tray string to comparable signatures, e.g.
-   "4LFF midtray" -> ["4lff:mid"], "2x M.2 uFF rear" -> ["m2:rear"]. */
+   "4LFF midtray" -> ["4lff:mid"], "2x M.2 uFF rear" -> ["m2:rear"]. Each
+   "+"-separated clause is tagged mid/rear independently — "2SFF rear +
+   4LFF midtray" must not have BOTH halves read as mid just because the
+   word appears somewhere in the string (that was the bug: one global
+   flag for the whole string, rather than per clause). */
 function rearSigs(s){
-  s=String(s).toLowerCase();
-  var mid=/mid[\s-]?tray|midtray|\bmid\b/.test(s);
-  var out=[], seen={}, re=/(\d+)?\s*x?\s*(sff|lff|uff|m\.?2)\b/g, mm;
-  while((mm=re.exec(s))){
-    var f=mm[2].replace(/\./g,'');
-    if(f==='uff') f='m2';
-    var sig=(mm[1]||'')+f+(mid?':mid':':rear');
-    if(!seen[sig]){seen[sig]=1;out.push(sig);}
-  }
-  if(!out.length&&mid) out.push('any:mid');
+  var out=[], seen={};
+  String(s).toLowerCase().split('+').forEach(function(clause){
+    var mid=/mid[\s-]?tray|midtray|\bmid\b/.test(clause);
+    var re=/(\d+)?\s*x?\s*(sff|lff|uff|m\.?2)\b/g, mm, found=false;
+    while((mm=re.exec(clause))){
+      found=true;
+      var f=mm[2].replace(/\./g,'');
+      if(f==='uff') f='m2';
+      var sig=(mm[1]||'')+f+(mid?':mid':':rear');
+      if(!seen[sig]){seen[sig]=1;out.push(sig);}
+    }
+    if(!found&&mid&&!seen['any:mid']){seen['any:mid']=1;out.push('any:mid');}
+  });
   return out;
 }
 /* Rough peak-power estimate (W). Deliberately conservative-ish; for a real
@@ -2896,7 +2947,7 @@ document.getElementById('plan-go').addEventListener('click',function(){
 function buildSlip(){
   var L=[],gaps=[],m=currentModel();
   var head=join(m?(m.m+' '+m.g):'',v('bays'));
-  if(v('rear'))head=join(head,'+ '+v('rear'));
+  if(rearJoined())head=join(head,'+ '+rearJoined());
   if(head)L.push(head);else gaps.push('system model');
   if(m&&!v('bays')&&!document.getElementById('nodrives').checked)gaps.push('drive bay config');
   if(r('bp'))L.push(r('bp'));
@@ -3122,7 +3173,7 @@ function parseClientText(text){
   }
   var bayM=text.match(/(\d{1,2})\s*(lff|sff)\b/gi);
   if(bayM&&bayM[0]){document.getElementById('bays').value=bayM[0].toUpperCase().replace(/\s+/g,'');found.push('Bays: '+bayM[0]);}
-  if(bayM&&bayM[1]){document.getElementById('rear').value=bayM[1].toUpperCase().replace(/\s+/g,'')+' rear';found.push('Rear bays: '+bayM[1]);}
+  if(bayM&&bayM[1]){rearLinesEl.innerHTML='';rearLinesEl.appendChild(rearRow({v:bayM[1].toUpperCase().replace(/\s+/g,'')+' rear'}));found.push('Rear bays: '+bayM[1]);}
   if(/\bnvme\b/i.test(text)){document.getElementById('bp2').checked=true;found.push('Backplane: NVMe');}
   if(/\btpm\b/i.test(text)&&!/\b(no|without|w\/o|n\/a)\s+tpm\b/i.test(text)){
     var tpm12=/\btpm\s*1\.2\b/i.test(text);
@@ -3241,7 +3292,7 @@ document.getElementById('paste-fill').addEventListener('click',function(){
    draft, the shareable link and the recent-builds list — write it once,
    read it back the same way everywhere. */
 function collectState(){
-  var d={f:{},r:{},c:{},ov:manualOverride,ft:fanTouched,drives:readLines(drives),cards:readLines(cards),risers:readLines(risers)};
+  var d={f:{},r:{},c:{},ov:manualOverride,ft:fanTouched,drives:readLines(drives),cards:readLines(cards),risers:readLines(risers),rear:readLines(rearLinesEl)};
   document.querySelectorAll('input[type=text],input[type=number],input[type=hidden],textarea,select').forEach(function(c){
     if(c.id&&!c.hasAttribute('data-k'))d.f[c.id]=c.value;});
   document.querySelectorAll('input[type=radio]:checked').forEach(function(c){d.r[c.name]=c.value;});
@@ -3261,6 +3312,7 @@ function applyState(d){
   (d.drives||[]).forEach(function(x){drives.appendChild(driveRow(x));});
   (d.cards||[]).forEach(function(x){cards.appendChild(cardRow(x));});
   (d.risers||[]).forEach(function(x){risers.appendChild(riserRow(x));});
+  (d.rear||[]).forEach(function(x){rearLinesEl.appendChild(rearRow(x));});
   if(!drives.children.length)drives.appendChild(driveRow());
   refreshDependents();
   sync();
@@ -3387,7 +3439,7 @@ function resetForm(){
   manualOverride={fan:false,hs:false};fanTouched=false;
   document.getElementById('paste-result').classList.remove('on');
   document.getElementById('plan-out').classList.remove('on');
-  drives.innerHTML='';cards.innerHTML='';risers.innerHTML='';
+  drives.innerHTML='';cards.innerHTML='';risers.innerHTML='';rearLinesEl.innerHTML='';
   document.getElementById('mem-suggestions').hidden=true;
   document.getElementById('mem-suggestions').innerHTML='';
 }
