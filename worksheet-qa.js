@@ -675,6 +675,25 @@ setTimeout(()=>{
   d.getElementById('badge-v').classList.contains('on')
     ?pass3('ML350 G12: verified badge now on (riser/fan/PCIe corrected: riserMax 2->3, pcie two 8->10)'):fail3('ML350 G12 badge not verified');
 
+  // --- missing `bays` array on a verified:true model silently fell back to
+  // the generic list with zero validation (user-reported: DL360 G11 offered
+  // 12LFF, which isn't real for that chassis) — fixed 2026-09-15 on DL360/
+  // DL325/DL345 G11 and ML350 G11, all of which were verified:true with no
+  // bays list at all ---
+  const noGeneric12LFF=(model)=>{
+    setModel3(model);
+    const btns=[...d.querySelectorAll('#bays-btns button')].map(b=>b.textContent);
+    return !btns.some(b=>/^12LFF$/i.test(b));
+  };
+  noGeneric12LFF('DL360 G11')
+    ?pass3('DL360 G11: bay buttons no longer include the generic-fallback 12LFF (real chassis is 4LFF/8SFF/20EDSFF)'):fail3('DL360 G11 still offers 12LFF');
+  noGeneric12LFF('DL325 G11')
+    ?pass3('DL325 G11: bay buttons no longer include a generic-fallback option not real for this chassis'):fail3('DL325 G11 still offers 12LFF');
+  noGeneric12LFF('DL345 G11')
+    ?pass3('DL345 G11: bay buttons no longer include a generic-fallback option not real for this chassis'):fail3('DL345 G11 still offers 12LFF');
+  noGeneric12LFF('ML350 G11')
+    ?pass3('ML350 G11: bay buttons no longer include a generic-fallback option not real for this chassis'):fail3('ML350 G11 still offers 12LFF');
+
   // --- ML towers: no riser cages ---
   setModel3('ML30 G10+');
   (d.getElementById('add-riser').hidden

@@ -1219,9 +1219,10 @@ var MODELS=[
        'Standard Heat Sink Kit is P48904-B21 (a shared DL3X0 Gen11 part); Performance Heat Sink Kit P52756-B21 is DL320-specific.',
        '2 PCIe slots (1 per riser position, both PCIe 5.0 x16 FHHL) plus a separate OCP 3.0 x16 slot (not counted as a CEM PCIe slot).',
        'A separate GPU-Dense chassis variant (P61218-B21, either 4SFF NVMe or 8 EDSFF) exists but isn\'t modeled in the bay list above — note it manually if quoting one.']}},
- {m:'DL325',g:'G11', p:['genoa'],  s:1, d:12,
+ {m:'DL325',g:'G11', p:['genoa'],  s:1, d:12, bays:['4LFF','8SFF'],
    rules:{verified:true,liquidReqW:320,memPerSocket:3072,fanPart:'P58462-B21',psuMax:2,fans:{one:7,perf:7},pcie:{one:2,two:2},riserMax:2,rear:[],
-     notes:['No rear or mid-tray drive cage on this 1U chassis — front bays only (2026-09-15, QuickSpecs a50004297enw V22).',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true, so the front-bay-config field silently fell back to the tool\'s generic bay list with zero validation. Its own QuickSpecs (sedcolombia.com.co, a50004297enw V22) confirms 4LFF and 8SFF as the real front-bay configs (media bay is on 8SFF/4LFF CTO only, not EDSFF/GPU); an EDSFF/GPU variant exists but isn\'t modeled here — pick manually and flag it if quoting one.',
+       'No rear or mid-tray drive cage on this 1U chassis — front bays only (2026-09-15, QuickSpecs a50004297enw V22).',
        '12 DIMM slots (1 DIMM per channel, single Genoa socket) — up to 3TB.',
        '2 PCIe Gen5 slots: 1 FH/FL on the primary riser, 1 LP or HH/HL on the secondary riser.',
        'Processors at 320W or above require the Closed-Loop Liquid Cooling Heat Sink kit and 7 liquid-cooling fans (P59668-B21) — air cooling tops out below that.',
@@ -1236,22 +1237,24 @@ var MODELS=[
     researching the Gen11 CPU list. This entry was a fabricated skeleton
     (bare {m,g,p,s,d}, no rules, never verified) — removed rather than
     left in place offering a product that was never orderable. */
- {m:'DL345',g:'G11', p:['genoa'],  s:1, d:12,
+ {m:'DL345',g:'G11', p:['genoa'],  s:1, d:12, bays:['4LFF','8LFF','8SFF','24SFF'],
    rules:{verified:true,hsW:260,hsWtext:'260W or higher (241–259W: check the cooling matrix)',fanW:260,
      memPerSocket:3072,psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:6,two:6},riserMax:2,
      hsPart:'P58459-B21',fanPart:'P58465-B21',fanNVMe:true,fanRear:true,fanGPU:true,
      rear:['4LFF rear','4LFF midtray','2SFF rear','8SFF midtray'],
-     notes:['Rear/mid-tray (2026-09-15, promisegulf.com mirror, a50004298enw V31): both coexist on every populated chassis variant — 8LFF gets a 4LFF mid-tray + 4LFF rear together (up to 20LFF total); 8SFF/24SFF get an 8SFF mid-tray + 2SFF rear together (up to 34SFF total) — a broader combo capability than the already-known DL385 G11 case.',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true, so the front-bay-config field silently fell back to the tool\'s generic bay list with zero validation. Its own QuickSpecs (promisegulf.com, a50004298enw V31) confirms 4LFF, 8LFF, 8SFF and 24SFF as the real front-bay configs (media bay is on 8SFF/8LFF only, not 24SFF/EDSFF/GPU — a media-bay caveat, not a front-bay-config one); an EDSFF/GPU variant exists but isn\'t modeled here.',
+       'Rear/mid-tray (2026-09-15, promisegulf.com mirror, a50004298enw V31): both coexist on every populated chassis variant — 8LFF gets a 4LFF mid-tray + 4LFF rear together (up to 20LFF total); 8SFF/24SFF get an 8SFF mid-tray + 2SFF rear together (up to 34SFF total) — a broader combo capability than the already-known DL385 G11 case.',
        '12 DIMM slots (1 DIMM per channel, single Genoa socket).',
        'Up to 6 fans, redundancy built in. ≤240W: Standard Heat Sink (P58458-B21) + Standard Fan Kit (P58464-B21). ≥260W: Performance Heat Sink (P58459-B21) + Performance Fan Kit (P58465-B21).',
        'Performance fans also required for NVMe, SAS4, EDSFF and GPU configurations.',
        '6 PCIe Gen5 x16 slots (3 primary + 3 secondary), all FH/HL. Up to 4 SW or 2 DW GPUs.',
        'Ships with 1 slot in each position by default (Slot 3 primary, Slot 6 secondary) — the 4/6 PCIe Enablement Kits upgrade one or both to 3 slots, but neither is selectable once the 4LFF rear cage is fitted; swap in the LFF Rear Cage riser variants instead.']}},
- {m:'DL360',g:'G11', p:['sp4','sp5'], s:2, d:32,
+ {m:'DL360',g:'G11', p:['sp4','sp5'], s:2, d:32, bays:['4LFF','8SFF'],
    rules:{verified:true,hsW:186,hsWtext:'186W–270W',fanW:186,fanPart:'P48908-B21',hsPart:'P48905-B21',riserMax:2,
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['2x M.2 (dual uFF) rear'],
      coolTierW:271,singleMaxAirW:300,fanNVMe:true,fanRear:true,fanGPU:true,
-     notes:['Corrected 2026-09-15: this model previously listed "1SFF rear" and "2SFF rear" here, copied from DL380/DL385 G11 — checked directly against this model\'s own QuickSpecs (3 revisions, 2023-2025): no 1SFF cage exists at all, and the 2SFF cage that does exist is a FRONT expansion sharing the ODD slot, not a rear cage. Only the NS204i-u boot device (2x M.2) genuinely mounts at the rear.',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true, so the front-bay-config field silently fell back to the tool\'s generic bay list (which includes 8LFF/12LFF/16SFF/24SFF — none real for this chassis) with zero validation. Its own QuickSpecs (karenserver.com, a50004306enw V38) confirms only 4LFF and 8SFF as real front-bay configs; a 20EDSFF variant also exists but isn\'t modeled here (same "note it manually" treatment as the EDSFF/GPU variants on DL380/DL385/ML350 G11) — pick manually and flag it if quoting one.',
+       'Corrected 2026-09-15: this model previously listed "1SFF rear" and "2SFF rear" here, copied from DL380/DL385 G11 — checked directly against this model\'s own QuickSpecs (3 revisions, 2023-2025): no 1SFF cage exists at all, and the 2SFF cage that does exist is a FRONT expansion sharing the ODD slot, not a rear cage. Only the NS204i-u boot device (2x M.2) genuinely mounts at the rear.',
        'Standard fan kit (5 fans) covers TDP under 186W; the 2P standard kit adds 2 more for a second processor.',
        'High performance heatsink (P48905-B21) + high performance fan kit (P48908-B21) together cover 186W–270W, or a single 300W processor.',
        'Two processors at 271W or above require closed-loop liquid cooling (P48906-B21) — air cooling is not supported at that tier.',
@@ -1445,10 +1448,11 @@ var MODELS=[
        '2 standard, non-hot-plug fans by default. An optional Redundant Fan Kit (P49984-B21) is required with a 15K RPM SAS SFF HDD (and other heavier configs) for "advanced cooling and redundancy" — its own QuickSpecs never states the resulting fan COUNT, so it isn\'t modeled as a `perf` tier here; confirm against QuickSpecs before quoting a build that needs it.',
        '2 PCIe 5.0 x16 slots ship standard (Slot 1, Slot 4); 2 more (Slot 2, then Slot 3) are each unlocked by an optional GPU Riser Kit (P53487-B21 for Slot 2, required before P53488-B21 can add Slot 3) — up to 4 total, single socket only.',
        'Box1 + optional Box2, each independently 4LFF/NHP or 8SFF SAS/SATA — mixed LFF/SFF across the two boxes is supported.']}},
- {m:'ML350',g:'G11', p:['sp4','sp5'],   s:2, d:32, tower:true,
+ {m:'ML350',g:'G11', p:['sp4','sp5'],   s:2, d:32, tower:true, bays:['4LFF','8SFF'],
    rules:{verified:true,hsW:195,hsWtext:'195W or higher',hsPart:'P47224-B21',psuMax:2,pcie:{one:4,two:8},riserMax:0,rear:[],
      fanW:300,fanPart:'P47219-B21 + Second CPU Fan Kit P47902-B21',
-     notes:['No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a50004308enw V22).',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true, so the front-bay-config field silently fell back to the tool\'s generic bay list with zero validation. Its own QuickSpecs (content.shi.com, a50004308enw V22) confirms 4LFF and 8SFF as the real front-bay configs (4LFF also supports RDX docking; 8SFF additionally offers Tri-Mode U.3 and a 12EDSFF variant, not modeled here).',
+       'No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a50004308enw V22).',
        'Intel VROC NVMe is not supported with the 4510, 4509Y or 3508U processors.',
        'PCIe slots are on the system board (like every ML350) — around half need the 2nd processor. Exact slot map not re-checked against the Gen11 QuickSpecs.',
        '4 of the sp5 (5th Gen) CPUs need DLC liquid cooling this tower doesn\'t support and are not realistically orderable here: 8593Q, 8562Y+, 6544Y, 6558Q. Not excluded from the picker (this tool doesn\'t have a per-model CPU-exclusion mechanism) — confirm against QuickSpecs before quoting one of these four.']}},
@@ -2586,7 +2590,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.15.6'; // 6th build shipped today
+var BUILD_VERSION='2026.09.15.7'; // 7th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

@@ -1405,6 +1405,41 @@ too (none had one before). This closes out the riser/fan/PSU/bay-count
 verification axis for every model on the current priority queue —
 only `DL120 Gen10`'s QuickSpecs remains genuinely unsourced.
 
+**Bug found and fixed 2026-09-15 (user report): `DL360 G11` offered
+"12LFF" as a front-bay-config option, which isn't real for that
+chassis.** Root cause: `DL360 G11` had NO `bays` array at all despite
+being `verified:true` — the front-bay-config picker falls back to
+`GENERIC_BAYS` (`4LFF/8LFF/12LFF/2SFF/4SFF/8SFF/10SFF/16SFF/24SFF`)
+whenever a model has no `bays` of its own, and the `BAY CONFIG` verify
+check in `evaluate()` explicitly skips validation when `m.bays` is
+empty — so an impossible bay pick raised zero warning. `verified:true`
+was set for this model's cooling/riser/fan data in an earlier pass;
+`bays` was simply never populated, so the badge was telling traders
+"this is checked" while one whole field silently wasn't.
+Fixed using facts already sourced this session (karenserver.com,
+a50004306enw V38): real front-bay configs are `4LFF`/`8SFF` (a
+20EDSFF variant exists too but isn't modeled, same "note it manually"
+treatment as other EDSFF/GPU variants in this file).
+**Auditing every other Gen11/Gen12 model for the same bug class**
+(`verified:true` + no `bays` array) surfaced 3 more real instances,
+all fixed the same way using already-sourced facts from this session's
+research: `DL325 G11` (→ `4LFF`/`8SFF`), `DL345 G11` (→ `4LFF`/`8LFF`/
+`8SFF`/`24SFF`), `ML350 G11` (→ `4LFF`/`8SFF`). 4 new regression tests
+guard all 4 specifically (assert the generic-only `12LFF` option is
+gone from each model's bay buttons).
+**Not fixed — flagged as a separate, larger follow-up:** roughly 11
+G10/G10+ models (`DL20 G10+`, `DL110 G10+`, `DL325 G10+`/`v2`,
+`DL345 G10+`, `DL385 G10+`/`v2`, `ML30 G10`, `ML110 G10`, `ML350 G10`,
+`ML30 G10+`) have the exact same `verified:true`-with-no-`bays`
+pattern — but this is a much older, pre-existing gap: the original
+"verify PSU/fans/PCIe/riser/cooling" checklist this project ran
+against G10/G10+ never included front-bay configs at all (`bays` only
+started getting backfilled as a byproduct of the newer 5-subsystem
+media-bay/rear/TPM/motherboard/backplane research passes, which so far
+have only covered G11/G12). Left alone rather than guessed at now —
+each needs its own QuickSpecs check for the real front-bay list before
+filling `bays`, same as every other field in this file.
+
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.
 Search results are sometimes internally inconsistent (per-CPU notes can
