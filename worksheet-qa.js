@@ -610,6 +610,15 @@ setTimeout(()=>{
   mlChk('ML30 G10+','4 DIMM','2','v');
   mlChk('ML350 G9','24 DIMM','4','u');
 
+  // --- ML tower Gen9 stragglers verified 2026-09-15 ---
+  mlChk('ML10 G9','4 DIMM','1','v');
+  mlChk('ML30 G9','4 DIMM','2','v');
+  mlChk('ML110 G9','8 DIMM','2','v');
+  mlChk('ML150 G9','16 DIMM','2','v');
+  setModel3('ML10 G9');
+  d.getElementById('add-riser').hidden
+    ?pass3('ML10 G9: no riser section (PCIe slots on the system board, Gen9 confirmed too)'):fail3('ML10 G9 riser section not hidden');
+
   // --- ML towers: no riser cages ---
   setModel3('ML30 G10+');
   (d.getElementById('add-riser').hidden

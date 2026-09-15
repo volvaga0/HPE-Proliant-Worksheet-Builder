@@ -48,3 +48,7 @@ One row per cached file in this directory. See `README.md` for how to use/add to
 | DL380a-G12.txt | DL380a | G12 | a00047453enw | V6 — 05-May-2025 | https://enterinsights.com/pdfs/hpe-material//HPE%20ProLiant%20Compute%20DL380a%20Gen12-a00047453enw.pdf | 2026-09-15 |
 | DL580-G12.txt | DL580 | G12 | a50009226enw | V1 — 02-Jun-2025 | https://first.uz/upload/iblock/37f/jwcn5jvs1pua14pfooen9ac0yf7wkclh/Tekhnicheskoe-rukovodstvo-_HPE-ProLiant-Compute-DL580-Gen12_.pdf | 2026-09-15 |
 | ML350-G12.txt | ML350 | G12 | a50006995enw | V2 — 10-Mar-2025 | https://it-trade.uz/upload/iblock/ead/3xvprenbl8jdtjylg33xxtivjqanr9rx/Tekhnicheskoe-rukovodstvo-_HPE-ProLiant-Compute-ML350-Gen12_.pdf | 2026-09-15 |
+| ML10-G9.txt | ML10 | G9 | c04922941 | V5 — 28-Nov-2016 | https://gzhls.at/blob/ldb/9/7/f/c/12fa739cd6316b9887598475393946c50cd8.pdf | 2026-09-15 |
+| ML30-G9.txt | ML30 | G9 | c04834991 | V29 — 02-Dec-2019 | https://mahanshabake.com/wp-content/uploads/2024/08/HPE-ProLiant-ML30-Gen9.pdf | 2026-09-15 |
+| ML110-G9.txt | ML110 | G9 | c04545452 | V22 — 23-Oct-2017 | https://www.router-switch.com/media/upload/product-pdf/hpe-ml110-gen9-servers-datasheet.pdf | 2026-09-15 |
+| ML150-G9.txt | ML150 | G9 | c04447843 | V28 — 02-Apr-2018 | https://ysorkh.net/wp-content/uploads/2021/05/HPE-ProLiant-ML150-Generation9-Gen9.pdf | 2026-09-15 |
