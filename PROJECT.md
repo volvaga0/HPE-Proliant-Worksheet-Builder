@@ -956,6 +956,35 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   picking (or typing) a value with the qty still blank sets it to 1. Same
   idea as "picking a CPU/PSU implies a count", generalised to every
   repeatable line and to cards added by the paste parser.
+- **Sticky right column on desktop** (2026-09-15, user request) —
+  `.slip-wrap` (Spec slip + Config checks + the 3 action buttons) is
+  `position:sticky;top:24px` so it stays visible while the longer left
+  column scrolls past it. Reverts to `position:static` at the existing
+  980px breakpoint that already collapses `.sheet` to 1 column —
+  mobile/tablet is untouched. **Two non-obvious CSS traps had to be
+  fixed together, not just adding `position:sticky` itself:**
+  1. `body{overflow-x:hidden}` was silently breaking it. The CSS
+     Overflow spec pairs `overflow-x`/`overflow-y`: if one is `visible`
+     and the other isn't, the `visible` one computes to `auto` — so
+     `overflow-x:hidden` was forcing `overflow-y:auto`, turning
+     `<body>` into its own scroll container and breaking every
+     `position:sticky` descendant on the page (they'd just scroll
+     normally, as if `static`). Fixed by switching to `overflow-x:clip`,
+     which is exempt from that pairing rule — same horizontal-overflow
+     guard, `overflow-y` stays `visible`, sticky works. **Check this
+     first if a future sticky element mysteriously doesn't stick.**
+  2. `.sheet`'s grid had `align-items:start`, which shrinks a grid
+     ITEM's own box to its content height instead of stretching it to
+     the row height — a sticky child's containing block is that grid
+     item, so if the item is only as tall as its content, the sticky
+     child has no room to float in as the page scrolls. Removed
+     `align-items:start` (default `stretch`) so `.col-slip` spans the
+     full row height (matching the taller left column); `.slip-wrap`
+     itself keeps its own natural short height and floats correctly
+     within that taller box. `.col-form` (already the tallest column)
+     looks identical either way.
+  4 new QA regression tests check the CSS text directly, since jsdom
+  can't do real layout/scroll testing.
 
 ## Verification status (as of this handoff)
 

@@ -27,10 +27,10 @@ body{margin:0;
     radial-gradient(circle at 30% 92%, rgba(0,212,212,0.025), transparent 42%),
     var(--paper);
   background-attachment:fixed;color:var(--ink);
-  -webkit-tap-highlight-color:rgba(0,212,212,0.18);overflow-x:hidden;
+  -webkit-tap-highlight-color:rgba(0,212,212,0.18);overflow-x:clip;
   font-family:"Segoe UI","Helvetica Neue",Arial,system-ui,sans-serif;font-size:15.5px;line-height:1.45;
   padding:0 0 calc(84px + env(safe-area-inset-bottom))}
-.sheet{max-width:1180px;margin:0 auto;padding:24px 16px 0;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;align-items:start}
+.sheet{max-width:1180px;margin:0 auto;padding:24px 16px 0;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px}
 .col-form{min-width:0}
 .head{display:flex;flex-direction:column;gap:14px;
   margin-top:4px;padding:22px 20px;
@@ -271,7 +271,7 @@ legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)
 #tower .sec-icon{stroke:var(--tower);filter:drop-shadow(0 3px 8px rgba(147,162,240,0.25))}
 .locked{background:var(--card);border:1px dashed var(--rule-strong);border-radius:10px;padding:13px 15px;color:var(--ink-soft);font-size:14px}
 
-.slip-wrap{display:flex;flex-direction:column;gap:14px}
+.slip-wrap{display:flex;flex-direction:column;gap:14px;position:sticky;top:24px}
 .panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-bottom:6px;border-bottom:2px solid var(--rule-strong)}
 .panel-head h2{font-weight:600;font-size:18.5px;margin:0;color:var(--signal);text-shadow:0 4px 14px rgba(0,212,212,0.20);
   display:flex;align-items:center;gap:9px}
@@ -2586,7 +2586,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.15.5'; // 5th build shipped today
+var BUILD_VERSION='2026.09.15.6'; // 6th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

@@ -478,7 +478,22 @@ setTimeout(()=>{
     ?pass3('mobile CSS: 16px form controls (no iOS zoom) + 42px+ pill targets'):fail3('mobile control sizing missing: '+mq.slice(0,200));
   (/env\(safe-area-inset-bottom\)/.test(html) && /viewport-fit=cover/.test(html))
     ?pass3('mobile CSS: safe-area insets + viewport-fit=cover'):fail3('safe-area handling missing');
-  /overflow-x:\s*hidden/.test(html)?pass3('mobile: body overflow-x hidden (no sideways scroll)'):fail3('body overflow-x not guarded');
+  /overflow-x:\s*(hidden|clip)/.test(html)?pass3('mobile: body overflow-x guarded (no sideways scroll)'):fail3('body overflow-x not guarded');
+
+  // --- desktop: right column (Spec slip/Config checks/buttons) stays sticky while scrolling (2026-09-15) ---
+  const slipWrapRule=(html.match(/\.slip-wrap\s*\{[^}]*\}/)||[''])[0];
+  /position\s*:\s*sticky/.test(slipWrapRule)
+    ?pass3('.slip-wrap is position:sticky on desktop'):fail3('.slip-wrap missing position:sticky: '+slipWrapRule);
+  const sheetRule=(html.match(/\.sheet\{[^}]*\}/)||[''])[0];
+  !/align-items\s*:\s*start/.test(sheetRule)
+    ?pass3('.sheet grid has no align-items:start — .col-slip can stretch to give .slip-wrap room to stick (regression guard: align-items:start shrinks the grid cell to its own content height, leaving position:sticky nothing to float within)')
+    :fail3('.sheet still has align-items:start, which breaks the sticky sidebar: '+sheetRule);
+  const desktopResetMq=(html.match(/@media \(max-width:980px\)\{[\s\S]*?\n\}/)||[''])[0];
+  /\.slip-wrap\{position:static\}/.test(desktopResetMq)
+    ?pass3('sticky sidebar correctly reverts to position:static at/below the 980px tablet breakpoint'):fail3('980px reset missing: '+desktopResetMq);
+  /overflow-x:\s*hidden/.test(html)
+    ?fail3('body still uses overflow-x:hidden — this forces overflow-y:auto per the CSS overflow computed-value pairing rule, turning <body> into its own scroll container and silently breaking every position:sticky element on the page (this exact bug broke the sticky sidebar once already)')
+    :pass3('body uses overflow-x:clip, not hidden — avoids the hidden/auto overflow-pairing quirk that breaks position:sticky');
 
   // --- scrolling a dropdown to its end doesn't chain into the page behind it ---
   const comboPanelRule=(html.match(/\.combo-panel\s*\{[^}]*\}/)||[''])[0];
