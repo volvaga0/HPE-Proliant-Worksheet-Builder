@@ -1002,12 +1002,13 @@ var MODELS=[
        'One standard I/O riser carries all 9 PCIe 3.0 slots (4x x8 + 5x x16), all full-length/full-height (QuickSpecs DA-15187). Slot availability scales with processor count — the full nine need all four sockets; a two-socket build lights the five Proc 1/2 slots, a three-socket build adds two more.',
        'Double-wide GPU placement: 2 cards (slots 6, 9) with 2 processors; 3 (slots 3, 6, 9) with 3; up to 5 (slots 1, 2, 3, 6, 9) with 4. Slots 5 and 8 are blocked when double-wide cards are fitted.']}},
 
- {m:'DL20', g:'G10', p:['xeone'],      s:1, d:4,
+ {m:'DL20', g:'G10', p:['xeone'],      s:1, d:4, bays:['2LFF','4SFF','6SFF'],
    rules:{psuMax:2,pcie:{one:2,two:2},rear:[],
      notes:['4 DIMM slots. 2 PCIe expansion slots maximum.',
        'Base ships a single fixed 290W supply; 500W or 800W Flex Slot supplies add redundancy (2 bays).',
        'System fans are non-hot-plug and non-redundant — no fan-kit choice.',
-       'No rear or mid-tray drive cage (2026-09-15, checked against its own QuickSpecs a00053820enw).']}},
+       'No rear or mid-tray drive cage (2026-09-15, checked against its own QuickSpecs a00053820enw).',
+       'Front bays added 2026-09-15: 2LFF (hot-plug or non-hot-plug) and 4SFF (expandable to 6SFF via a +2SFF kit) — same a00053820enw QuickSpecs.']}},
  {m:'DL120',g:'G10', p:['sp1','sp2'],  s:1, d:8,
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
@@ -1104,38 +1105,43 @@ var MODELS=[
        'Order one primary riser (required): 6-slot 872336-B21 or 7-slot 878214-B21. The secondary riser (8-slot 872338-B21 or 9-slot 872340-B21) bundles the tertiary and only installs after the primary — 16 PCIe slots total with 4 processors. All slots are full-height.',
        'Internal storage controllers and SAS expanders fit only the primary and tertiary risers — not the secondary.']}},
 
- {m:'DL20',  g:'G10+', p:['xeone3'], s:1, d:4,
+ {m:'DL20',  g:'G10+', p:['xeone3'], s:1, d:4, bays:['2LFF','4SFF','6SFF'],
    rules:{verified:true,psuMax:2,pcie:{one:2,two:2},riserMax:1,rear:[],
-     notes:['No rear or mid-tray drive cage (2026-09-15, QuickSpecs a50002583enw).',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a50002583enw) confirms 2LFF (hot-plug or non-hot-plug) and 4SFF (expandable to 6SFF via a +2SFF kit) as the real front-bay configs.',
+       'No rear or mid-tray drive cage (2026-09-15, QuickSpecs a50002583enw).',
        'Xeon E-2300, single socket, 4 UDIMM slots (max 128GB).',
        '3 fixed performance fans — non-hot-plug, non-redundant, no fan-kit choice.',
        'Standard PSU is a single non-redundant 290W; a 500W or 800W Flex Slot pair needs the RPS enablement kit (2 bays).',
        '2 PCIe 4.0 slots on the primary low-profile riser (1 FH/HL + 1 LP).']}},
- {m:'DL110', g:'G10+', p:['sp3'],    s:1, d:8,
+ {m:'DL110', g:'G10+', p:['sp3'],    s:1, d:8, bays:[],
    rules:{verified:true,psuMax:2,fans:{one:7,perf:7},pcie:{one:3,two:3},riserMax:2,fanGPU:true,rear:[],
-     notes:['No rear or mid-tray drive cage (2026-09-15, QuickSpecs a50002566enw).',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all, so the front-bay-config field silently fell back to the tool\'s generic list. Its own QuickSpecs (a50002566enw) shows only 4x M.2 SSD slots (SATA or NVMe) — no LFF/SFF front drive bay of any kind exists on this chassis.',
+       'No rear or mid-tray drive cage (2026-09-15, QuickSpecs a50002566enw).',
        'Telco 1U, single Ice Lake socket, 8 DIMM slots. 7 hot-plug fans included. Select one or two Flex Slot power supplies.',
        '3 PCIe 4.0 slots + 1 OCP 3.0. Slot 3 is enabled by the x16 FHHL Secondary Riser Kit (P41827/P41828-B21).',
        'Processors at 185W TDP or higher need the DIMM Blank kit (P43725-B21) fitted in any unpopulated slots.',
      'A secondary riser (x16 FHHL) is required when a 185W+ processor is fitted and DIMM slots aren\u2019t fully populated.',
      '12x NVIDIA T4 GPUs are only supported when processor TDP is 165W or under.',
      'With 2x T4 GPUs and a 136–165W processor, Enhanced Processor Performance Profile must stay disabled or the processor throttles.']}},
- {m:'DL325', g:'G10+', p:['rome'],   s:1, d:16,
+ {m:'DL325', g:'G10+', p:['rome'],   s:1, d:16, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
      psuMax:2,fans:{one:6,two:6,perf:8},fanBays:['24SFF','12LFF'],pcie:{one:3,two:3},riserMax:2,rear:[],
-     notes:['No rear or mid-tray drive cage on this 1U single-socket chassis (2026-09-15, QuickSpecs a00073548enw V18).',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a00073548enw V18) confirms 4LFF (expandable to 8LFF, then 12LFF) and 8SFF NVMe U.3 (expandable to 16SFF, then 24SFF) as the real front-bay configs. Mixing LFF and SFF is not supported.',
+       'No rear or mid-tray drive cage on this 1U single-socket chassis (2026-09-15, QuickSpecs a00073548enw V18).',
        'DL325 Gen10 Plus v1 QuickSpecs: processors above 150W ship the High Performance heatsink; 6 standard fans, 8 HP fans on 24SFF/12LFF; select one or two power supplies; 16 DIMM slots; primary riser 1 FH + 1 LP, secondary riser 1 LP or FH/HL.',
        'Gen10 Plus v1 takes EPYC 7002 (Rome) only; EPYC 7003 needs the Gen10 Plus v2 board.']}},
- {m:'DL325', g:'G10+ v2', p:['milan'], s:1, d:16,
+ {m:'DL325', g:'G10+ v2', p:['milan'], s:1, d:16, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
      hsPart:'P41197-B21',fanPart:'P38506-B21',psuMax:2,fans:{one:8,perf:8},pcie:{one:3,two:3},riserMax:2,rear:[],
-     notes:['No rear or mid-tray drive cage on this 1U single-socket chassis (2026-09-15, QuickSpecs a50002564enw) — same chassis as v1.',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a50002564enw) states this v2 board supports "up to 10 SFF/4 LFF drives" — a smaller ceiling than v1\'s 24SFF/12LFF, so its bay list is NOT the same as v1 despite sharing the same chassis for other purposes.',
+       'No rear or mid-tray drive cage on this 1U single-socket chassis (2026-09-15, QuickSpecs a50002564enw) — same chassis as v1.',
        'v2 takes EPYC 7003 (Milan). Its QuickSpecs lists the High Performance Heat Sink Kit (P41197-B21) for every seeded processor, 155W parts included; treat the standard heatsink as the exception and confirm the exact SKU. 8 fans; Maximum Performance Fan Kit (P38506-B21) for GPU and certain NVMe backplanes. Select one or two PSUs; 16 DIMM slots; primary riser 1 FH + 1 LP, secondary riser 1 LP or FH/HL.']}},
- {m:'DL345', g:'G10+', p:['rome','milan'], s:1, d:16,
+ {m:'DL345', g:'G10+', p:['rome','milan'], s:1, d:16, bays:['8LFF','12LFF','8SFF','24SFF'],
    rules:{verified:true,hsW:180,hsWtext:'180W or higher',hsPart:'P38655-B21',fanRear:true,fanGPU:true,
      psuMax:2,fans:{one:6,two:6,perf:6},fanBays:['12LFF','24SFF'],pcie:{one:4,two:4},riserMax:2,
      rear:['2SFF rear','2SFF NVMe rear'],
-     notes:['Rear cage is a "Rear Drive Cage (2SFF SAS/SATA/NVMe optional)" — up to 26 SFF total (24 front + 2 rear). No mid-tray on this 1U chassis (2026-09-15, QuickSpecs a50002557enw).',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a50002557enw) confirms 8LFF (expandable to 12LFF) and 8SFF (expandable to 24SFF) as the real front-bay configs — no 4LFF option exists on this chassis, unlike its DL325/DL365/DL385 G10+ siblings.',
+       'Rear cage is a "Rear Drive Cage (2SFF SAS/SATA/NVMe optional)" — up to 26 SFF total (24 front + 2 rear). No mid-tray on this 1U chassis (2026-09-15, QuickSpecs a50002557enw).',
        'Single-socket EPYC Rome / Milan. Processors at 180W or higher need the High Performance Heat Sink (P38655-B21).',
        '8SFF and 8LFF CTO chassis ship with NO fans — 3x Standard Fan Kit (P37042-B21) must be added. 24SFF ships 6 Performance fans as standard.',
        'Max Performance fan kit is required for processors at 280W, 12LFF/24SFF configs, NVMe drives, or a 2SFF rear cage.',
@@ -1175,22 +1181,24 @@ var MODELS=[
        '"U" SKUs (63xxU) are single-socket only.',
        'Mixing two different processor models is not allowed.',
        'Some cards are not supported on the 12LFF config or with midtray drive cages.']}},
- {m:'DL385', g:'G10+', p:['rome'], s:2, d:32,
+ {m:'DL385', g:'G10+', p:['rome'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
      fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],fanPart:'P14608-B21',riserMax:3,
      rear:['2SFF rear','4LFF rear','8SFF midtray'],
-     notes:['Rear/mid-tray (2026-09-15, etb-tech.com mirror, a00073549enw V16): both exist and combine — 24SFF gets an 8SFF midtray + 6SFF rear (→38SFF total); 8LFF/12LFF get a rear 2SFF or 4LFF rear box, which consumes primary+secondary riser space.',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (etb-tech.com, a00073549enw V16) confirms 8LFF (expandable to 12LFF) and 8SFF (expandable to 16SFF, then 24SFF) as the real front-bay configs.',
+       'Rear/mid-tray (2026-09-15, etb-tech.com mirror, a00073549enw V16): both exist and combine — 24SFF gets an 8SFF midtray + 6SFF rear (→38SFF total); 8LFF/12LFF get a rear 2SFF or 4LFF rear box, which consumes primary+secondary riser space.',
        'SFF 1P ships 4 standard fans; the 2nd processor kit adds 2 (6 for 2P). 12LFF and 24SFF ship 6 Max Performance fans as standard; 8LFF ships 6 standard.',
        'Max Performance fan kit (P14608-B21) is required for rear drives, processors above 180W, 12-plus LFF drives, or High Performance NVMe.',
        '32 DIMM slots. Up to 8 PCIe Gen4 slots across primary + secondary + tertiary risers (secondary/tertiary need the 2nd processor).',
        'EPYC 7003 (Milan) is NOT supported on this board— that needs Gen10 Plus v2.',
        'Processors above 180W ship with the high performance heatsink and require the max performance fan kit.',
        'The 7F52 (240W) is only supported under 25°C ambient with LFF/SFF + midtray configurations.']}},
- {m:'DL385', g:'G10+ v2', p:['milan'], s:2, d:32,
+ {m:'DL385', g:'G10+ v2', p:['milan'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:156,hsWtext:'above 155W',fanW:156,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
      hsPart:'P14610-B21',fanPart:'P14608-B21',fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],riserMax:3,
      rear:['4SFF rear','4LFF rear','8SFF midtray'],
-     notes:['Rear/mid-tray (2026-09-15, hp-pro.net mirror, a50002560enw V5): both exist and combine — 24SFF gets an 8SFF midtray + 4SFF rear (→36SFF total, slightly lower than v1\'s 38SFF); LFF gets a 4LFF rear box.',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (hp-pro.net, a50002560enw V5) confirms 8LFF (expandable to 12LFF) and 8SFF (expandable to 16SFF, then 24SFF) as the real front-bay configs — same set as v1.',
+       'Rear/mid-tray (2026-09-15, hp-pro.net mirror, a50002560enw V5): both exist and combine — 24SFF gets an 8SFF midtray + 4SFF rear (→36SFF total, slightly lower than v1\'s 38SFF); LFF gets a 4LFF rear box.',
        'This v2 board raises the threshold to above 155W — different from the v1 (Rome) board, which switches above 180W.',
        'Standard-tier kits below the threshold: heatsink P39994-B21, fan kit P37042-B21.',
        'Processors do not include a heatsink or fan kit — both must be ordered.',
@@ -1204,8 +1212,8 @@ var MODELS=[
        '3 fixed performance fans, non-hot-plug, non-redundant, single socket only — no fan-count choice.',
        'Only 1 true PCIe slot (x16 CEM) — the doc\'s own Risers section also lists a "DL320 Gen11 x16 FHHL Riser Kit" under this model\'s own QuickSpecs, an apparent copy-paste artifact from the sibling DL320 doc; the separate Expansion Slots table confirms only 1 real slot. "Mandatory to select at least one riser" for that slot.',
        '2SFF add-on kit (P65406-B21) upgrades the 4SFF chassis to 6SFF, mutually exclusive with the optical drive.']}},
- {m:'DL110',g:'G11', p:['sp4'],    s:1, d:16,
-   rules:{verified:true,psuMax:2,fans:{one:7},pcie:{one:3},riserMax:2,rear:[],notes:['No rear or mid-tray drive cage — this model has no hot-plug bay at all, it\'s a front-cabled chassis (2026-09-15, QuickSpecs a00053299enw V11).',
+ {m:'DL110',g:'G11', p:['sp4'],    s:1, d:16, bays:[],
+   rules:{verified:true,psuMax:2,fans:{one:7},pcie:{one:3},riserMax:2,rear:[],notes:['User-reported 2026-09-15: this model had no `bays` list at all, so the front-bay-config field silently fell back to the tool\'s generic list, offering LFF/SFF bay sizes on a chassis with no bay of any kind. No rear or mid-tray drive cage either — this model has no hot-plug bay at all, it\'s a front-cabled chassis; storage is 4x M.2 (SATA or NVMe) via Intel VROC (2026-09-15, QuickSpecs a00053299enw V11).',
      'Processors at 185W TDP or higher need the DIMM Blank kit (P43725-B21) fitted in any unpopulated slots.',
      'No 5th Gen (sp5) Xeon Scalable — checked directly against this model\'s own QuickSpecs (2026-09-14), still 4th-Gen-only as of its latest revision. Its own QuickSpecs also lists 5 telco/vRAN "N"-suffix SKUs (Gold 5423N/6403N/6423N/6433N/6443N) this tool doesn\'t seed yet — found while researching, but not added: web sourcing gave conflicting base-clock figures for 6443N (1.90 vs 2.00GHz across sources), so it was left out rather than guessed.',
        '2 PSU bays — pick two of the same part (700W Flex Slot -48VDC P43150-B21, 700W Flex Slot Platinum AC P44975-B21, or 900-1000W Titanium AC P54290-B21). Mixing different PSU part numbers is not supported.',
@@ -1319,10 +1327,10 @@ var MODELS=[
     DL360/DL380 socket gets; DL580's 64 is the 4-socket physical max,
     correctly halving to 32 usable at 2 sockets via the existing
     cpuq-vs-m.s DIMM math. */
- {m:'DL110', g:'G12', p:['xeon6'], s:1, d:16,
+ {m:'DL110', g:'G12', p:['xeon6'], s:1, d:16, bays:[],
    rules:{rear:[],notes:['This is an edge/telecom box built around a single FIXED SoC (Xeon 6716P-B, 40C/2.5GHz/235W) soldered to the board — not a socketed, swappable processor. Pick "6716P-B" at qty 1; every other Xeon 6 SKU in the list is really for the other Gen12 rack models.',
      'Bay/PSU/fan/riser data for this model specifically has not been sourced yet — QuickSpecs wouldn’t download from the mirrors tried. Confirm those against HPE QuickSpecs before quoting.',
-     'No rear or mid-tray drive cage assumed 2026-09-15 — INFERRED, not directly confirmed: the full QuickSpecs (a50009248enw) still wouldn\'t load from any mirror tried across two research passes, but the shorter HPE Data Sheet (PSN1014921967DEEN) confirms storage is "up to 2 M.2 NVMe SSD, Software RAID" only, with no other bay of any kind mentioned.']}},
+     'No front drive bay of any kind, and no rear or mid-tray drive cage — assumed 2026-09-15, INFERRED not directly confirmed: the full QuickSpecs (a50009248enw) still wouldn\'t load from any mirror tried across two research passes, but the shorter HPE Data Sheet (PSN1014921967DEEN) confirms storage is "up to 2 M.2 NVMe SSD, Software RAID" only, with no other bay of any kind mentioned.']}},
  {m:'DL320', g:'G12', p:['xeon6'], s:1, d:16, bays:['8SFF','10SFF','4LFF','12LFF'],
    rules:{hsW:185,hsWtext:'above 185W',fans:{one:7,perf:7},psuMax:1,riserMax:2,pcie:{one:2},rear:[],
      notes:['No rear or mid-tray drive cage found (2026-09-15, device.report mirror, a50004283enw V1).',
@@ -1401,35 +1409,39 @@ var MODELS=[
        '3 system fans standard; the Redundant Fan Kit (725878-B21) adds 4 fans + 2 PCIe air baffles and is standard on the performance model.',
        '9 PCIe expansion slots (8 Gen3, 1 Gen2); some need the 2nd processor.',
        'No standard/performance heatsink choice — E5-2600 v3/v4 parts share one heatsink and it ships in the processor kit.']}},
- {m:'ML30', g:'G10', p:['xeone'], s:1, d:4,  tower:true,
+ {m:'ML30', g:'G10', p:['xeone'], s:1, d:4,  tower:true, bays:['4LFF','6LFF','8SFF'],
    rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,rear:[],
      psu:['350W Gold-level FIO (P21652-B21)','350W Bronze FIO — not EU Lot 9 / CE (820303-B21)','500W Flex Slot Platinum, needs RPS kit (865408-B21)','RPS Enablement Kit — 4U (P06305-B21)'],
-     notes:['No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a00053821enw V16).',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a00053821enw V16) confirms 4LFF (expandable to 6LFF) and 8SFF as the real front-bay configs.',
+       'No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a00053821enw V16).',
        'Xeon E-2100 / E-2200, single socket, 4 UDIMM slots (max 64GB).',
        '2 fixed fans (1 system + 1 PCI fan module, P06303-B21) — non-hot-plug, non-redundant, no fan-kit choice.',
        'Standard PSU is a single non-hot-plug 350W (Gold, P21652-B21); a 500W Flex Slot Platinum (865408-B21) with the RPS Enablement Kit (P06305-B21) adds redundancy — 2 bays.',
        '4 PCIe slots on the system board (slot 1 x16 from the CPU, slots 2-4 x4 from the PCH) — no riser cages.']}},
- {m:'ML110',g:'G10', p:['sp1','sp2'], s:1, d:6,  tower:true,
+ {m:'ML110',g:'G10', p:['sp1','sp2'], s:1, d:6,  tower:true, bays:['4LFF','8LFF','8SFF','16SFF'],
    rules:{verified:true,psuMax:2,pcie:{one:5,two:5},riserMax:0,rear:[],
      psu:['350W ATX Kit','550W ATX Kit — standard','500W Flex Slot Platinum, needs RPS kit (865408-B21)','800W Flex Slot Platinum, needs RPS kit (865414-B21)','800W Flex Slot Titanium, needs RPS kit (865438-B21)','RPS Enablement Kit (supports 2 supplies)'],
-     notes:['No rear drive bay — Box1/Box2 are both front-mounted (2026-09-15, QuickSpecs a00021851enus).',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a00021851enus) confirms 4LFF (expandable to 8LFF) and 8SFF (upgradable to 16SFF) as the real front-bay configs.',
+       'No rear drive bay — Box1/Box2 are both front-mounted (2026-09-15, QuickSpecs a00021851enus).',
        '1st or 2nd Gen Xeon Scalable (no field upgrade between them), single socket, up to ~110W. 6 DIMM slots (6 channels, 1 per channel).',
        '2 fixed fans (1 system + 1 PCIe fan module). The optional Redundant Fan Kit needs the 800W Flex Slot redundant PSU and is required for a 2nd HDD cage with 15K SAS, any SAS SSD, or the A3 extended environment.',
        'Standard PSU is a 350W or 550W ATX (non-redundant); 500W/800W Flex Slot hot-plug supplies need the RPS Enablement Kit — 2 bays.',
        '5 PCIe 3.0 slots on the system board — no riser cages.']}},
- {m:'ML350',g:'G10', p:['sp1','sp2'], s:2, d:24, tower:true,
+ {m:'ML350',g:'G10', p:['sp1','sp2'], s:2, d:24, tower:true, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:86,hsWtext:'above 85W',psuMax:2,pcie:{one:4,two:8},riserMax:0,rear:[],
      psu:['500W Low Halogen FIO (837074-B21)','500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','Flex Slot RPS Cage Kit + PDB (874571-B21)'],
-     notes:['No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a00021852enw V8).',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a00021852enw V8) confirms 4LFF (expandable to 8LFF, then 12LFF) and 8SFF (expandable to 16SFF, then 24SFF) as the real front-bay configs.',
+       'No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a00021852enw V8).',
        'A 2-processor build needs the Redundant Fan Cage kit (874572-B21) — one fan cage plus 4 extra fans.',
        'A GPU over 75W needs the external power cable kit.',
        'Up to 8 SFF NVMe with both NVMe riser boards (874569-B21) fitted; only 4 with one board fitted.',
        '8 PCIe slots on the system board: slots 1-4 on CPU 1, slots 5-8 on CPU 2 (max 4 with one processor). No card riser cages.',
        'Security bezel is standard on every unit.']}},
- {m:'ML30', g:'G10+',p:['xeone3'],s:1, d:4,  tower:true,
+ {m:'ML30', g:'G10+',p:['xeone3'],s:1, d:4,  tower:true, bays:['4LFF','8SFF'],
    rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,rear:[],
      psu:['350W Gold-level FIO (P21652-B21)','ML30 Gen10 Plus 350W FIO — EMEA only (P45212-B21)','500W Flex Slot Platinum, needs RPS kit (865408-B21)','800W Flex Slot Titanium, needs RPS kit (865438-B21)','RPS Enablement Kit — 4U (P45209-B21)'],
-     notes:['No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a50002590enw).',
+     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a50002590enw) confirms 4LFF and 8SFF as the real front-bay configs — no LFF-expansion (6LFF) option found for this chassis, unlike the G9/G10 ML30.',
+       'No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a50002590enw).',
        'Xeon E-2300 (or Pentium), single socket, 4 UDIMM slots (max 128GB).',
        '2 fixed fans (1 system + 1 PCI fan module, P06303-B21) — non-hot-plug, non-redundant.',
        'Standard PSU is a single non-hot-plug 350W Gold (P21652-B21); Flex Slot supplies (500W Platinum 865408-B21 / 800W Titanium 865438-B21) need the RPS Enablement Kit (P45209-B21) — 2 bays, 1+1.',
@@ -1456,14 +1468,14 @@ var MODELS=[
        'Intel VROC NVMe is not supported with the 4510, 4509Y or 3508U processors.',
        'PCIe slots are on the system board (like every ML350) — around half need the 2nd processor. Exact slot map not re-checked against the Gen11 QuickSpecs.',
        '4 of the sp5 (5th Gen) CPUs need DLC liquid cooling this tower doesn\'t support and are not realistically orderable here: 8593Q, 8562Y+, 6544Y, 6558Q. Not excluded from the picker (this tool doesn\'t have a per-model CPU-exclusion mechanism) — confirm against QuickSpecs before quoting one of these four.']}},
- {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true,
+ {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:225,hsWtext:'225W or higher',fans:{one:3,two:3,perf:8},psuMax:2,riserMax:3,pcie:{one:4,two:10},
      rear:['2x M.2 (dual uFF) rear'],
      notes:['No rear/mid-tray DATA cage — only a rear NS204i-u boot-device enablement kit; all capacity storage is the 3 stacked front boxes (4LFF/8SFF/12EDSFF, mixable) (2026-09-15, it-trade.uz mirror, a50006995enw V2).',
        'Fixed 3-fan baseline for any config; a 2nd processor, a GPU, or certain other options additionally require the Redundant Fan Kit (P47219-B21) AND the Second CPU Fan Kit (P47902-B21) together — its own QuickSpecs states this raises the fan count to "up to 8" (2026-09-15, re-confirmed against the same doc: "Redundant Fan Kit Optional, Up to 8 fans, 3 fans as standard").',
        'P-core Xeon 6 only — no E-core SKUs are listed for this model in its own QuickSpecs, unlike DL360/DL380.',
        'Riser count corrected 2->3, and PCIe slot max corrected 8->10 (2026-09-15): Primary (CPU1, standard) is 4x8 or optional 2x16; Secondary (CPU2, needs 2nd processor) is the same 4x8/2x16 choice; a separate Tertiary riser (CPU2, 2x8, occupies 2 CPU2 MCIO connectors) is a real THIRD riser position this tool previously missed. Max with 2 processors and every riser at its highest slot count: 4 (primary) + 4 (secondary) + 2 (tertiary) = 10.',
-       'Also offers 8 NVMe x4 and 12 EDSFF front cage options — not modeled in the bay list, which stays generic for this entry.']}}
+       'Bay list added 2026-09-15 — approximate, not exhaustive: Box1/2/3 are each independently 4LFF, 8SFF, 8 NVMe x4, or 12EDSFF, so the truly achievable combinations are a 3-box combinatorial mix this tool\'s single bay-config field can\'t represent exactly (e.g. "4LFF+8SFF" mixed isn\'t a listed string). The 6 same-type-only totals (1-3 boxes of all-4LFF or all-8SFF) are listed so the common cases get real validation; a genuinely mixed or NVMe/EDSFF build will (correctly) get the soft "confirm against QuickSpecs" verify note rather than a wrong hard block — this check has always been `verify`, not `stop`, for exactly this kind of incomplete-list case.']}}
 ];
 
 /* code, description, platform, TDP watts, cores */
@@ -2608,7 +2620,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.15.8'; // 8th build shipped today
+var BUILD_VERSION='2026.09.15.9'; // 9th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -3597,8 +3609,16 @@ function evaluate(){
      on a 1U DL360 passed silently and then fed bayCapacity() a bay count that
      doesn't exist. Only checked where m.bays is a real per-model list (models
      without one fall back to GENERIC_BAYS, which proves nothing), and kept to
-     `verify` rather than `stop` since a bay list can be incomplete. */
-  if(m&&bays&&m.bays&&m.bays.length){
+     `verify` rather than `stop` since a bay list can be incomplete.
+     Mirrors rear's own `R.rear.length===0` hard-stop case (2026-09-15):
+     a handful of models (DL110 G10+/G11/G12) have no front drive bay of
+     any kind at all — storage is fixed M.2 only, via VROC or a software
+     RAID SoC feature, not a bay a trader could ever legitimately pick.
+     `bays:[]` (an explicit empty array, not just a missing key) marks
+     that confirmed fact and hard-blocks any value entered there. */
+  if(m&&bays&&m.bays&&!m.bays.length){
+    checks.push(['stop','NO FRONT BAYS',m.m+' '+m.g+' has no front drive bay at all — storage is fixed M.2 only. Remove "'+bays+'".']);
+  }else if(m&&bays&&m.bays&&m.bays.length){
     var baysNorm=bays.replace(/\s+/g,'');
     if(!m.bays.some(function(b){return b.toUpperCase().replace(/\s+/g,'')===baysNorm;}))
       checks.push(['verify','BAY CONFIG','"'+v('bays')+'" is not a front-bay config listed for '+m.m+' '+m.g+

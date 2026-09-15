@@ -1431,18 +1431,48 @@ research: `DL325 G11` (→ `4LFF`/`8SFF`), `DL345 G11` (→ `4LFF`/`8LFF`/
 `8SFF`/`24SFF`), `ML350 G11` (→ `4LFF`/`8SFF`). 4 new regression tests
 guard all 4 specifically (assert the generic-only `12LFF` option is
 gone from each model's bay buttons).
-**Not fixed — flagged as a separate, larger follow-up:** roughly 11
-G10/G10+ models (`DL20 G10+`, `DL110 G10+`, `DL325 G10+`/`v2`,
-`DL345 G10+`, `DL385 G10+`/`v2`, `ML30 G10`, `ML110 G10`, `ML350 G10`,
-`ML30 G10+`) have the exact same `verified:true`-with-no-`bays`
-pattern — but this is a much older, pre-existing gap: the original
-"verify PSU/fans/PCIe/riser/cooling" checklist this project ran
-against G10/G10+ never included front-bay configs at all (`bays` only
-started getting backfilled as a byproduct of the newer 5-subsystem
-media-bay/rear/TPM/motherboard/backplane research passes, which so far
-have only covered G11/G12). Left alone rather than guessed at now —
-each needs its own QuickSpecs check for the real front-bay list before
-filling `bays`, same as every other field in this file.
+**Full sweep completed 2026-09-15 (user follow-up: "check the other
+ones so I don't keep asking to change single machine models").** Wrote
+a one-off script to enumerate every `MODELS` entry and flag
+`verified:true` + no `bays` array — found **14 more** beyond the 4
+above, checked each against its own cached QuickSpecs, and fixed all
+of them:
+- `DL20 G10+` (→ `2LFF`/`4SFF`/`6SFF`), `DL325 G10+` (→ `4LFF`/`8LFF`/
+  `12LFF`/`8SFF`/`16SFF`/`24SFF`), `DL325 G10+ v2` (→ `4LFF`/`8SFF`/
+  `10SFF` — a smaller ceiling than v1, confirmed NOT the same list),
+  `DL345 G10+` (→ `8LFF`/`12LFF`/`8SFF`/`24SFF` — no 4LFF option on
+  this one, unlike its siblings), `DL385 G10+` and `v2` (→ `8LFF`/
+  `12LFF`/`8SFF`/`16SFF`/`24SFF`, same list both versions).
+- `DL20 G10` (not `verified:true`, but the data was already sourced
+  from the G10+ pass — added anyway, → `2LFF`/`4SFF`/`6SFF`).
+- `ML30 G10` (→ `4LFF`/`6LFF`/`8SFF`), `ML110 G10` (→ `4LFF`/`8LFF`/
+  `8SFF`/`16SFF`), `ML350 G10` (→ `4LFF`/`8LFF`/`12LFF`/`8SFF`/
+  `16SFF`/`24SFF`), `ML30 G10+` (→ `4LFF`/`8SFF` only — no LFF-expansion
+  option found, unlike the G9/G10 ML30).
+- `ML350 G12` — the one genuinely too complex for an exact list (3
+  independently-configurable boxes, each 4LFF/8SFF/NVMe-x4/12EDSFF —
+  real combos aren't representable as single strings). Added the 6
+  same-type-only totals (`4LFF`/`8LFF`/`12LFF`/`8SFF`/`16SFF`/`24SFF`)
+  so the common cases get real validation; a genuinely mixed build
+  still correctly falls through to the existing soft `verify`, not a
+  wrong hard block — this check has always been `verify` severity for
+  exactly this "list might be incomplete" reason.
+- **`DL110 G10+`/`G11`/`G12` needed a DIFFERENT fix**, not just a real
+  list: all three are genuinely M.2-only chassis with NO front drive
+  bay of any kind (VROC or a software-RAID SoC feature, confirmed
+  directly for G10+/G11, inferred from a Data Sheet for G12 same as
+  before). Setting `bays:[]` alone didn't block anything — the
+  existing `BAY CONFIG` check only fires `if(m.bays&&m.bays.length)`,
+  so an *empty* array was silently equivalent to *no* array. Added a
+  new hard `stop` case mirroring `rear`'s own `!R.rear.length` pattern:
+  `bays:[]` now blocks ANY front-bay value with `NO FRONT BAYS`, and
+  `renderBaysBtns([])` naturally shows zero preset buttons (just
+  "Other"), which is exactly right for a chassis with nothing valid to
+  pick.
+- Only `DL120 Gen10` still has no `bays` (and no verified:true) —
+  genuinely unsourced across three research passes, unchanged.
+6 new regression tests guard the `NO FRONT BAYS` stop, the empty
+button list, and 4 of the newly-real bay lists.
 
 **Bug found and fixed 2026-09-15 (user report): `sp3` (3rd Gen Xeon
 Scalable, G10+) offered ONLY 3200 MT/s, but real QuickSpecs list lower

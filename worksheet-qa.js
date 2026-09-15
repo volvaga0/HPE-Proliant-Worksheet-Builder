@@ -694,6 +694,43 @@ setTimeout(()=>{
   noGeneric12LFF('ML350 G11')
     ?pass3('ML350 G11: bay buttons no longer include a generic-fallback option not real for this chassis'):fail3('ML350 G11 still offers 12LFF');
 
+  // --- user-reported 2026-09-15: DL110 G11 also had the bays-array gap,
+  // but worse — it has NO front bay of any kind (M.2-only), so the fix
+  // is a bays:[] + a new hard `stop`, not just a real options list.
+  // Audited every model for the same "verified:true, no bays array"
+  // pattern and fixed all of them (DL110 G10+/G11/G12, DL20 G10/G10+,
+  // DL325 G10+/v2, DL345 G10+, DL385 G10+/v2, ML30 G10/G10+, ML110 G10,
+  // ML350 G10/G12) ---
+  const bayTest=(model,bayVal)=>{
+    setModel3(model);
+    d.getElementById('bays').value=bayVal;fire(d.getElementById('bays'),'input');
+    return d.getElementById('checks').textContent;
+  };
+  bayTest('DL110 G11','8SFF').includes('has no front drive bay at all')
+    ?pass3('DL110 G11: any front-bay value blocked — confirmed M.2-only, no front bay of any kind'):fail3('DL110 G11 front-bay stop missing: '+bayTest('DL110 G11','8SFF').slice(0,160));
+  setModel3('DL110 G11');
+  (d.querySelectorAll('#bays-btns button[data-b]').length===0)
+    ?pass3('DL110 G11: zero preset bay buttons shown (only "Other") — matches its confirmed zero-bay chassis'):fail3('DL110 G11 still shows preset bay buttons: '+[...d.querySelectorAll('#bays-btns button[data-b]')].map(b=>b.textContent).join(', '));
+  bayTest('DL110 G10+','4LFF').includes('has no front drive bay at all')
+    ?pass3('DL110 G10+: same M.2-only fix applied'):fail3('DL110 G10+ front-bay stop missing');
+  const noGeneric12LFF2=(model)=>{
+    setModel3(model);
+    const btns=[...d.querySelectorAll('#bays-btns button')].map(b=>b.textContent);
+    return !btns.some(b=>/^12LFF$/i.test(b));
+  };
+  noGeneric12LFF2('ML30 G10+')
+    ?pass3('ML30 G10+: bay buttons no longer fall back to the generic list (real bays: 4LFF/8SFF)'):fail3('ML30 G10+ still offers 12LFF');
+  setModel3('ML110 G10');
+  { const btns=[...d.querySelectorAll('#bays-btns button')].map(b=>b.textContent);
+    (btns.includes('4LFF')&&btns.includes('16SFF')&&!btns.includes('12LFF'))
+      ?pass3('ML110 G10: real bays (4LFF/8LFF/8SFF/16SFF), not the generic fallback')
+      :fail3('ML110 G10 bay buttons: '+btns.join(', ')); }
+  setModel3('ML350 G12');
+  { const btns=[...d.querySelectorAll('#bays-btns button')].map(b=>b.textContent);
+    (btns.includes('8SFF')&&!btns.some(b=>/^2SFF$|^10SFF$/i.test(b)))
+      ?pass3('ML350 G12: approximate real-bays list (no more generic 2SFF/10SFF options)')
+      :fail3('ML350 G12 bay buttons: '+btns.join(', ')); }
+
   // --- ML towers: no riser cages ---
   setModel3('ML30 G10+');
   (d.getElementById('add-riser').hidden
