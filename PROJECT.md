@@ -786,25 +786,47 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
     dependent nuances are handled elsewhere in this tool. `#media-note`
     + an `evaluate()` hard `stop` (picking a real option on a
     `MEDIA_BAY_NONE` model) cover the 3 confirmed-absent models.
-  - **One confirmed data bug fixed: `DL360 G11`'s `rules.rear`** was
-    `['1SFF rear','2SFF rear','2x M.2 (dual uFF) rear']` — copied from
-    the DL380/DL385 G11 entries during an earlier pass, not sourced for
-    this model itself. Checked directly against 3 revisions (2023-2025)
-    of DL360 G11's own QuickSpecs: no 1SFF/2SFF rear cage exists on this
-    chassis at all; only the NS204i-u boot device (2x M.2) genuinely
-    mounts at the rear. Corrected to `['2x M.2 (dual uFF) rear']` with a
-    note explaining the correction and its source.
+  - **Rear/mid-tray — every G10/G10+/G11/G12 model's `rules.rear`
+    transcribed from the sourced findings, 2026-09-15 (second pass,
+    same day as TPM/Motherboard/Media bay above).** Went through all 45
+    models: added `rear:[]` (explicit, hard-blocking) to every model
+    confirmed to have no rear/mid-tray cage at all — previously these
+    had NO `rear` key, meaning `evaluate()` silently accepted ANY typed
+    rear value with zero validation, a bigger gap than the 3 data bugs
+    below. Real cage/combo data was added where sourced: `DL180 G10`
+    (`2SFF rear`), `DL345 G10+` (`2SFF rear`/`2SFF NVMe rear`), `DL385
+    G10` (both rear+midtray combine, same structure as `DL380 G10` —
+    source caveat: a reformatted Data Sheet, not the literal HPE PDF),
+    `DL380 G10+` (enriched with `8SFF midtray`), `DL385 G10+`/`v2` (both
+    rear+midtray combine, different max drive counts between v1/v2),
+    `DL345 G11` (a genuinely broader rear+midtray combo than the
+    already-known `DL385 G11` case — 2 real combos, not 1), and `DL380
+    G12` (rear+midtray combine, matching the Gen11 pattern — replaces
+    an earlier "not modeled as a rear option list yet" placeholder
+    note). `DL360 G12`/`DL580 G12`/`ML350 G12` got `rear:['2x M.2 (dual
+    uFF) rear']` — each chassis's own doc distinguishes a real NS204i-u
+    rear boot device from an actual rear DATA cage (none of the three
+    have the latter), the same distinction already established for
+    `DL360 G11`.
+    **Three confirmed data bugs fixed, same root cause each time — a
+    rear array copied from a same-numbered sibling model, never
+    independently re-checked:**
+    - `DL360 G11` (fixed in the first pass this session) — was
+      `['1SFF rear','2SFF rear','2x M.2 (dual uFF) rear']`, copied from
+      DL380/DL385 G11. Corrected to `['2x M.2 (dual uFF) rear']`.
+    - `DL365 G11` — same fabricated array as DL360 G11 above. Its own
+      QuickSpecs CTO table states outright "Rear Drive Cages: Not
+      Available." Corrected to `[]`.
+    - `DL360 G10+` — had DL360 G10's real `['1SFF rear','2x M.2 (dual
+      uFF) rear']` carried forward without being re-checked at Gen10
+      Plus. Its own QuickSpecs (a50002559enw) documents no rear/mid-tray
+      cage at all for this chassis. Corrected to `[]`.
+    - `DL365 G10+` — same carried-forward array. Its own QuickSpecs
+      states "Rear Drive Cages: Not Available," same as DL365 G11.
+      Corrected to `[]`.
+    9 new regression tests cover the 3 fixes, 2 of the new combo
+    chassis, and 2 of the NS204i-u G12 exceptions (354 total passing).
   - **Still open (deliberately deferred, tracked for the next session):**
-    - **Rear/mid-tray** data entry beyond the DL360 G11 bug-fix above —
-      the research passes sourced rich per-model facts for all 44 other
-      models (e.g. DL380/DL385 G10/G10+ combine mid-tray AND rear
-      simultaneously; DL345 G10+ has rear-only, no mid-tray; DL365 G10+
-      states "Rear: Not Available" outright; most G12 rack models keep a
-      rear cage via shared DL3XX-family parts, DL380a/ML350/DL320/DL580
-      G12 don't) but none of it has been transcribed into `rules.rear`
-      arrays yet — a bigger, 44-model data-entry pass, held back from
-      this session to land the 3 simpler subsystems tested and shipped
-      first.
     - **Backplane type** — not touched in code at all yet. Findings are
       rich but bay-config-dependent in a way the other 4 subsystems
       aren't (e.g. `DL320 G11`'s 4LFF has no NVMe option at all;

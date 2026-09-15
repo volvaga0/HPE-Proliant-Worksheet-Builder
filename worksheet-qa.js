@@ -718,6 +718,26 @@ setTimeout(()=>{
   rearValues().length===0
     ?pass3('switching to a no-rear-bays model clears any entered rear/mid-tray line'):fail3('rear line survived the model switch: '+rearValues());
 
+  // --- Rear/mid-tray G10-G12 transcription pass (2026-09-15) ---
+  rearTest('DL180 G10','2SFF rear').includes('not a rear or mid-tray option')===false
+    ?pass3('DL180 G10: "2SFF rear" accepted (sourced rear-only cage)'):fail3('DL180 G10 2SFF rear wrongly blocked: '+rearTest('DL180 G10','2SFF rear').slice(0,160));
+  rearTest('DL160 G10','2SFF rear').includes('has no rear or mid-tray drive bays')
+    ?pass3('DL160 G10: any rear pick blocked — confirmed no rear/mid-tray cage'):fail3('DL160 G10 rear not blocked: '+rearTest('DL160 G10','2SFF rear').slice(0,160));
+  rearTest('DL360 G10+','1SFF rear').includes('has no rear or mid-tray drive bays')
+    ?pass3('DL360 G10+: "1SFF rear" now blocked — corrected data bug (was copied from DL360 G10)'):fail3('DL360 G10+ rear bug not fixed: '+rearTest('DL360 G10+','1SFF rear').slice(0,160));
+  rearTest('DL365 G10+','2x M.2 (dual uFF) rear').includes('has no rear or mid-tray drive bays')
+    ?pass3('DL365 G10+: rear now blocked — its own QuickSpecs states "Rear Drive Cages: Not Available"'):fail3('DL365 G10+ rear bug not fixed');
+  rearTest('DL365 G11','2SFF rear').includes('has no rear or mid-tray drive bays')
+    ?pass3('DL365 G11: rear now blocked — confirmed data bug fixed, matches DL360 G11\'s earlier fix'):fail3('DL365 G11 rear bug not fixed');
+  !rearTest('DL345 G11','4LFF rear').includes('REAR NOT SUPPORTED') && !rearTest('DL345 G11','4LFF midtray').includes('REAR NOT SUPPORTED')
+    ?pass3('DL345 G11: both "4LFF rear" and "4LFF midtray" accepted individually (real combo chassis)'):fail3('DL345 G11 combo rear/midtray wrongly blocked');
+  !rearTest('DL380 G12','4LFF midtray').includes('REAR NOT SUPPORTED')
+    ?pass3('DL380 G12: "4LFF midtray" accepted (Gen11-pattern combo now sourced)'):fail3('DL380 G12 midtray wrongly blocked: '+rearTest('DL380 G12','4LFF midtray').slice(0,160));
+  !rearTest('DL580 G12','2x M.2 (dual uFF) rear').includes('REAR NOT SUPPORTED')
+    ?pass3('DL580 G12: NS204i-u M.2 rear boot device accepted'):fail3('DL580 G12 M.2 rear wrongly blocked');
+  rearTest('DL580 G12','4LFF rear').includes('REAR NOT SUPPORTED')
+    ?pass3('DL580 G12: a real drive rear cage (not the M.2 boot device) is still blocked — all 4 boxes are front'):fail3('DL580 G12 4LFF rear wrongly accepted');
+
   // --- TPM: Gen11/12 embedded-only vs Gen10/10+ swappable module (2026-09-15) ---
   const tpmTest=(model,tpmId)=>{
     setModel3(model);
