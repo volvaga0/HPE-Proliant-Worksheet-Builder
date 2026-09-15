@@ -738,6 +738,31 @@ setTimeout(()=>{
   rearTest('DL580 G12','4LFF rear').includes('REAR NOT SUPPORTED')
     ?pass3('DL580 G12: a real drive rear cage (not the M.2 boot device) is still blocked — all 4 boxes are front'):fail3('DL580 G12 4LFF rear wrongly accepted');
 
+  // --- Backplane type: SAS-only / NVMe-only hard overrides (2026-09-15) ---
+  const bpTest=(model,bpId)=>{
+    setModel3(model);
+    d.getElementById(bpId).checked=true;fire(d.getElementById(bpId),'change');
+    const txt=d.getElementById('checks').textContent;
+    d.getElementById('bp1').checked=true;fire(d.getElementById('bp1'),'change');
+    return txt;
+  };
+  bpTest('DL160 G10','bp2').includes('has no NVMe or Premium backplane')
+    ?pass3('DL160 G10: NVMe backplane blocked — SAS/SATA only on every bay config'):fail3('DL160 G10 NVMe not blocked: '+bpTest('DL160 G10','bp2').slice(0,160));
+  bpTest('ML30 G11','bp3').includes('has no NVMe or Premium backplane')
+    ?pass3('ML30 G11: Premium backplane blocked — same "no NVMe hot-plug bay" finding carried from G10+'):fail3('ML30 G11 Premium not blocked');
+  bpTest('DL380a G12','bp1').includes('is NVMe-only')
+    ?pass3('DL380a G12: SAS/SATA backplane blocked — zero SAS/SATA mentions in its own QuickSpecs'):fail3('DL380a G12 SAS/SATA not blocked: '+bpTest('DL380a G12','bp1').slice(0,160));
+  !bpTest('DL380a G12','bp2').includes('is NVMe-only')
+    ?pass3('DL380a G12: NVMe backplane accepted (its only real option)'):fail3('DL380a G12 NVMe wrongly blocked');
+  !bpTest('DL20 G11','bp2').includes('has no NVMe or Premium backplane')
+    ?pass3('DL20 G11: NVMe accepted — gained a real NVMe option at G11 (unlike DL20 G10/G10+, which stay SAS-only)'):fail3('DL20 G11 NVMe wrongly blocked');
+  setModel3('DL160 G10');
+  d.getElementById('bp-note').textContent.includes('SAS/SATA only')
+    ?pass3('DL160 G10: #bp-note explains the SAS-only case'):fail3('DL160 G10 bp-note: '+d.getElementById('bp-note').textContent);
+  setModel3('DL380a G12');
+  d.getElementById('bp-note').textContent.includes('NVMe-only')
+    ?pass3('DL380a G12: #bp-note explains the NVMe-only case'):fail3('DL380a G12 bp-note: '+d.getElementById('bp-note').textContent);
+
   // --- TPM: Gen11/12 embedded-only vs Gen10/10+ swappable module (2026-09-15) ---
   const tpmTest=(model,tpmId)=>{
     setModel3(model);

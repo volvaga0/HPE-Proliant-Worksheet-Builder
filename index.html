@@ -516,7 +516,7 @@ button.quiet{color:var(--ink-soft)}
       </div>
 
       <div class="row">
-        <div class="q"><span class="t">Backplane type</span><span class="note">NVMe and Premium change the fan requirement.</span></div>
+        <div class="q"><span class="t">Backplane type</span><span class="note" id="bp-note">NVMe and Premium change the fan requirement.</span></div>
         <div class="a"><fieldset class="pills"><legend>Backplane type</legend>
           <input type="radio" id="bp1" name="bp" value="SAS/SATA backplane" checked><label for="bp1">SAS / SATA</label>
           <input type="radio" id="bp2" name="bp" value="NVMe backplane"><label for="bp2">NVMe</label>
@@ -2237,6 +2237,49 @@ function tpmKind(m){
   if(/^G11|^G12/.test(m.g)||TPM_EMBEDDED_ONLY.indexOf(key)>-1)return 'embedded';
   return 'module-switchable';
 }
+/* Backplane type (2026-09-15, checked across two full QuickSpecs research
+   passes — G10/G10+/G11/G12). The existing generic rule below ("an LFF
+   bay config never gets NVMe/Premium — only SFF does") already matches
+   what the sourced data confirms for the large majority of models
+   checked (DL360/DL380/DL385 across G10/G10+/G11, DL320/DL325/DL345
+   G11, ML350 G10/G11, DL340/DL380 G12, etc.) — those are left on the
+   generic path rather than duplicated here.
+   Two clean, sourced, bay-INDEPENDENT absolutes are real overrides,
+   not just an LFF/SFF split:
+   - BACKPLANE_SAS_ONLY: no real hot-plug NVMe backplane exists AT ALL,
+     on any bay config — any "NVMe" mention in these docs is an M.2
+     boot device or UEFI feature, never a drive-bay backplane. Found at
+     DL20/DL160/DL180 G10, ML30/ML110 G10, DL20/ML30 G10+, and ML30 G11
+     (this last one carries the same "no NVMe hot-plug bay" finding
+     forward from G10+ — DL20 gained one at G11, see DL20 G11 below,
+     ML30 never does across any generation checked).
+   - BACKPLANE_NVME_ONLY: the mirror image — DL380a G12 is a fixed
+     GPU-dense chassis with zero occurrences of "SAS" or "SATA"
+     anywhere in its own QuickSpecs; SAS/SATA is the one that's
+     unsupported here, not NVMe.
+   One more narrow, bay-specific hard case: DL360 G11's 20EDSFF front
+   config is explicitly "fixed NVMe-only" in its own QuickSpecs — SAS/
+   SATA or Premium picked alongside a typed "EDSFF" bay value on that
+   one model is blocked the same way rear2SFF gates a bay-specific rear
+   option elsewhere in this file.
+   NOT built (deliberately, to avoid guessing at bay-string matches
+   beyond what's cleanly sourced): a full bay-by-bay Premium/Tri-Mode
+   matrix for every model — several docs describe TWO distinct
+   backplane families coexisting on the SAME bay count (e.g. DL385
+   G11's 8SFF: a plain SAS/SATA-only cage vs. a separate Tri-mode/
+   mixed cage, a real trader choice) that this tool's single 3-way
+   radio can't represent without a UI change; that stays a documented
+   gap rather than an invented rule. */
+var BACKPLANE_SAS_ONLY=['DL20 G10','DL160 G10','DL180 G10','ML30 G10','ML110 G10','DL20 G10+','ML30 G10+','ML30 G11'];
+var BACKPLANE_NVME_ONLY=['DL380a G12'];
+var BACKPLANE_EDSFF_NVME_ONLY=['DL360 G11'];
+function backplaneKind(m){
+  if(!m)return 'generic';
+  var key=m.m+' '+m.g;
+  if(BACKPLANE_SAS_ONLY.indexOf(key)>-1)return 'sas-only';
+  if(BACKPLANE_NVME_ONLY.indexOf(key)>-1)return 'nvme-only';
+  return 'generic';
+}
 /* A starter list only — the field is free text, type any card. Bracket / slot
    form factor is checked separately against the fitted risers. */
 var CARDLIST=[
@@ -2453,7 +2496,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.15.2'; // 2nd build shipped today
+var BUILD_VERSION='2026.09.15.3'; // 3rd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -3065,6 +3108,11 @@ function refreshDependents(){
     :tpmK2==='both-standing'?'TPM 1.2 and TPM 2.0 are both standing options on '+m.m+' '+m.g+' — a confirmed exception to the usual Gen11+ embedded-only rule.'
     :tpmK2==='embedded'?'TPM 2.0 ships embedded on the motherboard — no separate module to order, and no TPM 1.2 mode.'
     :'One physical TPM 2.0 module covers both 1.2 and 2.0 — order the '+m.g.replace(/ v2$/,'')+' TPM 2.0 kit.';
+  var bpK=backplaneKind(m);
+  document.getElementById('bp-note').textContent=
+    bpK==='sas-only'?'No real NVMe or Premium backplane exists on '+(m?m.m+' '+m.g:'this chassis')+' — SAS/SATA only, on every bay config.'
+    :bpK==='nvme-only'?(m.m+' '+m.g+' is NVMe-only — no SAS/SATA backplane exists on this chassis.')
+    :'NVMe and Premium change the fan requirement.';
   document.getElementById('sys-note').textContent=m?(m.s+' socket'+(m.s>1?'s':'')+', '+m.d+' DIMM slots'):'';
   renderCpuqBtns(m,R);
   var bayList=(m&&m.bays)?m.bays:GENERIC_BAYS;
@@ -3445,8 +3493,18 @@ function evaluate(){
         ' — it takes: '+m.bays.join('; ')+'. Confirm against QuickSpecs before quoting.']);
   }
 
+  /* Backplane type — see backplaneKind()'s comment above for sourcing.
+     The two hard, bay-independent overrides take priority; everything
+     else falls through to the existing generic LFF/SFF heuristic. */
+  var bpKind=backplaneKind(m);
+  if(bpKind==='sas-only'&&(bp.indexOf('NVMe')>-1||bp.indexOf('Premium')>-1))
+    checks.push(['stop','BACKPLANE MISMATCH',m.m+' '+m.g+' has no NVMe or Premium backplane on any bay config — SAS/SATA only. Select SAS/SATA.']);
+  else if(bpKind==='nvme-only'&&bp.indexOf('SAS/SATA')>-1)
+    checks.push(['stop','BACKPLANE MISMATCH',m.m+' '+m.g+' is NVMe-only — no SAS/SATA backplane exists on this chassis. Select NVMe.']);
+  else if(m&&BACKPLANE_EDSFF_NVME_ONLY.indexOf(m.m+' '+m.g)>-1&&/EDSFF/i.test(bays)&&bp.indexOf('NVMe')<0)
+    checks.push(['stop','BACKPLANE MISMATCH','The EDSFF front config on '+m.m+' '+m.g+' is fixed NVMe-only. Select NVMe.']);
   /* NVMe / Premium backplane needs SFF bays */
-  if(m&&/LFF/i.test(bays)&&!/SFF/i.test(bays)){
+  else if(m&&/LFF/i.test(bays)&&!/SFF/i.test(bays)){
     if(bp.indexOf('NVMe')>-1)
       checks.push(['stop','BACKPLANE MISMATCH','NVMe backplanes are 2.5-inch (SFF) only — an LFF bay config uses SAS/SATA. Pick an SFF front config or a SAS/SATA backplane.']);
     else if(bp.indexOf('Premium')>-1)

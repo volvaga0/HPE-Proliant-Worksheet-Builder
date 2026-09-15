@@ -808,7 +808,7 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
     rear boot device from an actual rear DATA cage (none of the three
     have the latter), the same distinction already established for
     `DL360 G11`.
-    **Three confirmed data bugs fixed, same root cause each time — a
+    **Four confirmed data bugs fixed, same root cause each time — a
     rear array copied from a same-numbered sibling model, never
     independently re-checked:**
     - `DL360 G11` (fixed in the first pass this session) — was
@@ -826,23 +826,39 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
       Corrected to `[]`.
     9 new regression tests cover the 3 fixes, 2 of the new combo
     chassis, and 2 of the NS204i-u G12 exceptions (354 total passing).
-  - **Still open (deliberately deferred, tracked for the next session):**
-    - **Backplane type** — not touched in code at all yet. Findings are
-      rich but bay-config-dependent in a way the other 4 subsystems
-      aren't (e.g. `DL320 G11`'s 4LFF has no NVMe option at all;
-      `DL380a G12` is NVMe-only, zero SAS/SATA mentions anywhere in its
-      doc; several models have TWO distinct backplane families — e.g. a
-      plain SAS/SATA BP vs. a U.3 Tri-mode BP — on the SAME bay count).
-      Needs a design that keys off both the model AND the currently-
-      selected bay config, not just the model — deliberately deferred
-      until the simpler subsystems above were implemented and tested.
-      One clean, generation-spanning pattern DID emerge though, worth
-      reusing when this is built: on every DL380/385/560/580-class
-      chassis checked (both G10 and G10+), only the SFF chassis variant
-      gets NVMe/Premium/Tri-Mode backplane options — the LFF variant of
-      the SAME model gets SAS/SATA (± mid/rear cage) only, no NVMe path.
-    - **`DL120 G10`** stays fully UNVERIFIED for all 5 subsystems — no
-      QuickSpecs source found (see the quickspecs-cache note above).
+  - **Backplane type (`backplaneKind()`) — partially built, 2026-09-15
+    (third pass this session).** The tool already had a generic,
+    model-agnostic rule ("an LFF bay config never gets NVMe/Premium —
+    only SFF does") which the sourced research confirms holds for the
+    large majority of models checked (`DL360`/`DL380`/`DL385` across
+    G10/G10+/G11, `DL320`/`DL325`/`DL345 G11`, `ML350 G10`/`G11`,
+    `DL340`/`DL380 G12`, etc.) — left on that existing generic path
+    rather than duplicated. Two clean, sourced, bay-INDEPENDENT
+    absolutes are real overrides layered on top:
+    `BACKPLANE_SAS_ONLY` (`DL20`/`DL160`/`DL180 G10`, `ML30`/`ML110 G10`,
+    `DL20`/`ML30 G10+`, `ML30 G11` — no real hot-plug NVMe backplane
+    exists at all, on any bay config; any "NVMe" mention in these docs
+    is an M.2 boot device or UEFI feature) and `BACKPLANE_NVME_ONLY`
+    (`DL380a G12` — zero occurrences of "SAS" or "SATA" anywhere in its
+    own QuickSpecs). One narrow bay-specific hard case too:
+    `BACKPLANE_EDSFF_NVME_ONLY=['DL360 G11']` — its 20EDSFF front config
+    is explicitly "fixed NVMe-only." A new `#bp-note` surfaces the
+    SAS-only/NVMe-only fact live; `evaluate()` hard-`stop`s the mismatch,
+    same severity as the existing generic LFF check. 8 new regression
+    tests (361 total passing).
+    **Deliberately NOT built:** a full bay-by-bay Premium/Tri-Mode
+    matrix for every model — several docs describe TWO distinct
+    backplane families coexisting on the SAME bay count (e.g. `DL385
+    G11`'s 8SFF: a plain SAS/SATA-only cage vs. a separate Tri-mode/
+    mixed cage, a real trader choice) that the tool's single 3-way
+    radio can't represent without a UI change; documented as a gap
+    rather than guessed at. `DL20 G11` is confirmed to have gained a
+    real NVMe option (2SFF Enablement Kit) despite `DL20 G10`/`G10+`
+    being SAS-only — kept out of `BACKPLANE_SAS_ONLY` for that reason,
+    same "key off the full model+gen string, not the model name alone"
+    pattern already used for `flrKind()`.
+  - **`DL120 G10`** stays fully UNVERIFIED for all 5 subsystems — no
+    QuickSpecs source found (see the quickspecs-cache note above).
 - **Capacity planner** — enter usable TB + RAID level, get up to 5
   drive-population suggestions ranked by least wasted capacity, with a
   one-click "Use" that drops the line into the drive list.
