@@ -1,0 +1,1733 @@
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Overview
+Page 1
+HPE ProLiant DL180 Gen10 Server
+Adaptable for diverse workloads and environments, the secure 2P 2U HPE ProLiant DL180 Gen10 delivers world-class compelling
+performance with the right balance of expandability and scalability. Designed for supreme versatility and resiliency with the right
+balance of reliability, manageability and performance, while being backed by a comprehensive warranty make it ideal for multiple
+environments from Containers to Cloud to Big Data. Standardize on the industry's most trusted compute platform. SMBs and
+enterprises running application.
+8SFF Chassis - Front View
+1. Quick removal access panel 7. UID button
+2. 8 SFF Drive Cage 8. USB 3.0
+3. iLO Front Service Port 9. Serial label pull tag
+4. Health LED 10 Box 3
+5. NIC status 11. Box 2 (Optional 8 SFF, blank shown)
+6. Power On/Standby button and system power LED button 12 Box 1 (Optional 8 SFF or Optical Drive, blank
+shown)
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Overview
+Page 2
+8SFF Chassis - with optional 2nd CPU - Internal View
+1. Standard single rotor hot swap fans
+1 CPU - 3 standard fans
+2 CPUs - 5 standard fans (1 redundant fan shown)*
+12. MicroSD card slot
+2. Smart Storage Battery (No battery shown) * 13. iLO Service Port Connector
+3. Up to 2 processors (shown with standard heat sinks) 14. Primary PCIe Riser: 8x8x8
+4. Chassis Intrusion Detection connector * 15. Media Module Connector
+5. Hard Drive backplane power connector 16. Mini-SAS port 1
+6. System Battery 17. Mini-SAS port 2
+7. Internal USB 3.0 connector 18. Mini-SAS port 3
+8. Power supply (non-redundant power supply shown) 19. SATA port 4
+9. Secondary (CPU2) PCIe 3.0 riser 20. SATA port 5
+10. Flexible Smart Array Controller Connector 21. Front Power USB 3.0 connector
+11. TPM 2.0* 22. DDR4 DIMM slots
+(Fully populated 16 DIMMs shown)
+Notes: *Optional
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Overview
+Page 3
+Rear View
+1. Primary Riser. PCI Slots (Slots 1-3 top to bottom) 6. VGA Port
+2. Serial Port * 7. Dedicated iLO management port
+3. Secondary Riser. PCI Slots (Slots 4-6 top to bottom, requires
+second riser card and second processor).
+8. USB connectors 3.0 (2)
+4. Power Supply (Redundant Hot plug shown) 9. Media Module*
+5. Embedded 2 x 1GbE Network Adapter
+Notes: *Optional
+8LFF Chassis - Front View
+1. Quick removal access panel 7. UID button
+2. Optional: Optical drive (Blank Shown) 8. USB 3.0
+3. iLO Front Service Port 9. LFF Drive cage
+4. Health LED 10. Box 3
+5. NIC Status 11. Box 2
+6. Power On/Standby button and system power LED button 12. Box 1
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Overview
+Page 4
+12LFF Chassis - Front View
+1. Quick removal access panel 6. USB 3.0
+2. Health LED 7. LFF Drive cage
+3. NIC Status 8. Box 3
+4. Power On/Standby button and system power LED button 9. Box 2
+5. UID button 10 Box 1
+What's New
+· Support for P816i-a storage controller including new cable/enablement kits
+· Pre-configured server including P816i-a storage controller
+· 960GB, 1.92/3.84TB Mixed Use Value SAS Multi-Vendor SSDs
+· 960GB, 1.92/3.84/7.68TB Read Intensive Value SAS Multi-Vendor SSDs
+Platform Information
+Form Factor
+· 2U rack
+Chassis Types
+· 8 SFF (upgradeable to 24SFF)
+· 8 LFF
+· 12 LFF
+Notes: All models come with the S100i Smart Array Controller with embedded software RAID support for 14 drives. However
+this needs to be enabled using Enable SW RAID option (784308-B21) while configuring.
+System Fans
+· Standard - fan types (without rear drives)
+Model Non-Redundant Redundant
+1P Model 3 fans 4 fans
+2P Model 5 fans 6 fans
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Standard Features
+Page 5
+Processors - Up to 2 of the following depending on model.
+Notes:
+- The 2nd digit of the processor model number "x1xx" and "x2xx" is used to denote the processor generation (i.e. 1=1st
+generation and 2=2nd generation)
+- Field upgrades from 1st generation processors (x1xx) to 2nd generation processors (x2xx) not supported.
+- "U" processors (i.e. 6209U) only supported in single socket configurations
+- This table covers the public Intel offering only.
+- For more information regarding Intel Xeon processors, please see the following http://www.intel.com/xeon.
+2nd Generation Intel® Xeon® Scalable Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache Power UPI DDR4 Memory per
+socket
+Platinum 8256 Processor 3.8 GHz 4 16.50 MB 105W 3 @ 10.4 GT/s 2933 MT/s 1TB
+Platinum 8253 Processor 2.2 GHz 16 22.00 MB 125W 3 @ 10.4 GT/s 2933 MT/s 1TB
+Notes:
+- 6-Channel DDR4 @ 2933 MT/s with 1TB memory capacity per socket
+- 2 and 4 socket capable, 2S - 2UPI, 2S - 3UPI, 4S - 3UPI @ 10.4 GT/s.
+- Support for: Vector Neural Network Instructions (VNNI) for inference acceleration, Intel Turbo Boost Technology, Intel
+Hyper-Threading Technology Intel AVX-512 (2x 512-bit FMA), advanced RAS
+- 48 lanes PCIe 3.0
+2nd Generation Intel® Xeon® Scalable Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache Power UPI DDR4 Memory per
+socket
+Gold 6252 Processor 2.1 GHz 24 35.75 MB 150W 3 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 6248 Processor 2.5 GHz 20 27.5 MB 150W 3 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 6244 Processor 3.6 GHz 8 24.75 MB 150W 3 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 6242 Processor 2.8 GHz 16 22 MB 150W 3 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 6240 Processor 2.6 GHz 18 24.75 MB 150W 3 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 6238 Processor 2.1 GHz 22 30.25 MB 140W 3 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 6234 Processor 3.3 GHz 8 24.75 MB 130W 3 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 6230R Processor 2.1 GHz 26 35.75 MB 150W 2 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 6230 Processor 2.1 GHz 20 27.5 MB 125W 3 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 6226R Processor 2.9 GHz 16 22 MB 150W 2 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 6226 Processor 2.7 GHz 12 19.25 MB 125W 3 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 6210U Processor 2.5 GHz 20 27.50 MB 150W N/A 2933 MT/s 1TB
+Gold 6209U Processor 2.1 GHz 20 27.50 MB 125W N/A 2933 MT/s 1TB
+Gold 6208U Processor 2.9 GHz 16 22 MB 150W N/A 2933 MT/s 1TB
+Gold 5222 Processor 3.8 GHz 4 16.5 MB 105W 2 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 5220R Processor 2.2 GHz 24 35.75 MB 150W 2 @ 10.4 GT/s 2933 MT/s 1TB
+Gold 5220 Processor 2.2 GHz 18 24.75 MB 125W 2 @ 10.4 GT/s 2666 MT/s 1TB
+Gold 5218R Processor 2.1 GHz 20 27.50 MB 125W 2 @ 10.4 GT/s 2666 MT/s 1TB
+Gold 5218 Processor 2.3 GHz 16 22 MB 125W 2 @ 10.4 GT/s 2666 MT/s 1TB
+Gold 5217 Processor 3.0 GHz 8 11 MB 115W 2 @ 10.4 GT/s 2666 MT/s 1TB
+Gold 5215 Processor 2.5 GHz 10 13.75 MB 85W 2 @ 10.4 GT/s 2666 MT/s 1TB
+Notes:
+- 6-Channel DDR4 @ 2933 MT/s (Gold 6200 & 5222 skus only), 2666 MT/s on all Gold 5200 skus (except 5222 @ 2933
+MT/s) with 1TB memory capacity per socket
+- 2 and 4 socket capable, 2S - 2UPI, 2S - 3UPI, 4S-2UPI, 4S - 3UPI @ 10.4 GT/s.
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Standard Features
+Page 6
+- Support for: Vector Neural Network Instructions (VNNI) for inference acceleration, Intel Turbo Boost Technology, Intel
+Hyper-Threading Technology, Intel AVX-512 (1x 512-bit FMA) (Gold 6200 and SKU 5222 - supports 2x 512 bit FMA),
+advanced RAS
+- 48 lanes PCIe 3.0
+1st Generation Intel® Xeon® Scalable Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache Power UPI DDR4 Memory per
+socket
+Gold 6152 Processor 2.1 GHz 22 30.25 MB 140W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 6148 Processor 2.4 GHz 20 27.50 MB 150W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 6144 Processor 3.5 GHz 8 24.75 MB 150W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 6142 Processor 2.6 GHz 16 22.00 MB 150W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 6140 Processor 2.3 GHz 18 24.75 MB 140W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 6138 Processor 2.0 GHz 20 27.50 MB 125W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 6136 Processor 3.0 GHz 12 24.75 MB 150W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 6134 Processor 3.2 GHz 8 24.75 MB 130W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 6132 Processor 2.6 GHz 14 19.25 MB 140W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 6130 Processor 2.1 GHz 16 22.00 MB 125W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 6128 Processor 3.4 GHz 6 19.25 MB 115W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 6126 Processor 2.6 GHz 12 19.25 MB 125W 3 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 5122 Processor 3.6 GHz 4 16.50 MB 105W 2 @ 10.4 GT/s 2666 MT/s 768GB
+Gold 5120 Processor 2.2 GHz 14 19.25 MB 105W 2 @ 10.4 GT/s 2400 MT/s 768GB
+Gold 5118 Processor 2.3 GHz 12 16.50 MB 105W 2 @ 10.4 GT/s 2400 MT/s 768GB
+Gold 5115 Processor 2.4 GHz 10 13.75 MB 85W 2 @ 10.4 GT/s 2400 MT/s 768GB
+Notes:
+- 6-Channel 1DPC DDR4 @ 2666 MT/s (Gold 6100 skus), 2400 MT/s on all Gold 5100 skus (SKU 5122 - supports 2666
+MT/s), with 768GB memory capacity per socket
+- 2 and 4 socket capable, 2S - 2UPI, 2S-3UPI, 4S - 3UPI @ 10.4 GT/s.
+- Support for: Intel Turbo Boost Technology, Intel Hyper-Threading Technology, Intel AVX-512 (1x 512-bit FMA) (Gold
+6100 and SKU 5122 - supports 2x 512 bit FMA), advanced RAS
+- 48 lanes PCIe 3.0
+2nd Generation Intel® Xeon® Scalable Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache Power UPI DDR4 Memory per
+socket
+Silver 4216 Processor 2.1 GHz 16 22 MB 100W 2 @ 9.6 GT/s 2400 MT/s 1TB
+Silver 4215R Processor 3.2 GHz 8 11 MB 130W 2 @ 9.6 GT/s 2400 MT/s 1TB
+Silver 4215 Processor 2.5 GHz 8 11 MB 85W 2 @ 9.6 GT/s 2400 MT/s 1TB
+Silver 4214R Processor 2.4 GHz 12 16.5 MB 100W 2 @ 9.6 GT/s 2400 MT/s 1TB
+Silver 4214 Processor 2.2 GHz 12 16.5 MB 85W 2 @ 9.6 GT/s 2400 MT/s 1TB
+Silver 4210R Processor 2.4 GHz 10 13.75 MB 100W 2 @ 9.6 GT/s 2400 MT/s 1TB
+Silver 4210 Processor 2.2 GHz 10 13.75 MB 85W 2 @ 9.6 GT/s 2400 MT/s 1TB
+Silver 4208 Processor 2.1 GHz 8 11 MB 85W 2 @ 9.6 GT/s 2400 MT/s 1TB
+Notes:
+- 6-Channel DDR4 @ 2400 MT/s with 1TB memory capacity per socket
+- 2 socket supports 2UPI @ 9.6 GT/s.
+- Support for: Intel® Vector Neural Network Instructions (VNNI) for inference acceleration, Intel Turbo Boost Technology,
+Intel Hyper-Threading Technology, Intel AVX-512 (1x 512-bit FMA), standard RAS
+- 48 lanes PCIe 3.0
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Standard Features
+Page 7
+1st Generation Intel® Xeon® Scalable Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache Power UPI DDR4 Memory per
+socket
+Silver 4116 Processor 2.1 GHz 12 16.50 MB 85W 2 @ 9.6 GT/s 2400 MT/s 768GB
+Silver 4114 Processor 2.2 GHz 10 13.75 MB 85W 2 @ 9.6 GT/s 2400 MT/s 768GB
+Silver 4112 Processor 2.6 GHz 4 8.25 MB 85W 2 @ 9.6 GT/s 2400 MT/s 768GB
+Silver 4110 Processor 2.1 GHz 8 11.00 MB 85W 2 @ 9.6 GT/s 2400 MT/s 768GB
+Silver 4108 Processor 1.8 GHz 8 11.00 MB 85W 2 @ 9.6 GT/s 2400 MT/s 768GB
+Notes:
+- 6-Channel DDR4 @ 2400 MT/s providing with 768GB memory capcity per socket
+- 2 Socket supports 2UPI @ 9.6 GT/s
+- Support for: Intel Turbo Boost Technology, Intel Hyper-Threading Technology, Intel AVX-512(1x 512-bit FMA), standard
+RAS
+- 48 lanes PCIe 3.0
+2nd Generation Intel® Xeon® Scalable Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache Power UPI DDR4 Memory per
+socket
+Bronze 3206R 1.9 GHz 8 11 MB 85W 2 @ 9.6 GT/s 2133 MT/s 1 TB
+Bronze 3204 Processor 1.9 GHz 6 8.25 MB 85W 2 @ 9.6 GT/s 2133 MT/s 1 TB
+Notes:
+- 6-Channel DDR4 @ 2133 MT/s with 1TB memory capacity per socket
+- 2 Socket supports 2UPI @ 9.6 GT/s
+- Support for: Intel® Vector Neural Network Instructions (VNNI) for inference acceleration., Intel AVX-512 (1x 512-bit FMA),
+standard RAS
+- 48 lanes PCIe 3.0
+1st Generation Intel® Xeon® Scalable Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache Power UPI DDR4 Memory per
+socket
+Bronze 3106 Processor 1.7 GHz 8 11.00 MB 85W 2 @ 9.6 GT/s 2133 MT/s 768GB
+Bronze 3104 Processor 1.7 GHz 6 8.25 MB 85W 2 @ 9.6 GT/s 2133 MT/s 768GB
+Notes:
+- 6-Channel DDR4 @ 2133 MT/s with 768GB memory capacity per socket
+- 2 Socket supports 2UPI @ 9.6 GT/s
+- Support for: Intel AVX-512(1x 512-bit FMA), standard RAS
+- 48 lanes PCIe 3.0
+Chipset
+Intel C622 Chipset
+Notes: For more information regarding Intel® chipsets, please see the following
+URL: http://www.intel.com/products/server/chipsets/
+On System Management Chipset
+HPE iLO 5 ASIC
+Notes: Read and learn more in the iLO QuickSpecs.
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Standard Features
+Page 8
+Memory
+Type HPE DDR4 SmartMemory
+Registered (RDIMM), Load Reduced (LRDIMM)
+DIMM Slots Available 16
+8 DIMM slots per processor, 6 channels per processor, 2 channels @ 2 DIMMs per channel,
+4 channels @ 1 DIMM per channel
+Maximum capacity
+(LRDIMM)
+1.0 TB
+16 x 64 GB LRDIMM @ 2933 MT/s
+Maximum capacity
+(RDIMM)
+1.0 TB
+16 x 64 GB RDIMM @ 2933 MT/s
+Notes:
+- Mixing of RDIMM and LRDIMM memory is not supported.
+- For General Server Memory Population Rules and Guidelines for Gen10 see details here:
+http://www.hpe.com/docs/memory-population-rules
+Memory Protection
+Advanced ECC
+Advanced ECC uses single device data correction to detect and correct single and all multibit error that occurs within a single
+DRAM chip.
+Online Spare
+Memory online spare mode detects a rank that is degrading and switches operation to the spare rank.
+Notes: For more information see our Memory RAS feature technical whitepaper
+Expansion Slots
+CPU1 x8x8x8 riser
+Slots # Technology Bus Width Connector
+Width
+Slot Form Factor Notes
+1 PCIe 3.0 X8 X8 Full-height, full-length slot Proc 1
+2 PCIe 3.0 X8 X8 Full-height, half-length slot Proc 1
+3 PCIe 3.0 X8 X8 Full-height, half-length slot Proc 1
+Notes: Bus Width Indicates the number of physical electrical lanes running to the connector.
+FlexibleLOM
+Slots # Technology Bus Width Connector Width Slot Form Factor Notes
+1 PCIe 3.0 X8 X8 Full-height, full-length slot Proc 1
+2 PCIe 3.0 X8 X8 Full-height, half-length slot Proc 1
+3 PCIe 3.0 X8 X8 FlexibleLOM Proc 1
+Notes:
+- Bus Width Indicates the number of physical electrical lanes running to the connector.
+- This riser is necessary to install FlexibleLOM adapters
+CPU1 x16x8 riser
+Slots # Technology Bus Width Connector Width Slot Form Factor Notes
+1 PCIe 3.0 X16 X16 Full-height, full-length slot Proc 1
+2 PCIe 3.0 X8 X8 Full-height, half-length slot Proc 1
+Notes: Bus Width Indicates the number of physical electrical lanes running to the connector.
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Standard Features
+Page 9
+CPU2 x8x8x8 riser
+Slots # Technology Bus Width Connector Width Slot Form Factor Notes
+1 PCIe 3.0 X8 X8 Full-height,full-length slot Proc 2
+2 PCIe 3.0 X8 X8 Full-height,half-length slot Proc 2
+3 PCIe 3.0 X8 X8 Low profile Proc 2
+Notes:
+- Bus Width Indicates the number of physical electrical lanes running to the connector.
+- When populating the second optional riser slot, the second processor must be installed.
+CPU2 x16x8 riser
+Slots # Technology Bus Width Connector Width Slot Form Factor Notes
+1 PCIe 3.0 X16 X16 Full-height, full-length slot Proc 2
+2 PCIe 3.0 X8 X8 Low profile Proc 2
+Notes:
+- Bus Width Indicates the number of physical electrical lanes running to the connector.
+- When populating the second optional riser slot, the second processor must be installed.
+- Includes GPU cable kit
+Storage Controllers
+The Gen10 controller naming framework has been updated to simplify identification as depicted below. For a more detailed
+breakout of the available Gen10 Smart Array controllers visit the HPE Smart Array Gen10 Controllers Data Sheet. One of the
+following depending on model
+Software RAID
+HPE Smart Array S100i SR Gen10 SW RAID
+Notes:
+- HPE Smart Array S100i SR Gen10 SW RAID will operate in UEFI mode only. For legacy support an additional controller will
+be needed.
+- HPE Smart Array S100i SR Gen10 SW RAID is off by default and must be enabled.
+- HPE Smart Array S100i SR Gen10 SW RAID only supports Windows and does not support Linux. For Linux users, HPE
+offers a solution that uses in-distro open-source software to create a two-disk RAID 1 boot volume. For more information
+visit: https://downloads.linux.hpe.com/SDR/project/lsrrb/
+Essential RAID Controller
+· HPE Smart Array E208i-a SR Gen10 Controller
+· HPE Smart Array E208i-p SR Gen10 Controller
+· HPE Smart Array E208e-p SR Gen10 Controller
+Performance RAID Controller
+· HPE Smart Array P816i-a SR Gen10 Controller
+· HPE Smart Array P408i-a SR Gen10 LH Controller
+· HPE Smart Array P408i-p SR Gen10 Controller
+· HPE Smart Array P408e-p SR Gen10 Controller
+Notes:
+- Performance RAID Controllers require the HPE Smart Storage Battery (P01366-B21) which is sold separately.
+- For additional details, please see HPE Smart Array Gen10 Controllers Data Sheet
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Standard Features
+Page 10
+Internal Storage Devices
+· Optical Drive
+Optional: DVD-ROM or DVD-RW
+· Hard Drives
+None ship standard
+Maximum Internal Storage
+Drive Capacity Configuration
+Hot Plug SFF SAS HDD 62.4 TB 24 + 2 X 2.4 TB (with dual SFF rear drive option)
+Hot Plug LFF SAS HDD 144 TB 12 X 12 TB
+Hot Plug SFF SATA HDD 52 TB 24 + 2 X 2 TB (with dual SFF rear drive option)
+Hot Plug LFF SATA HDD 144 TB 12 X 12 TB
+Hot Plug SFF SAS SSD 200 TB 24 + 2 X 7.68 TB (with dual SFF rear drive option)
+Hot Plug LFF SAS SSD 19.2 TB 12 X 1.6 TB
+Hot Plug SFF SATA SSD 200 TB 24 + 2 X 7.68 TB (with dual SFF rear drive option)
+Hot Plug LFF SATA SSD 92 TB 12 X 7.68 TB
+Interfaces
+Video 1 rear - VGA Port (standard )
+Network Ports 2 x 1 GbE ports embedded on board with optional Media Module, FlexibleLOM or stand up card
+Management Network
+Port
+1 Gb Dedicated
+Front iLO Service Port 1 standard
+Micro SD Slot 1 Micro SD
+Notes: The Micro SD slot is not a hot-pluggable device. Customers should not attempt to plug
+an SD card into the SD slot while the server is powered.
+USB 3.0 Up to 4 total: 1 front, 2 rear, 1 internal (secure),
+Operating Systems and Virtualization Software Support for ProLiant Servers
+2nd Generation Intel® Xeon® Scalable Processor Family
+· Windows Server 2016*, 2019
+· VMware ESXi 6.5 U3*, 6.7 U3, 7.0
+· Red Hat Enterprise Linux (RHEL) 7.6 with Kbase*, 8.0
+· SUSE Linux Enterprise Server (SLES) 12 SP4*
+1st Generation Intel® Xeon® Scalable Processor Family
+· Windows Server 2012R2*, 2016, 2019
+· VMware ESXi 6.0 U3*, 6.5 U3, 6.7 U3, 7.0
+· Red Hat Enterprise Linux (RHEL) 6.9*, 7.3, 7.6 (with Kbase), 8.0
+· SUSE Linux Enterprise Server (SLES) 12 SP2*, 12 SP3-SP4
+CentOS- Limited HPE support. Please review https://techlibrary.hpe.com/us/en/enterprise/servers/supportmatrix/cent_os.aspx
+Notes:
+- *Minimum required OS
+- For more information on Hewlett Packard Enterprise Certified and Supported ProLiant Servers for OS and Virtualization
+Software and latest listing of software drivers available for your server http://www.hpe.com/info/ossupport
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Standard Features
+Page 11
+Industry Standard Compliance
+· ACPI 6.1 Compliant
+· PCIe 3.0 Compliant
+· WOL Support
+· Microsoft® Logo certifications
+· PXE Support
+· USB 3.0 Compliant (internal)
+· SMBIOS 3.1
+· UEFI 2.6
+· Redfish API
+· IPMI 2.0
+· Secure Digital 2.0
+· Advanced Encryption Standard (AES)
+· Triple Data Encrytion Standard (3DES)
+· SNMP v3
+· TLS 1.2
+· DMTF Systems Management Architecture for Server Hardware Command Line Protocol (SMASH CLP)
+· Active Directory v1.0
+· ASHRAE A3/A4
+Notes: For additional technical thermal details regarding ambient temperatures, humidity and features support please
+visit: http://www.hpe.com/servers/ashrae.
+· UEFI (Unified Extensible Firmware Interface Forum)
+Notes: UEFI is the default for the HPE ProLiant DL160 Gen10. Legacy mode can be selected in the field.
+European Union (EU) eco-design regulations for server and storage products, known as Lot 9, go into effect on March 1st, 2020.
+Among other requirements, for servers this directive establishes power thresholds for idle state, as well as efficiency and
+performance in active state which vary among configurations. HPE ProLiant Gen10 servers are compliant with Lot9 requirements.
+For more information regarding HPE Lot 9 conformance, please visit:
+https://www.hpe.com/us/en/about/environment/msds-specs-more.html
+Power Supply
+· HPE 500W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+Notes: Available in 94% efficiency.
+· HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+Notes:
+- Available in 94% and 96% efficiency.
+- Also available in -48VDC power input.
+HPE Flexible Slot (Flex Slot) Power Supplies share a common electrical and physical design that allows for hot plug, tool-less
+installation into HPE ProLiant Gen10 Performance Servers. Flex Slot power supplies are certified for high-efficiency operation and
+offer multiple power output options, allowing users to "right-size" a power supply for specific server configurations. This flexibility
+helps to reduce power waste, lower overall energy costs, and avoid "trapped" power capacity in the data center.
+All pre-configured servers ship with a standard 6-foot IEC C-13/C-14 jumper cord (A0K02A). This jumper cord is also included
+with each standard AC power supply option kit. If a different power cord is required, please check the ProLiant Power Cables web
+page.
+For information on power specifications and technical content visit HPE Server power supplies.
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Standard Features
+Page 12
+Graphics
+Integrated Video Standard
+· Video modes up to 1920 x 1200@60Hz (32 bpp)
+· 16MB Video Memory
+HPE iLO 5 on system management memory
+· 32 MB Flash
+· 4 Gbit DDR 3 with ECC protection
+HPE Server UEFI/Legacy ROM
+Unified Extensible Firmware Interface (UEFI) is an industry standard that provides better manageability and more secured
+configuration than the legacy ROM while interacting with your server at boot time. HPE ProLiant Gen10 servers have a UEFI Class
+2 implementation and support both UEFI Mode (default) and Legacy BIOS Mode.
+Notes: The UEFI System Utilities tool is analogous to the HPE ROM-Based Setup Utility (RBSU) of legacy BIOS. For more
+information, please visit http://www.hpe.com/servers/uefi.
+· UEFI enables numerous new capabilities specific to HPE ProLiant servers such as:
+· Secure Boot and Secure Start enable for enhanced security
+· Operating system specific functionality
+· Support for > 2.2 TB (using GPT) boot drives
+· USB 3.0 Stack
+· Embedded UEFI Shell
+· Mass Configuration Deployment Tool using iLO RESTful API that is Redfish API Conformant
+· PXE boot support for IPv6 networks
+· Workload Profiles for simple performance optimization
+· UEFI Boot Mode only:
+· NVMe Boot Support
+· iSCSI Software Initiator Support.
+· HTTP/HTTPs Boot support as a PXE alternative.
+· Boot support for option cards that only support a UEFI option ROM
+Notes: For UEFI Boot Mode, boot environment and OS image installations should be configured properly to support UEFI.
+Security
+· UEFI Secure Boot and Secure Start support
+· Immutable Silicon Root of Trust
+· FIPS 140-2 validation
+· Common Criteria certification
+· Configurable for PCI DSS compliance
+· Advanced Encryption Standard (AES) and Triple Data Encryption Standard (3DES) on browser
+· Support for Commercial National Security Algorithms (CNSA)
+· iLO Security Modes
+· Granular control over iLO interfaces
+· Tamper-free updates - components digitally signed and verified
+· Secure Recovery - recover critical firmware to known good state on detection of compromised firmware
+· Ability to rollback firmware
+· Secure erase of NAND/User data
+· TPM (Trusted Platform Module) 2.0 option
+· Bezel Locking Kit
+· Chassis Intrusion detection option
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Standard Features
+Page 13
+Embedded Management
+UEFI
+Configure and boot your servers securely with industry standard Unified Extensible Firmware Interface (UEFI).
+Learn more at http://www.hpe.com/servers/uefi.
+Intelligent Provisioning
+Hassle free server and OS provisioning for 1 or more servers with Intelligent Provisioning.
+Learn more at http://www.hpe.com/servers/intelligentprovisioning.
+iLO RESTful API
+iLO RESTful API is Redfish API conformance and offers simplified server management automation such as configuration and
+maintenance tasks based on modern industry standards. Learn more at http://www.hpe.com/info/restfulapi.
+Server Utilities
+iLO Amplifier Pack
+Designed for large enterprise and service provider environments with hundreds of HPE servers, the iLO Amplifier Pack is a free,
+downloadable open virtual application (OVA) that delivers the power to discover, inventory and update Gen8, Gen9 and Gen10
+HPE servers at unmatched speed and scale. Use with an iLO Advanced License to unlock full capabilities.
+Learn more at http://www.hpe.com/servers/iLOamplifierpack.
+HPE iLO Mobile Application
+Enables the ability to access, deploy, and manage your server anytime from anywhere from select smartphones and mobile
+devices. For additional information please visit: http://www.hpe.com/info/ilo/mobileapp.
+RESTful Interface Tool
+RESTful Interface tool (iLOREST) is a single scripting tool to provision using iLO RESTful API to discover and deploy servers at
+scale. Learn more at http://www.hpe.com/info/resttool.
+Scripting Tools
+Provision one to many servers using your own scripts to discover and deploy with Scripting Tool (STK) for Windows and Linux or
+Scripting Tools for Windows PowerShell. Learn more at or http://www.hpe.com/servers/powershell.
+HPE OneView Standard
+HPE OneView Standard can be used for inventory, health monitoring, alerting, and reporting without additional fees. It can monitor
+multiple HPE server generations. The user interface is similar to the HPE OneView Advanced version, but the software-defined
+functionality is not available. Learn more at http://www.hpe.com/info/oneview
+HPE Systems Insight Manager (HPE SIM)
+Ideal for environments already using HPE SIM, it allows you to monitor the health of your HPE ProLiant Servers and HPE Integrity
+Servers. Also provides you with basic support for non-HPE servers. HPE SIM also integrates with Smart Update Manager to
+provide quick and seamless firmware updates. Learn more at http://www.hpe.com/info/hpesim.
+Active Health System Viewer
+Use the Active Health System Viewer, a web-based portal, to easily read AHS logs and speed problem resolution with HPE self-
+repair recommendations, to learn more visit: http://www.hpe.com/servers/ahsv.
+Service Pack for ProLiant (SPP)
+The Service Pack for ProLiant (SPP) is a comprehensive collection of server firmware, drivers, and system software tested as a
+single solution stack, which is delivered as a single ISO image. Learn more at http://www.hpe.com/servers/spp
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Standard Features
+Page 14
+Warranty
+This product is covered by a global limited warranty and supported by HPE Services and a worldwide network of Hewlett Packard
+Enterprise Authorized Channel Partners resellers. Hardware diagnostic support and repair is available for three years from date of
+purchase. Support for software and initial setup is available for 90 days from date of purchase. Enhancements to warranty services
+are available through HPE Pointnext operational services or customized service agreements. Hard drives have either a one year or
+three year warranty; refer to the specific hard drive QuickSpecs for details.
+Notes: Server Warranty includes 3-Year Parts, 3-Year Labor, 3-Year Onsite support with next business day response. Warranty
+repairs may be accomplished through the use of Customer Self Repair (CSR) parts. These parts fall into two categories: 1)
+Mandatory CSR parts are designed for easy replacement. A travel and labor charge will result when customers decline to
+replace a Mandatory CSR part; 2) Optional CSR parts are also designed for easy replacement but may involve added
+complexity. Customers may choose to have Hewlett Packard Enterprise replace Optional CSR parts at no charge. Additional
+information regarding worldwide limited warranty and technical support is available at:
+http://h17007.www1.hpe.com/us/en/enterprise/servers/warranty/.
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Optional Features
+Page 15
+Server Management
+HPE iLO Advanced
+HPE iLO Advanced licenses offer smart remote functionality without compromise, for all HPE ProLiant servers. The license
+includes the full integrated remote console, virtual keyboard, video, and mouse (KVM), multi-user collaboration, console record and
+replay, and GUI-based and scripted virtual media and virtual folders. You can also activate the enhanced security and power
+management functionality. Learn more about HPE iLO Advanced at http://www.hpe.com/servers/iloadvanced..
+HPE OneView Advanced
+HPE OneView brings a new level of automation to infrastructure management by taking a template driven approach to
+provisioning, updating, and integrating compute, storage, and networking infrastructure. It provides full-featured licenses which can
+be purchased for managing Gen8, Gen9 and Gen10 servers. To learn more visit http://www.hpe.com/info/oneview
+HPE InfoSight for Servers
+HPE InfoSight for Servers combines the cloud-based machine learning of InfoSight with the health and performance monitoring of
+Active Health System (AHS) and iLO to optimize performance and predict and prevent problems. The end result is an intelligent
+environment that modernizes IT operations and enhances the support experience by predicting and preventing the infrastructure
+issues that lead to application disruptions, wasted IT staff time and missed business opportunities.
+Learn more at https://www.hpe.com/servers/infosight
+HPE Insight Cluster Management Utility (CMU)
+HPE Insight Cluster Management Utility is a HyperScale management framework that includes software for the centralized
+provisioning, management and monitoring of nodes and infrastructure. Learn more at http://www.hpe.com/info/cmu.
+Rack and Power Infrastructure
+The story may end with servers, but it starts with the foundation that makes compute go - and business grow. We've reinvented
+our entire portfolio of rack and power products to make IT infrastructure more secure, more practical, and more efficient. In other
+words, we've created a stronger, smarter, and simpler infrastructure to help you get the most out of your IT equipment. As an
+industry leader, Hewlett Packard Enterprise is uniquely positioned to address the key concerns of power, cooling, cable
+management and system access.
+HPE G2 Advanced and Enterprise Racks are perfect for the server room or today's modern data center with enhanced airflow and
+thermal management, flexible cable management, and a 10 year Warranty to support higher density computing.
+HPE G2 PDUs offer reliable power in flexible form factors that operate at temperatures up to 60°, include color-coded outlets and
+load segments and a low-profile design for optimal access to the rack and support for dense rack environments.
+HPE Uninterruptible Power Systems are cost-effective power protection for any type workload. Some UPSs include options for
+remote management and extended runtime modules so you're critical dense data center is covered in power outages.
+HPE KVM Solutions include a console and switches designed to work with your server and IT equipment reliably. We've got a cost-
+effective KVM switch for your first rack and multiple connection IP switches with remote management and security capabilities to
+keep your data center rack up and running.
+Learn more about HPE Racks, KVM, PDUs and UPSs at HPE Rack and Power Infrastructure.
+One Config Simple (SCE)
+SCE is a guided self-service tool to help sales and non-technical people provide customers with initial configurations in 3 to 5
+minutes. You may then send the configuration on for configuration help, or use in your existing ordering processes. If you require
+"custom" rack configuration or configuration for products not available in SCE, please contact Hewlett Packard Enterprise
+Customer Business Center or an Authorized Partner for
+assistance. https://h22174.www2.hpe.com/SimplifiedConfig/Welcome#
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Service and Support
+Page 16
+HPE Pointnext - Service and Support
+Protect your business beyond warranty with HPE Support Services
+HPE Pointnext provides a comprehensive portfolio including Advisory and Transformational, Professional, and Operational Services
+to help accelerate your digital transformation. From the onset of your transformation journey, Advisory and Transformational
+Services focus on designing the transformation and creating a solution roadmap. Professional Services specializes in creative
+configurations with flawless and on-time implementation, and on-budget execution. Finally, operational services provides
+innovative new approaches like Flexible Capacity and Datacenter Care, to keep your business at peak performance. Hewlett
+Packard Enterprise is ready to bring together all the pieces of the puzzle for you, with an eye on the future, and make the complex
+simple.
+Connect your devices:
+Unlock all of the benefits of your technology investment by connecting your products to Hewlett Packard Enterprise. Achieve up
+to 77%1 reduction in down time, near 100%2 diagnostic accuracy and a single consolidated view of your environment. By
+connecting, you will receive 24x7monitoring, pre-failure alerts, automatic call logging, and automatic parts dispatch. HPE Proactive
+Care Service and HPE Datacenter Care Service customers will also benefit from proactive activities to help prevent issues and
+increase optimization. All of these benefits are already available to you with your server storage and networking products, securely
+connected to HPE support.
+Notes:
+- 1 IDC
+- 2 HPE CSC reports 2014 - 2015
+Learn more about getting connected at http://www.hpe.com/services/getconnected
+Recommended Services
+HPE Proactive Care* with 6 hour call-to-repair commitment, three year Support Service
+HPE Proactive Care gives customers an enhanced call experience. When your products are connected to HPE, Proactive Care
+helps prevent problems and maintains IT stability by utilizing personalized proactive reports with recommendations and advice.
+This Service combines three years' proactive reporting and advice with our highest level of hardware support - HPE's 24x7, six
+hour hardware call-to-repair. HPE is the only leading manufacturer who makes this level of coverage available as a standard
+service offering for your most valuable servers. This service also includes collaborative software support for Independent Software
+Vendors (ISVs), (Red Hat, VMWare, Microsoft, etc.) running on your HPE servers.
+https://www.hpe.com/h20195/v2/GetPDF.aspx/4AA3-8855ENW.pdf
+HPE Proactive Care* with 24x7 coverage, three year Support Service
+HPE Proactive Care gives customers an enhanced call experience. When your products are connected to HPE, Proactive Care
+helps prevent problems and maintains IT stability by utilizing personalized proactive reports with recommendations and advice
+This Service combines three years proactive reporting and advice with our 24x7 coverage, four hour hardware response time
+when there is a problem. This service also includes collaborative software support for Independent Software Vendors (ISVs), (Red
+Hat, VMWare, Microsoft, etc.) running on your HPE servers.
+https://www.hpe.com/h20195/v2/GetPDF.aspx/4AA3-8855ENW.pdf
+HPE Proactive Care* - Next Business Day service, three year Support Service
+HPE Proactive Care gives customers an enhanced call experience. When your products are connected to HPE, Proactive Care
+helps prevent problems and maintains IT stability by utilizing personalized proactive reports with recommendations and advice.
+This service combines three years of Hardware Support where an HPE authorized representative will arrive at the Customer's site
+during the onsite coverage window to begin hardware maintenance service the next coverage day after the service request has
+been logged. This service also includes collaborative software support for Independent Software Vendors (ISVs), (Red Hat,
+VMWare, Microsoft, etc.) running on your HPE servers.
+https://www.hpe.com/h20195/v2/GetPDF.aspx/4AA3-8855ENW.pdf
+Notes: *HPE Proactive Care and HPE Proactive Care Advanced require that the customer connect their devices to make the
+most of these services and receive all the deliverables.
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Service and Support
+Page 17
+Other related Services
+HPE Server Hardware Installation
+Provides for the basic hardware installation of HPE branded servers, storage devices and networking options to assist you in
+bringing your new hardware into operation in a timely and professional manner.
+https://h20195.www2.hpe.com/v2/Getdocument.aspx?docname=5981-9356enw
+HPE Installation and Startup Service
+Provides for the installation of your HPE hardware according to product specifications including options. The HPE service delivery
+technician will connect the product to a LAN as appropriate and enable remote support to allow for automatic case creation for
+hardware failures. Installation and start up services also includes the installation of one supported operating system type
+(Windows® or Linux).
+HPE Datacenter Care service
+HPE Datacenter Care helps improve IT stability and security, increase the value of IT, and enable agility and innovation. It is a
+structured framework of repeatable, tested, and globally available services "building blocks." You can deploy, operate, and evolve
+your datacenter wherever you are on your IT journey. With HPE Datacenter Care, you benefit from a personalized relationship with
+HPE via a single point of accountability for HPE and others' products. For more information, visit
+http://www.hpe.com/services/datacentercare
+HPE Factory Express for Servers and storage
+HPE Factory Express offers configuration, customization, integration and deployment services for HPE servers and storage
+products. Customers can choose how their factory solutions are built, tested, integrated, shipped and deployed.
+Factory Express offers service packages for simple configuration, racking, installation, complex configuration and design services as
+well as individual factory services, such as image loading, asset tagging, and custom packaging. HPE products supported through
+Factory Express include a wide array of servers and storage: HPE Integrity, HPE ProLiant, HPE Apollo, HPE ProLiant Server Blades,
+HPE BladeSystem, HPE 9000 servers as well as the MSAxxxx3PAR suite, XP, rackable tape libraries and configurable network
+switches.
+HPE Service Credits
+HPE Service Credits offers flexible services and technical skills to meet your changing IT demands. With a menu of service that is
+tailored to suit your needs, you get additional resources and specialist skills to help you maintain peak performance of your IT.
+Offered as annual credits, you can plan your budgets while proactively responding to your dynamic business.
+HPE Education Services
+Keep your IT staff trained making sure they have the right skills to deliver on your business outcomes. Book on a class today and
+learn how to get the most from your technology investment. http://www.hpe.com/ww/learn
+Parts and Materials
+Hewlett Packard Enterprise will provide HPE-supported replacement parts and materials necessary to maintain the covered
+hardware product in operating condition, including parts and materials for available and recommended engineering improvements.
+Parts and components that have reached their maximum supported lifetime and/or the maximum usage limitations as set forth in
+the manufacturer's operating manual, product quick-specs, or the technical product data sheet will not be provided, repaired, or
+replaced as part of these services.
+The defective media retention service feature option applies only to Disk or eligible SSD/Flash Drives replaced by Hewlett Packard
+Enterprise due to malfunction.
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Service and Support
+Page 18
+HPE Support Center
+The HPE Support Center is a personalized online support portal with access to information, tools and experts to support HPE
+business products. Submit support cases online, chat with Hewlett Packard Enterprise experts, access support resources or
+collaborate with peers.
+Learn more http://www.hpe.com/support/hpesc.
+The HPE Support Center Mobile App* allows you to resolve issues yourself or quickly connect to an agent for live support. Now,
+you can get access to personalized IT support anywhere, anytime.
+HPE Insight Remote Support and HPE Support Center are available at no additional cost with a HPE warranty, HPE Support
+Service or HPE contractual support agreement.
+Notes:*HPE Support Center Mobile App is subject to local availability.
+For more information: http://www.hpe.com/services.
+Warranty and Support Services will extend to include HPE options configured with your server or storage device. The price of
+support service is not impacted by configuration details. HPE sourced options that are compatible with your product will be
+covered under your server support at the same level of coverage allowing you to upgrade freely. Installation for HPE options is
+available as needed. To keep support costs low for everyone, some high value options will require additional support. Additional
+support is only required on select high value workload accelerators, fibre switches, InfiniBand and UPS batteries over 12KVA. See
+the specific high value options that require additional support here.
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Pre-Configured Models
+Page 19
+· Pre- Configured models ship with the configurations below. Options can be selected from the Core or Additional options
+section of this QuickSpecs.
+· Hewlett Packard Enterprise does not allow factory integration of options into pre-configured models. Any additional
+options purchased will be shipped separately.
+· If you desire a custom configuration please see "Configuration Information - Factory Integrated Models" section of this
+QuickSpecs.
+European Union (EU) eco-design regulations for server and storage products, known as Lot 9, go into effect on March 1st, 2020.
+Among other requirements, for servers this directive establishes power thresholds for idle state, as well as efficiency and
+performance in active state which vary among configurations. HPE ProLiant Gen10 servers are compliant with Lot9 requirements.
+For more information regarding HPE Lot 9 conformance, please visit:
+https://www.hpe.com/us/en/about/environment/msds-specs-more.html
+Powered by 2nd Generation Intel Xeon Processors
+SKU Number- WW P35519-B21 P35520-B21 P37151-B21
+SKU Number- Japan P35519-291 P35520-291 P37151-291
+Model Name HPE ProLiant DL180 Gen10
+4210R 2.4GHz 10-core 1P
+16GB-R S100i 8SFF 500W PS
+Server
+HPE ProLiant DL180 Gen10
+5218 2.3GHz 16-core 1P
+16GB-R S100i 8SFF 500W PS
+Server
+HPE ProLiant DL180 Gen10
+4208 2.1GHz 8-core 1P
+16GB-R P816i-a 12LFF 500W
+PS Server
+Chassis 8SFF 8SFF 12LFF
+Processor 4210R (2.4GHz/10-
+core/100W)
+5218 (2.3GHz/16-core/125W) 4208 (2.1GHz/8-core/85W)
+Number of Processors One processor with Standard
+heatsink
+One processor with Standard
+heatsink
+One processor with Standard
+heatsink
+Memory HPE 16GB 1Rx4 PC4-2933Y-
+R Smart Kit
+HPE 16GB 1Rx4 PC4-2933Y-
+R Smart Kit
+HPE 16GB 1Rx4 PC4-2933Y-
+R Smart Kit
+Network Controller Embedded 2-Port 1GbE Embedded 2-Port 1GbE Embedded 2-Port 1GbE
+Storage Controller Embedded 14Port S100i
+Notes: SATA only
+Embedded 14Port S100i
+Notes: SATA only
+P816i-a and Smart Storage
+Battery
+Cables 1x Box3 MB/-p cable
+(879752-B21) to connect 8
+drive bays in box3 to S100i
+(can also be used to connect to
+-p controller).
+1x Box3 MB/-p cable
+(879752-B21) to connect 8
+drive bays in box3 to S100i
+(can also be used to connect to
+-p controller).
+HPE DL180 Gen10 LFF
+P816i-a Cable Kit (P36415-
+B21)
+Hard Drive None included None included None included
+Optical Drive None included None included None included
+PCIe Slots 3 PCIe: 1x8 FHFL, 1x8 FHHL, 1x8 FHHL
+Power Supply 1x 500W Hot Plug; RPS ready 1x 500W Hot Plug; RPS ready 1x 500W Hot Plug; RPS ready
+Fans 3 Fans 3 Fans 3 Fans
+Management HPE iLO5, Infosight
+Rail Kit SFF Easy Install SFF Easy Install LFF Easy Install
+Form Factor 2U Rack
+Warranty 3-year parts, 3-year labor, 3-year onsite support with next business day response
+Country Code Key
+· B21 = Worldwide except Japan & PRC
+· 291 = Japan
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Pre-Configured Models
+Page 20
+Powered by 2nd Generation Intel Xeon Processors
+SKU Number- WW P19562-B21 P19564-B21 P19563-B21
+SKU Number- Japan P19562-291 P19564-291 P19563-291
+Model Name HPE ProLiant DL180 Gen10
+3204 1.9GHz 6-core 1P 16GB-
+R S100i 8LFF 500W PS Server
+HPE ProLiant DL180 Gen10
+4208 2.1GHz 8-core 1P 16GB-
+R S100i 8SFF 500W PS Server
+HPE ProLiant DL180 Gen10
+4208 2.1GHz 8-core 1P 16GB-R
+P408i-a 12LFF 500W PS Server
+Chassis 8LFF 8SFF 12LFF
+Processor 3204 (1.9GHz/6-core/85W) 4208 (2.1GHz/8-core/85W) 4208 (2.1GHz/8-core/85W)
+Number of Processors One processor with Standard
+heatsink
+One processor with Standard
+heatsink
+One processor with Standard
+heatsink
+Memory HPE 16GB 1Rx4 PC4-2933Y-
+R Smart Kit
+HPE 16GB 1Rx4 PC4-2933Y-
+R Smart Kit
+HPE 16GB 1Rx4 PC4-2933Y-
+R Smart Kit
+Network Controller Embedded 2-Port 1GbE Embedded 2-Port 1GbE Embedded 2-Port 1GbE
+Storage Controller Embedded 14Port S100i
+Notes: SATA only
+Embedded 14Port S100i
+Notes: SATA only
+P408i-a with Smart Storage
+Battery included
+Notes: P408i-p must be added
+to support all 12 drive bays
+with SAS drives (Cable
+included in base BTO. See
+below)
+Cables 2x LFF MB/-p cables (875170-
+B21) to connect 8 drive bays to
+S100i (can also be used to
+connect to -p controller).
+1x Box3 MB/-p cable
+(879752-B21) to connect 8
+drive bays in box3 to S100i
+(can also be used to connect to
+-p controller).
+2x LFF/-a cables (875172-
+B21) to connect 8 drive bays to
+included P408i-a and 1x LFF
+MB/-p cable (875170-B21) to
+connect 4 drive bays to S100i
+(can also be used to connect to
+-p controller).
+Hard Drive None included None included None included
+Optical Drive None included None included None included
+PCIe Slots 3 PCIe: 1x8 FHFL, 1x8 FHHL, 1x8 FHHL
+Power Supply 1x 500W Hot Plug; RPS ready 1x 500W Hot Plug; RPS ready 1x 500W Hot Plug; RPS ready
+Fans 3 Fans 3 Fans 3 Fans
+Management HPE iLO5, Infosight
+Rail Kit LFF Easy Install SFF Easy Install LFF Easy Install
+Form Factor 2U Rack
+Warranty 3-year parts, 3-year labor, 3-year onsite support with next business day response
+Notes: UEFI is the standard default for all pre-configured models
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Configuration Information
+Page 21
+Factory Integrated Models
+This section lists some of the steps required to configure a Factory Integrated Model. To ensure only valid configurations are
+ordered, Hewlett Packard Enterprise recommends the use of an HPE approved configurator. Contact your local sales representative
+for information on configurable product offerings and requirements.
+· Factory Integrated Models must start with a CTO Server.
+· FIO indicates that this option is only available as a factory installable option.
+· All Factory Integrated Models will be populated with sufficient hard drive blanks based on the number of initial hard
+drives ordered with the server.
+· Some options may not be integrated at the factory. Contact your local sales representative for additional information.
+European Union (EU) eco-design regulations for server and storage products, known as Lot 9, go into effect on March 1st, 2020.
+Among other requirements, for servers this directive establishes power thresholds for idle state, as well as efficiency and
+performance in active state which vary among configurations. HPE ProLiant Gen10 servers are compliant with Lot9 requirements.
+For more information regarding HPE Lot 9 conformance, please visit:
+https://www.hpe.com/us/en/about/environment/msds-specs-more.html
+Step 1: Base Configuration (choose one of the following configurable models)
+CTO Server HPE DL180 Gen10 8SFF
+CTO Server
+HPE DL180 Gen10 8LFF
+CTO Server
+HPE DL180 Gen10 12LFF
+CTO Server
+SKU Number 879517-B21 879515-B21 879516-B21
+Processor Not included as standard
+DIMM Slots 16-DIMM Slots
+Storage Controller Embedded SW RAID with 14 SATA ports, choice of HPE modular Smart Array and PCIe plug-in
+controller
+PCIe None standard. Primary riser must be added.
+Drive Cage - included 8SFF 8LFF 12LFF
+Network Controller Embedded 2x1GbE with optional, Media Module, HPE FlexibleLOM on riser and optional
+Standup card
+Fans 1 CPU- 3 Standard Fans
+2 CPU- 5 Standard Fans
+Management HPE iLO with Intelligent Provisioning (standard), iLO Advanced and OneView (optional)
+USB Front: 1 USB 3.0 + iLO service port
+Rear: 2 USB 3.0
+Internal: 1 USB 3.0
+Included Drive Cage 8 SFF 8LFF 12 LFF
+Additional drive cages 8-16 SFF SAS/SATA
+16-24 SFF SAS/SATA
+8--12 LFF SAS/SATA -
+ODD - 2SFF Rear Optional Optional 2SFF rear- Optional
+Step 2: Choose Required Options (only one of the following unless otherwise noted)
+Please select one -L21 processor required below.
+For second processor, please select the same processor model with -B21 from Core Options - HPE Processors section.
+For example: first processor, select P12007-L21 then for second processor, select P12007-B21.
+Notes:
+- Mixing of 2 different processor models is not supported.
+- For first processor, -L21 will include 3 fans, For second processor, -B21 will add 2 additional fans
+- When 2nd Generation Intel Xeon Scalable Processor is slected, then only DDR4-2933 Memory Kit can be selected; When 1st
+Generation Intel Xeon Scalable Processor is selected, then only DDR4-2666 Memory Kit can be selected
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Pre-Configured Models
+Page 22
+Step 2a: Choose Processors
+Processor Option Kits (Required Processor)
+2nd Generation Intel Xeon- Platinum
+Intel Xeon-Platinum 8256 (3.8GHz/4-core/105W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P12007-L21
+Intel Xeon-Platinum 8253 (2.2GHz/16-core/125W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P12006-L21
+2nd Generation Intel Xeon-Gold
+Intel Xeon-Gold 6252 (2.1GHz/24-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11161-L21
+Intel Xeon-Gold 6248 (2.5GHz/20-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11160-L21
+Intel Xeon-Gold 6244 (3.6GHz/8-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11159-L21
+Intel Xeon-Gold 6242 (2.8GHz/16-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11158-L21
+Intel Xeon-Gold 6240 (2.6GHz/18-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11157-L21
+Intel Xeon-Gold 6238 (2.1GHz/22-core/140W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11167-L21
+Intel Xeon-Gold 6234 (3.3GHz/8-core/130W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11166-L21
+Intel Xeon-Gold 6230R (2.1GHz/26-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P24214-L21
+Intel Xeon-Gold 6230 (2.1GHz/20-core/125W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11156-L21
+Intel Xeon-Gold 6226R (2.9GHz/16-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P21201-L21
+Intel Xeon-Gold 6226 (2.7GHz/12-core/125W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11165-L21
+Intel Xeon-Gold 6210U (2.5GHz/20-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11163-L21
+Notes: Only supported in single socket configurations
+Intel Xeon-Gold 6209U (2.1GHz/20-core/125W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11162-L21
+Notes: Only supported in single socket configurations
+Intel Xeon-Gold 6208U (2.9GHz/16-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P21197-L21
+Notes: Only supported in single socket configurations
+Intel Xeon-Gold 5222 (3.8GHz/4-core/105W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11164-L21
+Intel Xeon-Gold 5220R (2.2GHz/24-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P21202-L21
+Intel Xeon-Gold 5220 (2.2GHz/18-core/125W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11155-L21
+Intel Xeon-Gold 5218R (2.1GHz/20-core/125W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P24213-L21
+Intel Xeon-Gold 5218 (2.3GHz/16-core/125W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11154-L21
+Intel Xeon-Gold 5217 (3.0GHz/8-core/115W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11153-L21
+Intel Xeon-Gold 5215 (2.5GHz/10-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11152-L21
+1st Generation Intel Xeon-Gold
+Intel Xeon-Gold 6152 (2.1GHz/22-core/140W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879749-L21
+Intel Xeon-Gold 6148 (2.4GHz/20-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879748-L21
+Intel Xeon-Gold 6142 (2.6GHz/16-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879747-L21
+Intel Xeon-Gold 6140 (2.3GHz/18-core/140W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879746-L21
+Intel Xeon-Gold 6138 (2.0GHz/20-core/125W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879745-L21
+Intel Xeon-Gold 6136 (3.0GHz/12-core/150W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879744-L21
+Intel Xeon-Gold 6134 (3.2GHz/8-core/130W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879743-L21
+Intel Xeon-Gold 6132 (2.6GHz/14-core/140W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879742-L21
+Intel Xeon-Gold 6130 (2.1GHz/16-core/125W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879741-L21
+Intel Xeon-Gold 6128 (3.4GHz/6-core/115W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879740-L21
+Intel Xeon-Gold 6126 (2.6GHz/12-core/125W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879739-L21
+Intel Xeon-Gold 5122 (3.6GHz/4-core/105W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879738-L21
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Pre-Configured Models
+Page 23
+Intel Xeon-Gold 5120 (2.2GHz/14-core/105W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879737-L21
+Intel Xeon-Gold 5118 (2.3GHz/12-core/105W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879736-L21
+Intel Xeon-Gold 5115 (2.4GHz/10-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879735-L21
+2nd Generation Intel Xeon- Silver
+Intel Xeon-Silver 4216 (2.1GHz/16-core/100W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11151-L21
+Intel Xeon-Silver 4215R (3.2GHz/8-core/130W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P24215-L21
+Intel Xeon-Silver 4215 (2.5GHz/8-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11150-L21
+Intel Xeon-Silver 4214R (2.4GHz/12-core/100W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P21199-L21
+Intel Xeon-Silver 4214 (2.2GHz/12-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11149-L21
+Intel Xeon-Silver 4210R (2.4GHz/10-core/100W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P21198-L21
+Intel Xeon-Silver 4210 (2.2GHz/10-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11148-L21
+Intel Xeon-Silver 4208 (2.1GHz/8-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11147-L21
+1st Generation Intel Xeon-Silver
+Intel Xeon-Silver 4116 (2.1GHz/12-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879734-L21
+Intel Xeon-Silver 4114 (2.2GHz/10-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879733-L21
+Intel Xeon-Silver 4112 (2.6GHz/4-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879732-L21
+Intel Xeon-Silver 4110 (2.1GHz/8-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879731-L21
+Intel Xeon-Silver 4108 (1.8GHz/8-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879730-L21
+2nd Generation Intel Xeon- Bronze
+Intel Xeon-Bronze 3206R (1.9GHz/8-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P21196-L21
+Intel Xeon-Bronze 3204 (1.9GHz/6-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 P11146-L21
+1st Generation Intel Xeon- Bronze
+Intel Xeon-Bronze 3106 (1.7GHz/8-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879729-L21
+Intel Xeon-Bronze 3104 (1.7GHz/6-core/85W) FIO Processor Kit for HPE ProLiant DL180 Gen10 879728-L21
+Step 2b: Choose Memory Options
+Please select one or more memory from below.
+For new Gen10 memory population rule whitepaper and optimal memory performance guidelines, please go to:
+https://www.hpe.com/docs/memory-population-rules
+For Gen10 memory speed table, please go to: https://www.hpe.com/docs/memory-speed-table
+For memory Reliability, Accessibility, Serviceability (RAS) features whitepaper like Gen10 Fast Fault Tolerance and legacy mirrored
+memory feature etc. please go to: http://www.hpe.com/docs/memory-ras-feature
+Notes:
+- Maximum memory capacity and speed per processor is dependent on processor model selection or limitation.
+- DDR4-2933 Memory Kits are only supported with 2nd Generation Intel Xeon Scalable Series Processors and DDR4-2666
+Memory Kits are only supported with 1st Generation Intel Xeon Scalable Series Processors.
+Registered DIMMs (RDIMMs) for 2nd Generation Intel Xeon Scalable Series
+HPE 64GB (1x64GB) Dual Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit P00930-B21
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit P00924-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit P00922-B21
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit P00920-B21
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit P00918-B21
+Registered DIMMs (RDIMMs) for 1st Generation Intel Xeon Scalable Series
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 815100-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 835955-B21
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 815098-B21
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 815097-B21
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Pre-Configured Models
+Page 24
+Load Reduced DIMMs (LRDIMMs) for 2nd Generation Intel Xeon Scalable Series
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2933 CAS-21-21-21 Load Reduced Smart Memory Kit P00926-B21
+Load Reduced DIMMs (LRDIMMs) for 1st Generation Intel Xeon Scalable Series
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2666 CAS-19-19-19 Load Reduced Smart Memory Kit 815101-B21
+Step 2c: Choose Power Supplies
+Please select one or two power supplies from below.
+Notes:
+- Mixing of 2 different power supplies is NOT supported.
+- HPE DL160/180 Gen10 Redundant Power Supply Enablement Kit (866442-B21) required with selection
+of power supply.
+HPE Flex Slot Power Supplies
+HPE 500W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 865408-B21
+HPE 800W Flex Slot Titanium Hot Plug Low Halogen Power Supply Kit 865438-B21
+HPE 800W Flex Slot Universal Hot Plug Low Halogen Power Supply Kit 865428-B21
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 865414-B21
+HPE 800W Flex Slot -48VDC Hot Plug Low Halogen Power Supply Kit 865434-B21
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 830272-B21
+HPE DL160/180 Gen10 Redundant Power Supply Enablement Kit 866442-B21
+Notes: This enablement kit is required with the selection of a Flex Slot power supply
+Step 3: Choose Additional Factory Integratable Options
+One of the following from each list may be selected if desired at time of factory integration
+HPE Legacy FIO Mode Setting 758959-B22
+HPE FIO Enable Smart Array SW RAID 784308-B21
+HPE Gen10 TPM 1.2 FIO Setting 872108-B21
+Cable Kits (factory integrated only)
+HPE DL180 Gen10 8 to 16SFF Smart Array S100i/E208i-p/P408i-p FIO Cable Kit 875154-B21
+Notes: This will be used to connect Box2 to Smart Array S100i/E208i-p/P408i-p
+HPE DL180 Gen10 8 to 16SFF Smart Array E208i-a/P408i-a SAS FIO Cable Kit 875156-B21
+Notes: This will be used to connect Box2 to Smart Array E208i-a/P408i-a
+HPE DL180 Gen10 16 to 24SFF Smart Array S100i/E208i-p/P408i-p FIO Cable Kit 875160-B21
+Notes: This will be used to connect Box1 to Smart Array S100i/E208i-p/P408i-p
+HPE DL180 Gen10 16 to 24SFF Smart Array E208i-a/P408i-a SAS FIO Cable Kit 875162-B21
+Notes: This will be used to connect Box1 to Smart Array E208i-a/P408i-a
+HPE DL180 Gen10 LFF Smart Array S100i/E208i-p/P408i-p FIO Cable Kit 875170-B21
+Notes: This will be used to connect to Smart Array S100i/E208i-p/P408i-p
+HPE DL180 Gen10 LFF Smart Array E208i-a/P408i-a SAS FIO Cable Kit 875172-B21
+Notes: This will be used to connect to Smart Array E208i-a/P408i-a
+HPE DL180 Gen10 Rear 2SFF to Smart Array S100i/E208i-p/P408i-p FIO Cable Kit 879410-B21
+Notes: This will be used to connect the rear 2SFF to Smart Array E208i-p/P408i-p
+HPE DL180 Gen10 Rear 2SFF to Smart Array E208i-a/P408i-a SAS FIO Cable Kit 875181-B21
+Notes: This will be used to connect the rear 2SFF to Smart Array E208i-a/P408i-a
+HPE DL180 Gen10 Rear 2SFF to Smart Array S100i SATA FIO Cable Kit 875183-B21
+Notes: This will be used to connect the rear 2SFF to Smart Array S100i
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Pre-Configured Models
+Page 25
+HPE DL180 Gen10 Rear 2SFF to SAS Expander FIO Cable Kit 875179-B21
+Notes: Connects SAS Expander to the rear 2SFF drive cage
+HPE DL180 Gen10 SFF Box3 to Smart Array S100i/E208i-p/P408i-p FIO Cable Kit 879752-B21
+Notes: This will be used to connect the default Box3 in 8SFF Chassis to Smart Array S100i/E208i-p/P408i-p
+HPE DL180 Gen10 SFF Box3 to Smart Array E208i-a/P408i-a SAS FIO Cable Kit 879754-B21
+Notes: This will be used to connect the default Box3 in 8SFF Chassis to Smart Array E208i-a/P408i-a
+HPE Unique Options (factory integrated only)
+HPE DL180 Gen10 8 to 16SFF FIO Upgrade Kit 875151-B21
+HPE DL180 Gen10 16 to 24SFF FIO Upgrade Kit 875158-B21
+HPE DL180 Gen10 Rear 2SFF FIO Enablement Kit 875176-B21
+Notes: Cannot be used to attach rear drives to P816i-a storage controller (for connection to P816i-a, see
+P37790-B21). Does not include cables.
+Step 4: Choose additional options for Factory Integration from Core and Additional Options sections
+below:
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Core Options
+Page 26
+Some options may not be integrated at the factory. To ensure only valid configurations are ordered, Hewlett Packard Enterprise
+recommends the use of a Hewlett Packard Enterprise approved configurator. Contact your local sales representative for additional
+information.
+HPE OneView for ProLiant DL Server including 3yr 24x7 Support FIO Bundle Physical 1-server LTU E5Y43A
+HPE OneView w/o iLO including 3yr 24x7 Support 1-server FIO LTU P8B31A
+Risers
+Notes: This server does not have a default primary riser. A primary riser must be selected from CPU1 riser
+options below.
+HPE DL180 Gen10 CPU1 x8x8x8 PCIe Riser Kit 878484-B21
+HPE DL180 Gen10 CPU1 FlexibleLOM Riser Kit 866941-B21
+Notes: This riser is required to use FlexibleLOM adapters
+HPE DL180 Gen10 CPU1 x16/x8 PCIe Riser Kit 866939-B21
+HPE DL180 Gen10 CPU2 x8/x8/x8 PCIe Riser Kit 866945-B21
+HPE DL180 Gen10 CPU2 x16/x8 PCIe Riser and GPU Enablement Kit 866943-B21
+Notes: Includes GPU cable kit
+Cable/Enablement Kits
+HPE DL360 Gen9 Rear Serial Port and Enablement Kit 764646-B21
+HPE DL180 Gen10 LFF Smart Array P816i-a Cable Kit P36415-B21
+Notes: Contains cables to connect 8-12 front LFF SAS/SATA drives to the P816i-a storage controller.
+Required with selection of P816i-a controller and LFF chassis.
+HPE DL180 Gen10 SFF Smart Array P816i-a Cable Kit P37221-B21
+Notes: Contains cables to connect 8-16 front SFF SAS/SATA drives to the P816i-a storage controller.
+Required with selection of P816i-a controller and SFF chassis.
+HPE DL180 Gen10 Rear 2SFF to P816i-a Enablement Kit P37790-B21
+Notes: Includes rear drive cage and cables to connect 2 rear SFF SAS/SATA drives to the P816i-a storage
+controller.
+Cooling Options
+HPE DL180 Gen10 Redundant Fan Kit 866947-B21
+Notes: This kit contains one additional fan.
+Optical Drive Options
+HPE 9.5mm SATA DVD-ROM Optical Drive 726536-B21
+Notes: The ODD Enablement kit (866951-B21) is required for this option on a SFF model.
+HPE 9.5mm SATA DVD-RW Optical Drive 726537-B21
+Notes: The ODD Enablement kit (866951-B21) is required for this option on a SFF model.
+HPE DL180 Gen10 SFF Optical Drive Enablement Kit 866951-B21
+Notes: Cannot be seleced with 24SFF configuration
+HPE Mobile USB DVD-RW Optical Drive 701498-B21
+Notes: This option is only supported on USB 3.0 ports.
+Security
+HPE Gen10 Chassis Intrusion Detection Kit 867824-B21
+HPE Bezel Lock Kit 875519-B21
+HPE Gen10 2U Bezel Kit 867809-B21
+HPE Trusted Platform Module 2.0 Gen10 Option 864279-B21
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Core Options
+Page 27
+Field Upgrade Kits
+HPE DL180 Gen10 8 to 16SFF Upgrade Kit 866957-B21
+Notes: Includes cables needed to connect to S100i or Smart Array controller
+HPE DL180 Gen10 16 to 24SFF Upgrade Kit 875144-B21
+Notes: Includes cables needed to connect to S100i or Smart Array controller
+HPE DL180 Gen10 8 to 12LFF Upgrade Kit 866963-B21
+Notes: Includes cables needed to connect to S100i or Smart Array controller
+HPE DL180 Gen10 Rear 2SFF Enablement Kit 866961-B21
+Notes: Includes rear drive cage and cables needed to connect to S100i, Smart Array controller, or expander.
+Cannot be used to attach rear drives to P816i-a storage controller (for connection to P816i-a, see P37790-
+B21).
+HPE DL180 Gen10 SFF Optical Drive Enablement Kit 866951-B21
+Cable Field Upgrade Kits
+HPE DL180 Gen10 SFF Box3 to Smart Array E208i-a/P408i-a Cable Kit 882011-B21
+Notes: Includes cables to connect 8 SFF drive bays to Flexible Smart Array controller (P408i-a/E208i-a)
+HPE DL180 Gen10 LFF to Smart Array E208i-a/P408i-a Cable Kit 882015-B21
+Notes: Includes cables to connect 8 LFF drive bays to Flexible Smart Array controller (P408i-a/E208i-a)
+HPE Processors
+Please select one -L21 processor required above.
+For second processor, please select the same processor model with -B21 from Core Options - HPE Processors
+section below.
+For example: first processor, select P11161-L21 then for second processor, select P11161-B21.
+Notes:
+- Field upgrades from 1st generation processors (x1xx) to 2nd generation processors (x2xx) not supported.
+- Mixing of 2 different processor models is not supported.
+- For first processor, -L21 will include 3 fans, For second processor, -B21 will add 2 additional fans
+- When 2nd Generation Intel Xeon Scalable Processor is slected, then only DDR4-2933 Memory Kit can be
+selected; When 1st Generation Intel Xeon Scalable Processor is selected, then only DDR4-2666 Memory
+Kit can be selected.
+2nd Generation Intel Xeon- Platinum
+Intel Xeon-Platinum 8256 (3.8GHz/4-core/105W) Processor Kit for HPE ProLiant DL180 Gen10. P12007-B21
+Intel Xeon-Platinum 8253 (2.2GHz/16-core/125W) Processor Kit for HPE ProLiant DL180 Gen10. P12006-B21
+2nd Generation Intel Xeon-Gold
+Intel Xeon-Gold 6252 (2.1GHz/24-core/150W) Processor Kit for HPE ProLiant DL180 Gen10. P11161-B21
+Intel Xeon-Gold 6248 (2.5GHz/20-core/150W) Processor Kit for HPE ProLiant DL180 Gen10. P11160-B21
+Intel Xeon-Gold 6244 (3.6GHz/8-core/150W) Processor Kit for HPE ProLiant DL180 Gen10 P11159-B21
+Intel Xeon-Gold 6242 (2.8GHz/16-core/150W) Processor Kit for HPE ProLiant DL180 Gen10 P11158-B21
+Intel Xeon-Gold 6240 (2.6GHz/18-core/150W) Processor Kit for HPE ProLiant DL180 Gen10. P11157-B21
+Intel Xeon-Gold 6238 (2.1GHz/22-core/140W) Processor Kit for HPE ProLiant DL180 Gen10 P11167-B21
+Intel Xeon-Gold 6234 (3.3GHz/8-core/130W) Processor Kit for HPE ProLiant DL180 Gen10. P11166-B21
+Intel Xeon-Gold 6230R (2.1GHz/26-core/150W) Processor Kit for HPE ProLiant DL180 Gen10 P24214-B21
+Intel Xeon-Gold 6230 (2.1GHz/20-core/125W) Processor Kit for HPE ProLiant DL180 Gen10 P11156-B21
+Intel Xeon-Gold 6226R (2.9GHz/16-core/150W) Processor Kit for HPE ProLiant DL180 Gen10 P21201-B21
+Intel Xeon-Gold 6226 (2.7GHz/12-core/125W) Processor Kit for HPE ProLiant DL180 Gen10. P11165-B21
+Intel Xeon-Gold 5222 (3.8GHz/4-core/105W) Processor Kit for HPE ProLiant DL180 Gen10. P11164-B21
+Intel Xeon-Gold 5220R (2.2GHz/24-core/150W) Processor Kit for HPE ProLiant DL180 Gen10 P21202-B21
+Intel Xeon-Gold 5220 (2.2GHz/18-core/125W) Processor Kit for HPE ProLiant DL180 Gen10. P11155-B21
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Core Options
+Page 28
+Intel Xeon-Gold 5218R (2.1GHz/20-core/125W) Processor Kit for HPE ProLiant DL180 Gen10 P24213-B21
+Intel Xeon-Gold 5218 (2.3GHz/16-core/125W) Processor Kit for HPE ProLiant DL180 Gen10. P11154-B21
+Intel Xeon-Gold 5217 (3.0GHz/8-core/115W) Processor Kit for HPE ProLiant DL180 Gen10. P11153-B21
+Intel Xeon-Gold 5215 (2.5GHz/10-core/85W) Processor Kit for HPE ProLiant DL180 Gen10. P11152-B21
+1st Generation Intel Xeon-Gold
+Intel Xeon-Gold 6152 (2.1GHz/22-core/140W) Processor Kit for HPE ProLiant DL180 Gen10. 879749-B21
+Intel Xeon-Gold 6148 (2.4GHz/20-core/150W) Processor Kit for HPE ProLiant DL180 Gen10. 879748-B21
+Intel Xeon-Gold 6142 (2.6GHz/16-core/150W) Processor Kit for HPE ProLiant DL180 Gen10. 879747-B21
+Intel Xeon-Gold 6140 (2.3GHz/18-core/140W) Processor Kit for HPE ProLiant DL180 Gen10. 879746-B21
+Intel Xeon-Gold 6138 (2.0GHz/20-core/125W) Processor Kit for HPE ProLiant DL180 Gen10. 879745-B21
+Intel Xeon-Gold 6136 (3.0GHz/12-core/150W) Processor Kit for HPE ProLiant DL180 Gen10. 879744-B21
+Intel Xeon-Gold 6134 (3.2GHz/8-core/130W) Processor Kit for HPE ProLiant DL180 Gen10. 879743-B21
+Intel Xeon-Gold 6132 (2.6GHz/14-core/140W) Processor Kit for HPE ProLiant DL180 Gen10. 879742-B21
+Intel Xeon-Gold 6130 (2.1GHz/16-core/125W) Processor Kit for HPE ProLiant DL180 Gen10. 879741-B21
+Intel Xeon-Gold 6128 (3.4GHz/6-core/115W) Processor Kit for HPE ProLiant DL180 Gen10. 879740-B21
+Intel Xeon-Gold 6126 (2.6GHz/12-core/125W) Processor Kit for HPE ProLiant DL180 Gen10. 879739-B21
+Intel Xeon-Gold 5122 (3.6GHz/4-core/105W) Processor Kit for HPE ProLiant DL180 Gen10. 879738-B21
+Intel Xeon-Gold 5120 (2.2GHz/14-core/105W) Processor Kit for HPE ProLiant DL180 Gen10. 879737-B21
+Intel Xeon-Gold 5118 (2.3GHz/12-core/105W) Processor Kit for HPE ProLiant DL180 Gen10. 879736-B21
+Intel Xeon-Gold 5115 (2.4GHz/10-core/85W) Processor Kit for HPE ProLiant DL180 Gen10. 879735-B21
+2nd Generation Intel Xeon- Silver
+Intel Xeon-Silver 4216 (2.1GHz/16-core/100W) Processor Kit for HPE ProLiant DL180 Gen10. P11151-B21
+Intel Xeon-Silver 4215R (3.2GHz/8-core/130W) Processor Kit for HPE ProLiant DL180 Gen10 P24215-B21
+Intel Xeon-Silver 4215 (2.5GHz/8-core/85W) Processor Kit for HPE ProLiant DL180 Gen10 P11150-B21
+Intel Xeon-Silver 4214R (2.4GHz/12-core/100W) Processor Kit for HPE ProLiant DL180 Gen10 P21199-B21
+Intel Xeon-Silver 4214 (2.2GHz/12-core/85W) Processor Kit for HPE ProLiant DL180 Gen10. P11149-B21
+Intel Xeon-Silver 4210R (2.4GHz/10-core/100W) Processor Kit for HPE ProLiant DL180 Gen10 P21198-B21
+Intel Xeon-Silver 4210 (2.2GHz/10-core/85W) Processor Kit for HPE ProLiant DL180 Gen10. P11148-B21
+Intel Xeon-Silver 4208 (2.1GHz/8-core/85W) Processor Kit for HPE ProLiant DL180 Gen10 P11147-B21
+1st Generation Intel Xeon-Silver
+Intel Xeon-Silver 4116 (2.1GHz/12-core/85W) Processor Kit for HPE ProLiant DL180 Gen10. 879734-B21
+Intel Xeon-Silver 4114 (2.2GHz/10-core/85W) Processor Kit for HPE ProLiant DL180 Gen10. 879733-B21
+Intel Xeon-Silver 4112 (2.6GHz/4-core/85W) Processor Kit for HPE ProLiant DL180 Gen10. 879732-B21
+Intel Xeon-Silver 4110 (2.1GHz/8-core/85W) Processor Kit for HPE ProLiant DL180 Gen10 879731-B21
+Intel Xeon-Silver 4108 (1.8GHz/8-core/85W) Processor Kit for HPE ProLiant DL180 Gen10 879730-B21
+2nd Generation Intel Xeon- Bronze
+Intel Xeon-Bronze 3206R (1.9GHz/8-core/85W) Processor Kit for HPE ProLiant DL180 Gen10 P21196-B21
+Intel Xeon-Bronze 3204 (1.9GHz/6-core/85W) Processor Kit for HPE ProLiant DL180 Gen10. P11146-B21
+1st Generation Intel Xeon- Bronze
+Intel Xeon-Bronze 3106 (1.7GHz/8-core/85W) Processor Kit for HPE ProLiant DL180 Gen10 879729-B21
+Intel Xeon-Bronze 3104 (1.7GHz/6-core/85W) Processor Kit for HPE ProLiant DL180 Gen10 879728-B21
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Core Options
+Page 29
+HPE Memory
+For new Gen10 memory population rule whitepaper and optimal memory performance guidelines, please go to:
+https://www.hpe.com/docs/memory-population-rules
+For Gen10 memory speed table, please go to: https://www.hpe.com/docs/memory-speed-table
+For memory Reliability, Accessibility, Serviceability (RAS) features whitepaper like Gen10 Fast Fault Tolerance and legacy mirrored
+memory feature etc. please go to: http://www.hpe.com/docs/memory-ras-feature
+Notes:
+- Maximum memory capacity and speed per processor is dependent on processor model selection or limitation.
+- DDR4-2933 Memory Kits are only supported with 2nd Generation Intel Xeon Scalable Series Processors and DDR4-2666
+Memory Kits are only supported with 1st Generation Intel Xeon Scalable Series Processors.
+HPE DDR4 Memory
+Registered DIMMs (RDIMMs) for 2nd Generation Intel Xeon Scalable Series
+HPE 64GB (1x64GB) Dual Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit P00930-B21
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit P00924-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit P00922-B21
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit P00920-B21
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit P00918-B21
+Registered DIMMs (RDIMMs) for 1st Generation Intel Xeon Scalable Series
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 815100-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 835955-B21
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 815098-B21
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 815097-B21
+Load Reduced DIMMs (LRDIMMs) for 2nd Generation Intel Xeon Scalable Series
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2933 CAS-21-21-21 Load Reduced Smart Memory Kit P00926-B21
+Load Reduced DIMMs (LRDIMMs) for 1st Generation Intel Xeon Scalable Series
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2666 CAS-19-19-19 Load Reduced Smart Memory Kit 815101-B21
+Notes: The maximum memory speed is a function of the memory type, memory configuration, and processor
+model.
+HPE Smart Array Controllers
+The Gen10 controller naming framework has been updated to simplify identification as depicted below. For a more detailed
+breakout of the available Gen10 Smart Array controllers visit the HPE Smart Array Gen10 Controllers Data Sheet.
+Essential RAID Controllers
+Notes: E208i-p and E208e-p PCIe plug-in controllers use a PCIe slot.
+HPE Smart Array E208i-p SR Gen10 (8 Internal Lanes/No Cache) 12G SAS PCIe Plug-in Controller 804394-B21
+HPE Smart Array E208e-p SR Gen10 (8 External Lanes/No Cache) 12G SAS PCIe Plug-in Controller 804398-B21
+HPE Smart Array E208i-a SR Gen10 (8 Internal Lanes/No Cache) 12G SAS Modular Controller 804326-B21
+Notes: SFF Box3 to Smart Array E208i-a/P408i-a Cable Kit' (882011-B21) is required for the installation of the
+controllers E208i-a or P408i-a
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Core Options
+Page 30
+Performance RAID Controller
+HPE Smart Array P816i-a SR Gen10 (16 Internal Lanes/4GB Cache/SmartCache) 12G SAS Modular Controller 804338-B21
+Notes: Requires either LFF for SFF P816i-a cable kit (P36415-B21, P37221-B21)
+HPE Smart Array P408i-a SR Gen10 (8 Internal Lanes/2GB Cache) 12G SAS Modular Controller 804331-B21
+HPE Smart Array P408e-p SR Gen10 (8 External Lanes/4GB Cache) 12G SAS PCIe Plug-in Controller 804405-B21
+HPE Smart Array P408i-p SR Gen10 (8 Internal Lanes/2GB Cache) 12G SAS PCIe Plug-in Controller 830824-B21
+Notes: `SFF Box3 to Smart Array E208i-a/P408i-a Cable Kit' (882011-B21) is required for the installation of
+the controllers E208i-a or P408i-a
+SAS Expander
+HPE DL180 Gen10 12Gb SFF SAS Expander Card FIO Kit with Cables 875132-B21
+Notes:
+- Connects more than 8 drives to a single controller
+- This option comes with the necessary cables to connect to the corresponding controller and to the drive
+backplane
+- This option can only be used in Slot 1 on 8SFF CTO model (879517-B21)
+HPE Cable Options
+HPE Smart Storage Hybrid Capacitor with 145mm Cable Kit P02377-B21
+Notes: Supports up to 3 P-class Smart Array controllers
+HPE 96W Smart Storage Lithium-ion Battery with 145mm Cable Kit P01366-B21
+Notes: Supports up to 6 P-class Smart Array controllers
+HPE DL180 Gen10 SFF Box3 to Smart Array E208i-a/P408i-a Cable Kit 882011-B21
+Graphics Cable Kits
+HPE DL180 Gen10 CPU2 GPU Power Cable Kit 875141-B21
+Optional Software
+HPE Smart Array SR Secure Encryption (Data at Rest Encryption/per Server Entitlement) E-LTU Q2F26AAE
+HPE Smart Array SR SmartCache (Single Key/Single Server) LTU D7S26A
+HPE Smart Array SR SmartCache (Single Key/Multiple Servers) LTU D7S27A
+HPE Smart Array SR SmartCache (Single Key/Multiple Servers) E-LTU D7S27AAE
+Notes: Smart Cache is offered on HPE Smart Array performance RAID controllers
+HPE Drives
+Enterprise - 12G SAS - SFF Drives
+HPE 2.4TB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty 512e Digitally Signed Firmware HDD 881457-B21
+HPE 1.8TB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty 512e Digitally Signed Firmware HDD 872481-B21
+HPE 1.2TB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 872479-B21
+HPE 600GB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 872477-B21
+HPE 300GB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 872475-B21
+HPE 900GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 870759-B21
+HPE 600GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 870757-B21
+HPE 300GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 870753-B21
+Midline - 12G SAS- SFF Drives
+HPE 2TB SAS 12G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e HDD 765466-B21
+HPE 1TB SAS 12G Midline 7.2K SFF (2.5in) SC 1yr Wty Digitally Signed Firmware HDD 832514-B21
+Midline - 12G SAS - LFF Drives
+HPE 12TB SAS 12G Midline 7.2K LFF (3.5in) LP 1yr Wty Helium 512e Digitally Signed Firmware HDD 881781-B21
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Core Options
+Page 31
+HPE 8TB SAS 12G Midline 7.2K LFF (3.5in) LP 1yr Wty 512e Digitally Signed Firmware HDD 834031-B21
+HPE 6TB SAS 12G Midline 7.2K LFF (3.5in) LP 1yr Wty 512e HDD 861746-B21
+HPE 4TB SAS 12G Midline 7.2K LFF (3.5in) LP 1yr Wty Digitally Signed Firmware HDD 833928-B21
+HPE 2TB SAS 12G Midline 7.2K LFF (3.5in) LP 1yr Wty Digitally Signed Firmware HDD 833926-B21
+Midline - 6G SATA- SFF Drives
+HPE 2TB SATA 6G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e Digitally Signed Firmware HDD 765455-B21
+HPE 1TB SATA 6G Midline 7.2K SFF (2.5in) SC 1yr Wty Digitally Signed Firmware HDD 655710-B21
+Midline - 6G SATA - LFF Drives
+HPE 12TB SATA 6G Midline 7.2K LFF (3.5in) LP 1yr Wty Helium 512e Digitally Signed Firmware HDD 881787-B21
+HPE 8TB SATA 6G Midline 7.2K LFF (3.5in) LP 1yr Wty 512e Digitally Signed Firmware HDD 834028-B21
+HPE 6TB SATA 6G Midline 7.2K LFF (3.5in) LP 1yr Wty 512e HDD 861742-B21
+HPE 4TB SATA 6G Midline 7.2K LFF (3.5in) LP 1yr Wty Digitally Signed Firmware HDD 861683-B21
+HPE 2TB SATA 6G Midline 7.2K LFF (3.5in) LP 1yr Wty Digitally Signed Firmware HDD 861681-B21
+HPE 1TB SATA 6G Midline 7.2K LFF (3.5in) LP 1yr Wty Digitally Signed Firmware HDD 861686-B21
+SSD Selection
+For SSD selection guidance, please visit https://ssd.hpe.com/
+Read Intensive - 12G SAS - SFF - Solid State Drives
+HPE 7.68TB SAS 12G Read Intensive SFF SC Value SAS Multi Vendor SSD P37003-B21
+HPE 3.84TB SAS 12G Read Intensive SFF SC SS540 SSD P21143-B21
+HPE 3.84TB SAS 12G Read Intensive SFF SC Value SAS Multi Vendor SSD P37001-B21
+HPE 3.84TB SAS 12G Read Intensive SFF SC Value SAS RM5 SSD P10444-B21
+HPE 1.92TB SAS 12G Read Intensive SFF SC SS540 SSD P21141-B21
+HPE 1.92TB SAS 12G Read Intensive SFF SC PM1643a SSD P19905-B21
+HPE 1.92TB SAS 12G Read Intensive SFF SC PM5 SSD P04519-B21
+HPE 1.92TB SAS 12G Read Intensive SFF SC Value SAS Multi Vendor SSD P36999-B21
+HPE 1.92TB SAS 12G Read Intensive SFF SC Value SAS RM5 SSD P10442-B21
+HPE 960GB SAS 12G Read Intensive SFF SC SS540 SSD P21139-B21
+HPE 960GB SAS 12G Read Intensive SFF SC PM1643a SSD P19903-B21
+HPE 960GB SAS 12G Read Intensive SFF SC PM5 SSD P04517-B21
+HPE 960GB SAS 12G Read Intensive SFF SC Value SAS Multi Vendor SSD P36997-B21
+HPE 960GB SAS 12G Read Intensive SFF SC Value SAS RM5 SSD P10440-B21
+Mixed Use - 12G SAS - SFF - Solid State Drives
+HPE 3.84TB SAS 12G Mixed Use SFF SC Value SAS Multi Vendor SSD P37017-B21
+HPE 3.84TB SAS 12G Mixed Use SFF SC Value SAS RM5 SSD P10460-B21
+HPE 3.2TB SAS 12G Mixed Use SFF SC SS540 SSD P21135-B21
+HPE 1.92TB SAS 12G Mixed Use SFF SC Value SAS Multi Vendor SSD P37011-B21
+HPE 1.92TB SAS 12G Mixed Use SFF SC Value SAS RM5 SSD P10454-B21
+HPE 1.6TB SAS 12G Mixed Use SFF SC SS540 SSD P21133-B21
+HPE 1.6TB SAS 12G Mixed Use SFF SC PM1645a SSD P19915-B21
+HPE 960GB SAS 12G Mixed Use SFF SC Value SAS Multi Vendor SSD P37005-B21
+HPE 960GB SAS 12G Mixed Use SFF SC Value SAS RM5 SSD P10448-B21
+HPE 800GB SAS 12G Mixed Use SFF SC SS540 SSD P21131-B21
+HPE 800GB SAS 12G Mixed Use SFF SC PM1645a SSD P19913-B21
+HPE 800GB SAS 12G Mixed Use SFF SC PM5 SSD P04527-B21
+Write Intensive - 12G SAS - SFF - Solid State Drives
+HPE 1.6TB SAS 12G Write Intensive SFF SC SS540 SSD P21129-B21
+HPE 800GB SAS 12G Write Intensive SFF SC SS540 SSD P21127-B21
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Core Options
+Page 32
+HPE 800GB SAS 12G Write Intensive SFF SC PM5 SSD P04543-B21
+HPE 400GB SAS 12G Write Intensive SFF SC SS540 SSD P21125-B21
+HPE 400GB SAS 12G Write Intensive SFF SC PM5 SSD P04541-B21
+Mixed Use - 12G SAS - LFF - Solid State Drives
+HPE 1.6TB SAS 12G Mixed Use LFF LPC PM5 SSD P04535-B21
+HPE 960GB SAS 12G Mixed Use LFF LPC Value SAS Multi Vendor SSD P37009-B21
+HPE 960GB SAS 12G Mixed Use LFF LPC Value SAS RM5 SSD P10452-B21
+Read Intensive - SATA - SFF - Solid State Drives
+HPE 7.68TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Multi Vendor P18430-B21
+HPE 3.84TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Multi Vendor SSD P18428-B21
+HPE 3.84TB SATA 6G Read Intensive SFF SC 5300P SSD P19943-B21
+HPE 3.84TB SATA 6G Read Intensive SFF SC S4510 SSD P05946-B21
+HPE 1.92TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Multi Vendor SSD P18426-B21
+HPE 1.92TB SATA 6G Read Intensive SFF SC 5300P SSD P19941-B21
+HPE 1.92TB SATA 6G Read Intensive SFF SC S4510 SSD P05938-B21
+HPE 960GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Multi Vendor SSD P18424-B21
+HPE 960GB SATA 6G Read Intensive SFF SC 5300P SSD P19939-B21
+HPE 960GB SATA 6G Read Intensive SFF SC S4510 SSD P05932-B21
+HPE 480GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Multi Vendor SSD P18422-B21
+HPE 480GB SATA 6G Read Intensive SFF SC 5300P SSD P19937-B21
+HPE 480GB SATA 6G Read Intensive SFF SC S4510 SSD P05928-B21
+HPE 480GB SATA 6G Read Intensive SFF SC PM883 SSD P04560-B21
+HPE 240GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Multi Vendor SSD P18420-B21
+HPE 240GB SATA 6G Read Intensive SFF SC 5300P SSD P19935-B21
+HPE 240GB SATA 6G Read Intensive SFF SC S4510 SSD P05924-B21
+Very Read Optimized- SATA - SFF - Solid State Drives
+HPE 3.84TB SATA 6G Very Read Optimized SFF SC 5210 SSD P23489-B21
+HPE 1.92TB SATA 6G Very Read Optimized SFF SC 5210 SSD P23487-B21
+Mixed Use - SATA - SFF - Solid State Drives
+HPE 3.84TB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Multi Vendor SSD P18438-B21
+HPE 3.84TB SATA 6G Mixed Use SFF SC 5300M SSD P19953-B21
+HPE 1.92TB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Multi Vendor SSD P18436-B21
+HPE 1.92TB SATA 6G Mixed Use SFF SC 5300M SSD P19951-B21
+HPE 1.92TB SATA 6G Mixed Use SFF SC SM883 SSD P09722-B21
+HPE 1.92TB SATA 6G Mixed Use SFF SC S4610 SSD P05986-B21
+HPE 960GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Multi Vendor SSD P18434-B21
+HPE 960GB SATA 6G Mixed Use SFF SC 5300M SSD P19949-B21
+HPE 960GB SATA 6G Mixed Use SFF SC SM883 SSD P09716-B21
+HPE 960GB SATA 6G Mixed Use SFF SC S4610 SSD P05980-B21
+HPE 480GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Multi Vendor SSD P18432-B21
+HPE 480GB SATA 6G Mixed Use SFF SC 5300M SSD P19947-B21
+HPE 480GB SATA 6G Mixed Use SFF SC SM883 SSD P09712-B21
+HPE 480GB SATA 6G Mixed Use SFF SC S4610 SSD P05976-B21
+HPE 480GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P07922-B21
+Read Intensive - SATA - LFF - Solid State Drives
+HPE 960GB SATA 6G Read Intensive LFF LPC PM883 SSD P09691-B21
+HPE 480GB SATA 6G Read Intensive LFF LPC 5300P SSD P19974-B21
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Core Options
+Page 33
+Very Read Optimized- SATA - LFF - Solid State Drives
+HPE 7.68TB SATA 6G Very Read Optimized LFF LPC 5210 SSD P23495-B21
+HPE 3.84TB SATA 6G Very Read Optimized LFF LPC 5210 SSD P23491-B21
+Mixed Use - SATA - LFF - Solid State Drives
+HPE 960GB SATA 6G Mixed Use LFF LPC 5300M SSD P19980-B21
+Internal Dual M.2 Kit
+HPE Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit 878783-B21
+Notes: The Universal SATA M.2 Kit above will require a PCIe slot and support up to two of the same M.2 cards
+below.
+Read Intensive - M.2 - Solid State Drives (2280 type)
+HPE 960GB SATA 6G Read Intensive M.2 2280 5300P SSD P19892-B21
+HPE 480GB SATA 6G Read Intensive M.2 2280 5300P SSD P19890-B21
+HPE 240GB SATA 6G Read Intensive M.2 2280 5300B SSD P19888-B21
+M.2 Cable Kit
+HPE DL160 Gen10 SATA M.2 Cable Kit 866456-B21
+Notes: Must be selected along with "HPE Universal SATA HHHL 3yr Wty M.2 Kit- 878783-B21"
+Hard Drive Blank Kits
+HPE Small Form Factor Hard Drive Blank Kit 666987-B21
+HPE Gen9 LFF HDD Spade Blank Kit 807878-B21
+HPE Networking
+25 Gigabit Ethernet adapters
+HPE Ethernet 10/25Gb 2-port SFP28 QL41401-A2G Adapter 867328-B21
+HPE Ethernet 10/25Gb 2-port SFP28 BCM57414 Adapter 817718-B21
+HPE Ethernet 10/25Gb 2-port SFP28 MCX4121A-ACUT Adapter 817753-B21
+10 Gigabit Ethernet adapters
+HPE Ethernet 10Gb 2-port BASE-T QL41401-A2G Adapter 867707-B21
+Notes: Max 1 per system
+HPE Ethernet 10Gb 2-port BASE-T 57810S Adapter 656596-B21
+HPE Ethernet 10Gb 2-port SFP+ 57810S Adapter 652503-B21
+HPE Ethernet 10Gb 2-port BASE-T BCM57416 Adapter 813661-B21
+HPE Ethernet 10Gb 2-port 562SFP+ Adapter 727055-B21
+HPE Ethernet 10Gb 2-port BASE-T X550-AT2 Adapter 817738-B21
+1 Gigabit Ethernet adapters
+HPE Ethernet 1Gb 4-port BASE-T BCM5719 Adapter 647594-B21
+HPE Ethernet 1Gb 4-port BASE-T I350-T4V2 Adapter 811546-B21
+Notes: Max 1 per system. Can only be installed in Slot 1
+HPE Ethernet 1Gb 2-port BASE-T I350-T2V2 Adapter 652497-B21
+HPE Ethernet 1Gb 2-port BASE-T BCM5720 Adapter 615732-B21
+FlexibleLOM adapters
+HPE Ethernet 10/25Gb 2-port FLR-SFP28 MCX4121A-ACFT Adapter 817749-B21
+HPE Ethernet 10/25Gb 2-port FLR-SFP28 BCM57414 Adapter 817709-B21
+HPE Ethernet 10/25Gb 2-port FLR-SFP28 QL41401-A2G Converged Network Adapter 867334-B21
+HPE Ethernet 10Gb 2-port FLR-SFP+ X710-DA2 Adapter 727054-B21
+HPE Ethernet 10Gb 2-port FLR-T X550-AT2 Adapter 817745-B21
+HPE FlexFabric 10Gb 4-port FLR-T 57840S Adapter 764302-B21
+HPE Ethernet 10Gb 2-port FLR-T BCM57416 Adapter 817721-B21
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Core Options
+Page 34
+HPE FlexFabric 10Gb 2-port FLR-SFP+ 57810S Adapter 700751-B21
+HPE FlexFabric 10Gb 2-port FLR-T 57810S Adapter 700759-B21
+HPE Ethernet 1Gb 4-port FLR-T BCM5719 Adapter 629135-B22
+HPE Ethernet 1Gb 4-port FLR-T I350-T4V2 Adapter 665240-B21
+Notes:
+- The DL180 Gen10 ships with 2x 1 Gb Embedded Network controller.
+- Only one FlexibleLOM can be added to the server. These options are upgradeable and can be changed
+from the original configuration after the server is shipped.
+- FlexibleLOM Enablement Kit (866941-B21) is required to install these adapters
+- Direct Attach Cable (DAC) for copper environments or fiber transceivers and cables for fiber-optic
+environments must be purchased separately. Please see the related NIC QuickSpecs for Technical
+Specifications and additional information:
+https://www.hpe.com/us/en/product-catalog/servers/adapters/pip.models.hpe-storefabric-converged-
+network-adapters.4118472.html
+Media Module adapters
+HPE Ethernet 1Gb 2-port 368T Media Module Adapter 866464-B21
+HPE Ethernet 10Gb 2-port 568SFP+ Media Module Adapter 866467-B21
+HPE Ethernet 10Gb 2-port 568T Media Module Adapter 866470-B21
+Notes:
+- The DL180 Gen10 chassis ships with 2x 1 Gb embedded.
+- Only one Media Module can be added to the server. These options are upgradeable and can be changed
+from the original configuration after the server is shipped
+- These adapters should be installed in the Media Module connector slot on the system board only.
+- Direct Attach Cable (DAC) for copper environments or fiber transceivers and cables for fiber-optic
+environments must be purchased separately.
+HPE Power Supplies
+HPE Flexible Slot (Flex Slot) Power Supplies share a common electrical and physical design that allows for hot plug, tool-less
+installation into HPE ProLiant Gen10 Performance Servers. Flex Slot power supplies are certified for high-efficiency operation and
+offer multiple power output options, allowing users to "right-size" a power supply for specific server configurations. This flexibility
+helps to reduce power waste, lower overall energy costs, and avoid "trapped" power capacity in the data center.
+All pre-configured servers ship with a standard 6-foot IEC C-13/C-14 jumper cord (A0K02A). This jumper cord is also included
+with each standard AC power supply option kit. If a different power cord is required, please check the ProLiant Power Cables web
+page.
+HPE Flex Slot Power Supplies
+HPE 500W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 865408-B21
+HPE 800W Flex Slot Titanium Hot Plug Low Halogen Power Supply Kit 865438-B21
+HPE 800W Flex Slot Universal Hot Plug Low Halogen Power Supply Kit 865428-B21
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 865414-B21
+HPE 800W Flex Slot -48VDC Hot Plug Low Halogen Power Supply Kit 865434-B21
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 830272-B21
+HPE DL160/180 Gen10 Redundant Power Supply Enablement Kit 866442-B21
+Notes: This enablement kit is required with the selection of a Flex Slot power supply
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Additional Options
+Page 35
+Some options may not be integrated at the factory. To ensure only valid configurations are ordered, Hewlett Packard Enterprise
+recommends the use of an HPE approved configurator. Contact your local sales representative for additional information.
+Embedded Management
+HPE iLO Advanced
+HPE iLO Advanced Electronic License with 1yr Support on iLO Licensed Features E6U59ABE
+HPE iLO Advanced 1-server License with 1yr Support on iLO Licensed Features 512485-B21
+HPE iLO Advanced Flexible Quantity License with 1yr Support on iLO Licensed Features 512486-B21
+HPE iLO Advanced AKA Tracking License with 1yr Support on iLO Licensed Features 512487-B21
+HPE iLO Advanced Electronic License with 3yr Support on iLO Licensed Features E6U64ABE
+HPE iLO Advanced 1-server License with 3yr Support on iLO Licensed Features BD505A
+HPE iLO Advanced Flexible Quantity License with 3yr Support on iLO Licensed Features BD506A
+HPE iLO Advanced AKA Tracking License with 3yr Support on iLO Licensed Features BD507A
+HPE iLO Common Password Setting
+HPE iLO Common Password FIO Setting P08040-B21
+Notes:
+- Replaces iLO default randomized password by an HPE defined common password. HPE highly
+recommends changing this password immediately after the initial onboarding process.
+- Customers who want to choose their own custom iLO default password should use the HPE Factory
+Express Integration Services
+HPE Converged Infrastructure Management Software
+HPE OneView including 3yr 24x7 Support Physical 1-server LTU E5Y34A
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU E5Y35AAE
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU
+HPE OneView Advanced (without HPE iLO Advanced)
+HPE OneView w/o iLO including 3yr 24x7 Support 1-server LTU P8B24A
+HPE OneView w/o iLO including 3yr 24x7 Support Track 1-server LTU P8B25A
+HPE OneView w/o iLO including 3yr 24x7 Support Flexible Quantity E-LTU P8B26AAE
+Notes:
+- Licenses ship without media. The HPE OneView Media Kit can be ordered separately, or can be downloaded at:
+https://www.hpe.com/us/en/integrated-systems/software.html
+- Electronic and Flexible-Quantity licenses can be used to purchase multiple licenses with a single activation key.
+- Licenses ship without media. The HPE OneView Media Kit can be ordered separately, or can be downloaded at:
+https://www.hpe.com/us/en/integrated-systems/software.html
+HPE Storage Options
+Emulex Fibre Channel HBAs
+HPE SN1200E 16Gb Single Port Fibre Channel Host Bus Adapter Q0L13A
+HPE SN1200E 16Gb Dual Port Fibre Channel Host Bus Adapter Q0L14A
+HPE SN1600E 32Gb Single Port Fibre Channel Host Bus Adapter Q0L11A
+HPE SN1600E 32Gb Dual Port Fibre Channel Host Bus Adapter Q0L12A
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Additional Options
+Page 36
+QLogic Fibre Channel HBAs
+HPE SN1100Q 16Gb Single Port Fibre Channel Host Bus Adapter P9D93A
+HPE SN1100Q 16Gb Dual Port Fibre Channel Host Bus Adapter P9D94A
+HPE SN1600Q 32Gb Single Port Fibre Channel Host Bus Adapter P9M75A
+HPE SN1600Q 32Gb Dual Port Fibre Channel Host Bus Adapter P9M76A
+HPE Rack Options
+Rail Kits
+HPE 2U Small Form Factor Easy Install Rail Kit 733660-B21
+Notes: This (733660-B21) Rail kit can alos be used for LFF chassis.
+HPE 2U Cable Management Arm for Easy Install Rail Kit 733664-B21
+HPE Racks
+Please see the HPE Advanced Series Racks QuickSpecs for information on additional racks options and rack specifications.
+Please see the HPE Enterprise Series Racks QuickSpecs for information on additional racks options and rack specifications.
+HPE Power Distribution Units (PDUs)
+Please see the HPE Basic Power Distribution Units (PDU) QuickSpecs for information on these products and their specifications.
+Please see the HPE Metered Power Distribution Units (PDU) QuickSpecs for information on these products and their
+specifications.
+Please see the HPE Intelligent Power Distribution Unit (PDU) QuickSpecs for information on these products and their
+specifications.
+Please see the HPE Metered and Switched Power Distribution Units (PDU) QuickSpecs for information on these products and
+their specifications.
+HPE Uninterruptible Power Systems (UPS)
+To learn more, please visit the HPE Uninterruptible Power Systems (UPS) web page.
+Please see the HPE DirectFlow Three Phase Uninterruptible Power System QuickSpecs for information on these products and
+their specifications.
+Please see the HPE Line Interactive Single Phase UPS QuickSpecs for information on these products and their specifications.
+HPE Rack Options
+Please see the HPE IT Access and Control for information on these products and their specifications.
+HPE USB and SD Options
+HPE Enterprise Mainstream Flash Media Kits for Memory Cards
+HPE 32GB microSD Flash Memory Card 700139-B21
+HPE 32GB microSD RAID 1 USB Boot Drive P21868-B21
+HPE 8GB Dual microSD Flash USB Drive 741279-B21
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Memory
+Page 37
+Memory Population guidelines
+HPE DL160/DL180 Gen 10 Servers Front Server
+(2+1+1 slots per channel)
+1 DIMM 3
+2 DIMM s 2 3
+3 DIMM s 1 2 3
+4 DIMM s 2 3 6 7
+5 DIMM s* 1 2 3 6 7
+6 DIMM s 1 2 3 6 7 8
+7 DIMM s* 1 2 3 4 6 7 8
+8 DIMM s* 1 2 3 4 5 6 7 8
+HPE ProLiant Gen10 8 slot per CPU DIMM population order
+Notes:*Unbalanced, not recommended
+General Memory Population Rules and Guidelines:
+· Install DIMMs only if the corresponding processor is installed.
+· If only one processor is installed in a two-processor system, only half of the DIMM slots are available.
+· To maximize performance, it is recommended to balance the total memory capacity between all installed processors.
+· When two processors are installed, balance the DIMMs across the two processors.
+· White DIMM slots denote the first slot to be populated in a channel.
+· Mixing of DIMM types (UDIMM, RDIMM, and LRDIMM) is not supported.
+· The maximum memory speed is a function of the memory type, memory configuration, and processor model.
+· The maximum memory capacity is a function of the number of DIMM slots on the platform, the largest DIMM capacity
+qualified on the platform, the number and model of installed processors qualified on the platform.
+· For details on the HPE Server Memory Options Population Rules, visit:
+http://www.hpe.com/docs/memory-population-rules
+· To realize the performance memory capabilities listed in this document, HPE DDR4 SmartMemory is required. For
+additional information, please see the HPE DDR4 SmartMemory QuickSpecs.
+Notes: The maximum memory speed is a function of the memory type, memory configuration, and processor model
+For details on the HPE Server Memory speed, visit: https://www.hpe.com/docs/memory-speed-table
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Sorage
+Page 38
+8 SFF Drives
+8LFF Drives
+12LFF Drives
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Technical Specifications
+Page 39
+System Unit
+Dimensions (Height X Width X Depth)
+· 8.75 x 44.54 x 63.47 cm
+3.44 x 17.54 x 24.99 in (Dimensions for 12LFF)
+Weight (approximate)
+· Minimum
+8 SFF/LFF chassis with 1x SFF/LFF HDD and 7 HDD blanks, 2x Drive Bay blanks, 1x processor including standard
+heatsink, 1x power supply (plus blank), 1x Smart Array, 1x Riser installed, cables for the above)
+- 13.0 kg--26.0 kg
+28.0lb--58.0 lb
+Input Requirements(per power supply)
+Rated Line Voltage
+· 100 to 120 VAC
+· 200 to 240 VAC
+BTU Rating
+· Maximum
+For 500W Power Supply: 1979 BTU/hr (at 100 VAC), 1911 BTU/hr (at 200 VAC), 1965 BTU/hr (at 240 VAC) for China
+Only
+Power Supply Output(per power supply)
+· Rated Steady-State Power
+For 500W Power Supply: 500W (at 100 VAC), 500W (at 240 VAC), 500W (at 240 VAC) input for China only
+System Inlet Temperature
+· Standard Operating Temperature
+10° to 35°C (50° to 95°F) at sea level with an altitude derating of 1.0°C per every 305 m (1.8°F per every 1000 ft) above
+sea level to a maximum of 3050 m (10,000 ft), no direct sustained sunlight. Maximum rate of change is 20°C/hr
+(36°F/hr). The upper limit and rate of change may be limited by the type and number of options installed.
+System performance during standard operating support may be reduced if operating with a fan fault or above 30°C
+(86°F).
+· Extended Ambient Operating Temperature
+For approved hardware configurations, the supported system inlet range is extended to be: 5° to 10°C (41° to 50°F) and
+35° to 40°C (95° to 104°F) at sea level with an altitude derating of 1.0°C per every 175 m (1.8°F per every 574 ft) above
+900 m (2953 ft) to a maximum of 3050 m (10,000 ft). The approved hardware configurations for this system are listed
+at the URL:http://www.hpe.com/servers/ashrae
+For approved hardware configurations, the supported system inlet range is extended to be: 40° to 45°C (104° to 113°F)
+at sea level with an altitude derating of 1.0°C per every 125 m (1.8°F per every 410 ft) above 900 m (2953 ft) to a
+maximum of 3050 m (10,000 ft). The approved hardware configurations for this system are listed at the
+URL:http://www.hpe.com/servers/ashrae
+System performance may be reduced if operating in the extended ambient operating range or with a fan fault.
+· Non-operating
+-30° to 60°C (-22° to 140°F). Maximum rate of change is 20°C/hr (36°F/hr).
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Technical Specifications
+Page 40
+Relative Humidity
+· Operating
+8% to 90% - Relative humidity (Rh), 28°C maximum wet bulb temperature, non-condensing.
+· Non-operating (Non-condensing)
+5 to 95% relative humidity (Rh), 38.7°C (101.7°F) maximum wet bulb temperature, non-condensing..
+Altitude
+· Operating
+3050 m (10,000 ft). This value may be limited by the type and number of options installed. Maximum allowable altitude
+change rate is 457 m/min (1500 ft/min).
+· Non-operating
+9144 m (30,000 ft). Maximum allowable altitude change rate is 457 m/min (1500 ft/min).
+Acoustic Noise
+Listed are the declared A-Weighted sound power levels (LWAd
+) and declared average bystander position A-Weighted sound
+pressure levels (LpAm
+) when the product is operating in a 23°C ambient environment. Noise emissions were measured in
+accordance with ISO 7779 (ECMA 74) and declared in accordance with ISO 9296 (ECMA 109). The listed sound levels apply to
+standard shipping configurations. Additional options may result in increased sound levels. Please have your HPE representative
+provide information from the HPE EMESC website for further technical details regarding the configurations listed below.
+Configuration SKU Entry(LFF )/ (SFF) Base(LFF)/ SFF) Performance(LFF)/ (SFF)
+Idle
+LWAd
+4.2 B 4.3 B 4.7 B
+LpAm
+26.6 dBA 27.0 dBA 28.5 dBA
+Operating
+LWAd
+5.2 B 5.4 B 5.7 B
+LpAm
+35.4 dBA 37.2 dBA 39.7 dBA
+Notes:
+- Acoustics levels presented here are generated by the test configuration only. Acoustics levels will vary depending on
+system configuration. Values are subject to change without notification and are for reference only.
+- Product conformance to cited product specifications is based on sample (type) testing, evaluation, or assessment. This
+product or family of products is eligible to bear the appropriate compliance logos and statements.
+- The Listed sound levels apply to standard shipping configurations. Additional options may result in increased sound levels.
+Emissions Classification (EMC) - Regulatory Information
+To view the regulatory information for your product, view the Safety and Compliance Information for Server, Storage, Power,
+Networking, and Rack Products, available at the Hewlett Packard Enterprise Support Center:
+http://www.hpe.com/support/Safety-Compliance-EnterpriseProducts
+HPE Smart Array
+For information on the HPE Smart Array E208i-p SR Gen10 Controller please refer to their QuickSpecs.
+For information on the HPE Smart Array E208e-p SR Gen10 Controller please refer to their QuickSpecs.
+Environment-friendly Products and Approach - End-of-life Management and Recycling
+Hewlett Packard Enterprise offers end-of-life product return, trade-in, and recycling programs, in many geographic areas, for
+our products. Products returned to Hewlett Packard Enterprise will be recycled, recovered or disposed of in a responsible manner.
+The EU WEEE directive (2002/95/EC) requires manufacturers to provide treatment information for each product type for use by
+treatment facilities. This information (product disassembly instructions) is posted on the Hewlett Packard Enterprise web site.
+These instructions may be used by recyclers and other WEEE treatment facilities as well as Hewlett Packard Enterprise OEM
+customers who integrate and re-sell Hewlett Packard Enterprise equipment.
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Summary of Changes
+Page 41
+Date Version History Action Description of Change
+07-Dec-2020 Version 18 Changed Overview, Standard Features, Configuration Information, Core Options and
+Additional Options sections were updated.
+Obsolete SKUs were removed.
+05-Oct-2020 Version 17 Changed Pre- Configured Models, Configuration Information, Core Options and Additional
+Options sections were updated.
+Obsolete SKUs were removed.
+08-Sep-2020 Version 16 Changed Overview, Standard Features, Pre- Configured Models, Configuration Information,
+Core Options and Additional Options sections were updated.
+Obsolete SKUs were removed.
+01-Jun-2020 Version 15 Changed Overview, Configuration Information, Core Options and Additional Options
+sections were updated.
+06-Apr-2020 Version 14 Changed Core Options section was updated.
+16-Mar-2020 Version 13 Changed Service and Support, Pre- Configured Models, Core Options and Additional
+Options sections were updated.
+03-Feb-2020 Version 12 Changed Overview, Standard Features,Configuration Information, Pre- Configured Models,
+Core Options, Additional Options and Memory sections were updated.
+02-Dec-2019 Version 11 Changed Configuration Information, Core Options, and Additional Options were updated.
+18-Nov-2019 Version 10 Changed Overview, Standard Features, Configuration Information, Core Options, and
+Additional Options were updated.
+04-Nov-2019 Version 9 Changed Standard Features and Additional Options section were updated.
+07-Oct-2019 Version 8 Changed Overview, Standard Features, Pre-configured Models, Core Options, Additional
+Options, Memory and Technical Specifications sections were updated.
+Obsolete SKUs were removed.
+12-Aug-2019 Version 7 Changed Overview, Standard Features and Additional Options sections were updated.
+30-Jul-2019 Version 6 Changed Additional Options section was updated.
+01-Jul-2019 Version 5 Changed Overview, Standard Features, Service and Support, Configuration Information
+and Additional Options sections were updated.
+03-Jun-2019 Version 4 Changed Overview, Standard Features, Service and Support, Configuration Information,
+Additional Options, Memory, Storage and Technical Specifications sections were
+updated.
+02-Apr-2019 Version 3 Changed Standard Features and Additional Options sections were updated.
+04-Mar-2019 Version 2 Changed Internal View image has been updated
+04-Feb-2019 Version 1 New New QuickSpecs.
+QuickSpecs HPE ProLiant DL180 Gen10 Server
+Copyright
+Page 42
+Make the right purchase decision.
+Contact our presales specialists.
+Chat Email Call
+© Copyright 2020 Hewlett Packard Enterprise Development LP. The information contained herein is subject
+to change without notice. The only warranties for Hewlett Packard Enterprise products and services are set
+forth in the express warranty statements accompanying such products and services. Nothing herein should
+be construed as constituting an additional warranty. Hewlett Packard Enterprise shall not be liable for
+technical or editorial errors or omissions contained herein.
+Intel and Xeon are registered trademarks of Intel Corporation in the U.S. and other countries.
+Microsoft, Windows, and Windows Server are U.S. registered trademarks of the Microsoft group of
+companies.
+For hard drives, 1GB = 1 billion bytes. Actual formatted capacity is less
+a00021862enw - 16058 - Worldwide - V18 - 07-December-2020
+Get updates
+

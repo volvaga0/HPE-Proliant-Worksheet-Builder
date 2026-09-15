@@ -1,0 +1,1249 @@
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Overview
+Page 1
+HPE ProLiant Compute DL380a Gen12
+The HPE ProLiant Compute DL380a Gen12 is engineered with an ultra-scalable architecture to deliver next-gen AI performance
+for your enterprise needs. The "a" stands for accelerator optimized. Powered by Intel® Xeon® 6 Processors and up to 8 cutting-edge
+double-wide GPUs, the 4U HPE ProLiant DL380a Gen12 server is a cost-effective AI solution. It accelerates AI inferencing for large
+workloads with unprecedented performance, enterprise-grade reliability, and industry-leading security innovation.
+Front View - 8 SFF drives shown
+1. Quick removal access panel 7. UID button/LED
+2. Power On/Standby button and system power LED 8. Drive cage (up to 8 SFF NVMe or 16 EDSFF)
+3. Health LED 9. Boot Drive Cage
+4. iLO front service port (Type-C) 10. GPU cage (up to 8 double-wide PCIe GPUs)
+5. USB 3.2 port 11. Serial number label pull tab
+6. NIC status LED1
+Notes:
+- 1 Front NIC LED display doesn't support NIC LED ACT/LINK indication from ALOM/PCIE/FLOM NIC's
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Overview
+Page 2
+Internal View
+1. GPU cages for up to 8 double-wide GPUs 4. Qty: 32 DDR5 DIMM Slots + CPU 1 & 2
+2. 4 hot-plug fan assemblies (qty: 4 92mm + qty: 8 40mm fans) 5. Power supplies - MCRPS type
+3. Air baffle and heatsinks 6. PCIe Risers
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Overview
+Page 3
+Rear View
+1. Power Supplies (MCRPS) 1-8 8. Dedicated iLO network port
+2. Air ventilation wall 9. USB 3.2 Gen 1 ports
+3. Slot 4 PCIe5 x16 2 10. VGA port
+4. Slot 5 PCIe5 x16 (optional captive riser) 11. Slot 3 PCIe5 x16 (default 1U CEM riser)
+5. Slot 6 PCIe5 x16 (default 1U CEM riser) 12. Slot 2 PCIe5 x16 (optional captive riser)
+6. OCP Slot B 13. Slot 1 PCIe5 x16 (optional captive riser)1
+7. OCP Slot A
+Notes:
+- 1 Only available when HPE DL380a G12 4EDSFF Direct Cable for NVD (P74716-B21) is attached. Cannot be used
+with SFF NVMe drives.
+- 2 Not for use with 4 and 8 DW GPU configurations
+What's New
+· Supports Intel® Xeon® 6 Processors.
+· Support for up to 8 double-wide GPUs in a 4U server for intensive compute acceleration.
+· Support for PCIe 5.0 for improved bandwidth and throughput.
+· Support for well-balanced I/O performance across processors.
+· Support for HPE DDR5 Smart Memory.
+Platform Information
+Form Factor
+· 4U rack
+Chassis Types
+· 8 DW (double-wide GPU) chassis with one drive bay for drive cage options.
+Notes: The DL380a Gen12 comes with qty: 1 4SFF x4 U.3 NVMe drive cage by default.
+System Fans
+· 4 hot plug fan assemblies: Each assembly consists of 1 dual-rotor 92x56mm and 2 single-rotor 40x28 fans.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Standard Features
+Page 4
+Processors - 2 of the following depending on model.
+The 1ST digit of the processor model number is used to denote the processor generation (i.e. 6=6th generation Intel Scalable Series
+Processors).
+For more information regarding Intel® Xeon® 6 processors, please see the following
+https://www.intel.com/content/www/us/en/now/xeon-6.html.
+This table covers the public Intel offering only.
+Intel® Xeon® 6 Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache
+(MB)
+Power UPI DDR5 SGX Enclave
+size
+6710E Processor 2.4 GHz 64 96 205W 4 @ 16 GT/s 5600 MT/s 512GB
+6740E Processor 2.4 GHz 96 96 250W 4 @ 16 GT/s 6400 MT/s 512GB
+6746E Processor 2.0 GHz 112 96 250W 4 @ 16 GT/s 5600 MT/s 512GB
+6756E Processor 1.8 GHz 128 96 225W 4 @ 16 GT/s 6400 MT/s 512GB
+6766E Processor 1.9 GHz 144 108 250W 4 @ 16 GT/s 6400 MT/s 512GB
+6780E Processor 2.2 GHz 144 108 330W 4 @ 16 GT/s 6400 MT/s 512GB
+6740P Processor 2.1 GHz 48 288 270W 4 @ 16 GT/s 6400 MT/s 128GB
+6747P Processor 2.7 GHz 48 288 330W 4 @ 16 GT/s 6400 MT/s 512GB
+6760P Processor 2.2 GHz 64 320 330W 4 @ 16 GT/s 6400 MT/s 128GB
+6767P Processor 2.4 GHz 64 336 350W 4 @ 16 GT/s 6400 MT/s 512GB
+6787P Processor 2.0 GHz 86 336 350W 4 @ 16 GT/s 6400 MT/s 512GB
+6505P Processor 2.2 GHz 12 48 150W 4 @ 16 GT/s 6400 MT/s 128GB
+6507P Processor 3.5 GHz 8 48 150W 4 @ 16 GT/s 6400 MT/s 512GB
+6515P Processor 2.3 GHz 16 72 150W 4 @ 16 GT/s 6400 MT/s 128GB
+6517P Processor 3.2 GHz 16 72 190W 4 @ 16 GT/s 6400 MT/s 512GB
+6520P Processor 2.4 GHz 24 144 210W 4 @ 16 GT/s 6400 MT/s 128GB
+6527P Processor 3.0 GHz 24 144 255W 4 @ 16 GT/s 6400 MT/s 512GB
+6530P Processor 2.3 GHz 32 144 225W 4 @ 16 GT/s 6400 MT/s 128GB
+6730P Processor 2.5 GHz 32 288 250W 4 @ 16 GT/s 6400 MT/s 512GB
+6736P Processor 2.0 GHz 36 144 205W 4 @ 16 GT/s 6400 MT/s 512GB
+6737P Processor 2.9 GHz 32 144 270W 4 @ 16 GT/s 6400 MT/s 512GB
+On System Management Chipset
+HPE iLO 6 ASIC (ROM ID: U70) for HPE ProLiant Compute DL380a Gen12 8DW CTO Server - PN: P74461-B21
+HPE iLO 7 ASIC (ROM ID: U72) for HPE ProLiant Compute DL380a Gen12 8DW/16SW CTO Server - PN: P76706-B21
+Read and learn more in the iLO QuickSpecs.
+Notes: P74461-B21 is not upgradeable to iLO 7.
+Memory
+Type HPE DDR5 Smart Memory, Registered (RDIMM)
+DIMM Slots Available 32 DIMM slots (16 DIMM slots per processor),
+8 channels per processor with up to 2 DIMMs per channel
+Maximum capacity (RDIMM) 8.0 TB (32 x 256 GB RDIMM @5200 MT/s, 2DPC)
+4.0 TB (16 x 256 GB RDIMM @6400 MT/s, 1DPC)
+Notes:
+- The maximum memory speed is limited by the processor selection.
+- Intel® Xeon® 6700-Series Processors with E Core limits DIMM quantities per CPU: 1, 2, 4, 8, and 16.
+- Intel® Xeon® 6500/6700-Series Processors with P Core limits DIMM quantities per CPU: 1, 2, 4, 8, 12 and 16.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Standard Features
+Page 5
+Expansion Slots
+Risers
+Primary Riser
+Slots # Technology Bus Width Connector Width Slot Form Factor Notes
+1 PCIe 5.0 x16 x16 Full height, half length Processor 2
+2 PCIe 5.0 x16 x16 Full height, half length Processor 2
+3 PCIe 5.0 x16 x16 Full height, half length Processor 2
+Notes:
+- Slot 1 is only available when HPE DL380a G12 4EDSFF Direct Cable for NVD (P74716-B21) is attached. Cannot be used
+with SFF NVMe drives.
+- Slot 3 is available by default with a DL380a Gen12 configuration.
+- Bus width indicates the number of physical electrical lanes running to the connector.
+Secondary Riser
+Slots # Technology Bus Width Connector Width Slot Form Factor Notes
+4 PCIe 5.0 x16 x16 Full height, half length Processor 1
+5 PCIe 5.0 x16 x16 Full height, half length Processor 1
+6 PCIe 5.0 x16 x16 Full height, half length Processor 1
+Notes:
+- Slot 4 is not available for 4 and 8 DW configurations.
+- Slot 6 is available by default with a DL380a Gen12 configuration.
+- Bus Width Indicates the number of physical electrical lanes running to the connector.
+Graphics
+Integrated Video Standard
+· Video modes up to 1920 x 1200@60Hz (32 bpp)
+· 16MB Video Memory
+HPE iLO 6 on system management memory
+· 32 MB Flash
+· 8 Gbit DDR 3 with ECC protection
+Maximum Internal Storage
+Drive Capacity Configuration
+Hot Plug SFF NVMe PCIe SSD 122.88 TB 8 x 15.36 TB
+Hot Plug E3.S NVMe PCIe SSD 245.76 TB 16 x 15.36 TB
+Modular Common Redundant Power Supply (M-CRPS)
+· HPE 1500W M-CRPS Kit
+· HPE 2400W M-CRPS Kit
+· HPE 3200W M-CRPS Kit
+Notes: Up to 96% efficiency.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Standard Features
+Page 6
+HPE's M-CRPS power supplies are certified for high-efficiency operation and offer multiple power output options, both high-line
+and low-line, allowing users to "right-size" a power supply for specific server configurations. This flexibility helps to reduce power
+waste, upgrade security firmware, lower overall energy costs, and avoid "trapped" power capacity in the data center. HPE M-CRPS
+come in two different physical design options (73.5mm and 60mm width) that allows for hot plug, tool-less installation into HPE
+ProLiant Gen12 Performance Servers.
+For DL380a Gen12 8DW/16SW Server (P76706-B21), power cords must be selected to match quantity of PSUs.
+For DL380a Gen12 8DW Server (P74461-B21), the HPE C13-14 2m power cable (P67847-B21) comes with the 1500W supply.
+The HPE C19-20 2m power cable (P67845-B21) comes with the 2400W supply. If a different power cord is required, please
+check the ProLiant Power Cables web page.
+To review the power requirements for your selected system, please use the HPE Power Advisor Tool.
+For information on power specifications and technical content visit https://www.hpe.com/psnow/doc/4AA6-6836ENW.
+European Union ErP Lot 9 Regulation
+Beginning on January 1st, 2024, units sold into the European Union (EU), European Economic Area (EEA), the United Kingdom,
+Ireland, Switzerland or Turkey, must include more efficient AC power supplies: 94% for multi-output and 96% for single-output. HPE
+Flexible Slot power supplies are single-output, and part numbers 865438-B21, P03178-B21, and P44712-B21 are 96% efficient,
+thus meeting requirements.
+HPE is on target to fulfil compliant systems ahead of time and will begin enforcing these requirements in advance to satisfy
+requests with the current power supplies by the set deadline.
+Storage Controllers
+NVMe Boot Devices
+HPE NS204i-u v2 NVMe Hot Plug Boot Optimized Storage Device
+Notes:
+- Configured in front chassis slot
+- Does not occupy PCIe slots on the DL380a Gen12 server
+Hybrid RAID
+· Intel® Hybrid RAID on CPU (Intel® VROC)
+Notes:
+- Supports up to 8 direct attach NVMe bays on the DL380a Gen12 server.
+- Intel VROC NVMe is off by default and requires licensing, see options for details.
+- RAID support - 0/1/5/10, depending on licensing options.
+- Intel VROC for HPE ProLiant Gen12 is an enterprise, Hybrid RAID solution specifically designed for NVMe SSDs
+connected directly to the CPU. Intel VROC is a solution utilizing Intel CPU to RAID or HBA direct connected drives
+and supports both Intel® SFF SSDs and HPE SFF SSDs.
+Tri-Mode Controller
+· HPE MR416i-p Gen11 12G Controller
+· HPE MR416i-o Gen11 12G Controller
+Interfaces
+Serial Port Optional by connection of rear IX port with Serial Enablement Kit (P71432-B21)
+VGA Port 1 standard (rear)
+Network Ports None standard. Choice of OCP networking card or stand-up networking card required.
+HPE iLO Remote
+Management Network Port
+1 Gb dedicated (rear)
+Front iLO Service Port 1 standard (front)
+USB 3.2 Gen1 Port 4 (1 front, 2 rear, 1 internal)
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Standard Features
+Page 7
+Operating Systems and Virtualization Software Support for HPE Servers
+HPE servers are designed for seamless integration with partner Operating Systems and Virtualization Software. By collaborating
+closely with our partners, we ensure that their products are optimized, certified, and fully supported within your HPE server
+environment.
+Access the certified and supported servers for each of the OS and Virtualization software: HPE Servers Support & Certification
+Matrices
+HPE Server UEFI
+Unified Extensible Firmware Interface (UEFI) is an industry standard that provides better manageability and more secured
+configuration than the legacy ROM while interacting with your server at boot time. HPE ProLiant Gen12 servers have a UEFI Class
+3 implementation and support UEFI Mode only.
+Notes: The UEFI System Utilities tool is analogous to the HPE ROM-Based Setup Utility (RBSU) of legacy BIOS. For more
+information, please visit http://www.hpe.com/servers/uefi.
+UEFI enables numerous new capabilities specific to HPE ProLiant servers such as
+· Secure Boot and Secure Start enable for enhanced security
+· Embedded UEFI Shell
+· Operating system specific functionality
+· Mass Configuration Deployment Tool using iLO RESTful API that is Redfish API Conformant
+· Support for > 2.2 TB (using GPT) boot drives
+· PXE boot support for IPv6 networks
+· USB 3.0 Stack
+· Workload Profiles for simple performance optimization
+UEFI Boot Mode only
+· TPM 2.0 Support
+· iSCSI Software Initiator Support.
+· NVMe Boot Support
+· HTTP/HTTPs Boot support as a PXE alternative.
+· Platform Trust Technology (PTT) can be enabled.
+· Boot support for option cards that only support a UEFI option ROM
+Notes: For UEFI Boot Mode, boot environment and OS image installations should be configured properly to support UEFI.
+HPE Compute Ops Management
+HPE is intelligently transforming compute management with an intuitive cloud operating experience through HPE GreenLake cloud
+platform to streamline and secure operations from edge-to-cloud. Automated key lifecycle tasks, for onboarding, updating,
+managing, and monitoring HPE servers, brings agility and greater efficiencies to wherever compute devices reside via a unified
+single browser-based interface. Manage single locations or multiple, distributed sites. Keep tens to thousands of servers secure with
+batch policy controls and automated updates.
+HPE Compute Ops Management is cloud-native software that is continually updated with new services, features, patches, and fixes.
+The management application resides in the HPE GreenLake cloud platform (access via https://console.greenlake.hpe.com) and
+leverages the HPE GreenLake architecture, security, and unified operations.
+A 3-year subscription to HPE Compute Ops Management is added by default when ordering an HPE ProLiant Gen12 rack, tower,
+or micro server.
+For more information, visit the HPE Compute Ops Management QuickSpecs: https://www.hpe.com/psnow/doc/a50004263enw
+Industry Standard Compliance
+· ACPI 6.5 Compliant
+· Advanced Encryption Standard (AES)
+· Active Directory v1.0
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Standard Features
+Page 8
+· ASHRAE A3/A4
+Notes: For additional technical, thermal details regarding ambient temperature, humidity, and feature support, please
+visit https://www.hpe.com/support/ASHRAEGen12
+· DMTF Systems Management Architecture for Server Hardware Command Line Protocol (SMASH CLP)
+· Energy Star
+· EU Lot9
+Notes:
+- Beginning on January 1st, 2024, units sold into the European Union (EU), European Economic Area (EEA), the
+United Kingdom, Ireland, Switzerland or Turkey, must include more efficient AC power supplies: 94% for multi-
+output and 96% for single-output. HPE Flexible Slot power supplies are single-output, and part numbers 865438-
+B21, P03178-B21, and P44712-B21 are 96% efficient, thus meeting requirements.
+- HPE is on target to fulfil compliant systems ahead of time and will begin enforcing these requirements in advance
+to satisfy requests with the current power supplies by the set deadline.
+- Please visit: https://www.hpe.com/us/en/about/environment/msds-specs-more.html for more information
+regarding HPE Lot 9 conformance.
+· IPMI 2.0
+· Microsoft® Logo certifications
+· PCIe 3.0 Compliant
+· PCIe 4.0 Compliant
+· PCIe 5.0 Compliant
+· PXE Support
+· Redfish API
+· Secure Digital 4.0
+· SMBIOS 3.7
+· SNMP v3
+· TLS 1.3
+· TPM 2.0 Support
+· Triple Data Encryption Standard (3DES)
+· UEFI (Unified Extensible Firmware Interface Forum) 2.10
+· USB 2.0 Compliant
+· USB 3.0 Compliant
+· VGA Port
+Embedded Management
+HPE Integrated Lights-Out (HPE iLO)
+Monitor your servers for ongoing management, service alerting, reporting and remote management with HPE iLO.
+Learn more at http://www.hpe.com/info/ilo.
+UEFI
+Configure and boot your servers securely with industry standard Unified Extensible Firmware Interface (UEFI).
+Learn more at http://www.hpe.com/servers/uefi.
+Intelligent Provisioning
+Hassle free server and OS provisioning for 1 or more servers with Intelligent Provisioning.
+Learn more at http://www.hpe.com/servers/intelligentprovisioning
+iLO RESTful API
+iLO RESTful API is Redfish API conformance and offers simplified server management automation such as configuration and
+maintenance tasks based on modern industry standards. Learn more at http://www.hpe.com/info/restfulapi
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Standard Features
+Page 9
+Server Utilities
+Active Health System
+The HPE Active Health System (AHS) is an essential component of the iLO management portfolio that provides continuous,
+proactive health monitoring of HPE servers. Learn more at http://www.hpe.com/servers/ahs.
+Active Health System Viewer
+Use the Active Health System Viewer, a web-based portal, to easily read AHS logs and speed problem resolution with HPE self-
+repair recommendations, to learn more visit: http://www.hpe.com/servers/ahsv.
+Smart Update
+Keep your servers up to date with the HPE Smart Update solution by using Smart Update Manager (SUM) to optimize the firmware
+and driver updates of the Service Pack for ProLiant (SPP).
+HPE iLO Mobile Application
+Enables the ability to access, deploy, and manage your server anytime from anywhere from select smartphones and mobile devices.
+For additional information please visit: http://www.hpe.com/info/ilo/mobileapp.
+RESTful Interface Tool
+RESTful Interface tool (iLO REST) is a single scripting tool to provision using iLO RESTful API to discover and deploy servers at
+scale. Learn more at http://www.hpe.com/info/resttool.
+Scripting Tools
+Provision one to many servers using your own scripts to discover and deploy with Scripting Tool (STK) for Windows and Linux or
+Scripting Tools for Windows PowerShell. Learn more at http://www.hpe.com/servers/powershell.
+HPE OneView Standard
+HPE OneView Standard can be used for inventory, health monitoring, alerting, and reporting without additional fees. It can monitor
+multiple HPE server generations. The user interface is similar to the HPE OneView Advanced version, but the software-defined
+functionality is not available. Learn more at http://www.hpe.com/info/oneview.
+HPE Systems Insight Manager (HPE SIM)
+Ideal for environments already using HPE SIM, it allows you to monitor the health of your HPE ProLiant Servers and HPE Integrity
+Servers. Also provides you with basic support for non-HPE servers. HPE SIM also integrates with Smart Update Manager to provide
+quick and seamless firmware updates. Learn more at http://www.hpe.com/info/hpesim.
+Security
+Experience unparalleled security benefits with HPE ProLiant Gen12 servers, designed to enhance your infrastructure's security and
+performance. These servers come equipped with cutting-edge embedded security features, ensuring robust protection for your
+critical data and applications. Key features include:
+HPE Integrated Lights-Out (HPE iLO7): This product offers advanced embedded security features for monitoring, service alerting,
+reporting, and remote management.
+Enhanced Server Data Security: Encryption and key management, iLO Managed Encryption, UEFI-managed encryption, and self-
+encrypting drives (SED) for enhanced data-at-rest protection.
+Sanitize Data with One-Button Secure Erase: This method complies with NIST SP 800-88 guidelines for media sanitization,
+ensuring the secure decommissioning of servers.
+Expanded Industry Security Compliance: Adherence to standards such as FIPS 140-3, NIST SP 800-53, NIST SP 800-171, and
+NIST SP 800-88.
+HPE GreenLake for Compute Ops Management: Provides an intuitive cloud operating experience, ensuring streamlined and highly
+secure operations from the edge to the cloud.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Standard Features
+Page 10
+Physical Security Options: System maintenance switch, USB security, rack and power security, bezel lock, and chassis intrusion
+detection switch.
+Trusted Supply Chain: HPE Trusted Supply Chain offers enhanced security and compliance for organizations worldwide. Servers
+built with this option undergo rigorous inspections and checkpoints to detect and mitigate malicious microcode and counterfeit
+parts throughout the server build and lifecycle.
+Please refer to the HPE ProLiant Gen12 Embedded Security QuickSpecs document for more detailed information at
+http://psnow.ext.hpe.com/doc/a50009218enw
+· UEFI Secure Boot and Secure Start support
+· Secure Enclave - Silicon Root of Trust 2.0
+· Quantum resistant (PQC) readiness for signing firmware --
+- CNSA 2.0
+· FIPS 140-3 validation (Planned)
+· Common Criteria certification (Planned)
+· USGv6 ready (Section 508 --
+- VPAT)
+· Secure Standard Mode --
+- default security mode (equivalent of higher security mode in Gen 11)
+· Configurable for PCI DSS compliance
+· Advanced Encryption Standard (AES) on browser
+· Support for Commercial National Security Algorithms (CNSA)
+· Tamper-free updates --
+- components digitally signed and verified
+· Secure Recovery --
+- recover critical firmware to known good state on detection of compromised firmware
+· Ability to rollback firmware
+· Secure erase of NAND
+· TPM (Trusted Platform Module) 2.0
+· Front bezel key-lock feature --
+- standard, available in both Tower and Rack models
+· Padlock slot, standard
+· Kensington Lock slot, standard
+· Chassis Intrusion detection option
+Warranty
+This product is covered by a global limited warranty and supported by HPE Services and a worldwide network of Hewlett Packard
+Enterprise Authorized Channel Partners resellers. Hardware diagnostic support and repair is available for three years from date of
+purchase. Support for software and initial setup is available for 90 days from date of purchase. Enhancements to warranty services
+are available through HPE Services operational services or customized service agreements. Hard drives have either a one year or
+three year warranty; refer to the specific hard drive QuickSpecs for details.
+Notes: Server Warranty includes 3-Year Parts, 3-Year Labor, 3-Year Onsite support with next business day response. Warranty
+repairs may be accomplished using Customer Self Repair (CSR) parts. These parts fall into two categories: 1) Mandatory CSR
+parts are designed for easy replacement. A travel and labor charge will result when customers decline to replace a Mandatory
+CSR part; 2) Optional CSR parts are also designed for easy replacement but may involve added complexity. Customers may
+choose to have Hewlett Packard Enterprise replace Optional CSR parts at no charge. Additional information regarding
+worldwide limited warranty and technical support is available at:
+https://www.hpe.com/support/ProLiantServers-Warranties
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Optional Features
+Page 11
+Server Management
+HPE iLO Advanced
+HPE iLO Advanced licenses offer smart remote functionality without compromise, for all HPE ProLiant servers. The license includes
+the full integrated remote console, virtual keyboard, video, and mouse (KVM), multi-user collaboration, console record and replay,
+and GUI-based and scripted virtual media and virtual folders. You can also activate the enhanced security and power management
+functionality.
+HPE OneView Advanced
+HPE OneView brings a new level of automation to infrastructure management by taking a template driven approach to
+provisioning, updating, and integrating compute, storage, and networking infrastructure. It provides full-featured licenses which can
+be purchased for managing multiple HPE server.
+To learn more visit http://www.hpe.com/info/oneview.
+HPE Insight Cluster Management Utility (CMU)
+HPE Insight Cluster Management Utility is a HyperScale management framework that includes software for the centralized
+provisioning, management and monitoring of nodes and infrastructure. Learn more at http://www.hpe.com/info/cmu.
+One Config Simple (OCS/SCE)
+SCE is a guided self-service tool to help sales and non-technical people provide customers with initial configurations in 3 to 5
+minutes. You may then send the configuration on for configuration help, or use in your existing ordering processes. If you require
+"custom" rack configuration or configuration for products not available in SCE, please contact Hewlett Packard Enterprise Customer
+Business Center or an Authorized Partner for assistance. https://h22174.www2.hpe.com/SimplifiedConfig/Welcome
+Rack and Power Infrastructure
+The story may end with servers, but it starts with the foundation that makes compute go - and business grow. We've reinvented
+our entire portfolio of rack and power products to make IT infrastructure more secure, more practical, and more efficient. In other
+words, we've created a stronger, smarter, and simpler infrastructure to help you get the most out of your IT equipment. As an
+industry leader, Hewlett Packard Enterprise is uniquely positioned to address the key concerns of power, cooling, cable
+management and system access.
+HPE G2 Advanced and Enterprise Racks are perfect for the server room or today's modern data center with enhanced airflow and
+thermal management, flexible cable management, and a 10 year Warranty to support higher density computing.
+HPE G2 PDUs offer reliable power in flexible form factors that operate at temperatures up to 60°C, include color-coded outlets and
+load segments and a low-profile design for optimal access to the rack and support for dense rack environments.
+HPE Uninterruptible Power Systems are cost-effective power protection for any type of workload. Some UPSs include options for
+remote management and extended runtime modules so your critical dense data center is covered in power outages.
+HPE KVM Solutions include a console and switches designed to work with your server and IT equipment reliably. We've got a cost-
+effective KVM switch for your first rack and multiple connection IP switches with remote management and security capabilities to
+keep your data center rack up and running.
+Learn more about HPE Racks, KVM, PDUs and UPSs at HPE Rack and Power Infrastructure.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Service and Support
+Page 12
+HPE Services
+No matter where you are in your digital transformation journey, you can count on HPE Services to deliver the expertise you need
+when, where and how you need it. From planning to deployment, ongoing operations and beyond, our experts can help you realize
+your digital ambitions.
+https://www.hpe.com/services
+Consulting Services
+No matter where you are in your journey to hybrid cloud, experts can help you map out your next steps. From determining what
+workloads should live where, to handling governance and compliance, to managing costs, our experts can help you optimize your
+operations.
+https://www.hpe.com/services/consulting
+HPE Managed Services
+HPE runs your IT operations, providing services that monitor, operate, and optimize your infrastructure and applications, delivered
+consistently and globally to give you unified control and let you focus on innovation.
+HPE Managed Services | HPE
+Operational services
+Optimize your entire IT environment and drive innovation. Manage day-to-day IT operational tasks while freeing up valuable time
+and resources. Meet service-level targets and business objectives with features designed to drive better business outcomes.
+https://www.hpe.com/services/operational
+HPE Complete Care Service
+HPE Complete Care Service is a modular, edge-to-cloud IT environment service designed to help optimize your entire IT
+environment and achieve agreed upon IT outcomes and business goals through a personalized experience. All delivered by an
+assigned team of HPE Services experts. HPE Complete Care Service provides:
+· A complete coverage approach -- edge to cloud
+· An assigned HPE team
+· Modular and fully personalized engagement
+· Enhanced Incident Management experience with priority access
+· Digitally enabled and AI driven customer experience
+https://www.hpe.com/services/completecare
+HPE Tech Care Service
+HPE Tech Care Service is the operational support service experience for HPE products. The service goes beyond traditional
+support by providing access to product specific experts, an AI driven digital experience, and general technical guidance to not only
+reduce risk but constantly search for ways to do things better. HPE Tech Care Service delivers a customer-centric, AI driven, and
+digitally enabled customer experience to move your business forward. HPE Tech Care Service is available in three response levels.
+Basic, which provides 9x5 business hour availability and a 2-hour response time. Essential which provides a 15-minute response
+time 24x7 for most enterprise level customers, and Critical which includes a 6-hour repair commitment where available and outage
+management response for severity 1 incidents.
+https://www.hpe.com/services/techcare
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Service and Support
+Page 13
+HPE Lifecycle Services
+HPE Lifecycle Services provide a variety of options to help maintain your HPE systems and solutions at all stages of the product
+lifecycle. A few popular examples include:
+· Lifecycle Install and Startup Services: Various levels for physical installation and power on, remote access setup,
+installation and startup, and enhanced installation services with the operating system.
+· HPE Firmware Update Analysis Service: Recommendations for firmware revision levels for selected HPE products, taking
+into account the relevant revision dependencies within your IT environment.
+· HPE Firmware Update Implementation Service: Implementation of firmware updates for selected HPE server, storage, and
+solution products, taking into account the relevant revision dependencies within your IT environment.
+· Implementation assistance services: Highly trained technical service specialists to assist you with a variety of activities,
+ranging from design, implementation, and platform deployment to consolidation, migration, project management, and
+onsite technical forums.
+· HPE Service Credits: Access to prepaid services for flexibility to choose from a variety of specialized service activities,
+including assessments, performance maintenance reviews, firmware management, professional services, and operational
+best practices.
+Notes: To review the list of Lifecycle Services available for your product go to:
+https://www.hpe.com/services/lifecycle
+For a list of the most frequently purchased services using service credits, see the HPE Service Credits Menu
+Other Related Services from HPE Services:
+HPE Education Services
+Training and certification designed for IT and business professionals across all industries. Broad catalogue of course offerings to
+expand skills and proficiencies in topics ranging from cloud and cybersecurity to AI and DevOps. Create learning paths to expand
+proficiency in a specific subject. Schedule training in a way that works best for your business with flexible continuous learning
+options.
+https://www.hpe.com/services/training
+Defective Media Retention
+An option available with HPE Complete Care Service and HPE Tech Care Service and applies only to Disk or eligible SSD/Flash
+Drives replaced by HPE due to malfunction.
+Consult your HPE Sales Representative or Authorized Channel Partner of choice for any additional questions and services options.
+Parts and Materials
+HPE will provide HPE-supported replacement parts and materials necessary to maintain the covered hardware product in
+operating condition, including parts and materials for available and recommended engineering improvements.
+Parts and components that have reached their maximum supported lifetime and/or the maximum usage limitations as set forth in
+the manufacturer's operating manual, product quick-specs, or the technical product data sheet will not be provided, repaired, or
+replaced as part of these services.
+How to Purchase Services
+Services are sold by Hewlett Packard Enterprise and Hewlett Packard Enterprise Authorized Service Partners:
+· Services for customers purchasing from HPE or an enterprise reseller are quoted using HPE order configuration tools.
+· Customers purchasing from a commercial reseller can find services at https://ssc.hpe.com/portal/site/ssc/
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Service and Support
+Page 14
+AI Powered and Digitally Enabled Support Experience
+Achieve faster time to resolution with access to product-specific resources and expertise through a digital and data driven
+customer experience
+Sign into the HPE Support Center experience, featuring streamlined self-serve case creation and management capabilities with
+inline knowledge recommendations. You will also find personalized task alerts and powerful troubleshooting support through an
+intelligent virtual agent with seamless transition when needed to a live support agent.
+https://support.hpe.com/hpesc/public/home/signin
+Consume IT On Your Terms
+HPE GreenLake cloud platform brings the cloud experience directly to your apps and data wherever they are--the edge,
+colocations, or your data center. It delivers cloud services for on-premises IT infrastructure specifically tailored to your most
+demanding workloads. With a pay-per-use, scalable, point-and-click self-service experience that is managed for you, HPE
+GreenLake cloud platform accelerates digital transformation in a distributed, edge-to-cloud world.
+· Get faster time to market
+· Save on TCO, align costs to business
+· Scale quickly, meet unpredictable demand
+· Simplify IT operations across your data centers and clouds
+To learn more about HPE Services, please contact your Hewlett Packard Enterprise sales representative or Hewlett Packard
+Enterprise Authorized Channel Partner. Contact information for a representative in your area can be found at "Contact HPE"
+https://www.hpe.com/us/en/contact-hpe.html
+For more information
+http://www.hpe.com/services
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 15
+Smart Templates from HPE
+HPE is releasing new Smart Template technology in the One Config Advanced (OCA) configurator. These Templates represent the
+CTO equivalents of the top-selling BTO configurations. They are intended to provide simple starting points to assist you in easily
+creating and customizing your desired Server solutions. HPE Servers that have Platform Templates, developed by HPE Product
+Managers, will have a separate tab in the HPE OCA configurator.
+Workload Solutions Templates from HPE
+The Workload Solutions Templates build on the Smart Templates technology to easily develop working configurations of the most
+compelling Workload Solutions. The templates complement the Reference Builds developed by HPE. Workload Solutions templates
+preconfigure some of the key architecture decisions and make it easier for Sellers to get started and complete a differentiated
+server solution for your customer's specific workload.
+Mainstream SKUs
+HPE launched the Mainstream SKU initiative as a market-driven approach to Demand Steering. It is a simplified portfolio of our top
+selling options that meet the current and future market trends. HPE has committed to provide a more predictable and faster
+experience for these options. Mainstream SKUs enjoy higher safety stock levels and have higher fulfilment service levels than non-
+Mainstream SKUs. Mainstream orders are fulfilled +30% faster than non-Mainstream orders, have fewer shortages and better
+recovery dates. This platform has Mainstream SKUs in the options portfolio and is eligible for the improved Mainstream experience.
+Mainstream SKUs are designated with a Mainstream symbol in our configurators.
+Mainstream Configurations
+HPE is using the new Smart Templates technology to present Mainstream configurations. All the options in a Mainstream
+configuration are pre-selected Mainstream SKUs to optimize the performance, predictability, and fulfilment experience. Check the
+Template section in our configurators for eligible Mainstream configurations.
+This section lists some of the steps required to configure a Factory Integrated Model. To ensure only valid configurations are
+ordered, Hewlett Packard Enterprise recommends the use of an HPE approved configurator. Contact your local sales representative
+for information on configurable product offerings and requirements.
+· Factory Integrated Models must start with a CTO Server.
+· FIO indicates that this option is only available as a factory installable option.
+· All Factory Integrated Models will be populated with sufficient hard drive blanks based on the number of initial hard drives
+ordered with the server.
+· Some options may not be integrated at the factory. Contact your local sales representative for additional information.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 16
+Step 1: Base Configuration
+CTO Server Models HPE ProLiant Compute DL380a Gen12 8 Double Wide/16 Single Wide Configure-to-order Server
+SKU Number P76706-B21
+TAA SKU* P76706-B21#GTA
+Processor Not included as standard
+DIMM Slots 32 DIMM slots
+Storage Controller Embedded Intel VROC NVMe RAID (requires licenses for non-Intel NVMe SSDs)
+Rear PCIe Two standard and four optional
+Drive Cage Defaulted to 4SFF Drive Cage
+Network Controller Choice of OCP 3.0 or stand-up network adapters for primary networking selection plus
+additional/optional stand-up network adapters
+Choice of OCP 3.0 or stand-up network adapters
+Notes: No embedded networking
+Fans 4 hot-plug fan assemblies (qty: 4 92mm + qty: 8 40mm fans)
+Management (iLO 7)
+ROM ID: U72
+HPE iLO with Intelligent Provisioning (standard), iLO Advanced and OneView (optional)
+HPE iLO Standard with Intelligent Provisioning (embedded),
+HPE OneView Standard (requires download),
+HPE iLO Advanced, HPE iLO Advanced Premium Security Edition, and HPE OneView Advanced
+(require licenses)
+USB 4 USB 3.0 (1 front, 2 rear, 1 internal) plus iLO front service port
+Trusted Platform
+Module (TPM)
+Embedded TPM
+CTO Server Models HPE ProLiant Compute DL380a Gen12 8 Double Wide Configure-to-order Server
+SKU Number P74461-B21
+TAA SKU* P74461-B21#GTA
+Processor Not included as standard
+DIMM Slots 32 DIMM slots
+Storage Controller Embedded Intel VROC NVMe RAID (requires licenses for non-Intel NVMe SSDs)
+Rear PCIe Two standard and three optional
+Drive Cage Defaulted to 4SFF Drive Cage
+Network Controller Choice of OCP 3.0 or stand-up network adapters for primary networking selection plus
+additional/optional stand-up network adapters
+Choice of OCP 3.0 or stand-up network adapters
+Notes: No embedded networking
+Fans 4 hot-plug fan assemblies (qty: 4 92mm + qty: 8 40mm fans)
+Management (iLO 6)
+ROM ID: U70
+HPE iLO with Intelligent Provisioning (standard), iLO Advanced and OneView (optional)
+HPE iLO Standard with Intelligent Provisioning (embedded),
+HPE OneView Standard (requires download),
+HPE iLO Advanced, HPE iLO Advanced Premium Security Edition, and HPE OneView Advanced
+(require licenses)
+USB 4 USB 3.0 (1 front, 2 rear, 1 internal) plus iLO front service port
+Trusted Platform
+Module (TPM)
+Embedded TPM
+Notes:
+- P74461-B21 ONLY is available with iLO6 and is NOT upgradeable to iLO7.
+- HPE offers multiple Trade Agreement Act (TAA) compliant configurations to meet the needs of US Federal Government
+customers. These products are either manufactured or substantially transformed in a designated country. TAA compliance
+is only provided when HPE options are included as part of factory integrated orders (CTO).
+- All CTO servers are Energy Star 3.0 compliant. After January 11, 2024, Energy Star 3.0 compliance is no longer valid.
+Energy Star 4.0 certification will be valid upon publication.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 17
+Step 2: Choose Processors
+Please select two processors from below.
+Intel® Xeon® 6700-Series Processors with E Core
+Intel Xeon 6710E 2.4GHz 64-core 205W Processor for HPE P71117-B21
+Intel Xeon 6740E 2.4GHz 96-core 250W Processor for HPE P71119-B21
+Intel Xeon 6746E 2.0GHz 112-core 250W Processor for HPE P71120-B21
+Intel Xeon 6756E 1.8GHz 128-core 225W Processor for HPE P71121-B21
+Intel Xeon 6766E 1.9GHz 144-core 250W Processor for HPE P71122-B21
+Intel Xeon 6780E 2.2GHz 144-core 330W Processor for HPE P71124-B21
+Intel® Xeon® 6500-Series Processors with P Core (HCC, LCC)
+Intel Xeon 6507P 3.5GHz 8-core 150W Processor for HPE P74504-B21
+Intel Xeon 6740P 2.1GHz 48-core 270W Processor for HPE P73829-B21
+Intel Xeon 6515P 2.3GHz 16-core 150W Processor for HPE P74506-B21
+Intel Xeon 6517P 3.2GHz 16-core 190W Processor for HPE P74507-B21
+Intel Xeon 6520P 2.4GHz 24-core 210W Processor for HPE P74568-B21
+Intel Xeon 6527P 3.0GHz 24-core 255W Processor for HPE P74570-B21
+Intel Xeon 6530P 2.3GHz 32-core 225W Processor for HPE P74571-B21
+Intel® Xeon® 6700-Series Processors with P Core (XCC)
+Intel Xeon 6730P 2.5GHz 32-core 250W Processor for HPE P74573-B21
+Intel Xeon 6737P 2.9GHz 32-core 270W Processor for HPE P74576-B21
+Intel Xeon 6736P 2.0GHz 36-core 205W Processor for HPE P74575-B21
+Intel Xeon 6740P 2.1GHz 48-core 270W Processor for HPE P73829-B21
+Intel Xeon 6747P 2.7GHz 48-core 330W Processor for HPE P73831-B21
+Intel Xeon 6760P 2.2GHz 64-core 330W Processor for HPE P73832-B21
+Intel Xeon 6767P 2.4GHz 64-core 350W Processor for HPE P73834-B21
+Intel Xeon 6787P 2.0GHz 86-core 350W Processor for HPE P73837-B21
+Notes:
+- DL380a Gen12 only supports dual processor configurations, not single processor configurations.
+- Mixing of 2 different processor models is NOT supported.
+- DDR5 speed is the maximum memory speed of the processor. Actual memory speed may depend on the quantity and type
+of DIMMs installed.
+- Intel® Xeon® 6500/6700-Series Processors with P Core not available on P74461-B21 server SKU.
+Step 3: Choose GPUs
+Please select the GPU from the options below. For memory population rule whitepaper and optimal memory performance
+guidelines, please go to: HPE Memory Population Rules
+Computational and Graphics Accelerators
+NVIDIA H200 NVL 141GB PCIe Accelerator for HPE S3U30C
+NVIDIA H100 NVL 94GB PCIe Accelerator for HPE S2D86C
+NVIDIA L40S 48GB PCIe Accelerator S2L70C
+NVIDIA L20 48GB PCIe GPU Accelerator for HPE S4A92C
+NVIDIA Ampere 2-way 2-slot Bridge for HPE R6V66A
+NVIDIA 2-way NVLink Bridge for H200 NVL S4A90C
+NVIDIA 4-way NVLink Bridge for H200 NVL S4A91C
+HPE ProLiant Compute DL380a Gen12 GPU 16-pin FIO Cable Kit P74700-B21
+Notes:
+- 0-GPU configurations are not allowed.
+- Quantity 1 of 16-pin Cable Kit will support quantity 2 of double-wide GPU.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 18
+- 2400W or 3200W PSUs must be selected if H100 NVL or H200 NVL GPUs are configured.
+- NVIDIA 4-way and 2-way Bridge for H200 NVL can only be supported with H200 NVL GPUs.
+- NVIDIA Ampere 2-way Bridge can only be paired with the H100 NVL on this platform. If selected, quantity
+3 must be selected per pair of H100 NVL GPUs.
+- Double Wide GPU can be selected in quantities 2, 4, or 8.
+- Mixing of different GPU models is not supported.
+- Recommended system memory capacity is recommended to be 2x GPU memory capacity.
+Step 4: Choose Memory Options
+Please select two or more memory kits from below.
+For new Gen12 memory population rule whitepaper and optimal memory performance guidelines, please go to:
+HPE Memory Population Rules
+Notes:
+- DIMMs quantity must be 4, 8, 16, or 32 when using Intel® Xeon® 6700-Series Processors with E Core.
+- DIMMs quantity must be 4, 8, 16, 24 or 32 when using Intel® Xeon® 6500/6700-Series Processors with P Core.
+- Rank mixing is not allowed.
+- 16GB DIMM allowed in 4, 8, 16 quantities only and is not supported with Intel® Xeon® 6700-Series Processors with E Core.
+- 6400 MT/s memory SKUs offer a transfer rate of up to 6400 MT/s at 1 DIMM per channel and up to 5200 MT/s at 2 DIMMs
+per channel, depending on memory and CPU selection. The maximum memory speed and capacity is a function of the
+memory type, memory configuration, and processor model.
+- HPE Server Memory compatibility for a specific server platform may vary or be limited within a server platform depending
+upon the specific configuration being requested. Because each server environment and requirements can vary, memory
+compatibility is based not only upon the server family but may also be affected by the amount and type of additional
+hardware options installed within a specific server configuration. For this reason, some HPE memory DIMMs may be
+qualified for an HPE server model or family and yet occasionally not be supported with some configurations within that
+server family.
+Registered DIMMs (RDIMMs)
+HPE 16GB (1x16GB) Single Rank x8 DDR5-6400 CAS-46-45-45 EC8 Registered Smart Memory Kit P69726-B21
+HPE 32GB (1x32GB) Dual Rank x8 DDR5-6400 CAS-46-45-45 EC8 Registered Smart Memory Kit P69727-B21
+HPE 64GB (1x64GB) Dual Rank x4 DDR5-6400 CAS-46-45-45 EC8 Registered Smart Memory Kit P69728-B21
+HPE 96GB (1x96GB) Dual Rank x4 DDR5-6400 CAS-46-45-45 EC8 Registered Smart Memory Kit P69729-B21
+HPE 128GB (1x128GB) Dual Rank x4 DDR5-6400 CAS-46-45-45 EC8 Registered Smart Memory Kit P69730-B21
+HPE 256GB (1x256GB) Quad Rank x4 DDR5-6400 CAS-60-52-52 EC8 Registered 3DS Smart Memory Kit P73447-B21
+Step 5: Choose Storage Options
+Please select one drive cage from below.
+Notes: DL380a Gen12 supports only NVMe SSDs - U.3 & E3.S
+Drive Cage
+HPE ProLiant Compute DL380a Gen12 4SFF FIO Drive Cage Kit P74710-B21
+Notes:
+- Maximum quantity = 2
+- Qty1 of 4SFF Cage is defaulted however customer is allowed to deselect and select 4EDSFF Cage.
+- If Qty1 of 4SFF Cage is selected, then Qty1 of HPE DL380a Gen12 4NVMe Direct Cable Kit must be
+selected.
+- If Qty2 of 4SFF Cage is selected, then Qty1 of HPE DL380a G12 8NVMe Rear Direct Cable Kit must be
+selected.
+- 4SFF Cage and HPE DL380a G12 4EDSFF Direct Cable for NVD cannot be selected together.
+- Mixing of Drive Cages is not allowed.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 19
+HPE ProLiant Compute DL380a Gen12 4EDSFF FIO Drive Cage Kit P74712-B21
+Notes:
+- Maximum quantity = 2
+- If Qty1 of 4EDSFF Cage is selected, then Qty1 of HPE DL380a G12 4EDSFF Direct Cable for NVD (P74716-
+B21) or HPE DL380a Gen12 4EDSFF Cable Kit (P74704-B21) must be selected.
+- If Qty2 of 4EDSFF Cage is selected, then Qty1 of HPE DL380a G12 8NVMe Rear Direct Cable Kit or HPE
+DL380a Gen12 8NVMe/EDSFF Direct Attach 4 PCIe Kit must be selected.
+- Mixing of Drive Cages is not allowed.
+HPE Tri-Mode Controllers
+HPE MR416i-p Gen11 x16 Lanes 8GB Cache PCI SPDM Plug-in Storage Controller P47777-B21
+HPE MR416i-o Gen11 x16 Lanes 8GB Cache OCP SPDM Storage Controller P47781-B21
+Notes:
+- Mixing of controller models is not allowed.
+- Restricted to minimum and maximum Qty2 of controller.
+- If MR416i-p is selected, then Qty1 of P76700-B21 (HPE DL380a Gen12 NVMe/TM PCIe FIO Cable Kit)
+must be selected.
+- If MR416i-o is selected, then Qty1 of P76702-B21 (HPE DL380a Gen12 NVMe/TM OCP FIO Cable Kit)
+must be selected.
+- Qty2 of HPE DL380a Gen12 4SFF FIO Kit must be selected.
+- Can not be selected if Qty1 of HPE DL380a Gen12 4SFF FIO Kit is selected.
+- 96W Smart Storage battery or Smart Hybrid Capacitor must be selected when controller is attached.
+HPE Energy Packs
+HPE 96W Smart Storage Lithium-ion Battery with 260mm Cable Kit P01367-B21
+HPE Smart Storage Hybrid Capacitor with 260mm Cable Kit P02381-B21
+Notes: Can only be selected if MR416i-p/ MR416i-o controllers are selected.
+HPE Boot Controller
+HPE NS204i-u v2 NVMe Hot Plug Boot Optimized Storage Device P78279-B21
+HPE DL380a Gen12 NS204i-u Front Cage Kit P75284-B21
+Notes: If NS204i-u v2 boot device is added, Front Cage Kit must be selected.
+Hybrid RAID Controllers
+Intel Virtual RAID on CPU Premium FIO Software for HPE R7J57A
+HPE DL380a Gen12 Storage Cables
+HPE ProLiant Compute DL380a Gen12 4NVMe Direct Attach Cable Kit P74702-B21
+Notes:
+- Requires Selection of 4SFF Drive Cage.
+- If Qty1 of 4SFF Cage is selected, then Qty1 of HPE DL380a Gen12 4NVMe Direct Cable Kit must be
+selected.
+- If 4NVMe Direct Attach Cable is selected, then max quantity of HPE DL380a Gen12 OCPA Cable Kit is
+limited to 1.
+- If 4NVMe Direct Attach Cable is selected, then HPE DL380a Gen12 OCPB Cable Kit cannot be selected.
+HPE ProLiant Compute DL380a Gen12 4EDSFF Direct Attach Cable Kit P74704-B21
+Notes:
+- Requires Selection of 4EDSFF Drive Cage.
+- Cannot be selected with HPE DL380a Gen12 PCIe Rear FIO Kit (P74690-B21).
+HPE ProLiant Compute DL380a Gen12 8NVMe Front Direct Attach Cable Kit P74706-B21
+Notes:
+- Can only be selected with HPE DL380a Gen12 8DW/16SW CTO Server (P76706-B21).
+- Can only be selected with 2DW or 8SW GPU configurations only.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 20
+- Can only be selected if quantity 2 of 4SFF Drive Cage is selected.
+- Cannot be selected if quantity 2 of DL380a Gen12 SWBD FIO Enable Kit (P74714-B21) is selected.
+HPE ProLiant Compute DL380a Gen12 8NVMe Rear Direct Attach Cable Kit P74708-B21
+Notes:
+- Allows for 8NVMe selection but limits configuration to 2 rear PCIe slots and 2OCP slots.
+- If Qty2 of 4SFF Cage is selected, then Qty1 of HPE DL380a G12 8NVMe Rear DA Cable Kit must be
+selected.
+- If 8NVMe Direct Attach Cable is selected, then HPE DL380a Gen12 PCIe Rear FIO Cable Kit cannot be
+selected and vice-versa (configuration limited to max 2 rear PCIe slots).
+- Cannot be selected if HPE DL380a G12 4EDSFF Direct Cable for NVD is selected.
+HPE ProLiant Compute DL380a Gen12 8NVMe/EDSFF Direct Attach 4 PCIe Cable Kit P78956-B21
+Notes:
+- If Qty2 of 4EDSFF Cage is selected, then Qty1 of HPE DL380a G12 8NVME/EDSFF DA 4 PCIe Kit must be
+selected.
+- Cannot be selected if HPE DL380a G12 4EDSFF Direct Cable for NVD is selected.
+- If HPE DL380a G12 8NVME/EDSFF DA 4 PCIe Kit is selected, then HPE DL380a Gen12 OCPA Cable Kit and
+HPE DL380a Gen12 OCPB Cable Kit cannot be selected and vice-versa.
+- If HPE DL380a G12 8NVME/EDSFF DA 4 PCIe Kit is selected, then no other OCP card can be selected.
+HPE ProLiant Compute DL380a Gen12 4EDSFF Direct Attach Cable for NVIDIA P74716-B21
+Notes:
+- Enables 8DW GPUs and up to 5 rear PCIe cards, limited to 4 EDSFF drives (no SFF NVMe).
+- If HPE DL380a G12 4EDSFF Direct Cable for NVD, then Qty1 of 4EDSFF Drive Cage must be selected.
+- If HPE DL380a Gen12 PCIe Rear FIO Kit is selected with HPE DL380a G12 4EDSFF Direct Cable for NVD,
+then Slot1, Slot 2 and 5 are active along with default PCIe Slots. Totally 5 PCIe Slots available for "non-GPU"
+PCIe cards selection.
+- 8NVMe DA Cable and HPE DL380a G12 4EDSFF Direct Cable for NVD cannot be selected together.
+- If HPE DL380a G12 4EDSFF Direct Cable for NVD is selected, then HPE DL380a Gen12 OCPA Cable Kit and
+HPE DL380a Gen12 OCPB Cable Kit cannot be selected and vice-versa.
+- If HPE DL380a G12 4EDSFF Direct Cable for NVD is selected, then HPE DL380a Gen12 PCIe Rear FIO
+Cable Kit must be selected.
+- If HPE DL380a G12 4EDSFF Direct Cable for NVD is selected, then no other OCP card can be selected.
+HPE ProLiant Compute DL380a Gen12 NVMe to Tri-Mode PCIe FIO Cable Kit P76700-B21
+HPE ProLiant Compute DL380a Gen12 NVMe to Tri-Mode OCP FIO Cable Kit P76702-B21
+Notes:
+- Can only be selected with HPE DL380a Gen12 8DW/16SW CTO Server (P76706-B21).
+- P76700-B21 can be selected only if MR416i-p controller is selected.
+- P76702-B21 can be selected only if MR416i-o controller is selected.
+HPE ProLiant Compute DL380a Gen12 16EDSFF x2 Direct Attach Cable Kit P79347-B21
+Notes:
+- Quantity 4 or 4EDSFF Drive Cage must be selected.
+- Cannot be selected with HPE DL380a Gen12 PCIe Rear FIO Kit (P74690-B21).
+- Cannot be selected with HPE DL380a Gen12 PCIe Rear FIO Cable Kit.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 21
+Step 6: Choose Power Supplies
+HPE M-CRPS
+HPE 1500W M-CRPS Titanium Hot Plug Power Supply Kit P67244-B21
+HPE 2400W M-CRPS Titanium Hot Plug Power Supply Kit P67252-B21
+HPE 3200W M-CRPS Titanium Hot Plug Power Supply Kit P67248-B21
+HPE ProLiant Compute DL380a Gen12 Power Enablement Kit P74719-B21
+Notes:
+- Mixing of power supplies is not allowed.
+- 2400W or 3200W supplies required for H100/H200 NVL GPUs.
+- Quantity 5 (2 for system board components and 3 for GPUs) power supplies required for 2 or 4DW GPU configurations.
+- Quantity of 8 power supplies required for 8 DW GPU configurations.
+- For HPE DL380a Gen12 8DW CTO Server (P74461-B21), if more than Qty5 of Power Supply is selected, then Qty1 of PDB
+Kit must be selected. PDB selection not required on HPE DL380a Gen12 8DW/16SW CTO Server (P76706-B21).
+- 1500W supply supports C13/ C13-C14 Power Cords only.
+- 2400W and 3200W supplies supports C19/ C19-C20 Power Cords only.
+- Prior to making a power supply selection it is highly recommended that the HPE Power Advisor is run to determine the
+right size power supply for your server configuration. The HPE Power Advisor is located at:
+https://poweradvisorext.it.hpe.com/.
+Step 7: Choose additional options for Factory Integration from Core and Additional Options
+Some options may not be integrated at the factory. To ensure only valid configurations are ordered, Hewlett Packard Enterprise
+recommends the use of an HPE approved configurator. Contact your local sales representative for additional information.
+Software as a Service Management
+HPE Compute Ops Management
+Base SKU
+HPE Compute Ops Management Standard 3-year Upfront ProLiant SaaS R7A11AAE
+Upgrade SKUS
+HPE Compute Ops Management Standard 1-year Upfront ProLiant SaaS R7A10AAE
+HPE Compute Ops Management Standard 5-year Upfront ProLiant SaaS R7A12AAE
+HPE Compute Ops Management Advanced Flex with ProLiant Enablement S6C28AAE
+For more information, visit the HPE Compute Ops Management QuickSpecs: https://www.hpe.com/psnow/doc/a50004263enw
+Supported Servers - CTO only. No OEM. - Complete list can be found here: Latest Supported Server List:
+https://www.hpe.com/info/com-supported-servers
+HPE Cooling Options
+HPE ProLiant Compute DL380a Gen12 Upgrade Chassis Fan Module P80098-B21
+Notes: For HPE DL380a Gen12 8DW CTO Server (P74461-B21) only. Fan upgrade recommended to
+effectively cool higher temperature 600W GPUs. Utilizes 110W fans to replace your installed 90W fans.
+HPE I/O Expansion Options
+Notes: The Primary Riser with PCIe slot 3 and the Secondary Riser with PCIe slot 6 are included in the server
+by default.
+HPE ProLiant Compute DL380a Gen12 2DW Captive Riser FIO Kit P74685-B21
+Notes:
+- Maximum quantity = 2. This is a front riser and only supports GPU options.
+- Requires selection of HPE DL380a Gen12 4DW FIO Config.
+- HPE DL380a Gen12 2DW Cptv FIO Kit and HPE DL380a Gen12 SWBD FIO Enable Kit cannot be selected
+together.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 22
+HPE ProLiant Compute DL380a Gen12 PCIe Rear FIO Kit P74690-B21
+Notes:
+- Maximum quantity = 1. This is a rear riser and only supports non-graphic options.
+- If HPE DL380a Gen12 PCIe Rear FIO Kit is selected without HPE DL380a G12 4EDSFF Direct Cable for
+NVD, then only Slot 2 and 5 are active along with default PCIe slots. Totally 4 PCIe Slots available for
+"non-GPU" PCIe cards selection.
+- If HPE DL380a Gen12 PCIe Rear FIO Kit is selected with HPE DL380a G12 4EDSFF Direct Cable for NVD,
+then Slot1, Slot 2 and 5 are active along with default PCIe Slots. Totally 5 PCIe Slots available for PCIe
+cards (Except for GPU) selection.
+- HPE DL380a Gen12 PCIe Rear FIO Kit and HPE DL380a G12 8NVMe Rear Direct Cable Kit cannot be
+selected together.
+- If 8NVMe Direct Attach Cable is selected, then HPE DL380a Gen12 PCIe Rear FIO Cable Kit cannot be
+selected and vice-versa.
+- If HPE DL380a G12 4EDSFF Direct Cable for NVD is selected, then HPE DL380a Gen12 PCIe Rear FIO
+Cable Kit must be selected.
+HPE ProLiant Compute DL380a Gen12 Switchboard FIO Enablement Kit P74714-B21
+Notes:
+- Maximum quantity = 2. Supports graphic options only.
+- HPE DL380a Gen12 2DW Cptv FIO Kit and HPE DL380a Gen12 SWBD FIO Enable Kit cannot be selected
+together.
+- Requires selection of HPE DL380a Gen12 8DW/16SW FIO Config.
+- If Qty8 of DW GPU is selected, then Qty2 of HPE DL380a Gen12 SWBD FIO Enable Kit must be selected.
+HPE ProLiant Compute DL380a Front NIC FIO Enablement Kit P76927-B21
+Notes:
+- Allows for qty: 4 front PCIe networking/InfiniBand cards only. Limits selection to 1 rear PCIe slot.
+- Does not occupy slots used by 8 Double Wide GPU configuration.
+- Must be selected with HPE DL380a Gen12 8DW NIC FIO Config (P75011-B21).
+HPE ProLiant Compute DL380a Rear PCIe Slot1/4 FIO Cable Kit P76698-B21
+Notes:
+- Enables rear PCIe Slot1 and Slot4.
+- Requires selection of HPE DL380a Gen12 PCIe Rear FIO Kit (P74690-B21).
+- Can be selected with 2 Double Wide or 8 Single Wide GPU configurations only.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 23
+OCP 3.0 Enablement
+HPE ProLiant Compute DL380a Gen12 OCPA Cable Kit P74694-B21
+Notes:
+- Maximum quantity = 2.
+- Qty1 of HPE DL380a Gen12 OCPA Cable Kit to be defaulted however customer is allowed to deselect it if
+configuration do not require OCPA activation.
+- If Qty2 of OCP Card is selected, then min Qty1 of HPE DL380a Gen12 OCPA Cable Kit must be selected.
+- OCPA does not have default connections and require HPE DL380a Gen12 OCPA Cable Kit to enable
+OCPA
+ Qty1 of HPE DL380a Gen12 OCPA Cable Kit provides x8 connection for OCPA
+ Qty2 of HPE DL380a Gen12 OCPA Cable Kit provides x16 connection for OCPA
+HPE ProLiant Compute DL380a Gen12 OCPB Cable Kit P74696-B21
+Notes:
+- Maximum quantity = 1.
+- If 4NVMe Direct Attach Cable is selected, then HPE DL380a Gen12 OCPB Cable Kit cannot be selected.
+- If HPE DL380a G12 4EDSFF Direct Cable for NVD is selected, then HPE DL380a Gen12 OCPA Cable Kit
+and HPE DL380a Gen12 OCPB Cable Kit cannot be selected and vice-versa.
+HPE Solid State Drives
+For SSD selection guidance, please visit https://ssd.hpe.com/
+Mixed Use- NVMe - EDSFF - Solid State Drives
+HPE 3.2TB NVMe Gen5 High Performance Mixed Use E3S EC1 Self-encrypting FIPS 140-3 CM7 SSD P70669-B21
+HPE 6.4TB NVMe Gen5 High Performance Mixed Use E3S EC1 Self-encrypting FIPS 140-3 CM7 SSD P70672-B21
+HPE 3.2TB NVMe Gen5 High Performance Mixed Use E3S EC1 EDSFF SPDM CM7 SSD P61191-B21
+HPE 6.4TB NVMe Gen5 High Performance Mixed Use E3S EC1 EDSFF SPDM CM7 SSD P61195-B21
+HPE 1.6TB NVMe Gen5 Mainstream Performance Mixed Use E3S EC1 EDSFF SPDM PE1030 SSD P77262-B21
+HPE 3.2TB NVMe Gen5 Mainstream Performance Mixed Use E3S EC1 EDSFF SPDM PE1030 SSD P77265-B21
+HPE 6.4TB NVMe Gen5 Mainstream Performance Mixed Use E3S EC1 EDSFF SPDM PE1030 SSD P77267-B21
+Read Intensive - NVMe - EDSFF - Solid State Drives
+HPE 3.84TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM PM1743 SSD P57799-B21
+HPE 7.68TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM PM1743 SSD P57803-B21
+HPE 15.36TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM PM1743 SSD P57807-B21
+HPE 3.84TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM CM7 SSD P61179-B21
+HPE 7.68TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM CM7 SSD P61183-B21
+HPE 15.36TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM CM7 SSD P61187-B21
+HPE 7.68TB NVMe Gen5 High Performance Read Intensive E3S EC1 Self-encrypting FIPS 140-3 CM7 SSD P70674-B21
+HPE 15.36TB NVMe Gen5 High Performance Read Intensive E3S EC1 Self-encrypting FIPS 140-3 CM7 SSD P79122-B21
+HPE 1.92TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 EDSFF SPDM PE1010 SSD P77269-B21
+HPE 3.84TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 EDSFF SPDM PE1010 SSD P77271-B21
+HPE 7.68TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 EDSFF SPDM PE1010 SSD P77273-B21
+HPE 15.36TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 EDSFF SPDM PE1010 SSD P77275-B21
+Notes: EDSFF drives can be selected with 4EDSFF Drive Cage only.
+Read Intensive - NVMe - SFF - Solid State Drives
+HPE 15.36TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63841-B21
+HPE 15.36TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a SSD P50224-B21
+HPE 15.36TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PS1010 SSD P70436-B21
+HPE 7.68TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PS1010 SSD P70434-B21
+HPE 7.68TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63837-B21
+HPE 7.68TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a SSD P50222-B21
+HPE 3.84TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63833-B21
+HPE 3.84TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a SSD P50219-B21
+HPE 1.92TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63829-B21
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 24
+HPE 1.92TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a SSD P50216-B21
+Mixed Use - NVMe - SFF - Solid State Drives
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 CM7 SSD P63853-B21
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PM1735a SSD P50233-B21
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PS1030 SSD P70428-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 CM7 SSD P63849-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PM1735a SSD P50230-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PS1030 SSD P70426-B21
+HPE 1.6TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 CM7 SSD P63845-B21
+HPE 1.6TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PM1735a SSD P50227-B21
+Self Encrypting - NVMe - SFF - FIPS Solid State Drives
+HPE 1.6TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 Self-encrypting FIPS 140-3 CM7 SSD P61043-B21
+HPE 1.92TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 Self-encrypting FIPS 140-3 CM7 SSD P61019-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 Self-encrypting FIPS 140-3 CM7 SSD P61051-B21
+HPE 3.84TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 Self-encrypting FIPS 140-3 CM7 SSD P61027-B21
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 Self-encrypting FIPS 140-3 CM7 SSD P61059-B21
+HPE 7.68TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 Self-encrypting FIPS 140-3 CM7 SSD P61035-B21
+Notes: SFF drives can be selected with 4SFF Drive Cage only.
+HPE Networking
+The DL380a Gen12 CTO server does not come with embedded networking, hence the requirement to configure with either a PCIe
+or OCP networking adapter.
+DPU
+HPE Data Processing Unit InfiniBand NDR200/Ethernet 200Gb 2-port QSFP112 FHHL B3220 Adapter P66386-H21
+HPE ProLiant Compute DL380a Gen12 DPU Enablement Kit P74722-B21
+Notes: B3220 DPU requires selection of DPU Enablement Kit.
+PCIe Network adapters
+Broadcom BCM57414 Ethernet 10/25Gb 2-port SFP28 Adapter for HPE P26262-B21
+Broadcom BCM57504 Ethernet 10/25Gb 4-port SFP28 Adapter for HPE P26264-B21
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T Adapter for HPE P51178-B21
+Broadcom BCM57416 Ethernet 10Gb 2-port BASE-T Adapter for HPE P26253-B21
+Broadcom BCM57412 Ethernet 10Gb 2-port SFP+ Adapter for HPE P26259-B21
+Broadcom BCM57608 Ethernet 100Gb 2-port QSFP112 Adapter for HPE P73111-B21
+Intel E810-XXVDA2 Ethernet 10/25Gb 2-port SFP28 Adapter for HPE P08443-B21
+Intel E810-XXVDA4 Ethernet 10/25Gb 4-port SFP28 Adapter for HPE P08458-B21
+Intel E810-CQDA2 Ethernet 100Gb 2-port QSFP28 Adapter for HPE P21112-B21
+Mellanox MCX631102AS-ADAT Ethernet 10/25Gb 2-port SFP28 Adapter for HPE P42044-B21
+Mellanox MCX623106AS-CDAT Ethernet 100Gb 2-port QSFP56 Adapter for HPE P25960-B21
+OCP 3.0 Network Adapters
+Broadcom BCM57414 Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter for HPE P10115-B21
+Broadcom BCM57504 Ethernet 10/25Gb 4-port SFP28 OCP3 Adapter for HPE P26269-B21
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE P51181-B21
+Broadcom BCM57412 Ethernet 10Gb 2-port SFP+ OCP3 Adapter for HPE P26256-B21
+Broadcom BCM57416 Ethernet 10Gb 2-port BASE-T OCP3 Adapter for HPE P10097-B21
+Broadcom BCM57608 Ethernet 100Gb 2-port QSFP112 OCP3 Adapter for HPE P73114-B21
+Intel E810-XXVDA2 Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter for HPE P10106-B21
+Intel E810-XXVDA4 Ethernet 10/25Gb 4-port SFP28 OCP3 Adapter for HPE P41614-B21
+Intel E810-CQDA2 Ethernet 100Gb 2-port QSFP28 OCP3 Adapter for HPE P22767-B21
+Mellanox MCX631432AS-ADAI Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter for HPE P42041-B21
+Notes:
+- OCP Adapters do not consume PCIe slots.
+- If Qty1 of this option is selected, then Qty1 of HPE DL380a Gen12 OCPB Cable Kit OR Qty2 of HPE DL380a
+Gen12 OCPA Cable Kit must be selected.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 25
+- If Qty2 of this option is selected, then Qty1 of Qty1 of HPE DL380a Gen12 OCPB Cable Kit AND Qty2 of
+HPE DL380a Gen12 OCPA Cable Kit must be selected.
+- Cannot be selected if 4NVMe Direct attach cable is selected.
+HPE InfiniBand
+HPE InfiniBand NDR/Ethernet 400Gb 1-port OSFP PCIe5 x16 MCX75310AAS-NEAT Adapter P45641-B23
+HPE InfiniBand NDR200/Ethernet 200Gb 1-port OSFP PCIe5 x16 MCX75310AAS-HEAT Adapter P45642-B22
+HPE InfiniBand NDR200/Ethernet 200GbE 2-port QSFP112 PCIe5 x16 MCX755106AC-HEAT Adapter P65333-B21
+HPE Omni-Path
+HPE 100Gb 1-port OP101 QSFP28 x16 PCIe Gen3 with Intel Omni-Path Architecture Adapter 829335-B21
+Some options may not be integrated at the factory. To ensure only valid configurations are ordered, Hewlett Packard Enterprise
+recommends the use of an HPE approved configurator. Contact your local sales representative for additional information.
+HPE Storage Options
+Emulex Fibre Channel HBAs
+HPE SN1620E 32Gb 2-port Fibre Channel Host Bus Adapter S4S01A
+HPE SN1720E 64Gb 2-port Fibre Channel Host Bus Adapter S4T09A
+QLogic Fibre Channel HBAs
+HPE SN1610Q 32Gb 1-port Fibre Channel Host Bus Adapter R2E08A
+HPE SN1610Q 32Gb 2-port Fibre Channel Host Bus Adapter R2E09A
+HPE SN1700Q 64Gb 1-port Fibre Channel Host Bus Adapter R7N86A
+HPE SN1700Q 64Gb 2-port Fibre Channel Host Bus Adapter R7N87A
+Notes: Can only be selected with HPE DL380a Gen12 8DW/16SW CTO Server (P76706-B21).
+HPE iLO Common Password FIO Setting
+HPE iLO Common Password FIO Setting P08040-B21
+Notes:
+- Replaces iLO default randomized password by an HPE defined common password. HPE highly recommends
+changing this password immediately after the initial onboarding process.
+- Customers who want to choose their own custom iLO default password should use the HPE Factory
+Express Integration Services
+HPE iLO Advanced
+HPE iLO Advanced Electronic License with 1yr Support on iLO Licensed Features E6U59ABE
+HPE iLO Advanced 1-server License with 1yr Support on iLO Licensed Features 512485-B21
+HPE iLO Advanced AKA Tracking License with 1yr Support on iLO Licensed Features 512487-B21
+HPE iLO Advanced Electronic License with 3yr Support on iLO Licensed Features E6U64ABE
+HPE iLO Advanced 1-server License with 3yr Support on iLO Licensed Features BD505A
+HPE iLO Advanced AKA Tracking License with 3yr Support on iLO Licensed Features BD507A
+HPE Converged Infrastructure Management Software
+HPE OneView Advanced (with HPE iLO Advanced)
+HPE OneView including 3yr 24x7 Support Track 1-server LTU E5Y36A
+HPE OneView for ProLiant DL Server including 3yr 24x7 Support FIO Bundle Physical 1-server LTU E5Y43A
+HPE OneView for ProLiant DL Server including 3yr 24x7 Support Bundle Track 1-server LTU E5Y44A
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU E5Y35AAE
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 26
+HPE OneView Advanced (without HPE iLO Advanced)
+HPE OneView w/o iLO including 3yr 24x7 Support 1-server FIO LTU P8B31A
+HPE OneView w/o iLO including 3yr 24x7 Support Track 1-server LTU P8B25A
+HPE OneView w/o iLO including 3yr 24x7 Support Flexible Quantity E-LTU P8B26AAE
+Notes: Licenses ship without media. The HPE OneView Media Kit can be ordered separately or can be
+downloaded.
+HPE Security
+HPE ProLiant Compute DL380a Gen12 4U Bezel Kit P74911-B21
+HPE ProLiant DL385 Gen11 Intrusion Cable Kit P55713-B21
+Notes: This provides a physical connection from the chassis board and hood and detects any physical intrusion
+into the chassis, providing security during the entire supply chain process of shipping, receiving, distribution,
+and operation.
+HPE Cable Options
+HPE ProLiant Compute DL3X0 Gen12 SP MHS Serial Port Enablement Kit P71432-B21
+HPE Racks
+· Please see the HPE Advanced Series Racks QuickSpecs for information on additional racks options and rack specifications.
+HPE G2 Advanced Series Racks
+· Please see the HPE Enterprise Series Racks QuickSpecs for information on additional racks options and rack specifications.
+HPE G2 Enterprise Series Racks
+HPE Power Distribution Units (PDUs)
+· Please see the HPE Basic Power Distribution Units (PDU) QuickSpecs for information on these products and their
+specifications.
+· Please see the HPE Metered Power Distribution Units (PDU) QuickSpecs for information on these products and their
+specifications. Please see the HPE Intelligent Power Distribution Unit (PDU) QuickSpecs for information on these
+products and their specifications.
+HPE Uninterruptible Power Systems (UPS)
+· To learn more, please visit the HPE Uninterruptible Power Systems (UPS) web page.
+· Please see the HPE Direct Flow Three Phase Uninterruptible Power System QuickSpecs for information on these
+products and their specifications.
+· Please see the HPE Line Interactive Single Phase UPS QuickSpecs for information on these products and their
+specifications.
+HPE Rack Options
+Please see the HPE KVM Switches web page for information on these products and their specifications.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Additional Options
+Page 27
+HPE Rail Kits
+Ball bearing rail kits contain telescoping rails which allow for in-rack serviceability.
+To assist in the installation of the server into the rack an optional installation tool is available by contacting your local services
+representative.
+Notes:
+- Hewlett Packard Enterprise recommends that a minimum of two people are required for all Rack Server installations. Please
+refer to your installation instructions for proper tools and number of people to use for any installation.
+- HPE rail kits are designed to work with HPE racks in compliance with industry standard EIA-310-E. In the event a customer
+elects to purchase a third-party rack for use with an HPE rail kit, any such use is at customer's own risk. HPE makes no
+express or implied warranties with respect to such third-party racks and specifically disclaims any implied warranties of
+merchantability and fitness for a particular purpose. Furthermore, HPE has no obligation and assumes no liability for the
+materials, design, specifications, installation, safety, and compatibility of any such third-party racks with any rail kits,
+including HPE rail kits.
+HPE ProLiant Compute DL380a Gen12 Ball Bearing Rail Kit P69770-B21
+Notes: This rail kit does not include the cable management arm (P28726-B21).
+HPE Apollo 4200 Gen10 Plus Cable Management Arm P28726-B21
+HPE Support Services
+Installation & Start-up Services
+HPE ProLiant DL/ML Install Service U4554E
+HPE ProLiant DL/ML Startup Service U4555E
+Tech Care Flex SKU Fixed SKU
+HPE 3 Year Tech Care Essential DL380a Gen12 HW Service HU4A6A30C4W H47TXE
+HPE 3 Year Tech Care Essential wDMR DL380a Gen12 HW Service HU4A7A30C4W H47TYE
+HPE 5 Year Tech Care Essential DL380a Gen12 HW Service HU4A6A50C4W H47WCE
+HPE 5 Year Tech Care Essential wDMR DL380a Gen12 HW Service HU4A7A50C4W H47WDE
+Notes: For a full listing of support services available for this server, please visit http://www.hpe.com/services.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Memory
+Page 28
+Memory Population guidelines
+HPE ProLiant Compute DL380a Gen12
+General Memory Population Rules and Guidelines:
+· At least one DDR5 DIMM per socket is required. Only DDR5 DIMMs are allowed.
+· To maximize performance, it is recommended to balance the total memory capacity between all installed processors.
+· All DIMMs in a channel in across of Processor socket must have the same number of ranks (unless explicitly specified
+otherwise.
+· A maximum of 8 logical ranks (ranks seen by the host) per channel is allowed.
+· x8 DIMMs and x4 DIMMS cannot be mixed in the same channel or same processor socket
+· Mixing of RDIMM types is not supported.
+· All DDR5 DIMMs must be running the same speed per processor socket.
+· The maximum memory speed is a function of the memory type, memory configuration, and processor model.
+· The maximum memory capacity is a function of the number of DIMM slots on the platform, the largest DIMM capacity
+qualified on the platform, and the number and model of installed processors qualified on the platform.
+· For details on the HPE Server Memory Options Population Rules, visit:
+https://www.hpe.com/docs/server-memory
+· For additional information, please see the HPE DDR5 Smart Memory QuickSpecs.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Technical Specifications
+Page 29
+System Unit
+Dimensions (Height x Width x Depth)
+· Server
+17.47 x 44.78 x 80.26 cm
+6.88 x 17.63 x 31.60 in
+· Package
+57 x 62.5 x 110 cm
+22.44 x 24.61 x 43.31 in
+Weight (approximate)
+· Server
+37.5 kg (82.7 lbs.) 1
+· With Package:
+67.36 kg (148.51 lbs.) 2
+Notes:
+- 1 CTO chassis with 1x drive cage, 4x double-wide GPUs, 2x processors and heatsinks, 24x DIMMs, 8x SSDs, 4x power
+supplies, 2x Risers, 4x PCIe cards, 2x OCP cards.
+- 2 Server plus rail kit, CMA, power cords.
+Input Requirements (per power supply)
+Rated Line Voltage
+· 200-240 VAC
+BTU Rating
+Maximum
+· For 1500W Power Supply: 5560 BTU/hr. (at 200 VAC), 5539 BTU/hr. (at 220 VAC), 5531 BTU/hr. (at 240 VAC)
+· For 2400W Power Supply: 8572 BTU/hr. (at 200 VAC), 8540 BTU/hr. (at 220 VAC), 8539 BTU/hr. (at 240 VAC)
+· For 3200W Power Supply: 10577 BTU/hr. (at 200 VAC), 11713 BTU/hr. (at 220 VAC), 11699 BTU/hr. (at 240 VAC)
+Relative Humidity (non-condensing)
+· Operating
+8% to 90% - Relative humidity (Rh), 28°C maximum wet bulb temperature, non-condensing.
+· Non-operating
+5 to 95% relative humidity (Rh), 38.7°C (101.7°F) maximum wet bulb temperature, non-condensing.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Technical Specifications
+Page 30
+System Inlet Temperature
+· Standard Operating Temperature
+10° to 35°C (50° to 95°F) at sea level with an altitude derating of 1.0°C per every 305 m (1.8°F per every 1000 ft.) above
+sea level to a maximum of 3050 m (10,000 ft.), no direct sustained sunlight. Maximum rate of change is 20°C/hr.
+(36°F/hr.). The upper limit and rate of change may be limited by the type and number of options installed.
+System performance during standard operating support may be reduced if operating with a fan fault or above 30°C (86°F).
+· Extended Ambient Operating Temperature
+For approved hardware configurations, the supported system inlet range is extended to be: 5° to 10°C (41° to 50°F) and
+35° to 40°C (95° to 104°F) at sea level with an altitude derating of 1.0°C per every 175 m (1.8°F per every 574 ft.) above
+900 m (2953 ft.) to a maximum of 3050 m (10,000 ft.). The approved hardware configurations for this system are listed at
+the URL: https://www.hpe.com/support/ASHRAEGen12
+For approved hardware configurations, the supported system inlet range is extended to be: 40° to 45°C (104° to 113°F) at
+sea level with an altitude derating of 1.0°C per every 125 m (1.8°F per every 410 ft.) above 900 m (2953 ft.) to a
+maximum of 3050 m (10,000 ft.). The approved hardware configurations for this system are listed at the URL:
+https://www.hpe.com/support/ASHRAEGen12
+System performance may be reduced if operating in the extended ambient operating range or with a fan fault.
+· Non-operating
+-30° to 60°C (-22° to 140°F). Maximum rate of change is 20°C/hr. (36°F/hr.).
+Altitude
+· Operating
+3050 m (10,000 ft.). This value may be limited by the type and number of options installed. Maximum allowable altitude
+change rate is 457 m/min (1500 ft./min).
+· Non-operating
+9144 m (30,000 ft.). Maximum allowable altitude change rate is 457 m/min (1500 ft./min).
+Emissions Classification (EMC) - Regulatory Information
+To view the regulatory information for your product, view the Safety and Compliance Information for Server, Storage, Power,
+Networking, and Rack Products, available at the Hewlett Packard Enterprise Support Center:
+http://www.hpe.com/support/Safety-Compliance-EnterpriseProducts
+Environment-friendly Products and Approach End-of-life Management and Recycling
+Hewlett Packard Enterprise offers end-of-life product return, trade-in, and recycling programs, in many geographic areas, for
+our products. Products returned to Hewlett Packard Enterprise will be recycled, recovered or disposed of in a responsible manner.
+The EU WEEE directive (2002/95/EC) requires manufacturers to provide treatment information for each product type for use by
+treatment facilities. This information (product disassembly instructions) is posted on the Hewlett Packard Enterprise web site.
+These instructions may be used by recyclers and other WEEE treatment facilities as well as Hewlett Packard Enterprise OEM
+customers who integrate and re-sell Hewlett Packard Enterprise equipment.
+Emissions Classification (EMC) - Regulatory Information
+To view the regulatory information for your product, view the Safety and Compliance Information for Server, Storage, Power,
+Networking, and Rack Products, available at the Hewlett Packard Enterprise Support Center:
+http://www.hpe.com/support/Safety-Compliance-EnterpriseProducts
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Technical Specifications
+Page 31
+Environment-friendly Products and Approach End-of-life Management and Recycling
+Hewlett Packard Enterprise offers end-of-life product return, trade-in, and recycling programs, in many geographic areas, for
+our products. Products returned to Hewlett Packard Enterprise will be recycled, recovered or disposed of in a responsible manner.
+The EU WEEE directive (2002/95/EC) requires manufacturers to provide treatment information for each product type for use by
+treatment facilities. This information (product disassembly instructions) is posted on the Hewlett Packard Enterprise web site.
+These instructions may be used by recyclers and other WEEE treatment facilities as well as Hewlett Packard Enterprise OEM
+customers who integrate and re-sell Hewlett Packard Enterprise equipment.
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Summary of Changes
+Page 32
+Date Version History Action Description of Change
+05-May-2025 Version 6 Changed Standard Features and Additional Option sections were updated.
+Added: Software as a Service Management Enablement SKU (COM),
+European Union ErP Lot 9 Regulation section to include Turkey and Ireland
+and Embedded Security sub-section.
+03-Mar-2025 Version 5 Changed Overview, Standard Features, Core Options, Additional Options and Technical
+Specifications sections were updated.
+03-Feb-2025 Version 4 Changed Standard Features, Configuration Information, Core Options,
+06-Jan-2025 Version 3 Changed Standard Features, Optional Features and Core Options sections were
+updated.
+02-Dec-2024 Version 2 Changed Configuration Information section was updated (Graphics Accelerators).
+04-Nov-2024 Version 1 New New QuickSpecs
+QuickSpecs HPE ProLiant Compute DL380a Gen12
+Copyright
+Page 33
+Make the right purchase decision.
+Contact our presales specialists.
+© Copyright 2025 Hewlett Packard Enterprise Development LP. The information contained herein is
+subject to change without notice. The only warranties for Hewlett Packard Enterprise products and services
+are set forth in the express warranty statements accompanying such products and services. Nothing herein
+should be construed as constituting an additional warranty. Hewlett Packard Enterprise shall not be liable
+for technical or editorial errors or omissions contained herein.
+Intel® and Xeon® are registered trademarks of Intel Corporation in the U.S. and other countries.
+Microsoft®, Windows®, and Windows Server® are U.S. registered trademarks of the Microsoft group of
+companies.
+For hard drives, 1GB = 1 billion bytes. Actual formatted capacity is less
+a00047453enw - 16263 - Worldwide - V6 - 05-May-2025
+Get updates
+

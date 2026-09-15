@@ -1,0 +1,1020 @@
+QuickSpecs HPE ProLiant DL110 Gen11
+Overview
+Page 1
+HPE ProLiant DL110 Gen11
+Are you ready for 5G? Customized for edge applications requiring high bandwidth and low latency such as 5G cellular processing
+(vRAN), the HPE ProLiant DL110 Gen11 is based on open, standards-compliant infrastructure and offers dense I/O capabilities
+with PCIe Gen5 speed, acceleration, and powerful compute driven by 4th Generation Intel® Xeon® Scalable Processors and 4th
+Generation Intel® Xeon® Scalable Processors with Intel® vRAN Boost. The HPE ProLiant DL110 Gen11 provides a reduced
+footprint with a compact, short depth, 1U/1P front accessible chassis and ruggedized with NEBS Level 3 compliance* for harsh
+environments. Delivering the trusted HPE ProLiant experience with embedded HPE Integrated Lights-Out (iLO) management and
+security via HPE Silicon Root of Trust, the HPE ProLiant DL110 Gen11 is ready for Communication Service Provider's 5G
+deployments.
+Notes: *Typical NEBS certification is 90 days post-production manufacture
+Front View
+1 Quick removal access panel 6. Power On/Standby button and system power LED
+2 Slot 1 and 2 PCIe 5.0 x16 FHHL 7. Health LED
+3 Slot 3 PCIe 5.0 x16 FHHL (optional)1 8. OCP 3.0 slot
+4 Flex Slot Power Supply 1 and 2 9 iLO Management Port
+5. iLO Service Port
+Notes:
+- 1Enabled with x16 FHHL Secondary Riser (P54288-B21)
+- Default "L" shaped bracket ears shown. Optional HPE DL110 Gen11 Rail Compatible Ear Kit (P58197-B21) available for
+use with HPE 1U Short Friction Rail Kit (775612-B21)
+QuickSpecs HPE ProLiant DL110 Gen11
+Overview
+Page 2
+Internal View
+1. GPU auxiliary power connector 7. M.2 SSD slots (4)1
+2. DDR5 DIMM slots (Fully populated 8 DIMMs shown) 8. Power Supplies2
+3. Processor (4Th Gen Intel Xeon Scalable) 9. Secondary x16 FHHL PCIe 5.0 riser (optional)
+4. Hot plug dual rotor fans (7) 10. x16 OCP connector3
+5. Embedded TPM 2.0 11. Primary x16/x16 FHHL PCIe 5.0 riser (standard)
+6. Serial number label
+Notes:
+- 1Supports 2280 and 22110 form factor
+- 2Up to 2 for redundant power
+- 3Supports various NICs up to 200GbE
+QuickSpecs HPE ProLiant DL110 Gen11
+Overview
+Page 3
+Rear View
+(7 fans, dual rotor hot plug)
+What's New
+· HPE ProLiant DL110 Gen11 Front Cabled CTO Server
+· 4th Generation Intel® Xeon® Scalable Processors and 4th Generation Intel® Xeon® Scalable Processors with Intel® vRAN
+Boost up to 32 Cores/205W
+· DDR5 Memory
+· Dense I/O with 3x PCIe 5.0 slots + 1x OCP 3.0 slot
+· Security features: iLO6 (Silicon Root of Trust)
+Platform Information
+Form Factor
+· 1U rack
+Chassis Types
+· Front cabled chassis
+System Fans
+· 7 dual rotor, hot plug fans included
+QuickSpecs HPE ProLiant DL110 Gen11
+Standard Features
+Page 4
+Processors - Up to 1 of the following
+The 2nd digit of the processor model number "x4xx" is used to denote the processor generation (i.e. 4=4th generation Intel Scalable
+Series Processors)
+For more information regarding Intel Xeon processors, please see the following http://www.intel.com/xeon.
+This table covers the public Intel offering only.
+Intel Xeon processors
+Processor Suffix Description Offering
+N Network/5G/Edge (High
+TPT/Low latency)
+SKUs specifically designed for 5G RANL3FWD, 5G User plane
+function (UPF), VPP Forwarding Information base, Network Security
+Gateway (VPP IPsec, NGINX TLS), Content delivery network, Virtual
+Broadband Network Gateway (vBNG), Virtual Cable Modem
+Termination System (vCMTS) and dynamic load balancing (NGINX)
+SKUs have higher base frequency with lower TDPs to enable best
+performance/Watt
+U 1 Socket Optimized Optimized for single socket (1P) configurations, delivering
+competitive system perf/$. Does not support two socket (2P)
+arrangements.
+Y Speed Select Intel® SST-PP (performance profile) provides the ability to set a
+guaranteed base frequency for a specific number of cores, and assign
+this performance profile to a specific application/workload to
+guarantee performance requirements. Also enables configuration of
+settings during runtime and provides additional frequency profile
+configuration opportunities.
+4th Generation Intel® Xeon® Scalable Processor with Intel® vRAN Boost
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache
+(MB)
+Power ENERGY STAR
+Certified
+UPI DDR5
+Gold 5423N Processor 2.1GHz 20 37.5 145W Yes N/A 4000 MTs
+Gold 6403N Processor 1.9GHz 24 45 185W Yes N/A 4000 MTs
+Gold 6423N Processor 2.0GHz 28 52.5 195W Yes N/A 4400 MTs
+Gold 6433N Processor 2.0GHz 32 60 205W Yes N/A 4400 MTs
+Gold 6443N Processor 2.0GHz 32 60 195W Yes N/A 4400 MTs
+Notes: If 5423N Processor is selected then secondary riser cannot be selected
+4th Generation Intel® Xeon® Scalable Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache
+(MB)
+Power ENERGY STAR
+Certified
+UPI DDR5
+Gold 6434 Processor 3.7GHz 8 22.5 195W Yes 3 4800
+MT/s
+Gold 6426Y Processor 2.5GHz 16 37.5 185W Yes 3 4800
+MT/s
+Gold 6421N Processor 1.8GHz 32 60 185W Yes N/A 4800
+MT/s
+Gold 6438N Processor 2GHz 32 60 205W Yes 3 4800
+MT/s
+Gold 6438Y+ Processor 2GHz 32 60 205W Yes 3 4800
+MT/s
+QuickSpecs HPE ProLiant DL110 Gen11
+Standard Features
+Page 5
+4th Generation Intel® Xeon® Scalable Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache
+(MB)
+Power ENERGY STAR
+Certified
+UPI DDR5
+Gold 5415+ Processor 2.9GHz 8 22.5 150W Yes 3 @ 16 GT/s 4400 MTs
+Gold 5418N Processor 1.8GHz 24 45 165W Yes 3 @ 16 GT/s 4400 MTs
+Gold 5411N Processor 1.9GHz 24 45 165W Yes N/A 4400 MTs
+Gold 5412U Processor 2.1GHz 24 36 150W Yes N/A 4400 MTs
+Gold 5420+ Processor 2GHz 28 52.5 205W Yes 3 @ 16 GT/s 4400 MTs
+4th Generation Intel® Xeon® Scalable Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache
+(MB)
+Power ENERGY STAR
+Certified
+UPI DDR5
+Silver 4410Y Processor 2GHz 12 30 150W Yes 2 @ 16 GT/s 4000 MTs
+Silver 4416+ Processor 2GHz 20 37.5 165W Yes 2 @ 16 GT/s 4000 MTs
+4th Generation Intel® Xeon® Scalable Processor Family
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache
+(MB)
+Power ENERGY STAR
+Certified
+UPI DDR5
+Bronze 3408U Processor 1.8GHz 8 22.5 125W No N/A 4000 MTs
+Chipset
+· Intel C741 Chipset
+For more information regarding Intel® chipsets, please see the following URL: http://www.intel.com/products/server/chipsets/
+On System Management Chipset
+· HPE iLO 6 ASIC
+Read and learn more in the iLO QuickSpecs.
+Memory
+One of the following depending on the model.
+Type HPE DDR5 Smart Memory HPE DDR5 Smart Memory,
+Registered (RDIMM)
+DIMM Slots Available 8 8 DIMM slots, 8 channels, 1 DIMM per channel
+Maximum capacity
+(RDIMM)
+1.0TB 8 x 128 GB RDIMM @ 4800 MT/s
+Notes:
+- For new Gen11 memory population rule whitepaper and optimal memory performance guidelines, please go to:
+http://www.hpe.com/docs/memory-population-rules
+- To realize the performance memory capabilities listed in this document, HPE DDR5 Smart Memory is required.
+- For additional information, please see the HPE DDR5 Smart Memory QuickSpecs.
+QuickSpecs HPE ProLiant DL110 Gen11
+Standard Features
+Page 6
+Memory Protection
+For details on the HPE Server Memory Options RAS feature, visit: Memory RAS technologies for HPE ProLiant Gen11
+Expansion Slots
+Primary Riser - Ships standard with server
+Slots # Technology Bus Width Connector Width Slot Form Factor
+1 PCIe 5.0 X16 X16 Full-height, half-length slot
+2 PCIe 5.0 X16 X16 Full-height, half-length slot
+Notes: The specifications above correspond with the default primary riser.
+Secondary Riser
+Slots # Technology Bus Width Connector Width Slot Form Factor
+3 PCIe 5.0 X16 X16 Full-height, half-length slot
+HPE iLO 6 on system management memory
+· 32 MB Flash
+· 8 Gbit DDR4 with ECC protection
+Maximum Internal Storage
+Drive Capacity Configuration
+SATA M.2 SSD 1.92 TB 4 x 480 GB
+NVMe M.2 SSD 7.68 TB 4 x 1.92 TB
+Notes:
+- 4x M.2 drives are supported on the Motherboard
+- 2280 or 22110 form factor supported
+Internal Storage Devices
+· M.2 SSDs
+None ship standard
+Power Supply
+· HPE ProLiant DL110 700W Flex Slot -48VDC Hot Plug Low Halogen Power Supply Kit
+Notes: Available in 94%efficiency.
+· HPE ProLiant DL110 700W Flex Slot Platinum Hot Plug Low Halogen AC Power Supply Kit
+Notes: Available in 94%efficiency.
+· HPE ProLiant DL110 900W-1000W Titanium Hot Plug AC Power Supply Kit
+Notes:
+- Available in 96% efficiency.
+- All power supply kits have reverse airflow to support front cabled design of DL110
+To review the power requirements for your selected system, please use the HPE Power Advisor Tool, and to review the power
+cord requirements please check the ProLiant Power Cables web page.
+QuickSpecs HPE ProLiant DL110 Gen11
+Standard Features
+Page 7
+Storage Controllers
+One of the following offerings
+Software RAID
+· Intel VROC NVMe for HPE ProLiant Gen11
+Notes:
+- Intel® VROC for HPE ProLiant Gen11 is an enterprise, hybrid Software RAID solution specifically designed for
+NVMe SSDs connected directly to the CPU. Intel® VROC is a software-based solution utilizing Intel® CPU to RAID
+or HBA direct connected drives.
+- Intel® Virtual RAID on CPU Standard for Premium SKU for RAID 0/1/5/10 (R7J57A/R7J59AAE) must be ordered
+to enable RAID support.
+- RAID 0/1/5/10, Linux OS
+- RIAD 1, VMware OS
+- Host Tools- Linux MDADM, VMware VMDRCLI.
+- UEFI Support- HII Utility, OBSE.
+- iLO Support- IML, Alert, SNMP, AHS.
+- iLO Redfish- Redfish (RDE).
+- Intel® VROC NVMe for HPE ProLiant Gen11 will operate in UEFI mode only.
+- For NVMe SSDs only, no PCIe card support.
+- Additional driver installation is required while using/enabling VROC.
+· Intel VROC SATA for HPE ProLiant Gen11
+Notes:
+- Intel® VROC for HPE ProLiant Gen11 is an enterprise, hybrid Software RAID solution specifically designed for
+SSDs.
+- Intel® VROC is a software-based solution utilizing Intel® CPU to RAID or HBA direct connected drives.
+- RAID Support- 0/1/5/10.
+- Linux OS support.
+- Host Tools- Linux MDADM.
+- UEFI Support- HII Utility, OBSE.
+- iLO Support- IML, Alert, SNMP, AHS.
+- iLO Redfish- Redfish Read.
+- Intel® VROC SATA for HPE ProLiant Gen11 will operate in UEFI mode only.
+- Intel® VROC SATA is off by default and must be enabled.
+- Additional driver installation is required while using/enabling VROC.
+· Linux in-distro open-source software RAID
+Notes: For Linux users, HPE offers a solution that uses in-distro open-source software to create a two-disk RAID 1 boot
+volume. For more information visit: https://downloads.linux.hpe.com/SDR/project/lsrrb/
+Interfaces
+HPE iLO Remote
+Management Network Port
+1 Gb Dedicated
+Front iLO Service Port 1 standard (Hewlett Packard Enterprise recommends the HPE USB to Ethernet Adapter part
+number Q7Y55A when using the iLO service port).
+Notes: There is no VGA port on DL110 Gen11. For local management of the server, users should connect to DL110 via the iLO
+service port with a USB-Ethernet adapter (HPE recommends Q7Y55A).
+QuickSpecs HPE ProLiant DL110 Gen11
+Standard Features
+Page 8
+Operating Systems and Virtualization Software Support for HPE Servers
+HPE servers are designed for seamless integration with partner Operating Systems and Virtualization Software. By collaborating
+closely with our partners, we ensure that their products are optimized, certified, and fully supported within your HPE server
+environment.
+Access the certified and supported servers for each of the OS and Virtualization software: HPE Servers Support & Certification
+Matrices
+HPE Server UEFI
+Unified Extensible Firmware Interface (UEFI) is an industry standard that provides better manageability and more secured
+configuration than the legacy ROM while interacting with your server at boot time. HPE ProLiant Gen11 servers have a UEFI Class
+3 implementation.
+UEFI enables numerous new capabilities specific to HPE ProLiant servers such as:
+· Secure Boot and Secure Start enable for enhanced security
+· Embedded UEFI Shell
+· Operating system specific functionality
+· Mass Configuration Deployment Tool using iLO RESTful API that is Redfish API Conformant
+· Support for > 2.2 TB (using GPT) boot drives
+· PXE boot support for IPv4 and IPv6 networks
+· Workload Profiles for simple performance optimization
+· Embedded TPM support
+UEFI Boot Mode only
+· iSCSI Software Initiator Support.
+· NVMe Boot Support
+· HTTP/HTTPs Boot support as a PXE alternative.
+· Platform Trust Technology (PTT) can be enabled.
+· Boot support for option cards that only support a UEFI option ROM
+Notes: For UEFI Boot Mode, boot environment and OS image installations should be configured properly to support UEFI.
+Industry Standard Compliance
+· ACPI 6.4 Compliant
+· PCIe 5.0 Compliant
+· WOL Support
+· PXE Support
+· SMBIOS 3.4
+· Redfish API
+· IPMI 2.0
+· Secure Digital 4.0
+· TPM 2.0 Support
+· Advanced Encryption Standard (AES)
+· Triple Data Encryption Standard (3DES)
+· SNMP v3
+· TLS 1.2
+· DMTF Systems Management Architecture for Server Hardware Command Line Protocol (SMASH CLP)
+· Active Directory v1.0
+· ASHRAE A3/A4
+Notes: For additional technical, thermal details regarding ambient temperature, humidity, and feature support, please
+visit: Extended Ambient Temperature Guidelines for HPE Gen11 Servers
+QuickSpecs HPE ProLiant DL110 Gen11
+Standard Features
+Page 9
+· EU Lot9
+Notes: European Union (EU) eco-design regulations for server and storage products, known as Lot 9, went into effect
+on March 1st, 2020. Among other requirements, for servers this directive establishes power thresholds for idle state, as
+well as efficiency and performance in active state which vary among configurations. HPE ProLiant Gen11 servers are
+compliant with Lot9 requirements.
+Please visit: https://www.hpe.com/us/en/about/environment/msds-specs-more.html for more information regarding
+HPE Lot 9 conformance.
+Embedded Management
+HPE Integrated Lights-Out (HPE iLO)
+Monitor your servers for ongoing management, service alerting, reporting and remote management with HPE iLO.
+Learn more at http://www.hpe.com/info/ilo.
+UEFI
+Configure and boot your servers securely with industry standard Unified Extensible Firmware Interface (UEFI).
+Learn more at http://www.hpe.com/servers/uefi.
+Intelligent Provisioning
+Hassle free server and OS provisioning for 1 or more servers with Intelligent Provisioning.
+Learn more at http://www.hpe.com/servers/intelligentprovisioning.
+iLO RESTful API
+iLO RESTful API is Redfish API conformance and offers simplified server management automation such as configuration and
+maintenance tasks based on modern industry standards. Learn more at http://www.hpe.com/info/restfulapi
+Server Utilities
+Active Health System
+The HPE Active Health System (AHS) is an essential component of the iLO management portfolio that provides continuous,
+proactive health monitoring of HPE servers. Learn more at http://www.hpe.com/servers/ahs.
+Smart Update
+Keep your servers up to date with the HPE Smart Update solution by using Smart Update Manager (SUM) to optimize the
+firmware and driver updates of the Service Pack for ProLiant (SPP). Learn more at
+https://www.hpe.com/servers/smart-update.html
+iLO Amplifier Pack
+Designed for large enterprise and service provider environments with hundreds of HPE servers, the iLO Amplifier Pack is a free,
+downloadable open virtual application (OVA) that delivers the power to discover, inventory and update Gen8, Gen9, Gen10,
+Gen10 Plus, and Gen11 HPE servers at unmatched speed and scale. Use with an iLO Advanced License to unlock full capabilities.
+Learn more at http://www.hpe.com/servers/iLOamplifierpack.
+HPE iLO Mobile Application
+Enables the ability to access, deploy, and manage your server anytime from anywhere from select smartphones and mobile
+devices. For additional information please visit: http://www.hpe.com/info/ilo/mobileapp.
+RESTful Interface Tool
+RESTful Interface tool (iLOREST) is a single scripting tool to provision using iLO RESTful API to discover and deploy servers at
+scale. Learn more at http://www.hpe.com/info/resttool.
+Scripting Tools
+Provision one to many servers using your own scripts to discover and deploy with Scripting Tool (STK) for Windows and Linux or
+Scripting Tools for Windows PowerShell. Learn more at http://www.hpe.com/servers/powershell.
+QuickSpecs HPE ProLiant DL110 Gen11
+Standard Features
+Page 10
+HPE OneView Standard
+HPE OneView is an on premises, multi-generational server monitoring and management solution. HPE OneView Standard can be
+used for inventory, health monitoring, alerting, and reporting without additional fees. Customers can upgrade their management
+experience with an HPE OneView Advanced license, all provided by the same tool. Learn more at:
+http://www.hpe.com/info/oneview.
+HPE Systems Insight Manager (HPE SIM)
+Ideal for environments already using HPE SIM, it allows you to monitor the health of your HPE ProLiant Servers and HPE Integrity
+Servers. Also provides you with basic support for non-HPE servers. HPE SIM also integrates with Smart Update Manager to
+provide quick and seamless firmware updates. Learn more at http://www.hpe.com/info/hpesim.
+HPE GreenLake for Compute Ops Management
+HPE is intelligently transforming compute management with an intuitive cloud operating experience through HPE GreenLake
+cloud platform to streamline and secure operations from edge-to-cloud. Automated key lifecycle tasks, for onboarding, updating,
+managing, and monitoring HPE servers, brings agility and greater efficiencies to wherever compute devices reside via a unified
+single browser-based interface. Manage single locations or multiple, distributed sites. Keep tens to thousands of servers secure
+with batch policy controls and automated updates.
+Compute Ops Management is cloud-native software that is continually updated with new services, features, patches, and fixes. The
+management application resides in the HPE GreenLake cloud platform (https://console.greenlake.hpe.com) and leverages the
+HPE GreenLake architecture, security, and unified operations.
+A 3-year subscription to HPE GreenLake for Compute Ops Management is added by default when ordering an HPE ProLiant
+Gen11 rack, tower, or micro server.
+For more information, visit the HPE GreenLake for Compute Ops Management QuickSpecs:
+https://www.hpe.com/psnow/doc/a50004263enw
+Security
+· UEFI Secure Boot and Secure Start support.
+· Tamper-free updates - components digitally signed and verified.
+· Immutable Silicon Root of Trust
+· Ability to rollback firmware
+· Secure erase of NAND/User data
+· Common Criteria certification
+· Configurable for PCI DSS compliance
+· Embedded TPM (Trusted Platform Module) 2.0
+· Advanced Encryption Standard (AES) and Triple Data Encryption Standard (3DES) on browser
+· Secure Recovery - recover critical firmware to known good state on detection of compromised firmware
+QuickSpecs HPE ProLiant DL110 Gen11
+Standard Features
+Page 11
+HPE Trusted Platform Module
+HPE Trusted Platform Module 2.0 is embedded on the server motherboard and can be enabled and disabled using the BIOS.
+Notes: The TPM (Trusted Platform Module) is a microcontroller chip that can securely store artifacts used to authenticate the
+server platform. These artifacts can include passwords, certificates and encryption keys.
+Warranty
+This product is covered by a global limited warranty and supported by HPE Services and a worldwide network of Hewlett Packard
+Enterprise Authorized Channel Partners resellers. Hardware diagnostic support and repair is available for three years from date of
+purchase. Support for software and initial setup is available for 90 days from date of purchase. Enhancements to warranty services
+are available through HPE Services operational services or customized service agreements. Hard drives have either a one year or
+three year warranty; refer to the specific hard drive QuickSpecs for details.
+Notes: Server Warranty includes 3-Year Parts, 3-Year Labor, 3-Year Onsite support with next business day response.
+Warranty repairs may be accomplished through the use of Customer Self Repair (CSR) parts. These parts fall into two
+categories: 1) Mandatory CSR parts are designed for easy replacement. A travel and labor charge will result when customers
+decline to replace a Mandatory CSR part; 2) Optional CSR parts are also designed for easy replacement but may involve added
+complexity. Customers may choose to have Hewlett Packard Enterprise replace Optional CSR parts at no charge. Additional
+information regarding worldwide limited warranty and technical support is available
+https://www.hpe.com/support/ProLiantServers-Warranties
+QuickSpecs HPE ProLiant DL110 Gen11
+Optional Features
+Page 12
+Server Management
+HPE iLO Advanced
+HPE iLO Advanced licenses offer smart remote functionality without compromise, for all HPE ProLiant servers. The license
+includes the full integrated remote console, virtual keyboard, video, and mouse (KVM), multi-user collaboration, console record and
+replay, and GUI-based and scripted virtual media and virtual folders. You can also activate the enhanced security and power
+management functionality.
+HPE OneView Advanced
+HPE OneView Advanced offers a sophisticated level of automation to infrastructure management by taking a template driven
+approach to provisioning, updating, and integrating compute, storage, and networking infrastructure. It provides full-featured
+licenses which can be purchased for managing multiple HPE server generations.
+To learn more visit http://www.hpe.com/info/oneview.
+HPE Insight Cluster Management Utility (CMU)
+HPE Insight Cluster Management Utility is a HyperScale management framework that includes software for the centralized
+provisioning, management and monitoring of nodes and infrastructure. Learn more at: http://www.hpe.com/info/cmu.
+One Config Simple (OCS/SCE)
+OCS/SCE is a guided self-service tool to help sales and non-technical people provide customers with initial configurations in 3 to 5
+minutes. You may then send the configuration on for configuration help, or use in your existing ordering processes. If you require
+"custom" rack configuration or configuration for products not available in SCE, please contact Hewlett Packard Enterprise
+Customer Business Center or an Authorized Partner for assistance.
+https://h22174.www2.hpe.com/SimplifiedConfig/Welcome#
+Rack and Power Infrastructure
+The story may end with servers, but it starts with the foundation that makes compute go - and business grow. We've reinvented
+our entire portfolio of rack and power products to make IT infrastructure more secure, more practical, and more efficient. In other
+words, we have created a stronger, smarter, and simpler infrastructure to help you get the most out of your IT equipment. As an
+industry leader, Hewlett Packard Enterprise is uniquely positioned to address the key concerns of power, cooling, cable
+management and system access. HPE G2 Advanced and Enterprise Racks are perfect for the server room or today's modern data
+center with enhanced airflow and thermal management, flexible cable management, and a 10-year Warranty to support higher
+density computing. HPE G2 PDUs offer reliable power in flexible form factors that operate at temperatures up to 60°C, include
+color-coded outlets and load segments and a low-profile design for optimal access to the rack and support for dense rack
+environments. HPE Uninterruptible Power Systems are cost-effective power protection for any type of workload. Some UPSs
+include options for remote management and extended runtime modules, so your critical dense data center is covered in power
+outages.
+HPE KVM Solutions include a console and switches designed to work with your server and IT equipment reliably. We've got a cost-
+effective KVM switch for your first rack and multiple connection IP switches with remote management and security capabilities to
+keep your data center rack up and running. Learn more about HPE Racks, KVM, PDUs and UPSs at HPE Rack and Power
+Infrastructure.
+QuickSpecs HPE ProLiant DL110 Gen11
+Service and Support
+Page 13
+HPE Services
+No matter where you are in your digital transformation journey, you can count on HPE Services to deliver the expertise you need
+when, where and how you need it. From planning to deployment, ongoing operations and beyond, our experts can help you realize
+your digital ambitions.
+https://www.hpe.com/services
+Consulting Services
+No matter where you are in your journey to hybrid cloud, experts can help you map out your next steps. From determining what
+workloads should live where, to handling governance and compliance, to managing costs, our experts can help you optimize your
+operations.
+https://www.hpe.com/services/consulting
+HPE Managed Services
+HPE runs your IT operations, providing services that monitor, operate, and optimize your infrastructure and applications, delivered
+consistently and globally to give you unified control and let you focus on innovation.
+HPE Managed Services | HPE
+Operational services
+Optimize your entire IT environment and drive innovation. Manage day-to-day IT operational tasks while freeing up valuable time
+and resources. Meet service-level targets and business objectives with features designed to drive better business outcomes.
+https://www.hpe.com/services/operational
+HPE Complete Care Service
+HPE Complete Care Service is a modular, edge-to-cloud IT environment service designed to help optimize your entire IT
+environment and achieve agreed upon IT outcomes and business goals through a personalized experience. All delivered by an
+assigned team of HPE Services experts. HPE Complete Care Service provides:
+· A complete coverage approach -- edge to cloud
+· An assigned HPE team
+· Modular and fully personalized engagement
+· Enhanced Incident Management experience with priority access
+· Digitally enabled and AI driven customer experience
+https://www.hpe.com/services/completecare
+HPE Tech Care Service
+HPE Tech Care Service is the operational support service experience for HPE products. The service goes beyond traditional
+support by providing access to product specific experts, an AI driven digital experience, and general technical guidance to not only
+reduce risk but constantly search for ways to do things better. HPE Tech Care Service delivers a customer-centric, AI driven, and
+digitally enabled customer experience to move your business forward. HPE Tech Care Service is available in three response levels.
+Basic, which provides 9x5 business hour availability and a 2-hour response time. Essential which provides a 15-minute response
+time 24x7 for most enterprise level customers, and Critical which includes a 6-hour repair commitment where available and outage
+management response for severity 1 incidents.
+https://www.hpe.com/services/techcare
+QuickSpecs HPE ProLiant DL110 Gen11
+Service and Support
+Page 14
+HPE Lifecycle Services
+HPE Lifecycle Services provide a variety of options to help maintain your HPE systems and solutions at all stages of the product
+lifecycle. A few popular examples include:
+· Lifecycle Install and Startup Services: Various levels for physical installation and power on, remote access setup,
+installation and startup, and enhanced installation services with the operating system.
+· HPE Firmware Update Analysis Service: Recommendations for firmware revision levels for selected HPE products, taking
+into account the relevant revision dependencies within your IT environment.
+· HPE Firmware Update Implementation Service: Implementation of firmware updates for selected HPE server, storage, and
+solution products, taking into account the relevant revision dependencies within your IT environment.
+· Implementation assistance services: Highly trained technical service specialists to assist you with a variety of activities,
+ranging from design, implementation, and platform deployment to consolidation, migration, project management, and
+onsite technical forums.
+· HPE Service Credits: Access to prepaid services for flexibility to choose from a variety of specialized service activities,
+including assessments, performance maintenance reviews, firmware management, professional services, and operational
+best practices.
+Notes: To review the list of Lifecycle Services available for your product go to:
+https://www.hpe.com/services/lifecycle
+For a list of the most frequently purchased services using service credits, see the HPE Service Credits Menu
+Other Related Services from HPE Services:
+HPE Education Services
+Training and certification designed for IT and business professionals across all industries. Broad catalogue of course offerings to
+expand skills and proficiencies in topics ranging from cloud and cybersecurity to AI and DevOps. Create learning paths to expand
+proficiency in a specific subject. Schedule training in a way that works best for your business with flexible continuous learning
+options.
+https://www.hpe.com/services/training
+Defective Media Retention
+An option available with HPE Complete Care Service and HPE Tech Care Service and applies only to Disk or eligible SSD/Flash
+Drives replaced by HPE due to malfunction.
+Consult your HPE Sales Representative or Authorized Channel Partner of choice for any additional questions and services options.
+Parts and Materials
+HPE will provide HPE-supported replacement parts and materials necessary to maintain the covered hardware product in
+operating condition, including parts and materials for available and recommended engineering improvements.
+Parts and components that have reached their maximum supported lifetime and/or the maximum usage limitations as set forth in
+the manufacturer's operating manual, product quick-specs, or the technical product data sheet will not be provided, repaired, or
+replaced as part of these services.
+How to Purchase Services
+Services are sold by Hewlett Packard Enterprise and Hewlett Packard Enterprise Authorized Service Partners:
+· Services for customers purchasing from HPE or an enterprise reseller are quoted using HPE order configuration tools.
+· Customers purchasing from a commercial reseller can find services at https://ssc.hpe.com/portal/site/ssc/
+QuickSpecs HPE ProLiant DL110 Gen11
+Service and Support
+Page 15
+AI Powered and Digitally Enabled Support Experience
+Achieve faster time to resolution with access to product-specific resources and expertise through a digital and data driven customer
+experience
+Sign into the HPE Support Center experience, featuring streamlined self-serve case creation and management capabilities with
+inline knowledge recommendations. You will also find personalized task alerts and powerful troubleshooting support through an
+intelligent virtual agent with seamless transition when needed to a live support agent.
+https://support.hpe.com/hpesc/public/home/signin
+Consume IT On Your Terms
+HPE GreenLake edge-to-cloud platform brings the cloud experience directly to your apps and data wherever they are--the edge,
+colocations, or your data center. It delivers cloud services for on-premises IT infrastructure specifically tailored to your most
+demanding workloads. With a pay-per-use, scalable, point-and-click self-service experience that is managed for you, HPE
+GreenLake edge-to-cloud platform accelerates digital transformation in a distributed, edge-to-cloud world.
+· Get faster time to market
+· Save on TCO, align costs to business
+· Scale quickly, meet unpredictable demand
+· Simplify IT operations across your data centers and clouds
+To learn more about HPE Services, please contact your Hewlett Packard Enterprise sales representative or Hewlett Packard
+Enterprise Authorized Channel Partner. Contact information for a representative in your area can be found at "Contact HPE"
+https://www.hpe.com/us/en/contact-hpe.html
+For more information
+http://www.hpe.com/services
+QuickSpecs HPE ProLiant DL110 Gen11
+Configuration Information
+Page 16
+This section lists some of the steps required to configure a Factory Integrated Model. To ensure only valid configurations are
+ordered, Hewlett Packard Enterprise recommends the use of an HPE approved configurator. Contact your local sales
+representative for information on configurable product offerings and requirements.
+· Factory Integrated Models must start with a CTO Server.
+· FIO indicates that this option is only available as a factory installable option.
+· Some options may not be integrated at the factory. Contact your local sales representative for additional information.
+Step 1: Base Configuration
+CTO Server HPE ProLiant DL110 Gen11 Front Cabled Configure-to-order Server
+SKU Number P54277-B21
+Processor Not included as standard; 1 supported
+Heatsink Included
+DIMM Slots 8-DIMM slots
+Storage Controller Embedded SW RAID with Intel VROC SATA for HPE, choice of Intel VROC NVMe for HPE
+PCIe X16/x16 FHHL riser included
+Fans 7- dual rotor hot plug
+Management HPE iLO with Intelligent Provisioning (standard), iLO Advanced and OneView (optional)
+USB iLO Front Service Port
+Mounting Default: "L" shaped bracket ears- recommended for 2-post rack mounting (includes cage nuts
+for mounting in square-hole rack
+Optional: Short Friction Rail Kit- recommended for 4-post rack mounting
+Step 2: Choose Required Options
+Step 2a: Choose Processors
+Please select one processor required below.
+Notes: Processors with 185W TDP or higher will require the DIMM Blank kit (P43725-B21) to be selected
+when all DIMM slots are not fully populated
+Processor Options
+4th Generation Intel Xeon-Gold
+Notes: All SKUs below ship with processor only. Fans and heatsink are included in the CTO server.
+Intel Xeon-Gold 5412U 2.1GHz 24-core 185W Processor for HPE P49618-B21
+Intel Xeon-Gold 5415+ 2.9GHz 8-core 150W Processor for HPE P49597-B21
+Intel Xeon-Gold 6426Y 2.5GHz 16-core 185W Processor for HPE P49598-B21
+Intel Xeon-Gold 6434 3.7GHz 8-core 195W Processor for HPE P49601-B21
+Intel Xeon-Gold 5420+ 2.0GHz 28-core 205W Processor for HPE P49613-B21
+Intel Xeon-Gold 6438Y+ 2.0GHz 32-core 205W Processor for HPE P49615-B21
+Intel Xeon-Gold 6438N 2.0GHz 32-core 205W Processor for HPE P49638-B21
+Intel Xeon-Gold 5411N 1.9GHz 24-core 165W Processor for HPE P49639-B21
+Intel Xeon-Gold 5418N 1.8GHz 24-core 165W Processor for HPE P49640-B21
+Intel Xeon-Gold 6421N 1.8GHz 32-core 185W Processor for HPE P49641-B21
+Intel Xeon-Gold 5423N 2.1GHz 20-core 145W Processor for HPE P66247-B21
+Intel Xeon-Gold 6403N 1.9GHz 24-core 185W Processor for HPE P66243-B21
+Intel Xeon-Gold 6423N 2.0GHz 28-core 195W Processor for HPE P66239-B21
+Intel Xeon-Gold 6433N 2.0GHz 32-core 205W Processor for HPE P66235-B21
+Intel Xeon-Gold 6443N 2.0GHz 32-core 195W Processor for HPE P66231-B21
+Notes: If 5423N Processor is selected then secondary riser cannot be selected
+QuickSpecs HPE ProLiant DL110 Gen11
+Configuration Information
+Page 17
+4th Generation Intel Xeon-Silver
+Notes: All SKUs below ship with processor only. Fans and heatsink are included in the CTO server.
+Intel Xeon-Silver 4410Y 2.0GHz 12-core 150W Processor for HPE P49610-B21
+Intel Xeon-Silver 4416+ 2.0GHz 20-core 165W Processor for HPE P49611-B21
+4th Generation Intel Xeon-Bronze
+Notes: All SKUs below ship with processor only. Fans and heatsink are included in the CTO server.
+Intel Xeon-Bronze 3408U 1.8GHz 8-core 125W Processor for HPE P49617-B21
+Step 2b: Choose Memory Options
+Please select one or more memory from below.
+For new Gen11 memory population rule whitepaper and optimal memory performance guidelines, please go to:
+http://www.hpe.com/docs/memory-population-rules
+Registered DIMMs (RDIMMs)
+HPE 16GB (1x16GB) Single Rank x8 DDR5-4800 CAS-40-39-39 EC8 Registered Smart Memory Kit P43322-B21
+HPE 32GB (1x32GB) Dual Rank x8 DDR5-4800 CAS-40-39-39 EC8 Registered Smart Memory Kit P43328-B21
+HPE 64GB (1x64GB) Dual Rank x4 DDR5-4800 CAS-40-39-39 EC8 Registered Smart Memory Kit P43331-B21
+HPE 128GB (1x128GB) Quad Rank x4 DDR5-4800 CAS-46-39-39 EC8 Registered 3DS Smart Memory Kit P43334-B21
+Notes:
+- The maximum memory speed and capacity is a function of the memory type, memory configuration, and processor model.
+- Quantity of memory DIMMs selected must be 1, 2, 4, 6, or 8
+- Mixing of x4 / x8 / 3DS memory is not allowed
+- Mixing of Single Rank and Dual Rank DIMM is allowed only when total qty of DIMM selected is 8
+- If Single Rank and Dual Rank DIMMs are mixed then the Qty of Single Rank DIMM selected must be equal to quantity of
+Dual Rank DIMM
+- For more detailed information regarding memory population rules, please refer to
+https://www.hpe.com/docs/server-memory
+- For additional information, please see the HPE DDR5 Smart Memory QuickSpecs
+Step 2c: Choose Power Supplies
+Select one or two power supplies from below.
+HPE Flex Slot Power Supplies
+HPE ProLiant DL110 700W Flex Slot -48VDC Hot Plug Low Halogen Power Supply Kit P43150-B21
+Notes: Available in 94% efficiency.
+HPE ProLiant DL110 700W Flex Slot Platinum Hot Plug Low Halogen AC Power Supply Kit P44975-B21
+Notes: Available in 94% efficiency.
+HPE ProLiant DL110 900W-1000W Titanium Hot Plug Low Halogen AC Power Supply Kit P54290-B21
+Notes:
+- Available in 96% efficiency.
+- All power supply kits have reverse airflow to support front cabled design of DL110
+Beginning on January 1st, 2024, units sold into the European Union (EU), European Economic Area (EEA), the
+United Kingdom, or Switzerland must include more efficient AC power supplies: 94% for multi-output and 96% for
+single-output. HPE power supply P54290-B21 is single-output & 96% efficient thus meeting requirements.
+HPE is on target to fulfil compliant systems ahead of time and will begin enforcing these requirements in advance
+to satisfy requests with the current power supplies by the set deadline.
+QuickSpecs HPE ProLiant DL110 Gen11
+Configuration Information
+Page 18
+Step 2d: Choose Accelerator Options
+Qualcomm X100 5G RAN GNSS Accelerator for HPE S1C90C
+Qualcomm X100 5G RAN Accelerator for HPE S1C91C
+Nokia Cloud RAN SmartNIC Accelerator for HPE S3M37C
+Notes: When the Nokia Cloud RAN SmartNIC Accelerator is installed, the following system limitations exist:
+ Maximum of two Nokia SmartNIC Accelerators supported and must be placed in Slots 1 and 3
+ Use of QSFP-DD pluggable to DAC cables (0W)
+ Operating temperature will reduce from +55°C to +45°C
+ If active optical pluggables are required, the operating temperature will be reduced to +40°C
+Step 3: Choose Additional Options
+Rail/Ear Kits
+Notes: HPE rail kits are designed to work with HPE racks in compliance with industry standard EIA-310-E. In the event a
+customer elects to purchase a third-party rack for use with an HPE rail kit, any such use is at customer's own risk. HPE makes
+no express or implied warranties with respect to such third-party racks and specifically disclaims any implied warranties of
+merchantability and fitness for a particular purpose. Furthermore, HPE has no obligation and assumes no liability for the
+materials, design, specifications, installation, safety, and compatibility of any such third-party racks with any rail kits, including
+HPE rail kits.
+HPE 1U Short Friction Rail Kit 775612-B21
+Notes: Requires selection of Rail Compatible Ear Kit
+HPE ProLiant DL110 Gen11 Rail Compatible Ear Kit P58197-B21
+Notes: Rail kit and Ear kit must be selected when the server is selected with Racks
+Step 4: Choose additional options for Factory Integration from Core and Additional Options sections
+below
+QuickSpecs HPE ProLiant DL110 Gen11
+Core Options
+Page 19
+Some options may not be integrated at the factory. To ensure only valid configurations are ordered, Hewlett Packard Enterprise
+recommends the use of an HPE approved configurator. Contact your local sales representative for additional information.
+Software as a Service Management
+HPE Compute Ops Management
+Base SKU
+HPE Compute Ops Management Enhanced 3-year Upfront ProLiant SaaS R7A11AAE
+Upgrade SKU
+HPE Compute Ops Management Enhanced 1-year Upfront ProLiant SaaS R7A10AAE
+HPE Compute Ops Management Enhanced 5-year Upfront ProLiant SaaS R7A12AAE
+HPE Unique Options
+Risers
+HPE ProLiant DL110 Gen11 x16 FHHL PCIe Secondary Riser Kit P54288-B21
+DDR4 DIMM Blank
+HPE ProLiant DL110 Gen10 Plus DDR4 DIMM FIO Blank Kit P43725-B21
+Notes: Required when processor with 185W or greater TDP is selected, and all DIMM slots are not fully
+populated. DIMM blank kit cannot be selected if Qty=8 of memory is selected.
+Software RAID Controllers
+Intel Virtual RAID on CPU Premium FIO Software for HPE R7J57A
+Notes: Requires selection of NVMe M.2 SSD
+Intel Virtual RAID on CPU Premium E-RTU for HPE R7J59AAE
+Notes: Similar to Intel VROC NVMe FIO SW for HPE (R7J57A), but intended for field deployments
+HPE Solid State Drives
+For SSD selection guidance, please visit https://ssd.hpe.com/
+Read Intensive - 6G SATA - M.2 - Solid State Media (2280 type)
+HPE 480GB SATA 6G Read Intensive M.2 Multi Vendor SSD P47818-B21
+Read Intensive-PCIe/NVMe-M.2- Solid State Media (22110 and 2280 type)
+HPE 480GB NVMe Gen3 Mainstream Performance Read Intensive M.2 Multi Vendor SSD P40513-B21
+HPE 960GB NVMe Gen3 Mainstream Performance Read Intensive M.2 Multi Vendor SSD P40514-B21
+HPE 1.92TB NVMe Gen3 Mainstream Performance Read Intensive M.2 Multi Vendor SSD P40515-B21
+Factory Configuration Setting
+NEBS-Compliant Setting
+HPE NEBS-compliant FIO Trigger System Setting P40010-B21
+iLO Common Password
+HPE iLO Common Password FIO Setting P08040-B21
+Notes:
+- Replaces iLO default randomized password by an HPE defined common password. HPE highly
+recommends changing this password immediately after the initial onboarding process.
+- Customers who want to choose their own custom iLO default password should use the HPE Factory
+Express Integration Services
+QuickSpecs HPE ProLiant DL110 Gen11
+Core Options
+Page 20
+BIOS MODE
+HPE ProLiant DL300 Gen10 Plus Platform RAS OS Control FIO Setting P27078-B21
+Notes: OS First - RAS Setting Trigger.
+RAID Settings
+Notes Description SKU
+1 HPE RAID 0 Drive 1 FIO Setting 339777-B21
+1 HPE RAID 1 Drive 1 FIO Setting 339778-B21
+1 HPE RAID 5 Drive 1 FIO Setting 339779-B21
+1 HPE Raid 5 w/SP Drive 1 FIO Setting 339780-B21
+2 HPE Customer Defined RAID Setting Service 389692-B21
+Notes:
+- 1General RAID rules:
+ (i) Only a single set of RAID will be offered and will only be applied to all applicable drives installed in a server.
+ (ii) RAID requires selection of VROC and a specific number of matching NVMe M.2 drives. (i.e. same part number)
+ (iii) RAID must be selected if both Factory Installed OS and VROC is present.
+ (vi) RAID 0 requires at least 1 drive.
+ (v) RAID 1 requires at least 2 or even number of drives.
+ (vi) RAID 1 with Spare requires at least 3 drives
+ (vii) RAID 5 requires at least 3 drives.
+ (viii) RAID 5 with Spare requires at least 4 drives.
+ -If VROC Premium is the primary controller, then the following RAID levels are allowed: 0, 1, 5
+ -Warning Message:
+ HPE Recommends to use below standard RAID Settings,
+· 339777-B21 - HPE RAID 0 Drive 1 FIO Setting
+· 339778-B21 - HPE RAID 1 Drive 1 FIO Setting
+· 339779-B21 - HPE RAID 5 Drive 1 FIO Setting
+· 339780-B21 - HPE RAID 5 w/SP Drive 1 FIO Setting
+· 339781-B21 - HPE Raid Adv Data Guarding FIO
+- 2
+ (i) If this part number is selected then the following RAID rules do not apply:
+· Max of 1 RAID level per server.
+· All integrated hard drives must match.
+· Minimum drive quantity requirement for each RAID level.
+· RAID level must be selected if Factory Installed OS is present and VROC is the primary controller.
+ (ii) If this part number is selected, then at least 1 NVMe M.2 Drive must be on the order.
+ (iii) If this part number is selected, then preinstalled OS must be on the order.
+HPE Networking
+Notes: The DL110 Gen11 CTO chassis does not come with embedded networking. A PCIe or OCP networking
+adapter must be selected.
+1 Gigabit Ethernet Adapters
+Intel I350-T4 Ethernet 1Gb 4-port BASE-T Adapter for HPE P21106-B21
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T Adapter for HPE P51178-B21
+10 Gigabit Ethernet Adapters
+Broadcom BCM57416 Ethernet 10Gb 2-port BASE-T Adapter for HPE P26253-B21
+Broadcom BCM57412 Ethernet 10Gb 2-port SFP+ Adapter for HPE P26259-B21
+QuickSpecs HPE ProLiant DL110 Gen11
+Core Options
+Page 21
+10/25 Gigabit Ethernet Adapters
+Mellanox MCX631102AS-ADAT Ethernet 10/25Gb 2-port SFP28 Adapter for HPE P42044-B21
+Intel E810-XXVDA4T Ethernet 10/25Gb 4-port SFP28 MCLK Adapter for HPE P41636-B21
+Broadcom BCM57504 Ethernet 10/25Gb 4-port SFP28 Adapter for HPE P26264-B21
+Notes: Includes GNSS module which provides 1pps signal without the need for an external GNSS appliance.
+Integrated support for frequency, phase, and time-of-day synchronization with Global Navigation Satellite
+Systems, including GPS, Galileo, GLONASS, BeiDou, and QZSS.
+Intel E810-XXVDA4 Ethernet 10/25Gb 4-port SFP28 Adapter for HPE P08458-B21
+Intel E810-XXVDA2 Ethernet 10/25Gb 2-port SFP28 Adapter for HPE P08443-B21
+Intel E810-XXVDA4 Ethernet 10/25Gb 4-port SFP28 MCLK Non-GNSS Adapter for HPE P75068-B21
+Broadcom BCM57414 Ethernet 10/25Gb 2-port SFP28 Adapter for HPE P26262-B21
+Notes: BCM 57414 10/25GbE 2p SFP28 Adapter cannot be installed in Slot 1, Consider this restriction during
+the total selection of PCIe Cards.
+100 Gigabit Ethernet Adapters
+Intel E810-2CQDA2 Ethernet 100Gb 2-port QSFP28 Adapter for HPE P41611-B21
+Intel E810-CQDA2 Ethernet 100Gb 2-port QSFP28 Adapter for HPE P21112-B21
+Mellanox MCX623106AS-CDAT Ethernet 100Gb 2-port QSFP56 Adapter for HPE P25960-B21
+200 Gigabit Ethernet Adapters
+Mellanox MCX623105AS-VDAT Ethernet 200Gb 1-port QSFP56 Adapter for HPE P10180-B21
+Notes: If 200GbE Networking adapter is selected, then customer must select one more networking adapter or
+OCP adapter that is below 200GbE.
+1 Gigabit Ethernet OCP Adapters
+Intel I350-T4 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE P08449-B21
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE P51181-B21
+10 Gigabit Ethernet OCP Adapters
+Broadcom BCM57416 Ethernet 10Gb 2-port BASE-T OCP3 Adapter for HPE P10097-B21
+Broadcom BCM57412 Ethernet 10Gb 2-port SFP+ OCP3 Adapter for HPE P26256-B21
+10/25 Gigabit Ethernet OCP Adapters
+Intel E810-XXVDA2 Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter for HPE P10106-B21
+Intel E810-XXVDA4 Ethernet 10/25Gb 4-port SFP28 OCP3 Adapter for HPE P41614-B21
+Mellanox MCX631432AS-ADAI Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter for HPE P42041-B21
+Broadcom BCM57414 Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter for HPE P10115-B21
+Broadcom BCM57504 Ethernet 10/25Gb 4-port SFP28 OCP3 Adapter for HPE P26269-B21
+100 Gigabit Ethernet OCP Adapters
+Intel E810-CQDA2 Ethernet 100Gb 2-port QSFP28 OCP3 Adapter for HPE P22767-B21
+Notes:
+- Max=1 OCP card can be selected. This is inclusive of all OCP categories and sub-categories.
+- Does not consume PCIe slot
+QuickSpecs HPE ProLiant DL110 Gen11
+Additional Options
+Page 22
+Embedded Management
+HPE iLO Advanced
+HPE iLO Advanced Electronic License with 1yr Support on iLO Licensed Features E6U59ABE
+HPE iLO Advanced 1-server License with 1yr Support on iLO Licensed Features 512485-B21
+HPE iLO Advanced AKA Tracking License with 1yr Support on iLO Licensed Features 512487-B21
+HPE iLO Advanced Electronic License with 3yr Support on iLO Licensed Features E6U64ABE
+HPE iLO Advanced 1-server License with 3yr Support on iLO Licensed Features BD505A
+HPE iLO Advanced AKA Tracking License with 3yr Support on iLO Licensed Features BD507A
+HPE Converged Infrastructure Management Software
+HPE OneView Advanced (with HPE iLO Advanced)
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU E5Y35AAE
+HPE OneView Advanced (without HPE iLO Advanced)
+HPE OneView w/o iLO including 3yr 24x7 Support Flexible Quantity E-LTU P8B26AAE
+Notes: Licenses ship without media. The HPE OneView Media Kit can be ordered separately or can be
+downloaded.
+HPE Tech Care
+HPE 3 Year Tech Care Essential DL110 Gen11 HW Service H10RXE
+HPE 3 Year Tech Care Essential wDMR DL110 Gen11 HW Service H10RYE
+HPE 5 Year Tech Care Essential DL110 Gen11 HW Service H10TBE
+HPE 5 Year Tech Care Essential wDMR DL110 Gen11 HW Service H10TCE
+HPE Racks
+· Please see the HPE Advanced Series Racks QuickSpecs for information on additional racks options and rack
+specifications. HPE G2 Advanced Series Racks
+· Please see the HPE Enterprise Series Racks QuickSpecs for information on additional racks options and rack
+specifications. HPE G2 Enterprise Series Racks
+HPE Power Distribution Units (PDUs)
+· Please see the HPE Basic Power Distribution Units (PDU) QuickSpecs for information on these products and their
+specifications.
+· Please see the HPE Metered Power Distribution Units (PDU) QuickSpecs for information on these products and their
+specifications.
+· Please see the HPE Intelligent Power Distribution Unit (PDU) QuickSpecs for information on these
+products and their specifications.
+· Please see the HPE Metered and Switched Power Distribution Units (PDU) QuickSpecs for information on these
+products and their specifications.
+QuickSpecs HPE ProLiant DL110 Gen11
+Additional Options
+Page 23
+HPE Uninterruptible Power Systems (UPS)
+· To learn more, please visit the HPE Uninterruptible Power Systems (UPS) web page.
+· Please see the HPE DirectFlow Three Phase Uninterruptible Power System QuickSpecs for information on these
+products and their specifications.
+· Please see the HPE Line Interactive Single Phase UPS QuickSpecs for information on these products and their
+specifications.
+HPE Rack Options
+· Please see the HPE KVM Switches web page for information on these products and their specifications.
+QuickSpecs HPE ProLiant DL110 Gen11
+Memory
+Page 24
+Memory Population guidelines
+DL110 Gen11 CPU
+DIMM population order
+1 DIMM 2
+2 DIMMs1 2 5
+4 DIMMs1 2 4 5 7
+6 DIMMs 2 3 4 5 7 8
+8 DIMMs1,2 1 2 3 4 5 6 7 8
+Notes:
+- Configurations not listed are not supported and if populated, the server may result in non-optimal memory performance or
+other unexpected behavior
+- 1 Support Hemi (hemisphere mode).
+- 2 Support Software Guard Extensions (SGX).
+General Memory Population Rules and Guidelines:
+· Install DIMMs only if the corresponding processor is installed.
+· If only one processor is installed in a two-processor system, only half of the DIMM slots are available.
+· To maximize performance, it is recommended to balance the total memory capacity between all installed processors.
+· When two processors are installed, balance the DIMMs across the two processors.
+· White DIMM slots denote the first slot to be populated in a channel.
+· Mixing of DIMM types (UDIMM, RDIMM, and LRDIMM) is not supported.
+· The maximum memory speed is a function of the memory type, memory configuration, and processor model.
+· The maximum memory capacity is a function of the number of DIMM slots on the platform, the largest DIMM capacity
+qualified on the platform, and the number and model of installed processors qualified on the platform.
+· For details on the HPE Server Memory Options Population Rules, visit: https://www.hpe.com/docs/server-memory
+· To realize the performance memory capabilities listed in this document, HPE DDR5 Smart Memory is required.
+For additional information, please see the HPE DDR5 Smart Memory QuickSpecs
+QuickSpecs HPE ProLiant DL110 Gen11
+Technical Specifications
+Page 25
+System Unit
+· Dimensions (Height x Width x Depth)
+- 4.29 x 44.16 x 43.18 cm
+- 1.69 x 17.39 x 17 in
+Weight (approximate)
+· Minimum: CTO server with 1x processor, 1x primary riser, 1x Memory DIMM, 1x M.2 SSD, and 1x Power Supply
+­ 9.62 kg / 21.21 lbs.
+· Maximum: CTO server with all components installed: 1x processor, 2x risers, 8x Memory DIMMs, 4x M.2 SSDs, and 2x
+Power Supplies
+­ 11.4 kg / 25.4 lbs.
+Input Requirements (per power supply)
+Rated Line Voltage
+· For 700W (-48VDC): -40 Vdc to -72 Vdc
+· For 700W (Platinum): 100-240 VAC
+· For 900W-1000W (Titanium): 100-240 VAC
+BTU Rating
+Maximum
+· For 700W (-48VDC) Power Supply: 2593 BTU/hr. at -40VDC, 2537 BTU/hr. at -72VDC
+· For 700W (Platinum) Power Supply: 2660 BTU/hr. at 100VAC, 2570 BTU/hr. at 200VAC, 2570 BTU/hr. at 240VAC
+· For 900W-1000W (Titanium) Power Supply: 3368 BTU/hr. at 100VAC, 3640 BTU/hr. at 200VAC, 3625 BTU/hr. at 240
+VAC
+Power Supply Output (per power supply)
+Rated Steady-State Power
+· For 700W (-48VDC) Power Supply: 700W at -40VDC, 700W at -72VDC
+· For 700W (Platinum) Power Supply: 700W at 100VAC, 700W at 200VAC, 700W at 240VAC
+· For 900W-1000W (Titanium) Power Supply: 900W at 100VAC, 1000W at 200VAC, 1000W at 240 VAC
+Maximum Peak Power
+· For 700W (-48VDC) Power Supply: 700W at -40VDC, 700W at -72VDC
+· For 700W (Platinum) Power Supply: 700W at 100VAC, 700W at 200VAC, 700W at 240VAC
+· For 900W-1000W (Titanium) Power Supply: 900W at 100VAC, 1000W at 200VAC, 1000W at 240 VAC
+Relative Humidity (non-condensing)
+· Operating
+8% to 90% - Relative humidity (Rh), 28°C maximum wet bulb temperature, non-condensing.
+· Non-operating
+5 to 95% relative humidity (Rh), 38.7°C (101.7°F) maximum wet bulb temperature, non-condensing.
+QuickSpecs HPE ProLiant DL110 Gen11
+Technical Specifications
+Page 26
+System Inlet Temperature
+· Standard Operating Temperature
+10° to 35°C (50° to 95°F) at sea level with an altitude derating of 1.0°C per every 305 m (1.8°F per every 1000 ft.) above
+sea level to a maximum of 3050 m (10,000 ft.), no direct sustained sunlight. Maximum rate of change is 20°C/hr.
+(36°F/hr.). The upper limit and rate of change may be limited by the type and number of options installed.
+System performance during standard operating support may be reduced if operating with a fan fault or above 30°C (86°F).
+· Extended Ambient Operating Temperature
+For approved hardware configurations, the supported system inlet range is extended to be: 5° to 10°C (41° to 50°F) and
+35° to 40°C (95° to 104°F) at sea level with an altitude derating of 1.0°C per every 175 m (1.8°F per every 574 ft.) above
+900 m (2953 ft.) to a maximum of 3050 m (10,000 ft.). The approved hardware configurations for this system are listed
+at the URL: http://www.hpe.com/servers/ashrae
+For approved hardware configurations, the supported system inlet range is extended to be: 40° to 45°C (104° to 113°F)
+at sea level with an altitude derating of 1.0°C per every 125 m (1.8°F per every 410 ft.) above 900 m (2953 ft.) to a
+maximum of 3050 m (10,000 ft.). The approved hardware configurations for this system are listed at the URL:
+http://www.hpe.com/servers/ashrae
+For NEBS Level 3 and ETSI Certified DL110 configurations please see the Carrier Grade Supplement
+System performance may be reduced if operating in the extended ambient operating range or with a fan fault.
+· Non-operating
+-30° to 60°C (-22° to 140°F). Maximum rate of change is 20°C/hr. (36°F/hr.).
+Altitude
+· Operating
+3050 m (10,000 ft.). This value may be limited by the type and number of options installed. Maximum allowable altitude
+change rate is 457 m/min (1500 ft./min).
+· Non-operating
+9144 m (30,000 ft.). Maximum allowable altitude change rate is 457 m/min (1500 ft./min).
+Emissions Classification (EMC) - Regulatory Information
+To view the regulatory information for your product, view the Safety and Compliance Information for Server, Storage, Power,
+Networking, and Rack Products, available at the Hewlett Packard Enterprise Support Center:
+https://support.hpe.com/hpesc/public/docDisplay?docLocale=en_US&docId=c03471072
+Environment-friendly Products and Approach End-of-life Management and Recycling
+Hewlett Packard Enterprise offers end-of-life product return, trade-in, and recycling programs, in many geographic areas, for
+our products. Products returned to Hewlett Packard Enterprise will be recycled, recovered or disposed of in a responsible manner.
+The EU WEEE directive (2002/95/EC) requires manufacturers to provide treatment information for each product type for use by
+treatment facilities. This information (product disassembly instructions) is posted on the Hewlett Packard Enterprise web site.
+These instructions may be used by recyclers and other WEEE treatment facilities as well as Hewlett Packard Enterprise OEM
+customers who integrate and re-sell Hewlett Packard Enterprise equipment.
+QuickSpecs HPE ProLiant DL110 Gen11
+Technical Specifications
+Page 27
+Acoustic Noise
+Listed are the declared mean A-Weighted sound power levels (LWA,m), declared average bystander position A-Weighted sound
+pressure levels (LpAm), and the statistical adder for verification (Kv) is a quantity to be added to the declared mean A-weighted
+sound power level. LWA,m when the product is operating in a 23°C ambient environment. Noise emissions were measured in
+accordance with ISO 7779 (ECMA 74) and declared in accordance with ISO 9296 (ECMA 109). The listed sound levels apply to
+mentioned configurations. Additional options may result in increased sound levels. Please have your HPE representative provide
+information from the HPE EMESC website for further technical details regarding the configurations listed below.
+Entry Typical Heavy
+Idle
+LwA,m 5.1 B 5.2 B 5.2 B
+LpA,m 38 dB 38 dB 38 dB
+Kv 0.4 B 0.4 B 0.4 B
+Operating
+LwA,m 5.3 B 5.8 B 6.1 B
+LpA,m 39 dB 44 dB 48 dB
+Kv 0.4 B 0.4 B 0.4 B
+Notes:
+- The declared mean A-weighted sound power level, LWA,m, is computed as the arithmetic average of the measured.
+- A-weighted sound power levels for a randomly selected sample, rounded to the nearest 0,1 B.
+- The declared mean A-weighted emission sound pressure level, LpA,m, is computed as the arithmetic average of the
+measured A-weighted emission sound pressure levels at the bystander positions for a randomly selected sample, rounded
+to the nearest 1 dB.
+- B, dB, abbreviations for bels and decibels, respectively, where 1 B = 10 dB.
+- The results in this declaration apply only to the configurations listed above when operating and tested according to the
+indicated modes and standards. A system with additional configuration components or increased operating functionality
+may increase the noise emission values.
+- All measurements made to conform to ISO 7779 / ECMA-74 and declared to conform to ISO 9296 / ECMA-109
+- The quantity, LWA,c (formerly called LWAd), can be computed from the sum of LWA,m and Kv.
+- The statistical adder for verification, Kv, is a quantity to be added to the declared mean A-weighted sound power level,
+LWA,m, such that there will be a 95 % probability of acceptance, when using the verification procedures of ISO 9296, if no
+more than 6,5 % of the batch of new equipment, has A-weighted sound power levels greater than (LWA,m + Kv).
+QuickSpecs HPE ProLiant DL110 Gen11
+Summary of Changes
+Page 28
+Date Version History Action Description of Change
+06-Jan-2025 Version 11 Changed Configuration Information and Additional Options sections were updated.
+30-Sep-2024 Version 10 Changed Configuration Information section was updated.
+16-Sep-2024 Version 9 Changed Standard Features (Operating Systems and Virtualization Software Support
+for HPE Servers) section was updated.
+06-May-2024 Version 8 Changed Configuration Information and Core Options sections were updated.
+01-Apr-2024 Version 7 Changed Configuration Information section was updated.
+04-Mar-2024 Version 6 Changed Configuration Information section was updated
+18-Dec-2023 Version 5 Changed Configuration Information section was updated
+04-Dec-2023 Version 4 Changed Standard Features and Service and Support sections were updated.
+20-Nov-2023 Version 3 Changed Service and Support and Configuration Information sections were updated.
+02-Oct-2023 Version 2 Changed Overview, Standard Features and Configuration Information sections were
+updated.
+18-Sep-2023 Version 1 New New Quick Specs
+QuickSpecs HPE ProLiant DL110 Gen11
+Copyright
+Page 29
+Make the right purchase decision.
+Contact our presales specialists.
+© Copyright 2025 Hewlett Packard Enterprise Development LP. The information contained herein is
+subject to change without notice. The only warranties for Hewlett Packard Enterprise products and services
+are set forth in the express warranty statements accompanying such products and services. Nothing herein
+should be construed as constituting an additional warranty. Hewlett Packard Enterprise shall not be liable
+for technical or editorial errors or omissions contained herein.
+Intel® and Xeon® are registered trademarks of Intel Corporation in the U.S. and other countries.
+Microsoft®, Windows®, and Windows Server® are U.S. registered trademarks of the Microsoft group of
+companies.
+For hard drives, 1GB = 1 billion bytes. Actual formatted capacity is less
+a00053299enw - 16301 - Worldwide - V11 - 06-January-2025
+Get updates
+

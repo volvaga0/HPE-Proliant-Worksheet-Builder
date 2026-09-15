@@ -1,0 +1,1276 @@
+HPE ProLiant DL385 Gen10 Server
+Data Sheet
+Router-switch.com 1
+Content
+Overview ............................................................................................................................................. 2
+Standard Features ............................................................................................................................... 5
+Pre-configured Models...................................................................................................................... 10
+Configuration Information ................................................................................................................ 17
+Ordering Information ........................................................................................................................ 22
+Where to Buy .................................................................................................................................... 23
+Source ................................................................................................................................................ 23
+Contact Us
+Tel: +1-626-239-8066 (USA) / +852-3050-1066 / +852-3174-6166
+Fax: +852-3050-1066 (Hong Kong)
+Email: sales@router-switch.com (Sales Inquiries)
+Router-switch.com 2
+Overview
+HPE ProLiant DL385 Gen10 Server has an adaptable chassis, including the modular drive bays that can
+be configured with up to 30 SFF, up to 19 LFF or up to 24 NVMe drive options along with support for up
+to 3 double wide GPU options. HPE Smart Array S100i Software RAID ships standard for embedded m.2
+boot, and the redesigned HPE Smart Array Essential and Performance RAID Controllers for performance
+or additional features including the ability to operate in both SAS and HBA mode. Along with an
+embedded 4x1GbE, you have a choice of HPE FlexibleLOM or PCIe standup adapters which offer a choice
+of networking bandwidth (1GbE to 4x10GbE) and fabric so you can adapt and grow to changing business
+needs.
+Front View - SFF chassis with optional Universal Media bay with optical and 2 NVME plus 16
+NVMe shown
+Note:
+ Quick removal access panel
+ Drive Bay 1. Optional Universal Media bay. 2 USB 2.0 and Display port standard shown (8
+SFF bay or 6 SFF+2NVMe or 8NVMe optional)
+ Optional Optical drive. Requires Universal Media bay
+ Optional 2 SFF HDD, requires optional Universal Media bay
+ Drive Bay 2. NVMe shown (8 SFF, 6SFF+2NVMe or 8 NVMe PCIe SSD optional)
+ Drive Bay 3. NVMe shown (8 SFF, 6SFF+2NVMe or 8 NVMe PCIe SSD optional)
+ Power On/Standby button and system power LED button
+ Health LED
+ NIC status
+ UID button
+ iLO Front Service Port
+ USB 3.0
+ Serial label pull tag
+ Box 3
+ Box 2
+ Box 1
+ Optional front display port (Via Universal Media Bay)
+Router-switch.com 3
+ Optional USB 2.0 (via Universal Media Bay)
+Front View - 8LFF chassis with Universal media bay and optional 2SFF and optical drive shown
+Note:
+ Unit ID button
+ Health LED
+ NIC status
+ Power On/Standby button and system power LED button
+ Front display port
+ iLO Front Service Port
+ Serial label pull tag
+ Optional optical drive shown (blank as standard)
+ Optional 2 SFF Drive bay, 2 NVMe shown
+Rear View
+Note:
+ Primary Riser. PCI Slots (Slots 1-3 top to bottom, riser shipped standard, not shown), optional
+2SFF rear drives
+ Secondary Riser. PCI Slots (Slots 4-6top to bottom, not shown, requires second riser card, and
+second processor). Showing optional 2 SFF rear
+ Optional serial port
+ Tertiary Riser (Slots 7-8). Optional rear 2 SFF HDD (supported in 24 SFF or 12 LFF front end)
+ Power supply Power connection
+ Power supply Power LED
+ HPE Flexible Slot Power Supply bay 1 (800W shown)
+Router-switch.com 4
+ Power supply Power connection
+ Power supply Power LED
+ HPE Flexible Slot Power Supply bay 2 (800W shown)
+ VGA connector
+ Embedded 4 x 1GbE Network Adapter
+ Dedicated iLO management port
+ USB connectors 3.0 (2)
+ Unit ID LED
+ Optional FlexibleLOM ports (Shown: 4 x 1GbE)
+What's New
+· New 2933 Memory DIMMs with capacity upto 128 GB
+· New Disk Cartridge Options
+· Supports the next generation AMD EPYC 7xx2 Series processor with double the core density
+compared to the previous generation and memory speeds up to 2933 MT/s.
+· Embedded 4x 1GbE LOM is not supported with 7xx2 series processors
+· Two new SMB Base SKU ( BTO) offerings
+· New SAS & SATA Solid State Drives
+· New NVME Solid State Drives
+Platform Information
+Form Factor: 2U rack
+Chassis Types:
+· 8 SFF with optional Universal Media Bay, and optional SFF or NVMe drive bay options
+· 24 SFF bay with additional 6SFF rear drive bay option to total 30 SFF drives
+· 8 LFF with Universal Media Bay
+· 12 LFF with optional 4 LFF mid-plane and optional 3LFF + 2 SFF rear drive bay to total 19 LFF drives +
+2 SFF drives
+Notes:
+- The 3 LFF rear drive box will consume space for the secondary and tertiary riser.
+- The 8 and 12 LFF chassis also supports the 2 SFF rear drive box which allows for the user to attach a secondary or
+tertiary riser.
+- The 8 NVMe drive option (826689-B21) can only be leveraged in the SFF chassis and replaces Box 1, 2 or 3.
+- The Premium cage (826690-B21, 6 SAS/SATA+2 NVMe) can only be leveraged in the SFF chassis and replaces Box
+1, 2 or 3.
+- The Universal Media Bay (882097-B21) not available with the LFF chassis or the 24 SFF front end, and can only be
+populated in Box 1.
+- The 8 SFF can be upgraded with additional 8SFF drive box to total 16 or 24 SFF drives. For optimal upgrade Box 2
+should be populated second, with Box 1 the last to be populated for a field upgrade to 24 SFF.
+- The 8 LFF chassis cannot be upgraded to 12 LFF front in the field; however the 4-LFF Mid plane (882096-B21) is
+supported, but will also require a performance fan kit (867810-B21).
+- CPU selection is limited 125W or lower with 4LFF midtray selected.
+- The 8LFF chassis ships with 6-standard fans.
+- All models come with the S100i Smart Array Controller with embedded software RAID support for the 2
+embedded M.2 drive connectors on the system board.
+Router-switch.com 5
+System Fans
+Standard - fan types included
+Notes:
+- 1P models ship with 4 standard fans. The second processor option kit contains 2 additional fans.
+- The 12 LFF and 24 SFF chassis ship with 6 High performance fans as standard.
+- The 8LFF chassis ships with 6 standard fans as standard.
+- High performance fan kit is available to meet ambient temperature environments.
+- High performance fan kits are required for rear drives, Graphics (GPU) card, 180w Processors SKUs or NVMe
+configurations.
+Standard Features
+Processor
+Up to 2 of the following depending on model:
+AMD® EPYC® 7xx2 Series Processor Family
+AMD EPYC
+Processor
+Cores Base
+Frequenc
+y
+Max
+Frequenc
+y
+Max
+Memor
+y
+Wattag
+e
+Cache Memory per
+socket
+EPYC 7702 64 2.0Ghz 3.35Ghz 2TB 200 256MB 2933MT/S
+EPYC 7552 48 2.2Ghz 3.3GHz 2TB 200 192MB 2933MT/S
+EPYC 7532 32 2.3Ghz 3.2GHz 4TB 200 256MB 3200MT/s
+EPYC 7502 32 2.5Ghz 3.35Ghz 2TB 180 128MB 2933MT/S
+EPYC 7452 32 2.35Ghz 3.35Ghz 2TB 155 128MB 2933MT/S
+EPYC 7402 24 2.8Ghz 3.35Ghz 2TB 180 128MB 2933MT/S
+EPYC 7352 24 2.3GHz 3.2GHz 2TB 155 128MB 2933MT/S
+EPYC 7302 16 3.0GHz 3.3GHz 2TB 155 128MB 2933MT/S
+EPYC 7282 16 2.8GHz 3.2GHz 4TB 120 64MB 3200MT/s
+EPYC 7272 12 2.9GHz 3.2GHz 4TB 120 64MB 3200MT/s
+EPYC 7252 8 3.1GHz 3.2GHz 4TB 120 64MB 3200MT/s
+EPYC 7262 8 3.2GHz 3.4GHz 2TB 155 128MB 2933MT/S
+AMD® EPYC® 7xx1 Series Processor Family
+AMD EPYC
+Processor
+Cores Base
+Frequenc
+y
+Max
+Frequenc
+y
+Max
+Memor
+y
+Wattag
+e
+Cache Memory per
+socket
+EPYC 7601 32 2.2Ghz 3.2Ghz 2TB 180 64MB 2666MT/S
+EPYC 7551 32 2.0Ghz 3.0Ghz 2TB 180 64MB 2666MT/S
+EPYC 7501 32 2.0Ghz 3.0Ghz 2TB 155/17
+0
+64MB 2666MT/S
+EPYC 7451 24 2.3Ghz 3.2Ghz 2TB 180 64MB 2400/2666MT/
+Router-switch.com 6
+S
+EPYC 7401 24 2.0Ghz 3.0Ghz 2TB 155/17
+0
+64MB 2400/2666MT/
+S
+EPYC 7371 16 3.1Ghz 3.8Ghz 2TB 155/17
+0
+64MB 2400/2666MT/
+S
+EPYC 7351 16 2.4Ghz 2.9Ghz 2TB 155/17
+0
+64MB 2400/2666MT/
+S
+EPYC 7301 16 2.2Ghz 2.7Ghz 2TB 155/17
+0
+64MB 2400/2666MT/
+S
+EPYC 7281 16 2.1Ghz 2.7Ghz 2TB 155/17
+0
+32MB 2400/2666MT/
+S
+EPYC 7261 8 2.5Ghz 2.9Ghz 2TB 155/17
+0
+64MB 2400/2666MT/
+S
+EPYC 7251 8 2.1Ghz 2.9Ghz 2TB 120 32MB 2400MT/S
+Chipset
+No chipset - System on Chip (SoC) design.
+On System Management Chipset
+HPE iLO 5 ASIC
+Memory
+One of the following depending on model
+Type HPE DDR4 SmartMemory
+Registered (RDIMM), Load Reduced (LRDIMM)
+DIMM Slots Available 32
+16 DIMM slots per processor, 8 channels per processor, 2
+DIMMs per channel
+With AMD® EPYC® 7xx1 Series Processor Family
+Maximum capacity (LRDIMM) 4.0 TB 32 x 128 GB LRDIMM @ 2666 MHz
+Maximum capacity (RDIMM) 2.0 TB 32 x 64 GB RDIMM @ 2666 MHz
+Notes:
+- The maximum memory speed is limited by the processor selection.
+- Mixing of RDIMM and LRDIMM memory is not supported.
+- When 2DIMMs are populated per channel, memory speed drops to 2133MT/S
+With AMD® EPYC® 7xx2 Series Processor Family
+Maximum capacity (RDIMM) 2.0 TB 32 x 64 GB RDIMM @ 2933 MHz @1 DPC
+Maximum capacity (LRDIMM) 4.0 GB 32 x 128 GB RDIMM @ 2933 MHz @1 DPC
+Notes:
+- The maximum memory speed is limited by the processor selection.
+- Mixing of RDIMM and LRDIMM memory is not supported.
+- When 2DIMMs are populated per channel, memory speed drops to 2666 MT/S
+Expansion Slots
+Router-switch.com 7
+Expansion
+Slots #
+Technology Bus
+Width
+Connector
+Width
+Form
+Factor
+Notes
+1 PCIe 3.0 X8 X8 Full-height,
+full-length
+slot
+Proc 1
+2 PCIe 3.0 X16 X16 Full-height,
+full-length
+slot
+Proc 1
+3 PCIe 3.0 X8 X8 Full-height,
+half-length
+slot
+Proc 1
+Expansion
+Slots #
+Technology Bus
+Width
+Connector
+Width
+Form
+Factor
+Notes
+1 PCIe 3.0 X8 X8 Full-height,
+full-length
+slot
+Proc 2
+2 PCIe 3.0 X16 X16 Full-height,
+full-length
+slot
+Proc 2
+3 PCIe 3.0 X8 X8 Full-height,
+half-length
+slot
+Proc 2
+Expansion
+Slots #
+Technology Bus
+Width
+Connector
+Width
+Form
+Factor
+Notes
+1 PCIe 3.0 X8 X8 Full-
+height,
+full-length
+slot
+Proc 2
+2 PCIe 3.0 X8 X8 Full-
+height,
+full-length
+slot
+Proc 2
+Notes:
+- Tertiary riser (other options available) can be leveraged without secondary riser.
+- Bus width indicated the number of physical electrical lanes running to the connector
+Storage Controller
+One of the following depending on model
+· Software RAID: HPE Smart Array S100i SR Gen10 SW RAID
+- HPE Smart Array S100i SR Gen10 SW RAID will operate in UEFI mode only. For legacy support an additional
+controller will
+be needed, and for CTO orders please also select the Legacy mode settings part, 758959-B22.
+Router-switch.com 8
+- HPE Smart Array S100i SR Gen10 SW RAID is off by default and must be enabled.
+- The S100i supports the 2 M.2 system board connectors.
+· Essential RAID Controller
+HPE Smart Array E208i-a SR Gen10 Controller
+HPE Smart Array E208i-p SR Gen10 Controller
+HPE Smart Array E208e-p SR Gen10 Controller
+· Performance RAID Controller
+HPE Smart Array P408i-a SR Gen10 Controller
+HPE Smart Array P408i-p SR Gen10 Controller
+HPE Smart Array P408e-p SR Gen10 Controller
+HPE Smart Array P816i-a SR Gen10 Controller
+HPE Smart Array P824i-p MR Gen10 Controller
+NOTE: Performance RAID Controllers require the HPE Smart Storage Battery (P01366-B21) which is sold separately.
+Internal Storage Devices
+One of the following depending on model
+· Optical Drive
+Ships standard in Performance Models
+Optional: DVD-ROM, DVD-RW
+· Hard Drives
+None ship standard
+Maximum Internal Storage
+Category Capacity Configuration
+Hot Plug SFF SAS 72.0 TB 24+6 x 2.4 TB* (with optional rear SFF drive cage)
+Hot Plug SFF SATA 60.0 TB 24+6 x 2 TB (with optional SFF drive cage)
+Hot Plug LFF SAS 296.6 TB 12+4+3 x 14 TB + 2 x 15.3 TB (with optional mid -tray and
+rear LFF drive cage, plus 2 SFF SSD rear)
+Hot Plug LFF SATA 296.6 TB 12+4+3 x 12 TB + 2 x 15.3 TB (with optional mid -tray and
+rear LFF drive cage, plus 2 SFF SSD rear)
+Hot Plug SFF SAS SSD 459 TB 24+6 x 15.3 TB (with optional rear SFF drive cage)
+Hot Plug LFF SATA SSD 67.08 TB 12+4+3 x 1.92 TB + 2 x 15.3 TB (with optional mid -tray
+and rear LFF drive cage, plus 2 SFF SSD rear)
+Hot Plug SFF SATA SSD 230.4 TB 24+6 x 7.68 TB (with optional 2SFF drive cage)
+Hot Plug SFF NVMe PCIe
+SSD
+368.64TB
+NVMe
+24 x 15.36TB NVMe
+NOTE:
+- 2x m.2 drives are supported on the system board.
+- UFF drives are also supported.
+Graphics
+Integrated Video Standard
+· Video modes up to 1920 x 1200@60Hz (32 bpp)
+· 16MB Video Memory
+HPE iLO 5 on system management memory
+· 32 MB Flash
+Router-switch.com 9
+· 4 Gbit DDR 3 with ECC protection
+Power Supply
+· HPE 500W Flex Slot Platinum Hot Plug Power Supply
+NOTE: Available in 94% efficiency.
+· HPE 800W Flex Slot Platinum Hot Plug Power Supply
+NOTE: Available in 94% and 96% efficiency.
+NOTE: Also available in -48VDC and 227VAC/380VDC power inputs.
+· HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+NOTE:
+- Available in 94% efficiency.
+- 240v power input only.
+HPE Flexible Slot (Flex Slot) Power Supplies share a common electrical and physical design that allows
+for hot plug, tool-less installation into HPE ProLiant Gen9 Performance Servers. Flex Slot power supplies
+are certified for high-efficiency operation and offer multiple power output options, allowing users to
+"right-size" a power supply for specific server configurations. This flexibility helps to reduce power waste,
+lower overall energy costs, and avoid "trapped" power capacity in the data center.
+All pre-configured servers ship with a standard 6-foot IEC C-13/C-14 jumper cord (A0K02A). This jumper
+cord is also included with each standard AC power supply option kit. If a different power cord is required,
+please check the ProLiant Power Cables web page.
+Interfaces
+Serial Optional, rear
+Display Port 1 (SFF 1 front, optional via Universal Media Bay, 826708-B21), 8 LFF
+chassis standard
+FlexibleLOM Network
+Ports
+4 x 1 Gb ports shipping standard with optional FlexibleLOM or stand up
+card
+HPE iLO Remote
+Management Network
+Port
+1 Gb Dedicated
+Front iLO Service Port 1 standard (Not available on 12 LFF chassis or when SID is ordered, note
+iLO dongle required, 880123-B21)
+Micro SD Slot 1 Micro SD
+NOTE: The Micro SD slot is not a hot-pluggable device. Customers should not attempt to plug an SD card into
+the SD slot while the server is powered.
+USB 3.0 Up to 5 total: 1 front, 2 rear, 2 internal (secure), 2 optional USB 2.0 front
+via Universal Media Bay, or standard on 8LFF chassis
+SID (Systems Insight
+Display)
+Optional
+NOTE: Not shipping as standard. Available as a CTO option or as a field upgrade (882099-B21).
+Router-switch.com 10
+Pre-configured Models
+Entry Model Entry Model Performance
+Model
+Solution Model
+SKU Number P16690-xx1 P16692-xx1 P16694-xx1 P16693-xx1
+Model Name HPE ProLiant DL385
+Gen10 7262 3.2GHz
+8-core 1P 16GB-R
+12LFF 800W RPS
+Server
+HPE ProLiant DL385
+Gen10 7262 3.2GHz
+8-core 1P 16GB-R
+8SFF 800W RPS
+Server
+HPE ProLiant
+DL385 Gen10
+7302 3.0GHz 16-
+core 1P 16GB-R
+8SFF 800W RPS
+Server
+HPE ProLiant
+DL385 Gen10
+7452 2.2GHz
+32-core 1P
+16GB-R 24SFF
+800W RPS
+Server
+Processor 7262 (8-Core, 3.2
+GHz, 155W)
+7262 (8-Core, 3.2
+GHz, 155W)
+7302 (16-Core,
+3.0 GHz, 155W)
+7452 (32-Core,
+2.2GHz, 155W)
+Number of
+Processors
+1 1 1 1
+Memory 16 GB RDIMM DR
+2933 MT/s (1x 16
+GB)
+16 GB RDIMM DR
+2933 MT/s (1x 16
+GB)
+16 GB RDIMM DR
+2933 MT/s (1x 16
+GB)
+16 GB RDIMM
+DR 2933 MT/s
+(1x 16 GB)
+Network
+Controller
+HPE 1Gb Ethernet
+4- Port 336FLR
+Adapter plus
+optional HPE
+FlexibleLOM or
+stand up card
+HPE 1Gb Ethernet
+4- Port 336FLR
+Adapter plus
+optional HPE
+FlexibleLOM or
+stand up card
+HPE 1Gb Ethernet
+4- Port 336FLR
+Adapter plus
+optional HPE
+FlexibleLOM or
+stand up card
+HPE 1Gb
+Ethernet 4- Port
+336FLR Adapter
+plus optional
+HPE
+FlexibleLOM or
+stand up card
+Storage
+Controller
+P816i-a
+Notes:
+- 16-Port modular
+Smart Array.
+- Smart Storage
+battery included.
+P408i-a
+Notes:
+- 8-Port modular
+Smart Array.
+- Smart Storage
+battery included.
+P408i-a
+Notes:
+- 8-Port modular
+Smart Array.
+- Smart Storage
+battery included.
+P408i-a
+Notes:
+- 8-Port modular
+Smart Array.
+- Smart Storage
+Battery included.
+Hard Drive None ship as
+standard
+None ship as
+standard
+None ship as
+standard
+None ship as
+standard
+Internal
+Storage
+12 LFF chassis 8 SFF Chassis 8 SFF Chassis 24 SFF Chassis
+Optical Drive
+Bay
+Optional via
+Universal
+Media Bay
+(included)
+Optional via
+Universal
+Media Bay
+(included)
+Optional via
+Universal
+Media Bay
+(included)
+Optional via
+Universal
+Media Bay
+(included)
+Optical Drive None ship as None ship as None ship as None ship as
+Router-switch.com 11
+standard standard standard standard
+PCIe Slots 3-slots (x8, x16, x8)
+as
+standard
+3-slots (x8, x16, x8)
+as
+standard
+3-slots (x8, x16,
+x8) as
+standard
+3-slots (x8, x16,
+x8) as
+standard
+Power Supply 1x 800W HPE
+FlexSlot
+Power Supply
+1x 800W HPE
+FlexSlot
+Power Supply
+1x 800W HPE
+FlexSlot
+Power Supply
+1x 800W HPE
+FlexSlot
+Power Supply
+Fans 6-High Performance
+fans
+4-standard fans 4-standard fans 6-High
+Performance
+fans
+Management Default: HPE iLO Standard with Intelligent Provisioning, HPE OneView Standard
+(requires download)
+Optional (require licenses): HPE iLO Advanced, HPE iLO Advanced Premium Security
+Edition, HPE OneView Advanced
+Energy Star 2.1 certified
+Form Factor 2U Rack, Easy Install rails without CMA
+Entry Model
+SKU Number 878712-xx1 P11747-xx1
+Model Name HPE ProLiant DL385 Gen10 7251
+1P 16GB-R E208i-a 8LFF SATA
+500W PS Entry Server
+HPE ProLiant DL385 Gen10 7251
+2.1GHz 8-core 1P 16GB-R P408i-a
+8SFF 500W PS Server
+Processor 7251 (8-Core, 2.1 GHz, 120W) 7251 (8-Core, 2.1 GHz, 120W)
+Number of Processors 1 1
+Memory 16 GB RDIMM DR 2600 MT/s (1x
+16 GB)
+16 GB RDIMM DR 2600 MT/s (1x
+16 GB)
+Network Controller HPE 1Gb Ethernet 4-Port 331i
+Adapter plus optional HPE
+FlexibleLOM or stand up card
+HPE 1Gb Ethernet 4-Port 331i
+Adapter plus optional HPE
+FlexibleLOM or stand up card
+Storage Controller Embedded S100i for 2 x M.2
+Connectors
+E208i-a
+Notes:
+- 8-Port modular Smart Array.
+P408i-a
+Notes:
+- 8-Port modular Smart Array.
+- Smart Storage battery included.
+Hard Drive None ship as standard None ship as standard
+Internal Storage 8 LFF chassis, with 2 SFF bays
+optional (upgradeable to 15LFF
+with 4LFF mid and 3LFF rear + 2SFF
+rear)
+8 SFF Chassis (upgradeable to 24
+SFF front + 6SFF rear)
+Optical Drive Bay Optional via Universal
+Media Bay (included)
+Optional via Universal
+Media Bay (included)
+Optical Drive None ship as standard None ship as standard
+Router-switch.com 12
+PCIe Slots 3-slots (x8, x16, x8) as
+standard
+3-slots (x8, x16, x8) as
+standard
+Power Supply 1x 500W HPE FlexSlot Power
+Supply
+1x 500W HPE FlexSlot Power
+Supply
+Fans 4-standard fans 4-standard fans
+Management Default: HPE iLO Standard with Intelligent Provisioning, HPE OneView
+Standard (requires download)
+Optional (require licenses): HPE iLO Advanced, HPE iLO Advanced
+Premium Security Edition, HPE OneView Advanced
+Energy Star 2.1 certified
+Form Factor 2U Rack, Easy Install rails without CMA
+Entry Model
+SKU Number 878714-AA1
+Model Name HPE ProLiant DL385 Gen10 7251 2.1GHz 8-core 1P 8GB-R E208i-a
+8SFF SATA 500W PS Entry CN Server
+Processor 7251 (8-Core, 2.1 GHz, 120W)
+Number of Processors 1
+Memory 8 GB RDIMM DR 2600 MT/s (1x 8 GB)
+Network Controller HPE 1Gb Ethernet 4-Port 331i Adapter plus optional HPE
+FlexibleLOM or stand up card
+Storage Controller Embedded S100i for 2 x M.2 Connectors
+E208i-a
+Notes:
+- 8-Port modular Smart Array.
+Hard Drive None ship as standard
+Internal Storage 8 SFF Chassis (upgradeable to 24 SFF front + 6SFF rear)
+Optical Drive Bay Optional Universal Media Bay (882097-B21)
+Optical Drive None ship as standard
+PCIe Slots 3-slots (x8, x16, x8) as standard
+Power Supply 1x 500W HPE FlexSlot Power Supply
+Fans 4-standard fans
+Management Default: HPE iLO Standard with Intelligent Provisioning, HPE
+OneView Standard (requires download)
+Optional (require licenses): HPE iLO Advanced, HPE iLO Advanced
+Premium Security Edition, HPE OneView Advanced
+Energy Star 2.1 certified
+Form Factor 2U Rack, Easy Install rails without CMA
+Base Model
+SKU Number 878716-xx1 P11809-xx1
+Model Name HPE ProLiant DL385 Gen10 7251 HPE ProLiant DL385 Gen10 7301
+Router-switch.com 13
+1P 32GB-R P816i-a 12LFF SATA
+800W PS Base Server
+2.2GHz 16-core 1P 32GB-R P408i-a
+8SFF 800W PS Server
+Processor 7251 (8-Core, 2.1 GHz, 185W) 7301 (16-Core, 2.2 GHz, 170W)
+Number of Processors 1 1
+Memory 32 GB RDIMM DR 2666 MT/s (2x
+16 GB)
+32 GB RDIMM DR 2600 MT/s (2x
+16 GB)
+Network Controller HPE 1Gb Ethernet 4-Port 331i
+Adapter plus optional HPE
+FlexibleLOM or stand up card
+HPE 1Gb Ethernet 4-Port 331i
+Adapter plus optional HPE
+FlexibleLOM or stand up card
+Storage Controller P816i-a
+Notes:
+- 16-Port modular Smart Array.
+- Smart Storage battery included.
+P408i-a
+Notes:
+- 8-Port modular Smart Array.
+- Smart Storage battery included.
+Hard Drive None ship as standard None ship as standard
+Internal Storage 12 LFF chassis (upgradeable to
+19LFF with 4LFF mid and 3LFF rear
++ 2SFF)
+8 SFF Chassis (upgradeable to 24
+SFF front + 6SFF rear)
+Optical Drive Bay Optional via Universal
+Media Bay (included)
+Optional Universal Media Bay
+(882097-B21)
+Optical Drive None ship as standard None ship as standard
+PCIe Slots 3-slots (x8, x16, x8) as
+standard
+3-slots (x8, x16, x8) as
+standard
+Power Supply 1x 800W HPE FlexSlot power
+supply
+1x 800W HPE FlexSlot power
+supply
+Fans 6-High Performance fans 4-standard fans
+Management Default: HPE iLO Standard with Intelligent Provisioning, HPE OneView
+Standard (requires download)
+Optional (require licenses): HPE iLO Advanced, HPE iLO Advanced
+Premium Security Edition, HPE OneView Advanced
+Energy Star 2.1 certified
+Form Factor 2U Rack, Easy Install rails without CMA
+SMB Base Model Base Model
+SKU Number P09707-xx1 P09708-xx1
+Model Name HPE ProLiant DL385 Gen10 7351
+1P 32GB-R P408i-a 8SFF SAS 800W
+PS Base Server
+HPE ProLiant DL385 Gen10 7551
+1P 32GBR P408i-a 8SFF SAS 800W
+PS Perf Server
+Processor 7351 (16-Core, 2.4GHz, 170W) 7551 (32-Core, 2.0 GHz, 180W)
+Number of Processors 1
+Memory 32 GB RDIMM DR 2666 MT/s (2x 16 GB)
+Network Controller HPE 1Gb Ethernet 4-Port 331i Adapter plus optional HPE FlexibleLOM or
+stand up card
+Router-switch.com 14
+Storage Controller P408i-a
+Notes:
+- 8-Port modular Smart Array.
+- Smart Storage battery included.
+Hard Drive None ship as standard None ship as standard
+Internal Storage 8 SFF Chassis (upgradeable to 24 SFF front + 6SFF rear)
+Optical Drive Bay Optional Universal Media Bay
+(882097-B21)
+Universal Media Bay (882097-B21)
+Optical Drive None ship as standard
+PCIe Slots 3-slots (x8, x16, x8) as
+standard
+Power Supply 1x 800W HPE FlexSlot power supply
+Fans 4-standard fans
+Management Default: HPE iLO Standard with Intelligent Provisioning, HPE OneView
+Standard (requires download)
+Optional (require licenses): HPE iLO Advanced, HPE iLO Advanced
+Premium Security Edition, HPE OneView Advanced
+Energy Star 2.1 certified
+Form Factor 2U Rack, Easy Install rails without CMA
+Base Model Performance Model High Performance
+Model
+SKU Number 878720-xx1 878722-xx1 878724-xx1
+Model Name HPE ProLiant DL385
+Gen10 7401 1P 32GB-R
+P408i-a 24SFF SAS 800W
+PS Base Server
+HPE ProLiant DL385
+Gen10 7451 2P 64GB-R
+P408i-a 8SFF SAS
+2x800W PS Perf Server
+HPE ProLiant DL385
+Gen10 7451 2P 64GB-R
+P408i-a 24SFF SAS
+2x800W PS Perf Server
+Processor 7401 (24-Core, 2.0GHz,
+170W)
+7451 (24-Core, 2.3 GHz,
+180W)
+7451 (24-Core, 2.0 GHz,
+180W)
+Number of
+Processors
+1 2 2
+Memory 32 GB RDIMM DR 2600
+MT/s (2x 16 GB)
+64 GB RDIMM DR 2666
+MT/s (2x 32 GB)
+64 GB RDIMM DR 2666
+MT/s (2x 32 GB)
+Network
+Controller
+HPE 1Gb Ethernet 4-Port
+331i Adapter plus
+optional HPE
+FlexibleLOM or stand up
+card
+HPE 1Gb Ethernet 4-Port
+331i Adapter plus HPE
+Ethernet 10/25Gb 2-
+port 640FLRSFP28
+Adapter (817749-B21)
+HPE 1Gb Ethernet 4-Port
+331i Adapter plus HPE
+Ethernet 25Gb 2-port
+631FLR Adapter
+(817709-B21)
+Storage
+Controller
+P408i-a w/Expander
+Notes:
+- 8-Port modular Smart
+Array.
+P408i-a
+Notes:
+- 8-Port modular Smart
+Array.
+P408i-a w/Expander
+Notes:
+- 8-Port modular Smart
+Array.
+Router-switch.com 15
+- Smart Storage battery
+included.
+- Smart Storage battery
+included.
+- Smart Storage battery
+included.
+Hard Drive None ship as standard None ship as standard None ship as standard
+Internal Storage 24 SFF Chassis 8 SFF Chassis
+(upgradeable to 24 SFF
+front + 6SFF rear)
+24 SFF Chassis
+Optical Drive Bay Optional Universal
+Media Bay (882097-B21)
+Universal Media Bay
+(882097-B21)
+Universal Media Bay
+(882097-B21)
+Optical Drive None ship as standard DVD-RW DVD-RW
+PCIe Slots 3-slots (x8, x16, x8) as
+standard
+8 total: 3-slots (x8, x16,
+x8) as standard, plus 3
+PCIe (x8, x16, x8), 2 PCIe
+(x8) Tertiary Riser Kit
+8 total: 3-slots (x8, x16,
+x8) as standard, plus 3
+PCIe (x8, x16, x8), 2 PCIe
+(x8) Tertiary Riser Kit
+Power Supply 1x 800W HPE FlexSlot
+power supply
+2x 800W HPE FlexSlot
+power supply
+2x 800W HPE FlexSlot
+power supply
+Fans 6-High Performance fans
+Management Default: HPE iLO Standard with Intelligent
+Provisioning, HPE OneView Standard (requires
+download)
+Optional (require licenses): HPE iLO Advanced, HPE
+iLO Advanced Premium Security Edition, HPE
+OneView Advanced
+Default: HPE iLO
+Advanced
+with Intelligent
+Provisioning,
+HPE OneView Standard
+(requires download)
+Optional (require
+licenses): HPE iLO
+Advanced Premium
+Security Edition, HPE
+OneView Advanced
+Energy Star 2.1 certified
+Form Factor 2U Rack, Easy Install rails with CMA
+Entry Model
+SKU Number P26897-xx1
+Model Name HPE ProLiant DL385 Gen10 7252 3.1GHz 8-core 1P 16GB-R 8SFF
+500W PS Server
+Processor 7252 (8-Core, 3.1 GHz, 500W)
+Number of Processors 1
+Memory 16 GB RDIMM DR 2933 MT/s (1x 8 GB)
+Network Controller HPE 1Gb Ethernet 4-Port 336FLR Adapter plus optional HPE
+FlexibleLOM or stand up card
+Storage Controller P408i-a
+Notes:
+- 8-Port modular Smart Array.
+Router-switch.com 16
+- Smart Storage battery included.
+Hard Drive None ship as standard
+Internal Storage 8 SFF Chassis
+Optical Drive Bay Optional Universal Media Bay (882097-B21)
+Optical Drive None ship as standard
+PCIe Slots 3-slots (x8, x16, x8) as standard
+Power Supply 1x 500W HPE FlexSlot Power Supply
+Fans 4-standard fans
+Management Default: HPE iLO Standard with Intelligent Provisioning, HPE
+OneView Standard (requires download)
+Optional (require licenses): HPE iLO Advanced, HPE iLO Advanced
+Premium Security Edition, HPE OneView Advanced
+Energy Star 2.1 certified
+Form Factor 2U Rack, Easy Install rails without CMA
+Performance Model
+SKU Number P26898-xx1
+Model Name HPE ProLiant DL385 Gen10 7282 2.8GHz 16-core 1P 32GB-R 8SFF
+800W PS Server
+Processor 7282 (16-Core, 2.8GHz, 800W)
+Number of Processors 1
+Memory 32 GB RDIMM DR 2933 MT/s (1x 8 GB)
+Network Controller HPE 1Gb Ethernet 4-Port 336FLR Adapter plus optional HPE
+FlexibleLOM or stand up card
+Storage Controller P408i-a
+Notes:
+- 8-Port modular Smart Array.
+- Smart Storage battery included.
+Hard Drive None ship as standard
+Internal Storage 8 SFF Chassis (upgradeable to 24 SFF front + 6SFF rear)
+Optical Drive Bay Optional Universal Media Bay (882097-B21)
+Optical Drive None ship as standard
+PCIe Slots 3-slots (x8, x16, x8) as standard
+Power Supply 1x 800W HPE FlexSlot Power Supply
+Fans 4-standard fans
+Management Default: HPE iLO Standard with Intelligent Provisioning, HPE
+OneView Standard (requires download)
+Optional (require licenses): HPE iLO Advanced, HPE iLO Advanced
+Premium Security Edition, HPE OneView Advanced
+Energy Star 2.1 certified
+Form Factor 2U Rack, Easy Install rails without CMA
+Country Code Key
+Router-switch.com 17
+xx1 = B21 Worldwide
+Notes: The -B21 WW SKU is to be ordered in all countries other than Japan.
+xx1 = 291 Japan
+Configuration Information
+This section lists some of the steps required to configure a Factory Integrated Model. To ensure only
+valid configurations are ordered, Hewlett Packard Enterprise recommends the use of an HPE approved
+configurator. Contact Us for information on configurable product offerings and requirements.
+1. Factory Integrated Models must start with a CTO Server.
+2. FIO indicates that this option is only available as a factory installable option.
+3. All Factory Integrated Models will be populated with sufficient hard drive blanks based on the number
+of initial hard drives ordered with the server.
+4. Some options may not be integrated at the factory. Contact your local sales representative for
+additional information.
+Step 1: Base Configuration (choose one of the following configurable models)
+CTO Server HPE ProLiant
+DL385
+Gen10 8 LFF CTO
+Server
+HPE ProLiant
+DL385
+Gen10 12 LFF CTO
+Server
+HPE ProLiant
+DL385
+Gen10 8 SFF CTO
+Server
+HPE ProLiant
+DL385
+Gen10 24 SFF CTO
+Server
+SKU Number 878615-B21 878614-B21 878612-B21 878613-B21
+TAA SKU 878615-B21 878614-B21 878612-B21 878613-B21
+Processor Not included as
+standard
+Not included as
+standard
+Not included as
+standard
+Not included as
+standard
+DIMM Slots 32-DIMM slots 32-DIMM slots 32-DIMM slots 32-DIMM slots
+Storage
+Controller
+Embedded s100i SW RAID for 2 x M.2 SATA support, choice of HPE modular Smart
+Array and PCIe plug-in controller
+PCIe Three standard in primary riser
+Drive Cage -
+included
+8 LFF 12 LFF 8 SFF 24 SFF
+Network
+Controller
+HPE 1Gb Ethernet 4-Port 331i Adapter (if equipped) plus optional HPE FlexibleLOM
+or stand up card
+Fans 6-Standard 6-High
+Performance
+4-Standard 6-Performance
+Management HPE iLO with Intelligent Provisioning (standard), iLO Advances and OneView
+(optional)
+USB 1x 3.0 standard
+plus iLo front
+service port
+None as standard 1x 3.0 standard
+plus iLo front
+service port
+1x 3.0 standard
+plus iLo front
+service port
+Notes:
+- HPE offers multiple Trade Agreement Act (TAA) compliant configurations to meet the needs of US Federal
+Router-switch.com 18
+Government customers. These products are either manufactured or substantially transformed in a designated
+country. TAA compliance is only provided when HPE options are included as part of factory integrated orders (CTO).
+- TAA chassis are only orderable in North America and Canada.
+- The HPE ProLiant DL385 Gen10 12 LFF CTO Server ships with the cable required for the P816i-a installation.
+- The cables that come standard with the 8SFF chassis for BOX3 work for the first 8 drives, and are connected to
+the E208 or the P408. When the 8SFF drive cage for BOX2 or BOX1 is ordered, the cables come with the drive cage
+kits.
+- All CTO servers are Energy Star 2.1 compliant.
+- 4x 1 embedded LOM is not equipped on new boards for 7xx2 series processor
+CTO Server 8 SFF CTO Chassis 24 SFF CTO
+Chassis
+8 LFF CTO
+Chassis
+12 LFF CTO
+Chassis
+Included Drive Cage 8 SFF SAS/SATA 3x 8 SFF
+SAS/SATA
+8 LFF + UMB 12 LFF Chassis
+Additional drive cages
+Universal Media Bay 1 Optional Not available 1 Included Not available
+ODD 1 Optional with
+UMB
+Not available 1 Optional Not available
+8 SFF Drive Cage Up to 2 Optional Not available Not available Not available
+8 NVME/SAS Bay Up to 3 Optional Not available Not available Not available
+8 NVME Cage Up to 3 Optional Not available Not available Not available
+2 SFF SAS/SATA
+(Front)
+1 Optional with
+UMB
+Not available 1 Optional Not available
+2 SFF SAS/SATA
+(Rear)
+1 Optional 1 Optional 1 Optional 1 Optional
+2 NVMe (Front) 1 Optional with
+UMB
+Not available 1 Optional Not available
+4 LFF Mid-plane Not available Not available 1 Optional 1 Optional
+3 LFF Rear Not available Not available 1 Optional 1 Optional
+Step 2: Choose Required Options (only one of the following from each list unless otherwise noted)
+Please select one -L21 processor required below.
+For second processor, please select the same processor model with -B21 from Core Options - HPE
+Processors section.
+For example: first processor, select 874752-L21 then for second processor, select 874752-B21. Notes:
+- 8SFF CTO 1P models ship with 4 standard fans. The second processor option kit contains 2 additional fans. 12 LFF
+and 24 SFF CTO Servers ship with 6 High performance fans included; 8LFF CTO Servers ship with 6 Standard fans
+included. High performance fan kit is available to meet ambient temperature environments are are required for
+rear drives or NVMe configurations. NVMe is limited to front install only.
+- Mixing of 2 different processor models are NOT allowed.
+- DDR4 memory speed will depend on the quantity and type of DIMMs installed.
+- Processors with greater than 180W will ship with the High Performance heatsink.
+- Processors with greater than 180W will require the High Performance fan kit.
+Router-switch.com 19
+Processor Option Kits Required
+Processor
+AMD® EPYC® 7xx2 Generation Processor Family
+AMD EPYC 7702 (2.0GHz/64-core/200W) FIO Processor Kit for HPE ProLiant DL385
+Gen10
+P16636-L21
+AMD EPYC 7552 (2.2GHz/48-core/165-200W) FIO Processor Kit for HPE ProLiant
+DL385 Gen10
+P21862-L21
+AMD EPYC 7502 (2.5GHz/32-core/180-200W) FIO Processor Kit for HPE ProLiant
+DL385 Gen10
+P16638-L21
+AMD EPYC 7402 (2.8GHz/24-core/180-200W) FIO Processor Kit for HPE ProLiant
+DL385 Gen10
+P16640-L21
+AMD EPYC 7352 (2.3GHz/24-core/155W) FIO Processor Kit for HPE ProLiant DL385
+Gen10
+P21422-L21
+AMD EPYC 7452 (2.3GHz/32-core/155-180W) FIO Processor Kit for HPE ProLiant
+DL385 Gen10
+P16642-L21
+AMD EPYC 7302 (3.0GHz/16-core/155W) FIO Processor Kit for HPE ProLiant DL385
+Gen10
+P16643-L21
+AMD EPYC 7262 (3.2GHz/8-core/155-180W) FIO Processor Kit for HPE ProLiant
+DL385 Gen10
+P16645-L21
+AMD EPYC 7702 (2.0GHz/64-core/200W) Processor Kit for HPE ProLiant DL385
+Gen10
+P16636-B21
+AMD EPYC 7552 (2.2GHz/48-core/165-200W) Processor Kit for HPE ProLiant DL385
+Gen10
+P21862-B21
+AMD EPYC 7532 (2.4GHz/32-core/200W) FIO Processor Kit for HPE ProLiant DL385
+Gen10
+P25769-L21
+AMD EPYC 7502 (2.5GHz/32-core/180-200W) Processor Kit for HPE ProLiant DL385
+Gen10
+P16638-B21
+AMD EPYC 7402 (2.8GHz/24-core/180-200W) Processor Kit for HPE ProLiant DL385
+Gen10
+P16640-B21
+AMD EPYC 7352 (2.3GHz/24-core/155W) Processor Kit for HPE ProLiant DL385
+Gen10
+P21422-B21
+AMD EPYC 7452 (2.3GHz/32-core/155-180W) Processor Kit for HPE ProLiant DL385
+Gen10
+P16642-B21
+AMD EPYC 7302 (3.0GHz/16-core/155W) Processor Kit for HPE ProLiant DL385
+Gen10
+P16643-B21
+AMD EPYC 7282 (2.8GHz/16-core/120W) FIO Processor Kit for HPE ProLiant DL325
+Gen10 Plus
+P19631-L21
+AMD EPYC 7272 (2.9GHz/12-core/120W) FIO Processor Kit for HPE ProLiant DL325
+Gen10
+P25852-L21
+AMD EPYC 7252 (3.1GHz/8-core/120W) FIO Processor Kit for HPE ProLiant DL385
+Gen10
+P25772-L21
+AMD EPYC 7262 (3.2GHz/8-core/155-180W) Processor Kit for HPE ProLiant DL385 P16645-B21
+Router-switch.com 20
+Gen10
+AMD® EPYC® 7xx1 Generation Processor Family
+AMD EPYC 7601 (2.2GHz/32-core/180W) FIO Processor Kit for HPE ProLiant DL385
+Gen10
+881162-L21
+AMD EPYC 7551 (2.0GHz/32-core/180W) FIO Processor Kit for HPE ProLiant DL385
+Gen10
+881163-L21
+AMD EPYC 7501 (2GHz/32-core/155-170W) FIO Processor Kit for HPE ProLiant
+DL385 Gen10
+881164-L21
+AMD EPYC 7451 (2.3GHz/24-core/180W) FIO Processor Kit for HPE ProLiant DL385
+Gen10
+881165-L21
+AMD EPYC 7401 (2GHz/24-core/155-170W) FIO Processor Kit for HPE ProLiant
+DL385 Gen10
+881166-L21
+AMD EPYC 7371 (3.1GHz/16-core/180W) Processor Kit for HPE ProLiant DL385
+Gen10
+P11520-B21
+AMD EPYC 7351 (2.4GHz/16-core/155-170W) FIO Processor Kit for HPE ProLiant
+DL385 Gen10
+881169-L21
+AMD EPYC 7301 (2.2GHz/16-core/155-170W) FIO Processor Kit for HPE ProLiant
+DL385 Gen10
+881170-L21
+AMD EPYC 7281 (2.1GHz/16-core/155-170W) FIO Processor Kit for HPE ProLiant
+DL385 Gen10
+P00645-L21
+AMD EPYC 7261 (2.5GHz/8-core/155-170W) Processor Kit for HPE ProLiant DL385
+Gen10
+P06047-B21
+AMD EPYC 7251 (2.1GHz/8-core/120W) FIO Processor Kit for HPE ProLiant DL385
+Gen10
+881171-L21
+HPE Memory
+Memory Option Required
+Memory
+Registered DIMMs (RDIMMs)
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2666 CAS-19-19-19 Registered Smart
+Memory Kit
+838079-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2666 CAS-19-19-19 Registered Smart
+Memory Kit
+838089-B21
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2666 CAS-19-19-19 Registered Smart
+Memory Kit
+838081-B21
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2666 CAS-19-19-19 Registered Smart
+Memory Kit
+838083-B21
+HPE 64GB (1x64GB) Dual Rank x4 DDR4-2666 CAS-19-19-19 Registered Smart
+Memory Kit
+P05592-B21
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2933 CAS-21-21-21 Registered Smart
+Memory Kit
+P19040-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2933 CAS-21-21-21 Registered Smart P19042-B21
+Router-switch.com 21
+Memory Kit
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart P19041-B21
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart P19043-B21
+HPE 64GB (1x64GB) Dual Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart
+Memory Kit
+P19045-B21
+Load Reduced DIMMs (LRDIMMs)
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2666 CAS-19-19-19 Load Reduced Smart
+Memory Kit
+838085-B21
+HPE 128GB (1x128GB) Octal Rank x4 DDR4-2666 CAS-22-19-19 3DS Load Reduced
+Smart Memory Kit
+838087-B21
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2933 CAS-21-21-21 Load Reduced Smart
+Memory Kit
+P19044-B21
+HPE 128GB (1x128GB) Quad Rank x4 DDR4-2933 CAS-21-21-21 Load Reduced
+Smart Memory Kit
+P19047-B21
+HPE Flex Slot Power Supplies
+Power Supplies Option Required Model
+HPE 500W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 865408-B21
+HPE 800W Flex Slot Titanium Hot Plug Low Halogen Power Supply Kit 865438-B21
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 865414-B21
+HPE 800W Flex Slot -48VDC Hot Plug Low Halogen Power Supply Kit 865434-B21
+HPE 800W Flex Slot Universal Hot Plug Low Halogen Power Supply Kit 865428-B21
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 830272-B21
+Step 3: Choose Additional Factory Integratable Options
+HPE Unique Options
+HPE DL38X Gen10 Slot 1/2 x16/x16 FIO Riser Kit 871674-B21
+NOTE: Slot 1 or 2 in Primary location; supports Full Height and Full length cards.
+NOTE: Bus width x16, x16, Connector Width x16, x16.
+HPE DL38X Gen10 x16/x16 GPU Slot2/3 FIO Riser Kit 871676-B21
+NOTE: Primary Riser, Connector in slot 2 & 3 for GPU support; supports Full Height and Full length
+cards. Bus width x16, x16, Connector Width x16, x16.
+HPE 4 NVMe Box 1 Instr Spec FIO 878186-B21
+HPE DL38X Gen10 x8/x8/x8 1-port 2 NVMe Slim SAS FIO Riser Kit 871673-B21
+NOTE: Supports 3x 8 and 1-port for NVMe; supports Full Height and half-length cards. Bus width x8,
+x8, x8 Connector Width x8, x8, x8.
+HPE 2 NVMe Instr Spec FIO 878189-B21
+NOTE: This will connect 2 SFF cage installed in the front of the chassis to NVMe.
+HPE Special Enablement Kits 878192-B21
+NOTE: Indicates the cage will also have an NVMe connection.
+HPE 8SFF Front Remove SPEC Perf FIO 873763-B21
+NOTE: Will remove the Primary 8SFF cage in Box 3 of the 8SFF and replace with a Box blank.
+Router-switch.com 22
+HPE Riser Remove SPEC FIO 873766-B21
+NOTE: Will remove the Primary shipping PCIe riser.
+HPE Legacy FIO Mode Setting 758959-B22
+NOTE: UEFI is the default, this FIO part can be used for CTO to enable Legacy mode.
+HPE Smart Memory Fast Fault Tolerance FIO Setting 875293-B21
+NOTE: Fast Fault Tolerance is a new feature in Gen10 server memory that enables the system to boot
+with full memory performance while monitoring for DRAM device failures.
+HPE Converged Infrastructure Management Software
+HPE DL38X Gen10 x16/x16/x16 Secondary GPU FIO Riser Kit P14373-B21
+HPE DL38X Gen10 x16/x16/x16 Primary GPU FIO Riser Kit P14374-B21
+Step 4: Choose Additional Options for Factory Integration.
+NOTE: Contact Us for additional information.
+Ordering Information
+SKU Description
+878612-B21 HPE ProLiant DL385 Gen10 CTO Mod-X 8 Small Form Factor Server
+878615-B21 HPE ProLiant DL385 Gen10 CTO Mod-X 8 Large Form Factor Server
+878613-B21 HPE ProLiant DL385 Gen10 CTO Mod-X 24 Small Form Factor Server
+878614-B21 HPE ProLiant DL385 Gen10 CTO Mod-X 12 Large Form Factor Server
+878714-B21
+HPE ProLiant DL385 Gen10 7251 1P 16GB-R E208i-a 8SFF SATA 500W PS Entry
+Server
+878712-B21
+HPE ProLiant DL385 Gen10 7251 1P 16GB-R E208i-a 8LFF SATA 500W PS Entry
+Server
+878718-B21
+HPE ProLiant DL385 Gen10 7301 1P 32GB-R P408i-a 8SFF SAS 500W PS Base
+Server
+878720-B21
+HPE ProLiant DL385 Gen10 7401 1P 32GB-R P408i-a 24SFF SAS 800W PS Base
+Server
+878722-B21
+HPE ProLiant DL385 Gen10 7451 2P 64GB-R P408i-a 8SFF SAS 2x800W PS Perf
+Server
+878616-B21 HPE DL385 Gen10 CTO Mod-X 8SFF TAA Svr Server
+878617-B21 HPE DL385 Gen10 CTO Mod-X 24SFF TAA Svr Server
+878618-B21 HPE DL385 Gen10 CTO Mod-X 12LFF TAA Svr Server
+878619-B21 HPE DL385 Gen10 CTO Mod-X 8LFF TAA Svr Server
+878716-B21
+HPE ProLiant DL385 Gen10 7251 1P 32GB-R P816i-a 12LFF SATA 800W PS Base
+Server
+878724-B21
+HPE ProLiant DL385 Gen10 7451 2P 64GB-R P408i-a 24SFF SAS 2x800W PS Perf
+Server
+P00323-S01
+HPE ProLiant DL385 Gen10 7251 2.1GHz 8-core 1P 16GB-R E208i-a 8SFF SATA
+500W PS US Server/S-Buy
+Router-switch.com 23
+P00324-S01 HPE DL385 Gen10 7301 1P32G 8LFF Svr Server/S-B
+P00325-S01 HPE DL385 Gen10 7301 1P32G 24SFF Svr Server/S-B
+P00326-S01 HPE DL385 Gen10 7451 1P64G 8SFF Svr Server/S-B
+P05887-B21
+HPE ProLiant DL385 Gen10 7251 2.1GHz 8-core 1P 16GB-R P408i-a 8SFF 500W
+RPS Solution Server
+P11747-B21
+HPE ProLiant DL385 Gen10 7251 2.1GHz 8-core 1P 16GB-R P408i-a 8SFF 500W PS
+Server
+P11809-B21
+HPE ProLiant DL385 Gen10 7301 2.2GHz 16-core 1P 32GB-R P408i-a 8SFF 800W
+PS Server
+P09707-B21
+HPE ProLiant DL385 Gen10 7351 2.4GHz 16-core 1P 32GB-R P408i-a 8SFF 800W
+PS Solution Server
+P09708-B21
+HPE ProLiant DL385 Gen10 7551 2GHz 32-core 1P 32GB-R P408i-a 8SFF 800W PS
+Base Server
+Where to Buy
+Want to buy this series of products? please contact:
+ Tel: +1-626-239-8066 (USA)/ +852-3050-1066 / +852-3174-6166
+ Fax: +852-3050-1066 (Hong Kong)
+ Email: sales@router-switch.com (Sales Inquiries)
+Or visit: HPE DL385 Gen10 Server
+About us
+Router-switch.com, founded in 2002, is one of the biggest Global Network Hardware Supplier. We
+are a leading provider of network products with 16,000+ customers in over 200 countries. We
+provide original new and used network equipments (Cisco, Huawei, HPE, Dell, Juniper, Fortinet,
+Dahua, etc.), including Routers, Switches, Servers, Storage, Telepresence and Videoconferencing,
+IP Phones, Firewalls, IP Cameras, Wireless APs & Controllers, EHWIC/HWIC/VWIC Cards, SFPs,
+Memory & Flash, Hard Disk, Cables, and all kinds of network solutions related products.
+Source
+https://h20195.www2.hpe.com/v2/getdocument.aspx?docname=a00026913enw&#
+

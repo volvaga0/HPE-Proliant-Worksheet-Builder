@@ -1,0 +1,2915 @@
+QuickSpecs HPE ProLiant ML350 Gen11
+Overview
+Page 1
+HPE ProLiant ML350 Gen11
+Provide most powerful and storage flexibility 2P tower server with rackable chassis design for various environments, and delivers
+exceptional compute performance, security, reliability, and expandability. Design to fulfill with wide range workloads for small
+offices, remote and branch offices of large enterprises, growing SMBs and data centers. HPE ProLiant ML350 Gen11 server is an
+excellent choice to accelerate your growing business.
+Front View - LFF chassis with optional Gen11 4LFF HDD Cage Kits shown (Tower mode)
+1. DisplayPort 1.1a 8. Optical drive bay
+2. USB 3.2 Gen1 port 9. Media bay filler panel
+3. iLO service port 10. Serial number/iLO information pull tab
+4. UID button/LED 11. Box3: Default drive cage for 4LFF
+5. NIC status LED 12. Box2: Optional drive cage for 8SFF/4LFF
+6. Health LED 13. Box1: Optional drive cage for 8SFF/4LFF, or USB RDX
+docking station.
+7. Power on/Standby button and system power LED
+QuickSpecs HPE ProLiant ML350 Gen11
+Overview
+Page 2
+Front View - SFF chassis with optional Gen11 8SFF HDD Cage Kits shown (Tower mode)
+1. DisplayPort 1.1a 8 Optical drive bay
+2. USB 3.2 Gen1 port 9. Media bay filler panel
+3. iLO service port 10. Serial number/iLO information pull tab
+4. UID button/LED 11. Box3: Default drive cage for 8SFF*
+5. NIC status LED 12. Box2: Optional drive cage for 8SFF
+6. Health LED 13 Box1: Optional drive cage for 8SFF
+7. Power on/Standby button and system power LED
+Notes: *Optional for 8SFF x4 U.3 drive kit or 12 EDSFF drive kit
+QuickSpecs HPE ProLiant ML350 Gen11
+Overview
+Page 3
+Rear View - With HPE Flex Slot RPS shown.
+1. HPE NS204i-u Gen11 NVMe Hot Plug Boot Optimized
+Storage Device (Optional)
+9. iLO management port
+2. PCIe Slots 9-10 (Optional tertiary riser, 2nd processor
+required for expansion card installation)
+10. USB 3.2 Gen 1 ports x2
+3. Flexible Slot power supply 1 11. External Fan connector 10
+4. Flexible Slot power supply 2 (Optional) 12. Slot 14 OCP 1 (Optional for OROC/NIC adapter)
+5. VGA Port 13. PCIe Slots 1-4 (Primary riser)
+6. External Fan connector 9 14. Padlock eye
+7. Slot 15 OCP 2 (Optional for NIC adapter) 15. PCIe Slots 5-8 (Secondary riser)
+8. Serial port (Optional) 16. Kensington slot
+QuickSpecs HPE ProLiant ML350 Gen11
+Overview
+Page 4
+Internal View - with optional 2nd CPU, OCP NIC adapter and NS204i-u shown
+1. CPU Socket 11 & 22 7. Serial port cable connector
+2. Dual USB port (Stacked, Top: USB 3.2 Gen1 port, Bottom:
+USB 2.0 port)
+8. Slot 15 OCP 2 (Optional for NIC adapter)
+3. Megacell battery holder (Under) 9. HPE NS204i-u power connector
+4. HPE NS204i-u Gen11 NVMe Hot Plug Boot Optimized
+Storage Device (Optional)
+10. Primary riser connector
+5. Secondary riser connector 11. Slot 14 OCP 1 (Optional for OROC/NIC adapter)
+6. Tertiary riser sideband connector
+Notes:
+- 1 CPU1 (bottom) shown Standard Heatsink with fully memory populated in 16 slots (32 slots in total)
+- 2 CPU2 (top) shown Standard Heatsink with fully memory populated in 16 slots (32 slots in total)
+QuickSpecs HPE ProLiant ML350 Gen11
+Overview
+Page 5
+What's New
+· Powered by 4th Generation Intel® Xeon® Scalable processors that support up to 60 cores at 350W, 112.5 MB of L3 Cache,
+and 32 DIMMs for DDR5 memory up to 4800 MT/s.
+· Increased memory bandwidth, performance and lower power requirements with DDR5 memory that supports up to 8 TB
+memory capacity with 8 channels per processor.
+· Advanced data transfer rates from the PCIe Gen5 serial expansion bus.
+· Includes HPE Integrated Lights-Out 6 (iLO 6) server management software that enables you to securely configure,
+monitor, and update your HPE ProLiant Gen11 servers seamlessly from anywhere.
+· Supports Tri-mode SFF backplane and hot-pluggable RAID1 protected NS204i-u M.2 NVMe boot option.
+· New x4 U.3 NVMe drive cage and EDSFF drive cage to support up to 12 EDSFF PCIe Gen5 NVMe drives.
+· Support NVIDIA L40 48GB PCIe Accelerator.
+· Support L4 and A16 NVIDIA Accelerator.
+· Support 1800W-2200W Flex Slot Titanium Hot Plug Power Supply.
+· Support 5th Generation Intel® Xeon® Scalable processors that support up to 64 cores at 350W/330W TDP, 320 MB
+Cache.
+· Support DDR5 5600 MT/s memory 16, 32, 64, 96, 128GB DIMM modules with 5th Gen Intel® Xeon® Scalable processors.
+· New pre-configured SKUs with 5th Generation Intel® Xeon® Scalable processors.
+· Support NVIDIA RTX 4000 Ada Graphics Accelerator.
+Platform Information
+Form Factor
+· 4U tower with rack conversion capability
+Notes: When deployed as a Rack model, this system will take up 5U-height space in a standard data center rack facility.
+Chassis Types
+· 8 SFF chassis with optional Tri-mode SFF cage kit (s), x4 NVMe SFF cage kit, 12 EDSFF cage kit and 1 slim-line DVD bay
+kit options
+· 4 LFF chassis with optional LFF or SFF cage kit (s), USB RDX docking station and 1 slim-line DVD bay kit options
+Notes:
+- Mixed SFF and LFF drive cages is supported with LFF chassis, up to 3 drive cages.
+- USB RDX docking station is supported up to 1 with LFF chassis.
+- U.3 x4 NVMe 8SFF and 12 EDSFF drive cage kit are supported with SFF CTO server only, up to 1 drive cage.
+System Fans
+· Standard - 3 fans included
+Notes:
+- Base models typically ship with 3 standard fans as default with every ML350 Gen11 server operations.
+- Performance models typically ship with 8 standard fans which provides N+1 redundant fan feature in most of the
+situations. For support detail or restriction, refer to ML350 Gen11 User Guide.
+- Optional Redundant Fan Kit (P47219-B21), Second CPU Fan Kit (P47902-B21) and External GPU Fan Kit (P47220-B21)
+provides advanced cooling and redundancy functionality in heavier configurations. Configurations that require fan kit are
+provided in later sections.
+QuickSpecs HPE ProLiant ML350 Gen11
+Standard Features
+Page 6
+Processors
+Up to 2 of the following processors, depending on model.
+Notes: For more information regarding Intel Xeon processors, please see the following
+https://www.intel.sg/content/www/xa/en/processors/xeon/scalable/xeon-scalable-platform.html.
+- Field upgrade from 4th generation processors (x4xx) to 5th generation processors (x5xx) is not supported.
+Intel Xeon® Scalable Processors - Naming Decoder
+Processor Suffix Description Offering
+P Cloud --
+- IaaS Processor specifications optimized for IaaS cloud environments such as
+orchestration efficiency in high-frequency VM environments.
+V Cloud --
+- SaaS Processors specification optimized for SaaS cloud environments.
+M Media Transcode Processor specifications optimized for AI and media processing workloads.
+H DB and Analytics Database and Analytics up to 4S and 8S depending on SKU
+N Network/5G/Edge(High
+TPT/Low Latency)
+Network/5G/Edge
+(High TPT /Low Latency) Processor specifications optimized for
+communications/networking/NFV (Network Function(s) Virtualization) workloads
+and operating environments.
+S Storage & HCI Storage-optimized SKU with full accelerators enabled (DSA, QAT, DLB)
+T Long-life Use/High
+Tcase
+Support for up to 10-year reliability and support for higher Tcase. These SKUs are
+often used in operating environments with long-life use requirements and require
+Network Equipment Building System (NEBS)--
+-Thermal friendly specification
+support.
+U 1-Scoket Optimized* Supported in one-socket configurations only.
+Q Liquid cooling Lower Tcase SKUs, targeted towards liquid cooling
++ Feature + Feature plus(+) SKU contains 1 of each accelerator enabled (DSA, DLB, QAT, IAA)
+Intel Fourth Generation Xeon® Scalable Processors
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache TDP UPI
+(16 GT/s)
+DDR5 SGX Enclave
+size
+Platinum Processors
+Platinum 8490H Processor 1.9 GHz 60 112.5 MB 350W 4 4800 MT/s 512 GB
+Platinum 8480+ Processor 2.0 GHz 56 105 MB 350W 4 4800 MT/s 512 GB
+Platinum 8470N Processor 1.7 GHz 52 97.5 MB 300W 3 4800 MT/s 128 GB
+Platinum 8470 Processor 2.0 GHz 52 105 MB 350W 4 4800 MT/s 512 GB
+Platinum 8468 Processor 2.1 GHz 48 105 MB 350W 4 4800 MT/s 512 GB
+Platinum 8468V Processor 2.4 GHz 48 97.5 MB 330W 3 4800 MT/s 128 GB
+Platinum 8458P Processor 2.7 GHz 44 82.5 MB 350W 3 4800 MT/s 512 GB
+Platinum 8460Y+ Processor 2.0 GHz 40 105 MB 300W 4 4800 MT/s 128 GB
+Platinum 8452Y Processor 2.0 GHz 36 67.5 MB 300W 4 4800 MT/s 128 GB
+Platinum 8444H Processor 2.9 GHz 16 45 MB 270W 4 4800 MT/s 512 GB
+Gold Processors
+Gold 6448H Processor 2.4 GHz 32 60 MB 250W 3 4800 MT/s 512 GB
+Gold 6454S Processor 2.2 GHz 32 60 MB 270W 4 4800 MT/s 128 GB
+Gold 6448Y Processor 2.1 GHz 32 60 MB 225W 3 4800 MT/s 128 GB
+Gold 6430 Processor 2.1 GHz 32 60 MB 270W 3 4400 MT/s 128 GB
+Gold 6438N Processor 2.0 GHz 32 60 MB 205W 3 4800 MT/s 128 GB
+Gold 6438Y+ Processor 2.0 GHz 32 60 MB 205W 3 4800 MT/s 128 GB
+Gold 6414U Processor* 2.0 GHz 32 60 MB 250W N/A 4800 MT/s 128 GB
+Gold 6421N Processor* 1.8 GHz 32 60 MB 185W N/A 4400 MT/s 128 GB
+Gold 6442Y Processor 2.6 GHz 24 60 MB 225W 3 4800 MT/s 128 GB
+Gold 6418H Processor 2.1 GHz 24 60 MB 185W 3 4800 MT/s 512 GB
+Gold 6416H Processor 2.2 GHz 18 45 MB 165W 3 4800 MT/s 512 GB
+QuickSpecs HPE ProLiant ML350 Gen11
+Standard Features
+Page 7
+Gold 6426Y Processor 2.5 GHz 16 37.5 MB 185W 3 4800 MT/s 128 GB
+Gold 6434 Processor 3.7 GHz 8 22.5 MB 195W 3 4800 MT/s 128 GB
+Gold 5420+ Processor 2.0 GHz 28 52.5 MB 205W 3 4400 MT/s 128 GB
+Gold 5418N Processor 1.8 GHz 24 45 MB 165W 3 4000 MT/s 128 GB
+Gold 5418Y Processor 2.0 GHz 24 45 MB 185W 3 4400 MT/s 128 GB
+Gold 5411N Processor* 1.9 GHz 24 45 MB 165W N/A 4400 MT/s 128 GB
+Gold 5416S Processor 2.0 GHz 16 30 MB 150W 3 4400 MT/s 128 GB
+Gold 5415+ Processor 2.9 GHz 8 22.5 MB 150W 3 4400 MT/s 128 GB
+Sliver Processors
+Silver 4416+ Processor 2.0 GHz 20 37.5 MB 165W 2 4000 MT/s 64 GB
+Silver 4410Y Processor 2.0 GHz 12 30 MB 150W 2 4000 MT/s 64 GB
+Bronze Processors
+Bronze 3408U Processor* 1.8 GHz 8 22.5 MB 125W N/A 4000 MT/s 64 GB
+Intel Fifth Generation Xeon® Scalable Processors
+Intel Xeon Models CPU
+Frequency
+Cores L3 Cache TDP UPI
+(16 GT/s)
+DDR5 SGX Enclave
+size
+Platinum Processors
+Platinum 8592+ Processor 1.9 GHz 64 320 MB 350W 4 5600 MT/s 512 GB
+Platinum 8592V Processor 2.0 GHz 64 320 MB 330W 3 4800 MT/s 512 GB
+Platinum 8580 Processor 2.0 GHz 60 300 MB 350W 4 5600 MT/s 512 GB
+Platinum 8581V Processor* 2.0 GHz 60 300 MB 270W N/A 4800 MT/s 512 GB
+Platinum 8570 Processor 2.1 GHz 56 300 MB 350W 4 5600 MT/s 512 GB
+Platinum 8568Y+ Processor 2.3 GHz 48 300 MB 350W 4 5600 MT/s 512 GB
+Platinum 8558 Processor 2.1 GHz 48 260 MB 330W 4 5200 MT/s 512 GB
+Platinum 8558U Processor* 2.0 GHz 48 260 MB 300W N/A 4800 MT/s 512 GB
+Platinum 8558P Processor 2.7 GHz 48 260 MB 350W 3 5600 MT/s 512 GB
+Gold Processors
+Gold 6554S Processor 2.2 GHz 36 180 MB 270W 4 5200 MT/s 128 GB
+Gold 6530 Processor 2.1 GHz 32 160 MB 270W 3 4800 MT/s 128 GB
+Gold 6548Y+ Processor 2.5 GHz 32 60 MB 250W 3 5200 MT/s 128 GB
+Gold 6548N Processor 2.8 GHz 32 60 MB 250W 3 5200 MT/s 128 GB
+Gold 6538Y+ Processor 2.2 GHz 32 60 MB 225W 3 5200 MT/s 128 GB
+Gold 6538N Processor 2.1 GHz 32 60 MB 205W 3 5200 MT/s 128 GB
+Gold 6542Y Processor 2.9 GHz 24 60 MB 250W 3 5200 MT/s 128 GB
+Gold 6526Y Processor 2.8 GHz 16 37.5 MB 195W 3 5200 MT/s 128 GB
+Gold 6534 Processor 3.9 GHz 8 22.5 MB 195W 3 4800 MT/s 128 GB
+Gold 5520+ Processor 2.2 GHz 28 52.5 MB 205W 3 4800 MT/s 128 GB
+Gold 5515+ Processor 3.2 GHz 8 22.5 MB 165W 3 4800 MT/s 128 GB
+Sliver Processors
+Silver 4516Y+ Processor 2.2 GHz 24 45 MB 185W 2 4400 MT/s 64 GB
+Silver 4514Y Processor 2.0 GHz 16 30 MB 150W 2 4400 MT/s 64 GB
+Silver 4510 Processor 2.4 GHz 12 30 MB 150W 2 4400 MT/s 64 GB
+Silver 4509Y Processor 2.6 GHz 8 22.5 MB 125W 2 4400 MT/s 64 GB
+Bronze Processors
+Bronze 3508U Processor* 2.1 GHz 8 22.5 MB 125W N/A 4400 MT/s 64 GB
+Notes:
+- 80 PCIe 5.0 lanes per processor.
+- * "U" processors (i.e. 6414U, 3408U, 3508U), 6421N, 5411N, 8581V and 8558U are only supported in single socket
+configuration.
+- Bronze Processors (3408U and 3508U) are supported up to PCIe Gen4.
+- Processors with TDP equal to or greater than 195W require Performance Heatsink (P47224-B21).
+QuickSpecs HPE ProLiant ML350 Gen11
+Standard Features
+Page 8
+- Processors with TDP equal to or greater than 300W require both Redundant Fan Kit (P47219-B21) and Second CPU Fan
+Kit (P47902-B21).
+- DDR5 memory speed is the maximum memory speed supported by the processor. Actual maximum memory speed is a
+function of the memory type, memory configuration, and processor model.
+- Intel VROC NVMe feature is not supported with 4510, 4509Y and 3508U processors.
+Chipset
+Intel® C741 Chipset
+Notes: For more information regarding Intel® chipsets, please see the following URL:
+https://www.intel.com/content/www/us/en/products/chipsets/server-chipsets.html
+System Management Chipset
+HPE iLO 6 ASIC
+Notes: Read and learn more in the iLO QuickSpecs.
+Memory
+One of the following depending on model
+Type HPE DDR5 Smart Memory, Registered (RDIMM)
+DIMM Slots Available 32 DIMM slots
+16 DIMM slots per processor, 8 channels per processor, 2 DIMMs per channel
+Maximum capacity
+(RDIMM)
+8.0TB
+32 x 256 GB RDIMM @ 4400MT/s at 2 DPC with 4th Gen Intel Processors and DDR5 4800 DIMMs
+8.0 TB
+32 x 256 GB RDIMM @ 4400 MT/s at 2 DPC with 5th Gen Intel Processors and DDR5 5600 DIMMs
+Notes:
+- Actual maximum memory speed is a function of the memory type, memory configuration, and processor model.
+- For additional information, please see the HPE DDR5 Smart Memory QuickSpecs.
+- For General Server Memory and Persistent Memory Population Rules and Guidelines for Gen11 see details here:
+http://www.hpe.com/docs/memory-population-rules
+Memory Protection
+Advanced ECC
+Advanced ECC uses single device data correction to detect and correct single and all multibit error that occurs within a single
+DRAM chip.
+Online Spare
+Memory online spare mode detects a rank that is degrading and switches operation to the spare rank.
+Notes: For more information see our Memory RAS feature technical whitepaper.
+Expansion Slots
+Primary Riser
+Notes:
+- Bus width indicates the number of physical electrical lanes running to the connector.
+- There are two Primary riser configurations:
+ Default with 4x8 Primary Riser Kit provides 4 slots with PCIe Gen5 x8 on Slot1-4.
+ Optional 2x16 Primary FIO Riser Kit provides 2 slots with PCIe Gen5 x16 on Slot2 & 4.
+QuickSpecs HPE ProLiant ML350 Gen11
+Standard Features
+Page 9
+Primary Riser 4x8
+Slots # Processor Technology Bus Width Connector Width Slot Form Factor
+1 CPU 1 PCIe 5.0 X8 X16 Full-height,full-length slot
+2 CPU 1 PCIe 5.0 X8 X16 Full-height,full-length slot
+3 CPU 1 PCIe 5.0 X8 X16 Full-height,full-length slot
+4 CPU 1 PCIe 5.0 X8 X16 Full-height,full-length slot
+Primary Riser 2x16
+Slots # Processor Technology Bus Width Connector Width Slot Form Factor
+2 CPU 1 PCIe 5.0 X16 X16 Full-height,full-length slot
+4 CPU 1 PCIe 5.0 X16 X16 Full-height,full-length slot
+Secondary Riser
+Notes:
+- Bus width indicates the number of physical electrical lanes running to the connector.
+- There are two Secondary riser configurations as options:
+ 4x8 Secondary Riser Kit provides 4 slots with PCIe Gen5 x8 on Slot5-8.
+ 2x16 Secondary Riser Kit provides 2 slots with PCIe Gen5 x16 on Slot6 & 8.
+Secondary Riser 4x8
+Slots # Processor Technology Bus Width Connector Width Slot Form Factor
+5 CPU 2 PCIe 5.0 X8 X16 Full-height,full-length slot
+6 CPU 2 PCIe 5.0 X8 X16 Full-height,full-length slot
+7 CPU 2 PCIe 5.0 X8 X16 Full-height,full-length slot
+8 CPU 2 PCIe 5.0 X8 X16 Full-height,full-length slot
+Secondary Riser 2x16
+Slots # Processor Technology Bus Width Connector Width Slot Form Factor
+6 CPU 2 PCIe 5.0 X16 X16 Full-height,full-length slot
+8 CPU 2 PCIe 5.0 X16 X16 Full-height,full-length slot
+Tertiary Riser
+Notes:
+- Bus width indicates the number of physical electrical lanes running to the connector.
+- Tertiary Riser Kit provides 2 slots with PCIe Gen5 x8 on Slot9 & 10.
+- Two CPU 2 MCIO connectors will be occupied to support expansion card on the riser.
+- 2x8 Tertiary Riser Kit provides 2 slots with PCIe Gen5 x8 on Slot9 & 10.
+Tertiary Riser 2x8
+Slots # Processor Technology Bus Width Connector Width Slot Form Factor
+9 CPU 2 PCIe 5.0 X8 X16 Half-height,Half-length slot
+10 CPU 2 PCIe 5.0 X8 X16 Half-height,Half-length slot
+Internal Storage Devices
+· Optical Drive
+Available as an option (DVD-ROM or DVD-RW)
+· HDD/SSD
+None ship as standard
+QuickSpecs HPE ProLiant ML350 Gen11
+Standard Features
+Page 10
+Storage Controllers
+NVMe Boot Devices
+· HPE NS204i-u Gen11 NVMe Hot Plug Boot Optimized Storage Device
+Software RAID
+Notes: Additional steps are required for OS installation with Intel VROC, please refer to the link Intel Virtual RAID on
+CPU for HPE Gen11 User Guide - Installing OS on the Intel VROC RAID
+· Intel VROC SATA for HPE ProLiant Gen11
+Notes:
+- All models feature embedded storage controller that supports SATA RAID with up to 12 (4+4+4) LFF or 8SFF.
+Each LFF drive cages are separated drive groups, SFF drive cage also separates to two drive groups (Bay1-4 and
+Bay5-8).
+- When NS204i-u selected, embedded storage controller supports up to 8 (4+4) LFF or 8SFF drive bays.
+- Intel VROC for HPE ProLiant Gen11 is an enterprise, hybrid Software RAID solution specifically designed for
+SSDs.
+- Intel VROC is a software-based solution utilizing Intel CPU to RAID or HBA direct connected drives.
+- RAID Support- 0/1/5/10.
+- Windows and Linux OS support.
+- Host Tools- Windows GUI/CLI, Linux CLI.
+- UEFI Support- HII Utility, OBSE.
+- iLO Support- IML, Alert, SNMP, AHS.
+- iLO Redfish- Redfish Read .
+- Intel VROC SATA for HPE ProLiant Gen11 will operate in UEFI mode only. For legacy support an additional
+storage controller will be needed.
+- Intel VROC SATA is off by default and must be enabled.
+· Intel VROC NVMe for HPE ProLiant Gen11
+Notes:
+- All models feature 4 x8 PCIe 5.0 connectors per socket for NVMe connectivity, provides support for up to 8 direct
+attach x4 NVMe bays.
+- Intel VROC for HPE ProLiant Gen11 is an enterprise, hybrid Software RAID solution specifically designed for
+NVMe SSDs connected directly to the CPU. Intel VROC is a software-based solution utilizing Intel CPU to RAID or
+HBA direct connected drives.
+- Intel Virtual RAID on CPU RAID 1 (S3Q19A/ S3Q39AAE) or Premium SKU for RAID 0/1/5/10 (R7J57A/
+R7J59AAE) must be ordered to enable RAID support.
+- Windows, Linux, VMware OS support.
+- Host Tools- Windows GUI/CLI, Linux CLI.
+- UEFI Support- HII Utility, OBSE.
+- Active health monitoring of NVMe M.2 drives requires use of SMART tools.
+- Intel VROC NVMe for HPE ProLiant Gen11 will operate in UEFI mode only. For legacy support an additional Tri-
+Mode controller will be needed.
+- For NVMe SSDs only, no PCIe card support.
+- Intel VROC NVMe feature is not supported with 4510, 4509Y and 3508U processors.
+Essential RAID Controllers
+· HPE Smart Array E208e-p SR Gen10 Controller
+Tri-mode RAID Controllers
+· HPE MR216i-o Gen11 x16 Lanes without Cache OCP SPDM Storage Controller
+· HPE MR216i-p Gen11 x16 Lanes without Cache OCP SPDM Storage Controller
+· HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller
+· HPE MR416i-o Gen11 x16 Lanes 8GB Cache OCP SPDM Storage Controller
+QuickSpecs HPE ProLiant ML350 Gen11
+Standard Features
+Page 11
+· HPE MR416i-p Gen11 x16 Lanes 8GB Cache OCP SPDM Storage Controller
+· HPE SR932i-p Gen11 x32 Lanes 8GB Wide Cache PCI SPDM Plug-in Storage Controller
+Maximum Storage
+Drive Capacity Configuration
+Hot Plug LFF SAS HDD 240 TB 12 x20TB
+Hot Plug LFF SATA HDD 240TB 12 x20TB
+Hot Plug LFF SAS SSD 11.52 TB 12 x960GB
+Hot Plug LFF SATA SSD 11.52 TB 12 x960GB
+Hot Plug SFF SAS HDD 57.6 TB 24 x2.4TB
+Hot Plug SFF SAS SSD 368.64 TB 24 x15.36TB
+Hot Plug SFF SATA SSD 184.32 TB 24 x7.68TB
+Hot Plug SFF NVMe SSD 368.64 TB 24 x15.36TB
+Hot Plug EDSFF NVMe SSD 183.6 TB 12 x15.3TB
+Hot Plug NVMe M.2 SSD 480 GB 2 x480GB (With RAID1 protected NS204i-u boot option)
+Graphics
+Integrated Video Standard
+· Video modes up to 1920 x 1200@60Hz (32 bpp)
+· 16MB Video Memory
+HPE iLO 6 on system management memory
+· 64 MB Flash
+· 8 Gbit DDR 4 with ECC protection
+Power Supply
+· HPE 500W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+Notes: Available in 94%. Power Efficiency
+· HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+Notes: Available in 94%. Power Efficiency
+· HPE 1000W Flex Slot Titanium Hot Plug Low Halogen Power Supply Kit
+Notes: Available in 96%. Power Efficiency
+· HPE 1600W Flex Slot -48VDC Hot Plug Power Supply Kit
+· HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+Notes:
+- Available in 94% Power Efficiency.
+- 200-240VAC power input only.
+· HPE 1800W-2200W Flex Slot Titanium Hot Plug Power Supply
+Notes:
+- Available in 96% Power Efficiency.
+- 200-240VAC power input only.
+HPE Flexible Slot (Flex Slot) Power Supplies share a common electrical and physical design that allows for hot plug, tool-less
+installation into HPE ProLiant Gen11 Performance Servers. Flex Slot power supplies are certified for high-efficiency operation and
+offer multiple power output options, allowing users to "right-size" a power supply for specific server configurations. This flexibility
+helps to reduce power waste, lower overall energy costs, and avoid "trapped" power capacity in the data center.
+All pre-configured servers ship with a standard 6-foot IEC C-13/C-14 jumper cord (A0K02A). This jumper cord is also included
+with each standard AC power supply option kit. If a different power cord is required, please check the ProLiant Power Cables web
+page.
+To review the power requirements for your selected system, please use the HPE Power Advisor Tool.
+For information on power specifications and technical content visit HPE Server power supplies
+QuickSpecs HPE ProLiant ML350 Gen11
+Standard Features
+Page 12
+Interfaces
+Serial Optional, rear
+Display Port 1 standard, front
+VGA Port 1 VGA Port standard, rear
+Network Ports None. Choice of OCP or stand up card
+HPE iLO Remote Management Network Port 1 Gb Dedicated, rear
+Front iLO Service Port 1 standard, front
+USB 3.2 Gen1 4 standard on all models: 1 front, 2 rear, 1 internal
+USB 2.0 1 internal
+Operating Systems and Virtualization Software Support
+· See HPE Servers Support & Certification Matrices
+- Microsoft Windows Server
+- VMware ESXi
+- Red Hat Enterprise Linux (RHEL)
+- SUSE Linux Enterprise Server (SLES)
+- Canonical Ubuntu
+- Oracle Linux and Oracle VM
+- Citrix
+Notes: For more information on Hewlett Packard Enterprise Certified and Supported ProLiant Servers for OS and Virtualization
+Software and latest listing of software drivers available for your server.
+https://www.hpe.com/us/en/servers/server-operating-systems.html
+HPE Server UEFI
+Unified Extensible Firmware Interface (UEFI) is an industry standard that provides better manageability and more secured
+configuration than the legacy ROM while interacting with your server at boot time. HPE ProLiant Gen11 servers have a UEFI Class
+2 implementation.
+Notes: The UEFI System Utilities tool is analogous to the HPE ROM-Based Setup Utility (RBSU) of legacy BIOS. For more
+information, please visit http://www.hpe.com/servers/uefi.
+UEFI enables numerous new capabilities specific to HPE ProLiant servers such as
+· Secure Boot and Secure Start enabled for enhanced security
+· Operating system specific functionality
+· Support for > 2.2 TB (using GPT) boot drives
+· USB 3.2 Gen1 Stack
+· Embedded UEFI Shell
+· Mass Configuration Deployment Tool using iLO RESTful API that is Redfish API Conformant
+· PXE boot support for IPv6 networks
+· Workload Profiles for simple performance optimization
+UEFI Boot Mode only
+· TPM 2.0 Support
+· NVMe Boot Support
+· iSCSI Software Initiator Support.
+· HTTP/HTTPs Boot support as a PXE alternative.
+· Boot support for option cards that only support a UEFI option ROM
+Notes: For UEFI Boot Mode, boot environment and OS image installations should be configured properly to support UEFI.
+QuickSpecs HPE ProLiant ML350 Gen11
+Standard Features
+Page 13
+Industry Standard Compliance
+· ACPI 6.1 Compliant
+· PCIe 5.0 Compliant
+· WOL Support
+· Microsoft® Logo certifications
+· Support for Microsoft Secure Code
+· PXE Support
+· VGA/Display Port
+· USB 3.2 Gen1 Compliant
+· USB 2.0 Compliant
+· OCP 3.0 SFF NIC Support
+· OCP 3.0 SFF Storage Support
+· Embedded TPM Support
+· Energy Star
+· SMBIOS 3.1
+· UEFI 2.7
+· UEFI Class 3 (Unified Extensible Firmware Interface Forum)
+· Redfish API
+· IPMI 2.0
+· Advanced Encryption Standard (AES)
+· Triple Data Encryption Standard (3DES)
+· SNMP v3
+· TLS 1.2
+· DMTF Systems Management Architecture for Server Hardware Command Line Protocol (SMASH CLP)
+· DMTF Redfish support for SecureBoot Key Management
+· ACPI DSM Drive LED Management
+· Memory Page Retire Support
+· Retire old VMware Secure Boot Key
+· MCTP over PCIe multi-segment (EDKII for GenoaPI 0.0.9.0, HPE under verifying0)
+· Synergy: I3C Engine
+· APML
+· Active Directory v1.0
+· ASHRAE A3/A4
+Notes: For additional technical, thermal details regarding ambient temperature, humidity, and feature support, please
+visit https://www.hpe.com/support/ASHRAEGen11
+Embedded Management
+HPE Integrated Lights-Out (HPE iLO)
+Monitor your servers for ongoing management, service alerting, reporting and remote management with HPE iLO.
+Learn more at http://www.hpe.com/info/ilo.
+Intelligent Provisioning
+Hassle free server and OS provisioning for 1 or more servers with Intelligent Provisioning.
+Learn more at http://www.hpe.com/servers/intelligentprovisioning
+iLO RESTful API
+iLO RESTful API is Redfish API conformance and offers simplified server management automation such as configuration and
+maintenance tasks based on modern industry standards. Learn more at http://www.hpe.com/info/restfulapi
+QuickSpecs HPE ProLiant ML350 Gen11
+Standard Features
+Page 14
+HPE GreenLake for Compute Ops Management
+HPE is intelligently transforming compute management with an intuitive cloud operating experience through HPE GreenLake
+cloud platform to streamline and secure operations from edge-to-cloud. Automated key lifecycle tasks, for onboarding, updating,
+managing, and monitoring HPE servers, brings agility and greater efficiencies to wherever compute devices reside via a unified
+single browser-based interface. Manage single locations or multiple, distributed sites. Keep tens to thousands of servers secure
+with batch policy controls and automated updates.
+Compute Ops Management is cloud-native software that is continually updated with new services, features, patches, and fixes. The
+management application resides in the HPE GreenLake cloud platform (access via https://console.greenlake.hpe.com) and
+leverages the HPE GreenLake architecture, security, and unified operations.
+A 3-year subscription to HPE GreenLake for Compute Ops Management is added by default when ordering an HPE ProLiant
+Gen11 rack, tower, or micro server.
+For more information, visit the HPE GreenLake for Compute Ops Management QuickSpecs:
+https://www.hpe.com/psnow/doc/a50004263enw
+Server Utilities
+Active Health System
+The HPE Active Health System (AHS) is an essential component of the iLO management portfolio that provides continuous,
+proactive health monitoring of HPE servers. Learn more at http://www.hpe.com/servers/ahs
+Active Health System Viewer
+The Active System Health Viewer (AHSV) was deprecated as of March 2022. Users are now recommended to use the InfoSight
+(https://www.hpe.com/us/en/solutions/infosight.html) for Servers Portal for AHS viewing capabilities. In InfoSight for Servers portal,
+users will also be able to view hardware configuration details, firmware and driver information, warranty and support status of a
+server, wellness alerts, and create support cases for servers under a valid warranty or support contract.
+HPE InfoSight provides the same security assurances as that of AHSV. Furthermore, InfoSight can be used as an AHSV
+replacement even if customers do not want to share AHSV logs and telemetry data on an ongoing basis.
+Smart Update
+Keep your servers up to date with the HPE Smart Update solution by using Smart Update Manager (SUM) to optimize the
+firmware and driver updates of the Service Pack for ProLiant (SPP).
+Learn more at https://www.hpe.com/us/en/servers/smart-update.html
+iLO Amplifier Pack
+Designed for large enterprise and service provider environments with hundreds of HPE servers, the iLO Amplifier Pack is a free,
+downloadable open virtual application (OVA) that delivers the power to discover, inventory and update Gen11 HPE servers at
+unmatched speed and scale. Use with an iLO Advanced License to unlock full capabilities.
+Learn more at http://www.hpe.com/servers/iLOamplifierpack
+QuickSpecs HPE ProLiant ML350 Gen11
+Standard Features
+Page 15
+RESTful Interface Tool
+RESTful Interface tool (iLOREST) is a single scripting tool to provision using iLO RESTful API to discover and deploy servers at
+scale. Learn more at http://www.hpe.com/info/resttool
+Scripting Tools
+Provision one to many servers using your own scripts to discover and deploy with Scripting Tool (STK) for Windows and Linux or
+Scripting Tools for Windows PowerShell. Learn more at http://www.hpe.com/servers/powershell
+HPE OneView Standard
+HPE OneView is an on premesis, multi-generational server monitoring and management solution. HPE OneView Standard can be
+used for inventory, health monitoring, alerting, and reporting without additional fees. Customers can upgrade their management
+experience with an HPE OneView Advanced license, all provided by the same tool. Learn more at
+http://www.hpe.com/info/oneview.
+Security
+· UEFI Secure Boot and Secure Start support
+· Immutable Silicon Root of Trust
+· FIPS 140-3 validation (iLO 6 certification in progress)
+· Common Criteria certification (iLO 6 certification in progress)
+· Configurable for PCI DSS compliance
+· Advanced Encryption Standard (AES) and Triple Data Encryption Standard (3DES) on browser
+· Support for Commercial National Security Algorithms (CNSA)
+· Tamper-free updates --
+- components digitally signed and verified
+· Secure Recovery --
+- recover critical firmware to known good state on detection of compromised firmware
+· Ability to rollback firmware
+· Secure erase of NAND
+· TPM (Trusted Platform Module) 2.0
+· Front bezel key-lock feature --
+- standard, available in both Tower and Rack models
+· Padlock slot, standard
+· Kensington Lock slot, standard
+· Chassis Intrusion detection option
+Warranty
+This product is covered by a global limited warranty and supported by HPE Services and a worldwide network of HPE Authorized
+Channel Partners resellers. Hardware diagnostic support and repair is available for three years from date of purchase. Support for
+software and initial setup is available for 90 days from date of purchase. Enhancements to warranty services are available through
+HPE Services operational services or customized service agreements. Hard drives have either a one year or three year warranty;
+refer to the specific hard drive QuickSpecs for details.
+Notes: Server Warranty includes 3-Year Parts, 3-Year Labor, 3-Year Onsite support with next business day response. Warranty
+repairs may be accomplished through the use of Customer Self Repair (CSR) parts. These parts fall into two categories: 1)
+Mandatory CSR parts are designed for easy replacement. A travel and labor charge will result when customers decline to
+replace a Mandatory CSR part; 2) Optional CSR parts are also designed for easy replacement but may involve added
+complexity. Customers may choose to have Hewlett Packard Enterprise replace Optional CSR parts at no charge. 3) Non CSR
+parts must be serviced by a trained authorized service engineer. Additional information regarding worldwide limited warranty
+and technical support is available at: https://www.hpe.com/support/ProLiantServers-Warranties
+QuickSpecs HPE ProLiant ML350 Gen11
+Optional Features
+Page 16
+Server Management
+HPE iLO Advanced
+HPE iLO Advanced licenses offer smart remote functionality without compromise, for all HPE ProLiant servers. The license
+includes the full integrated remote console, virtual keyboard, video, and mouse (KVM), multi-user collaboration, console record and
+replay, and GUI-based and scripted virtual media and virtual folders. You can also activate the enhanced security and power
+management functionality.
+HPE OneView Advanced-
+HPE OneView brings a new level of automation to infrastructure management by taking a template driven approach to
+provisioning, updating, and integrating compute, storage, and networking infrastructure. It provides full-featured licenses which can
+be purchased for managing Gen8, Gen9 and Gen10 servers. To learn more visit http://www.hpe.com/info/oneview.
+HPE InfoSight for Servers
+HPE InfoSight for Servers combines the cloud-based machine learning of InfoSight with the health and performance monitoring of
+Active Health System (AHS) and iLO to optimize performance and predict and prevent problems. The end result is an intelligent
+environment that modernizes IT operations and enhances the support experience by predicting and preventing the infrastructure
+issues that lead to application disruptions, wasted IT staff time and missed business opportunities.
+Learn more at https://www.hpe.com/servers/infosight
+HPE Insight Cluster Management Utility (CMU)
+HPE Insight Cluster Management Utility is a HyperScale management framework that includes software for the centralized
+provisioning, management and monitoring of nodes and infrastructure. Learn more at
+https://www.hpe.com/psnow/doc/c04111735.
+Accelerator and GPGPU Information
+Hewlett Packard Enterprise supports various accelerators on select HPE Proliant servers to support different workloads. The
+accelerators enable seamless integration of GPU computing with HPE ProLiant servers for high-performance computing, large
+data center graphics, deep learning and virtual desktop deployments. These accelerators deliver all of the standard benefits of
+GPU computing while enabling maximum reliability and tight integration with system monitoring and management tools such as
+HPE Insight Cluster Management Utility.
+Rack and Power Infrastructure
+The story may end with servers, but it starts with the foundation that makes compute go - and business grow. We've reinvented
+our entire portfolio of rack and power products to make IT infrastructure more secure, more practical, and more efficient. In other
+words, we've created a stronger, smarter, and simpler infrastructure to help you get the most out of your IT equipment. As an
+industry leader, Hewlett Packard Enterprise is uniquely positioned to address the key concerns of power, cooling, cable
+management and system access.
+HPE G2 Advanced and Enterprise Racks are perfect for the server room or today's modern data center with enhanced airflow and
+thermal management, flexible cable management, and a 10 year Warranty to support higher density computing.
+HPE G2 PDUs offer reliable power in flexible form factors that operate at temperatures up to 60°, include color-coded outlets and
+load segments and a low-profile design for optimal access to the rack and support for dense rack environments.
+HPE Uninterruptible Power Systems are cost-effective power protection for any type workload. Some UPSs include options for
+remote management and extended runtime modules so you're critical dense data center is covered in power outages.
+HPE KVM Solutions include a console and switches designed to work with your server and IT equipment reliably. We've got a cost-
+effective KVM switch for your first rack and multiple connection IP switches with remote management and security capabilities to
+keep your data center rack up and running.
+Learn more about HPE Racks, KVM, PDUs and UPSs at HPE Rack and Power Infrastructure.
+QuickSpecs HPE ProLiant ML350 Gen11
+Optional Features
+Page 17
+One Config Simple (SCE)
+SCE is a guided self-service tool to help sales and non-technical people provide customers with initial configurations in 3 to 5
+minutes. You may then send the configuration on for configuration help, or use in your existing ordering processes. If you require
+"custom" rack configuration or configuration for products not available in SCE, please contact Hewlett Packard Enterprise
+Customer Business Center or an Authorized Partner for assistance.
+https://h22174.www2.hpe.com/SimplifiedConfig/Welcome
+QuickSpecs HPE ProLiant ML350 Gen11
+Service and Support
+Page 18
+HPE Services
+No matter where you are in your digital transformation journey, you can count on HPE Services to deliver the expertise you need
+when, where and how you need it. From planning to deployment, ongoing operations and beyond, our experts can help you realize
+your digital ambitions.
+https://www.hpe.com/services
+Consulting Services
+No matter where you are in your journey to hybrid cloud, experts can help you map out your next steps. From determining what
+workloads should live where, to handling governance and compliance, to managing costs, our experts can help you optimize your
+operations.
+https://www.hpe.com/services/consulting
+HPE Managed Services
+HPE runs your IT operations, providing services that monitor, operate, and optimize your infrastructure and applications, delivered
+consistently and globally to give you unified control and let you focus on innovation.
+HPE Managed Services | HPE
+Operational services
+Optimize your entire IT environment and drive innovation. Manage day-to-day IT operational tasks while freeing up valuable time
+and resources. Meet service-level targets and business objectives with features designed to drive better business outcomes.
+https://www.hpe.com/services/operational
+HPE Complete Care Service
+HPE Complete Care Service is a modular, edge-to-cloud IT environment service designed to help optimize your entire IT
+environment and achieve agreed upon IT outcomes and business goals through a personalized experience. All delivered by an
+assigned team of HPE Services experts. HPE Complete Care Service provides:
+· A complete coverage approach -- edge to cloud
+· An assigned HPE team
+· Modular and fully personalized engagement
+· Enhanced Incident Management experience with priority access
+· Digitally enabled and AI driven customer experience
+https://www.hpe.com/services/completecare
+HPE Tech Care Service
+HPE Tech Care Service is the operational support service experience for HPE products. The service goes beyond traditional
+support by providing access to product specific experts, an AI driven digital experience, and general technical guidance to not only
+reduce risk but constantly search for ways to do things better. HPE Tech Care Service delivers a customer-centric, AI driven, and
+digitally enabled customer experience to move your business forward. HPE Tech Care Service is available in three response levels.
+Basic, which provides 9x5 business hour availability and a 2-hour response time. Essential which provides a 15-minute response
+time 24x7 for most enterprise level customers, and Critical which includes a 6-hour repair commitment where available and outage
+management response for severity 1 incidents.
+https://www.hpe.com/services/techcare
+QuickSpecs HPE ProLiant ML350 Gen11
+Service and Support
+Page 19
+HPE Lifecycle Services
+HPE Lifecycle Services provide a variety of options to help maintain your HPE systems and solutions at all stages of the product
+lifecycle. A few popular examples include:
+· Lifecycle Install and Startup Services: Various levels for physical installation and power on, remote access setup,
+installation and startup, and enhanced installation services with the operating system.
+· HPE Firmware Update Analysis Service: Recommendations for firmware revision levels for selected HPE products, taking
+into account the relevant revision dependencies within your IT environment.
+· HPE Firmware Update Implementation Service: Implementation of firmware updates for selected HPE server, storage, and
+solution products, taking into account the relevant revision dependencies within your IT environment.
+· Implementation assistance services: Highly trained technical service specialists to assist you with a variety of activities,
+ranging from design, implementation, and platform deployment to consolidation, migration, project management, and
+onsite technical forums.
+· HPE Service Credits: Access to prepaid services for flexibility to choose from a variety of specialized service activities,
+including assessments, performance maintenance reviews, firmware management, professional services, and operational
+best practices.
+Notes: To review the list of Lifecycle Services available for your product go to:
+https://www.hpe.com/services/lifecycle
+For a list of the most frequently purchased services using service credits, see the HPE Service Credits Menu
+Other Related Services from HPE Services:
+HPE Education Services
+Training and certification designed for IT and business professionals across all industries. Broad catalogue of course offerings to
+expand skills and proficiencies in topics ranging from cloud and cybersecurity to AI and DevOps. Create learning paths to expand
+proficiency in a specific subject. Schedule training in a way that works best for your business with flexible continuous learning
+options.
+https://www.hpe.com/services/training
+Defective Media Retention
+An option available with HPE Complete Care Service and HPE Tech Care Service and applies only to Disk or eligible SSD/Flash
+Drives replaced by HPE due to malfunction.
+Consult your HPE Sales Representative or Authorized Channel Partner of choice for any additional questions and services options.
+Parts and Materials
+HPE will provide HPE-supported replacement parts and materials necessary to maintain the covered hardware product in
+operating condition, including parts and materials for available and recommended engineering improvements.
+Parts and components that have reached their maximum supported lifetime and/or the maximum usage limitations as set forth in
+the manufacturer's operating manual, product quick-specs, or the technical product data sheet will not be provided, repaired, or
+replaced as part of these services.
+How to Purchase Services
+Services are sold by Hewlett Packard Enterprise and Hewlett Packard Enterprise Authorized Service Partners:
+· Services for customers purchasing from HPE or an enterprise reseller are quoted using HPE order configuration tools.
+· Customers purchasing from a commercial reseller can find services at https://ssc.hpe.com/portal/site/ssc/
+QuickSpecs HPE ProLiant ML350 Gen11
+Service and Support
+Page 20
+AI Powered and Digitally Enabled Support Experience
+Achieve faster time to resolution with access to product-specific resources and expertise through a digital and data driven
+customer experience
+Sign into the HPE Support Center experience, featuring streamlined self-serve case creation and management capabilities with
+inline knowledge recommendations. You will also find personalized task alerts and powerful troubleshooting support through an
+intelligent virtual agent with seamless transition when needed to a live support agent.
+https://support.hpe.com/hpesc/public/home/signin
+Consume IT On Your Terms
+HPE GreenLake edge-to-cloud platform brings the cloud experience directly to your apps and data wherever they are--the edge,
+colocations, or your data center. It delivers cloud services for on-premises IT infrastructure specifically tailored to your most
+demanding workloads. With a pay-per-use, scalable, point-and-click self-service experience that is managed for you, HPE
+GreenLake edge-to-cloud platform accelerates digital transformation in a distributed, edge-to-cloud world.
+· Get faster time to market
+· Save on TCO, align costs to business
+· Scale quickly, meet unpredictable demand
+· Simplify IT operations across your data centers and clouds
+To learn more about HPE Services, please contact your Hewlett Packard Enterprise sales representative or Hewlett Packard
+Enterprise Authorized Channel Partner. Contact information for a representative in your area can be found at "Contact HPE"
+https://www.hpe.com/us/en/contact-hpe.html
+For more information
+http://www.hpe.com/services
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 21
+Pre-Configured models ship with the configurations below.
+· Pre-Configured models ship with the configurations below. Options can be selected from the Core or Additional options
+section of this QuickSpecs.
+· Hewlett Packard Enterprise does not allow factory integration of options into pre-configured models. Any additional
+options purchased will not be shipped inside the server.
+· Network Choice models do not include embedded LOM.
+Base Models
+SKU Number
+P53564-001
+P53564-291
+P53564-371
+P53564-AA1
+P53565-421
+P53566-001
+P53566-291
+P53566-371
+P53566-AA1
+Model Name
+HPE ProLiant ML350 Gen11 4410Y
+2.0GHz 12-core 1P 32GB-R VROC
+4LFF 800W RPS Server
+HPE ProLiant ML350 Gen11 4410Y
+2.0GHz 12-core 1P 32GB-R VROC
+4LFF 1000W RPS Server
+HPE ProLiant ML350 Gen11 4410Y
+2.0GHz 12-core 1P 32GB-R
+MR408i-o 8SFF 800W RPS Server
+Chassis
+HPE ProLiant ML350 Gen11 LFF
+Configure-to-order Server
+HPE ProLiant ML350 Gen11 LFF
+Configure-to-order Server
+HPE ProLiant ML350 Gen11 SFF
+Configure-to-order Server
+Backplane 4 LFF 4 LFF 8 SFF
+Processor 4410Y (12 core, 2.0 GHz, 150W)
+Number of
+Processors
+One with standard heatsink
+Memory
+32 GB (1x32 GB, 4800 MT/s)
+Notes: Runs at 4000 MT/s due to processor limitation.
+Network
+Controller
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE
+Notes: Slot 15 OCP will be occupied along with CPU 1 MCIO port 1.
+Storage
+Controller
+Embedded Intel VROC SATA
+controller
+Notes: Embedded controller can
+only support SATA drive, additional
+storage controller is required to
+support SAS drive.
+Embedded Intel VROC SATA
+controller
+Notes: Embedded controller can
+only support SATA drive, additional
+storage controller is required to
+support SAS drive.
+HPE MR408i-o Gen11 x8 Lanes
+4GB Cache OCP SPDM Storage
+Controller
+Notes: - Slot 14 OCP will be
+occupied, PCIe expansion slot is not
+required.
+- This controller supports up to 8
+SAS/SATA/NVMe Drives with
+performance RAID.
+- Smart Storage battery included.
+Included
+Hard Drives
+None ship standard, 4 LFF
+supported
+None ship standard, 4 LFF
+supported
+None ship standard, 8 SFF
+supported
+Internal
+Storage
+Default with 4LFF SAS/SATA Drive
+Cage Kit (P47216- B21), up to two
+additional drive cages.
+Notes: Controller/cable kit may
+require for additional drive cage.
+Default with 4LFF SAS/SATA Drive
+Cage Kit (P47216- B21), up to two
+additional drive cages.
+Notes: Controller/cable kit may
+require for additional drive cage.
+Default with 8 SFF SAS/SATA/NVMe
+x1 U.3 Drive Cage Kit (P47217-
+B21), up to two additional drive
+cages.
+Notes: Controller/cable kit is
+required for additional drive cage.
+Optical Drive Optional. None ship standard.
+Expansion
+Slots
+Default with 4 x8 PCIe 5.0 slots with primary riser cage. Upgradable with additional riser kit.
+Notes: Dual processors are required to support expansion card on PCIe slots 5-10.
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 22
+Power
+Supply
+1x HPE 800W Flex Slot Platinum
+Hot Plug Low Halogen Power Supply
+Kit
+Notes: Additional Power Supply Kit
+(P38995-B21) provides 1+1 power
+redundancy feature.
+1x HPE 1000W Flex Slot Titanium
+Hot Plug Power Supply Kit
+Notes: Additional Power Supply Kit
+(P03178-B21) provides 1+1 power
+redundancy feature.
+1x HPE 800W Flex Slot Platinum
+Hot Plug Low Halogen Power Supply
+Kit
+Notes: Additional Power Supply Kit
+(P38995-B21) provides 1+1 power
+redundancy feature.
+Fans
+Default with 3 standard fans, none-hot-plug. Optional Second CPU Fan Kit (P47902-B21) and Redundant Fan Kit
+(P47219-B21) provide advanced cooling and redundancy functionality in heavier configurations.
+Notes: Configurations that require fan kits are provided in later sections
+Management
+HPE iLO Standard with Intelligent Provisioning (embedded), HPE OneView Standard (requires download); HPE
+iLO Advanced and HPE OneView Advanced (require licenses)
+Security
+P53564001, P53564291 &
+P53564371:
+TPM (Trusted Platform Module) TPM (Trusted Platform Module)
+P53566001, P53566291 &
+P53566371:
+TPM (Trusted Platform Module)
+P53564AA1:
+TPM disabled for shipments to China
+P53566AA1:
+TPM disabled for shipments to China
+Form Factor 4U Tower, Optional Tower-to-Rack conversion kit (P47394-B21) to convert the unit to a 5U Rack-mount server.
+Warranty Server warranty includes 3-year parts, 3-year labor, 3-year onsite support with next business day response.
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 23
+Base Models
+SKU Number P53567-421 P60049-001
+P70195-291
+P70195-421
+Model Name
+HPE ProLiant ML350 Gen11 4410Y
+2.0GHz 12-core 1P 32GB-R
+MR408i-o 8SFF 1000W RPS Server
+HPE ProLiant ML350 Gen11 4410Y
+2.0GHz 12-core 1P 32GB-R
+MR408i-o 8SFF 800W RPS Server
+P70195291:
+HPE ProLiant ML350 Gen11 4509Y
+2.6GHz 8-core 1P 32GB-R MR408i-
+o NC BCM5719 8SFF 800W RPS JP
+Server
+P70195421:
+HPE ProLiant ML350 Gen11 4509Y
+8-core 1P 32GB-R MR408i-o NC
+BCM5719 8SFF 1000W RPS EMEA
+Server
+Chassis HPE ProLiant ML350 Gen11 SFF Configure-to-order Server
+Backplane 8 SFF
+Processor 4410Y (12 core, 2.0 GHz, 150W) 4410Y (12 core, 2.0 GHz, 150W) 4509Y (8 core, 2.6 GHz, 125W)
+Number of
+Processors
+One with standard heatsink
+Memory
+32 GB (1x32 GB, 4800 MT/s)
+Notes: Runs at 4000 MT/s due to
+processor limitation.
+32 GB (1x32 GB, 4800 MT/s)
+Notes: Runs at 4000 MT/s due to
+processor limitation.
+32 GB (1x32 GB, 5600 MT/s)
+Notes: Runs at 4400 MT/s due to
+processor limitation.
+Network
+Controller
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE
+Notes: Slot 15 OCP will be occupied along with CPU 1 MCIO port 1.
+Storage
+Controller
+HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller
+Notes: - Slot 14 OCP will be occupied, PCIe expansion slot is not required.
+- This controller supports up to 8 SAS/SATA/NVMe Drives with performance RAID.
+- Smart Storage battery included.
+Included
+Hard Drives
+None ship standard, 8 SFF supported
+Internal
+Storage
+Default with 8 SFF SAS/SATA/NVMe x1 U.3 Drive Cage Kit (P47217-B21), up to two additional drive cages.
+Notes: Controller/cable kit is required for additional drive cage.
+Optical Drive Optional. None ship standard.
+Expansion
+Slots
+Default with 4 x8 PCIe 5.0 slots with primary riser cage. Upgradable with additional riser kit.
+Notes: Dual processors are required to support expansion card on PCIe slots 5-10.
+Power
+Supply
+1x HPE 1000W Flex Slot Titanium
+Hot Plug Power Supply Kit
+Notes: Additional Power Supply Kit
+(P03178-B21) provides 1+1 power
+redundancy feature.
+1x HPE 800W Flex Slot Platinum
+Hot Plug Low Halogen Power Supply
+Kit
+Notes: Additional Power Supply Kit
+(P38995-B21) provides 1+1 power
+redundancy feature.
+P70195291:
+1x HPE 800W Flex Slot Platinum
+Hot Plug Low Halogen Power Supply
+Kit
+P70195421:
+1x HPE 1000W Flex Slot Titanium
+Hot Plug Power Supply Kit
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 24
+Fans
+Default with 3 standard fans, none-hot-plug. Optional Second CPU Fan Kit (P47902-B21) and Redundant Fan Kit
+(P47219-B21) provide advanced cooling and redundancy functionality in heavier configurations.
+Notes: Configurations that require fan kits are provided in later sections
+Management
+HPE iLO Standard with Intelligent Provisioning (embedded), HPE OneView Standard (requires download); HPE
+iLO Advanced and HPE OneView Advanced (require licenses)
+Security TPM (Trusted Platform Module)
+Form Factor 4U Tower, Optional Tower-to-Rack conversion kit (P47394-B21) to convert the unit to a 5U Rack-mount server.
+Warranty Server warranty includes 3-year parts, 3-year labor, 3-year onsite support with next business day response.
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 25
+Performance Models
+SKU Number
+P53568-001
+P53568-291
+P53568-371
+P53568-AA1
+P53569-421
+P55953-001
+P55953-291
+P55953-371
+Model Name
+HPE ProLiant ML350 Gen11 4416+
+2.0GHz 20-core 1P 32GB-R
+MR408i-o 8SFF 800W RPS Server
+HPE ProLiant ML350 Gen11 4416+
+2.0GHz 20-core 1P 32GB-R
+MR408i-o 8SFF 1000W RPS Server
+HPE ProLiant ML350 Gen11 5416S
+2.0GHz 16-core 1P 32GB-R
+MR408i-o 8SFF 800W RPS Server
+Chassis HPE ProLiant ML350 Gen11 SFF Configure-to-order Server
+Backplane 8 SFF
+Processor 4416+ (20 core, 2.0 GHz, 165W) 4416+ (20 core, 2.0 GHz, 165W) 5416S (16 core, 2.0 GHz, 150W)
+Number of
+Processors
+One with standard heatsink
+Memory
+32 GB (1x32 GB, 4800 MT/s)
+Notes: Runs at 4000 MT/s due to
+processor limitation.
+32 GB (1x32 GB, 4800 MT/s)
+Notes: Runs at 4000 MT/s due to
+processor limitation.
+32 GB (1x32 GB, 4800 MT/s)
+Notes: Runs at 4400 MT/s due to
+processor limitation.
+Network
+Controller
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE
+Notes: Slot 15 OCP will be occupied along with CPU 1 MCIO port 1.
+Storage
+Controller
+HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller
+Notes: - Slot 14 OCP will be occupied, PCIe expansion slot is not required.
+- This controller supports up to 8 SAS/SATA/NVMe Drives with performance RAID.
+- Smart Storage battery included.
+Included
+Hard Drives
+None ship standard, 8 SFF supported
+Internal
+Storage
+Default with 8 SFF SAS/SATA/NVMe x1 U.3 Drive Cage Kit (P47217-B21), up to two additional drive cages.
+Notes: Controller/cable kit is required for additional drive cage.
+Optical Drive Optional. None ship standard.
+Expansion
+Slots
+Default with 4 x8 PCIe 5.0 slots with primary riser cage. Upgradable with additional riser kit.
+Notes: Dual processors are required to support expansion card on PCIe slots 5-10.
+Power
+Supply
+1x HPE 800W Flex Slot Platinum
+Hot Plug Low Halogen Power Supply
+Kit
+Notes: Additional Power Supply Kit
+(P38995-B21) provides 1+1 power
+redundancy feature.
+1x HPE 1000W Flex Slot Titanium
+Hot Plug Power Supply Kit
+Notes: Additional Power Supply Kit
+(P03178-B21) provides 1+1 power
+redundancy feature.
+1x HPE 800W Flex Slot Platinum
+Hot Plug Low Halogen Power Supply
+Kit
+Notes: Additional Power Supply Kit
+(P38995-B21) provides 1+1 power
+redundancy feature.
+Fans
+8x Standard Fans
+Notes: Configurations that require fan kits are provided in later sections
+Management
+HPE iLO Standard with Intelligent Provisioning (embedded), HPE OneView Standard (requires download); HPE
+iLO Advanced and HPE OneView Advanced (require licenses)
+Security
+P53568001, P53568291 &
+P53568371:
+TPM (Trusted Platform Module)
+TPM (Trusted Platform Module) TPM (Trusted Platform Module)
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 26
+P53568AA1:
+TPM disabled for shipments to China
+Form Factor 4U Tower, Optional Tower-to-Rack conversion kit (P47394-B21) to convert the unit to a 5U Rack-mount server.
+Warranty Server warranty includes 3-year parts, 3-year labor, 3-year onsite support with next business day response.
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 27
+Performance Models
+SKU Number P55954-421 P70196-421
+Model Name
+HPE ProLiant ML350 Gen11 5416S 2.0GHz 16-core
+1P 32GB-R MR408i-o 8SFF 1000W RPS Server
+HPE ProLiant ML350 Gen11 4514Y 16-core 1P 32GB-
+R MR408i-o NC BCM5719 8SFF 1000W RPS EMEA
+Server
+Chassis HPE ProLiant ML350 Gen11 SFF Configure-to-order Server
+Backplane 8 SFF
+Processor 5416S (16 core, 2.0 GHz, 150W) 4514Y (16 core, 2.0 GHz, 150W)
+Number of
+Processors
+One with standard heatsink
+Memory
+32 GB (1x32 GB, 4800 MT/s)
+Notes: Runs at 4400 MT/s due to processor limitation.
+32 GB (1x32 GB, 5600 MT/s)
+Notes: Runs at 4400 MT/s due to processor limitation.
+Network
+Controller
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE
+Notes: Slot 15 OCP will be occupied along with CPU 1 MCIO port 1.
+Storage
+Controller
+HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller
+Notes: - Slot 14 OCP will be occupied, PCIe expansion slot is not required.
+- This controller supports up to 8 SAS/SATA/NVMe Drives with performance RAID.
+- Smart Storage battery included.
+Included
+Hard Drives
+None ship standard, 8 SFF supported
+Internal
+Storage
+Default with 8 SFF SAS/SATA/NVMe x1 U.3 Drive Cage Kit (P47217-B21), up to two additional drive cages.
+Notes: Controller/cable kit is required for additional drive cage.
+Optical Drive Optional. None ship standard.
+Expansion
+Slots
+Default with 4 x8 PCIe 5.0 slots with primary riser cage. Upgradable with additional riser kit.
+Notes: Dual processors are required to support expansion card on PCIe slots 5-10.
+Power
+Supply
+1x HPE 1000W Flex Slot Titanium Hot Plug Power
+Supply Kit
+Notes: Additional Power Supply Kit (P03178-B21)
+provides 1+1 power redundancy feature.
+1x HPE 1000W Flex Slot Titanium Hot Plug Power
+Supply Kit
+Fans
+8x Standard Fans
+Notes: Configurations that require fan kits are provided in later sections
+Management
+HPE iLO Standard with Intelligent Provisioning (embedded), HPE OneView Standard (requires download); HPE
+iLO Advanced and HPE OneView Advanced (require licenses)
+Security TPM (Trusted Platform Module)
+Form Factor 4U Tower, Optional Tower-to-Rack conversion kit (P47394-B21) to convert the unit to a 5U Rack-mount server.
+Warranty Server warranty includes 3-year parts, 3-year labor, 3-year onsite support with next business day response.
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 28
+High Performance Models
+SKU Number
+P53570-001
+P53570-291
+P53570-371
+P53571-421
+Model Name
+HPE ProLiant ML350 Gen11 5418Y 2.0GHz 24-core
+1P 32GB-R MR408i-o 8SFF 800W RPS Server
+HPE ProLiant ML350 Gen11 5418Y 2.0GHz 24-core
+1P 32GB-R MR408i-o 8SFF 1000W RPS Server
+Chassis HPE ProLiant ML350 Gen11 SFF Configure-to-order Server
+Backplane 8 SFF
+Processor 5418Y (24 core, 2.0 GHz, 185W)
+Number of
+Processors
+One with standard heatsink
+Memory
+32 GB (1x32 GB, 4800 MT/s)
+Notes: Runs at 4400 MT/s due to processor limitation.
+Network
+Controller
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE
+Notes: Slot 15 OCP will be occupied along with CPU 1 MCIO port 1.
+Storage
+Controller
+HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller
+Notes: - Slot 14 OCP will be occupied, PCIe expansion slot is not required.
+- This controller supports up to 8 SAS/SATA/NVMe Drives with performance RAID.
+- Smart Storage battery included.
+Included
+Hard Drives
+None ship standard, 8 SFF supported
+Internal
+Storage
+Default with 8 SFF SAS/SATA/NVMe x1 U.3 Drive Cage Kit (P47217-B21), up to two additional drive cages.
+Notes: Controller/cable kit is required for additional drive cage.
+Optical Drive Optional. None ship standard.
+Expansion
+Slots
+Default with 4 x8 PCIe 5.0 slots with primary riser cage. Upgradable with additional riser kit.
+Notes: Dual processors are required to support expansion card on PCIe slots 5-10.
+Power
+Supply
+1x HPE 800W Flex Slot Platinum Hot Plug Low
+Halogen Power Supply Kit
+Notes: Additional Power Supply Kit (P38995-B21)
+provides 1+1 power redundancy feature.
+1x HPE 1000W Flex Slot Titanium Hot Plug Power
+Supply Kit
+Notes: Additional Power Supply Kit (P03178-B21)
+provides 1+1 power redundancy feature.
+Fans
+8x Standard Fans
+Notes: Configurations that require fan kits are provided in later sections
+Management
+HPE iLO Standard with Intelligent Provisioning (embedded), HPE OneView Standard (requires download); HPE
+iLO Advanced and HPE OneView Advanced (require licenses)
+Security TPM (Trusted Platform Module)
+Form Factor 4U Tower, Optional Tower-to-Rack conversion kit (P47394-B21) to convert the unit to a 5U Rack-mount server.
+Warranty Server warranty includes 3-year parts, 3-year labor, 3-year onsite support with next business day response.
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 29
+Smart Choice Models
+SKU Number P69310-005 P69313-005 P71671-425
+Model Name
+HPE ProLiant ML350 Gen11 4410Y
+12-core 1P 64GB-R MR408i-o 8SFF
+2x480GB SSD 2x800W RPS AMS
+Server
+HPE ProLiant ML350 Gen11 5416S
+16-core 1P 64GB-R MR408i-o 8SFF
+2x480GB SSD 2x800W RPS AMS
+Server
+HPE ProLiant ML350 Gen11 4510
+12-core 64GB-R MR408i-o 8SFF
+2x960GB SSD 2x1000W RPS EU
+Server
+Chassis HPE ProLiant ML350 Gen11 SFF Configure-to-order Server
+Backplane 8 SFF
+Processor 4410Y (12 core, 2.0 GHz, 150W) 5416S (16 core, 2.0 GHz, 150W) 4510 (12 core, 2.4 GHz, 150W)
+Number of
+Processors
+One with standard heatsink
+Memory
+64 GB (2x32 GB, 4800 MT/s)
+Notes: Runs at 4000 MT/s due to
+processor limitation.
+64 GB (2x32 GB, 4800 MT/s)
+Notes: Runs at 4400 MT/s due to
+processor limitation.
+64 GB (2x32 GB, 5600 MT/s)
+Notes: Runs at 4400 MT/s due to
+processor limitation.
+Network
+Controller
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE
+Notes: Slot 15 OCP will be occupied along with CPU 1 MCIO port 1.
+Storage
+Controller
+HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller
+Notes: - Slot 14 OCP will be occupied, PCIe expansion slot is not required.
+- This controller supports up to 8 SAS/SATA/NVMe Drives with performance RAID.
+- Smart Storage battery included.
+Included
+Hard Drives
+2x 480GB SATA SSD 2x 480GB SATA SSD 2x 960GB SATA SSD
+Internal
+Storage
+Default with 8 SFF SAS/SATA/NVMe x1 U.3 Drive Cage Kit (P47217-B21), up to two additional drive cages.
+Notes: Controller/cable kit is required for additional drive cage.
+Optical Drive Optional. None ship standard.
+Expansion
+Slots
+Default with 4 x8 PCIe 5.0 slots with primary riser cage. Upgradable with additional riser kit.
+Notes: Dual processors are required to support expansion card on PCIe slots 5-10.
+Power
+Supply
+2x HPE 800W Flex Slot Platinum
+Hot Plug Low Halogen Power Supply
+Kit
+2x HPE 800W Flex Slot Platinum
+Hot Plug Low Halogen Power Supply
+Kit
+2x HPE 1000W Flex Slot Titanium
+Hot Plug Power Supply Kit
+Fans
+Default with 3 standard fans, none-
+hot-plug. Optional Second CPU Fan
+Kit (P47902-B21) and Redundant
+Fan Kit (P47219-B21) provide
+advanced cooling and redundancy
+functionality in heavier
+configurations.
+Notes: Configurations that require
+fan kits are provided in later
+sections
+8x Standard Fans
+Notes: Configurations that require
+fan kits are provided in later
+sections
+Default with 3 standard fans, none-
+hot-plug. Optional Second CPU Fan
+Kit (P47902-B21) and Redundant
+Fan Kit (P47219-B21) provide
+advanced cooling and redundancy
+functionality in heavier
+configurations.
+Notes: Configurations that require
+fan kits are provided in later
+sections
+Management
+HPE iLO Standard with Intelligent Provisioning (embedded), HPE OneView Standard (requires download); HPE
+iLO Advanced and HPE OneView Advanced (require licenses)
+Security TPM (Trusted Platform Module)
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 30
+Form Factor 4U Tower, Optional Tower-to-Rack conversion kit (P47394-B21) to convert the unit to a 5U Rack-mount server.
+Warranty Server warranty includes 3-year parts, 3-year labor, 3-year onsite support with next business day response.
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 31
+Smart Choice Models
+SKU Number P71672-035 P71688-005 P74650-D65
+Model Name
+HPE ProLiant ML350 Gen11 4510
+12-core 64GB-R MR408i-o 8SFF
+2x960GB SSD 2x1000W RPS UK/IE
+Server
+HPE ProLiant ML350 Gen11 4514Y
+16-core 64GB-R MR408i-o 8SFF
+2x480GB SSD 2x800W RPS AMS
+Server
+HPE ProLiant ML350 Gen11 4510
+2.4GHz 12c 1P 32GB-R 8SFF
+MR408i-o 2x2.4TB HDD 2x800W
+RPS IN Server
+Chassis HPE ProLiant ML350 Gen11 SFF Configure-to-order Server
+Backplane 8 SFF
+Processor 4510 (12 core, 2.4 GHz, 150W) 4514Y (16 core, 2.0 GHz, 150W) 4510 (12 core, 2.4 GHz, 150W)
+Number of
+Processors
+One with standard heatsink
+Memory
+64 GB (2x32 GB, 5600 MT/s)
+Notes: Runs at 4400 MT/s due to
+processor limitation.
+64 GB (2x32 GB, 5600 MT/s)
+Notes: Runs at 4400 MT/s due to
+processor limitation.
+32 GB (1x32 GB, 5600 MT/s)
+Notes: Runs at 4400 MT/s due to
+processor limitation.
+Network
+Controller
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE
+Notes: Slot 15 OCP will be occupied along with CPU 1 MCIO port 1.
+Storage
+Controller
+HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller
+Notes: - Slot 14 OCP will be occupied, PCIe expansion slot is not required.
+- This controller supports up to 8 SAS/SATA/NVMe Drives with performance RAID.
+- Smart Storage battery included.
+Included
+Hard Drives
+2x 960GB SATA SSD 2x 480GB SATA SSD 2x 2.4TB SAS HDD
+Internal
+Storage
+Default with 8 SFF SAS/SATA/NVMe x1 U.3 Drive Cage Kit (P47217-B21), up to two additional drive cages.
+Notes: Controller/cable kit is required for additional drive cage.
+Optical Drive Optional. None ship standard.
+Expansion
+Slots
+Default with 4 x8 PCIe 5.0 slots with primary riser cage. Upgradable with additional riser kit.
+Notes: Dual processors are required to support expansion card on PCIe slots 5-10.
+Power
+Supply
+2x HPE 1000W Flex Slot Titanium
+Hot Plug Power Supply Kit
+2x HPE 800W Flex Slot Platinum
+Hot Plug Low Halogen Power Supply
+Kit
+2x HPE 800W Flex Slot Platinum
+Hot Plug Low Halogen Power Supply
+Kit
+Fans
+Default with 3 standard fans, none-
+hot-plug. Optional Second CPU Fan
+Kit (P47902-B21) and Redundant
+Fan Kit (P47219-B21) provide
+advanced cooling and redundancy
+functionality in heavier
+configurations.
+Notes: Configurations that require
+fan kits are provided in later
+sections
+8x Standard Fans
+Notes: Configurations that require
+fan kits are provided in later
+sections
+Default with 3 standard fans, none-
+hot-plug. Optional Second CPU Fan
+Kit (P47902-B21) and Redundant
+Fan Kit (P47219-B21) provide
+advanced cooling and redundancy
+functionality in heavier
+configurations.
+Notes: Configurations that require
+fan kits are provided in later
+sections
+Management
+HPE iLO Standard with Intelligent Provisioning (embedded), HPE OneView Standard (requires download); HPE
+iLO Advanced and HPE OneView Advanced (require licenses)
+Security TPM (Trusted Platform Module)
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 32
+Form Factor 4U Tower, Optional Tower-to-Rack conversion kit (P47394-B21) to convert the unit to a 5U Rack-mount server.
+Warranty Server warranty includes 3-year parts, 3-year labor, 3-year onsite support with next business day response.
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 33
+Smart Choice Models
+SKU Number P75339-D65 P75341-DM5
+Model Name
+HPE ProLiant ML350 Gen11 4509Y 2.6GHz 8c 1P
+32GB-R 4LFF MR408i-o 2x4TB HDD 2x800W RPS IN
+Server
+HPE ProLiant ML350 Gen11 4410Y 2.0GHz 12c 1P
+64GB-R 8SFF MR408i-o 2x960GB SSD 2x800W RPS
+LA Server
+Chassis
+HPE ProLiant ML350 Gen11 LFF Configure-to-order
+Server
+HPE ProLiant ML350 Gen11 SFF Configure-to-order
+Server
+Backplane 4 LFF 8 SFF
+Processor 4509Y (8 core, 2.6 GHz, 125W) 4410Y (12 core, 2.0 GHz, 150W)
+Number of
+Processors
+One with standard heatsink
+Memory
+32 GB (1x32 GB, 5600 MT/s)
+Notes: Runs at 4400 MT/s due to processor limitation.
+64 GB (2x32 GB, 4800 MT/s)
+Notes: Runs at 4000 MT/s due to processor limitation.
+Network
+Controller
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE
+Notes: Slot 15 OCP will be occupied along with CPU 1 MCIO port 1.
+Storage
+Controller
+HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller
+Notes: - Slot 14 OCP will be occupied, PCIe expansion slot is not required.
+- This controller supports up to 8 SAS/SATA/NVMe Drives with performance RAID.
+- Smart Storage battery included.
+Included
+Hard Drives
+2x 4TB SATA HDD 2x 960GB SATA SSD
+Internal
+Storage
+Default with 4LFF SAS/SATA Drive Cage Kit (P47216-
+B21), up to two additional drive cages.
+Notes: Controller/cable kit is required for additional
+drive cage.
+Default with 8 SFF SAS/SATA/NVMe x1 U.3 Drive Cage
+Kit (P47217-B21), up to two additional drive cages.
+Notes: Controller/cable kit is required for additional
+drive cage.
+Optical Drive Optional. None ship standard.
+Expansion
+Slots
+Default with 4 x8 PCIe 5.0 slots with primary riser cage. Upgradable with additional riser kit.
+Notes: Dual processors are required to support expansion card on PCIe slots 5-10.
+Power
+Supply
+2x HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+Fans
+Default with 3 standard fans, none-hot-plug. Optional Second CPU Fan Kit (P47902-B21) and Redundant Fan Kit
+(P47219-B21) provide advanced cooling and redundancy functionality in heavier configurations.
+Notes: Configurations that require fan kits are provided in later sections
+Management
+HPE iLO Standard with Intelligent Provisioning (embedded), HPE OneView Standard (requires download); HPE
+iLO Advanced and HPE OneView Advanced (require licenses)
+Security TPM (Trusted Platform Module)
+Form Factor 4U Tower, Optional Tower-to-Rack conversion kit (P47394-B21) to convert the unit to a 5U Rack-mount server.
+Warranty Server warranty includes 3-year parts, 3-year labor, 3-year onsite support with next business day response.
+QuickSpecs HPE ProLiant ML350 Gen11
+Pre-configured Models
+Page 34
+Country Code Key
+· -001 = North America
+· -005 = HPE Smart Choice for US and Canada
+· -035 = HPE Smart Choice for United Kingdom
+· -291 = Japan
+· -371 = Asia Pacific
+· -421 = Europe, the Middle East and Africa
+· -425 = HPE Smart Choice for DACH (Germany, Switzerland, Austria), France, UKI (Great Britain, Ireland, Scotland, Wales)
+· -AA1 = China
+· -D65 = HPE Smart Choice for India
+· -DM5 = HPE Smart Choice for LATAM
+HPE Smart Choice purchase program
+· HPE Smart Choice purchase program is designed to make it easier to do business with HPE by offering fully configured
+solutions.
+· Order popular configs in a single SKU.
+· Get immediate purchase price in minutes.
+· Get fast, predictable shipping.
+Notes: European Union Erp Lot 9 2024 Regulation
+Beginning on January 1st, 2024, units sold into the European Union (EU), European Economic Area (EEA), the United Kingdom,
+or Switzerland must include more efficient AC power supplies: 94% for multi-output and 96% for single-output. HPE Flexible Slot
+power supplies are single-output, and part numbers 865438-B21, P03178-B21, and P44712-B21 are 96% efficient, thus
+meeting requirements. HPE is on target to fulfil compliant systems ahead of time and will begin enforcing these requirements in
+advance to satisfy requests with the current power supplies by the set deadline.
+QuickSpecs HPE ProLiant ML350 Gen11
+Configuration Information
+Page 35
+Smart Templates from HPE
+HPE is releasing new Smart Template technology in the One Config Advanced (OCA) configurator. These Templates represent
+the CTO equivalents of the top-selling BTO configurations. They are intended to provide simple starting points to assist you in
+easily creating and customizing your desired Server solutions. HPE Servers that have Platform Templates, developed by HPE
+Product Managers, will have a separate tab in the HPE OCA configurator.
+Workload Solutions Templates from HPE
+The Workload Solutions Templates build on the Smart Templates technology to easily develop working configurations of the most
+compelling Workload Solutions. The templates complement the Reference Builds developed by HPE. Workload Solutions
+templates preconfigure some of the key architecture decisions and make it easier for Sellers to get started and complete a
+differentiated server solution for your customer's specific workload.
+Mainstream SKUs
+HPE launched the Mainstream SKU initiative as a market-driven approach to Demand Steering. It is a simplified portfolio of our top
+selling options that meet the current and future market trends. HPE has committed to provide a more predictable and faster
+experience for these options. Mainstream SKUs enjoy higher safety stock levels and have higher fulfilment service levels than
+non-Mainstream SKUs. Mainstream orders are fulfilled +30% faster than non-Mainstream orders, have fewer shortages and better
+recovery dates. This platform has Mainstream SKUs in the options portfolio, and is eligible for the improved Mainstream
+experience. Mainstream SKUs are designated with a Mainstream symbol in our configurators.
+Mainstream Configurations
+HPE is using the new Smart Templates technology to present Mainstream configurations. All the options in a Mainstream
+configuration are pre-selected Mainstream SKUs to optimize the performance, predictability and fulfilment experience. Check the
+Template section in our configurators for eligible Mainstream configurations.
+This section lists some of the steps required to configure a Factory Integrated Model. To ensure only valid configurations are
+ordered, Hewlett Packard Enterprise recommends the use of an HPE approved configurator. Contact your local sales
+representative for information on configurable product offerings and requirements.
+· Factory Integrated Models must start with a CTO Server.
+· FIO indicates that this option is only available as a factory integratable option.
+· All Factory Integrated Models will be populated with sufficient hard drive blanks based on the number of initial hard drives
+ordered with the server.
+· Some options may not be integrated at the factory. Contact your local sales representative for additional information.
+· Beginning on January 1st, 2024, units sold into the European Union (EU), European Economic Area (EEA), the United
+Kingdom, or Switzerland must include more efficient AC power supplies: 94% for multi-output and 96% for single-output.
+HPE Flexible Slot power supplies are single-output, and part numbers 865438-B21, P03178-B21, and P44712-B21 are
+96% efficient, thus meeting requirements. HPE is on target to fulfil compliant systems ahead of time and will begin
+enforcing these requirements in advance to satisfy requests with the current power supplies by the set deadline.
+· All CTO servers are Energy Star 3.0 compliant. After January 11, 2024, Energy Star 3.0 compliance is no longer valid.
+Energy Star 4.0 certification will be valid upon system configuration.
+QuickSpecs HPE ProLiant ML350 Gen11
+Configuration Information
+Page 36
+Step 1: Base Configuration (choose one of the following configurable models)
+CTO Server HPE ML350 Gen11 LFF CTO Server HPE ML350 Gen11 SFF CTO Server
+SKU Number P48404-B21 P48405-B21
+Processor Sockets 2 Sockets available
+Processor Intel Fourth or Fifth Generation Xeon® Scalable Processors
+DIMM Slots 32 DIMM slots available*
+Storage Controller Embedded controller with 2 SlimSAS ports, Choice of HPE OCP-type RAID (OROC) and/or PCIe
+Standup controller card (s)
+PCIe 4 PCIe Gen5 slots (x8, x8, x8, x8) in primary riser as standard
+Notes: PCIe slots 5 - 10 require the second processor to enable.
+Drive Cage - included 4 LFF SAS/SATA Drive Cage 8 SFF SAS/SATA/x1 NVMe Drive Cage
+Additional drive cages Optional 4LFF SAS/SATA Drive Cage kit and
+8SFF SAS/SATA/x1 NVMe Drive Cage kit. Up to
+3 drive cages in total.
+Optional 8 SFF SAS/SATA/x1 NVMe Drive Cage
+kit. Up to 3 drive cages in total.
+8SFF U.3 x4 NVMe drive
+cage
+Not available Optional, Up to 1
+Notes: Default 8 SFF drive cage will be removed.
+12EDSFF x4 NVMe drive
+cage
+Not available Optional, Up to 1
+Notes: Default 8 SFF drive cage will be removed.
+Boot option Optional, HPE NS204i-u Gen11 NVMe Hot Plug Boot Optimized Storage Device (P48183-B21)
+ODD Optional, Up to 1
+Half-Height RDX Optional, Up to 1 Not available
+Megacell Battery Optional
+Network Controller Choice of HPE OCP-type networking adapter and/or PCIe Standup controllers.
+Default selected with Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE
+(P51181-B21)
+Redundant Fan Kit Optional, 3 fans as standard
+Power Supply Optional HPE Flex Slot Hot Plug Power Supply Kit. Up to 2 PSU.
+Management HPE iLO with Intelligent Provisioning (standard), iLO Advances and OneView (optional), HPE
+GreenLake for Compute Ops Management (subscription included)
+USB 5x 3.2 Gen1/2.0 USB ports, Plus front iLO Service Port
+Tower-to-Rack
+conversion kit
+Optional, Tower to Rack kit is not factory integratable option and only can be shipped with
+standalone package.
+Notes:
+- * 32 DIMM slots require selection of 2 processors.
+- Internal RDX can only be selected with LFF chassis and Box1 drive cage space will be occupied.
+- 8 SFF x4 NVMe or 12 EDSFF drive cage can only be selected with SFF chassis and default 8SFF drive cage will be
+removed.
+- To get advanced cooling in richer configurations and/or under certain ambient environmental conditions, the additional
+Fan kits: Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21) may require.
+- Second CPU Fan Kit (P47902-B21) is required when any following options are selected: Second processor, HPE NS204i-u
+Gen11 Ht Plg Boot Opt Dev(P48183-B21), Tertiary riser kit (P49693-B21).
+- Both Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21) are required with any following conditions:
+Redundant Fan feature is required, 300W~350W TDP processor, 256GB memory or GPU is selected.
+- Mixed LFF and SFF Drive cages can be supported in one system. Please select the LFF CTO Server (P48404-B21) as the
+base configuration to start with.
+- Refer to HPE Power Advisor Tool to review the power requirement for your selected configuration and determine what
+power supply module(s) to select.
+QuickSpecs HPE ProLiant ML350 Gen11
+Configuration Information
+Page 37
+Step 2: Choose Required Options (only one of the following unless otherwise noted)
+Please select one or two matching processors.
+For example: for a single Xeon-Platinum 8452Y processor configuration select 1x P49616-B21. If dual Xeon-Platinum 8452Y
+processor configuration, select 2x P49616-B21
+Notes:
+- Mixing of 2 different processor models is not supported.
+- Field upgrade from 4th generation processors (x4xx) to 5th generation processors (x5xx) is not supported.
+- Bronze Processors (3408U and 3508U) are supported up to PCIe Gen4.
+- Intel VROC NVMe feature is not supported with 4510, 4509Y and 3508U processors.
+- Processor kits don't include heat sink and fans.
+- Processors with TDP equal to or greater than 195W require Performance Heatsink (P47224-B21).
+- Processors with TDP equal to or greater than 300W require both Redundant Fan Kit (P47219-B21) and Second CPU Fan
+Kit (P47902-B21).
+- DDR5 memory speed is the maximum memory speed supported by the processor. Actual maximum memory speed is a
+function of the memory type, memory configuration, and processor model.
+- CTO server includes 3 fans as standard. Second CPU Fan Kit (P47902-B21) is required for 2 processors configuration as
+4th fan.
+Step 2a: Choose Processors
+Processor Option Kits - Intel Fourth Generation Xeon® Scalable Processors
+Notes:
+- All SKUs ship with processor only. Adequate fan and heatsink kits (standard or performance) must be selected.
+- 4800 MT/S maximum memory speed unless otherwise noted.
+- 128GB SGX Enclave unless otherwise noted.
+- PCIe Gen5 supported unless otherwise noted.
+- Performance Heatsink (P47224-B21) is required unless otherwise noted.
+Intel Xeon-Platinum Processors
+Intel Xeon-Platinum 8490H 1.9GHz 60-core 350W Processor for HPE P49630-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 512GB SGX Enclave.
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+Intel Xeon-Platinum 8480+ 2.0GHz 56-core 350W Processor for HPE P49607-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 512GB SGX Enclave.
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+Intel Xeon-Platinum 8470N 1.7GHz 52-core 300W Processor for HPE P49649-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+Intel Xeon-Platinum 8470 2.0GHz 52-core 350W Processor for HPE P49606-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 512GB SGX Enclave.
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+QuickSpecs HPE ProLiant ML350 Gen11
+Configuration Information
+Page 38
+Intel Xeon-Platinum 8468 2.1GHz 48-core 350W Processor for HPE P49605-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 512GB SGX Enclave.
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+Intel Xeon-Platinum 8468V 2.4GHz 48-core 330W Processor for HPE P49631-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+Intel Xeon-Platinum 8458P 2.7GHz 44-core 350W Processor for HPE P49632-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 512GB SGX Enclave.
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+Intel Xeon-Platinum 8460Y+ 2.0GHz 40-core 300W Processor for HPE P49604-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+Intel Xeon-Platinum 8452Y 2.0GHz 36-core 300W Processor for HPE P49616-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+Intel Xeon-Platinum 8444H 2.9GHz 16-core 270W Processor for HPE P49625-B21
+Notes:
+- 512GB SGX Enclave.
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+Intel Xeon-Gold Processors
+Intel Xeon-Gold 6448H 2.4GHz 32-core 250W Processor for HPE P49622-B21
+Notes: 512GB SGX Enclave.
+Intel Xeon-Gold 6454S 2.2GHz 32-core 270W Processor for HPE P49654-B21
+Notes: 96GB Dual Rank x4 DDR5-4800 memory supported.
+Intel Xeon-Gold 6448Y 2.1GHz 32-core 225W Processor for HPE P49600-B21
+Intel Xeon-Gold 6430 2.1GHz 32-core 270W Processor for HPE P49614-B21
+Notes:
+- 4400 MT/s maximum memory speed.
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+Intel Xeon-Gold 6438N 2.0GHz 32-core 205W Processor for HPE P49638-B21
+Intel Xeon-Gold 6438Y+ 2.0GHz 32-core 205W Processor for HPE P49615-B21
+Intel Xeon-Gold 6414U 2.0GHz 32-core 250W Processor for HPE P49619-B21
+Notes:
+- Only supported in single socket configuration.
+- 96GB Dual Rank x4 DDR5-4800 memory supported.
+QuickSpecs HPE ProLiant ML350 Gen11
+Configuration Information
+Page 39
+Intel Xeon-Gold 6421N 1.8GHz 32-core 185W Processor for HPE P49641-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4400 MT/s maximum memory speed.
+- Only supported in single socket configuration.
+Intel Xeon-Gold 6418H 2.1GHz 24-core 185W Processor for HPE P49621-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 512GB SGX Enclave.
+Intel Xeon-Gold 6416H 2.2GHz 18-core 165W Processor for HPE P49620-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 512GB SGX Enclave.
+Intel Xeon-Gold 6426Y 2.5GHz 16-core 185W Processor for HPE P49598-B21
+Notes: Requires Standard Heatsink (P47223-B21).
+Intel Xeon-Gold 6434 3.7GHz 8-core 195W Processor for HPE P49601-B21
+Intel Xeon-Gold 5420+ 2.0GHz 28-core 205W Processor for HPE P49613-B21
+Notes: 4000 MT/s maximum memory speed.
+Intel Xeon-Gold 5418N 1.8GHz 24-core 165W Processor for HPE P49640-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4000 MT/s maximum memory speed.
+Intel Xeon-Gold 5418Y 2.0GHz 24-core 185W Processor for HPE P49612-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4400 MT/s maximum memory speed.
+Intel Xeon-Gold 5411N 1.9GHz 24-core 165W Processor for HPE P49639-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4400 MT/s maximum memory speed.
+- Only supported in single socket configuration.
+Intel Xeon-Gold 5416S 2.0GHz 16-core 150W Processor for HPE P49653-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4400 MT/s maximum memory speed.
+Intel Xeon-Gold 5415+ 2.9GHz 8-core 150W Processor for HPE P49597-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4400 MT/s maximum memory speed.
+QuickSpecs HPE ProLiant ML350 Gen11
+Configuration Information
+Page 40
+Intel Xeon-Sliver Processors
+Intel Xeon-Silver 4416+ 2.0GHz 20-core 165W Processor for HPE P49611-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4000 MT/s maximum memory speed.
+- 64GB SGX Enclave.
+Intel Xeon-Silver 4410Y 2.0GHz 12-core 150W Processor for HPE P49610-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4000 MT/s maximum memory speed.
+- 64GB SGX Enclave.
+Intel Xeon-Bronze Processors
+Intel Xeon-Bronze 3408U 1.8GHz 8-core 125W Processor for HPE P49617-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4000 MT/s maximum memory speed.
+- 64GB SGX Enclave.
+- Only supported in single socket configuration.
+- Up to PCIe Gen4 supported.
+Processor Option Kits - Intel Fifth Generation Xeon® Scalable Processors
+Notes:
+- All SKUs ship with processor only. Adequate fan and heatsink kits (standard or performance) must be selected.
+- 5600 MT/S maximum memory speed unless otherwise noted.
+- 128GB SGX Enclave unless otherwise noted.
+- PCIe Gen5 supported unless otherwise noted.
+- Performance Heatsink (P47224-B21) is required unless otherwise noted.
+Intel Xeon-Platinum Processors
+Intel Xeon-Platinum 8592+ 1.9GHz 64-core 350W Processor for HPE P67089-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 512GB SGX Enclave.
+Intel Xeon-Platinum 8592V 2.0GHz 64-core 330W Processor for HPE P67107-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 4800 MT/s maximum memory speed.
+- 512GB SGX Enclave.
+Intel Xeon-Platinum 8580 2.0GHz 60-core 350W Processor for HPE P67088-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 512GB SGX Enclave.
+Intel Xeon-Platinum 8581V 2.0GHz 60-core 270W Processor for HPE P67109-B21
+Notes:
+- 4800 MT/s maximum memory speed.
+- 512GB SGX Enclave.
+QuickSpecs HPE ProLiant ML350 Gen11
+Configuration Information
+Page 41
+- Only supported in single socket configuration.
+Intel Xeon-Platinum 8570 2.1GHz 56-core 350W Processor for HPE P67087-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 512GB SGX Enclave.
+Intel Xeon-Platinum 8568Y+ 2.3GHz 48-core 350W Processor for HPE P67086-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 512GB SGX Enclave.
+Intel Xeon-Platinum 8558 2.1GHz 48-core 330W Processor for HPE P67097-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 5200 MT/s maximum memory speed.
+- 512GB SGX Enclave.
+Intel Xeon-Platinum 8558U 2.0GHz 48-core 300W Processor for HPE P67102-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 4800 MT/s maximum memory speed.
+- 512GB SGX Enclave.
+- Only supported in single socket configuration.
+Intel Xeon-Platinum 8558P 2.7GHz 48-core 350W Processor for HPE P67108-B21
+Notes:
+- Requires Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21).
+- 512GB SGX Enclave.
+Intel Xeon-Gold Processors
+Intel Xeon-Gold 6554S 2.2GHz 36-core 270W Processor for HPE P67110-B21
+Notes: 5200 MT/s maximum memory speed.
+Intel Xeon-Gold 6530 2.1GHz 32-core 270W Processor for HPE P67095-B21
+Notes: 4800 MT/s maximum memory speed.
+Intel Xeon-Gold 6548Y+ 2.5GHz 32-core 250W Processor for HPE P67082-B21
+Notes: 5200 MT/s maximum memory speed.
+Intel Xeon-Gold 6548N 2.8GHz 32-core 250W Processor for HPE P67105-B21
+Notes: 5200 MT/s maximum memory speed.
+Intel Xeon-Gold 6538Y+ 2.2GHz 32-core 225W Processor for HPE P67096-B21
+Notes: 5200 MT/s maximum memory speed.
+Intel Xeon-Gold 6538N 2.1GHz 32-core 205W Processor for HPE P67104-B21
+Notes: 5200 MT/s maximum memory speed.
+Intel Xeon-Gold 6542Y 2.9GHz 24-core 250W Processor for HPE P67081-B21
+Notes: 5200 MT/s maximum memory speed.
+QuickSpecs HPE ProLiant ML350 Gen11
+Configuration Information
+Page 42
+Intel Xeon-Gold 6526Y 2.8GHz 16-core 195W Processor for HPE P67080-B21
+Notes: 5200 MT/s maximum memory speed.
+Intel Xeon-Gold 6534 3.9GHz 8-core 195W Processor for HPE P67083-B21
+Notes: 4800 MT/s maximum memory speed.
+Intel Xeon-Gold 5520+ 2.2GHz 28-core 205W Processor for HPE P49613-B21
+Notes: 4800 MT/s maximum memory speed.
+Intel Xeon-Gold 5515+ 3.2GHz 8-core 165W Processor for HPE P67079-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4800 MT/s maximum memory speed.
+Intel Xeon-Sliver Processors
+Intel Xeon-Silver 4516Y+ 2.2GHz 24-core 185W Processor for HPE P67093-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4400 MT/s maximum memory speed.
+- 64GB SGX Enclave.
+Intel Xeon-Silver 4514Y 2.0GHz 16-core 150W Processor for HPE P67092-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4400 MT/s maximum memory speed.
+- 64GB SGX Enclave.
+Intel Xeon-Silver 4510 2.4GHz 12-core 150W Processor for HPE P67091-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4400 MT/s maximum memory speed.
+- 64GB SGX Enclave.
+- Intel VROC NVMe feature is not supported.
+- 96GB DDR5-5600 DIMM is not supported.
+Intel Xeon-Silver 4509Y 2.6GHz 8-core 125W Processor for HPE P67090-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4400 MT/s maximum memory speed.
+- 64GB SGX Enclave.
+- Intel VROC NVMe feature is not supported.
+- 96GB DDR5-5600 DIMM is not supported.
+Intel Xeon-Bronze Processors
+Intel Xeon-Bronze 3508U 2.1GHz 8-core 125W Processor for HPE P67100-B21
+Notes:
+- Requires Standard Heatsink (P47223-B21).
+- 4400 MT/s maximum memory speed.
+- 64GB SGX Enclave.
+- Only supported in single socket configuration.
+- Up to PCIe Gen4 supported.
+- Intel VROC NVMe feature is not supported.
+- 96GB DDR5-5600 DIMM is not supported.
+QuickSpecs HPE ProLiant ML350 Gen11
+Configuration Information
+Page 43
+Step 2b: Choose Memory Options
+Please select one or more memory from below.
+For new Gen11 memory population rule whitepaper and optimal memory performance guidelines, please go to:
+https://www.hpe.com/docs/memory-population-rules
+For Gen11 memory speed table, please go to: https://www.hpe.com/docs/memory-speed-table
+For memory Reliability, Accessibility, Serviceability (RAS) features whitepaper like Fast Fault Tolerance and legacy mirrored
+memory feature etc. please go to: https://www.hpe.com/psnow/doc/a50007802enw
+Notes:
+- The maximum memory speed and capacity is a function of the memory type, memory configuration, and processor model.
+- Quantity of memory DIMMs selected per socket must be 1, 2, 4, 6, 8, 12 or 16.
+- For additional information, please see the HPE DDR5 Smart Memory QuickSpecs.
+- For General Server Memory and Persistent Memory Population Rules and Guidelines, see details here:
+http://www.hpe.com/docs/memory-population-rules
+- HPE Server Memory compatibility for a specific server platform may vary or be limited within a server platform depending
+upon the specific configuration being requested. Because each server environment and requirements can vary, memory
+compatibility is based not only upon the server family, but may also be affected by the amount and type of additional
+hardware options installed within a specific server configuration. For this reason, some HPE memory DIMMs may be
+qualified for an HPE server model or family and yet occasionally not be supported with some configurations within that
+server family.
+- The new 5600 DIMMs are for the Fifth generation Intel Xeon® Scalable Processors; while the 4800 DIMMs are for the
+Fourth generation Intel Xeon® Scalable Processors.
+- 256GB memory is limited to 25°C maximum inlet temperature with non- Redundant Fan configuration. 30°C maximum
+inlet temperature can be supported with Redundant Fan configuration.
+Memory - for the Fourth Generation Intel Xeon® Scalable Processors
+Description
+HPE 16GB (1x16GB) Single Rank x8 DDR5-4800 CAS-40-39-39 EC8 Registered Smart Memory Kit P43322-B21
+HPE 32GB (1x32GB) Dual Rank x8 DDR5-4800 CAS-40-39-39 EC8 Registered Smart Memory Kit P43328-B21
+HPE 64GB (1x64GB) Dual Rank x4 DDR5-4800 CAS-40-39-39 EC8 Registered Smart Memory Kit P43331-B21
+HPE 96GB (1x96GB) Dual Rank x4 DDR5-4800 CAS-46-45-45 EC8 Registered Smart Memory Kit P66675-B21
+Notes:
+- Only 8 or 16 DIMMs per CPU configurations are supported. DIMM qty must be 8, 16 or 32 with 96G memory SKU.
+- Platinum and selected Gold processors are supported as noted in "Choose Processors" section.
+- Mixing different capacity memory DIMMs is NOT supported with this 96G memory SKU.
+HPE 128GB (1x128GB) Dual Rank x4 DDR5-4800 CAS-40-39-39 EC8 Registered Smart Memory Kit P69974-B21
+HPE 128GB (1x128GB) Quad Rank x4 DDR5-4800 CAS-46-39-39 EC8 Registered 3DS Smart Memory Kit P43334-B21
+HPE 256GB (1x256GB) Octal Rank x4 DDR5-4800 CAS-46-39-39 EC8 Registered 3DS Smart Memory Kit P43337-B21
+Memory - for the Fifth Generation Intel Xeon® Scalable Processors
+Description
+HPE 16GB (1x16GB) Single Rank x8 DDR5-5600 CAS-46-45-45 EC8 Registered Smart Memory Kit P64705-B21
+HPE 32GB (1x32GB) Dual Rank x8 DDR5-5600 CAS-46-45-45 EC8 Registered Smart Memory Kit P64706-B21
+HPE 64GB (1x64GB) Dual Rank x4 DDR5-5600 CAS-46-45-45 EC8 Registered Smart Memory Kit P64707-B21
+HPE 96GB (1x96GB) Dual Rank x4 DDR5-5600 CAS-46-45-45 EC8 Registered Smart Memory Kit P64708-B21
+Notes: 96GB DDR5-5600 DIMM is not supported with 4510, 4509Y and 3508U processors.
+HPE 128GB (1x128GB) Dual Rank x4 DDR5-5600 CAS-46-45-45 EC8 Registered Smart Memory Kit P69976-B21
+HPE 128GB (1x128GB) Quad Rank x4 DDR5-5600 CAS-52-45-45 EC8 Registered 3DS Smart Memory Kit P64709-B21
+HPE 256GB (1x256GB) Octal Rank x4 DDR5-5600 CAS-52-45-45 EC8 Registered 3DS Smart Memory Kit P64710-B21
+QuickSpecs HPE ProLiant ML350 Gen11
+Configuration Information
+Page 44
+Step 2c: Choose Power Supplies
+Notes:
+- Mixing 2 different power supplies is NOT supported.
+- Selection of two HPE Flex Slot power supplies provide 1+1 power redundancy.
+- To review the power requirements for your selected configuration, please use the HPE Power Advisor Tool.
+Power Supplies
+HPE 500W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 865408-B21
+Notes: Support limited to single 125W Processor.
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit P38995-B21
+HPE 1000W Flex Slot Titanium Hot Plug Power Supply Kit P03178-B21
+HPE 1600W Flex Slot -48VDC Hot Plug Power Supply Kit P17023-B21
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit P38997-B21
+Notes: Only supports high line voltage (200 VAC to 240 VAC).
+HPE 1800W-2200W Flex Slot Titanium Hot Plug Power Supply Kit P44712-B21
+Notes: Only supports high line voltage (200 VAC to 240 VAC).
+Step 3: Choose Additional Factory Integratable Options
+One of the following from each list may be selected if desired at time of factory integration.
+Drive Cage
+HPE ProLiant ML350 Gen11 8SFF x1 U.3 Tri-Mode Drive Cage Kit P47217-B21
+Notes: Support up to 24 SFF drives configuration (8+8+8).
+HPE ProLiant ML350 Gen11 4LFF SAS/SATA Basic Drive Cage Kit P47216-B21
+Notes: Support up to 12 LFF drives configuration (4+4+4).
+HPE ProLiant ML350 Gen11 8SFF x4 U.3 Tri-Mode FIO Drive Cage Kit P47218-B21
+Notes:
+- When this drive cage is selected, default 8SFF Tri-Mode Drive Cage will be removed and no other drive cage can be
+selected.
+- This drive cage kit supports two connections modes. Direct Attach and Tri-Mode controller modes.
+- Direct Attach mode requires x4 NVMe Direct Attach FIO Cable Kit (P48399-B21).
+- Controller mode requires HPE SR932i-p Gen11 Controller (P47184-B21) and x4 Tri-Mode FIO Cable Kit (P47234-B21).
+- This drive cage doesn't allow field upgrade.
+- Bronze Processors (3408U and 3508U) are supported up to PCIe Gen4.
+- Intel VROC NVMe feature is not supported with 4510, 4509Y and 3508U processors.
+HPE ProLiant ML350 Gen11 12EDSFF FIO Drive Cage Kit P48401-B21
+Notes:
+- When this drive cage is selected, default 8SFF Tri-Mode Drive Cage will be removed and no other drive cage can be
+selected.
+- This drive cage kit only supports Direct Attach mode and 12EDSFF x4 Direct Attach FIO Cable Kit (P48400-B21) is
+required.
+- This drive cage kit requires dual processors configuration.
+- Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21) are required.
+- External Fan kit is included in this drive cage kit and installed in rear of chassis on external fan connector 10. The primary
+riser cage will be covered by the fan kit and external connectivity is not allowed.
+- Support limited to 25°C maximum inlet temperature and system fans may operate at higher speed and higher acoustic
+level to maintain optimum system cooling condition while EDSFF is installed.
+- This drive cage kit doesn't allow field upgrade.
+QuickSpecs HPE ProLiant ML350 Gen11
+Configuration Information
+Page 45
+- Bronze Processors (3408U and 3508U) are supported up to PCIe Gen4.
+- Intel VROC NVMe feature is not supported with 4510, 4509Y and 3508U processors.
+Risers
+HPE ProLiant ML350 Gen11 2x16 Primary FIO Riser Kit P48406-B21
+Notes: When this Riser Kit is selected, default 4x8 Primary Riser will be replaced.
+HPE ProLiant ML350 Gen11 4x8 Secondary Riser Kit P48407-B21
+Notes: When this Riser Kit is selected, second processor is required.
+HPE ProLiant ML350 Gen11 2x16 Secondary Riser Kit P47238-B21
+Notes: When this Riser Kit is selected, second processor is required.
+HPE ProLiant ML350 Gen11 2x8 Tertiary Riser Kit P49693-B21
+Notes: When this Riser Kit is selected, second processor is required to support expansion card installation
+and 2 MCIO connectors from CPU2 will be used. Without Second processor, the PCIe slots from tertiary riser
+will not have function and only can be used to provide power source for RDX docking station.
+Cooling Options
+HPE ProLiant ML350 Gen11 Standard Heat Sink Kit P47223-B21
+Notes: Processors with TDP less than 195W require Standard Heat Sink.
+HPE ProLiant ML350 Gen11 Performance Heat Sink Kit P47224-B21
+Notes: Processors with TDP equal to or greater than 195W require Performance Heat Sink.
+HPE ProLiant ML350 Gen11 Second CPU Fan Kit P47902-B21
+Notes: When either second processor, NS204i-u or Tertiary Riser selected, this Fan Kit is required.
+HPE ProLiant ML350 Gen11 Redundant Fan Kit P47219-B21
+Notes:
+- Processors with TDP equal to or greater than 300W require this Fan Kit.
+- When EDSFF drive cage selected, this fan kit is required.
+- When this Fan Kit is selected, the Second CPU Fan Kit (P47902-B21) need be selected together.
+HPE ProLiant ML350 Gen11 External GPU Fan Kit P47220-B21
+Notes:
+- With External GPU fan kit installed, rear side of riser cage will be covered, and no connectivity allowed with Primary/Second
+riser cage.
+- Up to 2 fan kits supported.
+- External GPU fan kit provides advanced cooling in heavier configurations and allows system to run with higher inlet
+temperature.
+- This fan kit has already included in 12EDSFF FIO Drive Cage Kit (P48401-B21) with qty.
+Step 4: Choose additional options for Factory Integration from Core and Additional Options sections
+below
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 46
+Choose additional options for Factory Integration from Core and Additional Options sections below
+Some options may not be integrated at the factory. To ensure only valid configurations are ordered, Hewlett Packard Enterprise
+recommends the use of an HPE approved configurator. Contact your local sales representative for additional information.
+Notes: The User Guide (UG) can help to explain the cable routing for each option.
+Software as a Service Management
+HPE GreenLake for Compute Ops Management
+Base SKU
+HPE GreenLake for Compute Ops Management Enhanced 3-year Upfront ProLiant SaaS R7A11AAE
+Upgrade SKU
+HPE GreenLake for Compute Ops Management Enhanced 5-year Upfront ProLiant SaaS R7A12AAE
+HPE Compute Cloud Management Server FIO Enablement S1A05A
+HPE OneView
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU E5Y35AAE
+HPE OneView w/o iLO including 3yr 24x7 Support Flexible Quantity E-LTU P8B26AAE
+Notes: For customers purchasing HPE GreenLake for Compute Ops Management, without a hardware purchase or a BTO
+purchase, use this base SKU within ASQ order:
+For more information, visit the HPE GreenLake for Compute Ops Management QuickSpecs:
+https://www.hpe.com/psnow/doc/a50004263enw
+Supported Servers - CTO only. No OEM. - Complete list can be found here: Latest Supported Server List:
+https://www.hpe.com/info/com-supported-servers
+HPE Computation and Graphics Accelerators
+Notes:
+- System memory is recommended to be 2 times larger than the memory with accelerator card.
+- Mixing different accelerators is not supported.
+- Redundant Fan Kit (P47219-B21) and Second CPU Fan Kit (P47902-B21) are required for all GPU accelerators.
+- System fans may operate at higher speed and higher acoustic level to maintain optimum system cooling condition with
+accelerator card.
+- GPU are all required x16 bandwidth unless otherwise noted. Therefore, 2x16 Primary FIO Riser Kit (P48406-B21) or 2x16
+Secondary Riser Kit (P47238-B21) is required to support up to 2 GPUs with each riser kit.
+NVIDIA RTX 4000 Ada Graphics Accelerator for HPE S3T54C
+Notes:
+- GPU Power Cable Kit (P47221-B21) is required and supported up to 1 GPU with each cable kit.
+- External GPU Fan Kit is not required for NVIDIA RTX 4000 Ada GPU.
+NVIDIA L40 48GB PCIe Accelerator for HPE S0K90C
+Notes:
+- GPU Power Cable Kit (P47221-B21) is required and support up to 1 L40 GPU with each cable kit.
+- External GPU Fan Kit (P47220-B21) is recommended to provide advanced cooling and results Display Ports can't be
+connected and covered by the fan kit.
+- Without External GPU Fan Kit installed, maximum inlet temperature is limited to 23°C with limited configuration: Up to 2
+GPUs, up to 64GB memory, up to TDP 195W processor(s) and one Drive Cage (8SFF/4LFF) only.
+- Refer to following GPU information table for limited support inlet temperature with External GPU Fan Kit and Redundant
+Fan Kit on various configurations.
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 47
+HPE ProLiant ML350 Gen11 Double Wide Power Cable Kit for NVIDIA L40 GPU P47221-B21
+Notes:
+- This power Cable Kit (P47221-B21) is required for RTX4000 Ada and L40 Accelerator.
+- Each power Cable Kit supports up to one accelerator.
+NVIDIA A16 64GB PCIe Non-CEC Accelerator for HPE R8T26C
+Notes:
+- Power cable kit (P39102-B21) is required and support up to 3x A16 GPUs with each cable kit.
+- External GPU Fan Kit (P47220-B21) is required to provide advanced cooling with this GPU.
+- Refer to following GPU information table for limited support inlet temperature with External GPU Fan Kit and Redundant
+Fan Kit on various configurations.
+HPE ProLiant DL300 Gen10 Plus GPU 8-pin Keyed Cable Kit P39102-B21
+Notes:
+- This power cable kit (P39102-B21) is required for A16 Accelerator.
+- Each Power Cable Kit supports up to 3x A16 Accelerators.
+NVIDIA L4 24GB PCIe Accelerator for HPE S0K89C
+- External GPU Fan Kit (P47220-B21) is required to provides advanced cooling with this GPU.
+- Refer to following GPU information table for limited support inlet temperature with External GPU Fan Kit and Redundant
+Fan Kit on various configurations.
+Accelerator configuration information
+Part
+Number
+Card TDP PCIe
+Speed
+Qty
+Support
+ML350 Gen11 Configuration
+1x 8SFF
+or 4LFF
+2x 8SFF
+or 4LFF
+3x 8SFF
+or 4LFF
+X4 U.3
+NVMe
+12
+EDSFF
+S0K90C NVIDIA L40 48GB PCIe
+Accelerator for HPE
+300W Gen4
+x16
+4 27°C/
+30°C*
+25°C/
+30°C*
+23°C/
+30°C*
+25°C/
+30°C*
+25°C/
+30°C*
+R8T26C NVIDIA A16 64GB PCIe
+Non-CEC Accelerator for
+HPE
+250W Gen4
+x16
+4 28°C/
+30°C*
+25°C/
+30°C*
+24°C/
+30°C*
+25°C/
+30°C*
+25°C/
+30°C*
+S0K89C NVIDIA L4 24GB PCIe
+Accelerator for HPE
+72W Gen4
+x16
+4 30°C 30°C 30°C 30°C 30°C
+S3T54C** NVIDIA RTX 4000 Ada
+Graphics Accelerator for
+HPE
+130W Gen4
+x16
+4 30°C 30°C 30°C 30°C 30°C
+Notes: Accelerator information table indicated the limited support inlet temperature with both External GPU Fan Kit and
+Redundant Fan Kit selected on various configurations.
+* With limited configuration: 2 Processors, up to 2 GPUs installed on Secondary Riser Kit with External GPU Fan Kit on slot 9.
+** External GPU Fan Kit is not required for NVIDIA RTX 4000 Ada GPU.
+HPE Boot Controllers
+HPE NS204i-u Gen11 NVMe Hot Plug Boot Optimized Storage Device P48183-B21
+Notes:
+- When NS204i-u is selected, Second CPU Fan Kit (P47902-B21) and ML350 Gen11 NS204i-u Enablement Kit (P48403-
+B21) is required.
+- When NS204i-u is selected, up to 8 SATA drives within LFF CTO Server can be supported with embedded controller.
+- Support limited to 25°C maximum inlet temperature with 3 SFF/LFF Drive Cages selected without Redundant Fan Kit
+(P47219-B21).
+- System fans may operate at higher speed and higher acoustic level to maintain optimum system cooling condition while
+NS204i-u is installed.
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 48
+HPE ProLiant ML350 Gen11 NS204i-u Enablement Kit P48403-B21
+Notes: When NS204i-u is selected, this Enablement Kit is required.
+HPE Optical Drives
+HPE 9.5mm SATA DVD-ROM Optical Drive 726536-B21
+HPE 9.5mm SATA DVD-RW Optical Drive 726537-B21
+HPE Mobile USB DVD-RW Optical Drive 701498-B21
+HPE Storage Controllers
+Storage Controllers
+Notes:
+- When selecting SR RAID controllers for external storage (E208e-p, 804398-B21) and MR RAID controllers for internal
+storage(MR216i/MR416i/MR408i) in the order, please be aware these two products use different RAID configuration tools.
+- Not supporting mixing of MR (MegaRAID) series internal controllers and SR (SmartRAID) series internal Controllers.
+- OCP-type RAID (OROC) controller is only supported on Slot 14 OCP 1.
+- OCP 1 enablement kit is not required for OROC controllers listed below.
+- For more information on the HPE Gen11 Storage Controller, please refer to:
+HPE Compute MR Gen11 Controllers Quick Specs
+HPE Compute SR Gen11 Controllers Quick Specs
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 49
+Essential RAID Controllers
+HPE Smart Array E208e-p SR Gen10 (8 External Lanes/No Cache) 12G SAS PCIe Plug-in Controller 804398-B21
+Notes: This controller supports up to 8 SAS/SATA Drives (external)
+For more information on the HPE Smart Array E208i-p SR Gen10 Controller, please refer to the QuickSpecs
+Tri-mode RAID Controllers
+HPE MR216i-o Gen11 x16 Lanes without Cache OCP SPDM Storage Controller P47789-B21
+Notes:
+- Does not occupy a PCIe expansion slot.
+- This controller supports up to 16 SAS/SATA/NVMe Drives with RAID 0/1/10.
+HPE MR216i-p Gen11 x16 Lanes without Cache PCI SPDM Plug-in Storage Controller P47785-B21
+Notes: This controller supports up to 16 SAS/SATA/NVMe Drives with RAID 0/1/10.
+HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller P58335-B21
+Notes:
+- Does not occupy a PCIe expansion slot.
+- This controller supports up to 8 SAS/SATA/NVMe Drives
+- HPE 96W Smart Storage Battery (P01367-B21) or HPE Smart Hybrid Capacitor (P02381-B21) must be selected with this
+controller.
+HPE MR416i-o Gen11 x16 Lanes 8GB Cache OCP SPDM Storage Controller P47781-B21
+Notes:
+- Does not occupy a PCIe expansion slot.
+- This controller supports up to 16 SAS/SATA/NVMe Drives
+- HPE 96W Smart Storage Battery (P01367-B21) or HPE Smart Hybrid Capacitor (P02381-B21) must be selected with this
+controller.
+HPE MR416i-p Gen11 x16 Lanes 8GB Cache PCI SPDM Plug-in Storage Controller P47777-B21
+Notes:
+- This controller supports up to 16 SAS/SATA/NVMe Drives
+- HPE 96W Smart Storage Battery (P01367-B21) or HPE Smart Hybrid Capacitor (P02381-B21) must be selected with this
+controller.
+HPE SR932i-p Gen11 x32 Lanes 8GB Wide Cache PCI SPDM Plug-in Storage Controller P47184-B21
+Notes:
+- This controller supports up to 32 SAS/SATA/NVMe Drives
+- HPE 96W Smart Storage Battery (P01367-B21) or HPE Smart Hybrid Capacitor (P02381-B21) must be selected with this
+controller.
+- This controller requires PCIe x16 bandwidth. 2x16 Primary FIO Riser Kit (P48406-B21) or 2x16 Secondary Riser Kit
+(P47238-B21) is required.
+Controller Battery Cable Kits
+HPE 96W Smart Storage Lithium-ion Battery with 260mm Cable Kit P01367-B21
+HPE Smart Storage Hybrid Capacitor with 260mm Cable Kit P02381-B21
+Notes: The two 260mm cable kit can't be selected together.
+HPE ProLiant ML350 Gen11 Smart Storage Battery Cable Kit P58199-B21
+Notes: This cable kit is required when one of battery kits (P02377-B21, P01366-B21) is selected.
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 50
+Software RAID
+Notes:
+- Intel VROC NVMe feature is not supported with 4510, 4509Y and 3508U processors.
+- Requires UEFI, not supported in Legacy Mode.
+- For NVMe SSDs only, no PCIe card support.
+Additional steps are required for OS installation with Intel VROC, please refer to the link:
+Intel Virtual RAID on CPU for HPE Gen11 User Guide - Installing OS on the Intel VROC RAID
+Intel Virtual RAID on CPU RAID 1 FIO Software for HPE S3Q19A
+Notes:
+- Support RAID 1
+Intel Virtual RAID on CPU RAID 1 E-RTU for HPE S3Q39AAE
+Notes:
+- Support RAID 1
+- Similar to Intel Virtual RAID on CPU Standard FIO Software for HPE (S3Q19A), but intended for field deployments (BTO).
+Intel Virtual RAID on CPU Premium FIO Software for HPE R7J57A
+Notes:
+- Support RAID 0/1/5/10
+Intel Virtual RAID on CPU Premium E-RTU for HPE R7J59AAE
+Notes:
+- Support RAID 0/1/5/10
+- Similar to Intel Virtual RAID on CPU Premium FIO Software for HPE (R7J57A), but intended for field deployments (BTO).
+HPE Drives
+HPE Hard Disk Drives
+Notes Enterprise - 12G SAS - SFF Drives
+* HPE 300GB SAS 12G Mission Critical 15K SFF BC 3-year Warranty Multi Vendor
+HDD
+P28028-B21
+HPE 300GB SAS 12G Mission Critical 10K SFF BC 3-year Warranty Multi Vendor HDD P40430-B21
+* HPE 600GB SAS 12G Mission Critical 15K SFF BC 3-year Warranty Multi Vendor HDD P53560-B21
+HPE 600GB SAS 12G Mission Critical 10K SFF BC 3-year Warranty Multi Vendor HDD P53561-B21
+* HPE 900GB SAS 12G Mission Critical 15K SFF BC 3-year Warranty Multi Vendor HDD P40432-B21
+HPE 1.2TB SAS 12G Mission Critical 10K SFF BC 3-year Warranty Multi Vendor HDD P28586-B21
+HPE 1.8TB SAS 12G Mission Critical 10K SFF BC 3-year Warranty 512e Multi Vendor HDD P53562-B21
+HPE 2.4TB SAS 12G Mission Critical 10K SFF BC 3-year Warranty 512e Multi Vendor HDD P28352-B21
+HPE 1.2TB SAS 12G Mission Critical 10K SFF BC 3-year Warranty Self-encrypting FIPS HDD P28622-B21
+HPE 2.4TB SAS 12G Mission Critical 10K SFF BC 3-year Warranty 512e Self-encrypting FIPS
+HDD
+P28618-B21
+Notes: *Support limited to 25°C maximum inlet temperature with 15K rpm SAS drives and system fans may operate at
+higher speed and higher acoustic level to maintain optimum system cooling condition.
+Business Critical - 12G SAS - LFF Drives
+HPE 2TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Multi Vendor HDD 833926-B21
+HPE 4TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Multi Vendor HDD 833928-B21
+HPE 6TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty 512e Multi Vendor HDD 861746-B21
+HPE 8TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty 512e Multi Vendor HDD 834031-B21
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 51
+HPE 12TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e Multi Vendor
+HDD
+881781-B21
+HPE 14TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e Multi Vendor
+HDD
+P09155-B21
+HPE 16TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE Multi
+Vendor HDD
+P23608-B21
+HPE 20TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE Multi
+Vendor HDD
+P53553-B21
+Business Critical - 12G SAS - SFF Drives
+HPE 1TB SAS 12G Business Critical 7.2K SFF BC 1-year Warranty HDD P53563-B21
+HPE 2TB SAS 12G Business Critical 7.2K SFF BC 1-year Warranty 512e HDD P28505-B21
+Business Critical - 6G SATA - LFF Drives
+HPE 1TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Multi Vendor HDD 861686-B21
+HPE 2TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Multi Vendor HDD 861681-B21
+HPE 4TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Multi Vendor HDD 861683-B21
+HPE 6TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty 512e Multi Vendor HDD 861742-B21
+HPE 8TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty 512e Multi Vendor HDD 834028-B21
+HPE 12TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e Multi Vendor HDD 881787-B21
+HPE 16TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE Multi Vendor
+HDD
+P23449-B21
+HPE 18TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE Multi Vendor
+HDD
+P37678-B21
+HPE 20TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE Multi Vendor
+HDD
+P53554-B21
+Business Critical - 6G SATA - SFF Drives
+HPE 1TB SATA 6G Business Critical 7.2K SFF BC 1-year Warranty HDD P28610-B21
+HPE 2TB SATA 6G Business Critical 7.2K SFF BC 1-year Warranty 512e HDD P28500-B21
+Notes: Requirements for MR Tri-mode controller SED support
+- TPM is not required for Local Key Management as key is stored in controller.
+- iLO Advanced is required for Remote Key Management. Key is stored in remote key manager. (Ex. ESKM)
+SSD Selection
+For SSD selection guidance, please visit https://ssd.hpe.com/
+Notes: LFF backplane only supports up to 12G SAS.
+Read Intensive - 12G/24G SAS - SFF - Solid State Drives
+HPE 960GB SAS 12G Read Intensive SFF BC Value SAS Multi Vendor SSD P40506-B21
+HPE 1.92TB SAS 12G Read Intensive SFF BC Value SAS Multi Vendor SSD P40507-B21
+HPE 3.84TB SAS 12G Read Intensive SFF BC Value SAS Multi Vendor SSD P40508-B21
+HPE 7.68TB SAS 12G Read Intensive SFF BC Value SAS Multi Vendor SSD P40509-B21
+HPE 960GB SAS 24G Read Intensive SFF BC Multi Vendor SSD P49029-B21
+HPE 1.92TB SAS 24G Read Intensive SFF BC Multi Vendor SSD P49031-B21
+HPE 3.84TB SAS 24G Read Intensive SFF BC Multi Vendor SSD P49035-B21
+HPE 7.68TB SAS 24G Read Intensive SFF BC Multi Vendor SSD P49041-B21
+HPE 15.36TB SAS 24G Read Intensive SFF BC Multi Vendor SSD P49045-B21
+HPE 7.68TB SAS 24G Read Intensive SFF BC Self-encrypting FIPS PM6 SSD P41399-B21
+HPE 3.84TB SAS Read Intensive SFF BC Self-encrypting FIPS 140-2 PM7 SSD P63875-B21
+Mixed Use - 12G/24G SAS - SFF - Solid State Drives
+HPE 960GB SAS 12G Mixed Use SFF BC Value SAS Multi Vendor SSD P40510-B21
+HPE 1.92TB SAS 12G Mixed Use SFF BC Value SAS Multi Vendor SSD P40511-B21
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 52
+HPE 3.84TB SAS 12G Mixed Use SFF BC Value SAS Multi Vendor SSD P40512-B21
+HPE 800GB SAS 24G Mixed Use SFF BC Multi Vendor SSD P49047-B21
+HPE 1.6TB SAS 24G Mixed Use SFF BC Multi Vendor SSD P49049-B21
+HPE 3.2TB SAS 24G Mixed Use SFF BC Multi Vendor SSD P49053-B21
+HPE 6.4TB SAS 24G Mixed Use SFF BC Multi Vendor SSD P49057-B21
+HPE 1.6TB SAS 24G Mixed Use SFF BC Self-encrypting FIPS PM6 SSD P41401-B21
+HPE 1.6TB SAS Mixed Use SFF BC Self-encrypting FIPS 140-2 PM7 SSD P63871-B21
+Mixed Use - LFF- Solid State Drives
+HPE 960GB SAS 12G Mixed Use LFF LPC Value SAS Multi Vendor SSD P37009-B21
+Mixed Use - 6G SATA - SFF - Solid State Drives
+HPE 960GB SATA 6G Mixed Use SFF BC Self-encrypting 5400M SSD P58244-B21
+HPE 1.92TB SATA 6G Mixed Use SFF BC Self-encrypting 5400M SSD P58248-B21
+HPE 480GB SATA 6G Mixed Use SFF BC Multi Vendor SSD P40502-B21
+HPE 960GB SATA 6G Mixed Use SFF BC Multi Vendor SSD P40503-B21
+HPE 1.92TB SATA 6G Mixed Use SFF BC Multi Vendor SSD P40504-B21
+HPE 3.84TB SATA 6G Mixed Use SFF BC Multi Vendor SSD P40505-B21
+Read Intensive - 6G SATA - SFF - Solid State Drives
+HPE 480GB SATA 6G Read Intensive SFF BC Self-encrypting 5400P SSD P58236-B21
+HPE 1.92TB SATA 6G Read Intensive SFF BC Self-encrypting 5400P SSD P58240-B21
+HPE 240GB SATA 6G Read Intensive SFF BC Multi Vendor SSD P40496-B21
+HPE 480GB SATA 6G Read Intensive SFF BC Multi Vendor SSD P40497-B21
+HPE 960GB SATA 6G Read Intensive SFF BC Multi Vendor SSD P40498-B21
+HPE 1.92TB SATA 6G Read Intensive SFF BC Multi Vendor SSD P40499-B21
+HPE 3.84TB SATA 6G Read Intensive SFF BC Multi Vendor SSD P40500-B21
+HPE 7.68TB SATA 6G Read Intensive SFF BC Multi Vendor SSD P40501-B21
+HPE 480GB SATA 6G Read Intensive SFF BC PM893a SSD P63886-B21
+HPE 3.84TB SATA 6G Read Intensive SFF BC PM893a SSD P63910-B21
+Read Intensive --
+- 6G SATA - LFF --
+- Solid State Drives
+HPE 960GB SATA 6G Read Intensive LFF LPC Multi Vendor SSD P47808-B21
+Mixed Use - NVMe - SFF - Solid State Drives
+HPE 1.6TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PM1735a SSD P50227-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PM1735a SSD P50230-B21
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PM1735a SSD P50233-B21
+HPE 800GB NVMe Gen4 Mainstream Performance Mixed Use SFF BC U.3 Static V2 Multi Vendor
+SSD
+P64999-B21
+HPE 1.6TB NVMe Gen4 Mainstream Performance Mixed Use SFF BC U.3 Static V2 Multi Vendor
+SSD
+P65007-B21
+HPE 3.2TB NVMe Gen4 Mainstream Performance Mixed Use SFF BC U.3 Static V2 Multi Vendor
+SSD
+P65015-B21
+HPE 6.4TB NVMe Gen4 Mainstream Performance Mixed Use SFF BC U.3 Static V2 Multi Vendor
+SSD
+P65023-B21
+HPE 1.6TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 CM7 SSD P63845-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 CM7 SSD P63849-B21
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 CM7 SSD P63853-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PS1030 SSD P70426-B21
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PS1030 SSD P70428-B21
+Read Intensive --
+- NVMe - SFF - Solid State Drives
+HPE 1.92TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a SSD P50216-B21
+HPE 3.84TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a SSD P50219-B21
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 53
+HPE 7.68TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a SSD P50222-B21
+HPE 15.36TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a SSD P50224-B21
+HPE 3.84TB NVMe Gen4 High Performance Read Intensive SFF BC Self-encrypting FIPS U.3 CM6 SSD P41403-B21
+HPE 960GB NVMe Gen4 Mainstream Performance Read Intensive SFF BC U.3 Static V2 Multi Vendor SSD P64842-B21
+HPE 1.92TB NVMe Gen4 Mainstream Performance Read Intensive SFF BC U.3 Static V2 Multi Vendor SSD P64844-B21
+HPE 3.84TB NVMe Gen4 Mainstream Performance Read Intensive SFF BC U.3 Static V2 Multi Vendor SSD P64846-B21
+HPE 7.68TB NVMe Gen4 Mainstream Performance Read Intensive SFF BC U.3 Static V2 Multi Vendor SSD P64848-B21
+HPE 1.92TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63829-B21
+HPE 3.84TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63833-B21
+HPE 7.68TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63837-B21
+HPE 15.36TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63841-B21
+HPE 15.36TB NVMe Gen4 Mainstream Performance Read Intensive SFF BC U.3 Static SPDM Multi Vendor
+SSD
+P69255-B21
+HPE 7.68TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PS1010 SSD P70434-B21
+HPE 15.36TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PS1010 SSD P70436-B21
+Very Read Optimized --
+- NVMe - EDSFF - Solid State Drives
+HPE 3.84TB NVMe Gen4 Mainstream Performance Very Read Optimized E3S EC1 EDSFF P5430 SSD P63930-B21
+HPE 7.68TB NVMe Gen4 Mainstream Performance Very Read Optimized E3S EC1 EDSFF P5430 SSD P63934-B21
+HPE 15.36TB NVMe Gen4 Mainstream Performance Very Read Optimized E3S EC1 EDSFF P5430 SSD P63938-B21
+Read Intensive --
+- NVMe - EDSFF - Solid State Drives
+HPE 3.84TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM PM1743 SSD P57799-B21
+HPE 7.68TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM PM1743 SSD P57803-B21
+HPE 15.36TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM PM1743 SSD P57807-B21
+Notes:
+- NVMe EDSFF drive can only be selected with 12EDSFF FIO Drive Cage Kit (P48401-B21).
+- NVMe EDSFF drives are limited to 25°C maximum inlet temperature and system fans may operate at higher speed and
+higher acoustic level to maintain optimum system cooling condition while EDSFF is installed.
+- HPE has qualified the NVMe drive portfolio using the Operating System inbox drivers, full detail on the HPE Solid State
+Drive QuickSpecs.
+HPE Networking
+Notes:
+- Maximum 2 OCP adapters are supported, Networking OCP3 adapter uses Slot 15 OCP 2 slot in default.
+- WOL and shared NIC function are only supported in Slot 15 OCP 2 slot.
+- OCP2 Enablement Kit is required when installing OCP card in Slot 15 OCP 2 slot.
+- Slot 14 OCP1 slot provides x8 PCIe 5.0 lanes from system board, additional OCP1 Enablement Kit for x16 OCP NIC to
+install on Slot 14 OCP1 is not required with following adapters unless otherwise notice.
+- High performance networking card is equaled or greater than 100Gb that may cause the fans to operate at higher speed
+and higher acoustic level to maintain optimum system cooling when system at idle status.
+- Direct Attach Cable (DAC) for copper environments or fiber transceivers and cables for fiber-optic environments must be
+purchased separately. Please see the related NIC QuickSpecs for Technical Specifications and additional information:
+https://h20195.www2.hpe.com/v2/getpdf.aspx/A00002507ENW.
+PCIe Adapters
+1 Gigabit Ethernet adapters
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T Adapter for HPE P51178-B21
+Intel I350-T4 Ethernet 1Gb 4-port BASE-T Adapter for HPE P21106-B21
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 54
+10 Gigabit Ethernet adapters
+Broadcom BCM57416 Ethernet 10Gb 2-port BASE-T Adapter for HPE P26253-B21
+Broadcom BCM57412 Ethernet 10Gb 2-port SFP+ Adapter for HPE P26259-B21
+Notes 10/25 Gigabit Ethernet adapters
+Broadcom BCM57414 Ethernet 10/25Gb 2-port SFP28 Adapter for HPE P26262-B21
+* Broadcom BCM57504 Ethernet 10/25Gb 4-port SFP28 Adapter for HPE P26264-B21
+Intel E810-XXVDA2 Ethernet 10/25Gb 2-port SFP28 Adapter for HPE P08443-B21
+Mellanox MCX631102AS-ADAT Ethernet 10/25Gb 2-port SFP28 Adapter for HPE P42044-B21
+* Intel E810-XXVDA4 Ethernet 10/25Gb 4-port SFP28 Adapter for HPE P08458-B21
+HPE Ethernet 10/25Gb 2-port Secure Network Adapter S2A69A
+100 Gigabit Ethernet adapters
+* Intel E810-CQDA2 Ethernet 100Gb 2-port QSFP28 Adapter for HPE P21112-B21
+* HPE NV60100M 100Gb 2-port Storage Offload Adapter R8M41A
+Notes: * The controllers require PCIe x16 bandwidth. 2x16 Primary FIO Riser Kit (P48406-B21) or 2x16 Secondary Riser Kit
+(P47238-B21) is required.
+OCP Adapter
+1 Gigabit Ethernet OCP adapters
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE P51181-B21
+Intel I350-T4 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE P08449-B21
+10 Gigabit Ethernet OCP Adapters
+Broadcom BCM57412 Ethernet 10Gb 2-port SFP+ OCP3 Adapter for HPE P26256-B21
+Broadcom BCM57416 Ethernet 10Gb 2-port BASE-T OCP3 Adapter for HPE P10097-B21
+10/25 Gigabit Ethernet OCP adapters
+Intel E810-XXVDA2 Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter for HPE P10106-B21
+Mellanox MCX631432AS-ADAI Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter for HPE P42041-B21
+Broadcom BCM57414 Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter for HPE P10115-B21
+Broadcom BCM57504 Ethernet 10/25Gb 4-port SFP28 OCP3 Adapter for HPE P26269-B21
+Notes: OCP1 Enablement Kit is required for this adapter when install in OCP1 slot.
+100 Gigabit Ethernet adapters
+Intel E810-CQDA2 Ethernet 100Gb 2-port QSFP28 OCP3 Adapter for HPE P22767-B21
+Notes: OCP1 Enablement Kit is required for this adapter when install in OCP1 slot.
+HPE InfiniBand
+Notes:
+- When AOC (Active Optical Cables) and processors TDP greater than 270W are selected, limited to 25°C maximum inlet
+temperature is supported with all drive cage combinations.
+- When AOC (Active Optical Cables) and processors TDP equal or less than 270W are selected, limited to 25°C maximum
+inlet temperature is supported with 8SFF x4 U.3 Tri-Mode FIO Drive Cage Kit (P47218-B21), 12EDSFF FIO Drive Cage Kit
+(P48401-B21) or 3 SFF/LFF drive cages configuration.
+- InfiniBand controllers require PCIe x16 bandwidth. 2x16 Primary FIO Riser Kit (P48406-B21) or 2x16 Secondary Riser Kit
+(P47238-B21) is required.
+HPE InfiniBand HDR100/Ethernet 100Gb 1-port QSFP56 PCIe4 x16 MCX653105A-ECAT Adapter P23665-B21
+HPE InfiniBand HDR100/Ethernet 100Gb 2-port QSFP56 PCIe4 x16 MCX653106A-ECAT Adapter P23666-B21
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 55
+HPE Power Supplies
+HPE Flexible Slot (Flex Slot) Power Supplies share a common electrical and physical design that allows for hot plug, tool-less
+installation into HPE ProLiant Servers. Flex Slot power supplies are certified for high-efficiency operation and offer multiple power
+output options, allowing users to "right-size" a power supply for specific server configurations. This flexibility helps to reduce power
+waste, lower overall energy costs, and avoid "trapped" power capacity in the data center.
+Notes:
+- Prior to making a power supply selection it is highly recommended that the HPE Power Advisor Tool is run to determine
+the right size power supply for your server configuration.
+- Visit HPE Power Cords and Cables for a full list of optional power cords.
+- Flex Slot Platinum power supplies support power efficiency of up to 94% and include a standard C-14 power inlet
+connector.
+- Flex Slot Titanium power supplies support power efficiency of up to 96% and include a standard C-14 power inlet
+connector.
+HPE 500W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 865408-B21
+Notes: Support limited to single 125W TDP processor configuration.
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit P38995-B21
+HPE 1000W Flex Slot Titanium Hot Plug Power Supply Kit P03178-B21
+HPE 1600W Flex Slot -48VDC Hot Plug Power Supply Kit P17023-B21
+Notes:
+- Flex Slot universal power supplies support power efficiency of up to 94% and support both 277VAC/380VDC power inputs.
+- HPE 1600W DC PSU Power Lug Option Kit (P36877-B21) must be selected along with this power supplies.
+HPE 1600W -48VDC Power Cable Lug Kit P36877-B21
+Notes: Must be selected along with HPE 1600W Flex Slot -48VDC Hot Plug Power Supply Kit (P17023-B21)
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit P38997-B21
+HPE 1800W-2200W Flex Slot Titanium Hot Plug Power Supply Kit P44712-B21
+Embedded Management
+HPE iLO Advanced
+HPE iLO Advanced Electronic License with 1yr Support on iLO Licensed Features E6U59ABE
+HPE iLO Advanced Electronic License with 3yr Support on iLO Licensed Features E6U64ABE
+HPE iLO Advanced 1-server License with 3yr Support on iLO Licensed Features BD505A
+HPE iLO Advanced Flexible Quantity License with 3yr Support on iLO Licensed Features BD506A
+HPE iLO Advanced AKA Tracking License with 3yr Support on iLO Licensed Features BD507A
+HPE iLO Advanced 1-server License with 1yr Support on iLO Licensed Features 512485-B21
+HPE iLO Advanced Flexible Quantity License with 1yr Support on iLO Licensed Features 512486-B21
+HPE iLO Advanced AKA Tracking License with 1yr Support on iLO Licensed Features 512487-B21
+HPE iLO Common Password Setting
+HPE iLO Common Password FIO Setting P08040-B21
+Notes:
+- Replaces iLO default randomized password by an HPE defined common password. HPE highly recommends changing this
+password immediately after the initial onboarding process.
+- Customers who want to choose their own custom iLO default password should use the HPE Factory Express Integration
+Services.
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 56
+HPE Security
+HPE ProLiant ML350/ML110 Gen11 Intrusion Cable Kit P47226-B21
+HPE Cable Options
+Notes: For details on cabling options and cable routing instructions, refer to HPE ML350 Gen11 User Guide
+HPE ProLiant ML350 Gen11 LFF Embedded SATA Cable Kit P47225-B21
+Notes: This cable kit supports up to 3x 4LFF drive cages with embedded SATA controller.
+HPE ProLiant ML350 Gen11 SFF Embedded SATA Cable Kit P47232-B21
+Notes: This cable kit supports up to 1x 8SFF drive cage with embedded SATA controller.
+HPE ProLiant ML350 Gen11 LFF OROC Cable Kit P47229-B21
+Notes: This cable kit supports up to 3x 4LFF drive cages with HPE OCP-type RAID controller (OROC).
+HPE ProLiant ML350 Gen11 SFF OROC Cable Kit P47235-B21
+Notes: This cable kit supports up to 2x 8SFF drive cages with HPE OCP-type RAID controller (OROC).
+HPE ProLiant ML350 Gen11 LFF SAS/SATA PCIe Controller Cable Kit P47227-B21
+Notes: This cable kit supports up to 3x 4LFF drive cages with HPE stand-up PCIe storage controller.
+HPE ProLiant ML350 Gen11 SFF Tri-Mode PCIe Controller Cable Kit P47233-B21
+Notes: This cable kit supports up to 3x 8SFF drive cages with HPE stand-up PCIe storage controller.
+HPE ProLiant ML350 Gen11 8NVMe x4 Direct Attach FIO Cable Kit P48399-B21
+Notes: This cable kit must be selected with 8SFF x4 U.3 Tri-Mode FIO Drive Cage Kit (P47218-B21) for direct attached.
+HPE ProLiant ML350 Gen11 8SFF x4 U.3 Tri-Mode FIO Cable Kit P47234-B21
+Notes: This cable kit must be selected with 8SFF x4 U.3 Tri-Mode FIO Drive Cage Kit (P47218-B21) and SR932i-p
+(P47184-B21) for controller attached mode.
+HPE ProLiant ML350 Gen11 12EDSFF x4 Direct Attach FIO Cable Kit P48400-B21
+Notes: This cable kit must be selected with HPE ProLiant ML350 Gen11 12EDSFF FIO Drive Cage Kit (P48401-21).
+HPE ProLiant ML350 Gen11 OCP1 Enablement Kit P47230-B21
+Notes: This cable kit must be selected to support x16 OCP NIC adapter on OCP 1 slot with 1P configuration. CPU 1
+MCIO connector will be occupied.
+HPE ProLiant ML350 Gen11 OCP2 Enablement Kit P47231-B21
+Notes: This cable kit must be selected when 2 OCP adapters are ordered. Depends on OCP adapter requirement (x8 or x16)
+and 1P or 2P configuration, one or two MCIO connectors will be occupied.
+HPE ProLiant ML350 Gen11 Serial Port Cable Kit P55062-B21
+HPE Tape Backup
+For the complete range of tape drives, autoloaders, libraries and media see:
+LTO Ultrium tape QuickSpecs
+For hardware and software compatibility of Hewlett Packard Enterprise tape backup products
+https://h20272.www2.hpe.com/SPOCK/Pages/spock2Html.aspx?htmlFile=hw_storeever.html
+Notes:
+- When RDX ordered, Tertiary Riser Kit (P49693-B21) is required.
+- Support one internal RDX installation in Box 1 location.
+- Change the Thermal Configuration to Increased Cooling mode in BIOS/Platform Configuration (RBSU) menu when internal
+RDX is installed.
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 57
+HPE Tape Drives
+HPE StoreEver LTO-8 Ultrium 30750 External Tape Drive BC023A
+HPE StoreEver LTO-9 Ultrium 45000 External Tape Drive BC042A
+HPE StoreEver LTO-7 Ultrium 15000 External Tape Drive BB874A
+HPE Tape Drives Cartridge
+HPE LTO-6 Ultrium 6.25TB RW Data Cartridge C7976A
+HPE LTO-7 Ultrium 15TB RW Data Cartridge C7977A
+HPE LTO-8 Ultrium 30TB RW Data Cartridge Q2078A
+HPE LTO-9 Ultrium 45TB RW Data Cartridge Q2079A
+HPE Tape Backup Products
+HPE StoreEver Mini-SAS High Density to 4-lane Mini-SAS External Fanout 2m Cable K2R09A
+HPE StoreEver Mini-SAS High Density to 4-lane Mini-SAS External Fanout 4m Cable K2R10A
+HPE RDX Products
+HPE RDX External Docking Station C8S07B
+HPE RDX Internal Docking Station C8S06A
+HPE RDX 4TB Removable Disk Cartridge Q2048A
+HPE RDX 2TB Removable Disk Cartridge Q2046A
+HPE RDX 500GB Removable Disk Cartridge Q2042A
+HPE RDX 1TB Removable Disk Cartridge Q2044A
+Internal RDX Support Kit
+HPE ProLiant ML350 Gen11 Internal RDX Support Kit P49694-B21
+Notes: Supporting cables to add additional internal RDX device for data backup or archiving.
+HPE Storage Options
+Emulex Fibre Channel HBAs
+HPE SN1610E 32Gb 1-port Fibre Channel Host Bus Adapter R2J62A
+HPE SN1610E 32Gb 2-port Fibre Channel Host Bus Adapter R2J63A
+HPE SN1700E 64Gb 1-port Fibre Channel Host Bus Adapter R7N77A
+HPE SN1700E 64Gb 2-port Fibre Channel Host Bus Adapter R7N78A
+QLogic Fibre Channel HBAs
+HPE SN1610Q 32Gb 1-port Fibre Channel Host Bus Adapter R2E08A
+HPE SN1610Q 32Gb 2-port Fibre Channel Host Bus Adapter R2E09A
+HPE SN1700Q 64Gb 1-port Fibre Channel Host Bus Adapter R7N86A
+HPE SN1700Q 64Gb 2-port Fibre Channel Host Bus Adapter R7N87A
+Notes: For the complete listing of Fibre Channel Converged Network Adapters please see:
+https://www.hpe.com/us/en/product-catalog/servers/adapters
+HPE Racks
+· Please see the HPE Advanced Series Racks QuickSpecs for information on additional racks options and rack
+specifications. HPE G2 Advanced Series Racks
+· Please see the HPE Enterprise Series Racks QuickSpecs for information on additional racks options and rack
+specifications. HPE G2 Enterprise Series Racks
+QuickSpecs HPE ProLiant ML350 Gen11
+Additional Options
+Page 58
+HPE Power Distribution Units (PDUs)
+· Please see the HPE Basic Power Distribution Units (PDU) QuickSpecs for information on these products and their
+specifications.
+· Please see the HPE Metered Power Distribution Units (PDU) QuickSpecs for information on these products and their
+specifications.
+· Please see the HPE Intelligent Power Distribution Unit (PDU) QuickSpecs for information on these products and their
+specifications.
+· Please see the HPE Metered and Switched Power Distribution Units (PDU) QuickSpecs for information on these
+products and their specifications.
+HPE Uninterruptible Power Systems (UPS)
+· To learn more, please visit the HPE Uninterruptible Power Systems (UPS) web page.
+· Please see the HPE DirectFlow Three Phase Uninterruptible Power System QuickSpecs for information on these
+products and their specifications.
+· Please see the HPE Line Interactive Single Phase UPS QuickSpecs for information on these products and their
+specifications.
+HPE T750 Gen5 NA/JP UPS with Management Card Slot Q1F47A
+HPE T750 Gen5 INTL UPS with Management Card Slot Q1F48A
+HPE T1000 Gen5 NA/JP UPS with Management Card Slot Q1F49A
+HPE T1000 Gen5 INTL UPS with Management Card Slot Q1F50A
+HPE T1500 Gen5 NA/JP UPS with Management Card Slot Q1F51A
+HPE T1500 Gen5 INTL UPS with Management Card Slot Q1F52A
+HPE Rack Options
+Please see the HPE KVM Switches web page for information on these products and their specifications.
+Rail Kits
+HPE ProLiant ML350/ML110 Gen11 T/R Conversion Kit P47394-B21
+Notes:
+- Easy install rack rail tray which takes up 1U height in a standard rack facility.
+- This kit is supported in both ML350 and ML110 Gen11 for tower to rack conversion.
+- This kit includes CMA and is shipped as standard.
+- This kit is not factory integratable option and only can be shipped with standalone package.
+- HPE rail kits are designed to work with HPE racks in compliance with industry standard EIA-310-E. In the event a
+customer elects to purchase a third-party rack for use with an HPE rail kit, any such use is at customer's own risk. HPE
+makes no express or implied warranties with respect to such third-party racks and specifically disclaims any implied
+warranties of merchantability and fitness for a particular purpose. Furthermore, HPE has no obligation and assumes no
+liability for the materials, design, specifications, installation, safety, and compatibility of any such third-party racks with any
+rail kits, including HPE rail kits.
+QuickSpecs HPE ProLiant ML350 Gen11
+Memory
+Page 59
+Memory Population guidelines
+HPE ML350 Gen11 Server (Front of server)
+Notes: 2 Slots per channel
+HPE ProLiant ML350 Gen11 Servers 16 slots per CPU DIMM population order
+1 DIMM 10
+2 DIMMs2 3 10
+4 DIMMs2 3 7 10 14
+6 DIMMs 3 5 7 10 14 16
+8 DIMMs1,2 1 3 5 7 10 12 14 16
+12 DIMMs 1 2 3 5 6 7 10 11 12 14 15 16
+16 DIMMs1,2 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+Notes:
+- 1. Support SGX (Software Guard Extensions)
+- 2 Support Hemi (hemisphere mode)
+General Memory Population Rules and Guidelines:
+· Install DIMMs only if the corresponding processor is installed. If only one processor is installed in a 2-processor system,
+only half of the DIMM slots are available to populate.
+· If a memory channel consists of more than one DIMM slot, the white DIMM slot is located furthest from the CPU. White
+DIMM slots denote the first slot to be populated in a channel. For one DIMM per channel (DPC), populate white DIMM
+slots only
+· Rank mixing is not allowed on a channel except for 1 rank + 2 rank combination when all 16 DIMMs for a Processor
+socket is populated. (2 rank in white slot, 1 rank in block slot),
+· No x4 mixing with x8 across a socket.
+· If multiple CPUs are populated, split the HPE Smart Memory DIMMs evenly across the CPUs and follow the corresponding
+CPU rules when populating DIMMs.
+· To maximize performance, it is recommended to balance the total memory capacity across all installed processors and
+load the channels similarly whenever possible.
+· If the number of DIMMs does not spread evenly across the CPUs, populate as close to evenly as possible.
+· Avoid creating an unbalanced configuration for any CPU.
+QuickSpecs HPE ProLiant ML350 Gen11
+Memory
+Page 60
+· The maximum memory capacity is a function of the number of DIMM slots on the platform----
+-the largest DIMM capacity
+qualified on the platform and the number and model of qualified processors installed on the platform.
+· Do not mix HPE Smart Memory RDIMMs and HPE Smart Memory LRDIMMs in the same system.
+· The 256 GB 8R 3DS RDIMM can be mixed with 128 GB 4R 3DS RDIMM ONLY in 16 DIMMs populated. 256 GB 8R 3DS
+RDIMM needs to be in white slot while 128 GB 4R 3DS RDIMM needs to be in black slot.
+· The maximum memory speed is a function of the memory type, memory configuration, and processor model.
+· DIMMs of different speeds may be mixed in any order; however, the server will select the lowest common speed among all
+of the DIMMs on all of the CPUs.
+· HPE Smart Memory DIMMs and HPE NVDIMM-Ns from previous generation servers are not compatible with the current
+generation. Certain HPE Smart Memory features such as memory authentication and enhanced performance may not be
+supported.
+· There are no performance implications for mixing sets of different capacity DIMMs at the same operating speed. For
+example, latency and throughput will not be negatively impacted by installing an equal number of 32 GB 1rank x4 DDR5-
+4800 DIMMs (in block slot) and 64 GB 2rank x4 DDR5-4800 DIMMs (in white slot).
+· Take each DIMM type and create a configuration as if it were a homogeneous configuration.
+· For details on the HPE Server Memory Options Population Rules, visit:
+http://www.hpe.com/docs/memory-population-rules.
+· For additional information, please see the HPE DDR5 Smart Memory QuickSpecs.
+Notes: The maximum memory speed is a function of the memory type, memory configuration, and processor model.
+For details on the HPE Server Memory speed, visit: https://www.hpe.com/docs/server-memory.
+QuickSpecs HPE ProLiant ML350 Gen11
+Storage
+Page 61
+12 LFF hot-plug drive model:
+Tower - shown without the tower feet.
+· 3 x 4LFF SAS/SATA hot-
+pluggable HDD/SSD Cage Kit in
+Box 1/2/3.
+24 SFF hot-plug drive model:
+Tower - shown with the tower feet.
+· 3 x 8SFF SAS/SATA/NVME hot-
+pluggable HDD/SSD Cage Kit in
+Box 1/2/3.
+8 SFF hot-plug drive model:
+Tower - shown with the tower feet.
+· 1 x 8SFF SAS/SATA/NVME or
+x4 NVME U.3 hot-pluggable
+Cage Kit in Box 3.
+4LFF hot-plug drive and RDX model:
+Tower - shown without the tower feet.
+· 1x 4LFF SAS/SATA hot-pluggable HDD/SSD Cage Kit in Box 3.
+· RDX in Box 1
+Box 1
+Box 2
+Box 3
+QuickSpecs HPE ProLiant ML350 Gen11
+Technical Specifications
+Page 62
+System Unit
+Dimensions
+· Tower
+46.2 (H) x 71.2 (D) x 17.4 (W) cm
+18.2 (H) x 28 (D) x 6.85 (W) in
+· Rack - System only
+17.4 (H/4U) x 64.8 (D) x 44.5 (W) cm
+6.85 (H) x 25.51 (D) x 17.52 (W) in
+· Tower-to-Rack Conversion Kit (1U)
+4.445 (H/1U) x 69.2 (D/without CMA. Depth with CMA: 83.5) x 45.2 (W) cm
+1.75 (H/1U) x 27.23 (D/without CMA. Depth with CMA: 32.89) x 17.795 (W) in
+Weight (approximate)
+· 24.73 kg (54.52 lb)
+SFF Minimum:
+8SFF chassis with 1x SFF HDD and 7x SFF HDD blanks, 1x HDD Drive Cage blank, 2x Media Bay blanks, 1x DVD bay
+blank, 1x processor including standard heatsink, 1x DIMM, 1x power supply (plus blank), 1x Primary Riser, 1x Riser Cage
+blank, 2x OCP blanks, Cables for the above.
+· 37.18 kg (81.97 lb)
+SFF Maximum:
+8SFF chassis with 24x SFF HDDs with 3x HDD Drive Cage, 1x DVD device, 2x processor including standard heatsink, 24x
+DIMMs, 2x power supply, 2x Primary Riser, 1x Tertiary Riser, 1x Megacell, 2x OCP, 8x Single Width GPU card, 2x x8
+HHHL card (Max. 166g), Cables for the above.
+· 27.42 kg (60.45 lb)
+LFF Minimum:
+4LFF chassis with 1x LFF HDD and 3x HDD blanks, 1x HDD Drive Cage blank, 2x Media Bay blanks, 1x DVD bay blank,
+1x processor including standard heatsink, 1x DIMM, 1x power supply (plus blank), 2x Primary Riser, 1x Tertiary Riser, 1x
+Megacell, 2x OCP blanks, 2x SR932i-p card, Cables for the above.
+· 43.05 kg (94.91 lb)
+LFF Maximum:
+4LFF chassis with 12x LFF HDDs with 3x HDD Drive Cage, 1x DVD device, 2x processor including performance heatsink,
+24x DIMMs, 2x power supply, 2x Primary Riser, 1x Tertiary Riser, 1x Megacell, 2x OCP, 4x Double Width x16 GPU card,
+2x FHHL card, 1x NS204i-u, Cables for the above.
+Input Requirements (per power supply)
+Rated Line Voltage
+· 100 to 120 VAC
+· 200 to 240 VAC
+· 40 to 72 VDC
+BTU Rating
+Maximum
+· For 500W Power Supply: 1902 BTU/hr (at 100 VAC), 1840 BTU/hr (at 200 VAC), 1832 BTU/hr (at 240 VAC)
+· For 800W Power Supply: 3067 BTU/hr (at 100 VAC), 2958 BTU/hr (at 200 VAC), 2949 BTU/hr (at 240 VAC)
+· For 1000W Power Supply: 3741 BTU/hr (at 100 VAC), 3596 BTU/hr (at 200 VAC), 3582 BTU/hr (at 240 VAC)
+· For 1600W Power Supply: 5918 BTU/hr (at 200 VAC), 5884 BTU/hr (at 240 VAC)
+· For 1600W -48VDC Power Supply: 6026 BTU/hr (at 40 VDC), 6000 BTU/hr (at 48 VDC), 5989 BTU/hr (at 72 VDC)
+· For 1800W-2200W Power Supply: 6497 BTU/hr (at 200 VAC), 7962 BTU/hr (at 240 VAC)
+QuickSpecs HPE ProLiant ML350 Gen11
+Technical Specifications
+Page 63
+Power Supply Output (per power supply)
+Maximum Rated Output Wattage Rating
+· For 1800W-2200W (Titanium) Power Supply: 1799W (at 200 VAC), 2200W (at 240 VAC)
+· For 1600W (Platinum) Power Supply: 1600W (at 240 VAC), 1600W (at 240 VDC) for China only
+· For 1600W -48VDC Power Supply: 1600W (at 40 VDC), 1600W (at 48 VDC), 1600W (at 72 VDC)
+· For 1000W (Titanium) Power Supply: 1000W (at 100 VAC), 1000W (at 240 VAC)
+· For 800W (Platinum) Power Supply: 800W (at 100 VAC), 800W (at 240 VAC), 800W (at 240 VDC) input for China only
+· For 500W (Platinum) Power Supply: 500W (at 100 VAC), 500W (at 240 VAC), 500W (at 240 VDC) input for China only
+System Inlet Temperature
+· Standard Operating Temperature
+10° to 35°C (50° to 95°F) at sea level with an altitude derating of 1.0°C per every 305 m (1.8°F per every 1000 ft) above
+sea level to a maximum of 3050 m (10,000 ft), no direct sustained sunlight. Maximum rate of change is 20°C/hr
+(36°F/hr). The upper limit and rate of change may be limited by the type and number of options installed.
+System performance during standard operating support may be reduced if operating with a fan fault or above 30°C
+(86°F).
+· Extended Ambient Operating Temperature
+For approved hardware configurations, the supported system inlet range is extended to be: 5° to 10°C (41° to 50°F) and
+35° to 40°C (95° to 104°F) at sea level with an altitude derating of 1.0°C per every 175 m (1.8°F per every 574 ft) above
+900 m (2953 ft) to a maximum of 3050 m (10,000 ft). The approved hardware configurations for this system are listed
+at the URL: https://support.hpe.com/hpesc/public/docDisplay?docId=sd00002260en_us&docLocale=en_US
+For approved hardware configurations, the supported system inlet range is extended to be: 40° to 45°C (104° to 113°F)
+at sea level with an altitude derating of 1.0°C per every 125 m (1.8°F per every 410 ft) above 900 m (2953 ft) to a
+maximum of 3050 m (10,000 ft). The approved hardware configurations for this system are listed at the URL:
+https://support.hpe.com/hpesc/public/docDisplay?docId=sd00002260en_us&docLocale=en_US
+System performance may be reduced if operating in the extended ambient operating range or with a fan fault.
+· Non-operating
+-30° to 60°C (-22° to 140°F). Maximum rate of change is 20°C/hr (36°F/hr).
+Relative Humidity (non-condensing)
+· Operating
+8% to 90% - Relative humidity (Rh), 28°C maximum wet bulb temperature, non-condensing.
+· Non-operating
+5 to 95% relative humidity (Rh), 38.7°C (101.7°F) maximum wet bulb temperature, non-condensing..
+Altitude
+· Operating
+3050 m (10,000 ft). This value may be limited by the type and number of options installed. Maximum allowable altitude
+change rate is 457 m/min (1500 ft/min).
+· Non-operating
+9144 m (30,000 ft). Maximum allowable altitude change rate is 457 m/min (1500 ft/min).
+QuickSpecs HPE ProLiant ML350 Gen11
+Technical Specifications
+Page 64
+Emission Classification (EMC) Regulatory Information
+To view the regulatory information for your product, view the Safety and Compliance Information for Server, Storage, Power,
+Networking, and Rack Products, available at the Hewlett Packard Enterprise Support Center:
+https://support.hpe.com/hpesc/public/docDisplay?docLocale=en_US&docId=c03471072
+Environment-friendly Products and Approach End-of-life Management and Recycling
+Hewlett Packard Enterprise offers end-of-life product return, trade-in, and recycling programs, in many geographic areas, for
+our products. Products returned to Hewlett Packard Enterprise will be recycled, recovered or disposed of in a responsible manner.
+The EU WEEE directive (2002/95/EC) requires manufacturers to provide treatment information for each product type for use by
+treatment facilities. This information (product disassembly instructions) is posted on the Hewlett Packard Enterprise web site.
+These instructions may be used by recyclers and other WEEE treatment facilities as well as Hewlett Packard Enterprise OEM
+customers who integrate and re-sell Hewlett Packard Enterprise equipment.
+Acoustic Noise
+Listed are the declared mean A-Weighted sound power levels (LwAm), declared average bystander position A-Weighted sound
+pressure levels (LpAm) and the statistical adder for verification, Kv, is a quantity to be added to the declared mean A-weighted
+sound power
+level, LwA,m when the product is operating in a 23°C ambient environment. Noise emissions were measured in accordance with
+ISO 7779 (ECMA 74) and declared in accordance with ISO 9296 (ECMA 109). The listed sound levels apply to standard shipping
+configurations. Additional options may result in increased sound levels. Please have your HPE representative provide information
+from the HPE EMESC website for further technical details regarding the configurations listed below.
+Test Case Base LFF Base SFF Perf SFF 1 Perf SFF 2 Perf SFF 3
+Idle
+LwA,m 4.0 B 3.9 B 4.0 B 4.0 B 4.1 B
+LpAm 26 dBA 25 dBA 25 dBA 25 dBA 25 dBA
+Kv 0.4 B 0.4 B 0.4 B 0.4 B 0.4 B
+Operating
+LwA,m 4.1 B 4.1 B 4.1 B 4.2 B 4.2 B
+LpAm 26 dBA 26 dBA 26 dBA 26 dBA 26 dBA
+Kv 0.4 B 0.4 B 0.4 B 0.4 B 0.4 B
+Notes:
+- The declared mean A-weighted sound power level, LWA,m, is computed as the arithmetic average of the measured.
+- A-weighted sound power levels for a randomly selected sample, rounded to the nearest 0,1 B.
+- The declared mean A-weighted emission sound pressure level, LpA,m, is computed as the arithmetic average of the
+measured A-weighted emission sound pressure levels at the bystander positions for a randomly selected sample, rounded
+to the nearest 1 dB.
+- The statistical adder for verification, Kv, is a quantity to be added to the declared mean A-weighted sound power level,
+LWA,m, such that there will be a 95 % probability of acceptance, when using the verification procedures of ISO 9296, if no
+more than 6,5 % of the batch of new equipment, has A-weighted sound power levels greater than (LWA,m + Kv).
+- The quantity, LWA,c (formerly called LwA,m), can be computed from the sum of LWA,m and Kv.
+- All measurements made to conform to ISO 7779 / ECMA-74 and declared to conform to ISO 9296 / ECMA-109.
+- B, dB, abbreviations for bels and decibels, respectively, where 1 B = 10 dB.
+- The results in this declaration apply only to the model numbers listed above when operating and tested according to the
+indicated modes and standards. A system with additional configuration components or increased operating functionality
+may increase the noise emission values.
+QuickSpecs HPE ProLiant ML350 Gen11
+Summary of Changes
+Page 65
+Date Version History Action Description of Change
+15-Jul-2024 Version 22 Changed Pre-Configured Models section was updated.
+01-Jul-2024 Version 21 Changed Overview, Standard Features and Additional Options sections were updated.
+New RTX 4000 Ada GPU and NVMe drives were updated.
+17-Jun-2024 Version 20 Changed Pre-Configured Models section was updated.
+03-Jun-2024 Version 19 Changed Configuration Information and drive options were updated.
+06-May-2024 Version 18 Changed Configuration Information and Additional Options sections were updated.
+01-Apr-2024 Version 17 Changed Overview, Standard Features, Pre-Configured Models, Configuration
+Information and Additional Options sections were updated.
+18-Mar-2024 Version 16 Changed Pre-Configured section was updated.
+04-Mar-2024 Version 15 Changed Pre-configured SKUs, Networking and UPS options were updated.
+05-Feb-2024 Version 14 Changed Drive options were updated.
+08-Jan-2024 Version 13 Changed New NVMe drive options were updated.
+Energy Star 4.0 information and 96GB 5600 memory support limitation were
+updated.
+14-Dec-2023 Version 12 Changed Intel 5th Gen processors and 5600 memory options were updated.
+13-Nov-2023 Version 11 Changed New Pre-Configured SKUs were updated.
+06-Nov-2023 Version 10 Changed Service and Support section was updated.
+05-Sep-2023 Version 9 Changed Add new Lot 9 required statements and options.
+Optimized BTO/CTO SKUs content.
+07-Aug-2023 Version 8 Changed Overview and additional Options sections were updated.
+10-Jul-2023 Version 7 Changed Standard Features and Additional Options sections were updated.
+05-Jun-2023 Version 6 Changed Overview, Standard Features, Core Options, and Technical Specification
+sections were updated.
+01-May-2023 Version 5 Changed Standard Features and Core Options sections were updated.
+03-Apr-2023 Version 4 Changed Overview, Standard Features, Core Options, and Technical Specification
+sections were updated.
+06-Mar-2023 Version 3 Changed Overview, Standard Features, Core Options, and Technical Specification
+sections were updated.
+06-Feb-2023 Version 2 Changed Standard Features, Core Options, Additional Options and Technical
+Specification sections were updated.
+10-Jan-2023 Version 1 New New QuickSpecs.
+QuickSpecs HPE ProLiant ML350 Gen11
+Copyright
+Page 66
+Make the right purchase decision.
+Contact our presales specialists.
+© Copyright 2024 Hewlett Packard Enterprise Development LP. The information contained herein is subject
+to change without notice. The only warranties for Hewlett Packard Enterprise products and services are set
+forth in the express warranty statements accompanying such products and services. Nothing herein should
+be construed as constituting an additional warranty. Hewlett Packard Enterprise shall not be liable for
+technical or editorial errors or omissions contained herein.
+Intel® and Xeon® are registered trademarks of Intel Corporation in the U.S. and other countries.
+Microsoft®, Windows®, and Windows Server® are U.S. registered trademarks of the Microsoft group of
+companies.
+For hard drives, 1GB = 1 billion bytes. Actual formatted capacity is less
+a50004308enw - 16912 - Worldwide - V22 - 15-July-2024
+Get updates
+

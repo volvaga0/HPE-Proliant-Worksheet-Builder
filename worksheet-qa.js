@@ -701,8 +701,9 @@ setTimeout(()=>{
     ?pass3('DL380 G10: "8SFF midtray" blocked (Gen10 mid cage is 4LFF)'):fail3('DL380 G10 8SFF midtray not blocked');
   setModel3('DL360 G11');
   const rOpts=[...d.querySelectorAll('#rearopts option')].map(o=>o.value);
-  (rOpts.length===3 && !rOpts.some(o=>/mid/i.test(o)))
-    ?pass3('rear datalist is per-model (DL360 G11: 3 options, no midtray)'):fail3('rear datalist not filtered: '+rOpts.join(', '));
+  (rOpts.length===1 && rOpts[0]==='2x M.2 (dual uFF) rear')
+    ?pass3('rear datalist is per-model (DL360 G11: only the NS204i-u M.2 rear boot device, corrected 2026-09-15 — no 1SFF/2SFF rear cage exists on this chassis)')
+    :fail3('rear datalist not filtered: '+rOpts.join(', '));
 
   // --- 4-socket dense boxes: SFF only, no rear/mid-tray cage ---
   setModel3('DL560 G10');
@@ -716,6 +717,83 @@ setTimeout(()=>{
   setModel3('DL380 G10');setRear('4LFF midtray');setModel3('DL560 G10');
   rearValues().length===0
     ?pass3('switching to a no-rear-bays model clears any entered rear/mid-tray line'):fail3('rear line survived the model switch: '+rearValues());
+
+  // --- TPM: Gen11/12 embedded-only vs Gen10/10+ swappable module (2026-09-15) ---
+  const tpmTest=(model,tpmId)=>{
+    setModel3(model);
+    d.getElementById(tpmId).checked=true;fire(d.getElementById(tpmId),'change');
+    const txt=d.getElementById('checks').textContent;
+    d.getElementById('tp0').checked=true;fire(d.getElementById('tp0'),'change');
+    return txt;
+  };
+  tpmTest('DL380 G11','tp1').includes('embedded TPM 2.0 only')
+    ?pass3('DL380 G11: TPM 1.2 flagged — embedded TPM 2.0 only, no 1.2 mode'):fail3('DL380 G11 TPM 1.2 not flagged: '+tpmTest('DL380 G11','tp1').slice(0,160));
+  !tpmTest('DL560 G11','tp1').includes('embedded TPM 2.0 only')
+    ?pass3('DL560 G11: TPM 1.2 NOT flagged (its own QuickSpecs lists both as standing options)'):fail3('DL560 G11 TPM 1.2 wrongly flagged');
+  !tpmTest('DL380 G10','tp1').includes('embedded TPM 2.0 only')
+    ?pass3('DL380 G10: TPM 1.2 NOT flagged (real FIO 1.2-mode switch on the discrete TPM 2.0 module)'):fail3('DL380 G10 TPM 1.2 wrongly flagged');
+  tpmTest('DL20 G10+','tp1').includes('embedded TPM 2.0 only')
+    ?pass3('DL20 G10+: TPM 1.2 flagged — embedded, non-swappable TPM 2.0, no 1.2 mode'):fail3('DL20 G10+ TPM 1.2 not flagged');
+  tpmTest('DL380 G11','tp2').includes('embedded on the motherboard')
+    ?pass3('DL380 G11: TPM 2.0 gets the embedded/no-part-number info note'):fail3('DL380 G11 TPM 2.0 info missing');
+  tpmTest('DL380 G10','tp2').includes('One physical TPM 2.0 module covers both modes')
+    ?pass3('DL380 G10: TPM 2.0 gets the discrete-module info note'):fail3('DL380 G10 TPM 2.0 info missing');
+  setModel3('DL380 G11');
+  d.getElementById('tpm-note').textContent.includes('no TPM 1.2 mode')
+    ?pass3('DL380 G11: #tpm-note explains embedded-only, no 1.2 mode'):fail3('DL380 G11 tpm-note: '+d.getElementById('tpm-note').textContent);
+  setModel3('DL560 G11');
+  d.getElementById('tpm-note').textContent.includes('confirmed exception')
+    ?pass3('DL560 G11: #tpm-note explains its both-standing-options exception'):fail3('DL560 G11 tpm-note: '+d.getElementById('tpm-note').textContent);
+  setModel3('DL380 G10');
+  d.getElementById('tpm-note').textContent.includes('covers both 1.2 and 2.0')
+    ?pass3('DL380 G10: #tpm-note explains the switchable-module case'):fail3('DL380 G10 tpm-note: '+d.getElementById('tpm-note').textContent);
+  setModel3('DL20 G10+');
+  d.getElementById('tpm-note').textContent.includes('no separate module')
+    ?pass3('DL20 G10+: #tpm-note explains embedded-only at G10+'):fail3('DL20 G10+ tpm-note: '+d.getElementById('tpm-note').textContent);
+
+  // --- Motherboard Standard vs NC: always-nc / always-lom / choice (2026-09-15) ---
+  const moboTest=(model,moboId)=>{
+    setModel3(model);
+    d.getElementById(moboId).checked=true;fire(d.getElementById(moboId),'change');
+    const txt=d.getElementById('checks').textContent;
+    d.getElementById('mb1').checked=true;fire(d.getElementById('mb1'),'change');
+    return txt;
+  };
+  moboTest('DL20 G11','mb2').includes('has no NC motherboard variant')
+    ?pass3('DL20 G11: "NC motherboard" blocked — always ships with embedded LOM, no NC variant'):fail3('DL20 G11 NC not blocked');
+  moboTest('DL160 G10','mb2').includes('has no NC motherboard variant')
+    ?pass3('DL160 G10: "NC motherboard" blocked — its own QuickSpecs states every config ships embedded NIC'):fail3('DL160 G10 NC not blocked');
+  !moboTest('DL380 G11','mb2').includes('has no NC motherboard variant')
+    ?pass3('DL380 G11: "NC motherboard" not blocked (always-nc chassis — picking either radio is valid, just misleading)'):fail3('DL380 G11 NC wrongly blocked');
+  !moboTest('DL380 G10','mb2').includes('has no NC motherboard variant')
+    ?pass3('DL380 G10: "NC motherboard" not blocked — a genuine NC choice exists on this chassis'):fail3('DL380 G10 NC wrongly blocked');
+  setModel3('DL380 G11');
+  d.getElementById('mobo-note').textContent.includes('always effectively "NC"')
+    ?pass3('DL380 G11: #mobo-note explains the always-nc case'):fail3('DL380 G11 mobo-note: '+d.getElementById('mobo-note').textContent);
+  setModel3('DL20 G11');
+  d.getElementById('mobo-note').textContent.includes('no NC variant to pick')
+    ?pass3('DL20 G11: #mobo-note explains the always-lom case'):fail3('DL20 G11 mobo-note: '+d.getElementById('mobo-note').textContent);
+
+  // --- Media bay: chassis with no media bay slot at all (2026-09-15) ---
+  const mediaTest=(model,mediaId)=>{
+    setModel3(model);
+    d.getElementById(mediaId).checked=true;fire(d.getElementById(mediaId),'change');
+    const txt=d.getElementById('checks').textContent;
+    d.getElementById('md0').checked=true;fire(d.getElementById('md0'),'change');
+    return txt;
+  };
+  mediaTest('DL110 G11','md1').includes('has no media bay slot')
+    ?pass3('DL110 G11: DVD-ROM blocked — confirmed no media bay slot on this chassis'):fail3('DL110 G11 media bay not blocked');
+  mediaTest('DL380a G12','md3').includes('has no media bay slot')
+    ?pass3('DL380a G12: Universal media bay blocked — fixed GPU-dense chassis, no media bay'):fail3('DL380a G12 media bay not blocked');
+  !mediaTest('DL380 G11','md1').includes('has no media bay slot')
+    ?pass3('DL380 G11: DVD-ROM not blocked (has a real media bay)'):fail3('DL380 G11 media bay wrongly blocked');
+  setModel3('DL110 G11');
+  d.getElementById('media-note').textContent.includes('No media bay slot')
+    ?pass3('DL110 G11: #media-note shows "no media bay" text'):fail3('DL110 G11 media-note: '+d.getElementById('media-note').textContent);
+  setModel3('DL380 G11');
+  d.getElementById('media-note').textContent===''
+    ?pass3('DL380 G11: #media-note is empty (has a real media bay)'):fail3('DL380 G11 media-note not empty: '+d.getElementById('media-note').textContent);
 
   // --- no 3.5in NVMe backplane ---
   setModel3('DL380 G10');

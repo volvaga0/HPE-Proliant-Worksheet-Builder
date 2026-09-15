@@ -1,0 +1,2172 @@
+HPE ProLiant Compute DL320 Gen12
+Based on industry-standard modular server design, the HPE ProLiant Compute DL320 Gen12 provides a
+right-sized, efficient compute solution. It is a 1U 1P server that provides best-in-class performance, with
+maximum I/O capabilities for cloud-native, Infrastructure-as-a-Service (IaaS), and general purpose
+workloads while consuming considerably less energy than 2P systems. The HPE ProLiant Compute DL320
+Gen12 is purpose-built for edge computing, delivering exceptional performance and optimized economics
+and is an excellent choice for both virtualized and containerized workloads.
+The HPE ProLiant Compute DL320 Gen12 is powered Intel® Xeon® 6 Processors with up to 144 cores -
+including Intel Rich I/O options, increased memory capability (up to 4 TB 6400 MT/s), and high-speed PCIe
+Gen5. It supports up to four single-wide GPUs (or two double-wide) with front or rear-facing I/O, and
+capacity for up to 20 EDSFF drives. The HPE ProLiant Gen12 servers are engineered to optimize IT at the
+edge with a cloud operating experience, built-in security, and optimized performance for workloads to drive
+your business forward.
+SFF Front View with optional Universal Media Bay, optical Drive, Display Port, USB2.0
+1. Quick removal access panel 9. Health LED
+2. Serial number/iLO information pull tab 10. NIC Status 1
+3. Display Port (optional - shown) 11. Unit ID Button/LED
+4. Universal Media Bay (optional): 12. USB 3.2 Gen1 port
+Option1: Optical drive bay + Display port &
+USB 2.0 port kit (shown)
+13. Drive bays; backplanes options
+Option1: 8SFF x1 Tri-Mode 24G U.3
+BC Backplane
+Option2: 2 SFF x4 Tri-Mode 24G U.3 BC
+Drive Cage
+5. USB 2.0 port (optional - shown) Option2: 8SFF x4 Tri-Mode 24G U.3
+BC
+Backplane
+6. Optical Drive (optional- shown)
+7. iLO Service Port 14. Drive support label
+8. Power On / Standby button and system power LED
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Overview
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 1
+Notes: 1 Front NIC LED display doesn't support NIC LED ACT/LINK indication from OCP NICs
+SFF/EDSFF Front View - 20 EDSFF Drives shown
+1. Serial number/iLO information pull tab 10. Drive Cage 1-5: (EDSFF Shown)
+2. Quick Removal Access Panel Option1: 4x EDSFF per cage
+Option 2 : 2x 2SFF per cage
+Option 3: Blank
+3. Drive Cage 3: (EDSFF shown) 11. Drive Cage Information label
+Option1: 2x Front OCP 3.0
+Option2: NS204i Hot-Plug Boot Device
+4. iLO Service Port
+5. Power On / Standby Button and LED
+6. Health LED
+7. NIC Status
+8. UID Button/LED
+9. USB 3.2 Gen1 port
+Notes: 1 Front NIC LED display doesn't support NIC LED ACT/LINK indication from OCP NICs
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Overview
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 2
+4 LFF Front View - 4 LFF drives shown
+1. Optical Drive Bay (optional - not shown) 8. Health LED
+2. Serial number/iLO information pull tab 9. NIC Status1
+3. Quick removal access panel 10. UID Button/LED
+4. Optional Display Port & USB 2.0 port bundle
+kit
+11. SAS/SATA drive bays (shown,
+populated)
+5 USB 3.2 Gen1 port 12. Drive Support label
+6. iLO Service Port
+7. Power On / Standby button and system
+power LED
+shown)
+Notes: 1 Front NIC LED display doesn't support NIC LED ACT/LINK indication from OCP NICs
+12 LFF Front View - 12 LFF + SAS drives shown
+1. Drive cage 2 & 3 access points 8. Health LED
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Overview
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 3
+2. Serial number/iLO information pull tab 9. NIC Status1
+3. Quick removal access panel 10. UID Button/LED
+4. Optional Display Port & USB 2.0 port bundle kit 11. SAS/SATA drive bays (shown, populated)
+5 USB 3.2 Gen1 port. 12. Drive Support label
+6. iLO Service Port
+7. Power On / Standby button and system power LED
+Notes: 1 Front NIC LED display doesn't support NIC LED ACT/LINK indication from OCP NICs
+Front View - GPU CTO Server
+1. Two (2) Stacking Drive Cages 7. Health LED
+Option1: 2x 4EDSFF Drive Cage
+(shown)
+8. NIC Status
+Option2: 2x 2SFF Drive Cage 9. UID Button/LED
+2. Quick removal access panel 10. Serial number/iLO information pull tab
+3 GPU Cage (PCIe Slots 3-6 shown,
+covered). Supports 2x DW GPU or 4x SW
+GPU.
+11. Drive cage information label
+4. USB 3.2 Gen1 port
+5. iLO Service Port
+6. UID Button/LED Power On / Standby
+button and LED
+Notes: 1 Front NIC LED display doesn't support NIC LED ACT/LINK indication from OCP NICs
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Overview
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 4
+Internal View - Standard for all DL320 Gen12
+1. PSU Blank 5. Primary Riser Slot
+2. PSU 6. DIMM Slots
+3 Secondary Riser 7. System Fans (7)
+4 DC-SCM Module 8. Drive Bays
+9. USB 3.0 port
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Overview
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 5
+Rear View - Standard for all DL320 Gen12
+1. PCIe Slot1 (Primary Riser, optional) 7. Slot 21 OCP 3.0 Slot B (optional), shown
+covered
+2. PCIe Slot2 (Secondary Riser, optional) 8. Slot 20 OCP 3.0 Slot A, shown covered
+3. NS204i-u Boot Device (Optional - not shown) 9. UID Indicator LED on DC SCM
+4, 60mm Power Supply Slot 2 10. Dedicated iLO network port on DC SCM
+5. 60mm Power Supply Slot 1 (unpopulated) 11. Two (2) USB 3.2 ports on DC SCM
+6. Serial port location (optional - not shown) 12. Video (VGA) port on DC SCM
+What's New
+All new DL320 Gen12 server
+Intel® Xeon® 6 Processors with Rich I/O options
+Data Center - Modular Hardware System (DC-MHS) design
+Modular - Common Redundant Power Supply (M-CRPS) design
+OCP 3.0 (Front or Rear)
+NS204i-u front or rear install option based on configuration
+DDR5 6400 MT/s memory
+iLO7 on DC-SCM module
+Platform Information
+Form Factor
+1U rack
+Chassis Types
+SFF Server (P71437-B21) supports 8SFF drives (standard) and 10 SFF with optional:
+- 8+2 SFF cage
+- Optical Drive Tray with Optical Drive, DisplayPort, USB 2.0
+- System Insight Display
+SFF/EDSFF Server(P75217-B21) supports up to 10 SFF or 20 EDSFF drives with optional:
+- Media Bay containing Optical Drive, DisplayPort, USB 2.0
+- 2 Front OCP3.0 slots or hot-plug M.2 boot device
+4 LFF Server (P75218-B21) with optional:
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Overview
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 6
+- Optical Drive
+12 LFF Server (P75219-B21)
+GPU Server (P75220-B21) supports up to two DW or 4 SW GPUs with optional:
+- SFF and EDSFF drive options
+System Fans (7 fans required)
+HPE ProLiant Compute Gen12 1U Standard Fan Kit, includes one fan.
+HPE ProLiant Compute Gen12 1U High Performance Fan Kit, includes one fan.
+HPE ProLiant Compute DL320 Gen12 1U Closed-loop Liquid Cooling FIO Fan Kit, includes one fan.
+Notes:
+- High-Performance fan kits are required when >185W Processor SKUs, High-Performance NVMe
+drives, or certain backplanes are populated. See notes under each option category or each individual
+option for specifics.
+- Closed-loop Liquid Cooling FIO Fan Kit required for > 270W Processor SKUs.
+- Seven (7) fan kits are required for all CTO server models.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Overview
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 7
+Processors
+Intel® Xeon® 6 processor naming convention
+* CPU Series not support on HPE ProLiant Compute Gen12 platforms.
+For more information regarding Intel® Xeon® 6 processors, please see the following
+https://www.intel.com/content/www/us/en/now/xeon-6.html.
+The DL320 Gen12 platform supports Intel® Xeon® 6 Efficient Core (E-Core) and Performance-Core (P-Core)
+processors. The below processors are supported on the DL320 Gen12 platform. Select one of the below
+processors.
+Intel® Xeon 6® Efficient-Core (E-Core) Performance per Watt Processors
+Intel Xeon
+Models
+Base
+Speed
+(GHz)
+Cores L3 Cache
+(MB)
+Power (W) UPI
+Links
+DDR5
+(MT/s)
+SGX
+Enclave
+Size (GB)
+Die
+6710E 2.4 64 96 205 4 5600 512 HDCC
+6731E 2.2 96 96 250 0 5600 512 HDCC
+6740E 2.4 96 96 250 4 6400 512 HDCC
+6746E 2 112 96 250 4 5600 512 HDCC
+6756E 1.8 128 96 225 4 6400 512 HDCC
+6766E 1.9 144 108 250 4 6400 512 HDCC
+Intel® Xeon 6® Efficient-Core (E-Core) Performance Processor
+6780E 2.2 144 108 330 4 6400 512 HDCC
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Standard Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 8
+Intel® Xeon 6® Performance-Core (P-Core) Processors
+Intel Xeon
+Models
+Base
+Speed
+(GHz)
+Cores L3 Cache
+(MB)
+Power (W) UPI
+Links
+DDR5
+(MT/s) *
+SGX
+Enclave
+Size (GB)
+Die**
+6507P 3.5 8 48 150 4 6400 512 LCC
+6517P 3.2 16 72 190 4 6400 512 LCC
+6527P 3.0 24 144 255 4 6400 512 HCC
+6730P 2.5 32 288 250 4 6400 512 XCC
+6736P 2.0 36 144 205 4 6400 512 HCC
+6737P 2.9 32 144 270 4 6400 512 HCC
+6747P 2.7 48 288 330 4 6400 512 XCC
+6767P 2.4 64 336 350 4 6400 512 XCC
+6787P 2.0 86 336 350 4 6400 512 XCC
+Notes:
+- ** Intel® HCC & LCC die processors have delayed availability.
+- * DDR5 MT/s is 6400 MT/s @ 1 DIMMs per channel (DPC) and 5200 MT/S @ 2DPC
+Intel® Xeon 6® Mainline Processors
+Intel Xeon
+Models
+Base
+Speed
+(GHz)
+Cores L3 Cache
+(MB)
+Power (W) UPI
+Links
+DDR5
+(MT/s) *
+SGX
+Enclave
+Size (GB)
+Die**
+6505P 2.2 12 48 150 4 6400 128 LCC
+6515P 2.4 16 72 150 4 6400 128 LCC
+6520P 2.4 24 144 210 4 6400 128 HCC
+6730P 2.3 32 144 225 4 6400 128 HCC
+6740P 2.1 48 288 270 4 6400 128 XCC
+6760P 2.2 64 320 330 4 6400 128 XCC
+Notes:
+- ** Intel® HCC & LCC die processors have delayed availability.
+- * DDR5 MT/s is 6400 MT/s @ 1 DIMMs per channel (DPC) and 5200 MT/S @ 2DPC
+Intel® Xeon 6® Single Socket Processors
+Intel Xeon
+Models
+Base
+Speed
+(GHz)
+Cores L3 Cache
+(MB)
+Power (W) UPI
+Links
+DDR5
+(MT/s) *
+SGX
+Enclave
+Size (GB)
+Die**
+6511P 2.5 16 72 150 0 6400 128 LCC
+6521P 2.6 24 144 225 0 6400 128 HCC
+6731P 2.5 32 144 245 0 6400 128 HCC
+6741P 2.5 48 288 300 0 6400 128 XCC
+6761P 2.5 64 336 350 0 6400 128 XCC
+6781P 2.0 80 336 350 0 6400 128 XCC
+Notes:
+- ** Intel® HCC & LCC die processors have delayed availability.
+- * DDR5 MT/s is 6400 MT/s @ 1 DIMMs per channel (DPC) and 5200 MT/S @ 2DPC
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Standard Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 9
+System Management Chipset
+HPE iLO 7 ASIC on DC-SCM Module required, included.
+Notes: Read and learn more in the iLO QuickSpecs.
+Memory
+Type HPE DDR5 Smart Memory Registered (RDIMM)
+DIMM Slots Available 16 DIMM Slots, 8 channels, 2 DIMMs per channel
+Maximum capacity (RDIMM) 4TB
+16 x 256 GB RDIMM 6400 MT/s @ 1DPC and 5200 MT/s @
+2DPC
+Notes:
+All processors listed support up to 4TB memory.
+- The maximum memory speed is limited by the processor selection.
+- To realize the performance memory capabilities listed in this document, HPE DDR5 Smart Memory is
+required.
+For additional information, please visit the HPE Memory QuickSpecs and Technical White Papers or HPE
+DDR5 Smart Memory QuickSpecs.
+Memory Protection Features
+Advanced ECC
+Advanced ECC uses device data correction to detect and correct single and all multibit errors within a single
+DRAM chip.
+Adaptive Double DRAM Device Correction (ADDDC)
+Advanced Double DRAM Device Correction enables the server to dynacically map out a failing DRAM
+device. Enabling it can have some impact to system performance under certain workloads. This is set to
+enabled by default.
+Mirroring
+Memory Mirroring enables full memory redundancy.
+Network Controller
+The HPE ProLiant Compute DL320 Gen12 server does not include network controller but offers the customer a
+variety of networking options listed in the Core Options section.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Standard Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 10
+PCIe Expansion Slots
+Expansion Slots # Technology Bus
+Width
+Connector Width Slot Form
+Factor
+1 (Primary Riser) PCIe 5.0 x16 x16 FHHL
+2 (Secondary Riser) PCIe 5.0 x16 x16 FHHL
+OCP Expansion Slots
+Expansion Slots # Technology Bus
+Width
+Connector Width
+1 Rear OCP A (OCP 3.0)
+embedded
+1 Rear OCP B (OCP 3.0)
+optional
+2 Front (OCP3.0) optional
+(one w/NCSI)
+PCIe 5.0 x16 x16
+Internal Storage Devices
+Optical Drive - Available on SFF, SFF/EDSFF and LFF CTO Servers as an option (DVD-ROM or DVD-
+RW)
+Hard Drives - None shipped standard
+Graphics
+Integrated Video Standard
+VGA port on DC-SCM module
+Display port with optional optical disk drive
+Video modes up to 1920 x 1200@60Hz (32 bpp)
+16MB Video Memory
+Maximum Storage
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Standard Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 11
+Chassis Drive Type Drive
+Capacity
+Total Storage
+HPE DL320 Gen12 SFF CTO Svr SFF SAS
+HDD
+2.4TB 24TB (10x2.4TB)
+HPE DL320 Gen12 SFF CTO Svr SFF SATA
+SSD
+3.84TB 38.4TB (10x3.84TB)
+HPE DL320 Gen12 SFF CTO Svr SFF SAS
+SSD
+15.36TB 153.6TB
+(10x15.36TB)
+HPE DL320 Gen12 SFF/EDSFF CTO Svr SFF NVMe 15.36TB 153.6TB
+(10x15.36TB)
+HPE DL320 Gen12 SFF/EDSFF CTO Svr EDSFF
+NVMe
+15.36TB 307.2TB
+(20x15.36TB)
+HPE DL320 Gen12 4LFF CTO Svr LFF HDD 24TB 288TB (4x24TB)
+HPE DL320 Gen12 12LFF CTO Svr LFF HDD 24TB 288TB (12x24TB)
+HPE DL320 Gen12 GPU CTO Svr SFF Drive
+Cage
+SFF SATA
+SSD
+3.84TB 15.36TB (4x3.84TB)
+HPE DL320 Gen12 GPU CTO Svr SFF Drive
+Cage
+SFF SAS
+SSD
+15.36TB 61.44TB (4x15.36TB)
+HPE DL320 Gen12 GPU CTO Svr EDSFF Drive
+Cage
+EDSFF
+NVMe
+15.36TB 122.88TB
+(8x15.36TB)
+Storage Controllers
+NVMe Boot Devices
+HPE NS204i-u v2 480GB NVMe Hot Plug Boot Optimized Storage Device
+Notes:
+- N204i-u Boot device includes 2x 480GB M.2 NVMe SSDs, with preconfigured hardware RAID1.
+- Front Hot Plug, Rear Hot Plug or internal (non Hot Plug) location options.
+Does not occupy a PCIe slot.
+For additional details please see: HPE OS Boot Device QuickSpecs
+Software RAID Controller
+Intel® Virtual RAID on CPU (Intel® VROC)
+Notes:
+- Supports up to 8 direct attach NVMe bays.
+- Intel VROC NVMe is disabled by default. Requires licensing.
+- RAID support - 0/1/5/10, depending on licensing options.
+- For additional details please see: Intel VROC for HPE ProLiant QuickSpecs
+Essential RAID Controllers
+HPE MR216i-p Gen11 x16 Lanes without Cache PCI SPDM Plug-in Storage Controller
+HPE MR216i-o Gen11 x16 Lanes without Cache OCP SPDM Storage Controller
+Performance RAID Controllers
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Standard Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 12
+HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller
+HPE MR416i-o Gen11 x16 Lanes 8GB Cache OCP SPDM Storage Controller
+HPE MR416i-p Gen11 x16 Lanes 8GB Cache PCI SPDM Plug-in Storage Controller
+Notes: For additional details, please see HPE Compute MR Gen11 Controllers QuickSpecs
+Power Supply
+HPE 1000W M-CRPS Titanium Hot Plug Power Supply Kit
+HPE 1500W M-CRPS Titanium Hot Plug Power Supply Kit
+HPE 2400W M-CRPS Titanium Hot Plug Power Supply Kit
+Notes: All power supplies rated for 96% efficiency. Power supplies do not ship with cords. For information on
+power specifications and technical content, visit HPE Server power supplies.
+European Union Erp Lot 9 Regulation
+Beginning on January 1st, 2024, units sold into the European Union (EU), European Economic Area (EEA), the
+United Kingdom, or Switzerland must include more efficient AC power supplies: 94% for multi-output and 96%
+for single-output. HPE M-CRPS power supplies are 96% efficient, thus meeting requirements.
+Interfaces
+Serial Optional (rear), requires Serial Enablement Kit.
+Video DC-SCM VGA port (rear)
+Optional Display port (front)
+Network Ports None standard. Choice of OCP or standup card required.
+HPE iLO Remote Mgmt
+Port
+1 GbE Dedicated (rear) on DC-SCM module
+Front iLO Service Port 1 standard (USB-C, front)
+USB 3.2 Gen1 Ports 4 standard (1 front, 2 rear, 1 internal)
+Optional, additional USB 2.0 front in 4LFF, SFF, and SFF/EDSFF models.
+Operating Systems and Virtualization Software Support for HPE Servers
+HPE servers are designed for seamless integration with partner Operating Systems and Virtualization
+Software. By collaborating closely with our partners, we ensure that their products are optimized, certified,
+and fully supported within your HPE server environment.
+Access the certified and supported servers for each of the OS and Virtualization software: HPE Servers
+Support & Certification Matrices
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Standard Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 13
+HPE Server UEFI
+Unified Extensible Firmware Interface (UEFI) is an industry-standard that provides better manageability
+and more secured configuration than the legacy ROM while interacting with your server at boot time. HPE
+ProLiant Gen12 servers have a UEFI Class 3 implementation to support UEFI Mode.
+Notes: The UEFI System Utilities tool is analogous to the HPE ROM-Based Setup Utility (RBSU) of legacy
+BIOS. For more information, please visit https://www.hpe.com/support/hpeuefisystemutilities-
+quicklinks.
+UEFI enables numerous new capabilities specific to HPE ProLiant servers, such as:
+Secure Boot and Secure Start enabled for enhanced security.
+Embedded UEFI Shell
+Operating system-specific functionality
+Mass Configuration Deployment Tool using iLO RESTful API that is Redfish API Conformant
+Support for > 2.2 TB (using GPT) boot drives.
+PXE boot support for IPv6 networks
+USB 3.0 Stack
+Workload Profiles for simple performance optimization
+Embedded TPM Support
+UEFI Boot Mode only:
+iSCSI Software Initiator Support
+NVMe Boot Support
+HTTP/HTTPs Boot support as a PXE alternative.
+Boot support for option cards that only support a UEFI option ROM.
+Industry Standard Compliance
+ACPI 6.3 Compliant
+Advanced Encryption Standard (AES)
+Active Directory v1.0
+ASHRAE A3/A4
+Notes: For additional technical, thermal details regarding ambient temperature, humidity, and feature
+support, please visit https://www.hpe.com/support/ASHRAEGen11
+DMTF Systems Management Architecture for Server Hardware Command Line Protocol (SMASH
+CLP)
+Energy Star
+EU Lot9 Compliant
+IPMI 2.0
+Microsoft® Logo certifications
+PCIe 3.0 Compliant
+PCIe 4.0 Compliant
+PCIe 5.0 Compliant
+PXE Support
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Standard Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 14
+Redfish API
+Secure Digital 4.0
+SMBIOS 3.2
+SNMP v3
+TLS 1.2
+TPM 2.0 Support
+Triple Data Encryption Standard (3DES)
+UEFI (Unified Extensible Firmware Interface Forum) 2.7
+USB 2.0 Compliant
+USB 3.0 Compliant
+VGA Port
+Embedded Management
+HPE Integrated Lights-Out (HPE iLO)
+Monitor your servers for ongoing management, service alerting, reporting, and remote management with
+HPE iLO.
+Learn more at http://www.hpe.com/info/ilo.
+UEFI
+Configure and boot your servers securely with industry-standard Unified Extensible Firmware Interface
+(UEFI).
+Learn more at https://www.hpe.com/support/hpeuefisystemutilities-quicklinks.
+Intelligent Provisioning
+Hassle-free server and OS provisioning for one or more servers with Intelligent Provisioning.
+Learn more at https://www.hpe.com/support/hpeintelligentprovisioning-quicklinks.
+iLO RESTful API
+iLO RESTful API is Redfish API conformance and offers simplified server management automation, such
+as configuration and maintenance tasks based on modern industry standards. Learn more at
+https://www.hpe.com/support/restfulinterface/docs.
+OpenBMC Support
+OpenBMC Capable through iLO6 Transfer of Ownership Process.
+Learn more at OpenBMC Support
+Server Utilities
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Standard Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 15
+Active Health System
+The HPE Active Health System (AHS) is an essential component of the iLO management portfolio that
+provides continuous, proactive health monitoring of HPE servers. Learn more at
+http://www.hpe.com/servers/ahs.
+Active Health System Viewer
+Use the Active Health System Viewer, a web-based portal, to easily read AHS logs and speed problem
+resolution with HPE selfrepair recommendations, to learn more visit http://www.hpe.com/servers/ahsv.
+Smart Update
+Keep your servers up to date with the HPE Smart Update solution by using Smart Update Manager (SUM)
+to optimize the firmware and driver updates of the Service Pack for ProLiant (SPP).
+Learn more at https://www.hpe.com/us/en/servers/smart-update.html.
+HPE iLO Mobile Application
+Enables the ability to access, deploy, and manage your server anytime from anywhere from select
+smartphones and mobile devices. For additional information please visit:
+http://www.hpe.com/info/ilo/mobileapp.
+RESTful Interface Tool
+RESTful Interface tool (iLOREST) is a single scripting tool to provision using iLO RESTful API to discover
+and deploy servers at scale. Learn more at http://www.hpe.com/info/resttool.
+Scripting Tools
+Provision one too many servers, using your scripts to discover and deploy with Scripting Tool (STK) for
+Windows and Linux or Scripting Tools for Windows PowerShell. Learn more at
+http://www.hpe.com/servers/powershell.
+HPE OneView Standard
+HPE OneView is an on-premise, multi-generational server monitoring and management solution. HPE
+OneView Standard can be used for inventory, health monitoring, alerting, and reporting without additional
+fees. Customers can upgrade their management experience with an HPE OneView Advanced license, all
+provided by the same tool. Learn more at http://www.hpe.com/info/oneview.
+HPE Compute Ops Management
+HPE is intelligently transforming compute management with an intuitive cloud operating experience through
+HPE GreenLake cloud platform to streamline and secure operations from edge-to-cloud. Automated key
+lifecycle tasks, for onboarding, updating, managing, and monitoring HPE servers, brings agility and greater
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Standard Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 16
+efficiencies to wherever compute devices reside via a unified single browser-based interface. Manage
+single locations or multiple, distributed sites. Keep tens to thousands of servers secure with batch policy
+controls and automated updates.
+Compute Ops Management is cloud-native software that is continually updated with new services, features,
+patches, and fixes. The management application resides in the HPE GreenLake cloud platform (access via
+https://console.greenlake.hpe.com) and leverages the HPE GreenLake architecture, security, and unified
+operations.
+A 3-year subscription to HPE Compute Ops Management is added by default when ordering an HPE
+ProLiant Gen11 rack, tower, or micro server.
+For more information, visit the HPE Compute Ops Management QuickSpecs:
+https://www.hpe.com/psnow/doc/a50004263enw
+Security
+Experience unparalleled security benefits with HPE ProLiant Gen12 servers, designed to enhance your
+infrastructure's security and performance. These servers come equipped with cutting-edge embedded
+security features, ensuring robust protection for your critical data and applications. Key features include:
+HPE Integrated Lights-Out (HPE iLO7): This product offers advanced embedded security features for
+monitoring, service alerting, reporting, and remote management.
+Enhanced Server Data Security: Encryption and key management, iLO Managed Encryption, UEFI-
+managed encryption, and self-encrypting drives (SED) for enhanced data-at-rest protection.
+Sanitize Data with One-Button Secure Erase: This method complies with NIST SP 800-88 guidelines for
+media sanitization, ensuring the secure decommissioning of servers.
+Expanded Industry Security Compliance: Adherence to standards such as FIPS 140-3, NIST SP 800-53,
+NIST SP 800-171, and NIST SP 800-88.
+HPE GreenLake for Compute Ops Management: Provides an intuitive cloud operating experience, ensuring
+streamlined and highly secure operations from the edge to the cloud.
+Physical Security Options: System maintenance switch, USB security, rack and power security, bezel lock,
+and chassis intrusion detection switch.
+Trusted Supply Chain: HPE Trusted Supply Chain offers enhanced security and compliance for
+organizations worldwide. Servers built with this option undergo rigorous inspections and checkpoints to
+detect and mitigate malicious microcode and counterfeit parts throughout the server build and lifecycle.
+Please refer to the HPE ProLiant Gen12 Embedded Security QuickSpecs document for more detailed
+information at http://psnow.ext.hpe.com/doc/a50009218enw
+UEFI Secure Boot and Secure Start support
+Secure Enclave - Silicon Root of Trust 2.0
+Quantum resistant (PQC) readiness for signing firmware - CNSA 2.0
+FIPS 140-3 validation (Planned)
+Common Criteria certification (Planned)
+USGv6 ready (Section 508 - VPAT)
+Secure Standard Mode - default security mode (equivalent of higher security mode in Gen 11)
+Configurable for PCI DSS compliance
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Standard Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 17
+Advanced Encryption Standard (AES) on browser
+Support for Commercial National Security Algorithms (CNSA)
+Tamper-free updates - components digitally signed and verified
+Secure Recovery - recover critical firmware to known good state on detection of compromised
+firmware
+Ability to rollback firmware
+Secure erase of NAND
+TPM (Trusted Platform Module) 2.0
+Front bezel key-lock feature - standard, available in both Tower and Rack models
+Padlock slot, standard
+Kensington Lock slot, standard
+Chassis Intrusion detection option
+Warranty
+This product is covered by a global limited warranty and supported by HPE Services and a worldwide
+network of Hewlett Packard Enterprise Authorized Channel Partners resellers. Hardware diagnostic support
+and repair are available for three years from the date of purchase. Support for software and initial setup is
+available for 90 days from the date of purchase. Enhancements to warranty services are available through
+HPE Services operational services or customized service agreements. Hard drives have either a one-year
+or three-year warranty; refer to the specific hard drive QuickSpecs for details.
+Notes: Server Warranty includes 3-Year Parts, 3-Year Labor, and 3-Year Onsite support with next business
+day response. Warranty repairs may be accomplished through the use of Customer Self Repair (CSR)
+parts. These parts fall into two categories: 1) Mandatory CSR parts are designed for easy replacement. A
+travel and labor charge will result when customers decline to replace a Mandatory CSR part; 2) Optional
+CSR parts are also designed for easy replacement but may involve added complexity. Customers may
+choose to have Hewlett Packard Enterprise replace Optional CSR parts at no charge. Additional information
+regarding worldwide limited warranty and technical support is available at:
+https://www.hpe.com/support/ProLiantServers-Warranties
+https://www.hpe.com/us/en/search-results.html?page=1&q=servers warranty&autocomplete=0
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Standard Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 18
+Server Management
+HPE iLO Advanced
+HPE iLO Advanced licenses offer smart remote functionality for all HPE ProLiant servers without
+compromise. The license includes the full integrated remote console, virtual keyboard, video, and mouse
+(KVM), multi-user collaboration, console record and replay, and GUI-based and scripted virtual media and
+virtual folders. You can also activate the enhanced security and power management functionality.
+HPE OneView Advanced
+HPE OneView Advanced offers a sophisticated level of automation to infrastructure management by taking
+a template-driven approach to provisioning, updating, and integrating compute, storage, and networking
+infrastructure. It builds upon the base features of HPE OpenView Standard and provides full-featured
+licenses which can be purchased for managing multiple HPE server generations.
+To learn more, visit http://www.hpe.com/info/oneview.
+Accelerator and GPU Information
+Hewlett Packard Enterprise supports various accelerators on select HPE ProLiant servers to support
+different workloads. The accelerators enable seamless integration of GPU computing with HPE ProLiant
+servers for high-performance computing, large data center graphics, deep learning and virtual desktop
+deployments. These accelerators deliver all of the standard benefits of GPU computing while enabling
+maximum reliability and tight integration with system monitoring and management tools such as HPE
+Insight Cluster Management Utility.
+One Config Simple (OCS/SCE)
+OCS/SCE is a guided self-service tool to help sales and non-technical people provide customers with initial
+configurations in 3 to 5 minutes. You may then send the configuration on for configuration help or use it in
+your existing ordering processes. If you require "custom" rack configuration or configuration for products not
+available in SCE, please contact Hewlett Packard Enterprise Customer Business Center or an Authorized
+Partner for assistance. https://h22174.www2.hpe.com/SimplifiedConfig/Welcome#
+Rack and Power Infrastructure
+The story may end with servers, but it starts with the foundation that makes compute go - and business
+grow. ' 'We've reinvented our entire portfolio of rack and power products to make IT infrastructure more
+secure, practical, and efficient. In other words, we've created a more robust, smarter, and simpler
+infrastructure to help you get the most out of your IT equipment. As an industry leader, Hewlett Packard
+Enterprise is uniquely positioned to address the key concerns of power, cooling, cable management, and
+system access.
+Learn more about HPE Racks, KVM, PDUs, and UPSs at HPE Rack and Power Infrastructure.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Optional Features
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 19
+HPE Services
+No matter where you are in your digital transformation journey, you can count on HPE Services to deliver the
+expertise you need when, where and how you need it. From planning to deployment, ongoing operations and
+beyond, our experts can help you realize your digital ambitions.
+https://www.hpe.com/services
+Consulting Services
+No matter where you are in your journey to hybrid cloud, experts can help you map out your next steps. From
+determining what workloads should live where, to handling governance and compliance, to managing costs,
+our experts can help you optimize your operations.
+https://www.hpe.com/services/consulting
+HPE Managed Services
+HPE runs your IT operations, providing services that monitor, operate, and optimize your infrastructure and
+applications, delivered consistently and globally to give you unified control and let you focus on innovation.
+HPE Managed Services | HPE
+Operational services
+Optimize your entire IT environment and drive innovation. Manage day-to-day IT operational tasks while
+freeing up valuable time and resources. Meet service-level targets and business objectives with features
+designed to drive better business outcomes.
+https://www.hpe.com/services/operational
+HPE Complete Care Service
+HPE Complete Care Service is a modular, edge-to-cloud IT environment service designed to help optimize
+your entire IT environment and achieve agreed upon IT outcomes and business goals through a personalized
+experience. All delivered by an assigned team of HPE Services experts. HPE Complete Care Service
+provides:
+A complete coverage approach -- edge to cloud
+An assigned HPE team
+Modular and fully personalized engagement
+Enhanced Incident Management experience with priority access
+Digitally enabled and AI driven customer experience
+https://www.hpe.com/services/completecare
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Service and Support
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 20
+HPE Tech Care Service
+HPE Tech Care Service is the operational support service experience for HPE products. The service goes
+beyond traditional support by providing access to product specific experts, an AI driven digital experience, and
+general technical guidance to not only reduce risk but constantly search for ways to do things better. HPE
+Tech Care Service delivers a customer-centric, AI driven, and digitally enabled customer experience to move
+your business forward. HPE Tech Care Service is available in three response levels. Basic, which provides
+9x5 business hour availability and a 2-hour response time. Essential which provides a 15-minute response
+time 24x7 for most enterprise level customers, and Critical which includes a 6-hour repair commitment where
+available and outage management response for severity 1 incidents.
+https://www.hpe.com/services/techcare
+HPE Lifecycle Services
+HPE Lifecycle Services provide a variety of options to help maintain your HPE systems and solutions at all
+stages of the product lifecycle. A few popular examples include:
+Lifecycle Install and Startup Services: Various levels for physical installation and power on, remote
+access setup, installation and startup, and enhanced installation services with the operating system.
+HPE Firmware Update Analysis Service: Recommendations for firmware revision levels for selected HPE
+products, taking into account the relevant revision dependencies within your IT environment.
+HPE Firmware Update Implementation Service: Implementation of firmware updates for selected HPE
+server, storage, and solution products, taking into account the relevant revision dependencies within your
+IT environment.
+Implementation assistance services: Highly trained technical service specialists to assist you with a
+variety of activities, ranging from design, implementation, and platform deployment to consolidation,
+migration, project management, and onsite technical forums.
+HPE Service Credits: Access to prepaid services for flexibility to choose from a variety of specialized
+service activities, including assessments, performance maintenance reviews, firmware management,
+professional services, and operational best practices.
+Notes: To review the list of Lifecycle Services available for your product go to:
+https://www.hpe.com/services/lifecycle
+For a list of the most frequently purchased services using service credits, see the HPE Service Credits Menu
+Other Related Services from HPE Services:
+HPE Education Services
+Training and certification designed for IT and business professionals across all industries. Broad catalogue of
+course offerings to expand skills and proficiencies in topics ranging from cloud and cybersecurity to AI and
+DevOps. Create learning paths to expand proficiency in a specific subject. Schedule training in a way that
+works best for your business with flexible continuous learning options.
+https://www.hpe.com/services/training
+Defective Media Retention
+An option available with HPE Complete Care Service and HPE Tech Care Service and applies only to Disk or
+eligible SSD/Flash Drives replaced by HPE due to malfunction.
+Consult your HPE Sales Representative or Authorized Channel Partner of choice for any additional questions
+and services options.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Service and Support
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 21
+Parts and Materials
+HPE will provide HPE-supported replacement parts and materials necessary to maintain the covered hardware
+product in operating condition, including parts and materials for available and recommended engineering
+improvements.
+Parts and components that have reached their maximum supported lifetime and/or the maximum usage
+limitations as set forth in the manufacturer's operating manual, product quick-specs, or the technical product
+data sheet will not be provided, repaired, or replaced as part of these services.
+How to Purchase Services
+Services are sold by Hewlett Packard Enterprise and Hewlett Packard Enterprise Authorized Service Partners:
+Services for customers purchasing from HPE or an enterprise reseller are quoted using HPE order
+configuration tools.
+Customers purchasing from a commercial reseller can find services at
+https://ssc.hpe.com/portal/site/ssc/
+AI Powered and Digitally Enabled Support Experience
+Achieve faster time to resolution with access to product-specific resources and expertise through a digital and
+data driven customer experience.
+Sign into the HPE Support Center experience, featuring streamlined self-serve case creation and
+management capabilities with inline knowledge recommendations. You will also find personalized task alerts
+and powerful troubleshooting support through an intelligent virtual agent with seamless transition when needed
+to a live support agent.
+https://support.hpe.com/hpesc/public/home/signin
+Consume IT On Your Terms
+HPE GreenLake edge-to-cloud platform brings the cloud experience directly to your apps and data wherever
+they are-the edge, colocations, or your data center. It delivers cloud services for on-premises IT infrastructure
+specifically tailored to your most demanding workloads. With a pay-per-use, scalable, point-and-click self-
+service experience that is managed for you, HPE GreenLake edge-to-cloud platform accelerates digital
+transformation in a distributed, edge-to-cloud world.
+Get faster time to market
+Save on TCO, align costs to business
+Scale quickly, meet unpredictable demand
+Simplify IT operations across your data centers and clouds
+To learn more about HPE Services, please contact your Hewlett Packard Enterprise sales representative or
+Hewlett Packard Enterprise Authorized Channel Partner. Contact information for a representative in your area
+can be found at "Contact HPE" https://www.hpe.com/us/en/contact-hpe.html
+For more information
+www.hpe.com/services
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Service and Support
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 22
+Smart Templates from HPE
+HPE is releasing new Smart Template technology in the One Config Advanced (OCA) configurator. These
+Templates represent the CTO equivalents of the top-selling BTO configurations. They are intended to
+provide simple starting points to assist you in easily creating and customizing your desired Server solutions.
+HPE Servers that have Platform Templates developed by HPE Product Managers will have a separate tab in
+the HPE OCA configurator.
+Workload Solutions Templates from HPE
+The Workload Solutions Templates build on the Smart Templates technology to easily develop working
+configurations of the most compelling Workload Solutions. The templates complement the reference Builds
+developed by HPE. Workload Solutions templates preconfigure some of the key architecture decisions and
+make it easier for Sellers to get started and complete a differentiated server solution for your ' 'customer's
+specific workload.
+Mainstream SKUs
+HPE launched the Mainstream SKU initiative as a market-driven approach to Demand Steering. It is a
+simplified portfolio of our top-selling options that meet the current and future market trends. HPE has
+committed to providing a more predictable and faster experience for these options. Mainstream SKUs enjoy
+higher safety stock levels and have higher fulfillment service levels than non-Mainstream SKUs. Mainstream
+orders are fulfilled +30% faster than non-Mainstream orders, have fewer shortages, and have better recovery
+dates. This platform has Mainstream SKUs in the options portfolio and is eligible for an improved
+Mainstream experience. Mainstream SKUs are designated with a Mainstream symbol in our configurators.
+Mainstream Configurations
+HPE is using the new Smart Templates technology to present Mainstream configurations. All the options in a
+Mainstream configuration are pre-selected Mainstream SKUs to optimize the performance, predictability, and
+fulfillment experience. Check the Template section in our configurators for eligible Mainstream
+configurations.
+This section lists some of the steps required to configure a Factory Integrated Model. To ensure valid
+configurations are ordered, Hewlett Packard Enterprise recommends using an HPE-approved configurator.
+Contact your local sales representative for information on configurable product offerings and requirements.
+Factory Integrated Models must start with a CTO Server.
+FIO indicates that this option is only available as a factory installable option.
+Some options may not be integrated at the factory. Contact your local sales representative for
+additional information
+Notes: This document is not intended to be used as a complete configuration guide. For validated
+configuration an HPE configuration tool must be used to create a valid configuration.
+Step 1: Base Configuration (choose one (1) of the following base models below)
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 23
+Step 1: Base Configuration (choose one (1) of the following base models below)
+CTO Server HPE ProLiant DL320
+Gen12 SFF
+CTO Server
+HPE ProLiant
+DL320 Gen12
+SFF/EDSFF
+CTO Server
+HPE ProLiant
+DL320 Gen12 4
+LFF
+CTO Server
+HPE ProLiant
+DL320 Gen12 12
+LFF
+CTO Server
+HPE ProLiant
+DL320 Gen12 GPU
+CTO Server
+SKU Number P71437-B21 P75217-B21 P75218-B21 P75219-B21 P75220-B21
+TAA SKU1 P71437-
+B21#GTA
+P75217-
+B21#GTA
+P75218-
+B21#GTA
+P75219-
+B21#GTA
+P75220-
+B21#GTA
+Processor Not included as standard
+DIMM Slots 16 DIMM slots
+Storage
+Controller
+Choice of HPE modular Smart Array and PCIe plug-in Controllers, and Intel® VROC
+RAID on CPU.
+PCIe Slots PCIe 5.0: 2 slots (x 16 FHHL)
+OCP Slots 1x OCP 3.0 PCIe 5.0 (x16) + 1 optional OCP PCIe (x16)
+Drive Cage -
+included
+8 SFF Drive Cage
+SAS/SATA/NVMe
+x1, or x4 based
+on configuration
+None Included 4 SAS/SATA
+LFF
+12 SAS/SATA
+LFF
+None Included
+Network
+Controller
+None standard. Choice of OCP 3.0 or PCIe select standup network adapters.
+Fans Support for (7) Standard, High-Performance, or Closed Loop Cooling Fans
+Management HPE iLO7 on DC-SCM Module required, included.
+Features: Intelligent Provisioning (standard), iLO Advanced (optional), and OneView
+(optional)
+Video One (1) VGA (rear)
+USB Front: One (1) USB 3.2 Gen1 + iLO service port
+Rear: Two (2) USB 3.2 Gen1 ports
+Internal: One (1) USB 3.2 Gen1 port
+Option: One (1)
+Front USB 2.0
+port
+Option: One (1)
+Front USB 2.0
+port
+Option: One (1)
+Front USB 2.0
+port
+Option: One (1)
+Front USB 2.0
+port
+Security Embedded TPM 2.0 (Trusted Platform Module)
+Rail Kit Optional Easy Install rails and CMA
+Form Factor 1U Rack2
+Warranty 3-year parts, 3-year labor, 3-year onsite support with next business day response.
+Notes:
+- All DL320 Gen12 CTO Server models require the selection of Processor, Fans, Memory and Power
+Supply. Backplane selections available for SFF, SFF/EDSFF and GPU CTO Server.
+- 1HPE offers multiple Trade Agreement Act (TAA) compliant configurations to meet the needs of US
+Federal Government customers. These products are either manufactured or substantially transformed
+in a designated country. TAA compliance is only provided when HPE options are included as part of
+factory integrated orders (CTO).
+- 212 LFF CTO Server requires 1200mm depth rack for proper mounting.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 24
+Step 2: Choose Core Options
+Choice of 1 Processor model and Heat Sink Kit
+- Requires necessary Heat Sink for rated processor wattage.
+Choice of DDR5 memory options.
+- Requires necessary Fan Kits for different memory configurations subject to the
+recommended system ambient temperature.
+Choice of Backplane / Drive cage
+Choice of Riser Cards
+Choice of Storage Controllers, OS Boot Devices and VROC
+Choice of Storage Controller Cables
+Choice of SSD, HDD, and Optical Drives
+Choice of Networking options
+- PCIe standup or OCP 3.0. May require necessary Fan Kits subject to recommended
+system ambient temperature.
+Choice of Accelerator options
+Choice of Power and Cooling options
+Step 3: Choose Additional Options
+Choice of Security options
+Choice of Optical Drives and Enablement Kits
+Choice of Software as a Service Management - HPE GreenLake for Compute Ops
+Management and HPE OneView
+Choice of Embedded Management
+Choice of Rail Kits
+Choice of Rack options
+Choice of Support Services
+Choice of Core Options
+Choose one (1) Processor
+Intel® Xeon 6® Efficient-Core (E-Core) Performance per Watt Processors
+Intel Xeon 6710E 2.4GHz 64-core 205W Processor for HPE P71117-B21
+Intel Xeon 6731E 2.2GHz 96-core 250W Processor for HPE P71118-B21
+Intel Xeon 6740E 2.4GHz 96-core 250W Processor for HPE P71119-B21
+Intel Xeon 6746E 2.0GHz 112-core 250W Processor for HPE P71120-B21
+Intel Xeon 6756E 1.8GHz 128-core 225W Processor for HPE P71121-B21
+Intel Xeon 6766E 1.9GHz 144-core 250W Processor for HPE P71122-B21
+Intel Xeon 6780E 2.2GHz 144-core 330W Processor for HPE P71124-B21
+Intel® Xeon 6® Performance-Core (P-Core) Processors
+Intel Xeon 6507P 3.5GHz 8-core 150W Processor for HPE P74504-B21
+Intel Xeon 6517P 3.2GHz 16-core 190W Processor for HPE P74507-B21
+Intel Xeon 6527P 3.0GHz 24-core 255W Processor for HPE P74570-B21
+Intel Xeon 6730P 2.5GHz 32-core 250W Processor for HPE P74573-B21
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 25
+Intel Xeon 6736P 2.0GHz 36-core 205W Processor for HPE P74575-B21
+Intel Xeon 6737P 2.9GHz 32-core 270W Processor for HPE P74576-B21
+Intel Xeon 6747P 2.7GHz 48-core 330W Processor for HPE P73831-B21
+Intel Xeon 6767P 2.4GHz 64-core 350W Processor for HPE P73834-B21
+Intel Xeon 6787P 2.0GHz 86-core 350W Processor for HPE P73837-B21
+Intel® Xeon 6® Mainline Processors
+Intel Xeon 6505P 2.2GHz 12-core 150W Processor for HPE P74503-B21
+Intel Xeon 6515P 2.3GHz 16-core 150W Processor for HPE P74506-B21
+Intel Xeon 6520P 2.4GHz 24-core 210W Processor for HPE P74568-B21
+Intel Xeon 6530P 2.3GHz 32-core 225W Processor for HPE P74571-B21
+Intel Xeon 6740P 2.1GHz 48-core 270W Processor for HPE P73829-B21
+Intel Xeon 6760P 2.2GHz 64-core 330W Processor for HPE P73832-B21
+Intel® Xeon 6® Single Socket Processors (Rich I/O)
+Intel Xeon 6511P 2.3GHz 16-core 150W Processor for HPE P74505-B21
+Intel Xeon 6521P 2.6GHz 24-core 225W Processor for HPE P74569-B21
+Intel Xeon 6731P 2.5GHz 32-core 245W Processor for HPE P74574-B21
+Intel Xeon 6741P 2.5GHz 48-core 300W Processor for HPE P73830-B21
+Intel Xeon 6761P 2.5GHz 64-core 350W Processor for HPE P73833-B21
+Intel Xeon 6781P 2.0GHz 80-core 350W Processor for HPE P73836-B21
+Notes:
+- Adequate fans and heatsinks must be selected.
+- Processors with TDP > 185W require:
+High Performance Heatsink (P71956-B21) and 7x High-Performance Fan Kit (P71958-B21).
+- Processors with TDP > 270W require:
+Closed-loop Liquid Cooling FIO Heat Sink Kit (P76605-B21) and 7x Closed-loop Liquid Cooling FIO Fan
+Kit (P76603-B21).
+Choose Memory Options
+Please select one or more memory DIMMs from below.
+For the new Gen12 memory population rule whitepaper and optimal memory performance guidelines and
+memory speed table, please go to: http://www.hpe.com/docs/memory-population-rules
+For memory Reliability, Accessibility, and Serviceability (RAS) features whitepaper like Fast Fault Tolerance
+and legacy mirrored memory feature, etc., please go to: http://www.hpe.com/docs/memory-ras-feature.
+Registered DIMMs DDR5 (RDIMMs)
+HPE 16GB (1x16GB) Single Rank x8 DDR5-6400 CAS-46-45-45 EC8 Registered Smart
+Memory Kit
+P69726-B21
+HPE 32GB (1x32GB) Dual Rank x8 DDR5-6400 CAS-46-45-45 EC8 Registered Smart Memory
+Kit
+P69727-B21
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 26
+HPE 64GB (1x64GB) Dual Rank x4 DDR5-6400 CAS-46-45-45 EC8 Registered Smart Memory
+Kit
+P69728-B21
+HPE 96GB (1x96GB) Dual Rank x4 DDR5-6400 CAS-46-45-45 EC8 Registered Smart Memory
+Kit
+P69729-B21
+HPE 128GB (1x128GB) Dual Rank x4 DDR5-6400 CAS-46-45-45 EC8 Registered Smart
+Memory Kit
+P69730-B21
+HPE 256GB (1x256GB) Quad Rank x4 DDR5-6400 CAS-60-52-52 EC8 Registered 3DS Smart
+Memory Kit
+P73447-B21
+Notes:
+- Total memory selection must be in quantities of 1, 2, 4, 6, 8 or 16. For more detailed information regarding
+memory population rules, please refer to - https://www.hpe.com/docs/server-memory.
+- Certain memory configurations may be restricted in the GPU CTO Server, based on ambient inlet
+temperature.
+- 96 GB and higher DIMMs require high performance fan kits.
+- For additional information, please see the HPE DDR5 Smart Memory QuickSpecs
+- The maximum memory speed is 6400 MT/S at 1 DPC and 5200 MT/S at 2 DPC.
+Memory Blank Kit
+HPE DDR4 DIMM Blank Kit P07818-B21
+Notes: Memory DIMM blanks must be installed in each empty slot.
+Choose backplane /drive cage
+HPE ProLiant Compute DL320 Gen12 SP SFF Configure-to-order Server P71437-B21
+Supported Drive Cages
+HPE ProLiant Compute DL320 Gen12 SP 8SFF x4 NVMe U.2 Backplane Kit P71421-B21
+HPE ProLiant Compute DL3XX Gen12 1U 8SFF x1 Tri-Mode U.3 L-Shaped Backplane Kit P75084-B21
+HPE ProLiant Compute DL320 Gen12 8SFF x4 NVMe U.3 Backplane Kit P75085-B21
+HPE ProLiant Compute DL320 Gen12 2SFF x4 Tri-Mode U.3 BC Backplane Kit P75086-B21
+HPE ProLiant Compute DL320 Gen12 2SFF x4 NVMe U.2 BC Backplane Kit P75087-B21
+Notes:
+- Direct Attach NVMe drive capability dependent on PCIe lane availability.
+- SATA SFF drives supported only with appropriate controller.
+HPE ProLiant Compute DL320 Gen12 SFF/EDSFF Configure-to-order Server P75217-B21
+Supported Drive Cages
+HPE ProLiant Compute DL3XX Gen12 1U 4EDSFF NVMe Stacking Backplane Kit P72221-B21
+HPE ProLiant Compute DL3XX Gen12 1U 2SFF x4 Tri-Mode U.3 Stacking Backplane Kit P72223-B21
+Notes:
+- Direct Attach NVMe drive capability dependent on PCIe lane availability.
+- SATA SFF drives supported only with appropriate controller.
+HPE ProLiant Compute DL320 Gen12 GPU Configure-to-order Server P75220-B21
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 27
+Supported Drive Cages
+HPE ProLiant Compute DL3XX Gen12 1U 4EDSFF NVMe Stacking Backplane Kit P72221-B21
+HPE ProLiant Compute DL3XX Gen12 1U 2SFF x4 Tri-Mode U.3 Stacking Backplane Kit P72223-B21
+Notes:
+- GPU Server requires Rich I/O CPU to support sufficient PCIe lanes for PCIe slots and
+drive cages.
+- SATA SFF drives supported only with appropriate controller.
+Choose Risers
+Please select one or more from below.
+HPE ProLiant Compute DL3X0 Gen12 x16 PCIe Primary Riser Kit P71430-B21
+HPE ProLiant Compute DL320 Gen12 SP x16 PCIe Secondary Riser Kit P72152-B21
+HPE ProLiant Compute DL320 Gen12 x16 Low Profile NS204i-t Boot Controller Riser Kit P77555-B21
+Notes: P77555-B21 required for rear hot plug NS204i support with P67252-B21 2400W
+73.5mm PSU.
+Choose Storage Controller
+Please select one or more from below.
+Notes: For more information on the HPE Gen11 Storage Controller, please refer to the following: HPE
+Compute MR Gen11 Controllers QuickSpecs
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 28
+Essential RAID Controllers
+HPE MR216i-p Gen11 x16 Lanes without Cache PCI SPDM Plug-in Storage Controller P47785-B21
+HPE MR216i-o Gen11 x16 Lanes without Cache OCP SPDM Storage Controller P47789-B21
+Performance RAID Controllers
+HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller P58335-B21
+HPE MR416i-o Gen11 x16 Lanes 8GB Cache OCP SPDM Storage Controller P47781-B21
+HPE MR416i-p Gen11 x16 Lanes 8GB Cache PCI SPDM Plug-in Storage Controller P47777-B21
+Notes:
+- All Performance RAID Controllers require Li-ion battery or Smart Capacitor option
+(below).
+- GPU Server requires Rich I/O CPU to support sufficient PCIe lanes for PCIe slots and
+drive cages.
+- All HPE MRxxx RAID controllers support SAS, SATA, and NVMe drives.
+Battery and Hybrid Capacitor
+HPE Smart Storage Hybrid Capacitor with 145mm Cable Kit P02377-B21
+HPE 96W Smart Storage Lithium-ion Battery with 145mm Cable Kit P01366-B21
+Notes: If HPE 96W Smart Stg Li-ion Batt 145mm Kit is selected then HPE Smart Hybrid
+Capacitor 145mm kit cannot be selected and vice versa.
+M.2 NVMe OS Boot Device
+HPE NS204i-u v2 NVMe Hot Plug Boot Optimized Storage Device P78279-B21
+HPE ProLiant Compute DL320 Gen12 NS204i-u Internal Cable Kit P76627-B21
+HPE ProLiant Compute DL320 Gen12 NS204i-u GPU Internal Cable Kit P76628-B21
+HPE ProLiant Compute DL320 Gen12 NS204i-u Front Cable Kit P77186-B21
+HPE ProLiant Compute DL320 Gen12 SP NS204i-u Boot Extention Enablement Kit P71433-B21
+HPE ProLiant Compute DL320 Gen12 x16 Low Profile NS204i-t Boot Controller Riser Kit P77555-B21
+Notes: P77555-B21 required for rear hot plug NS204i support with P67252-B21 2400W
+73.5mm PSU.
+CPU-Based RAID Controller (Intel VROC)
+Intel Virtual RAID on CPU RAID 1 FIO Software for HPE S3Q19A
+Intel Virtual RAID on CPU Premium FIO Software for HPE R7J57A
+Notes: VROC supports up to 8 NVMe direct attach drives. SATA drives not supported.
+Platform Compatible Cable Kits
+Cables are listed by supported CTO model.
+Notes:
+- PCIe Cable Kits connect to PCIE RAID Controller.
+- OROC Cable Kits connect to OCP RAID Controller.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 29
+- Direct Attach Cable Kits connect directly to MLB Riser connector.
+- MCIO Direct Attach Cable Kits connect to MCIO connectors on MLB.
+HPE ProLiant Compute DL320 Gen12 Common Cable Kits
+HPE ProLiant Compute DL3X0 Gen12 OCP SlotB for R1S MCIO Cable Kit P75154-B21
+HPE ProLiant Compute DL340 Gen12 Direct Attach Rear OCP SlotB Cable Kit P77556-B21
+HPE ProLiant DL320 Gen11 Intrusion Detection Cable Kit P55417-B21
+HPE ProLiant Compute DL320 Gen12 SFF Configure-to-order Server (P71437-B21)
+HPE ProLiant Compute DL320 Gen12 8SFF x1 U.3 PCIe Cable Kit P75088-B21
+HPE ProLiant Compute DL320 Gen12 8SFF x1 U.3 OROC Cable Kit P75090-B21
+HPE ProLiant Compute DL320 Gen12 2SFF Direct Attach Cable Kit P75092-B21
+HPE ProLiant Compute DL320 Gen12 2SFF MCIO Direct Attach Cable Kit P79306-B21
+HPE ProLiant Compute DL320 Gen12 2SFF PCIe Cable Kit P75095-B21
+HPE ProLiant Compute DL320 Gen12 2SFF OROC Cable Kit P78558-B21
+HPE ProLiant Compute DL320 Gen12 2SFF OROC Cable Kit P78558-B21
+HPE ProLiant Compute DL3X0 Gen12 OCP SlotB MCIO Cable Kit P71426-B21
+HPE ProLiant Compute DL320 Gen12 SFF/EDSFF Configure-to-order Server (P75217-
+B21)
+HPE ProLiant Compute DL320 Gen12 4EDSFF Direct Attach Cable Kit P75124-B21
+HPE ProLiant Compute DL320 Gen12 8EDSFF Direct Attach Front OCP Cable Kit P76619-B21
+HPE ProLiant Compute DL320 Gen12 12EDSFF Direct Attach Cable Kit P75130-B21
+HPE ProLiant Compute DL320 Gen12 16EDSFF Direct Attach Cable Kit P75135-B21
+HPE ProLiant Compute DL320 Gen12 16EDSFF OCP Direct Attach Cable Kit P76620-B21
+HPE ProLiant Compute DL320 Gen12 20EDSFF Direct Attach Cable Kit P75140-B21
+HPE ProLiant Compute DL320 Gen12 10SFF Hybrid x4 Direct Attach Cable Kit P75144-B21
+HPE ProLiant Compute DL320 Gen12 10SFF Hybrid x4 PCIe Cable Kit P75146-B21
+HPE ProLiant Compute DL320 Gen12 8SFF Hybrid x4 Direct Attach Front OCP Cable Kit P76625-B21
+HPE ProLiant Compute DL320 Gen12 MR416i-o 8SFF Hybrid x4 Cable Kit P75148-B21
+HPE ProLiant Compute DL3X0 Gen12 OCP SlotB MCIO Cable Kit P71426-B21
+HPE ProLiant Compute DL320 Gen12 NS204i-u Front Cable Kit P77186-B21
+HPE ProLiant Compute DL320 Gen12 4LFF Configure-to-order Server (P75218-B21)
+HPE ProLiant Compute DL320 Gen12 4LFF OROC Cable Kit P75097-B21
+HPE ProLiant Compute DL320 Gen12 4LFF PCIe Cable Kit P75100-B21
+HPE ProLiant Compute DL3X0 Gen12 OCP SlotB MCIO Cable Kit P71426-B21
+HPE ProLiant Compute DL320 Gen12 NS204i-u Internal Cable Kit P76627-B21
+HPE ProLiant Compute DL320 Gen12 12LFF Configure-to-order Server (P75219-B21)
+HPE ProLiant Compute DL320 Gen12 12LFF OROC Cable Kit P75102-B21
+HPE ProLiant Compute DL320 Gen12 12LFF PCIe Cable Kit P75105-B21
+HPE ProLiant Compute DL3X0 Gen12 OCP SlotB MCIO Cable Kit P71426-B21
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 30
+HPE ProLiant Compute DL320 Gen12 GPU Configure-to-order Server (P75220-B21)
+HPE ProLiant Compute DL320 Gen12 4xGPU Enablement Kit P75107-B21
+HPE ProLiant Compute DL320 Gen12 GPU 4SFF Direct Attach Cable Kit P75114-B21
+HPE ProLiant Compute DL320 Gen12 GPU 4SFF PCIe Cable Kit P76617-B21
+HPE ProLiant Compute DL320 Gen12 GPU 4SFF OROC Cable Kit P75118-B21
+HPE ProLiant Compute DL320 Gen12 GPU 8EDSFF Direct Attach Cable Kit P75120-B21
+HPE ProLiant Compute DL320 Gen12 GPU MR416i-p 8EDSFF Cable Kit P75122-B21
+HPE ProLiant Compute DL320 Gen12 GPU FF 8SFF Direct Attach Cable Kit P75150-B21
+HPE ProLiant Compute DL320 Gen12 GPU FF 6SFF Direct Attach Cable Kit P75152-B21
+HPE ProLiant Compute DL320 Gen12 NS204i-u GPU Internal Cable Kit P76628-B21
+HPE ProLiant Compute DL3XX Gen12 Front GPU L40S Power Cable Kit P75110-B21
+Choose Storage - SSD/NVMe/HDD Drives
+Solid State Drives
+For SSD selection guidance, please visit https://ssd.hpe.com/
+Please refer to the HPE Solid State Disk Drives QuickSpecs for more detailed information:
+HPE Solid State Disk Drives QuickSpecs
+Read Intensive - 24G SAS - SFF
+HPE 1.92TB SAS 24G Read Intensive SFF BC Multi Vendor SSD P49031-B21
+HPE 3.84TB SAS 24G Read Intensive SFF BC Multi Vendor SSD P49035-B21
+HPE 7.68TB SAS 24G Read Intensive SFF BC Multi Vendor SSD P49041-B21
+HPE 15.36TB SAS 24G Read Intensive SFF BC Multi Vendor SSD P49045-B21
+Mixed Use - 24G SAS - SFF
+HPE 1.6TB SAS 24G Mixed Use SFF BC Multi Vendor SSD P49049-B21
+HPE 3.2TB SAS 24G Mixed Use SFF BC Multi Vendor SSD P49053-B21
+HPE 6.4TB SAS 24G Mixed Use SFF BC Multi Vendor SSD P49057-B21
+Read Intensive - 12G SAS - SFF
+HPE 960GB SAS 12G Read Intensive SFF BC Value SAS Multi Vendor SSD P40506-B21
+HPE 1.92TB SAS 12G Read Intensive SFF BC Value SAS Multi Vendor SSD P40507-B21
+HPE 3.84TB SAS 12G Read Intensive SFF BC Value SAS Multi Vendor SSD P40508-B21
+HPE 7.68TB SAS 12G Read Intensive SFF BC Value SAS Multi Vendor SSD P40509-B21
+Mixed Use - 12G SAS - SFF
+HPE 960GB SAS 12G Mixed Use SFF BC Value SAS Multi Vendor SSD P40510-B21
+HPE 1.92TB SAS 12G Mixed Use SFF BC Value SAS Multi Vendor SSD P40511-B21
+HPE 3.84TB SAS 12G Mixed Use SFF BC Value SAS Multi Vendor SSD P40512-B21
+Mixed Use - 12G SAS - LFF
+HPE 960GB SAS 12G Mixed Use LFF LPC Value SAS Multi Vendor SSD P37009-B21
+Read Intensive - 6G SATA - SFF
+HPE 480GB SATA 6G Read Intensive SFF BC Multi Vendor SSD P40497-B21
+HPE 960GB SATA 6G Read Intensive SFF BC Multi Vendor SSD P40498-B21
+HPE 1.92TB SATA 6G Read Intensive SFF BC Multi Vendor SSD P40499-B21
+HPE 3.84TB SATA 6G Read Intensive SFF BC Multi Vendor SSD P40500-B21
+Mixed Use - 6G SATA - SFF
+HPE 480GB SATA 6G Mixed Use SFF BC Multi Vendor SSD P40502-B21
+HPE 960GB SATA 6G Mixed Use SFF BC Multi Vendor SSD P40503-B21
+HPE 1.92TB SATA 6G Mixed Use SFF BC Multi Vendor SSD P40504-B21
+HPE 3.84TB SATA 6G Mixed Use SFF BC Multi Vendor SSD P40505-B21
+Read Intensive - 6G SATA - LFF
+HPE 960GB SATA 6G Read Intensive LFF LPC Multi Vendor SSD P47808-B21
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 31
+HPE 960GB SATA 6G Read Intensive LFF LPC Multi Vendor SSD P47808-B21
+Read Intensive - NVMe - SFF
+HPE 960GB NVMe Gen4 Mainstream Performance Read Intensive SFF BC U.3 Static
+V2 Multi Vendor SSD
+P64842-B21
+HPE 1.92TB NVMe Gen4 Mainstream Performance Read Intensive SFF BC U.3 Static
+V2 Multi Vendor SSD
+P64844-B21
+HPE 3.84TB NVMe Gen4 Mainstream Performance Read Intensive SFF BC U.3 Static
+V2 Multi Vendor SSD
+P64846-B21
+HPE 7.68TB NVMe Gen4 Mainstream Performance Read Intensive SFF BC U.3 Static
+V2 Multi Vendor SSD
+P64848-B21
+HPE 15.36TB NVMe Gen4 Mainstream Performance Read Intensive SFF BC U.3 Static
+SPDM Multi Vendor SSD
+P69255-B21
+HPE 1.92TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63829-B21
+HPE 1.92TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a SSD P50216-B21
+HPE 3.84TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63833-B21
+HPE 3.84TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a SSD P50219-B21
+HPE 7.68TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PS1010 SSD P70434-B21
+HPE 7.68TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63837-B21
+HPE 7.68TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a SSD P50222-B21
+HPE 15.36TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PS1010 SSD P70436-B21
+HPE 15.36TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 CM7 SSD P63841-B21
+HPE 15.36TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 PM1733a
+SSD
+P50224-B21
+Mixed Use - NVMe - SFF
+HPE 800GB NVMe Gen4 Mainstream Performance Mixed Use SFF BC U.3 Static V2
+Multi Vendor SSD
+P64999-B21
+HPE 1.6TB NVMe Gen4 Mainstream Performance Mixed Use SFF BC U.3 Static V2
+Multi Vendor SSD
+P65007-B21
+HPE 3.2TB NVMe Gen4 Mainstream Performance Mixed Use SFF BC U.3 Static V2
+Multi Vendor SSD
+P65015-B21
+HPE 6.4TB NVMe Gen4 Mainstream Performance Mixed Use SFF BC U.3 Static V2
+Multi Vendor SSD
+P65023-B21
+HPE 1.6TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 CM7 SSD P63845-B21
+HPE 1.6TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PM1735a SSD P50227-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PS1030 SSD P70426-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 CM7 SSD P63849-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PM1735a SSD P50230-B21
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PS1030 SSD P70428-B21
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 CM7 SSD P63853-B21
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 PM1735a SSD P50233-B21
+Read Intensive - NVMe - EDSFF E3.S 1T
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 32
+Read Intensive - NVMe - EDSFF E3.S 1T
+HPE 1.92TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 EDSFF
+SPDM PE1010 SSD
+P77269-B21
+HPE 1.92TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 CD8P SSD P69234-B21
+HPE 3.84TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 EDSFF
+SPDM PE1010 SSD
+P77271-B21
+HPE 3.84TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 CD8P SSD P69237-B21
+HPE 7.68TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 EDSFF
+SPDM PE1010 SSD
+P77273-B21
+HPE 7.68TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 CD8P SSD P69239-B21
+HPE 15.36TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 EDSFF
+SPDM PE1010 SSD
+P77275-B21
+HPE 15.36TB NVMe Gen5 Mainstream Performance Read Intensive E3S EC1 CD8P
+SSD
+P69546-B21
+HPE 3.84TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM
+PM1743 SSD
+P57799-B21
+HPE 3.84TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM
+CM7 SSD
+P61179-B21
+HPE 3.84TB NVMe Gen5 High Performance Read Intensive E3S EC1 PS1010 SSD P70392-B21
+HPE 7.68TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM
+PM1743 SSD
+P57803-B21
+HPE 7.68TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM
+CM7 SSD
+P61183-B21
+HPE 7.68TB NVMe Gen5 High Performance Read Intensive E3S EC1 PS1010 SSD P70395-B21
+HPE 15.36TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM
+PM1743 SSD
+P57807-B21
+HPE 15.36TB NVMe Gen5 High Performance Read Intensive E3S EC1 EDSFF SPDM
+CM7 SSD
+P61187-B21
+HPE 15.36TB NVMe Gen5 High Performance Read Intensive E3S EC1 PS1010 SSD P70397-B21
+Mixed Use - NVMe - EDSFF E3.S 1T
+HPE 1.6TB NVMe Gen5 Mainstream Performance Mixed Use E3S EC1 EDSFF SPDM
+PE1030 SSD
+P77262-B21
+HPE 1.6TB NVMe Gen5 Mainstream Performance Mixed Use E3S EC1 CD8P SSD P69241-B21
+HPE 3.2TB NVMe Gen5 Mainstream Performance Mixed Use E3S EC1 EDSFF SPDM
+PE1030 SSD
+P77265-B21
+HPE 3.2TB NVMe Gen5 Mainstream Performance Mixed Use E3S EC1 CD8P SSD P69243-B21
+HPE 6.4TB NVMe Gen5 Mainstream Performance Mixed Use E3S EC1 EDSFF SPDM
+PE1030 SSD
+P77267-B21
+HPE 6.4TB NVMe Gen5 Mainstream Performance Mixed Use E3S EC1 CD8P SSD P69245-B21
+HPE 3.2TB NVMe Gen5 High Performance Mixed Use E3S EC1 EDSFF SPDM CM7
+SSD
+P61191-B21
+HPE 3.2TB NVMe Gen5 High Performance Mixed Use E3S EC1 PS1030 SSD P70399-B21
+HPE 6.4TB NVMe Gen5 High Performance Mixed Use E3S EC1 EDSFF SPDM CM7
+SSD
+P61195-B21
+HPE 6.4TB NVMe Gen5 High Performance Mixed Use E3S EC1 PS1030 SSD P70401-B21
+HPE 12.8TB NVMe Gen5 High Performance Mixed Use E3S EC1 PS1030 SSD P70403-B21
+Very Read Optimized - NVMe - EDSFF E3.S 1T
+HPE 3.84TB NVMe Gen4 Mainstream Performance Very Read Optimized E3S EC1
+EDSFF P5430 SSD
+P63930-B21
+HPE 7.68TB NVMe Gen4 Mainstream Performance Very Read Optimized E3S EC1
+EDSFF P5430 SSD
+P63934-B21
+HPE 15.36TB NVMe Gen4 Mainstream Performance Very Read Optimized E3S EC1
+EDSFF P5430 SSD
+P63938-B21
+SED (Self-Encryption Drive) - SATA SFF
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 33
+HPE 480GB SATA 6G Read Intensive SFF BC Self-encrypting 5400P SSD P58236-B21
+HPE 960GB SATA 6G Mixed Use SFF BC Self-encrypting 5400M SSD P58244-B21
+SED (Self-Encryption Drive) - SAS SFF
+HPE 3.84TB SAS Read Intensive SFF BC Self-encrypting FIPS 140-2 PM7 SSD P63875-B21
+HPE 1.6TB SAS Mixed Use SFF BC Self-encrypting FIPS 140-2 PM7 SSD P63871-B21
+SED (Self-Encryption Drive) - NVMe - SFF
+HPE 1.92TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 Self-encrypting
+FIPS 140-3 CM7 SSD
+P61019-B21
+HPE 3.84TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 Self-encrypting
+FIPS 140-3 CM7 SSD
+P61027-B21
+HPE 7.68TB NVMe Gen4 High Performance Read Intensive SFF BC U.3 Self-encrypting
+FIPS 140-3 CM7 SSD
+P61035-B21
+HPE 1.6TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 Self-encrypting FIPS
+140-3 CM7 SSD
+P61043-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 Self-encrypting FIPS
+140-3 CM7 SSD
+P61051-B21
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF BC U.3 Self-encrypting FIPS
+140-3 CM7 SSD
+P61059-B21
+HPE 7.68TB NVMe Gen5 High Performance Read Intensive E3S EC1 Self-encrypting
+FIPS 140-3 CM7 SSD
+P70674-B21
+HPE 3.2TB NVMe Gen5 High Performance Mixed Use E3S EC1 Self-encrypting FIPS
+140-3 CM7 SSD
+P70669-B21
+HPE 6.4TB NVMe Gen5 High Performance Mixed Use E3S EC1 Self-encrypting FIPS
+140-3 CM7 SSD
+P70672-B21
+Hard Disk Drives
+Please refer to the HPE Hard Disk Drives QuickSpecs for more detailed information:
+HPE Hard Disk Drives QuickSpecs
+Mission Critical / Enterprise - 12G SAS - SFF Drives
+HPE 300GB SAS 12G Mission Critical 10K SFF BC 3-year Warranty HDD P40430-B21
+HPE 600GB SAS 12G Mission Critical 10K SFF BC 3-year Warranty Multi Vendor HDD P53561-B21
+HPE 1.2TB SAS 12G Mission Critical 10K SFF BC 3-year Warranty HDD P28586-B21
+HPE 1.8TB SAS 12G Mission Critical 10K SFF BC 3-year Warranty 512e Multi Vendor
+HDD
+P53562-B21
+HPE 2.4TB SAS 12G Mission Critical 10K SFF BC 3-year Warranty 512e HDD P28352-B21
+Business Critical / Midline - 12G SAS - LFF Drives
+HPE 2TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Multi Vendor HDD 833926-B21
+HPE 4TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Multi Vendor HDD 833928-B21
+HPE 6TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty 512e Multi Vendor
+HDD
+861746-B21
+HPE 8TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty 512e Multi Vendor
+HDD
+834031-B21
+HPE 12TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e Multi
+Vendor HDD
+881781-B21
+HPE 16TB SAS 12G Business Critical 7.2K LFF (3.5in) LP 1yr Wty 512e ISE HDD P23608-B21
+HPE 20TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE
+Multi Vendor HDD
+P53553-B21
+HPE 24TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE
+Multi Vendor HDD
+P68583-B21
+Business Critical / Midline - 6G SATA - LFF Drives
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 34
+Business Critical / Midline - 6G SATA - LFF Drives
+HPE 1TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Multi Vendor HDD 861686-B21
+HPE 2TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Multi Vendor HDD 861681-B21
+HPE 4TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Multi Vendor HDD 861683-B21
+HPE 6TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty 512e Multi Vendor
+HDD
+861742-B21
+HPE 8TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty 512e Multi Vendor
+HDD
+834028-B21
+HPE 12TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e Multi
+Vendor HDD
+881787-B21
+HPE 16TB SATA 6G Business Critical 7.2K LFF (3.5in) LP 1yr Wty 512e ISE HDD P23449-B21
+HPE 20TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE
+Multi Vendor HDD
+P53554-B21
+HPE 24TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE
+Multi Vendor HDD
+P68585-B21
+SED (Self-Encryption Drive)
+HPE 1.2TB SAS 12G Mission Critical 10K SFF BC 3-year Warranty Self-encrypting FIPS
+HDD
+P28622-B21
+HPE 2.4TB SAS 12G Mission Critical 10K SFF BC 3-year Warranty 512e Self-encrypting
+FIPS HDD
+P28618-B21
+HPE 4TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Self-encrypting FIPS
+Private HDD
+P28642-B21
+HPE 8TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty 512e Self-encrypting
+FIPS Private HDD
+P28634-B21
+HPE 16TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty 512e Self-
+encrypting FIPS Private HDD
+P28626-B21
+HPE Networking Options
+Select one or more Networking Options.
+Notes:
+- Direct Attach Cable (DAC) for copper environments or fiber transceivers and cables for fiber-optic
+environments must be purchased separately. Please see the related NIC QuickSpecs for Technical
+Specifications and additional information:
+https://h20195.www2.hpe.com/v2/getpdf.aspx/A00002507ENW.pdf
+- 25 Gb or faster Ethernet adapter requires high performance fan selection.
+HPE Networking
+PCIe Adapters
+1 Gigabit Ethernet adapters
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-
+T Adapter for HPE
+P51178-B21
+10 Gigabit Ethernet adapters
+Broadcom BCM57416 Ethernet 10Gb 2-port
+BASE-T Adapter for HPE
+P26253-B21
+Broadcom BCM57412 Ethernet 10Gb 2-port
+SFP+ Adapter for HPE
+P26259-B21
+10/25 Gigabit Ethernet adapters
+Broadcom BCM57414 Ethernet 10/25Gb 2-port
+SFP28 Adapter for HPE P26262-B21
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 35
+Broadcom BCM57504 Ethernet 10/25Gb 4-port
+SFP28 Adapter for HPE P26264-B21
+Intel E810-XXVDA2 Ethernet 10/25Gb 2-port
+SFP28 Adapter for HPE P08443-B21
+Intel E810-XXVDA4 Ethernet 10/25Gb 4-port
+SFP28 Adapter for HPE P08458-B21
+Notes:
+- Recommended ambient temperature with high
+performance fans installed.
+- 25 Gb or faster Ethernet adapter requires high
+performance fan selection.
+- If 1 or 2 Single Wide GPUs installed in front, it is
+advisable to install the GPUs in PCIe slots 4
+and 6, with the Ethernet adapter installed in
+PCIe slot 1.
+- If there's 1 Double Wide GPU in front, it is
+advisable to install the GPU in PCIe slots 5
+and 6, with the Ethernet adapter installed in
+PCIe slot 2.
+- *Conditional support, with DAC (direct attach
+copper) cable only.
+P26262-B21
+P26264-B21
+P08443-
+B21
+P08458-
+B21
+4 LFF (P75218-B21) 35C 35C 35C 25C
+8 SFF (P71437-B21) 35C 35C 35C 25C
+12 LFF (P75219-B21) 35C 35C 35C 25C
+GPU (P75220-B21) with 1 Single
+Wide or 1 Double Wide GPU in
+front
+35C 25C 35C 25C*
+GPU (P75220-B21) with up to 2
+Single Wide GPU in front
+35C 25C 35C 25C*
+GPU (P75220-B21) with 2 Double
+Wide or 4 Single Wide GPUs in the
+front
+25C 25C * 25C Not
+Supported
+100/200/400 Gigabit Ethernet Adapters
+Mellanox MCX623106AS-CDAT Ethernet 100Gb 2-port QSFP56 Adapter for HPE P25960-B21
+Intel E810-CQDA2 Ethernet 100Gb 2-port QSFP28 Adapter for HPE P21112-B21
+HPE Slingshot SA210S Ethernet 200Gb 1-port PCIe NIC R4K46A
+HPE Slingshot SA410S Ethernet 400Gb 1-port PCIe NIC R9Y95A
+Notes:
+- Recommended ambient temperature with high performance fans installed.
+- 25 Gb or faster Ethernet adapter requires high performance fan selection.
+- If 1 or 2 Single Wide GPU is installed in front, it is advisable to install the GPUs in PCIe slots 4 and 6, with
+the Ethernet adapter installed in PCIe slot 1.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 36
+- If 1 Double Wide GPU is installed in front, it is advisable to install the GPU in PCIe slots 5 and 6, with the
+Ethernet adapter installed in PCIe slot 2.
+- *Conditional support, with DAC (direct attach copper) cable only.
+- **Qualification pending
+P25960-
+B21
+P21112-
+B21
+R4K46A R9Y95A
+4 LFF (P75218-B21) 25C 25C 25C **
+8 SFF (P71437-B21) 25C 25C 25C **
+12 LFF (P75219-B21) 25C 25C 25C **
+GPU (P75220-B21) with 1 Single Wide or 1
+Double Wide GPU in front
+25C* 25C* 25C* **
+GPU (P75220-B21) with up to 2 Single Wide
+GPU in front
+25C* 25C* 25C* **
+GPU (P75220-B21) with 2 Double Wide or 4
+Single Wide GPUs in the front
+Not
+supported
+Not
+supported
+Not
+Supported
+**
+OCP 3.0 Adapters
+1 Gigabit Ethernet adapters
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter for HPE P51181-B21
+10 Gigabit Ethernet adapters
+Broadcom BCM57416 Ethernet 10Gb 2-port BASE-T OCP3 Adapter for HPE P10097-B21
+Broadcom BCM57412 Ethernet 10Gb 2-port SFP+ OCP3 Adapter for HPE P26256-B21
+10/25 Gigabit Ethernet adapters
+Broadcom BCM57504 Ethernet 10/25Gb 4-port SFP28 OCP3 Adapter for HPE P26269-B21
+Broadcom BCM57414 Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter for HPE P10115-B21
+Intel E810-XXVDA2 Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter for HPE P10106-B21
+Intel E810-XXVDA4 Ethernet 10/25Gb 4-port SFP28 OCP3 Adapter for HPE P41614-B21
+Notes:
+- Recommended ambient temperature with high performance fans installed.
+- 25 Gb or faster Ethernet adapter requires high performance fan selection.
+- If 1 or 2 Single Wide GPU is installed in front, it is advisable to install the GPUs in PCIe
+slots 4 and 6, with the Ethernet adapter installed in OCP slot A.
+- If 1 Double Wide GPU is installed in front, it is advisable to install the GPU in PCIe slots
+5 and 6, with the Ethernet adapter installed in OCP slot B.
+P26269-
+B21
+P10115-
+B21
+P10106-
+B21
+P41614-
+B21
+4 LFF (P75218-B21) 35C 35C 35C 25C
+8 SFF (P71437-B21) 35C 35C 35C 25C
+12 LFF (P75219-B21) 35C 35C 35C 25C
+GPU (P75220-B21) with 1 Single Wide or 1
+Double Wide GPU in front
+25C 35C 35C Not
+supported
+GPU (P75220-B21) with up to 2 Single Wide
+GPU in front
+25C 35C 35C Not
+supported
+GPU (P75220-B21) with 2 Double Wide or 4
+Single Wide GPUs in the front
+25C 35C 35C Not
+Supported
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 37
+100 Gigabit Ethernet adapters
+Intel E810-CQDA2 Ethernet 100Gb 2-port QSFP28 OCP3 Adapter for HPE P22767-B21
+Broadcom BCM57608 Ethernet 100Gb 2-port QSFP112 OCP3 Adapter for HPE P73114-B21
+Notes:
+- Recommended ambient temperature with high performance fans installed.
+- 25 Gb or faster Ethernet adapter requires high performance fan selection.
+- If 1 or 2 Single Wide GPU is installed in front, it is advisable to install the GPUs in PCIe
+slots 4 and 6, with the Ethernet adapter installed in OCP slot A.
+- If 1 Double Wide GPU is installed in front, it is advisable to install the GPU in PCIe slots
+5 and 6, with the Ethernet adapter installed in OCP slot B.
+P22767-
+B21
+P73114-
+B21
+4 LFF (P75218-B21) 35C 25C
+8 SFF (P71437-B21) 35C Not
+supported
+12 LFF (P75219-B21) 35C 25C
+GPU (P75220-B21) with 1 Single Wide or
+1 Double Wide GPU in front
+25C Not
+supported
+GPU (P75220-B21) with up to 2 Single
+Wide GPU in front
+25C Not
+supported
+GPU (P75220-B21) with 2 Double Wide
+or 4 Single Wide GPUs in the front
+25C Not
+supported
+HPE InfiniBand
+HPE InfiniBand NDR 1-port OSFP PCIe5 x16 MCX75310AAS-NEAT Adapter P45641-B21
+HPE InfiniBand NDR200/Ethernet 200GbE 2-port QSFP112 PCIe5 x16 MCX755106AC-
+HEAT Adapter
+P65333-B21
+Notes:
+- Recommended ambient temperature with high performance fans installed.
+- If InfiniBand adapter is selected, high performance fans are required.
+- If 1 or 2 Single Wide GPU is installed in front, it is advisable to install the GPUs in PCIe slots 4 and 6,
+with the Infiniband adapter installed in PCIe slot 1.
+- If 1 Double Wide GPU is installed in front, it is advisable to install the GPU in PCIe slots 5 and 6, with
+the Infiniband adapter installed in PCIe slot 2.
+- *Conditional support, with DAC (direct attach copper) cable only.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 38
+P45642-B21 P45641-B21 P65333-B21
+4 LFF (P75218-B21) 35C 25C 25C
+8 SFF (P71437-B21) 35C 25C 25C
+12 LFF (P75219-B21) 35C 25C 25C
+GPU (P75220-B21) with 1 Single Wide or
+1 Double Wide GPU in front
+25C 25C* 25C*
+GPU (P75220-B21) with up to 2 Single
+Wide GPU in front
+25C 25C* 25C*
+GPU (P75220-B21) with 2 Double Wide
+or 4 Single Wide GPUs in the front
+25C* Not Supported Not Supported
+HPE Storage Adapters
+Fibre Channel HBA
+HPE SN1610Q 32Gb 1-port Fibre Channel Host Bus Adapter R2E08A
+HPE SN1610Q 32Gb 2-port Fibre Channel Host Bus Adapter R2E09A
+HPE SN1700Q 64Gb 1-port Fibre Channel Host Bus Adapter R7N86A
+HPE SN1700Q 64Gb 2-port Fibre Channel Host Bus Adapter R7N87A
+HPE SN1620E 32Gb 2-port Fibre Channel Host Bus Adapter S4S01A
+HPE SN1720E 64Gb 2-port Fibre Channel Host Bus Adapter S4T09A
+Computational and Graphics Accelerators
+NVIDIA L4 24GB PCIe Accelerator for HPE S0K89C
+Notes:
+- Compatible with GPU CTO Server.
+- Requires performance fans to be installed.
+NVIDIA L40S 48GB PCIe Accelerator S2L70C
+Notes:
+- Compatible with GPU CTO Server.
+- Requires performance fans to be installed.
+- Requires HPE ProLiant Compute DL3XX Gen12 Front GPU L40S Power Cable Kit
+(P75110-B21)
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 39
+Power and Cooling
+Please select power supplies, fans, and heat sink options below.
+Cooling Options
+HPE ProLiant Compute Gen12 1U Standard Fan Kit P71954-B21
+HPE ProLiant Compute Gen12 1U High Performance Fan Kit P71958-B21
+HPE ProLiant Compute DL320 Gen12 1U Closed-loop Liquid Cooling FIO Fan Kit P76603-B21
+Notes:
+- Fan Kit Includes 1 fan, seven (7) required per server.
+- High Performance Fans required for processors with a TDP > 185W.
+- Closed Loop Liquid Cooling Fans required for processors with a TDP > 270W.
+HPE ProLiant DL3X0 Gen11 1U Standard Heat Sink Kit P48904-B21
+HPE ProLiant Compute DL320 Gen12 Performance Heat Sink Kit P71956-B21
+HPE ProLiant Compute DL320 Gen12 1U Closed-loop Liquid Cooling FIO Heat Sink Kit P76605-B21
+Notes:
+- High Performance Heat Sink required for processors with a TDP > 185W.
+- Closed Loop Liquid Cooling FIO Heat Sink required for processors with a TDP > 270W.
+HPE M-CRPS Titanium Hot Plug Power Supply Kits
+HPE 1000W M-CRPS Titanium Hot Plug Power Supply Kit P67240-B21
+HPE 1500W M-CRPS Titanium Hot Plug Power Supply Kit P67244-B21
+HPE 2400W M-CRPS Titanium Hot Plug Power Supply Kit P67252-B21
+Notes:
+- All power supplies rated for 96% efficiency.
+- Mixing power supplies is NOT supported.
+- Power supplies do not ship with jumper cords.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Configuration Information
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 40
+Step 3: Choose Additional Factory Integratable Options (FIO)
+Security Options
+HPE Trusted Supply Chain for HPE ProLiant P36394-B21
+Notes:
+- HPE Trusted Supply Chain is an optional security upgrade intended for agencies and
+regulated industries needing enhanced security and compliance needs. Applying this
+option to a CTO server ensures it is built in the USA in a secured facility by vetted HPE
+personnel assigned to the manufacturing processes. A multitude of
+checkpoints/inspections for malicious microcode and counterfeit parts are performed
+throughout the server build, and additional safeguards are put in place against cyber-
+exploits throughout the server lifecycle. Learn more at http://www.hpe.com/security
+- This option requires the selection of HPE DL320 Gen11 Intrusion Cable Kit.
+- This option requires the selection of either HPE iLO Advanced 1-server License with 3yr
+Support on iLO Licensed Features (BD505A) or HPE iLO Advanced 1-server License with
+1yr Support on iLO Licensed Features (512485-B21)
+- This option is limited to stand-alone CTO servers only. The HPE Trusted Supply Chain
+configuration will not be available if the server is ordered as factory integrated into a rack
+- One instance of the following Electronic License to Use is required per order (not per
+server):
+R6X85AAE (HPE Trusted Supply Chain E-LTU)
+This option cannot be selected with TAA instruction SKU or TAA CTO Models
+HPE ProLiant Gen11 1U Common Bezel Kit P50450-B21
+HPE ProLiant DL320 Gen11 Intrusion Detection Cable Kit P55417-B21
+HPE Bezel Lock Kit 875519-B21
+Notes: Requires ProLiant Gen11 1U Common Bezel Kit
+Factory Configuration Settings
+HPE iLO Common Password FIO Setting P08040-B21
+Notes:
+- Replaces iLO default randomized password with an HPE-defined common password. HPE
+highly recommends changing this password immediately after the initial onboarding
+process.
+- Customers who want to choose their own custom iLO default password should use the HPE
+Factory Express Integration Services.
+HPE Smart Memory Fast Fault Tolerance FIO Setting 875293-B21
+Notes:
+Enables Fast Fault Tolerance mode, an HPE Memory RAS feature introduced in HPE Gen10
+servers that survives up to two DRAM failures.
+This RAS feature combines Adaptive Double DRAM Device Correction (ADDC) with HPE
+Advanced Error Detection Technology, resulting in significantly better memory reliability
+and availability than what ADDC provides on its own. For more information, see our
+Memory RAS feature technical whitepaper.
+If 'Memory fast fault Tolerance' is selected with Single Rank DIMM, then Min=2 and Max=16
+DIMM's are allowed for selection.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Additional Options
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 41
+If 'Memory fast fault Tolerance' is selected with Dual Rank DIMM or Quad Rank DIMM, then
+Min=1 and Max=16 DIMM's are allowed for selection.
+HPE ProLiant DL300 Gen10 Plus Platform RAS OS Control FIO Setting P27078-B21
+Notes:
+Firmware first is ProLiant servers BIOS default selection. In this mode, monitoring
+functionality built into the design of the server is first on the scene of correctable problems
+to determine quickly and accurately ' 'what's wrong and how to fix it. Firmware first
+enables many platform-specific actions for errors, including predictive fault analysis. This
+technology functions independently of the operating system and does not depend on O/S-
+based tools.
+This SKU instructs factories to enable O/S first mode, a BIOS switch that allows experienced
+customers to have the operating system handle correctable hardware errors. More errors
+could be observed in this mode, including soft ones that do not necessarily indicate
+issues with the component or cause warranty replacement.
+RAID Settings
+HPE RAID 0 Drive 1 FIO Setting 339777-B21
+HPE RAID 1 Drive 1 FIO Setting 339778-B21
+HPE RAID 5 Drive 1 FIO Setting 339779-B21
+HPE Raid 5 w/SP Drive 1 FIO Setting 339780-B21
+HPE RAID FIO Advanced Data Guarding Option 339781-B21
+Notes:
+- General RAID rules:
+ Smart Array controller must be selected.
+ Matching (same part number) drives must be selected.
+ One RAID set will be offered and applied to all applicable drives installed in a server.
+ RAID must be selected if both Factory Installed OS and Smart Array controller are
+present.
+- RAID level selection is limited by Storage controller selection.
+- If RAID is selected in a configuration with VROC and internal controller, then Customer
+Defined RAID Setting (389692-B21) must be selected.
+HPE Customer Defined RAID Setting Service 389692-B21
+Notes:
+- At least 1 hard drive must be on order.
+- Preinstalled OS must be on order.
+- A Customer Intent Document (CID) must be supplied if this part number is ordered.
+- This Customer Intent Document should include all details about the desired RAID custom
+configuration (This includes Drive part numbers and quantities, RAID levels desired, which
+drives should be applied to each RAID level, and if a preinstalled OS has been ordered -
+which RAID set it should be installed on).
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Additional Options
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 42
+Optical Drives and Enablement Kits
+HPE Mobile USB DVD-RW Optical Drive 701498-B21
+HPE 9.5mm SATA DVD-ROM Optical Drive 726536-B21
+HPE 9.5mm SATA DVD-RW Optical Drive 726537-B21
+Notes:
+- SFF or SFF/EDSFF CTO server requires appropriate Optical Drive Enablement Kit.
+- 4LFF CTO Server does not require enablement kit.
+- Optical Drive not supported with 12LFF or GPU CTO Server.
+HPE ProLiant Compute DL3XX Gen12 1U SFF/EDSFF Hybrid Display Port/USB/Optical
+Drive Enablement Kit
+P72227-B21
+Notes: Supported only with SFF/EDSFF CTO Server
+HPE ProLiant Compute DL3XX Gen12 1U 8SFF Front Display Port/USB/Optical Drive
+Enablement Kit
+P72225-B21
+Notes: Supported only with SFF CTO Server
+HPE ProLiant Compute DL3XX Gen12 1U 4LFF Front Display Port/USB Enablement Kit P72229-B21
+Notes: Supported only with 4LFF CTO Server
+HPE Converged Infrastructure Management Software
+HPE OneView w/o iLO including 3yr 24x7 Support Flexible Quantity E-LTU P8B26AAE
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU E5Y35AAE
+Software as a Service Management
+HPE GreenLake for Compute Ops Management
+Base SKU
+HPE Compute Ops Management Enhanced 3-year Upfront ProLiant SaaS R7A11AAE
+Upgrade SKUS
+HPE Compute Ops Management Enhanced 1-year Upfront ProLiant SaaS R7A10AAE
+HPE Compute Ops Management Enhanced 5-year Upfront ProLiant SaaS R7A12AAE
+HPE OneView
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU E5Y35AAE
+HPE OneView w/o iLO including 3yr 24x7 Support Flexible Quantity E-LTU P8B26AAE
+Notes: For customers purchasing HPE GreenLake for Compute Ops Management, without a hardware
+purchase or a BTO purchase, use this base SKU within ASQ order:
+HPE Compute Ops Management Base SaaS R6Z73AAE
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Additional Options
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 43
+For more information, visit the HPE GreenLake for Compute Ops Management
+QuickSpecs: https://www.hpe.com/psnow/doc/a50004263enw
+Supported Servers - CTO only. No OEM. - Complete list can be found here: Latest
+Supported Server List: https://www.hpe.com/info/com-supported-servers
+Embedded Management
+HPE iLO Common Password FIO Setting
+HPE iLO Common Password FIO Setting P08040-B21
+Notes:
+- Replaces iLO default randomized password with an HPE-defined common password. HPE
+highly recommends changing this password immediately after the initial onboarding
+process.
+- Customers who want to choose their own custom iLO default password should use the
+HPE Factory Express Integration Services.
+HPE iLO Advanced
+HPE iLO Advanced Electronic License with 1yr Support on iLO Licensed Features E6U59ABE
+HPE iLO Advanced 1-server License with 1yr Support on iLO Licensed Features 512485-B21
+HPE iLO Advanced AKA Tracking License with 1yr Support on iLO Licensed Features 512487-B21
+HPE iLO Advanced Electronic License with 3yr Support on iLO Licensed Features E6U64ABE
+HPE iLO Advanced 1-server License with 3yr Support on iLO Licensed Features BD505A
+HPE iLO Advanced AKA Tracking License with 3yr Support on iLO Licensed Features BD507A
+HPE Converged Infrastructure Management Software
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU E5Y35AAE
+HPE OneView w/o iLO including 3yr 24x7 Support Flexible Quantity E-LTU P8B26AAE
+Notes: Licenses ship without media. The HPE OneView Media Kit can be ordered
+separately or downloaded.
+HPE Tape Backup
+For the complete range of tape drives, autoloaders, libraries, and media, see:
+https://www.hpe.com/us/en/storage/storeever-tape-storage.html For hardware and software
+compatibility of Hewlett Packard Enterprise tape backup products
+http://www.hpe.com/storage/BURAcompatibility
+HPE Racks
+Please see the HPE Advanced Series Racks QuickSpecs for information on additional racks options
+and rack specifications. HPE G2 Advanced Series Racks
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Additional Options
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 44
+Please see the HPE Enterprise Series Racks QuickSpecs for information on additional racks options
+and rack specifications. HPE G2 Enterprise Series Racks
+HPE Power Distribution Units (PDUs)
+Please see the HPE Basic Power Distribution Units (PDU) QuickSpecs for information on these
+products and their specifications.
+Please see the HPE Metered Power Distribution Units (PDU) QuickSpecs for information on these
+products and their specifications. Please see the HPE Intelligent Power Distribution Unit (PDU)
+QuickSpecs for information on these products and their specifications.
+Please see the HPE Metered and Switched Power Distribution Units (PDU) QuickSpecs for
+information on these products and their specifications.
+Uninterruptible Power Systems (UPS)
+To learn more, please visit the HPE Uninterruptible Power Systems (UPS) web page.
+Please see the HPE Direct Flow Three Phase Uninterruptible Power System QuickSpecs for
+information on these products and their specifications.
+Please see the HPE Line Interactive Single-Phase UPS QuickSpecs for information on these
+products and their specifications.
+HPE Rack Options
+Please see the HPE KVM Switches web page for information on these products and their specifications.
+Easy Install Rail Kits
+Easy Install rail kits contain telescoping rails, which allow for in-rack serviceability.
+To assist in installing the server into the rack, an optional installation tool is available by contacting your
+local services representative.
+Notes:
+- Hewlett Packard Enterprise recommends that a minimum of two people are required for all Rack Server
+installations. Please refer to your installation instructions for proper tools and the number of people to
+use for any installation.
+- HPE rail kits are designed to work with HPE racks in compliance with industry standard EIA-310-E. In the
+event a customer elects to purchase a third-party rack for use with an HPE rail kit, any such use is at
+customer's own risk. HPE makes no express or implied warranties with respect to such third-party racks
+and specifically disclaims any implied warranties of merchantability and fitness for a particular purpose.
+Furthermore, HPE has no obligation and assumes no liability for the materials, design, specifications,
+installation, safety, and compatibility of any such third-party racks with any rail kits, including HPE rail
+kits.
+HPE ProLiant DL300 Gen10 Plus 1U Cable Management Arm for Rail Kit P26489-B21
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Additional Options
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 45
+Notes: Not supported with 12LFF CTO Server
+HPE Easy Install Rail 1 Kit P52349-B21
+Notes: Supported only with 8SFF CTO Server.
+HPE DL3XX Gen11 Easy Install Rail 2 Kit P52351-B21
+Notes:
+- Supported with 4LFF CTO Server.
+- Supported with SFF/EDSFF CTO Server.
+HPE Easy Install Rail 9 Kit P52353-B21
+Notes: Supported only with 12LFF CTO Server.
+HPE Support Service
+Installation & Startup Services
+HPE ProLiant DL/ML Install Service U4554E
+HPE ProLiant DL/ML Startup Service U4555E
+Tech Care
+HPE 3 Year Tech Care Essential DL320 Gen12 SP HW Service H44SLE
+HPE 3 Year Tech Care Essential wDMR DL320 Gen12 SP HW Service H44SME
+HPE 5 Year Tech Care Essential DL320 Gen12 SP HW Service H44TRE
+HPE 5 Year Tech Care Essential wDMR DL320 Gen12 SP HW Service H44TSE
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Additional Options
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 46
+Memory Population guidelines
+HPE ProLiant DL320 Gen12
+HPE ProLiant Gen12 with Intel Xeon 6® Efficient Core (E-Core) processors
+DIMM population order
+DIMM slot 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+1 DIMM 10
+2 DIMMs 7 10
+4 DIMMs1,2,3 3 7 10 14
+8 DIMMs1,2,3,4 1 3 5 7 10 12 14 16
+16
+DIMMs1,2,3,4
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+HPE ProLiant Gen12 with Intel Xeon 6® Performance Core (P-Core) processors
+DIMM population order
+DIMM slot 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+1 DIMM 10
+2 DIMMs 3 10
+4
+DIMMs1,2,3,5,6
+3 7 10 14
+8
+DIMMs1,2,3,4,5,6
+1 3 5 7 10 12 14 16
+12
+DIMMS1,2,3,5,6
+1 3 4 5 7 8 9 10 12 13 14 16
+16
+DIMMs1,2,3,4,5,6
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+Notes:
+- Cells without entries represent configurations not supported, and if populated, the server may result in
+non-optimal memory performance or other unexpected behavior.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Memory
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 47
+- 1 Supports Hemi (hemisphere mode, HCC Only).
+- 2 Supports Software Guard Extensions (SGX).
+- 3Supports Interleaving
+- 4Supports Mirroring
+- 5Supports Sub-NUMA clustering (SNC2, XCC Only)
+- 6Supports Quad-Channel Configuration (XCC Only)
+General Memory Population Rules and Guidelines:
+- Install DIMMs only after the corresponding processor is installed.
+- All DIMMs must be DDR5
+- x4 and x8 DIMMs can be mixed in the same channel
+- Mixing of non-3DS and 3DS LRDIMMs in not allowed on the same channel
+- The maximum memory speed is a function of the memory type, memory configuration, and processor
+model.
+- The maximum memory capacity is a function of the number of DIMM slots on the platform, the largest
+DIMM capacity
+- qualified on the platform, the number and model of installed processors qualified on the platform.
+- To realize the performance memory capabilities listed in this document, HPE DDR5 Smart Memory is
+required.
+- Use of 256GB DIMMs requires high-performance fans.
+For additional information, please reference the HPE DDR5 Smart Memory QuickSpecs
+Notes: The maximum memory speed is a function of the memory type, memory configuration, and
+processor model.
+For details on the HPE Server Memory speed, visit: https://www.hpe.com/docs/server-memory
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Memory
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 48
+4 LFF device bay numbering
+8 SFF drive bay numbering
+ff
+8 SFF + 2 SFF drive bay numbering
+SFF/EDSFF - SFF drive positioning
+SFF/EDSFF - EDSFF drive positioning
+SFF/EDSFF - EDSFF with front NS204i drive positioning
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Storage
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 49
+12 LFF drive box Drive Positioning
+12 LFF drive bay - All box Drive Positioning
+GPU Model - SFF Drive Positioning
+GPU Model - EDSFF Drive Positioning
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Storage
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 50
+System Unit
+Dimensions (Height x Width x Depth)
+SFF
+4.28 x 43.46 x 60.75 cm
+1.69 x 17.11 x 23.92 in
+SFF/EDSFF
+4.28 x 43.46 x 66.70 cm
+1.69 x 17.11 x 26.26 in
+4 LFF CTO Server
+4.28 x 43.46 x 66.70 cm
+1.69 x 17.11 x 26.26 in
+12 LFF CTO Server
+4.28 x 43.46 x 99.74 cm
+1.69 x 17.11 x 39.27 in
+GPU Dense CTO
+4.28 x 43.46 x 82.18 cm
+1.69 x 17.11 x 32.35 in
+Notes: 12 LFF CTO Server requires 1200mm depth rack for proper mounting.
+Weight (approximate)
+SFF light load
+- 11.5 kg (25.35 lb): One Drive, one DIMM, one PCIe card, one riser, one DC-SCM module, one
+processor, one heatsink, one power supply, seven fans.
+SFF maximum
+- 17.25 kg (38.0 lb): Ten drives, sixteen DIMMs, two OCP cards, two PCIe risers, two PCIe cards,
+one DC-SCM module, one processor, one heatsink, two power supplies, and seven fans.
+SFF/EDSFF light load
+- 11.6 kg (25.57 lb): One Drive, one DIMM, one PCIe card, one riser, one DC-SCM module, one
+processor, one heatsink, one power supply, seven fans.
+SFF/EDSFF maximum
+- 18.71 kg (41.25 lb): Twenty drives, sixteen DIMMs, two OCP cards, two PCIe risers, two PCIe
+cards, one DC-SCM module, one processor, one heatsink, two power supplies, and seven fans.
+4 LFF light load
+- 12.5 kg (27.15 lb): One Drive, one DIMM, one PCIe card, one riser, one DC-SCM module, one
+processor, one heatsink, one power supply, seven fans.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Technical Specifications
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 51
+4 LFF maximum
+- 18.34 kg (40.35 lb): Four drives, sixteen DIMMs, two OCP cards, two PCIe risers, two PCIe cards,
+one DC-SCM module, one processor, one heatsink, two power supplies, optical drive, and seven
+fans.
+12 LFF light load
+- 17.6 kg (38.8 lb): One Drive, one DIMM, one PCIe card, one riser, one DC-SCM module, one
+processor, one heatsink, one power supply, seven fans.
+12 LFF maximum
+- 28.93 kg (63.65 lb): Twelve drives, sixteen DIMMs, two OCP cards, two PCIe risers, two PCIe
+cards, one DC-SCM module, one processor, one heatsink, two power supplies, optical drive, and
+seven fans.
+GPU light load
+- 15.5 kg (34.17 lb): One Drive, one DIMM, two single width GPUs, one PCIe card, one riser, one
+DC-SCM module, one processor, one heatsink, one power supply, seven fans.
+GPU Dense maximum
+- 21.53 kg (47.47 lb): Eight drives, sixteen DIMMs, two double width GPUs, two PCIe cards, two
+risers, two OCP cards, one DC-SCM module, one processor, one heatsink, two power supplies,
+seven fans.
+Input Requirements (per power supply)
+Rated Line Voltage
+Low-line input voltage: 100 VAC to 120 VAC
+High-line input voltage: 200 VAC to 240 VAC
+240 VDC for China
+BTU Rating
+Maximum
+For 2400W M-CRPS Power Supply: 4268 (at 100 VAC), 8532 (at 240VAC)
+For 1500W M-CRPS Power Supply: 3792 (at 100 VAC), 5560 (at 200 VAC)
+For 1000W M-CRPS Power Supply: 3044 (at 100 VAC), 3680 (at 200 VAC)
+Power Supply Output (per power supply)
+Rated Steady-State Power
+For 2400W M-CRPS Power Supply: 1200W: (at 100-127 VAC), 2400W (at 200-240 VAC), 2400W (at
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Technical Specifications
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 52
+240 VDC) input for China only
+For 1500W M-CRPS Power Supply: 1000W: (at 100 VAC), 1100W (at 110-120VAC), 1500W (at 200-
+240 VAC), 1500W (at 240 VDC) input for China only
+For 1000W M-CRPS Power Supply: 800W: (at 100-120 VAC), 1000W (at 200-240 VAC), 1000W (at
+240 VDC) input for China only
+Maximum Peak Power
+For 2400W M-CRPS Power Supply: 2400W (at 100 to 127 VAC), 2400W (at 200 to 240 VAC), 2400W
+(at 240 VDC) input for China only
+For 1500W M-CRPS Power Supply: 1000W: (at 100 VAC), 1100W (at 110-120VAC), 1500W (at 200-
+240 VAC), 1500W (at 240 VDC) input for China only
+For 1000W M-CRPS Power Supply: 800W: (at 100-120 VAC), 1000W (at 200-240 VAC), 1000W (at
+240 VDC) input for China only
+For more information on power specifications and technical content, reference the HPE M-CRPS
+QuickSpecs.
+System Inlet Temperature
+Standard Operating Support
+10° to 35°C (50° to 95°F) at sea level with an altitude derating of 1.0°C per every 305 m (1.8°F per every
+1000 ft) above sea level to a maximum of 3050 m (10,000 ft), no direct sustained sunlight. The
+maximum rate of change is 20°C/hr (36°F/hr). The upper limit and rate of change may be limited by the
+type and number of options installed.
+System performance during standard operating support may be reduced if operating with a fan fault or
+above 30°C (86°F).
+Extended Ambient Operating Support
+For approved hardware configurations, the supported system inlet range is extended to be: 5° to 10°C
+(41° to 50°F) and 35° to 40°C (95° to 104°F) at sea level with an altitude derating of 1.0°C per every
+175 m (1.8°F per every 574 ft) above 900 m (2953 ft) to a maximum of 3050 m (10,000 ft). The
+approved hardware configurations for this system are listed at the URL:
+https://www.hpe.com/support/ASHRAEGen12
+For approved hardware configurations, the supported system inlet range is extended to be: 40°C to 45°C
+(104°F to 113°F) at sea level with an altitude derating of 1.0°C per every 125 m (1.8°F per every 410
+ft) above 900 m (2953 ft) to a maximum of 3050 m (10,000 ft). The approved hardware
+configurations for this system are listed at the URL: https://www.hpe.com/support/ASHRAEGen12
+System performance may be reduced if operating in the extended ambient operating range or with a fan
+fault.
+Non-operating
+-30° to 60°C (-22° to 140°F). The maximum rate of change is 20°C/hr (36°F/hr).
+Relative humidity (non-condensing)
+Operating
+8% to 90% - Relative humidity (Rh), 28°C (82.4°F) maximum wet bulb temperature, non-condensing.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Technical Specifications
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 53
+Non-operating
+5 to 95% relative humidity (Rh), 38.7°C (101.7°F) maximum wet bulb temperature, non-condensing.
+Altitude
+Operating
+3050 m (10,000 ft). This value may be limited by the type and number of options installed. The maximum
+allowable altitude change rate is 457 m/min (1500 ft/min).
+Non-operating
+9144 m (30,000 ft). The maximum allowable altitude change rate is 457 m/min (1500 ft/min).
+Emissions Classification (EMC)
+To view the regulatory information for your product, view the Safety and Compliance Information for Server,
+Storage, Power, Networking, and Rack Products, available at the Hewlett Packard Enterprise Support
+Center:
+https://www.hpe.com/support/Safety-Compliance-EnterpriseProducts
+Acoustic Noise
+Listed are the declared mean A-Weighted sound power levels (LWA,m), declared average bystander
+position A-Weighted sound pressure levels (LpAm) and the statistical adder for verification, Kv, is a quantity
+to be added to the declared mean A-weighted sound power level, LWA,m when the product is operating in
+a 23 ± 2°C ambient environment. Noise emissions were measured in accordance with ISO 7779 (ECMA 74)
+and declared in accordance with ISO 9296 (ECMA 109). The listed sound levels apply to standard shipping
+configurations. Additional options may result in increased sound levels. Please have your HPE
+representative provide information from the HPE EMESC website for further technical details regarding the
+configurations listed below.
+Test case Entry 1 4LFF Entry 2 SFF Mid Range SFF Performance SFF
+Idle
+LWA,m 4.9 B 5.1 B 5.0 B 5.0 B
+LpAm 35 dBA 37 dBA 37 dBA 37 dBA
+Kv 0.4 B 0.4 B 0.4 B 0.4 B
+Operating
+LWA,m 5.9 B 6.1 B 6.2 B 5.0 B
+LpAm 44 dBA 45 dBA 48 dBA 37 dBA
+Kv 0.4 B 0.4 B 0.4 B 0.4 B
+Notes:
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Technical Specifications
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 54
+- All measurements made to conform to ISO 7779 / ECMA-74 and declared to conform to ISO 9296 /
+ECMA-109. Operating mode is represented by 50% of CPU.
+- The results in this declaration apply only to the specific configuration listed below when operating and
+tested according to the indicated modes and standards. A system with additional configuration
+components or increased operating functionality may increase the noise emission values.
+ Entry-4LFF Configuration: 1x Xeon 6505P CPU, 3x SATA 7.2K LFF HDD, 1x 16GB DIMM, 1x 1000W
+PSU, 7x STD Fan, 1x MR408i-o OCP.
+ Entry-SFF Configuration: 1x Xeon 6505P CPU, 1x SAS 10K SFF BC HDD, 1x 16GB DIMM, 1x 1000W
+PSU, 7x STD Fan, 1x MR408i-o OCP.
+ Medium Configuration: 1x Xeon 6515P CPU, 8x SAS RI SFF BC VS MV SSD, 2x 32GB DIMM, 1x
+1000W PSU, 7x STD Fan, 1x MR408i-o OCP, 1x 10/25G PCIe.
+ Performance Configuration: 1x Xeon 6710E CPU, 8x NVMe RI BC U.3 SSD, 4x 32GB DIMM, 1x
+1000W PSU, 7x Perf Fan, 1x 10GbE 2p OCP, 1x 10/25G PCIe.
+- The declared mean A-weighted sound power level, LWA,m, is computed as the arithmetic average of the
+measured.
+- A-weighted sound power levels for a randomly selected sample, rounded to the nearest 0,1 B.
+- The declared mean A-weighted emission sound pressure level, LpA,m, is computed as the arithmetic
+average of the measured A-weighted emission sound pressure levels at the bystander positions for a
+randomly selected sample, rounded to the nearest 1 dB.
+- The statistical adder for verification, Kv, is a quantity to be added to the declared mean A-weighted sound
+power level, LWA,m, such that there will be a 95% probability of acceptance, when using the verification
+procedures of ISO 9296, if no more than 6,5 % of the batch of new equipment, has A-weighted sound
+power levels greater than (LWA,m + Kv).
+- The quantity, LWA,c (formerly called LWAd), can be computed from the sum of LWA,m and Kv.
+- B, dB, abbreviations for bels and decibels, respectively, where 1 B = 10 dB.
+- Systems under abnormal conditions may increase the noise level, persons in the vicinity of the product
+[cabinet] for extended periods of time should consider wearing hearing protection or using other means
+to reduce noise exposure.
+Environment-friendly Products and Approach End-of-life Management and Recycling
+Hewlett Packard Enterprise offers end-of-life product return, trade-in, and recycling programs, in many
+geographic areas, for our products. Products returned to Hewlett Packard Enterprise will be recycled,
+recovered, or disposed of in a responsible manner.
+The EU WEEE directive (2002/95/EC) requires manufacturers to provide treatment information for each
+product type used by treatment facilities. This information (product disassembly instructions) is posted on
+the Hewlett Packard Enterprise website. These instructions may be used by recyclers and other WEEE
+treatment facilities, as well as Hewlett Packard Enterprise OEM customers who integrate and re-sell
+Hewlett Packard Enterprise equipment.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Technical Specifications
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 55
+Date Version
+History
+Action Description of Change
+24-Feb-2025 Version 1 New New QuickSpecs.
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Summary of Changes
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 56
+Make the right purchase
+decision. Contact our
+presales specialists.
+© Copyright 2025 Hewlett Packard Enterprise Development LP. The information contained
+herein is subject to change without notice. The only warranties for Hewlett Packard
+Enterprise products and services are set forth in the express warranty statements
+accompanying such products and services. Nothing herein should be construed as
+constituting an additional warranty. Hewlett Packard Enterprise shall not be liable for
+technical or editorial errors or omissions contained herein.
+a50004283enw - 16887 - Worldwide - V1 - 24-February-2025
+QuickSpecs HPE ProLiant Compute DL320 Gen12
+Copyright
+DA - 16887 Worldwide QuickSpecs -- Version 1 -- 2.24.2025 Page 57
+

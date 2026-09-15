@@ -525,7 +525,7 @@ button.quiet{color:var(--ink-soft)}
       </div>
 
       <div class="row">
-        <div class="q"><span class="t">Media bay</span></div>
+        <div class="q"><span class="t">Media bay</span><span class="note" id="media-note"></span></div>
         <div class="a"><fieldset class="pills"><legend>Media bay</legend>
           <input type="radio" id="md0" name="media" value="No media bay" checked><label for="md0">None</label>
           <input type="radio" id="md1" name="media" value="DVD-ROM"><label for="md1">DVD-ROM</label>
@@ -535,7 +535,7 @@ button.quiet{color:var(--ink-soft)}
       </div>
 
       <div class="row">
-        <div class="q"><span class="t">Motherboard</span><span class="note">NC boards ship without the network controller.</span></div>
+        <div class="q"><span class="t">Motherboard</span><span class="note" id="mobo-note">NC boards ship without the network controller.</span></div>
         <div class="a"><fieldset class="pills"><legend>Motherboard</legend>
           <input type="radio" id="mb1" name="mobo" value="Standard motherboard" checked><label for="mb1">Standard</label>
           <input type="radio" id="mb2" name="mobo" value="NC motherboard"><label for="mb2">NC</label>
@@ -543,7 +543,7 @@ button.quiet{color:var(--ink-soft)}
       </div>
 
       <div class="row">
-        <div class="q"><span class="t">TPM</span><span class="note">Gen10 and newer take the TPM 2.0 module only — 1.2 is a Gen9 part.</span></div>
+        <div class="q"><span class="t">TPM</span><span class="note" id="tpm-note">Gen10 and newer take the TPM 2.0 module only — 1.2 is a Gen9 part.</span></div>
         <div class="a"><fieldset class="pills"><legend>TPM</legend>
           <input type="radio" id="tp0" name="tpm" value="" checked><label for="tp0">None</label>
           <input type="radio" id="tp1" name="tpm" value="TPM 1.2"><label for="tp1">TPM 1.2</label>
@@ -972,7 +972,8 @@ var MODELS=[
  {m:'DL120',g:'G10', p:['sp1','sp2'],  s:1, d:8,
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
-     notes:['Shares its heatsink option part number with the DL160 and DL180 Gen10 (same thermal design).']}},
+     notes:['Shares its heatsink option part number with the DL160 and DL180 Gen10 (same thermal design).',
+       'UNVERIFIED (2026-09-15): media bay, rear/mid-tray, TPM, and motherboard NC could not be checked against this model\'s own QuickSpecs — no working mirror found for its doc (hpe.com blocked; itcreations.com is a JS SPA that serves its homepage for the PDF path even in a real browser; harddrivesdirect/gzhls.at/device.report have no Gen10 entry for this model). A shared-part listing ("8 SFF Optical Disk Drive Enablement Kit" 873961-B21, sold across DL120/DL160/DL325 Gen10) suggests a media bay likely exists, and "872885-001 4 LFF SAS Backplane" confirms a SAS/SATA backplane exists — but neither is a QuickSpecs confirmation, so nothing here is asserted from them.']}},
  {m:'DL160',g:'G10', p:['sp1','sp2'],  s:2, d:16, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
@@ -1171,9 +1172,10 @@ var MODELS=[
        'Ships with 1 slot in each position by default (Slot 3 primary, Slot 6 secondary) — the 4/6 PCIe Enablement Kits upgrade one or both to 3 slots, but neither is selectable once the 4LFF rear cage is fitted; swap in the LFF Rear Cage riser variants instead.']}},
  {m:'DL360',g:'G11', p:['sp4','sp5'], s:2, d:32,
    rules:{verified:true,hsW:186,hsWtext:'186W–270W',fanW:186,fanPart:'P48908-B21',hsPart:'P48905-B21',riserMax:2,
-     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2SFF rear','2x M.2 (dual uFF) rear'],
+     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['2x M.2 (dual uFF) rear'],
      coolTierW:271,singleMaxAirW:300,fanNVMe:true,fanRear:true,fanGPU:true,
-     notes:['Standard fan kit (5 fans) covers TDP under 186W; the 2P standard kit adds 2 more for a second processor.',
+     notes:['Corrected 2026-09-15: this model previously listed "1SFF rear" and "2SFF rear" here, copied from DL380/DL385 G11 — checked directly against this model\'s own QuickSpecs (3 revisions, 2023-2025): no 1SFF cage exists at all, and the 2SFF cage that does exist is a FRONT expansion sharing the ODD slot, not a rear cage. Only the NS204i-u boot device (2x M.2) genuinely mounts at the rear.',
+       'Standard fan kit (5 fans) covers TDP under 186W; the 2P standard kit adds 2 more for a second processor.',
        'High performance heatsink (P48905-B21) + high performance fan kit (P48908-B21) together cover 186W–270W, or a single 300W processor.',
        'Two processors at 271W or above require closed-loop liquid cooling (P48906-B21) — air cooling is not supported at that tier.',
        'A single 300W processor is air-cooled but single-socket only — no field upgrade to a second socket.',
@@ -2113,6 +2115,84 @@ function flrCardsFor(m){
   var k=flrKind(m);
   return k==='flexlom'?FLRS:k==='ocp'?OCP_CARDS:[];
 }
+/* Motherboard "Standard vs NC" — checked directly against every Gen11
+   and Gen12 model's own QuickSpecs (2026-09-15). The Standard-vs-NC
+   split (a board with an embedded NIC vs one without) is essentially
+   dead from Gen11 onward: nearly every Gen11/Gen12 board has ZERO
+   embedded LOM at all, "Standard" included — networking is always
+   via the FlexibleLOM/OCP slot instead (see flrKind() above). HPE still
+   uses "NC" as a naming suffix on some CTO SKUs (it now just means "no
+   NIC pre-selected in this SKU," not a distinct board revision), but
+   the tool's binary radio doesn't reflect reality for these models —
+   MOBO_ALWAYS_NC flags them so a note can say so plainly.
+   The mirror-image case, MOBO_ALWAYS_LOM: DL20/ML30/ML110 G11 still ship
+   with a real embedded LOM standard and have NO NC variant at all — the
+   OCP/PCIe slot (where one exists) is purely additive there, so "NC"
+   is not just meaningless but genuinely unavailable.
+   DL110 G12's classification is pattern-inferred, not confirmed from
+   its own QuickSpecs (that document wouldn't load from any mirror
+   tried) — flagged as such in its own model notes.
+   G10/G10+ (2026-09-15, second research pass): the "zero embedded LOM
+   chassis-wide" MOBO_ALWAYS_NC case doesn't appear yet at G10/G10+ —
+   every mainstream chassis checked has embedded LOM either as Standard
+   or as a genuine NC-absent choice (left as 'choice', the default,
+   which is already correct for those). The MOBO_ALWAYS_LOM case DOES
+   appear at G10: DL20/DL160/DL180 G10 each explicitly state in their
+   own QuickSpecs that every listed config ships with an embedded NIC
+   and no bare/no-NIC board exists. Every other G10/G10+ model's own
+   doc simply didn't mention NC either way (no explicit "always ships
+   embedded" statement to confirm it) — left unclassified ('choice')
+   per the "don't guess" rule rather than assumed from a sibling. Real,
+   sourced NC-as-genuine-choice models found at G10/G10+: DL360 G10,
+   DL380 G10, DL360 G10+, DL365 G10+, DL380 G10+ — already correctly
+   'choice' by default, no list entry needed. */
+var MOBO_ALWAYS_NC=['DL110 G11','DL325 G11','DL345 G11','DL365 G11','DL385 G11','DL360 G11','DL380 G11','DL560 G11',
+  'DL110 G12','DL320 G12','DL340 G12','DL360 G12','DL380 G12','DL380a G12','DL580 G12','ML350 G12'];
+var MOBO_ALWAYS_LOM=['DL20 G11','ML30 G11','ML110 G11','DL20 G10','DL160 G10','DL180 G10'];
+function motherboardKind(m){
+  if(!m)return 'choice';
+  var key=m.m+' '+m.g;
+  if(MOBO_ALWAYS_NC.indexOf(key)>-1)return 'always-nc';
+  if(MOBO_ALWAYS_LOM.indexOf(key)>-1)return 'always-lom';
+  return 'choice';
+}
+/* Media bay — checked directly against every Gen11/Gen12 model's own
+   QuickSpecs (2026-09-15). Most models DO have some media-bay option
+   (often bay-config-dependent — e.g. DL320/DL360 G11 offer it on 4LFF/
+   8SFF but not their EDSFF/12LFF variant; recorded as a model note
+   rather than a hard per-bay-config block, same "record the general
+   case, note the exception" pattern used throughout this tool). Only
+   confirmed to be ENTIRELY absent — no media bay slot exists at all,
+   on any bay config — for DL110 G11 (fixed front-cabled chassis) and
+   DL380a G12 (fixed GPU-dense 4SFF chassis, zero mentions in its own
+   QuickSpecs). DL110 G12 is included too on the same reasoning (M.2-
+   only storage, no other bay of any kind) but this is inferred, not
+   directly confirmed — its QuickSpecs wouldn't load from any mirror
+   tried, flagged as such in its own model notes. */
+var MEDIA_BAY_NONE=['DL110 G11','DL380a G12','DL110 G12'];
+function hasMediaBay(m){
+  return !m||MEDIA_BAY_NONE.indexOf(m.m+' '+m.g)<0;
+}
+/* TPM (2026-09-15, checked directly against every Gen10/10-Plus/11/12
+   model's own QuickSpecs). Gen9/10/10-Plus mostly ship ONE physical
+   TPM 2.0 module with an official FIO SKU (872108-B21) to run it in
+   "TPM 1.2 mode" — firmware-switchable, not separate 1.2 hardware.
+   TPM_EMBEDDED_ONLY is the real exception: the entry G10+ trio ships
+   TPM 2.0 embedded, enabled by default, no discrete module, no 1.2
+   mode at all. Gen11/Gen12 embed TPM 2.0 the same way — "no longer
+   requires TPM module option kit," per nearly every doc checked —
+   EXCEPT DL560 G11 (TPM12_ALSO), which genuinely lists both 1.2 and
+   2.0 as standing options in its own QuickSpecs (DA-17093). */
+var TPM12_ALSO=['DL560 G11'];
+var TPM_EMBEDDED_ONLY=['DL20 G10+','DL110 G10+','ML30 G10+'];
+function tpmKind(m){
+  if(!m)return 'none';
+  var key=m.m+' '+m.g;
+  if(m.g==='G9')return 'module-g9';
+  if(TPM12_ALSO.indexOf(key)>-1)return 'both-standing';
+  if(/^G11|^G12/.test(m.g)||TPM_EMBEDDED_ONLY.indexOf(key)>-1)return 'embedded';
+  return 'module-switchable';
+}
 /* A starter list only — the field is free text, type any card. Bracket / slot
    form factor is checked separately against the fitted risers. */
 var CARDLIST=[
@@ -2329,7 +2409,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.14.23'; // 24th build shipped today
+var BUILD_VERSION='2026.09.15.1'; // 1st build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -2929,6 +3009,18 @@ function refreshDependents(){
     :flrK==='ocp'?'OCP 3.0 only on this chassis — FlexibleLOM was retired at Gen10 Plus.'
     :flrK==='none'?'No FlexibleLOM/OCP mezzanine on this chassis — networking is a plain PCIe NIC (see PCI cards) or the embedded LOM.'
     :'FlexibleLOM on this chassis (pre-Gen10-Plus — no OCP 3.0 slot exists yet).';
+  var moboK=motherboardKind(m);
+  document.getElementById('mobo-note').textContent=
+    moboK==='always-nc'?'No embedded network controller on any '+(m.m+' '+m.g)+' board — always effectively "NC" whichever you pick here. Networking comes entirely from the FlexibleLOM/OCP field.'
+    :moboK==='always-lom'?'Always ships with an embedded network controller on this chassis — there is no NC variant to pick.'
+    :'NC boards ship without the network controller.';
+  document.getElementById('media-note').textContent=(m&&!hasMediaBay(m))?'No media bay slot on this chassis.':'';
+  var tpmK2=tpmKind(m);
+  document.getElementById('tpm-note').textContent=!m?'Gen10 and newer take the TPM 2.0 module only — 1.2 is a Gen9 part.'
+    :tpmK2==='module-g9'?'TPM 1.2 or 2.0, both a separately-orderable physical module.'
+    :tpmK2==='both-standing'?'TPM 1.2 and TPM 2.0 are both standing options on '+m.m+' '+m.g+' — a confirmed exception to the usual Gen11+ embedded-only rule.'
+    :tpmK2==='embedded'?'TPM 2.0 ships embedded on the motherboard — no separate module to order, and no TPM 1.2 mode.'
+    :'One physical TPM 2.0 module covers both 1.2 and 2.0 — order the '+m.g.replace(/ v2$/,'')+' TPM 2.0 kit.';
   document.getElementById('sys-note').textContent=m?(m.s+' socket'+(m.s>1?'s':'')+', '+m.d+' DIMM slots'):'';
   renderCpuqBtns(m,R);
   var bayList=(m&&m.bays)?m.bays:GENERIC_BAYS;
@@ -3511,12 +3603,32 @@ function evaluate(){
       checks.push(['stop','REAR CONFLICT','More than one mid-tray option entered ("'+rear+'") — a chassis has one mid-tray bay location. Remove all but one mid-tray line.']);
   }
 
-  /* TPM version vs generation */
-  var tpm=r('tpm');
-  if(tpm==='TPM 1.2'&&m&&m.g!=='G9')
-    checks.push(['flag','TPM',m.m+' '+m.g+' takes the TPM 2.0 module only — TPM 1.2 is a Gen9 part. Select TPM 2.0.']);
-  if(tpm&&m&&/G10\+|G11|G12/.test(m.g))
-    checks.push(['info','TPM','The TPM 2.0 kit is generation-specific — order the '+m.g.replace(/ v2$/,'')+' TPM 2.0 module, not a Gen10 one.']);
+  /* TPM — see tpmKind()'s comment above for the sourcing behind each case. */
+  var tpm=r('tpm'),tpmK=tpmKind(m);
+  if(tpm==='TPM 1.2'&&tpmK==='embedded')
+    checks.push(['flag','TPM',m.m+' '+m.g+' has embedded TPM 2.0 only — there is no TPM 1.2 mode on this chassis. Select TPM 2.0.']);
+  else if(tpm==='TPM 2.0'&&tpmK==='embedded')
+    checks.push(['info','TPM','TPM 2.0 ships embedded on the motherboard at '+m.m+' '+m.g+' — no separate module or part number to order.']);
+  else if(tpm&&tpmK==='module-switchable')
+    checks.push(['info','TPM','One physical TPM 2.0 module covers both modes on '+m.m+' '+m.g+' — order the '+m.g.replace(/ v2$/,'')+' TPM 2.0 kit; TPM 1.2 is a firmware switch on that same module, not separate hardware.']);
+
+  /* Motherboard Standard vs NC — see motherboardKind()'s comment. The
+     hard case: DL20/ML30/ML110 G11 ship with a real embedded NIC always
+     and have no NC variant at all to pick. The soft case (every board on
+     this chassis has zero embedded LOM, "Standard" included) is
+     surfaced via #mobo-note instead of a check — picking either radio
+     isn't wrong there, the terminology is just misleading. */
+  var mobo=r('mobo');
+  if(mobo==='NC motherboard'&&m&&motherboardKind(m)==='always-lom')
+    checks.push(['stop','NOT SUPPORTED',m.m+' '+m.g+' has no NC motherboard variant — it always ships with an embedded network controller. Select Standard.']);
+
+  /* Media bay — see hasMediaBay()'s comment for sourcing. Only 3 models
+     are confirmed/strongly-inferred to have no media bay slot at all;
+     picking a real option (anything but "No media bay") on one of them
+     is a hard stop, same treatment as the FlexibleLOM/OCP mismatch. */
+  var media=r('media');
+  if(media&&media!=='No media bay'&&m&&!hasMediaBay(m))
+    checks.push(['stop','NOT SUPPORTED',m.m+' '+m.g+' has no media bay slot on this chassis — select "None".']);
 
   var fanReasons=[];
   if(R.fanNVMe&&hasNVMe)fanReasons.push('NVMe drives require high performance fans'+fanPart+'.');

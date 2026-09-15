@@ -712,6 +712,115 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
     OCP slots (DL360/365/560 G11, most G12 rack models) vs 1 elsewhere
     — this tool's single free-type field doesn't track "how many," the
     same simplification already applied to PCIe/riser slot counts.
+- **Media bay / TPM / Motherboard NC / rear-bay 5-subsystem audit —
+  `hasMediaBay()`, `tpmKind()`, `motherboardKind()`, quickspecs-cache/,
+  2026-09-15.** User asked for media bay, rear/mid-tray, TPM,
+  motherboard Standard-vs-NC, and backplane type to be checked per
+  model, G10 through G12, directly against each model's own QuickSpecs
+  — "the end goal" being every option on the page verified per model
+  per generation so a worksheet can never be wrong. This is explicitly
+  a multi-session effort; this entry covers what shipped in the first
+  session (TPM, Motherboard NC, Media bay — all 3 fully implemented
+  and tested for all 45 models). Rear/mid-tray transcription and
+  Backplane-type gating are sourced but **not yet built** — see
+  "Still open" below.
+  - **`quickspecs-cache/` — a new text cache for QuickSpecs PDFs**
+    (`README.md`, `MANIFEST.md`, one `.txt` per model+gen via
+    `pdftotext -raw`). Directly answers the user's own question ("would
+    it be beneficial to cache...") — hpe.com blocks/throttles direct
+    fetches and mirrors go stale, so every prior audit had to
+    re-discover a working mirror from scratch. **45 of 46 model+gen
+    entries now cached** (all G10/G10+/G11/G12 — every rack/tower model
+    this tool offers at those 4 generations). Only `DL120 G10` has no
+    cache file — no working mirror found across two research passes
+    (hpe.com blocked; itcreations.com is a JS SPA serving its homepage
+    for any PDF path, confirmed with a real browser fetch, not just
+    curl; every other mirror tried has no Gen10 entry for it at all).
+    Flagged UNVERIFIED in its own model notes rather than guessed from
+    its DL160/DL180 G10 siblings.
+  - **TPM (`tpmKind()`) — revised from a blanket "Gen9 vs everything
+    else" rule.** Real finding: Gen9/10/10-Plus mostly ship ONE physical
+    TPM 2.0 module with an official FIO SKU (872108-B21) that runs it in
+    "TPM 1.2 mode" — a firmware switch, not separate 1.2 hardware, but
+    every mainstream Gen10/10-Plus doc checked (DL20/160/180/325/360/
+    380/385/560/580 G10, ML30/110/350 G10, DL325/325v2/345/360/365/380/
+    385/385v2 G10+) explicitly lists both modes as usable. `TPM_EMBEDDED_ONLY`
+    is the real exception: `DL20 G10+`/`DL110 G10+`/`ML30 G10+` ship TPM
+    2.0 embedded and enabled by default, no discrete module, no 1.2 mode
+    at all — the same embedded-only pattern Gen11/Gen12 use chassis-wide
+    ("no longer requires TPM module option kit," in nearly every Gen11/12
+    doc checked). `TPM12_ALSO=['DL560 G11']` is the one confirmed Gen11+
+    exception that still lists both 1.2 and 2.0 as standing options
+    (DA-17093) — a real, sourced deviation, not a guess. `#tpm-note`
+    reflects all 4 states live; `evaluate()` flags TPM 1.2 only where
+    `tpmKind()` returns `'embedded'`.
+  - **Motherboard Standard-vs-NC (`motherboardKind()`) — reconceived as
+    a 3-state fact, not a universal binary choice.** Most Gen11+ boards
+    have ZERO embedded LOM at all, so "Standard" vs "NC" becomes a
+    distinction without a difference (`'always-nc'`, `MOBO_ALWAYS_NC`,
+    16 G11/G12 models) — `#mobo-note` says so, no hard check (picking
+    either radio is valid, just misleading). The mirror-image case,
+    `'always-lom'`: a chassis with a real embedded NIC standard and NO
+    NC variant to pick at all — a hard `stop` if "NC" is selected
+    anyway. Confirmed at G11 (`DL20`/`ML30`/`ML110`) AND, new this pass,
+    at plain **G10**: `DL20`/`DL160`/`DL180` G10 each explicitly state in
+    their own QuickSpecs that every listed config ships with an embedded
+    NIC and no bare/no-NIC board exists. Genuine NC-as-a-real-choice
+    models were also found at G10/G10+ (`DL360 G10`, `DL380 G10`,
+    `DL360 G10+`, `DL365 G10+`, `DL380 G10+`) — these need no list entry,
+    since unclassified models default to `'choice'` already. Every other
+    G10/G10+ model's own doc simply didn't mention NC either way (no
+    explicit "always ships embedded" statement to confirm it) — left
+    unclassified per the "don't guess" rule rather than assumed from a
+    sibling's doc.
+  - **Media bay (`hasMediaBay()`, `MEDIA_BAY_NONE`).** Only 3 models are
+    confirmed/strongly-inferred to have no media bay slot at all on any
+    bay config: `DL110 G11` (fixed front-cabled chassis), `DL380a G12`
+    (fixed GPU-dense 4SFF chassis, zero mentions in its own QuickSpecs),
+    and `DL110 G12` (M.2-only storage — inferred, not directly confirmed,
+    since its QuickSpecs wouldn't load from any mirror tried). Every
+    other model checked (G10 through G12) has SOME media-bay option,
+    often bay-config-dependent (e.g. not available on a model's EDSFF/
+    24SFF/12LFF variant) — recorded as a narrative model note where
+    found, not a hard per-bay-config block, matching how other bay-
+    dependent nuances are handled elsewhere in this tool. `#media-note`
+    + an `evaluate()` hard `stop` (picking a real option on a
+    `MEDIA_BAY_NONE` model) cover the 3 confirmed-absent models.
+  - **One confirmed data bug fixed: `DL360 G11`'s `rules.rear`** was
+    `['1SFF rear','2SFF rear','2x M.2 (dual uFF) rear']` — copied from
+    the DL380/DL385 G11 entries during an earlier pass, not sourced for
+    this model itself. Checked directly against 3 revisions (2023-2025)
+    of DL360 G11's own QuickSpecs: no 1SFF/2SFF rear cage exists on this
+    chassis at all; only the NS204i-u boot device (2x M.2) genuinely
+    mounts at the rear. Corrected to `['2x M.2 (dual uFF) rear']` with a
+    note explaining the correction and its source.
+  - **Still open (deliberately deferred, tracked for the next session):**
+    - **Rear/mid-tray** data entry beyond the DL360 G11 bug-fix above —
+      the research passes sourced rich per-model facts for all 44 other
+      models (e.g. DL380/DL385 G10/G10+ combine mid-tray AND rear
+      simultaneously; DL345 G10+ has rear-only, no mid-tray; DL365 G10+
+      states "Rear: Not Available" outright; most G12 rack models keep a
+      rear cage via shared DL3XX-family parts, DL380a/ML350/DL320/DL580
+      G12 don't) but none of it has been transcribed into `rules.rear`
+      arrays yet — a bigger, 44-model data-entry pass, held back from
+      this session to land the 3 simpler subsystems tested and shipped
+      first.
+    - **Backplane type** — not touched in code at all yet. Findings are
+      rich but bay-config-dependent in a way the other 4 subsystems
+      aren't (e.g. `DL320 G11`'s 4LFF has no NVMe option at all;
+      `DL380a G12` is NVMe-only, zero SAS/SATA mentions anywhere in its
+      doc; several models have TWO distinct backplane families — e.g. a
+      plain SAS/SATA BP vs. a U.3 Tri-mode BP — on the SAME bay count).
+      Needs a design that keys off both the model AND the currently-
+      selected bay config, not just the model — deliberately deferred
+      until the simpler subsystems above were implemented and tested.
+      One clean, generation-spanning pattern DID emerge though, worth
+      reusing when this is built: on every DL380/385/560/580-class
+      chassis checked (both G10 and G10+), only the SFF chassis variant
+      gets NVMe/Premium/Tri-Mode backplane options — the LFF variant of
+      the SAME model gets SAS/SATA (± mid/rear cage) only, no NVMe path.
+    - **`DL120 G10`** stays fully UNVERIFIED for all 5 subsystems — no
+      QuickSpecs source found (see the quickspecs-cache note above).
 - **Capacity planner** — enter usable TB + RAID level, get up to 5
   drive-population suggestions ranked by least wasted capacity, with a
   one-click "Use" that drops the line into the drive list.
