@@ -1,0 +1,1825 @@
+The HP ProLiant DL80 Gen9 Server is designed with affordable storage, networking and processor scalability, and manageability in a
+2U server for cost conscious service provider and SMBs. Apart from basic IT infrastructure workloads this server is ideal for running
+storage capacity intensive applications like cold storage, back-up due to compelling cost/GB that it offers.
+Front View
+1. Access Panel (Top Cover)
+2. USB 2.0 connector
+3. UID button/LED
+4. Health LED
+5. NIC status LED
+6. Power On/Standby button and system power LED
+7. Serial label pull tab
+8. 8-bay LFF drive cage bay
+Rear view
+1. Slot 7 PCIe3 x16 low-profile, standup
+2. Slot 6 PCIe3 x8 low-profile, standup
+3. Slot 4 PCIe3 x8 low-profile, riser (optional)
+4. Slot 5 PCIe3 x8 FlexibleLOM riser (optional)
+5. Slot 4 PCIe3 x16 low-profile, standup
+6. Slot 3 PCIe3 x8 low-profile, standup
+7. Slot 1 PCIe3 x16 low-profile, standup
+8. Slot 1 PCIe3 x16 full-height, full-length GPU riser (optional) or Slot 1 PCIe3 x8 (8, 4, 1) full-height, half-length riser (optional)
+9. Slot 2 PCIe3 x8 full-height half-length riser (optional)
+10. Power supply power connection
+11. Power supply status LED
+12. Non-hot-plug power supply
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Overview
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 1
+13. Embedded 2x1GbE network adapter
+14. UID LED
+15. Video connector
+16. USB 3.0 connectors
+Internal View
+1. Fans shown with 6 Hot-swap fans
+2. HP Smart Storage Battery connector (optional)
+3. Internal USB 3.0 connector
+4. Embedded HP Smart Array B140i Controller
+5. PCIe riser kits
+6. (Under) Non-Hot Plug HP Power supply
+7. PCIe 3.0 slots
+8. MicroSD card slot
+9. 2 Processors, heatsink showing, with HP Smart Socket Guide
+10. HP DDR4 SmartMemory DIMM slots. Shown fully populated in 8 slots (4 per processor)
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Overview
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 2
+NOTE: For more information regarding Intel Xeon processors, please see the following http://www.intel.com/xeon.
+Intel® Xeon® processor E5-2600 v3 product family is designed to deliver the best combination of performance, built-in capabilities,
+and cost-effectiveness. One (or two) of the following Intel® Xeon® E5-2600 v3 processors based on the model.
+Processor
+One of the following
+depending on Model
+Model CPU frequency Cores L3 Cache Power QPI DDR4 Hz
+E5-2660v3 2.6GHz 10 25MB 105W 9.6GT/s 2133
+E5-2650v3 2.3GHz 10 25MB 105W 9.6GT/s 2133
+E5-2650Lv3 1.8GHz 12 30MB 65W 9.6GT/s 2133
+E5-2640v3 2.6GHz 8 20MB 90W 8.0GT/s 1866
+E5-2630v3 2.4Ghz 8 20MB 85W 8.0GT/s 1866
+E5-2630Lv3 1.8GHz 8 20MB 55W 8.0GT/s 1866
+E5-2623v3 3.0GHz 4 10MB 105W 8.0GT/s 1866
+E5-2620v3 2.4GHz 6 15MB 85W 8.0GT/s 1866
+E5-2609v3 1.9GHz 6 15MB 85W 6.4GT/s 1600
+E5-2603v3 1.6GHz 6 15MB 85W 6.4GT/s 1600
+Chipset
+One of the following
+depending on Model
+Intel® C610 Series Chipset
+Intel® E5-2600v3 Processor Family
+NOTE: For more information regarding Intel chipsets, please see the following URL:
+http://www.intel.com/products/server/chipsets/.
+On System Management
+Chipset
+One of the following
+depending on model
+HP iLO (Firmware HP iLO4 2.0) 2GB NAND
+NOTE: For more information, visit: http://www.hp.com/go/ilo
+Memory
+One of the following
+depending on model
+Type
+HP SmartMemory
+DDR4 Registered (RDIMM) or Load Reduced (LRDIMM)
+DIMM Slots Available 8 (4 DIMM slots per processor, 4 channels per
+processor, 1 DIMMs per channel)
+Maximum Capacity
+(LRDIMM)
+256GB (8 x 32GB LRDIMM @2133MHz)
+Maximum Capacity
+(RDIMM)
+128GB (8 x 16GB RDIMM @2133MHz)
+Memory Protection
+One of the following
+depending on Model
+Advanced ECC Advanced ECC uses single device data correction to detect and correct single
+and all multibit error that occurs within a single DRAM chip.
+Online spare Memory online spare mode detects a rank that is degrading and switches
+operation to the spare rank.
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Standard Features
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 3
+Expansion Slots
+Motherboard
+slots
+(Standard)
+Expansion
+Slots #
+Technology Bus Width Connector
+Width
+Bus Number Form Factor Notes
+1 PCIe 3.0 x16 x16 Low Profile CPU 1 slots
+3 PCIe 3.0 x8 x8 Low Profile CPU 1 slots
+4 PCIe 3.0 x16 x16 Low Profile CPU 1 slots
+6 PCIe 3.0 x8 x8 Low Profile CPU 2 slots
+7 PCIe 3.0 x16 x16 Low Profile CPU 2 slots
+NOTE: Bus Width data indicates the number of physical electrical lanes running to the connector.
+Primary Riser
+(Optional)
+Expansion
+Slots #
+Technology Bus Width Connector
+Width
+Bus Number Form Factor Notes
+1 PCIe 3.0 x8 x8 Full-height,
+half-length Slot
+CPU 1 slots
+2 PCIe 3.0 X8 x8 Full-height,
+half-length Slot
+CPU 1 slots
+Flexible LOM
+Riser
+(Optional)
+Expansion
+Slots #
+Technology Bus Width Connector
+Width
+Bus Number Form Factor Notes
+4 PCIe 3.0 x8 x8 Low profile CPU 1 slots
+5 PCIe 3.0 X8 x8 Flexible LOM CPU 1 slots
+NOTE: Flexible LOM riser kit will be available in FYQ1'15.
+NOTE: This riser is mandatory for installing Flexible LOMs & has to be installed in Primary riser slot.
+GPU riser
+(Optional)
+Expansion
+Slots #
+Technology Bus Width Connector
+Width
+Bus Number Form Factor Notes
+1 PCIe 3.0 x16 x16 Full Height,
+Full Length
+Slot
+CPU 1 slots
+NOTE: When populating slots on second riser, a second processor must be installed.
+Storage Controller
+One of the following
+depending on Model
+Entry Models HP Dynamic Smart Array B140i Controller
+NOTE: Provides support for up to 10 SATA drives and data transmission speeds up to 6Gb/s and supports
+RAID 0, 1 & 5.
+Base Models HP H240 FIO Smart Host Bus Adapter
+NOTE: H240 Provides support for up to 8 SAS/SATA drives, data transmission speeds up to 12Gb/s and
+supports RAID 0, 1 & 5.
+Internal Storage Devices
+One of the following
+depending on Model
+Optical Drives Via USB only
+Hard Drives None ship standard
+Hard Drive Bays 12 LFF drive bays total without Optical Bay
+8 LFF drive bays total without Optical Bay
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Standard Features
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 4
+Maximum Internal
+Storage
+One of the following
+depending on Model
+CAPACITY CONFIGURATION
+Hot Plug LFF SAS 72.0TB 12 x 6TB (with 12LFF
+drive cage)
+Hot Plug LFF SATA 72.0TB 12 x 6TB (with 12LFF
+drive cage)
+Non-Hot Plug LFF SATA 19.2TB 12 x 1.6TB (with 12LFF
+drive cage)
+Hot Plug LFF SATA SSD 4.8TB 8 x 600GB (with 8LFF
+drive cage)
+Power Supply
+One of the following
+depending on Model
+HP 550W FIO Power Supply
+HP 800W/900W Gold AC Power Input Module
+HP Entry-Level Power Supplies provide lower-cost options for customers trying to balance their need for
+enterprise class efficiency and reliability while maintaining lowest possible hardware costs. All Entry-
+Level power supply options have been designed specifically for HP ProLiant Gen9 Essential Series
+servers.
+The HP 550W FIO Power Supply is the standard, non-redundant AC power supply option for most HP
+ProLiant Gen9 Essential servers. It features Silver-level (89%) certified power efficiency with a set of
+features optimized for the Gen9 Essential-series rack and tower servers.
+The HP 800W Gold (Redundant)/900W (Non-Redundant) AC Power Input Module with Power Backplane
+can be configured to support power redundancy in ProLiant servers that offer only a single power supply
+bay, providing additional protection against power loss. With an 80 Plus Gold power efficiency rating (up
+to 92%), this power option helps to reduce operating expenses while protecting against trapped power
+capacity in the data center. Each power backplane option can support up to two (2) hot-plug AC power
+input modules.
+All pre-configured servers ship with a standard 6-foot IEC C-13/C-14 jumper cord (A0K02A). This jumper
+cord is also included with each standard AC power supply option kit. If a different power cord is required,
+please check the ProLiant Power Cables web page.
+To review the power requirements for your selected system, please use the HP Power Advisor Tool
+located at http://www.hp.com/go/hppoweradvisor.
+System Fans
+One of the following
+depending on Model
+Non-redundant Redundant
+1P model 3 fans 5 fans
+NOTE: Redundant and non redundant fan counts vary with riser selection. 1P configurations either one of
+primary and secondary risers need 3 fans in non redundant configuration and
+Non-redundant Redundant
+2P model 4 fans 6 fans
+NOTE: Customers may separately purchase redundant fans with the 765516-B21 option kit. Additional
+fans (two) are also included in -B21 processor option kits when upgrading from one processor to two
+processors.
+NOTE: All the riser option kits ship with necessary fan option kits.
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Standard Features
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 5
+Interfaces Video 1 (Vaux Support)
+LOM Network Ports 2 x 1GbE ports
+Micro SD Slot 1 Micro SD
+NOTE: The SD slot is not a hot-pluggable device. Customers should not attempt to plug an SD card into
+the SD slot while the server is powered.
+USB Up to 4 USB ports (standard);
+Front: 1xUSB 2.0 std; (1xUSB2.0 optional upgrade with
+quick release ears)
+Rear: 2xUSB 3.0
+Internal: 1x USB 3.0
+NOTE: 12LFF drive cage models with Quick release latch rack ears supports front USB 2.0.
+Operating Systems and
+Virtualization Software
+Support for ProLiant
+Servers
+Microsoft Windows Server
+Red Hat Enterprise Linux (RHEL)
+SUSE Linux Enterprise Server (SLES)
+Oracle Solaris
+VMware
+NOTE: For more information on HP's Certified and Supported ProLiant Servers for OS and Virtualization
+Software and latest listing of software drivers available for your server, please visit our Support Matrix
+at: http://www.hp.com/go/ossupport and our driver download page
+http://www.hp.com/support/DL80Gen9.
+Upgradeability
+One of the following
+depending on Model
+Upgradeable to two processors (24 cores)
+Up to 8 DIMM slots
+NOTE: To take advantage of DIMMs 5-8, a second processor must be installed.
+FlexibleLOM slot for 1Gigabit or 10 Gigabit Ethernet or QDR/FDR InfiniBand networking options
+NOTE: To take advantage of the additional 2 PCI slot upgrade, a second processor must be installed.
+Redundant Power Supply
+Redundant Fan
+Industry Standard
+Compliance
+ACPI 2.0b Compliant
+PCIe 3.0 Compliant
+PXE Support
+WOL Support
+Microsoft® Logo certifications
+USB 3.0 Support
+ASHRAE A3
+NOTE: Supports A3 extended ambience.
+NOTE: Refer to technical specifications section for more details.
+Graphics Integrated Matrox G200eH2 video standard
+1280 x 1024 (32 bpp)
+1920 x 1200 (16 bpp)
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Standard Features
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 6
+HP Server UEFI/Legacy
+ROM
+HP Server UEFI /Legacy ROM
+Unified Extensible Firmware Interface (UEFI) is an industry standard that provides better manageability
+and more secured configuration while interacting with your server at boot time. HP ProLiant Gen9
+platform defaults to UEFI and can be factory or field configured for Legacy BIOS Boot Mode.
+NOTE: The UEFI System Utilities function is analogous to the HP ROM-Based Setup Utility (RBSU) of
+legacy BIOS. For more information, please visit http://www.hp.com/go/proliantuefi/docs.
+UEFI enables numerous new capabilities specific to HP ProLiant servers such as:
+Secure Boot
+Operating system specific functionality
+Support for > 2.2 TB (using GPT) boot drives
+USB 3.0 Stack
+Embedded UEFI Shell
+Mass Configuration Deployment Tool using HP RESTful API.
+PXE boot support for IPv6 networks
+Boot support for option cards that only support a UEFI option ROM
+For more information please visit http://www.hp.com/go/proliant/uefi.
+NOTE: For UEFI Boot Mode, boot environment and OS image installations should be configured properly
+to support UEFI.
+NOTE: HP UEFI FIO Setting (758959-B22) can be selected to configure the system in Legacy mode in the
+factory.
+Form Factor
+One of the following
+depending on Model
+2U Rack form factor
+All models ship with Easy Install rails (Cable management arm optional).
+8 LFF Drive Bay Version:
+3.44 (8.75cm) Height x 17.54" (44.55 cm) Width x 23.9" (60.70 cm) Length
+12 LFF Drive Bay Version:
+3.44 (8.75cm) Height x 17.54" (44.55 cm) Width x 23.9" (60.70 cm) Length
+Embedded Management HP Integrated Lights-Out
+(HP iLO)
+Monitor your servers for ongoing management, service alerting, reporting
+and remote management with HP iLO. Learn more at
+http://www.hp.com/go/ilo.
+UEFI Configure and boot your servers securely with industry standard Unified
+Extensible Firmware Interface (UEFI). Learn more at
+http://www.hp.com/go/ProLiant/uefi.
+HP RESTful API RESTful API is an application programming interface. RESTful Web Service
+API served by iLO's web server: Learn more at
+http://www.hp.com/go/restfulapi.
+Intelligent Provisioning Provision servers by discovering and deploying 1 to few servers with
+Intelligent Provisioning. Learn more at
+http://www.hp.com/go/intelligentprovisioning.
+Embedded Remote
+Support
+HP's embedded remote support, when used with Insight Online direct connect
+or HP Insight Remote Support, allows HP ProLiant servers to transmit
+hardware events directly to HP or an HP Authorized Partner for automated
+phone home support. Learn more at
+http://www.hp.com/go/insightonline/info.
+NOTE: For more information, visit: http://www.hp.com/go/ilo or HP iLO Management Engine
+technologies whitepaper.
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Standard Features
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 7
+Server utilities HP Smart Update Optimize firmware and driver updates with HP Smart Update solutions. Learn
+more at http://www.hp.com/go/smartupdate.
+HP Systems Insight
+Manager (HP SIM)
+HP SIM allows you to monitor the health of your HP ProLiant Servers and HP
+Integrity Servers, and also provides you with basic support for non-HP
+servers.
+HP SIM also integrates with HP SUM to provide quick and seemless firmware
+updates. Learn more at http://www.hp.com/go/sim.
+HP OneView Standard HP OneView Standard can inventory, monitor, alert, and report on your G6,
+G7, Gen8, and Gen9 servers, while using the HP OneView user interface.
+Annual support is optionally available. Learn more at
+http://www.hp.com/go/oneview.
+Scripting Tool Kit and
+Windows PowerShell
+Provision 1 to many servers using your own scripts to discover and deploy
+them with HP Scripting Tool Kit for Windows and Linux or HP Scripting Tools
+for Windows PowerShell. Learn more at http://www.hp.com/go/ProLiantSTK
+or http://www.hp.com/go/powershell.
+HP RESTful Interface Tool HP RESTful Interface tool is a scripting tool to provision servers using
+RESTful API Interface to discover and deploy servers at scale. Learn more at
+http://www.hp.com/go/restfulapi.
+HP iLO Mobile Application Enables the ability to access, deploy, and manage your server anytime from
+anywhere from select smartphones and mobile devices. For additional
+information please visit: http://www.hp.com/go/ilo/mobileapp.
+HP Insight Online HP Insight Online, available at no additional cost as part of your HP warranty,
+Care Pack or contractual support agreement with HP, is a personalized
+dashboard for simplified tracking of IT operations and support information
+from anywhere, anytime. Learn more at
+http://www.hp.com/go/insightonline/info.
+Security Power-on password
+Serial interface control
+Administrator's password
+TPM 1.2
+UEFI
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Standard Features
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 8
+Warranty This product is covered by a global limited warranty and supported by HP Services and a worldwide
+network of HP Authorized Channel Partners resellers. Hardware diagnostic support and repair is available
+for three years from date of purchase. Support for software and initial setup is available for 90 days from
+date of purchase. Enhancements to warranty services are available through HP Care Pack services or
+customized service agreements. Hard drives have either a one year or three year warranty; refer to the
+specific hard drive QuickSpecs for details.
+NOTE: Server Warranty includes 1-Year Parts, 1-Year Labor, 1-Year Onsite support with next business day
+response. Warranty repairs may be accomplished through the use of Customer Self Repair (CSR) parts.
+These parts fall into two categories: 1) Mandatory CSR parts are designed for easy replacement. A travel
+and labor charge will result when customers decline to replace a Mandatory CSR part; 2) Optional CSR
+parts are also designed for easy replacement but may involve added complexity. Customers may choose
+to have HP replace Optional CSR parts at no charge. Additional information regarding worldwide limited
+warranty and technical support is available at:
+http://h18004.www1.hp.com/products/servers/platforms/warranty/index.html.
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Standard Features
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 9
+Embedded Management iLO Essentials HP iLO Essentials is the preferred license for small and medium business that
+offers full remote server management capabilities for small and medium
+business via the Integrated Remote Console (IRC), virtual media, and e-mail
+based alerts. Learn more about HP iLO Essentials at
+http://www.hp.com/go/iLO/essentials.
+iLO Scale-Out HP iLO Scale-Out is the preferred license built for web hosting, cloud service
+providers, and high performance computing data centers, managing massive
+scale out environments. This license offers sophisticated scripting tools that
+provides remote access through Text Console via SSH, Dynamic power
+capping, Email-based Alerting and proactive notifications. For more
+information, visit http://www.hp.com/go/iLO/scale-out.
+iLO Advanced HP iLO Advanced licenses offer smart remote functionality without
+compromise, for all HP ProLiant servers. The license includes the full
+integrated remote console, virtual keyboard, video, and mouse (KVM), multi-
+user collaboration, console record and replay, and GUI-based and scripted
+virtual media and virtual folders. You can also activate the enhanced security
+and power management functionality. Learn more about HP iLO Advanced at
+http://www.hp.com/go/iloadvanced.
+Server Management HP Insight Control HP Insight Control, lets you deploy, migrate, monitor, remote control, and
+optimize your IT infrastructure through a single, simple management
+console. For more information, see http://www.hp.com/go/insightcontrol.
+HP OneView Advanced HP OneView Advanced is converged management that eliminates
+infrastructure complexity with automation simplicity. This modern
+architecture is designed to accelerate your IT operations across servers,
+storage, and network resources using software-defined approaches and
+automation, see http://www.hp.com/go/oneview.
+Rack and Power
+Infrastructure
+HP Rack and Power Infrastructure products and services create highly efficient and intelligent solutions
+for existing or new IT data centers. HP Rack and Power infrastructure solutions - rack infrastructure,
+power protection and management, performance optimized data centers (PODs) - are the foundation you
+are looking for to help secure your long-term IT success. These products are designed to help you react
+to changes in the industry. They deliver efficient, easy-to-use capabilities to manage, monitor, deploy
+and provision infrastructure from entry to enterprise. As an industry leader, HP is uniquely positioned to
+address the key concerns of power, cooling, cable management and system access.
+Learn more at HP Rack and Power Infrastructure.
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Optional Features
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 10
+High Performance
+Clusters
+HP Cluster Platforms are specifically engineered, factory-integrated large-scale ProLiant clusters
+optimized for High Performance Computing, with a choice of servers, networks and software. Operating
+system options include specially priced offerings for Red Hat Enterprise Linux and SUSE Linux Enterprise
+Server, as well as Microsoft Windows HPC Server. A Cluster Platform Configurator simplifies ordering.
+http://www.hp.com/go/clusters.
+HPC Interconnects NOTE: High Performance Computing (HPC) interconnect technologies are available for this server under
+the HP Cluster Platform product portfolio. These high-speed interconnects are fully supported by HP
+when they are part of these configure to order clusters. Solutions can be defined with a lot of flexibility
+with the help of configuration tools. Please visit the following URL to configure HPC Clusters with
+InfiniBand Interconnects: http://www.hp.com/techservers/clusters/ucp/index.html.
+Storage Software Whether you need to solve a specific data protection, archiving, or storage command and control
+challenge, or deliver on strategic consolidation, compliance, or continuity initiatives, look no further than
+HP storage software. Our storage software helps you reduce costs, simplify storage infrastructure,
+protect vital assets and respond faster to business opportunities.
+Storage software that gets the job done:
+Data Protection and Recovery Software
+Whether you're a large enterprise or a smaller business, HP data protection and recovery software
+will cost-effectively protect you against disaster and ensure business continuity.
+Data Archive and Migration Software
+HP's storage software enables you to comply with data retention and retrieval requirements,
+improve application performance, and reduce costs by efficiently migrating infrequently accessed
+or less valuable data to lower cost storage.
+Storage Resource Management Software (SRM)
+HP's storage resource management software reduces operational costs and provides the
+command and control foundation you need to efficiently manage and visualize your physical and
+virtual environments.
+Data Replication Software
+HP offers array-based and host-based replication software for use in disaster recovery, testing,
+application development and reporting.
+Storage Device Management Software
+Maximize your investment in HP storage and networking with software that enables hardware-
+specific configuration, performance tuning and connectivity management.
+HP StoreVirtual VSA
+With HP StoreVirtual VSA you can use the power of virtualization to create a virtual array within
+your host server. Manage it as a single pool of shared storage capacity, and scale it to match your
+evolving needs. HP ProLiant Gen9 servers include a 3-year limited license for HP StoreVirtual VSA
+software with 1TB of capacity at no extra cost. Simply select to install HP StoreVirtual VSA
+software during server setup within Intelligent Provisioning. More information, instructional
+videos, and free console management software are available at http://www.hp.com/go/vsa1TB.
+NOTE: For more information about Storage Software including QuickSpecs, please see:
+http://www.hp.com/go/storage/software.
+One Config Simple (SCE) SCE is a guided self service tool to help sales and non technical people provide customers with initial
+configurations in 3 to 5 minutes. You may then send the configuration on for configuration help, or use in
+your existing ordering processes. If you require "custom" rack configuration or configuration for products
+not available in SCE, please contact HP's Customer Business Center or an Authorized Partner for
+assistance. http://www.hp.com/products/configurator
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Optional Features
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 11
+Service and Support HP Technology Services for Industry Standard Servers
+HP Technology Services delivers confidence, reduces risk and helps customers realize agility and
+stability. Connect to HP to help prevent problems and solve issues faster. Our support technology lets
+you to tap into the knowledge of millions of devices and thousands of experts to stay informed and in
+control, anywhere, any time.
+Protect your business beyond warranty with HP Care Pack Services
+HP Care Pack Services enable you to order the right service level, length of coverage and response time
+as you purchase your new server, giving you full entitlement for the term you select.
+Optimized Care Supports maintaining servers at optimum performance availability
+HP Proactive Care with 24x7 coverage, three year Care Pack Service
+HP Proactive Care helps prevent problems and stabilize IT by utilizing secure, real-time, predictive
+analytics and proactive consultations when your products are connected to HP. This Care Pack Service
+combines three years' proactive reporting and advice with our 24x7 coverage and enhanced escalation
+management, four hour hardware response time and two hour call back for software questions on
+leading industry standard software running on your HP ProLiant server.
+http://h20195.www2.hp.com/v2/GetPDF.aspx/4AA3-8855ENW.pdf
+Standard Care Package Supports maintaining high level of server availability
+Foundation Care 24x7, three-year Care Pack Service
+HP Foundation Care 24x7 connects you to HP 24 hours a day, seven days a week for assistance on
+resolving issues. Hardware onsite response within four hours if needed; collaborative software included
+in this Care Pack service provides troubleshooting assistance on industry leading software running on
+your HP server. Simplify your support experience and make HP your first call for hardware or software
+questions.
+http://h20195.www2.hp.com/V2/GetDocument.aspx?docname=4AA4-8876ENW&cc=us&lc=en
+Basic Care Foundation Care NBD, three-year Care Pack Service
+HP Foundation Care Next Business Day connects you to HP during business hours for assistance on
+resolving issues - features next business day hardware onsite response if needed and software call back
+within two hours. Collaborative software support is included and provides troubleshooting assistance on
+industry leading software running on your server. Simplify your support experience and make HP your
+first call for hardware or software questions.
+http://h20195.www2.hp.com/V2/GetDocument.aspx?docname=4AA4-8876ENW&cc=us&lc=en
+Related Services HP ProLiant Server Hardware Installation
+Provides for the basic hardware installation of HP branded servers, storage devices and networking
+options to assist you in bringing your new hardware into operation in a timely and professional manner.
+http://h20195.www2.hp.com/V2/GetPDF.aspx/5981-9356EN.pdf
+Factory Express for Servers and storage
+HP Factory Express offers configuration, customization, integration and deployment services for HP
+servers and storage products. Customers can choose how their factory solutions are built, tested,
+integrated, shipped and deployed. For more information on Factory Express services for your specific
+server model please contact your sales representative or go to: http://www.hp.com/go/factory-express.
+Data Privacy Services
+Protect your data through better media management. HP Data privacy services help manage and protect
+sensitive data to reduce the risk of unauthorized access to private information and help meet compliance
+requirements. Our retention services allow you to keep drives and other devices upon failure, our
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Service and Support
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 12
+removal services provide convenient data sanitization and our recovery services allow you to safely
+retire IT assets and capture any remaining value from the hardware.
+http://www.hp.com/services/dataprivacy
+Additional HP Care Pack services can be found at: http://www.hp.com/go/cpc
+Get connected to HP to
+improve your support
+experience
+Prevent problems with innovative, automated monitoring tools and proactive services. Combining
+Proactive Care Services with our remote support technology such as Insight Online provides you with
+expert advice and personalized, cloud-based automated IT support, helping to prevent unplanned down
+time and solve problems quickly. For more information, visit:
+http://www.hp.com/go/proactiveinsightexperience
+HP Support Center Personalized online support portal with access to information, tools and experts to support HP business
+products. Submit support cases online, chat with HP experts, access support resources or collaborate
+with peers. Learn more http://www.hp.com/go/hpsc
+HP's Support Center Mobile App** allows you to resolve issues yourself or quickly connect to an agent for
+live support. Now, you can get access to personalized IT support anywhere, anytime.
+HP Insight Remote Support and HP Support Center are available at no additional cost with a HP warranty,
+HP Care Pack or HP contractual support agreement.
+** HP Support Center Mobile App is subject to local availability
+Parts and Materials HP will provide HP-supported replacement parts and materials necessary to maintain the covered
+hardware product in operating condition, including parts and materials for available and recommended
+engineering improvements.
+Parts and components that have reached their maximum supported lifetime and/or the maximum usage
+limitations as set forth in the manufacturer's operating manual, product quick-specs, or the technical
+product data sheet will not be provided, repaired, or replaced as part of these services.
+The defective media retention service feature option applies only to Disk or eligible SSD/Flash Drives
+replaced by HP due to malfunction.
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Service and Support
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 13
+For the Standard Features shipped in the "Factory Integrated Models", please see the "Configuration Information - Factory Integrated
+Models" section.
+1. Pre-configured models ship with the configurations below. Options can be selected from the Core or Additional options section of
+this QuickSpecs.
+2. HP does not allow factory integration of options into pre-configured models. Any additional options purchased will be shipped
+separately.
+3. If you desire a custom configuration please see "Configuration Information - Factory Integrated Models" section of this
+QuickSpecs.
+4. Not all models are available in all regions. Check with your local country HP offices for availability.
+NOTE: All Pre-configured Models come populated with some hard drive blanks installed. Should the customer need additional hard
+drive blanks, they can order more using either P/N 666987-B21: HP SFF Hard Drive Blank Kit or P/N 666986-B21: HP LFF Hard Drive
+Blank Kit.
+NOTE: All pre-configured servers ship with a standard 6-foot IEC C-13/C-14 jumper cord (A0K02A). This jumper cord is also included
+with each standard AC power supply option kit. If a different power cord is required, please check the ProLiant Power Cables web
+page.
+CAUTION: HP recommends that a minimum of two people are required for all Rack Server installations. Please refer to your
+installation instructions for proper tools and number of people to use for any installation.
+Entry Models Base Models
+[SKU Number] 778640-B21 778641-B21
+Model Name HP ProLiant DL80 Gen9 E5-2603v3 4GB-R B140i
+4LFF 550W PS Entry Server
+HP ProLiant DL80 Gen9 E5-2609v3 8GB-R H240
+8LFF 550W PS Entry Server
+Processor Intel® Xeon® E5-2603v3 Intel® Xeon® E5-2609v3
+Number of Processors One
+Memory 4GB (1x4GB Registered DIMMs, 2133 MHz)
+NOTE: Due to processor limitation, these DDR4
+DIMMs will operate at 1600 MHz in this model
+8GB (1x8GB Registered DIMMs, 2133 MHz)
+NOTE: Due to processor limitation, these DDR4
+DIMMs will operate at 1600 MHz in this model.
+Network Controller HP Embedded Dual Port 361i Adapter Network Interface
+Storage Controller HP Dynamic Smart Array B140i HP H240 FIO Smart Host Bus Adapter
+Hard Drive None ship standard
+Internal Storage 4 LFF HDD Bays (Non Hot Plug) 8 LFF HDD Bays
+Optical Drive Bay Not Available
+Optical Drive Optional via HP Mobile USB DVDRW Drive
+(701498-B21)
+PCI-Express Slots 5 PCIe 3.0 slots (without risers)
+Power Supply (1) HP 550W FIO Power Supply
+Fans 2 hot swap fans, non redundant 4 hot swap fans, redundant
+Management iLO Management (standard), Intelligent Provisioning (standard), iLO Essentials (optional)
+Form Factor Rack (2U), HP Easy Install Rails
+Country Code Key xx=B21 Worldwide
+NOTE: The -B21 WW SKU is to be ordered in all countries other than Japan or PRC.
+xx=291 Japan
+xx=AA1 PRC
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Pre-configured Models
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 14
+This section lists some of the steps required to configure a Factory Integrated Model. To ensure only valid configurations are ordered,
+HP recommends the use of an HP approved configurator. Contact your local sales representative for information on configurable
+product offerings and requirements.
+1. Factory Integrated Models must start with a CTO Server.
+2. FIO indicates that this option is only available as a factory installable option.
+3. All Factory Integrated Models will be populated with sufficient hard drive blanks based on the number of initial hard drives ordered
+with the server.
+4. Some options may not be integrated at the factory. Contact your local sales representative for additional information.
+Step 1: Base Configuration (choose one of the following configurable models)
+[Chassis] HP ProLiant DL80 Gen9 Non-hot
+Plug 4LFF Configure-to-order
+Server
+HP ProLiant DL80 Gen9 8LFF
+Configure-to-order Server
+HP ProLiant DL80 Gen9 12LFF
+Configure-to-order Server
+SKU Number 778686-B21 778685-B21 787217-B21
+Processor 2 (optional) x HP Smart Socket Guides
+DIMM Slots 8 DIMM slots for RDIMM, LRDIMM DDR4 Memory
+Storage Controller HP Dynamic Smart Array B140i
+PCIe 5 Low Profile PCIe 3.0 slots
+Drive Cage 4LFF Non Hot Plug 8LFF Hot Plug 12LFF Hot Plug
+Network Controller HP Embedded Dual Port 361i Adapter Network Interface
+Fans 2 hot swap fans, non redundant
+Management iLO Management (standard), Intelligent Provisioning (standard), iLO Essentials (optional)
+USB 1 front, 1 internal, 2 rear
+Step 2: Choose Required Options (only one of the following from each list unless otherwise
+noted)
+HP Processors Select one or two processors from Core options-Processor section below,
+If one processor is desired, select one xxxxxx-L21
+If two processors are desired, select one xxxxxx-L21 and one xxxxxx-B21.
+Up to 2 processors supported. Mixing different processor models is not supported.
+DDR4 speed is the maximum memory speed of the processor. Actual memory speed may depend on
+the quantity and type of DIMMs installed.
+For the Intel® C600 Chipset E5-2600 Series, the letter preceding the model number indicates the Product
+Line (E3, E5, E7); 2600x v#, 2 = number of CPUs in a Node, 6 is socket/segment designation, 00 = Processor
+SKU, x = L for low power SKUs and v# (not yet designated) = version number.
+HP Memory Select one or more memory from Core options-Memory section below,
+LRDIMM, RDIMM are all distinct memory technologies and cannot be mixed within a server. The
+majority of ProLiant Gen9 servers support LRDIMM and RDIMM.
+HP memory from previous generation servers are not qualified or warranted with this HP ProLiant
+Server. HP SmartMemory is required to realize the memory performance improvements and
+enhanced functionality listed in this document for Gen9.
+If only one processor is installed, only half of the total DIMM slots are available. When populating
+with two processors all DIMM slots are available.
+Kits described as LP include Low Power DIMMs. For more information on ProLiant Energy Efficient
+Features, see: http://www.hp.com/go/proliant-energy-efficient.
+Depending on the memory configuration and processor model, the memory speed may run at
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Configuration Information - Factory Integrated Models
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 15
+2133MHz, 1866MHz, 1600MHz or 1333MHz. Please see Memory Population Table or the Online
+Memory Configuration Tool at: http://www.hp.com/go/ddr4config.
+HP Power Supplies Select one or more power supplies from Core Options-Power Supplies section below:
+Prior to selecting a power supply option, it is highly recommended that you review your server
+configuration in the HP Power Advisor tool to determine the right size power supply for your server
+configuration. The HP Power Advisor is located at: http://www.hp.com/go/hppoweradvisor.
+Mixing of power supplies in the same server is not supported. All power supplies must be of the
+same input voltage, output rating, and efficiency rating. If non-matching power supplies are
+installed, you may receive an error message and/or experience operational issues with your server.
+Step 3: Choose Additional Factory Integratable Options
+HP Unique Options Select one or more Unique options from Core options section below.
+This section may contain FIO options, please see the Unique options section below.
+FIO indicates that this option is only available as a factory installable option.
+HP Drives Select one or more drives from Core options-HP Drives section below:
+The components of a storage subsystem (e.g. the drive, the HBA/controller, firmware, and the
+server backplane) should operate at the same data transfer rate or the system bandwidth will be
+negotiated down to an acceptable level for all components.
+Hard drives have either a one year or three year warranty; refer to the specific hard drive QuickSpecs
+for details.
+The HP ProLiant Gen9 Smart Storage solutions are equipped with re-designed Small Form Factor
+(SFF 2.5 in) and Large Form Factor (LFF 3.5 in) hot plug carriers for HP Qualified Hard Drives and
+Solid State Drives. These new carriers provide status and activity indicators as well as caution
+indicators for "Do Not Remove".
+HP Flexible LOM Select a FlexibleLOM from Core options-Networking section below,
+Only one FlexibleLOM can be added to the server. These options are upgradeable and can be
+changed from the original configuration after the server is shipped.
+For 10Gb adapters, a minimum of two Gigabytes (2 GB) of server memory is required per each
+adapter.
+Please see the QuickSpecs for Technical Specifications and additional information:
+http://www.hp.com/go/ProLiantNICs.
+HP Networking Select a standup NIC adapter from Core options-Networking section below,
+Please see the QuickSpecs for Technical Specifications and additional information:
+http://www.hp.com/go/ProLiantNICs.
+These options are upgradeable and can be changed from the original configuration after the server
+is shipped.
+For 10Gb adapters, a minimum of two Gigabytes (2 GB) of server memory is required per each
+adapter.
+HP Graphics Options Select one or more graphics adapter from Additional options section below.
+Please see the HP Power Advisor for estimated power consumption of your individual system
+configuration prior to installing GPUs. The HP Power Advisor is located at:
+http://www.hp.com/go/hppoweradvisor.
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Configuration Information - Factory Integrated Models
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 16
+This section may contain FIO options, please see HP Computation & Graphics Accelerators section
+below.
+HP Cooling Options Select one or more Fan Kits from Core options section below.
+This section may contain FIO options, please see HP Cooling Options section below.
+FIO indicates that this option is only available as a factory installable option.
+HP Storage Controllers Select one or more Storage options from Additional options section below.
+The embedded B140i controller will operate in UEFI only mode. For legacy support an additional
+controller will be needed, and for CTO orders please also select the Legacy mode settings part,
+758959-B22
+This section may contain FIO options, please see HP Storage Controllers section below.
+FIO indicates that this option is only available as a factory installable option.
+HP I/O Expansion
+Options
+Select one or more Riser Kit options from Core options section below.
+To take advantage of the additional PCI slot upgrade, the second processor must be installed.
+This section may contain FIO options, please see HP I/O Expansion Options section below.
+FIO indicates that this option is only available as a factory installable option.
+HP Rail Kits Select one type of rail kit from Additional options section below.
+Please take a moment to review the installation documentation that comes with the server to help
+you with the installation of your Gen9 server.
+To assist in the installation of the server into the rack, an optional installation tool is available by
+contacting your local services representative (p/n 695539-001).
+See HP Rack Options in Additional Options section of this QuickSpecs for more rack kit choices.
+CAUTION: HP recommends that a minimum of two people are required for all Rack Server installations.
+Please refer to your installation instructions for proper tools and number of people to use for any
+installation.
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Configuration Information - Factory Integrated Models
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 17
+NOTE: Some options may not be integrated at the factory. To ensure only valid configurations are ordered, HP recommends the use
+of an HP approved configurator. Contact your local sales representative for additional information.
+HP Unique Options HP DL80 Gen9 8LFF Non-hot Plug Enablement Kit
+NOTE: Required to upgrade from 4LFF NHP to 8LFF NHP models.
+788355-B21
+HP DL80 Gen9 Full Height Half Length Riser Kit
+NOTE: Includes two FLFH PCIe 3.0 slots and one fan.
+765515-B21
+HP DL80 Gen9 GPU Enablement Kit
+NOTE: Includes 1 FHFL slot, one fan and power cable required to enable GPU support.
+Either one of FHHL or FlexibleLOM riser or GPU riser can be selected.
+765518-B21
+HP DL80 Gen9 FlexibleLOM Riser Kit
+NOTE: Includes one FlexibleLOM slot, one Low Profile slot and one fan.
+765514-B21
+HP AHCI-Enable FIO Setting
+NOTE: This needs to be selected when Advanced Host Controller Interface mode is
+required on B140i controller.
+801845-B21
+HP Processors Entry Processors - E5-2600v3 series Processors
+HP DL80 Gen9 Intel® Xeon® E5-2603v3 (1.6GHz/6-core/15MB/85W) Processor Kit 765521-B21
+HP DL80 Gen9 Intel® Xeon® E5-2603v3 (1.6GHz/6-core/15MB/85W) FIO Processor Kit 765521-L21
+HP DL80 Gen9 Intel® Xeon® E5-2609v3 (1.9GHz/6-core/15MB/85W) Processor Kit 765523-B21
+HP DL80 Gen9 Intel® Xeon® E5-2609v3 (1.9GHz/6-core/15MB/85W) FIO Processor Kit 765523-L21
+Base Processors - E5-2600v3 series Processors
+HP DL80 Gen9 Intel® Xeon® E5-2620v3 (2.4GHz/6-core/15MB/85W) Processor Kit 765525-B21
+HP DL80 Gen9 Intel® Xeon® E5-2620v3 (2.4GHz/6-core/15MB/85W) FIO Processor Kit 765525-L21
+HP DL80 Gen9 Intel® Xeon® E5-2630v3 (2.4GHz/8-core/20MB/85W) Processor Kit 765526-B21
+HP DL80 Gen9 Intel® Xeon® E5-2630v3 (2.4GHz/8-core/20MB/85W) FIO Processor Kit 765526-L21
+HP DL80 Gen9 Intel® Xeon® E5-2640v3 (2.6GHz/8-core/20MB/90W) Processor Kit 765531-B21
+HP DL80 Gen9 Intel® Xeon® E5-2640v3 (2.6GHz/8-core/20MB/90W) FIO Processor Kit 765531-L21
+HP DL80 Gen9 Intel® Xeon® E5-2623v3 (3GHz/4-core/10MB/105W) Processor Kit 780100-B21
+HP DL80 Gen9 Intel® Xeon® E5-2623v3 (3GHz/4-core/10MB/105W) FIO Processor Kit 780100-L21
+HP DL80 Gen9 Intel® Xeon® E5-2630Lv3 (1.8GHz/8-core/20MB/55W) Processor Kit 765530-B21
+HP DL80 Gen9 Intel® Xeon® E5-2630Lv3 (1.8GHz/8-core/20MB/55W) FIO Processor Kit 765530-L21
+Performance Processors - E5-2600v3 series Processors
+HP DL80 Gen9 Intel® Xeon® E5-2650v3 (2.3GHz/10-core/25MB/105W) Processor Kit 765528-B21
+HP DL80 Gen9 Intel® Xeon® E5-2650v3 (2.3GHz/10-core/25MB/105W) FIO Processor
+Kit
+765528-L21
+HP DL80 Gen9 Intel® Xeon® E5-2660v3 (2.6GHz/10-core/20MB/90W) ProcessorKit 765529-B21
+HP DL80 Gen9 Intel® Xeon® E5-2660v3 (2.6GHz/10-core/20MB/90W) FIO Processor Kit 765529-L21
+HP DL80 Gen9 Intel® Xeon® E5-2650Lv3 (1.8GHz/12-core/30MB/65W) Processor Kit 765532-B21
+HP DL80 Gen9 Intel® Xeon® E5-2650Lv3 (1.8GHz/12-core/30MB/65W) FIO Processor
+Kit
+765532-L21
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Core Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 18
+HP Memory Registered DIMMs (RDIMMs) for E5-2600v3 Series
+HP 4GB (1x4GB) Single Rank x8 DDR4-2133 CAS-15-15-15 Registered Memory Kit 726717-B21
+HP 4GB 1Rx8 PC4-2133P-R STND Kit 803026-B21
+HP 8GB (1x8GB) Single Rank x4 DDR4-2133 CAS-15-15-15 Registered Memory Kit 726718-B21
+HP 8GB (1x8GB) Dual Rank x8 DDR4-2133 CAS-15-15-15 Registered Memory Kit 759934-B21
+HP 8GB 1Rx4 PC4-2133P-R STND Kit 803028-B21
+HP 16GB (1x16GB) Dual Rank x4 DDR4-2133 CAS-15-15-15 Registered Memory Kit 726719-B21
+Load Reduced DIMMs (LRDIMMs) for E5-2600v3 Series
+HP 16GB (1x16GB) Dual Rank x4 DDR4-2133 CAS-15-15-15 Load Reduced Memory Kit 726720-B21
+HP 32GB (1x32GB) Quad Rank x4 DDR4-2133 CAS-15-15-15 Load Reduced Memory Kit
+726722-B21
+HP Optical Drives HP Mobile USB Non Leaded System DVD RW Drive 701498-B21
+HP Hard Drives SAS Hot Plug LFF (3.5-inch) Enterprise (ENT) Drives
+HP 600GB 12G SAS 15K rpm LFF (3.5-inch) SC Converter Enterprise 3yr Warranty Hard
+Drive
+765424-B21
+HP 450GB 12G SAS 15K rpm LFF (3.5-inch) SC Converter Enterprise 3yr Warranty Hard
+Drive
+737394-B21
+HP 300GB 12G SAS 15K rpm LFF (3.5-inch) SC Converter Enterprise 3yr Warranty Hard
+Drive
+737261-B21
+SAS Hot Plug LFF (3.5-inch) Midline (MDL) Drives
+HP 6TB 6G SAS 7.2K rpm LFF (3.5-inch) SC Midline 1yr Warranty Hard Drive 761477-B21
+HP 4TB 6G SAS 7.2K rpm LFF (3.5-inch) SC Midline 1yr Warranty Hard Drive 695510-B21
+HP 3TB 6G SAS 7.2K rpm LFF (3.5-inch) SC Midline 1yr Warranty Hard Drive 652766-B21
+HP 2TB 6G SAS 7.2K rpm LFF (3.5-inch) SC Midline 1yr Warranty Hard Drive 652757-B21
+HP 1TB 6G SAS 7.2K rpm LFF (3.5-inch) SC Midline 1yr Warranty Hard Drive 652753-B21
+SATA Hot Plug LFF (3.5-inch) Midline (MDL) Drives
+HP 6TB 6G SATA 7.2K rpm LFF (3.5-inch) SC Midline 1yr Warranty Hard Drive 753874-B21
+HP 4TB 6G SATA 7.2k rpm LFF (3.5-inch) SC Midline 1yr Warranty Hard Drive 693687-B21
+HP 3TB 6G SATA 7.2K rpm LFF (3.5-inch) SC Midline 1yr Warranty Hard Drive 628061-B21
+HP 2TB 6G SATA 7.2K rpm LFF (3.5-inch) SC Midline 1yr Warranty Hard Drive 658079-B21
+HP 1TB 6G SATA 7.2K rpm LFF (3.5-inch) SC Midline 1yr Warranty Hard Drive 657750-B21
+HP 500GB 6G SATA 7.2K rpm LFF (3.5-inch) SC Midline 1yr Warranty Hard Drive 658071-B21
+SATA Non-Hot Plug LFF (3.5-inch) Midline (MDL) Drives
+HP 4TB 6G SATA 7.2K rpm LFF (3.5in) Non-hot Plug Standard 1yr Warranty Hard Drive 801888-B21
+HP 3TB 6G SATA 7.2K rpm LFF (3.5-inch) Non-hot plug Midline 1yr Warranty Hard Drive 628065-B21
+HP 3TB 6G SATA 7.2K rpm LFF (3.5in) Non-hot Plug Standard 1yr Warranty Hard Drive 801886-B21
+HP 2TB 6G SATA 7.2K rpm LFF (3.5-inch) Non-hot plug Midline 1yr Warranty Hard Drive 659339-B21
+HP 2TB 6G SATA 7.2K rpm LFF (3.5in) Non-hot Plug Standard 1yr Warranty Hard Drive 801884-B21
+HP 1TB 6G SATA 7.2K rpm LFF (3.5-inch) Non-hot plug Midline 1yr Warranty Hard Drive 659337-B21
+HP 1TB 6G SATA 7.2K rpm LFF (3.5in) Non-hot Plug Standard 1yr Warranty Hard Drive 801882-B21
+HP 500GB 6G SATA 7.2K rpm LFF (3.5-inch) Non-hot plug Midline 1yr Warranty Hard
+Drive
+659341-B21
+12G SAS Hot Plug LFF (3.5-inch) Enterprise Value Solid State Drives
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Core Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 19
+HP 800GB 12G SAS Value Endurance LFF 3.5-in SC Enterprise Value 3yr Wty Solid State
+Drive
+762270-B21
+HP 1.6TB 12G SAS Value Endurance LFF 3.5-in SC Enterprise Value 3yr Wty Solid State
+Drive
+762272-B21
+6G SATA Hot Plug LFF (3.5-inch) Enterprise Mainstream Solid State Drives
+HP 800GB 6G SATA Mainstream Endurance LFF 3.5-in SC Enterprise Mainstream 3yr
+Wty Solid State Drive
+691860-B21
+HP 400GB 6G SATA Mainstream Endurance LFF 3.5-in SC Enterprise Mainstream 3yr
+Wty Solid State Drive
+691856-B21
+HP 200GB 6G SATA Mainstream Endurance LFF 3.5-in SC Enterprise Mainstream 3yr
+Wty Solid State Drive
+691854-B21
+HP 100GB 6G SATA Mainstream Endurance LFF 3.5-in SC Enterprise Mainstream 3yr
+Wty Solid State Drive
+691852-B21
+6G SATA Hot Plug LFF Value Endurance (3.5-inch) Converter Enterprise Value M1
+Solid State Drives
+HP 800GB 6G SATA Value Endurance LFF 3.5-in SC Converter ENT Value 3yr Wty M1
+Solid State Drive
+764945-B21
+HP 480GB 6G SATA Value Endurance LFF 3.5-in SC Converter ENT Value 3yr Wty M1
+Solid State Drive
+764943-B21
+HP 240GB 6G SATA Value Endurance LFF 3.5-in SC Converter ENT Value 3yr Wty M1
+Solid State Drive
+764941-B21
+HP 120GB 6G SATA Value Endurance LFF 3.5-in SC Converter ENT Value 3yr Wty M1
+Solid State Drive
+764939-B21
+6G SATA Hot Plug LFF (3.5-inch) Enterprise Value Solid State Drives
+HP 1.6TB 6G SATA Value Endurance LFF 3.5-in SC Converter Enterprise Value 3yr Wty
+Solid State Drive
+757342-B21
+HP 800GB 6G SATA Value Endurance LFF 3.5-in SC Enterprise Value 3yr Wty Solid State
+Drive
+718189-B21
+HP 600GB 6G SATA Value Endurance LFF 3.5-in SC Conveter Enterprise Value 3yr Wty
+Solid State Drive
+739900-B21
+HP 480GB 6G SATA Value Endurance LFF 3.5-in SC Enterprise Value 3yr Wty Solid State
+Drive
+718183-B21
+HP 300GB 6G SATA Value Endurance LFF 3.5-in SC Converter Enterprise Value 3yr Wty
+Solid State Drive
+739890-B21
+HP 240GB 6G SATA Value Endurance LFF 3.5-in SC Enterprise Value 3yr Wty Solid State
+Drive
+718177-B21
+HP 960GB 6G SATA Light Endurance LFF 3.5-in SC Converter ENT Light 3yr Wty G1 Solid
+State Drive
+756604-B21
+HP 120GB 6G SATA Value Endurance LFF 3.5-in SC Converter ENT Value 3yr Wty G1
+Solid State Drive
+756624-B21
+HP 240GB 6G SATA Value Endurance LFF 3.5-in SC Converter ENT Value 3yr Wty G1
+Solid State Drive
+756639-B21
+HP 480GB 6G SATA Value Endurance LFF 3.5-in SC Converter ENT Value 3yr Wty G1
+Solid State Drive
+756660-B21
+6G SATA Hot Plug LFF (3.5-inch) Enterprise Boot Solid State Drives
+HP 120GB 6G SATA Value Endurance LFF 3.5-in SC Enterprise Boot 3yr Wty Solid State
+Drive
+718171-B21
+HP 80GB 6G SATA Value Endurance LFF 3.5-in SC Enterprise Boot 3yr Wty Solid State
+Drive
+734362-B21
+Hard Drive Blank Kits
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Core Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 20
+HP Large Form Factor Hard Drive Blank Kit 666986-B21
+Hard Drive Kits
+HP DL80 Gen9 8LFF Non-hot Plug Enablement Kit
+NOTE: Required to move from 4LFF NHP model to 8 LFF NHP model.
+788355-B21
+HP Networking 1 Gigabit Ethernet adapters
+HP Ethernet 1Gb 4-port 331T Adapter 647594-B21
+HP Ethernet 1Gb 2-port 332T Adapter 615732-B21
+HP Ethernet 1Gb 2-port 361T Adapter 652497-B21
+10 Gigabit Ethernet adapters
+HP Ethernet 10Gb 2-port 530SFP Adapter 652503-B21
+HP Ethernet 10Gb 2-port 530T Adapter 656596-B21
+HP Ethernet 10Gb 2-port 561T Adapter 716591-B21
+HP Ethernet 10Gb 2-port 560SFP+ Adapter 665249-B21
+FlexibleLOM Adapters
+HP Ethernet 1Gb 4-port 331FLR Adapter 629135-B22
+HP Ethernet 1Gb 4-port 366FLR Adapter 665240-B21
+HP Ethernet 10Gb 2-port 560FLR-SFP+ Adapter 665243-B21
+HP Ethernet 10Gb 2-port 561FLR-T Adapter 700699-B21
+HP FlexFabric 10Gb 2-port 534FLR-SFP+ Adapter 700751-B21
+HP FlexFabric 10Gb 2-port 533FLR-T Adapter 700759-B21
+HP InfiniBand HP InfiniBand FDR 2-port 545QSFP Adapter 702211-B21
+HP InfiniBand FDR/Ethernet 10Gb/40Gb 2-port 544+QSFP Adapter 764284-B21
+HP I/O Expansion Options HP DL80 Gen9 FlexibleLOM Riser Kit
+NOTE: Includes one FlexibleLOM slot, one Low Profile slot and one fan.
+765514-B21
+HP DL80 Gen9 Full Height Half Length Riser Kit
+NOTE: Includes two FLFH PCIe 3.0 slots and one fan.
+765515-B21
+HP DL80 Gen9 GPU Enablement Kit
+NOTE: Includes 1 FHFL slot, one fan and power cable required to enable GPU support.
+Either one of FHHL or FlexibleLOM riser or GPU riser can be selected.
+765518-B21
+HP Power Supplies HP Entry-Level Power Supplies
+HP 550W FIO Power Supply Kit 730941-B21
+HP 800W Gold (Redundant)/900W (Non-Redundant) AC Power Input Module 744689-B21
+HP Server Redundant Power Supply Backplane Kit
+NOTE: Required to be bought when 900W/800W power supply (P/N: 744689-B21) is
+selected.
+745813-B21
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Core Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 21
+HP Computation and
+Graphics Accelerators
+HP NVIDIA Quadro K2200 Graphics Accelerator
+NOTE: GPU enablement kit (P/N: 765518-B21) is required with this option.
+J0G89A
+HP NVIDIA Quadro K4200 Graphics Accelerator
+NOTE: GPU enablement kit (P/N: 765518-B21) is required with this option.
+J0G90A
+NOTE: 1 GPU supported per Server, attached to the Primary CPU.
+NOTE: Only the above listed Graphics cards are HP standard supported options in this server.
+NOTE: The NVIDIA Quadro modules are supported only on 64-bit versions of Linux and Windows
+operating systems as well as on Virtual Machine client operating systems. The supported bare metal
+operating systems are RHEL6, SLES 11 and Windows Server 2012 R2.
+NOTE: Please see the HP Power Advisor for estimated power consumption of your individual system
+configuration prior to installing GPUs. The HP Power Advisor is located at:
+http://www.hp.com/go/hppoweradvisor.
+HP Cooling Options HP DL80 Gen9 Redundant Fan Kit
+NOTE: Includes two fans and is required to move from non -redundant to redundant
+fan configurations. Since each riser includes a fan as well, please refer to user-guide
+for exact fan requirements to enable fan redundancy
+765516-B21
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Core Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 22
+NOTE: Some options may not be integrated at the factory. To ensure only valid configurations are ordered, HP recommends the use
+of an HP approved configurator. Contact your local sales representative for additional information.
+HP Insight Software HP Insight Control
+HP Insight Control including 1yr 24x7 Technical Support and Updates Single Server
+License
+C6N27A
+HP Insight Control including 1yr 24x7 Technical Support and Updates Electronic
+License
+C6N28ABE
+HP Insight Control including 1yr 24x7 Support ProLiant ML/DL/BL-bundle Single
+Server FIO License
+C6N36A
+HP Insight Control including 1yr 24x7 Support ProLiant ML/DL/BL-bundle FIO
+Electronic License
+C6N36ABE
+HP Insight Control Server Provisioning Media Kit BD883A
+HP Insight Management Media Kit C6N31A
+NOTE: Electronic and Flexible-Quantity licenses can be used to purchase multiple licenses with a single
+activation key.
+NOTE: Customer will receive a license entitlement certificate. The license entitlement certificate must be
+redeemed online or via fax in order to obtain the license activation key(s). Includes one year of 24x7 HP
+Software Technical Support and Update Service.
+NOTE: Licenses ship without media. The HP Insight Control Media Kit can be ordered separately, or can be
+downloaded at: http://www.hp.com/go/insightupdates.
+NOTE: For additional license options please see the QuickSpecs at:
+http://h18000.www1.hp.com/products/quickspecs/12631_div/12631_div.html
+Embedded Management HP iLO Advanced
+HP iLO Advanced including 1yr 24x7 Technical Support and Updates Single Server
+License
+512485-B21
+HP iLO Advanced 1 Server License with 3yr 24x7 Tech Support and Updates BD505A
+HP iLO Advanced including 1yr 24x7 Technical Support and Updates E-LTU E6U59ABE
+HP iLO Advanced including 3yr 24x7 Technical Support and Updates E-LTU E6U64ABE
+HP iLO Essentials
+HP Integrated Lights-Out Essentials including 3yr 24x7 Tech Support and Updates
+Single Svr License
+BD774A
+HP Integrated Lights-Out Essentials including 1yr 24x7 Tech Support and Updates
+Single Svr License
+BD775A
+HP Integrated Lights-Out Essentials including 3yr 24x7 Technical Support and Updates
+E-LTU
+E6U61ABE
+HP Integrated Lights-Out Essentials including 1yr 24x7 Technical Support and Updates
+E-LTU
+E6U62ABE
+HP iLO Scale-out
+HP Integrated Lights-Out Scale-Out 3yr 24x7 Tech Support and Updates Flex Quantity
+License
+BD776A
+HP Integrated Lights-Out Scale-Out including 3yr 24x7 Tech Support and Updates Flex
+Qty E-LTU
+BD776AAE
+HP Integrated Lights-Out Scale-Out including 3yr 24x7 Tech Support and Updates
+Tracking License
+BD777A
+HP Integrated Lights-Out Scale-Out 1yr 24x7 Tech Support and Updates Flex Quantity
+License
+BD778A
+HP Integrated Lights-Out Scale-Out including 1yr 24x7 Tech Support and Updates Flex
+Qty E-LTU
+BD778AAE
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Additional Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 23
+HP Integrated Lights-Out Scale-Out including 1yr 24x7 Tech Support and Updates
+Tracking License
+BD779A
+HP Converged
+Infrastructure
+Management Software
+HP OneView Advanced (with HP iLO Advanced)
+HP OneView incl 3yr 24x7 Supp Phys 1 Svr Lic E5Y34A
+HP OneView incl 3yr 24x7 Supp Flex Qty E-LTU E5Y35AAE
+HP OneView Media Kit Phys No Lic E5Y37A
+HP OneView for ProLiant DL Server incl 3yr 24x7 Supp FIO Bundle Physical 1 Svr Lic E5Y43A
+HP OneView incl 3yr 24x7 Supp Bundle 1 Svr E-LTU E5Y43AAE
+HP OneView Advanced (without HP iLO Advanced)
+HP OneView w/o iLO Adv incl 3yr 24x7 Supp Phys 1 Svr Lic E5Y38A
+HP OneView w/o iLO Adv inc 3yr 24x7 Supp Flex Qty E-LTU E5Y39AAE
+NOTE: Full licenses of HP OneView Advanced also provide the right-to-use HP Insight
+Control without additional charge.
+NOTE: Server provisioning (via 'HP Insight Control server provisioning') is licensed as
+part of HP OneView Advanced and provides multi-server OS and driver provisioning.
+Media kit #BD883A can be ordered for a physical copy of this software (USB flash
+drive).
+NOTE: Licenses ship without media. The HP OneView Media Kit can be ordered
+separately, or can be downloaded at: http://www.hp.com/go/oneview
+NOTE: Electronic and Flexible-Quantity licenses can be used to purchase multiple
+licenses with a single activation key.
+HP Security HP Trusted Platform Module Option 488069-B21
+HP 2U Security Bezel Kit
+NOTE: Quick release EAR FIO kit (P/N: 778109-B21) is required for installing security
+bezel.
+666988-B21
+HP DL80 Gen9 Quick Release Ear FIO Kit
+NOTE: Quick Release Ears are mandatory for 12LFF models.
+778109-B21
+HP DL80 Gen9 Thumbscrew Ear FIO Kit
+NOTE: The TPM (Trusted Platform Module) is a microcontroller chip that can securely
+store artifacts used to authenticate the server platform. These artifacts can include
+passwords, certificates and encryption keys. Windows® BitLockerTM Drive Encryption
+(BitLocker) is a data protection feature available in Windows Server® 2008. BitLocker
+leverages the enhanced security capabilities of a Trusted Platform Module (TPM)
+version 1.2. The TPM works with BitLocker to help protect user data and to ensure that
+a server running Windows Server 2008 has not been tampered with while the system
+was offline. For more information about TPM, including a white paper, go to:
+http://www.hp.com/go/TPM.
+NOTE: ProLiant OS pre-installed units will come with the partition required for TPM
+deployment.
+NOTE: The TPM key is unique to every TPM deployed server and must be retained.
+Misplacing or losing the key could result in data loss.
+787211-B21
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Additional Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 24
+HP Storage Controllers SAS Controllers
+HP Smart Array Controllers
+HP Smart Array P440/4GB FBWC 12Gb 1-port Int SAS Controller 726821-B21
+HP Smart Array P840/4GB FBWC 12Gb 2-ports Int SAS Controller 726897-B21
+HP Smart Array P441/4GB FBWC 12Gb 2-ports Ext SAS Controller 726825-B21
+HP Smart Array P440/4GB FBWC 12Gb 1-port Int FIO SAS Controller 726825-B21
+HP Smart Array P840/4GB FBWC 12Gb 2-ports Int FIO SAS Controller 761874-B21
+HP Smart Host Bus Adapters
+HP H240 12Gb 1-port Int Smart Host Bus Adapter 726907-B21
+HP H240 12Gb 1-port Int FIO Smart Host Bus Adapter 761873-B21
+HP H241 12Gb 2-ports Ext Smart Host Bus Adapter 726911-B21
+HP Cable Options
+HP DL60/80/120 Gen9 4LFF Cable FIO Kit 777331-B21
+HP DL80 Gen9 LFF Smart Array P440/P840 SAS Cable Kit
+NOTE: One cable kit must be selected with P440 controller.
+NOTE: Two of these cable kits must be selected with P840 controller.
+779619-B21
+HP DL80 Gen9 LFF Smart Array H240 SAS Cable Kit
+NOTE: Two cable Kits must be selected with H240
+779622-B21
+NOTE: One of the above cables is required to be selected depending on the combination of chassis and
+storage controller. Cable option kit descriptions include the right chassis and storage controllers names.
+NOTE: FIO indicates that this option is only available as a factory installable option. Please select FIO
+option if you want the option to be factory installed.
+NOTE: NHP server chassis (Mod-x) includes SATA cables required to connect drives to embedded B140i
+SATA controller.
+Optional Upgrades
+HP 96W Smart Storage Battery with 145mm Cable for DL/ML/SL Servers
+NOTE: This option is mandatorily required with HP Smart Array controllers. One server
+can accommodate only 1 Smart Storage Battery that would suffice the requirement of
+all HP Smart Array controllers.
+727258-B21
+HP Tape Backup NOTE:For the complete range of tape drives, autoloaders, libraries and media see:
+http://www.hp.com/go/tape. For hardware and software compatibility of HP tape backup products see:
+http://www.hp.com/storage/SPOCK and http://www.hp.com/go/ebs.
+NOTE: For Internal drives to be connected to DL servers please make sure that you order rack mount kit
+as well.
+Tape Drives
+HP StoreEver LTO-6 Ultrium 6650 SAS External Tape Drive EH964A
+HP StoreEver LTO-6 Ultrium 6250 External Tape Drive EH970A
+HP StoreEver LTO-5 Ultrium 3000 SAS External Tape Drive EH958B
+HP StoreEver LTO-5 Ultrium 3280 SAS External Tape Drive EH900B
+HP StoreEver LTO-4 Ultrium 1760 SCSI External Tape Drive EH922B
+HP StoreEver LTO-4 Ultrium 1760 SAS External Tape Drive EH920B
+HP StoreEver LTO-3 Ultrium 920 SAS External Tape Drive EH848B
+Tape Libraries
+HP MSL2024 0-Drive Tape Library AK379A
+HP MSL4048 0-Drive Tape Library AK381A
+SAS Rack-Mount Tape Solutions
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Additional Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 25
+HP StoreEver 1U SAS Rack-mount Kit AE459B
+HP StoreEver LTO-4 Ultrium 1760 SAS (1) in 1U Rack-mount Kit EH946C
+HP StoreEver LTO-5 Ultrium 3280 SAS Tape Drive in 3U Rack-mount EJ013B
+HP StoreEver LTO-5 Ultrium 3000 SAS Tape Drive in 1U Rack-mount EJ014B
+HP StoreEver LTO-6 Ultrium 6250 Tape Drive in 1U Rack-mount Kit C0L99A
+HP StoreEver 1/8 G2 LTO-6 Ultrium 6250 FC Tape Autoloader C0H19A
+HP StoreEver MSL6480
+HP StoreEver MSL6480 Scalable Base Module QU625A
+HP StoreEver MSL6480 Scaleable Expansion Module QU626A
+HP Disk Backup HP RDX Removable Disk Backup System
+HP RDX320 USB3.0 External Disk Backup System B7B63A
+HP RDX500 USB3.0 External Disk Backup System B7B66A
+HP RDX1000 USB3.0 External Disk Backup System B7B69A
+HP RDX 2TB USB3.0 External Disk Backup System E7X53A
+HP Disk Storage Systems Disk Enclosures
+HP D6000 Dual I/O Module Disk Enclosure QQ695A
+HP D6000 w/35 4TB 6G SAS 7.2K LFF Dual Port MDL HDD 140TB Bundle E7W30A
+HP D6000 w/70 4TB 6G SAS 7.2K LFF Dual Port MDL HDD 280TB Bundle E7W31A
+HP D6000 w/70 3TB 6G SAS 7.2K LFF Dual port MDL HDD 210TB Bundle QQ700A
+HP D6000 w/70 2TB 6G SAS 7.2K LFF Dual port MDL HDD 140TB Bundle QQ698A
+HP D6000 w/35 3TB 6G SAS 7.2K LFF Dual port MDL HDD 105TB Bundle QQ699A
+HP D6000 w/35 2TB 6G SAS 7.2K LFF Dual port MDL HDD 70TB Bundle QQ697A
+HP Data Center Racks HP 11000 G2 Series Racks
+HP 11648 1075mm Pallet Universal Rack H6J87A
+HP 11648 1075mm Shock Universal Rack H6J88A
+HP 11642 1075mm Pallet Universal Rack H6J65A
+HP 11642 1075mm Shock Universal Rack H6J66A
+HP 11642 1200mm Pallet Universal Rack H6J67A
+HP 11642 1200mm Shock Universal Rack H6J68A
+HP 11636 1075mm Pallet Universal Rack H6J77A
+HP 11636 1075mm Shock Universal Rack H6J78A
+HP 11622 G2 1075mm Pallet Universal Rack H6J83A
+HP 11622 G2 1075mm Shock Universal Rack H6J84A
+HP 11614 1075mm Shock Universal Rack H6J82A
+NOTE: Please see the HP 11000 G2 Series Racks QuickSpec for information on
+additional racks options and rack specifications
+HP Intelligent Series Racks
+HP 647 1075mm Pallet Intelligent Series Rack BW911A
+HP 647 1075mm Shock Intelligent Series Rack BW912A
+HP 647 1200mm Pallet Intelligent Series Rack BW913A
+HP 647 1200mm Shock Intelligent Series Rack BW914A
+HP 642 1075mm Pallet Intelligent Series Rack BW903A
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Additional Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 26
+HP 642 1075mm Shock Intelligent Series Rack BW904A
+HP 642 1200mm Pallet Intelligent Series Rack BW907A
+HP 642 1200mm Shock Intelligent Series Rack BW908A
+HP 636 1075mm Pallet Intelligent Series Rack BW895A
+HP 636 1075mm Shock Intelligent Series Rack BW896A
+HP 842 1075mm Pallet Intelligent Series Rack BW917A
+HP 842 1075mm Shock Intelligent Series Rack BW918A
+NOTE: Please see the HP Intelligent Series Racks QuickSpec for information on
+additional racks options and rack specifications.
+HP Value Series Rack
+HP V142 1075mm deep Pallet 100 series Rack AF046A
+NOTE: Please see the HP Value Series Rack QuickSpec for information on additional
+racks options and rack specifications.
+HP Power Distribution
+Units (PDUs)
+HP Basic Power Distribution Unit (bPDU)
+HP 1.9kVA 120 Volt L5-20 Input (12xNEMA 5-20R) NA/JP Basic PDU H5M54A
+HP 3.6kVA 200-240 Volt Detachable C20 Input ( 12xC13) WW Basic PDU H5M56A
+HP 2.8kVA 120 Volt L5-30 Input (18xNEMA 5-20R) NA/JP Basic PDU H5M55A
+HP 3.6kVA 200-240 Volt Detachable C20 Input (18xC13) WW Basic PDU H5M57A
+HP 4.9kVA 208 Volt L6-30 Input (20xC13) NA/JP Basic PDU H5M58A
+HP 7.3kVA 230 Volt IEC309 32A Input (20xC13) INTL Basic PDU H5M68A
+HP 8.6kVA 208 Volt L15-30 3-Phase Input (18xC13) NA/JP Basic PDU H5M61A
+HP 4.9kVA 208 Volt L6-30 Input (24xC13/6xC19) NA/JP Basic PDU H5M59A
+HP 7.3kVA 230 Volt IEC309 32A Input (24xC13/6xC19) INTL Basic PDU H5M70A
+HP 8.3kVA 208 Volt CS8265C Input (30xC13/6xC19) NA/JP Basic PDU H5M60A
+HP 11kVA 230 Volt IEC309 63A Input (30xC13/6xC19) INTL Basic PDU H5M71A
+HP Hardwired 200-240 Volt Input (30xC13/6xC19) WW Basic PDU H5M75A
+HP 5.7kVA 208 Volt L21-20 3-Phase Input (24xC13/3xNEMA 5-20R) NA/JP Basic PDU H5M63A
+HP 8.6kVA 208 Volt L21-30 3-Phase Input (24xC13/3xC19/3xNEMA 5-20R) NA/JP Basic
+PDU
+H5M64A
+HP 8.6kVA 208 Volt L15-30 3-Phase Input (24xC13/6xC19) NA/JP Basic PDU H5M62A
+HP 11kVA 400 Volt IEC309 16A 3-Phase Input (30xC13/6xC19) INTL Basic PDU H5M72A
+HP 11kVA 400 Volt IEC309 16A 3-Phase Input (36xC13/6xC19) INTL Basic PDU H5M73A
+HP 11kVA 400 Volt IEC309 30A 3-Phase Input (36xC13/6xC19) NA Basic PDU H5M67A
+HP 13.2kVA 480 Volt IEC309 30A 3-Phase Input (15 Outlet) NA Basic PDU H3X07A
+HP 19.9kVA 480 Volt IEC309 30A 3-Phase Input (30 Outlet) NA Basic PDU H3X08A
+HP 800VA - 277V Input / 230V Output NA Rack Mount Transformer H3X09A
+HP 2.8kVA 24A Low Voltage NA/JP Modular Power Distribution Unit 252663-D71
+HP 4.9kVA 24A High Voltage NA/JP Core Modular Power Distribution Unit 252663-D74
+HP 8.3kVA 40A High Voltage NA/JP Core Modular Power Distribution Unit 252663-D75
+HP 7.3kVA 32A High Voltage INTL Core Modular Power Distribution Unit 252663-B33
+HP 9.2kVA 40A High Voltage INTL Core Modular Power Distribution Unit 252663-B34
+HP 8.6kVA 24A Three Phase NA/JP Modular Power Distribution Unit AF512A
+HP 11kVA 16A Three Phase INTL Modular Power Distribution Unit AF513A
+HP 14.4kVA 40A Three Phase NA/JP Modular Power Distribution Unit AF519A
+HP 17.3kVA 48A Three Phase NA/JP Modular Power Distribution Unit AF511A
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Additional Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 27
+HP 22kVA 32A Three Phase INTL Core Modular Power Distribution Unit AF518A
+NOTE: To learn more about HP Basic Power Distribution Units (bPDU), please visit the
+HP website at http://www.hp.com/go/pdu.
+HP Monitored Power Distribution Units (mPDU)
+HP 2.8kVA 120 Volt L5-30 Input (12xNEMA 5-20R)NA/JP Monitored PDU D9N43A
+HP 3.6kVA 200-240 Volt Detachable C20 Input (12xC13) WW Monitored PDU D9N46A
+HP 4.9kVA 208 Volt L6-30 Input (12xC13) NA/JP Monitored PDU D9N44A
+HP 3.6kVA 200-240 Volt Detachable C20 Input (16xC13) WW Monitored PDU D9N45A
+HP 4.9kVA 208 Volt L6-30 Input (12xC13) NA/JP Monitored PDU G9Z05A
+HP 7.3kVA 230 Volt IEC309 32A Input (12xC13) INTL Monitored PDU G9Z06A
+HP 4.9kVA 208 Volt L6-30 Input (20xC13/4xC19) NA/JP Monitored PDU D9N47A
+HP 7.3kVA 230 Volt IEC309 32A Input (20xC13/4xC19) INTL Monitored PDU D9N48A
+HP 8.6kVA 208 Volt L15-30 3-Phase Input (18xC13/3xC19) NA/JP Monitored PDU D9N51A
+HP 5.7kVA 208 Volt L21-20 3-Phase Input (18xC13/3xNEMA 5-20R) NA/JP Monitored
+PDU
+D9N52A
+HP 8.6kVA 208 Volt L21-30 3-Phase Input (20xC13/3xC19/3xNEMA 5-20R) NA/JP
+Monitored PDU
+D9N53A
+HP 11kVA 400 Volt IEC309 16A 3-Phase Input (18xC13/3xC19) INTL Monitored PDU D9N55A
+HP 8.3kVA 208 Volt CS8265C Input (30xC13/3xC19) NA Monitored PDU D9N49A
+HP 7.3kVA 230 Volt IEC309 32A Input (32xC13/4xC19) INTL Monitored PDU D9N50A
+HP 11kVA 400 Volt IEC309 16A 3-Phase Input (30xC13/3xC19) INTL Monitored PDU D9N57A
+HP 14.4kVA 208 Volt CS8365C 3-Phase Input (12xC13/12xC19)NA Monitored PDU D9N58A
+HP 16.6kVA 400 Volt IEC309 30A 3-Phase Input (30xC13/3xC19) NA Monitored PDU D9N61A
+HP 16.6kVA 400 Volt IEC309 30A 3-Phase Input (12xC13/12xC19) NA Monitored PDU D9N62A
+HP 17.3kVA 208 Volt IEC309 60A 3-Phase Input (24xC13/3xC19) NA/JP Monitored PDU D9N54A
+HP 17.3kVA 208 Volt IEC309 60A 3-Phase Input (12xC13/12xC19) NA/JP Monitored PDU D9N59A
+HP 17.3kVA 208 Volt IEC309 60A 3-Phase Watertight Input (12xC13/12xC19) NA/JP
+Monitored PDU
+G9Z07A
+HP 19.9kVA 480 Volt 3-Phase (30 Outlet) NA Monitored PDU D9N63A
+HP 22kVA 400 Volt IEC309 32A 3-Phase Input (30xC13/3xC19) INTL Monitored PDU D9N56A
+HP 22kVA 400 Volt IEC309 32A 3-Phase Input (12xC13/12xC19) INTL Monitored PDU D9N60A
+HP 22kVA 400 Volt IEC309 32A 3-Phase Watertight Input (12xC13/12xC19) INTL
+Monitored PDU
+G9Z08A
+HP Environmental Sensor for Remote Monitored PDUs E2D53A
+NOTE: Please see the HP Monitored Power Distribution Units QuickSpec for information
+on additional options and product specifications
+HP Intelligent Power Distribution Units (iPDU
+HP 4.9kVA 24A Single Phase NA/JP Core Intelligent Modular Power Distribution Unit AF520A
+HP 8.3kVA 40A Single Phase NA/JP Core Intelligent Modular Power Distribution Unit AF521A
+HP 8.6kVA 24A Three Phase NA/JP Core Intelligent Modular Power Distribution Unit AF522A
+HP 17.3kVA 48A Three Phase NA/JP Core Intelligent Modular Power Distribution Unit AF523A
+HP 11.4kVA 16A 415V Three Phase L22-20 NA Core Intelligent Power Distribution Unit AF900A
+HP 17.3kVA 24A 415V Three Phase IEC309 NA Core Intelligent Power Distribution Unit AF901A
+HP 7.3kVA 32A Single Phase INTL Core Intelligent Modular Power Distribution Unit AF525A
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Additional Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 28
+HP 11kVA 16A Three Phase INTL Core Intelligent Modular Power Distribution Unit AF526A
+HP 22kVA 32A Three Phase INTL Core Intelligent Modular Power Distribution Unit AF527A
+HP 17.3kVA 48A 208V Three Phase 12 Outlet Core NA/JP Intelligent Power Distribution
+Unit
+AF535A
+HP 17.3kVA 24A 415V Three Phase 12 Outlet Core NA/JP Intelligent Power Distribution
+Unit
+AF537A
+HP 22kVA 32A 400V Three Phase 12 Outlet Core INTL Intelligent Power Distribution Unit AF538A
+HP 4.9kVA 24A Single Phase NA/JP Intelligent Modular Power Distribution Kit AF531A
+HP 8.6kVA 24A Three Phase NA/JP Intelligent Modular Power Distribution Kit AF532A
+HP 14.4kVA 40A Three Phase NA/JP Intelligent Modular Power Distribution Unit AF533A
+HP 7.3kVA 32A Single Phase INTL Intelligent Modular Power Distribution Kit AF534A
+HP 5xC13 Intelligent PDU Extension Bar G2 Kit AF547A
+HP 5xC13 Outlets Power and UID LEDs Pair Standard Extension Bar AF528A
+NOTE: Please see the HP Intelligent Power Distribution Units QuickSpec for information
+on additional options and product specifications.
+HP Managed Power Distribution Units (maPDU)
+HP 2.8kVA 120 Volt L5-30 Input (24x NEMA 5-20) NA/JP Managed PDU H8B48A
+HP 3.6kVA 200-240 Volt Detachable C20 Input (7xC13/1xC19) WW Managed PDU H8B49A
+HP 4.9kVA 208 Volt L6-30 Input (20xC13/4xC19) NA/JP Managed PDU H8B50A
+HP 7.3kVA 200-240 Volt IEC309 32A Input (20xC13/4xC19) INTL Managed PDU H8B51A
+HP 8.6kVA 208 Volt L15-30 3 Phase Input (18xC13/6xC19) NA/JP Managed PDU H8B52A
+HP 8.6kVA 208 Volt L21-30 3 Phase Input (20xC13/3xC19/1x NEMA 5-20) NA/JP
+Managed PDU
+H8B53A
+HP 11kVA 400 Volt IEC309 16A 3 Phase Input (21xC13/3xC19) INTL Managed PDU H8B54A
+HP 14.4kVA 208V CS8365C 3 Phase Input (12xC13/12xC19) NA/JP Managed PDU H8B55A
+HP 17.3kVA 208V IEC309 60A 3 Phase Input (12xC13/12xC19) NA/JP Managed PDU H8B56A
+NOTE: Please see the QuickSpecs for Technical Specifications and additional information:
+http://www8.hp.com/h20195/v2/GetHtml.aspx?docname=c04376673
+(Worldwide)
+NOTE: To learn more, please visit the HP Uninterruptible Power Systems (UPS) web page.
+HP Rack Mount Consoles,
+KVM Switches, and
+Keyboards
+HP Location Discovery Services
+HP Location Discovery Services LCD8500 Kit
+NOTE: Please see the QuickSpecs for Technical Specifications and additional
+information:
+http://h18000.www1.hp.com/products/quickspecs/14429_div/14429_div.html
+(Worldwide)
+TL052A
+HP Rack Mount Consoles
+HP LCD8500 1U US Rackmount Console Kit AF630A
+HP LCD8500 1U UK Rackmount Console Kit AF631A
+HP LCD8500 1U DE Rackmount Console Kit AF632A
+HP LCD8500 1U FR Rackmount Console Kit AF633A
+HP LCD8500 1U JP Rackmount Console Kit AF642A
+HP LCD8500 1U RU Rackmount Console Kit AF643A
+HP LCD8500 1U INTL Rackmount Console Kit AF644A
+HP LCD8500 1U US TAA Rackmount Console Kit AF645A
+HP TFT7600 G2 KVM Console Rackmount Keyboard US Monitor AZ870A
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Additional Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 29
+HP TFT7600 G2 KVM Console Rackmount Keyboard UK Monitor AZ871A
+HP TFT7600 G2 KVM Console Rackmount Keyboard DE Monitor AZ872A
+HP TFT7600 G2 KVM Console Rackmount Keyboard FR Monitor AZ873A
+HP TFT7600 G2 KVM Console Rackmount Keyboard IT Monitor AZ874A
+HP TFT7600 G2 KVM Console Rackmount Keyboard ES Monitor AZ875A
+HP TFT7600 G2 KVM Console Rackmount Keyboard DK Monitor AZ876A
+HP TFT7600 G2 KVM Console Rackmount Keyboard NO Monitor AZ877A
+HP TFT7600 G2 KVM Console Rackmount Keyboard SE/FI Monitor AZ878A
+HP TFT7600 G2 KVM Console Rackmount Keyboard CH Monitor AZ879A
+HP TFT7600 G2 KVM Console Rackmount Keyboard PT Monitor AZ880A
+HP TFT7600 G2 KVM Console Rackmount Keyboard BE Monitor AZ881A
+HP TFT7600 G2 KVM Console Rackmount Keyboard JP Monitor AZ882A
+HP TFT7600 G2 KVM Console Rackmount Keyboard RU Monitor AZ883A
+HP TFT7600 G2 KVM Console Rackmount Keyboard Intl Monitor AZ884A
+HP TFT7600 G2 KVM Console Rackmount Keyboard US TAA Monitor
+NOTE: Please see the HP Rack Console QuickSpecs for information on additional
+options and product specifications.
+AZ885A
+HP KVM Switches
+HP Server Console 0x2x8 Port Analog Switch AF616A
+HP Server Console 0x2x16 Port Analog Switch AF617A
+HP TAA 0x2x16xKVM Server Console G2 Switch AF626A
+HP 0x1x8 G3 KVM Console Switch AF651A
+HP 0x2x16 G3 KVM Console Switch AF652A
+HP TAA 0x2x16 G3 KVM Console Switch AF653A
+HP USB Remote Access Key for G3 KVM Console Switches AF650A
+HP KVM Console USB Interface Adapter AF628A
+HP 0x2x16 KVM Server Console Switch G2 with Virtual Media CAC Software AF618A
+HP 0x2x32 KVM Server Console Switch G2 with Virtual Media CAC Software AF619A
+HP KVM Console USB 2.0 Virtual Media CAC Interface Adapter AF629A
+HP 1x4 USB/PS2 KVM Console Switch AF611A
+HP 1x1Ex8 KVM IP Console Switch G2 with Virtual Media CAC Software AF620A
+HP 2x1Ex16 KVM IP Console Switch G2 with Virtual Media CAC Software AF621A
+HP 4x1Ex32 KVM IP Console Switch G2 with Virtual Media CAC Software
+NOTE: To learn more, please visit the HP KVM Switches web page.
+AF622A
+HP USB Keyboard and Mouse
+HP USB BFR with PVC Free US Keyboard/Mouse Kit 631341-B21
+HP USB BFR with PVC Free UK Keyboard/Mouse Kit 631344-B21
+HP USB BFR with PVC Free FR Keyboard/Mouse Kit 631346-B21
+HP USB BFR with PVC Free ES Keyboard/Mouse Kit 631348-B21
+HP USB BFR with PVC Free DE Keyboard/Mouse Kit 631358-B21
+HP USB BFR with PVC Free JP Keyboard/Mouse Kit 631360-B21
+HP USB BFR with PVC Free IT Keyboard/Mouse Kit 631362-B21
+HP USB BFR with PVC Free CN Keyboard/Mouse Kit 631364-B21
+HP USB BFR with PVC Free AE Keyboard/Mouse Kit 638212-B21
+HP USB BFR with PVC Free RU Keyboard/Mouse Kit 638214-B21
+HP USB BFR with PVC Free IN Keyboard/Mouse Kit 672097-D63
+HP USB BFR with PVC Free AP-Intl Keyboard/Mouse Kit 672097-373
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Additional Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 30
+HP USB BFR with PVC Free Intl Keyboard/Mouse Kit 672097-B33
+HP USB BFR with PVC Free PT Keyboard/Mouse Kit 672097-133
+HP USB BFR with PVC Free TR Keyboard/Mouse Kit 672097-143
+HP USB BFR with PVC Free CZ Keyboard/Mouse Kit 672097-223
+HP USB BFR with PVC Free FI Keyboard/Mouse Kit 672097-353
+HP USB BFR with PVC Free SE Keyboard/Mouse Kit 672097-103
+HP USB BFR with PVC Free CH Keyboard/Mouse Kit 672097-113
+HP USB BFR with PVC Free KR Keyboard/Mouse Kit 672097-KD3
+HP 1U INT Rackmount Keyboard with USB AG086A
+HP 1U US Rackmount Keyboard with USB AG072A
+NOTE: Please see the HP USB Keyboard and Mouse QuickSpecs for information on
+additional options and product specifications.
+Rail Kits
+HP 2U Small Form Factor Easy Install Rail Kit 733660-B21
+HP 2U Cable Management Arm for Easy Install Rail Kit 733664-B21
+HP Other Options
+HP Rack LED Light Kit BW939A
+HP Kit LCD 1.83m Latch Display Port Cable G7T29A
+HP Uninterruptible Power
+Systems (UPS)
+HP DirectFlow Three Phase UPS
+Power Unit (1U UPS)
+HP R12000 DirectFlow - 1U Rackmount Uninterruptible Power System G9Y75A
+HP R12000 DirectFlow - POD 1U Rackmount Uninterruptible Power System AF478A
+Input/Output Module Options for 1U UPS
+HP 32A 400-415 Volt Three Phase INTL R12000 DirectFlow UPS IEC309 Input/Output
+Module
+AF488A
+HP 30A 400-415 Volt Three Phase NA R10000 DirectFlow UPS IEC309 Input/Output
+Module
+AF489A
+HP 32A 380 Volt Three Phase China R12000 DirectFlow UPS Unterminated Input/Output
+Module
+AF490A
+HP 30A 480 Volt Three Phase NA R12000 DirectFlow UPS L22-30 Input/Output Module AF491A
+HP 30A 480 Volt Three Phase NA R12000 DirectFlow UPS IEC309 Input/Output Module AF492A
+HP 30A 400-415 Volt Three Phase NA R12000 DirectFlow UPS IEC309 Input/Output
+Module
+G9Y76A
+Power Unit (2U UPS)
+HP R18000 DirectFlow - 2U Rackmount Uninterruptible Power System AF479A
+Input/Output Module Options for 2U UPS
+HP 32A 400-415 Volt Three Phase INTL R18000 DirectFlow UPS IEC309 Input/Output
+Module
+AF483A
+HP 30A 380 Volt Three Phase China R18000 DirectFlow UPS Unterminated Input/Output
+Module
+AF485A
+HP 30A 480 Volt Three Phase NA R18000 DirectFlow UPS IEC309 Input/Output Module AF486A
+HP 30A 480 Volt Three Phase NA R18000 DirectFlow UPS IEC309 Input/Output Module AF487A
+HP 30A 400 Volt Three Phase NA R18000 DirectFlow UPS IEC309 Input/Output Module D9Q02A
+HP 30A 400-415V Three Phase NA R18000 DirectFlow UPS 1:1 IEC309 Input/Output
+Module
+NOTE: All Input/Output Modules support dual output outlets except the AF484A.
+AF484A
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Additional Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 31
+Battery Pack Options
+HP DirectFlow UPS - 1U Rackmount Lithium-ion Battery Pack AF480A
+HP DirectFlow UPS - 3U Rackmount VRLA Battery Pack AF482A
+HP WW DirectFlow Secondary Battery Cable AF497A
+NOTE: Please see the HP DirectFlow Three Phase Uninterruptible Power System
+QuickSpecs for information on additional options and product specifications.
+HP Tower UPS
+HP T750 G4 UPS Models
+HP T750 G4 NA/JP Uninterruptible Power System J2P85A
+HP T750 G4 INTL Uninterruptible Power System J2P88A
+HP T1000 G4 UPS Models
+HP T1000 G4 NA/JP Uninterruptible Power System J2P86A
+HP T1000 G4 INTL Uninterruptible Power System J2P89A
+HP T1500 G4 UPS Models
+HP T1500 G4 NA/JP Uninterruptible Power System J2P87A
+HP T1500 G4 INTL Uninterruptible Power System J2P90A
+HP T750 G2 UPS Models
+HP T750 G2 750VA NA Tower Uninterruptible Power System AF446A
+HP T750 G2 750VA INTL Tower Uninterruptible Power System AF447A
+HP T750J JP Uninterruptible Power System AF456A
+HP T1000 G3 UPS Models
+HP T1000 G3 1000VA INTL Tower Uninterruptible Power System AF449A
+HP T1500 G3 UPS Models
+HP T1500 G3 1400VA NA Tower Uninterruptible Power System AF450A
+HP T1500 G3 1400VA INTL Tower Uninterruptible Power System AF451A
+HP Rack/Tower UPS
+HP R/T2200 G4 UPS Models
+HP R/T2200 G4 NA/JP Uninterruptible Power System J2R00A
+HP R/T3000 G4 UPS Models
+HP R/T3000 G4 Low Voltage NA/JP Uninterruptible Power System J2R01A
+HP R/T3000 G4 High Voltage NA/JP Uninterruptible Power System J2R02A
+HP R/T3000 G4 High Voltage INTL Uninterruptible Power System J2R04A
+HP R/T3000 G2 Uninterruptible Power System (UPS)
+HP R/T3000 G2 2U L530 Low Voltage NA/JP Uninterruptible Power System AF466A
+HP R/T3000 G2 2U L620 High Voltage NA/JP Uninterruptible Power System AF467A
+HP R/T3000 G2 2U Detachable Cord High Voltage INTL Uninterruptible Power System AF468A
+R1500 G4 Models
+HP R1500 G4 NA Uninterruptible Power System J2Q99A
+HP R1500 G4 JP/TWN Uninterruptible Power System J2R05A
+HP R1500 G4 INTL Uninterruptible Power System J2R03A
+R1.5kVA G3 Models
+HP R1.5kVA G3 1U NA Uninterruptible Power System AF469A
+HP R1.5kVA G3 1U JP/TW Uninterruptible Power System AF470A
+HP R1.5kVA G3 1U INTL Uninterruptible Power System AF471A
+R7000 Uninterruptible Power System (UPS)
+HP R7KVA 4U 50A High Voltage NA/JP Uninterruptible Power System AF462A
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Additional Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 32
+HP R7KVA 4U IEC-32A High Voltage INTL Uninterruptible Power System AF463A
+R5000 Uninterruptible Power System (UPS)
+HP R5KVA 3U L630 High Voltage NA/JP Uninterruptible Power System AF460A
+HP R5KVA 3U IEC309-32A High Voltage INTL Uninterruptible Power System AF461A
+NOTE: To learn more, please visit the HP Uninterruptible Power Systems (UPS) web page.
+HP USB and SD Options HP Enterprise Mainstream Flash Media Kits for Memory Cards
+HP 32GB microSD Enterprise Mainstream Flash Media Kit 700139-B21
+HP 8GB microSD Enterprise Mainstream Flash Media Kit 726116-B21
+HP 8GB USB Enterprise Mainstream Flash Media Drive Key Kit 737953-B21
+HP Care Pack Services Installation & Start-up Services
+HP Installation DL60/DL80 Service U7WZ5E
+HP Startup DL60/DL80 Service U7WZ7E
+Foundation Care
+HP 3 year Next business day DL80 Gen9 Foundation Care Service U7WG1E
+HP 3 year Next business day with Defective Media Retention DL80 Gen9 Foundation
+Care Service
+U7WG2E
+HP 3 year Next business day w/ComprehensiveDefectiveMaterialRetention DL80 Gen9
+Foundation Care SVC
+U7WG3E
+HP 3 year 24x7 DL80 Gen9 Foundation Care Service U7WG4E U7WG4E
+HP 3 year 24x7 with Defective Media Retention DL80 Gen9 Foundation Care Service U7WG5E
+HP 3 year 24x7 w/Comprehensive Defective Material Retention DL80 Gen9 Foundation
+Care Service
+U7WG6E
+Proactive Care
+HP 3 year 24x7 DL80 Gen9 Proactive Care Service U7WK1E
+HP 3 year 24x7 with Defective Media Retention DL80 Gen9 Proactive Care Service U7WK2E
+HP 3 year 24x7 w/ComprehensiveDefectiveMaterialRetention DL80 Gen9 Proactive U7WK3E
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Additional Options
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 33
+Memory Subsystem
+Architecture
+Each Intel® Xeon® E5-2600v3 family processor socket contains four memory channels per installed
+processor with one DIMM per channel for a total of four (4) DIMMs or a grand total of eight (8) DIMMs for
+the server.
+Memory Population
+guidelines
+General Memory Population Rules and Guidelines:
+.Install DIMMs only if the corresponding processor is installed.
+If only one processor is installed in a two processor system, only half of the DIMM slots are available.
+To maximize performance, it is recommended to balance the total memory capacity between all installed processors and load
+the channels similarly whenever possible.
+When two processors are installed, balance the DIMMs across the two processors.
+White DIMM slots denote the first slot to be populated in a channel.
+Do not mix RDIMMs or LRDIMMs.
+Quad rank RDIMMs are not supported in HP ProLiant DL80 Gen9 servers.
+DIMMs of different speeds may be mixed in any order; the server will select a common optimal speed.
+The maximum memory speed is a function of the memory type, memory configuration, and processor model.
+The maximum memory capacity is a function of the memory type and number of installed processors.
+To realize the performance memory capabilities listed in this document, HP SmartMemory is required.
+Intel Gen9 Supported Memory Bandwidth for HP ProLiant Gen9 Intel® Xeon®E5-2600v3 Series Processor Family
+Memory Bandwidth and Capacity
+[DIMM Type] Registered DIMMS
+(RDIMMs)
+Load Reduced
+(LRDIMMs)
+Unbuffered with
+ECC DIMMs
+(UDIMMs)
+DIMM Rank Single Rank Dual Rank Quad Rank
+DIMM Capacity 4GB 8GB 16GB 32GB
+Voltage Std Voltage 1.2V
+SLOTS THAT CAN BE
+POPULATED
+8 slot servers 8 8 8 8 8 8
+MAXIMUM CAPACITY
+(GB)* 32 64 64 128 128 256
+1 DIMM Per Channel 2133
+DIMM slot and
+configuration diagram
+DIMM slot and configuration diagrams
+Basic memory slot & population diagram
+Population order; start with "A" first, "B" second, "C" third, etc.
+When one processor is installed, install DIMMs in sequential alphabetic order: A, B, C, D, E, F ...
+When two processors are installed, install DIMMs in sequential alphabetic order: CPU1-A, CPU2-
+A,CPU1-B,CPU2-B,CPU1-C, CP2-C
+CPU #1 IS PROCESSOR ON LEFT - LOOKING FROM FRONT OF SERVER
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Memory
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 34
+CPU1 CPU2
+Slot # population order Slot # population order
+Chnl 1 1 A1 1 A1
+Slot # population order Slot # population order
+CPU1 CPU2
+Chnl 2 2 B2 2 B2
+CPU1 CPU2
+Slot # population order Slot # population order
+Chnl 4 3 D3 3 D3
+CPU1 CPU2
+Slot # population order Slot # population order
+Chnl 3 4 C4 4 C4
+Memory Speed by
+Processor Model
+Processor Models Supported Memory Speeds
+E5-2603v3, E5-2609v3, 1600MHz
+E5-2620v3, E5-2630v3, E5-2640v3, E5-2623v3, E5-
+2630Lv3,
+1866MHz
+E5-2650v3, E5-2660v3, E5-2650Lv3, 2133MHz
+Standard and Maximum
+Memory Capacity (Pre-
+configured Models)
+Pre-Configured Models Standard Memory Maximum Memory Plus
+Optional Memory
+Standard Memory
+Replaced with Optional
+Memory
+E5-2603v3, 4GB (1x4GB) 116GB (7x16GB, 1x4GB) 256GB (8x32GB)
+E5-2609v3, 8GB (1x8GB) 120GB (7x16GB, 1x8GB) 256GB (8x32GB)
+DDR4 memory options part number decoder
+NOTE: Capacity references are rounded to the common Gigabyte values.
+2GB = 2,048MB
+4GB = 4,096MB
+8GB = 8,192MB
+16GB = 16,384MB
+32GB = 32,768MB
+64GB = 65,536MB
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Memory
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 35
+4-bay LFF non-hot-plug drive model
+1-4
+4 x LFF SATA/SAS/SSD Hot Pluggable Hard Drives
+Bays
+8-bay LFF non-hot plug drive model
+1-8 8 x LFF SATA Non- Hot Pluggable Hard Drive Bays
+8-bay LFF hot-plug drive model
+1-8
+8 x LFF SATA/SAS/SDD Hot Pluggable Hard Drive
+Bays
+12-bay LFF hot-plug drive model
+1-12
+12 x LFF SATA/SAS/SDD Hot Pluggable Hard drive
+bays
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Storage
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 36
+System Unit Dimensions (with bezel) 3.45 x 18.98 x 24.97 in (8.75 x 44.55 x 60.7 cm)
+Weight
+(approximate)
+Maximum: 47/6 lb (21.59 kg)
+Minimum: 36.58 lb (16.59 kg)
+Input Requirements Rated Line Voltage 100 to 240 VAC
+Rated Input Current For 550W Power Supply:
+6.7 A (at 100 VAC)
+3.3 A (at 200 VAC)
+Rated Input Frequency 47 to 63 Hz
+Rated Input Power For 550 W Power Supply:
+< 670 W (at 100 VAC),
+< 660 W (at 200 VAC),
+BTU Rating Maximum For 550 W Power Supply:
+2201 BTU/hr (at 100 VAC),
+2153 BTU/hr (at 200 VAC)
+Power Specifications To review typical system power ratings use the Power Advisor which is
+available via the online tool located at URL: http://www.hp.com/go/proliant-
+energy-efficient or http://www.hp.com/go/hppoweradvisor - Click on the
+system of interest. Example: DL80 Gen9- Follow the instructions of the next
+screens.
+Power Supply Output Rated Steady-State Power For 550 W Power Supply:
+550 W (at 100 VAC),
+550 W (at 200 VAC),
+Maximum Peak Power For 550 W Power Supply:
+550 W (at 100 VAC),
+550 W (at 200 VAC),
+System Inlet
+Temperature
+Standard Operating
+Support
+10° to 35°C (50° to 95°F) at sea level with an
+altitude derating of 1.0°C per every 305 m (1.8°F
+per every 1000 ft) above sea level to a maximum
+of 3050 m (10,000 ft), no direct sustained
+sunlight. Maximum rate of change is 20°C/hr
+(36°F/hr). The upper limit and rate of change may
+be limited by the type and number of options
+installed. System performance during standard
+operating support may be reduced if operating
+with a fan fault or above 30°C (86°F).
+Extended Ambient
+Operating Support
+For approved hardware configurations, the
+supported system inlet range is extended to be:
+5° to 10°C (41° to 50°F) and 35° to 40°C (95° to
+104°F) at sea level with an altitude derating of
+1.0°C per every 175 m (1.8°F per every 574 ft)
+above 900 m (2953 ft) to a maximum of 3050 m
+(10,000 ft). The approved hardware
+configurations for this system are listed at the
+URL: http://www.hp.com/servers/ashrae
+System performance may be reduced if operating
+in the extended ambient operating range or with a
+fan fault.
+NOTE: Supports A3 extended ambient.
+Non-operating -30° to 60°C (-22° to 140°F). Maximum rate of
+change is 20°C/hr (36°F/hr).
+Relative Humidity Operating Minimum to be the higher (more moisture) of -
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Technical Specifications
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 37
+(non-condensing) 12°C (10.4°F) dew point or 8% relative humidity.
+Maximum to be the lower (less moisture) of 24°C
+(75.2°F) dew point or 90% relative humidity.
+Non-operating 5% to 95% relative humidity (Rh), 38.7°C
+(101.7°F) maximum wet bulb temperature, non-
+condensing.
+Altitude Operating 3048 m (10,000 ft). This value may be limited by
+the type and number of options installed.
+Maximum allowable altitude change rate is 457
+m/min (1500 ft/min).
+Non-operating 9144 m (30,000 ft). Maximum allowable altitude
+change rate is 457 m/min (1500 ft/min).
+Acoustic Noise Listed are the declared A-Weighted sound power levels (LWAd) and declared
+average bystander position A-Weighted sound pressure levels (LpAm) when
+the product is operating in a 23°C ambient environment. Noise emissions were
+measured in accordance with ISO 7779 (ECMA 74) and declared in accordance
+with ISO 9296 (ECMA 109).
+Idle
+LWAd Entry: 4.8 B
+Base: 4.7 B
+LpAm Entry: 34 dBA
+Base: 33 dBA
+Operating
+LWAd Entry: 4.9 B
+Base: 4.9 B
+LpAm Entry: 34 dBA
+Base: 36 dBA
+Emissions Classification
+(EMC)
+FCC Rating Class A
+Normative Standards CISPR 22; EN55022; EN55024; FCC CFR 47, Pt 15;
+ICES-003; CNS14336-1; CNS13438; GB4943;
+GB9254; EN 61000-3-2; EN 61000-3-3; EN
+60950-1; IEC 60950-1
+NOTE: Product conformance to cited product specifications is based on
+sample (type) testing, evaluation, or assessment. This product or family of
+products is eligible to bear the appropriate compliance logos and statements.
+NOTE: The listed sound levels apply to standard shipping configurations.
+Additional options may result in increased sound levels.
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Technical Specifications
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 38
+HP Dynamic Smart Array
+B140i Controller
+Number of PCI links Four
+PCI link rate 4Gb/s
+Storage protocol suppor SATA
+SAS/SATA peak data
+transfer rate
+6Gb/s
+Number of SAS/SATA links 10 links
+SAS/SATA connectivity 2x4 connectors; 2x1 connectors
+Expander support No
+Drives supported (max) Up to 10 Internal Drives
+RAID support 0, 1, 10, 5 SATA
+Software management HP SSA, SMH, SIM
+Warranty Server warranty
+HP Secure Encryption
+license
+Not Supported
+HP SmartCache License Not Supported
+HP Smart Storage
+Administrator
+Supported
+HP Embedded Dual Port
+361i Adapter
+Network Interface 10Base-T/100Base-TX/1000Base-TX
+Compatibility IEEE 802.3 10Base-T
+IEEE 802.3ab 1000Base-T
+IEEE 802.3u 100Base-TX
+IEEE 1588, IEEE 802.1AS
+IEEE 802.3az - Energy Efficient Ethernet (EEE)
+Data Transfer Method PCI Express v 2.0, 5.0 GT/s, two lanes (x2)
+Controller Intel I350 Powerville
+10Base-T (Half-Duplex) 10 Mb/s per port, 40 Mb/s combined
+10Base-T (Full-Duplex) 20 Mb/s per port, 80 Mb/s combined
+Network Transfer Rate 100Base-TX (Half-Duplex) 100 Mb/s per port, 400 Mb/s combined
+100Base-TX (Full-Duplex) 200 Mb/s per port, 800 Mb/s combined
+1000Base-TX (Half and
+Full-Duplex)
+1000Mb/s per port, 4000 Mb/s combined
+Connector Two RJ-45
+Cable Support 10 Base-T Categories 3, 4 or 5 UTP; up to 328 ft (100 m)
+10/100/1000 Base-TX Category 5 or higher UTP; up to 328 ft (100 m)
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Technical Specifications
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 39
+Environment-friendly
+Products and Approach
+End-of-life
+Management and
+Recycling
+Hewlett-Packard offers end-of-life HP product return, trade-in, and recycling
+programs in many geographic areas. For trade-in information, please go to:
+http://www.hp.com/go/green. To recycle your product, please go to:
+http://www.hp.com/go/green or contact your nearest HP sales office.
+Products returned to HP will be recycled, recovered or disposed of in a
+responsible manner.
+The EU WEEE directive (2002/95/EC) requires manufacturers to provide
+treatment information for each product type for use by treatment facilities.
+This information (product disassembly instructions) is posted on the Hewlett
+Packard web site at: http://www.hp.com/go/green. These instructions may be
+used by recyclers and other WEEE treatment facilities as well as HP OEM
+customers who integrate and re-sell HP equipment.
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Technical Specifications
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 40
+Date Version History Action Description of Change:
+02/09/2015 From Version 1 to 2 Added Added HP Insight Software.
+Added new G4 UPS models.
+Changed HP Memory, HP Tape Backup, HP Disk Backup, HP Rack Mount
+Consoles, KVM Switches, and Keyboards, and HP Uninterruptible
+Power Systems (UPS) sections were revised.
+© Copyright 2015 Hewlett-Packard Development Company, L.P.
+The information contained herein is subject to change without notice. The only warranties for HP products and services are set forth in
+the express warranty statements accompanying such products and services. Nothing herein should be construed as constituting an
+additional warranty. HP shall not be liable for technical or editorial errors or omissions contained herein.
+Intel® and Xeon® are registered trademarks of Intel Corporation in the U.S. and other countries.
+Microsoft®, Windows®, and Windows Server® are U.S. registered trademarks of the Microsoft group of companies.
+For hard drives, 1GB = 1 billion bytes. Actual formatted capacity is less
+QuickSpecs HP ProLiant DL80 Generation9 (Gen9)
+Summary of Changes
+DA - 15089 Worldwide QuickSpecs -- Version 2 -- 2.9.2015 Page 41
+

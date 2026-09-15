@@ -1336,9 +1336,33 @@ confirmed vs. still flagged per model (DL110 in particular: its QuickSpecs
 wouldn't download from any mirror tried, so only its fixed-SoC note is
 sourced, nothing structural).
 
-Next: the ML tower line (Gen9 stragglers, then Gen11), then the entry-level
-DL20/60/80/110/320/340 family (the **Gen9/Gen11** entry-level line — not to
-be confused with the Gen12 models of the same names just verified).
+**Done 2026-09-15** (three parallel background research agents,
+riser/fan/PSU/bay-count axis — a separate axis from the media-bay/
+TPM/motherboard/rear/backplane compatibility work covered earlier in
+this doc): the ML tower Gen9 stragglers (ML10/30/110/150) and the
+entry-level DL family — both Gen9 (DL20/60/80/120/160/180) and Gen11
+(DL20/110/320) — all now `verified:true`. Notable findings: DL160 G9
+has no 10SFF bay (unlike DL160 G10, which added one — a real
+generational difference, guarded by a new regression test); DL80 G9
+is the family outlier with 5 PCIe slots directly on the motherboard
+and an optional (not mandatory) riser; DL120 G9 disables fan
+redundancy above 105W CPUs; DL20 G11 has only 1 real PCIe slot despite
+its own QuickSpecs' Risers section naming a 2nd kit (a copy-paste
+artifact from the sibling DL320 G11 doc, not a real option). Full
+citations in the `g10plus-verification-todo` memory.
+
+**DL120 Gen10 remains the one open item on this axis** — confirmed a
+real product (not fabricated, unlike the removed `DL340 G11`) via a
+genuine support.hpe.com listing and a CE-declaration doc, but three
+separate research passes (including a fresh, deliberately thorough
+one 2026-09-15 trying guessed doc-ID neighbors, support.hpe.com, and
+several mirror hosts) have still not found its actual QuickSpecs PDF —
+see its own model note in `index.html` for the full list of dead ends,
+so a future pass doesn't repeat them.
+
+Next up: ML30/ML110 Gen11 riser/fan/PSU/bay-counts (currently only
+partially sourced — media-bay/TPM/motherboard/rear facts exist, this
+structural axis doesn't yet) and ML350 Gen12.
 
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.

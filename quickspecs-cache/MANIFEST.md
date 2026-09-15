@@ -52,3 +52,9 @@ One row per cached file in this directory. See `README.md` for how to use/add to
 | ML30-G9.txt | ML30 | G9 | c04834991 | V29 — 02-Dec-2019 | https://mahanshabake.com/wp-content/uploads/2024/08/HPE-ProLiant-ML30-Gen9.pdf | 2026-09-15 |
 | ML110-G9.txt | ML110 | G9 | c04545452 | V22 — 23-Oct-2017 | https://www.router-switch.com/media/upload/product-pdf/hpe-ml110-gen9-servers-datasheet.pdf | 2026-09-15 |
 | ML150-G9.txt | ML150 | G9 | c04447843 | V28 — 02-Apr-2018 | https://ysorkh.net/wp-content/uploads/2021/05/HPE-ProLiant-ML150-Generation9-Gen9.pdf | 2026-09-15 |
+| DL20-G9.txt | DL20 | G9 | c04834947 (DA-15474) | V32 — 3-Dec-2018 | https://servermall.ru/upload/datasheet/hpe-dl20-gen9-datasheet.pdf | 2026-09-15 |
+| DL60-G9.txt | DL60 | G9 | c04447824 (DA-15088) | V25 — 4-Dec-2017 | https://www.harddrivesdirect.com/pdf/proliant_options/hp_DL60_G9_quickspecs.pdf | 2026-09-15 |
+| DL80-G9.txt | DL80 | G9 | DA-15089 | V2 — 2-Sep-2015 | https://servak.com.ua/image/manual/hpe_proliant_dl80_gen9_server_quick_specs_servak.pdf | 2026-09-15 |
+| DL120-G9.txt | DL120 | G9 | c04447806 (DA-15087) | V15 — 19-Aug-2016 | https://www.hp-pro.net/netcat_files/181/175/Overview_HPE_ProLiant_DL120_Generation9__Gen9_.PDF | 2026-09-15 |
+| DL160-G9.txt | DL160 | G9 | c04346224 (DA-15031) | V17 — 10-Jun-2016 | https://www.hp-pro.net/netcat_files/182/180/Overview_HPE_ProLiant_DL160_Generation9__Gen9_.PDF | 2026-09-15 |
+| DL180-G9.txt | DL180 | G9 | c04375610 (DA-15032) | V27 — 25-Sep-2017 | https://www.bargainhardware.co.uk/media/quick-specs/rack-servers/HP/HP_ProLiant_DL180_Gen9_QuickSpecs.pdf | 2026-09-15 |
