@@ -2018,7 +2018,25 @@ var MEM_SPEEDS={
  e3:[2133,2400],xeone:[2400,2666],xeone3:[2666,3200],
  e5v3:[1600,1866,2133],e5v4:[1866,2133,2400],e5v3x4:[1600,1866,2133],e5v4x4:[1866,2133,2400],
  e7v3:[1333,1600,1866],e7v4:[2400],
- sp1:[2400,2666],sp2:[2666,2933],sp3:[3200],
+ sp1:[2400,2666],sp2:[2666,2933],
+ /* sp3 (2026-09-15, checked directly against DL110/DL360/DL380 G10+
+    QuickSpecs): real DDR4 speed is CPU-tier-dependent, same pattern
+    as sp5 below — Platinum/most Gold run the full 8-channel 3200
+    MT/s, but several Gold SKUs (5320, 5318Y, 5317, N-suffix 6338N/
+    6330N) and every Silver SKU are capped at 2933 or 2667 MT/s
+    ("lower DDR4 speed may be used in segment optimized processors").
+    All three real values are listed, per-exact-SKU enforcement left
+    as the same documented gap as sp5 (too fine-grained given nothing
+    else in this tool models below the platform level). */
+ sp3:[2667,2933,3200],
+ /* rome/milan (2026-09-15, checked directly against DL325/DL325+v2
+    G10+ QuickSpecs): every individual EPYC 7002/7003 SKU listed runs
+    a flat 3200 MT/s — no CPU-tier speed split like Intel sp3 has.
+    There IS a real derate to 2933 MT/s at 2 DIMMs-per-channel
+    ("Rome processors can't support 2 DIMM per channel @3200MT/s"),
+    but that's a DIMM-population mechanism this tool doesn't model
+    anywhere (it has no per-channel/per-socket DIMM-count field), not
+    a CPU-tier one — left as-is, single value, not a bug. */
  naples:[2666],rome:[3200],milan:[3200],
  sp4:[4800],sp5:[4000,4400,4800,5200,5600],genoa:[4800],turin:[6000],
  xeon6:[6400]
@@ -2590,7 +2608,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.15.7'; // 7th build shipped today
+var BUILD_VERSION='2026.09.15.8'; // 8th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

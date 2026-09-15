@@ -617,10 +617,14 @@ limit. NVMe/Premium backplane on an LFF front config is a `stop`
   - Speed lists are the DIMM's own distinct rated speed(s) — two are
     listed only where the platform genuinely has different natively-
     rated parts tied to a CPU tier (`sp4`: 4800 for 4th Gen Xeon, 5600
-    for 5th Gen); where it's the same rated part running slower at 2
-    DIMMs/channel (confirmed for `sp3`/`rome`/`milan`/`sp4`/`xeon6`),
-    only the rated speed is listed and the note carries a generic
-    derate reminder instead of a precise-but-unconfirmed number. `turin`
+    for 5th Gen; **`sp3` corrected 2026-09-15 to 3: 2667/2933/3200,
+    same reason** — see the dated entry below, this bullet originally
+    lumped `sp3` in with `rome`/`milan` as "just a DPC derate," which a
+    fresh QuickSpecs check disproved); where it's genuinely the same
+    rated part running slower at 2 DIMMs/channel (confirmed for `rome`/
+    `milan`/`sp4`/`xeon6`), only the rated speed is listed and the note
+    carries a generic derate reminder instead of a precise-but-
+    unconfirmed number. `turin`
     is the deliberate exception: HPE's QuickSpecs states the DIMM is
     rated DDR5-6400 but 5th Gen EPYC only drives it at 6000 — the
     *installed* speed, not a derate — so 6000 is listed since that's
@@ -1439,6 +1443,28 @@ media-bay/rear/TPM/motherboard/backplane research passes, which so far
 have only covered G11/G12). Left alone rather than guessed at now —
 each needs its own QuickSpecs check for the real front-bay list before
 filling `bays`, same as every other field in this file.
+
+**Bug found and fixed 2026-09-15 (user report): `sp3` (3rd Gen Xeon
+Scalable, G10+) offered ONLY 3200 MT/s, but real QuickSpecs list lower
+tier-capped speeds too.** Checked directly against DL110/DL360/DL380
+G10+'s own QuickSpecs processor tables: Platinum and most Gold SKUs
+run the full 8-channel 3200 MT/s, but several Gold SKUs (5320, 5318Y,
+5317, and the N-suffix telco/NFV parts 6338N/6330N) and every Silver
+SKU are capped at 2933 or 2667 MT/s — explicitly stated as "lower DDR4
+speed may be used in segment optimized processors," a real CPU-tier
+split, not just a DIMMs-per-channel derate. `MEM_SPEEDS.sp3` corrected
+from `[3200]` to `[2667,2933,3200]`, same "list every real value,
+don't enforce per-exact-SKU" treatment already used for `sp5`.
+**Checked and confirmed NOT the same bug** on the AMD G10+ platforms
+(`rome`/`milan`) the user's report could have also implicated — every
+individual EPYC 7002/7003 SKU listed in DL325/DL325+v2 G10+'s own
+QuickSpecs runs a flat 3200 MT/s with no CPU-tier split; the only real
+derate found there is a genuine 2-DIMMs-per-channel one ("Rome
+processors can't support 2 DIMM per channel @3200MT/s... support 2DPC
+@2933MT/s"), which is the mechanism the original design comment above
+correctly described — it just wrongly assumed `sp3` worked the same
+way. 2 new regression tests guard both (`sp3` now offers all 3 speeds;
+`rome` is confirmed to still correctly offer only 1).
 
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.

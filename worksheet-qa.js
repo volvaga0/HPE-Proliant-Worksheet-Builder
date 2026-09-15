@@ -1674,6 +1674,28 @@ function runRound7(){
     ?pass7('tapping size then speed assembles "64GB 5600 MT/s" and highlights both buttons')
     :fail7('dimm size/speed buttons did not assemble correctly: "'+dimm7.value+'"');
 
+  // --- sp3 (3rd Gen Xeon Scalable, G10+) was wrongly a single 3200-only
+  // speed — user-reported (2026-09-15): checked directly against DL110/
+  // DL360/DL380 G10+ QuickSpecs, real speed is CPU-tier-dependent
+  // (Platinum/most Gold = 3200, several Gold + all Silver = 2933 or 2667) ---
+  setModel7('DL360 G10+');
+  dOpts7=dimmOpts7();
+  (dOpts7.some(o=>/^64GB 3200 MT\/s$/.test(o)) && dOpts7.some(o=>/^64GB 2933 MT\/s$/.test(o)) && dOpts7.some(o=>/^64GB 2667 MT\/s$/.test(o)))
+    ?pass7('DL360 G10+ (sp3): offers 2667/2933/3200, not just 3200 — real CPU-tier-dependent speeds')
+    :fail7('DL360 G10+ dimm panel missing tier-capped sp3 speeds: '+dOpts7.join(', '));
+  // AMD rome/milan G10+ genuinely IS a flat 3200 per their own QuickSpecs
+  // (every individual EPYC SKU lists 3200; the only derate found is a
+  // DIMMs-per-channel one this tool doesn't model) -- confirm that's
+  // still correctly a single value, not a regression from the sp3 fix.
+  setModel7('DL325 G10+');
+  dOpts7=dimmOpts7();
+  (dOpts7.some(o=>/^16GB 3200 MT\/s$/.test(o)) && !dOpts7.some(o=>/2667|2933/.test(o)))
+    ?pass7('DL325 G10+ (rome): still just 3200 — genuinely flat per-SKU speed, not a bug like sp3 was')
+    :fail7('DL325 G10+ dimm panel wrong: '+dOpts7.join(', '));
+  // restore state for the tests that follow, which assume DL380 G11/G6530
+  // (5th Gen) is still selected from before this sp3/rome detour
+  setModel7('DL380 G11');pickCpu7('G6530');
+
   // --- CPU picker groups 4th Gen and 5th Gen separately (same as
   // genoa/turin), and the 36 previously-missing SKUs are seeded ---
   ci7.value='';fire(ci7,'input');
