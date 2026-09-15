@@ -1360,9 +1360,21 @@ several mirror hosts) have still not found its actual QuickSpecs PDF —
 see its own model note in `index.html` for the full list of dead ends,
 so a future pass doesn't repeat them.
 
-Next up: ML30/ML110 Gen11 riser/fan/PSU/bay-counts (currently only
-partially sourced — media-bay/TPM/motherboard/rear facts exist, this
-structural axis doesn't yet) and ML350 Gen12.
+**Done 2026-09-15 (same day, extracted directly from already-cached
+QuickSpecs, no fresh fetches needed):** ML30/ML110 Gen11 and ML350
+Gen12 riser/fan/PSU/bay-counts. `ML350 G12` corrected two real
+undercounts found while doing this: `riserMax` 2→3 (a Tertiary riser
+position, CPU2-only, 2 slots @ x8, was missing entirely) and `pcie`
+`{one:4,two:8}`→`{one:4,two:10}` (max slot count with all three risers
+populated). `ML30 G11` has 4 PCIe slots directly on the system board/
+PCH, no riser cage — plus a PCI Fan and Baffle Kit (P65106-B21) that's
+REQUIRED (not optional) on its Hot Plug CTO configs. `ML110 G11` ships
+2 PCIe 5.0 x16 slots standard, with 2 more unlockable via a pair of
+sequential optional GPU riser kits (Slot 3's kit requires Slot 2's kit
+first). All 3 now `verified:true`, all with a real `bays` list added
+too (none had one before). This closes out the riser/fan/PSU/bay-count
+verification axis for every model on the current priority queue —
+only `DL120 Gen10`'s QuickSpecs remains genuinely unsourced.
 
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.

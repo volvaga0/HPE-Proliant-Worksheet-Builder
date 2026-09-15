@@ -1431,10 +1431,20 @@ var MODELS=[
        '2 fixed fans (1 system + 1 PCI fan module, P06303-B21) — non-hot-plug, non-redundant.',
        'Standard PSU is a single non-hot-plug 350W Gold (P21652-B21); Flex Slot supplies (500W Platinum 865408-B21 / 800W Titanium 865438-B21) need the RPS Enablement Kit (P45209-B21) — 2 bays, 1+1.',
        '4 PCIe slots on the system board (slot 1 x16 PCIe 4.0 from the CPU — PCIe 3.0 with a Pentium; slots 2-4 x4 from the PCH). No riser cages.']}},
- {m:'ML30', g:'G11', p:['xeone3'],s:1, d:4,  tower:true,
-   rules:{rear:[],notes:['No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a50007008enw V10).']}},
- {m:'ML110',g:'G11', p:['sp4','sp5'],   s:1, d:16, tower:true,
-   rules:{rear:[],notes:['No rear drive bay — Box1/Box2 are both front-mounted expansion positions (2026-09-15, QuickSpecs a00054055enw V9).']}},
+ {m:'ML30', g:'G11', p:['xeone3'],s:1, d:4,  tower:true, bays:['4LFF','8SFF'],
+   rules:{verified:true,rear:[],psuMax:2,fans:{one:1,perf:2},pcie:{one:4},riserMax:0,
+     notes:['No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a50007008enw V10).',
+       '1 fixed non-redundant 350W FIO Power Supply (P45212-B21) standard; optional Flex Slot redundant supplies (500W Platinum 865408-B21, 800W EMEA-only, 1000W Titanium P03178-B21) need the RPS Enablement Kit (P65104-B21) to go redundant (2 bays).',
+       '1 default system fan module standard; a 2nd, PCI Fan and Baffle Kit (P65106-B21), is REQUIRED (not optional) on the 4LFF Hot Plug and 8SFF Hot Plug CTO servers, and on the 4LFF NHP/Entry model if any PCIe card is fitted.',
+       '4 PCIe slots (1x PCIe 5.0 x16 + 3x PCIe 4.0 x8/x4) directly on the system board/PCH — no riser cage.',
+       '4LFF (hot-plug or non-hot-plug) or 8SFF hot-plug.']}},
+ {m:'ML110',g:'G11', p:['sp4','sp5'],   s:1, d:16, tower:true, bays:['4LFF','8LFF','8SFF','16SFF'],
+   rules:{verified:true,rear:[],psuMax:2,fans:{one:2},pcie:{one:4},riserMax:2,
+     notes:['No rear drive bay — Box1/Box2 are both front-mounted expansion positions (2026-09-15, QuickSpecs a00054055enw V9).',
+       '4 Flex Slot PSU wattage tiers (500W/800W/1000W/1600W Platinum/Titanium); a 2nd module of the same kit provides 1+1 redundancy.',
+       '2 standard, non-hot-plug fans by default. An optional Redundant Fan Kit (P49984-B21) is required with a 15K RPM SAS SFF HDD (and other heavier configs) for "advanced cooling and redundancy" — its own QuickSpecs never states the resulting fan COUNT, so it isn\'t modeled as a `perf` tier here; confirm against QuickSpecs before quoting a build that needs it.',
+       '2 PCIe 5.0 x16 slots ship standard (Slot 1, Slot 4); 2 more (Slot 2, then Slot 3) are each unlocked by an optional GPU Riser Kit (P53487-B21 for Slot 2, required before P53488-B21 can add Slot 3) — up to 4 total, single socket only.',
+       'Box1 + optional Box2, each independently 4LFF/NHP or 8SFF SAS/SATA — mixed LFF/SFF across the two boxes is supported.']}},
  {m:'ML350',g:'G11', p:['sp4','sp5'],   s:2, d:32, tower:true,
    rules:{verified:true,hsW:195,hsWtext:'195W or higher',hsPart:'P47224-B21',psuMax:2,pcie:{one:4,two:8},riserMax:0,rear:[],
      fanW:300,fanPart:'P47219-B21 + Second CPU Fan Kit P47902-B21',
@@ -1443,12 +1453,12 @@ var MODELS=[
        'PCIe slots are on the system board (like every ML350) — around half need the 2nd processor. Exact slot map not re-checked against the Gen11 QuickSpecs.',
        '4 of the sp5 (5th Gen) CPUs need DLC liquid cooling this tower doesn\'t support and are not realistically orderable here: 8593Q, 8562Y+, 6544Y, 6558Q. Not excluded from the picker (this tool doesn\'t have a per-model CPU-exclusion mechanism) — confirm against QuickSpecs before quoting one of these four.']}},
  {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true,
-   rules:{hsW:225,hsWtext:'225W or higher',fans:{one:3,two:3,perf:3},psuMax:2,riserMax:2,pcie:{one:4,two:8},
+   rules:{verified:true,hsW:225,hsWtext:'225W or higher',fans:{one:3,two:3,perf:8},psuMax:2,riserMax:3,pcie:{one:4,two:10},
      rear:['2x M.2 (dual uFF) rear'],
      notes:['No rear/mid-tray DATA cage — only a rear NS204i-u boot-device enablement kit; all capacity storage is the 3 stacked front boxes (4LFF/8SFF/12EDSFF, mixable) (2026-09-15, it-trade.uz mirror, a50006995enw V2).',
-       'Fixed 3-fan baseline for any config; a 2nd processor, a GPU, or certain other options additionally require the Redundant Fan Kit (P47219-B21) AND the Second CPU Fan Kit (P47902-B21) together — the fans:{one,two} split above does not capture that, it is a simple base count.',
+       'Fixed 3-fan baseline for any config; a 2nd processor, a GPU, or certain other options additionally require the Redundant Fan Kit (P47219-B21) AND the Second CPU Fan Kit (P47902-B21) together — its own QuickSpecs states this raises the fan count to "up to 8" (2026-09-15, re-confirmed against the same doc: "Redundant Fan Kit Optional, Up to 8 fans, 3 fans as standard").',
        'P-core Xeon 6 only — no E-core SKUs are listed for this model in its own QuickSpecs, unlike DL360/DL380.',
-       'Default riser is 4x8 (4 slots @ x8) per position; an optional 2x16 FIO riser (2 slots @ x16) can replace either one.',
+       'Riser count corrected 2->3, and PCIe slot max corrected 8->10 (2026-09-15): Primary (CPU1, standard) is 4x8 or optional 2x16; Secondary (CPU2, needs 2nd processor) is the same 4x8/2x16 choice; a separate Tertiary riser (CPU2, 2x8, occupies 2 CPU2 MCIO connectors) is a real THIRD riser position this tool previously missed. Max with 2 processors and every riser at its highest slot count: 4 (primary) + 4 (secondary) + 2 (tertiary) = 10.',
        'Also offers 8 NVMe x4 and 12 EDSFF front cage options — not modeled in the bay list, which stays generic for this entry.']}}
 ];
 
@@ -2576,7 +2586,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.15.4'; // 4th build shipped today
+var BUILD_VERSION='2026.09.15.5'; // 5th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

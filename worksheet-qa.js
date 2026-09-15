@@ -647,6 +647,19 @@ setTimeout(()=>{
     btns.some(b=>/10sff/i.test(b))
       ?pass3('DL320 G11: 10SFF bay option present (8SFF base + 2SFF add-on kit)'):fail3('DL320 G11 bay buttons missing 10SFF: '+btns.join(', ')); }
 
+  // --- ML30/ML110 Gen11 + ML350 Gen12 riser/fan/PSU/bay-counts verified 2026-09-15 ---
+  mlChk('ML30 G11','4 DIMM','2','v');
+  mlChk('ML110 G11','16 DIMM','2','v');
+  setModel3('ML30 G11');
+  d.getElementById('add-riser').hidden
+    ?pass3('ML30 G11: no riser section (4 PCIe slots directly on the system board)'):fail3('ML30 G11 riser section not hidden');
+  setModel3('ML110 G11');
+  d.getElementById('add-riser').hidden===false
+    ?pass3('ML110 G11: riser section shown (2 optional GPU riser kits unlock slots 2/3)'):fail3('ML110 G11 riser section hidden');
+  setModel3('ML350 G12');
+  d.getElementById('badge-v').classList.contains('on')
+    ?pass3('ML350 G12: verified badge now on (riser/fan/PCIe corrected: riserMax 2->3, pcie two 8->10)'):fail3('ML350 G12 badge not verified');
+
   // --- ML towers: no riser cages ---
   setModel3('ML30 G10+');
   (d.getElementById('add-riser').hidden
