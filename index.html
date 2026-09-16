@@ -2597,7 +2597,27 @@ var REAR=['2SFF rear','2SFF NVMe rear','3LFF rear','1SFF rear','4LFF midtray','2
    (fh+lp should equal s). When every fitted riser carries this split the sheet
    reports the FH/LP mix and warns that LP slots need low-profile brackets.
    GENERIC_RISERS is the fallback when a model has no list of its own.
-   Per-model lists are from each model's QuickSpecs "Riser Information" table. */
+   Per-model lists are from each model's QuickSpecs "Riser Information" table.
+
+   PCIe slot count/width axis, started 2026-09-16: this map only had 11
+   models (mostly Gen9/G10 rack + the AMD Gen11 rack line) before that
+   date — every other model (~49) fell back to GENERIC_RISERS, a made-up
+   placeholder, not real per-model data. First batch added: DL360/DL380/
+   DL320 G11 and DL360/DL380/DL320/DL340 G12 (the Intel Gen11/Gen12 rack
+   line — highest resale volume, and the Gen12 boards mostly share their
+   G11 sibling's exact chassis/part numbers, confirmed directly in each
+   one's own doc, not assumed). Findings: DL360/DL380 G11↔G12 reuse the
+   literal same part numbers for most kits, with only isolated new SKUs
+   per generation (DL360's Secondary FH kit; DL380's Tertiary kit).
+   DL360/DL365-family "1 FH + 1 LP primary, secondary FH-disables-LP-slot"
+   tradeoff is real and can't be fully captured by additive slot counting
+   (noted on the kit itself, not solved structurally). DL320/DL340 G12
+   have NO stated factory-default riser (their docs say "select one or
+   more"/"optional" with no def), unlike their G11/G10 counterparts —
+   `def:true` correctly omitted rather than assumed. **Still on
+   GENERIC_RISERS, needing real per-model data**: every G9/G10/G10+
+   entry-level/tower model, the remaining G12 models (DL110/DL380a/DL580,
+   ML350), and DL110/DL20 G11 — continue this pass there. */
 var GENERIC_RISERS=[
  {n:'Primary riser (ships standard)',d:'up to 3 FH slots, CPU 1',s:3,fh:3,lp:0,pos:'primary',def:true},
  {n:'Secondary riser',d:'up to 3 FH slots, requires CPU 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
@@ -2750,6 +2770,90 @@ var RISERS={
   {n:'Primary riser (Slot 1)',d:'1 slot · x16 FHHL · Proc 1 · ships standard, no kit needed',s:1,fh:1,lp:0,pos:'primary',def:true},
   {n:'1U x16 Riser Kit (P56915-B21) — Secondary',d:'1 slot · x16 FHHL · Proc 2 required',s:1,fh:1,lp:0,pos:'secondary',cpu2:true},
   {n:'1U x16 Low Profile Riser Kit (P55029-B21) — Secondary',d:'1 low-profile slot · Proc 2 required · needed alongside the NS204i-u NVMe boot device',s:1,fh:0,lp:1,pos:'secondary',cpu2:true}
+ ],
+ /* DL360 Gen11 QuickSpecs (a50004306enw, karenserver.com mirror, already cached).
+    Primary riser ships standard with 2 slots (Slot 1 FH x16 + Slot 2 LP x16).
+    Secondary needs Proc 2 and comes in two mutually-exclusive kits: the LP
+    variant (P48903-B21) adds Slot 3 as LP and leaves Slot 2 usable (3 slots
+    total: 1 FH + 2 LP — matches this model's own pcie:{two:3}); the FH
+    variant (P48901-B21) adds Slot 3 as FH but DISABLES Slot 2 (net still 2
+    slots, both FH — a real slot-for-slot tradeoff this tool's additive
+    slot-count math can't fully capture, noted on the kit itself). 2026-09-16. */
+ 'DL360 G11':[
+  {n:'Default Primary Riser (Slot 1 FH + Slot 2 LP)',d:'Slot 1 full-height x16, Slot 2 low-profile x16 · Proc 1 · ships standard',s:2,fh:1,lp:1,pos:'primary',def:true},
+  {n:'x16 LP Riser Kit — Secondary (P48903-B21)',d:'Adds Slot 3, low-profile x16 · Proc 2 required · Slot 2 stays usable (3 slots total: 1 FH + 2 LP)',s:1,fh:0,lp:1,pos:'secondary',cpu2:true},
+  {n:'x16 Full Height Riser Kit — Secondary (P48901-B21)',d:'Adds Slot 3, full-height x16 · Proc 2 required · DISABLES Slot 2 on the primary riser, so the real total stays 2 slots (Slot 1 + Slot 3, both FH) despite this kit adding one',s:1,fh:1,lp:0,pos:'secondary',cpu2:true}
+ ],
+ /* DL380 Gen11 QuickSpecs (already cached). Every slot on every riser
+    position/variant is full-height — no low-profile slots exist on this
+    model at all. Default Primary/Secondary are x8/x16/x8 (3 slots each);
+    an all-x16 upgrade kit exists for both but Slot 1 (primary)/Slot 4
+    (secondary) needs an extra cable kit to activate. Tertiary (2 slots,
+    Proc 2) is PCIe5.0 x16 + PCIe4.0 x16 by default; an FIO kit swaps Slot 8
+    to PCIe5.0 x8 (same slot count, not modeled as a separate slot). 2026-09-16. */
+ 'DL380 G11':[
+  {n:'Default Primary Riser (x8/x16/x8, ships standard)',d:'Slots 1-3, all full-height full-length · Proc 1',s:3,fh:3,lp:0,pos:'primary',def:true},
+  {n:'2U x16/x16/x16 Primary Riser Kit (P48803-B21)',d:'Upgrades Slots 1-3 to all x16 · Proc 1 · Slot 1 needs the 3x16 Primary Cable Kit (P56073-B21) to activate',s:3,fh:3,lp:0,pos:'primary'},
+  {n:'2U x8/x16/x8 Secondary Riser Kit (P48802-B21)',d:'Slots 4-6, all full-height full-length · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'2U x16/x16/x16 Secondary Riser Kit (P51083-B21)',d:'Upgrades Slots 4-6 to all x16 · Proc 2 required · Slot 4 needs the 3x16 Secondary Cable Kit (P56074-B21) to activate',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'Tertiary Riser (Slots 7-8)',d:'Slot 7 PCIe5.0 x16, Slot 8 PCIe4.0 x16 · both full-height · Proc 2 required',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true},
+  {n:'Tertiary Riser FIO x8 Enablement Kit (P53632-B21)',d:'Swaps Slot 8 to PCIe5.0 x8 (from PCIe4.0 x16) · same 2-slot count · Proc 2 required',s:0,fh:0,lp:0,pos:'tertiary',cpu2:true}
+ ],
+ /* DL320 Gen11 QuickSpecs (already cached). Single-socket 1U with 2 real
+    riser POSITIONS (matches riserMax:2) — Primary (Slot 1, ships standard)
+    and Secondary (Slot 2, optional kit P52753-B21) — both x16 FHHL. No
+    cpu2 gate on either (1-socket board only). 2026-09-16. */
+ 'DL320 G11':[
+  {n:'Primary Riser (Slot 1, ships standard)',d:'1 slot, full-height full-length x16 · Proc 1 (single-socket board)',s:1,fh:1,lp:0,pos:'primary',def:true},
+  {n:'x16 FHHL Riser Kit — Secondary (P52753-B21)',d:'Adds Slot 2, full-height full-length x16 · optional, no 2nd socket needed',s:1,fh:1,lp:0,pos:'secondary'}
+ ],
+ /* DL360 Gen12 QuickSpecs (already cached) — shares the DL360 Gen11 chassis
+    platform exactly: same Slot1 FH + Slot2 LP default primary, same
+    Secondary FH-disables-Slot2-vs-LP-keeps-it tradeoff. Only the FH
+    secondary kit got its own new Gen12 part number (P72598-B21); the LP
+    secondary kit is the literal Gen11 part number reused (P48903-B21),
+    confirmed by this model's own doc. 2026-09-16. */
+ 'DL360 G12':[
+  {n:'Default Primary Riser (Slot 1 FH + Slot 2 LP)',d:'Slot 1 full-height x16, Slot 2 low-profile x16 · Proc 1 · ships standard',s:2,fh:1,lp:1,pos:'primary',def:true},
+  {n:'x16 LP Riser Kit — Secondary (P48903-B21, shared with DL360 G11)',d:'Adds Slot 3, low-profile x16 · Proc 2 required · Slot 2 stays usable (3 slots total: 1 FH + 2 LP)',s:1,fh:0,lp:1,pos:'secondary',cpu2:true},
+  {n:'x16 Full Height Riser Kit — Secondary (P72598-B21)',d:'Adds Slot 3, full-height x16 · Proc 2 required · DISABLES Slot 2 on the primary riser, so the real total stays 2 slots (Slot 1 + Slot 3, both FH) despite this kit adding one',s:1,fh:1,lp:0,pos:'secondary',cpu2:true}
+ ],
+ /* DL380 Gen12 QuickSpecs (already cached) — also shares the DL380 Gen11
+    chassis exactly: Primary/Secondary Option-2 upgrade kits reuse the
+    literal Gen11 part numbers (P48802/P48803/P51083-B21). Only Tertiary
+    got new Gen12-specific SKUs (P76451/P74737-B21) — same 2-slot count as
+    G11's tertiary, just renumbered. Every slot on every riser is
+    full-height, no LP at all (matches G11). 2026-09-16. */
+ 'DL380 G12':[
+  {n:'Default Primary Riser (x8/x16/x8, ships standard)',d:'Slots 1-3, all full-height full-length · Proc 1',s:3,fh:3,lp:0,pos:'primary',def:true},
+  {n:'2U x16/x16/x16 Primary Riser Kit (P48803-B21, shared with DL380 G11)',d:'Upgrades Slots 1-3 to all x16 · Proc 1 · Slot 1 needs the x16/x16/x16 Cable Kit (P76471-B21 x2) + trigger SKU P78117-B21 to activate',s:3,fh:3,lp:0,pos:'primary'},
+  {n:'2U x8/x16/x8 Secondary Riser Kit (P48802-B21, shared with DL380 G11)',d:'Slots 4-6, all full-height full-length · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'2U x16/x16/x16 Secondary Riser Kit (P51083-B21, shared with DL380 G11)',d:'Upgrades Slots 4-6 to all x16 · Proc 2 required · Slot 4 needs the x16/x16/x16 Cable Kit (P76471-B21 x2) + trigger SKU P78120-B21 to activate',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'Tertiary Riser Kit — 2x16 (P76451-B21)',d:'Slots 7-8, both PCIe5.0 x16, full-height · Proc 2 required',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true},
+  {n:'Tertiary Riser Kit — x8/x16 (P74737-B21)',d:'Slot 7 PCIe5.0 x16, Slot 8 PCIe5.0 x8, both full-height · Proc 2 required · same 2-slot count as the 2x16 kit',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true}
+ ],
+ /* DL320 Gen12 QuickSpecs (already cached) — single-socket. Unlike DL320
+    G11 (Primary "ships standard, no kit needed"), this model's own doc
+    says "Please select one or more" risers with no stated factory
+    default — so no `def:true` here; the trader must add at least one.
+    A third, narrow-purpose LP riser (P77555-B21) exists specifically for
+    the NS204i-t rear boot controller (needed with the 2400W 73.5mm PSU)
+    — not a general add-in-card slot, modeled as 0 cards. 2026-09-16. */
+ 'DL320 G12':[
+  {n:'x16 PCIe Primary Riser Kit (P71430-B21)',d:'1 slot, full-height full-length x16 · Proc 1',s:1,fh:1,lp:0,pos:'primary'},
+  {n:'x16 PCIe Secondary Riser Kit (P72152-B21)',d:'1 slot, full-height full-length x16 · single-socket board, no 2nd CPU needed',s:1,fh:1,lp:0,pos:'secondary'},
+  {n:'x16 Low Profile NS204i-t Boot Controller Riser Kit (P77555-B21)',d:'Dedicated rear NS204i-t boot-device riser, needed with the 2400W 73.5mm PSU (P67252-B21) — no general-purpose card slot',s:0,fh:0,lp:0,pos:'secondary'}
+ ],
+ /* DL340 Gen12 QuickSpecs (already cached) — single-socket 1U. Both Primary
+    (Slot 3) and Secondary (Slot 6, needs Proc 2) are "optional," no stated
+    factory default, matching the DL320 G12 pattern — no `def:true`. Skipped
+    (same precedent as elsewhere): the Rear Captive Riser Kit (P75818-B21,
+    a narrow single-socket-CPU-SKU-gated variant) and the NEBS-compliant
+    Riser Kit (P74368-B21, compliance SKU, same slot count as the standard
+    ones). 2026-09-16. */
+ 'DL340 G12':[
+  {n:'x16 PCIe Primary Riser Kit (P71430-B21)',d:'Slot 3, 1 slot full-height full-length x16 · Proc 1',s:1,fh:1,lp:0,pos:'primary'},
+  {n:'Secondary CEM Riser Cage Kit (P75014-B21)',d:'Slot 6, 1 slot full-height full-length x16 · Proc 2 required',s:1,fh:1,lp:0,pos:'secondary',cpu2:true}
  ]
 };
 
@@ -2759,7 +2863,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.16.6'; // 6th build shipped today
+var BUILD_VERSION='2026.09.16.7'; // 7th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

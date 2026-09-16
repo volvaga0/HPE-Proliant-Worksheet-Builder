@@ -1719,6 +1719,71 @@ noticing a contradiction in scraped text and treating it as "needs a
 second source" rather than trusting it outright. A real PDF removes that
 whole failure mode.
 
+## PCIe slot count/width + riser-kit axis — started 2026-09-16
+
+New axis, requested by the user right after the backplane cross-reference
+closed out: get the number of PCIe slots, their width (full-height vs
+low-profile), and the real riser-kit part numbers solid per model, not
+just the aggregate `pcie:{one,two}` count already in place.
+
+**The mechanism already existed** (`RISERS` map, per-kit `s`/`fh`/`lp`/
+`pos`/`cpu2`/`def` fields, documented in the schema comment above
+`GENERIC_RISERS`) but was only populated for **11 of ~60 models**
+(mostly Gen9/G10 rack + the AMD Gen11 rack line) before this pass —
+every other model fell back to `GENERIC_RISERS`, a made-up placeholder
+list, not real per-model data. This is a bigger axis than the backplane
+one: it needs a full per-kit table (slot count + FH/LP + part number),
+not just a yes/no classification.
+
+**First batch done — Intel Gen11/Gen12 rack (7 models, from already-
+cached QuickSpecs):**
+- `DL360 G11`/`G12`: Primary riser ships standard with 2 slots (Slot 1
+  full-height x16, Slot 2 low-profile x16). Secondary (needs Proc 2)
+  comes in two mutually-exclusive kits: the LP variant adds Slot 3 as
+  LP and leaves Slot 2 usable (3 slots total: 1 FH + 2 LP, matching the
+  model's own `pcie:{two:3}`); the FH variant adds Slot 3 as FH but
+  DISABLES Slot 2 (net still 2 slots, both FH) — a real slot-for-slot
+  tradeoff this tool's additive slot-count math can't fully capture,
+  so it's spelled out in the kit's own description text instead of
+  invented as new structural logic. G11 and G12 share the literal same
+  LP secondary part number (P48903-B21, confirmed in the G12 doc's own
+  text); only the FH secondary kit got a new G12 SKU (P72598-B21).
+- `DL380 G11`/`G12`: every slot on every riser position/variant is
+  full-height — no low-profile slots exist on this chassis at all.
+  Primary/Secondary each default to a 3-slot x8/x16/x8 kit with an
+  all-x16 upgrade kit (needing an extra cable kit to activate Slot 1/4).
+  G11 and G12 reuse the literal same Primary/Secondary part numbers
+  (P48802/P48803/P51083-B21); only Tertiary (2 slots, Proc 2) got new
+  G12-specific SKUs (P76451/P74737-B21), same slot count as G11's.
+- `DL320 G11`: 2 real riser POSITIONS (not variants) — Primary (Slot 1,
+  ships standard) and Secondary (Slot 2, optional kit P52753-B21), both
+  FHHL x16, no CPU2 gate (single-socket board).
+- `DL320 G12`/`DL340 G12`: both single-socket, and both genuinely have
+  **no stated factory-default riser** — their own docs say "select one
+  or more" / "optional" with no default called out, unlike their G11
+  counterpart (`DL320 G11`) or the G10-era convention — `def:true`
+  correctly omitted rather than assumed from a sibling. `DL320 G12` also
+  has a narrow third kit (P77555-B21) for the NS204i-t rear boot
+  controller specifically, tied to one particular PSU — modeled with 0
+  general-purpose card slots since that's what it actually is.
+Skipped (same precedent as compliance-SKU handling elsewhere in this
+file): NEBS-compliant and single-CPU-SKU-gated riser variants — same
+slot counts as their standard counterparts, not worth a separate entry.
+
+8 new regression tests (415 total) — one per model confirming the real
+riser-kit panel replaces the generic placeholder list, plus the G11/G12
+FH-vs-LP-tradeoff assertions. Verified DL340/DL380 G12's panels live in
+the browser too.
+
+**Still on `GENERIC_RISERS`, needing real per-model data — the bulk of
+the remaining work:** every G9/G10/G10+ entry-level and tower model, the
+remaining G12 models (`DL110`/`DL380a`/`DL580`, `ML350`), and
+`DL110`/`DL20 G11`. This is going to take several more passes to close
+out fully, same multi-session pattern as every other verification axis
+in this file — the Intel rack line was picked first because it's both
+highest resale volume and had the freshest already-read context from
+today's backplane work.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are

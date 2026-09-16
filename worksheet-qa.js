@@ -2546,4 +2546,87 @@ function runRound11(){
       ?pass11('DL110 G12 fan count (8) and PCIe slot count (2) sourced from its own Data Sheet')
       :fail11('DL110 G12 rules: fans='+JSON.stringify(R110g12&&R110g12.fans)+' pcie='+JSON.stringify(R110g12&&R110g12.pcie));
   }
+  runRound12();   // chained — round 11 has no nested timers of its own
+}
+
+// ---- round 12: PCIe slot count/width (FH vs LP) + real riser-kit lists,
+// per model per its own QuickSpecs — a new axis started 2026-09-16. Most
+// models still fall back to GENERIC_RISERS (a placeholder, not real data);
+// this round guards the models that have gotten their own RISERS[] entry
+// so far. See PROJECT.md for the running list of what's done vs open. ----
+function runRound12(){
+  function pass12(m){console.log('ok    '+m);}
+  function fail12(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi12=d.getElementById('model-input');
+  function setModel12(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi12.value='';fire(mi12,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
+    if(!opt)return fail12('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function riserOpts12(){
+    d.getElementById('risers').innerHTML='';
+    d.getElementById('add-riser').click();
+    const ri=d.querySelector('#risers [data-k=name]');
+    ri.dispatchEvent(new w.Event('focus'));
+    return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(el=>el.textContent);
+  }
+
+  // --- DL360 G11: Primary ships 1 FH + 1 LP slot; Secondary comes in two
+  // mutually-exclusive kits (LP variant keeps Slot 2, FH variant disables it) ---
+  setModel12('DL360 G11');
+  let opts12=riserOpts12();
+  (opts12.some(o=>/Default Primary Riser/.test(o)&&/FH \+ Slot 2 LP/.test(o)) &&
+   opts12.some(o=>/LP Riser Kit.*P48903-B21/.test(o)) &&
+   opts12.some(o=>/Full Height Riser Kit.*P48901-B21/.test(o)))
+    ?pass12('DL360 G11: real riser kits offered (default FH+LP primary, LP and FH secondary variants), not the generic placeholder list')
+    :fail12('DL360 G11 riser panel wrong: '+opts12.join(' | '));
+
+  // --- DL380 G11: every slot on every riser is full-height — no LP at all ---
+  setModel12('DL380 G11');
+  opts12=riserOpts12();
+  (opts12.length===6 && opts12.some(o=>/P48803-B21/.test(o)) && opts12.some(o=>/P48802-B21/.test(o)) &&
+   opts12.some(o=>/Tertiary Riser \(Slots 7-8\)/.test(o)))
+    ?pass12('DL380 G11: real 6-option riser list (primary/secondary default+upgrade, tertiary+FIO kit)')
+    :fail12('DL380 G11 riser panel wrong: '+opts12.join(' | '));
+
+  // --- DL320 G11: 2 real riser positions (Primary standard, Secondary
+  // optional kit), not the generic 3-position placeholder ---
+  setModel12('DL320 G11');
+  opts12=riserOpts12();
+  (opts12.length===2 && opts12.some(o=>/Primary Riser \(Slot 1/.test(o)) && opts12.some(o=>/P52753-B21/.test(o)))
+    ?pass12('DL320 G11: real 2-option riser list (Primary standard, Secondary optional kit)')
+    :fail12('DL320 G11 riser panel wrong: '+opts12.join(' | '));
+
+  // --- G12 rack shares its riser platform with the matching G11 chassis —
+  // DL360/DL380 G12 reuse (or closely mirror) the G11 part numbers ---
+  setModel12('DL360 G12');
+  opts12=riserOpts12();
+  (opts12.some(o=>/Default Primary Riser/.test(o)&&/FH \+ Slot 2 LP/.test(o)) &&
+   opts12.some(o=>/P48903-B21, shared with DL360 G11/.test(o)) &&
+   opts12.some(o=>/P72598-B21/.test(o)))
+    ?pass12('DL360 G12: real riser kits offered — same FH-disables-Slot2 tradeoff as G11, new G12-specific FH part number')
+    :fail12('DL360 G12 riser panel wrong: '+opts12.join(' | '));
+
+  setModel12('DL380 G12');
+  opts12=riserOpts12();
+  (opts12.length===6 && opts12.some(o=>/shared with DL380 G11/.test(o)) && opts12.some(o=>/P76451-B21/.test(o)) && opts12.some(o=>/P74737-B21/.test(o)))
+    ?pass12('DL380 G12: real 6-option riser list, reusing G11 primary/secondary part numbers plus new G12 tertiary kits')
+    :fail12('DL380 G12 riser panel wrong: '+opts12.join(' | '));
+
+  setModel12('DL320 G12');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/P71430-B21/.test(o)) && opts12.some(o=>/P72152-B21/.test(o)) && opts12.some(o=>/P77555-B21/.test(o)))
+    ?pass12('DL320 G12: real 3-option riser list (Primary/Secondary kits + the NS204i-t boot-controller riser), no factory default (unlike DL320 G11)')
+    :fail12('DL320 G12 riser panel wrong: '+opts12.join(' | '));
+
+  setModel12('DL340 G12');
+  opts12=riserOpts12();
+  (opts12.length===2 && opts12.some(o=>/P71430-B21/.test(o)) && opts12.some(o=>/P75014-B21/.test(o)))
+    ?pass12('DL340 G12: real 2-option riser list (Primary Slot 3 + Secondary Slot 6 kits), no factory default')
+    :fail12('DL340 G12 riser panel wrong: '+opts12.join(' | '));
+
+  d.getElementById('risers').innerHTML='';
 }
