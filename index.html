@@ -1230,7 +1230,8 @@ var MODELS=[
        'Standard Fan Kit is 5 fans (P48907-B21); High-Performance Fan Kit is 7 (P48908-B21) above 185W TDP — the doc\'s own wording is slightly inconsistent between pages ("greater than 185W" vs "to or greater than 185W"), flagged rather than picked silently. A GPU CTO build needs the Performance Heat Sink regardless of wattage.',
        'Standard Heat Sink Kit is P48904-B21 (a shared DL3X0 Gen11 part); Performance Heat Sink Kit P52756-B21 is DL320-specific.',
        '2 PCIe slots (1 per riser position, both PCIe 5.0 x16 FHHL) plus a separate OCP 3.0 x16 slot (not counted as a CEM PCIe slot).',
-       'A separate GPU-Dense chassis variant (P61218-B21, either 4SFF NVMe or 8 EDSFF) exists but isn\'t modeled in the bay list above — note it manually if quoting one.']}},
+       'A separate GPU-Dense chassis variant (P61218-B21, either 4SFF NVMe or 8 EDSFF) exists but isn\'t modeled in the bay list above — note it manually if quoting one.',
+       'Backplane cross-reference (2026-09-16, same doc): the "8SFF" chassis (P52766-B21) is really 8+2 SFF and its own chassis-type line calls it "SAS/SATA/NVMe" outright — Tri-Mode-only, same as every other Gen11 rack SFF cage checked (x1 P52743-B21 or x4 P52747-B21); no plain non-Tri-Mode 8SFF/10SFF cage was found. 12LFF (P52767-B21) is labeled plain "SAS/SATA drive bays" in its own front-view diagram, matching the generic LFF-blocks-NVMe rule — BUT the doc also lists a "12LFF Tri-Mode Cable Kit" (P60892-B21) elsewhere, which contradicts that. Given this project\'s prior experience with pdftotext column-mangling/OCR artifacts on these mirrors, this is flagged as an unresolved doc inconsistency rather than acted on — the generic LFF hard-block stays in place for 12LFF until a second source settles it.']}},
  {m:'DL325',g:'G11', p:['genoa'],  s:1, d:12, bays:['4LFF','8SFF'],
    rules:{verified:true,liquidReqW:320,memPerSocket:3072,fanPart:'P58462-B21',psuMax:2,fans:{one:7,perf:7},pcie:{one:2,two:2},riserMax:2,rear:[],
      notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true, so the front-bay-config field silently fell back to the tool\'s generic bay list with zero validation. Its own QuickSpecs (sedcolombia.com.co, a50004297enw V22) confirms 4LFF and 8SFF as the real front-bay configs (media bay is on 8SFF/4LFF CTO only, not EDSFF/GPU); an EDSFF/GPU variant exists but isn\'t modeled here — pick manually and flag it if quoting one.',
@@ -1241,7 +1242,8 @@ var MODELS=[
        'A GPU backplane needs the Performance Fan Kit (P58462-B21) or the liquid cooling fan kit.',
        'Up to 7 fans with redundancy — one rotor failure degrades but keeps running.',
        'Up to 3TB of memory supported (single socket).',
-       'NVMe/SAS/SATA U.3 backplane needs Tri-Mode controllers for the SAS/SATA drives.']}},
+       'NVMe/SAS/SATA U.3 backplane needs Tri-Mode controllers for the SAS/SATA drives.',
+       'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage on this model is ONLY offered as a Tri-Mode-capable backplane (x1 U.3 Backplane Kit P54999-B21, or x4 P55000-B21) — no plain non-Tri-Mode SAS/SATA-only 8SFF cage exists here, unlike DL385 G11 (which has a genuine budget SAS/SATA-only 8SFF option alongside its Tri-Mode ones). Either kit still runs plain SAS/SATA drives fine — this changes what controller/cable kit is needed, not what the Backplane type pill should say.']}},
  /* DL340 G11 removed 2026-09-14 — it never existed as a real HPE product.
     HPE's DL340 line starts at Gen12 (a new 2U single-socket Xeon 6 SKU,
     HPE's first 1P rack server in that class); there is no Gen11 DL340 in
@@ -1273,7 +1275,8 @@ var MODELS=[
        'A single 300W processor is air-cooled but single-socket only — no field upgrade to a second socket.',
        'If liquid cooling is selected, standard and high performance heatsinks cannot be selected.',
        'All processors support up to 4TB of memory per socket.',
-       'Up to 7 fans with redundancy — one rotor failure degrades but keeps running.']}},
+       'Up to 7 fans with redundancy — one rotor failure degrades but keeps running.',
+       'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage is ONLY offered as Tri-Mode-capable (x1 or x4 U.3 backplane) — no plain non-Tri-Mode SAS/SATA-only 8SFF cage exists on this model. 4LFF stays a fixed default SAS-only backplane (12G x1 SAS, no NVMe option at all), and the 20EDSFF front config (not modeled in this tool\'s bay list) is its own fixed NVMe-only default backplane — consistent with the existing BACKPLANE_EDSFF_NVME_ONLY hard stop for this model.']}},
  {m:'DL365',g:'G11', p:['genoa'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:241,hsWtext:'above 240W (cTDP)',fanW:241,
      memPerSocket:3072,psuMax:2,fans:{one:7,two:7,perf:7},pcie:{one:2,two:3},riserMax:3,rear:[],
@@ -1282,7 +1285,8 @@ var MODELS=[
        '24 DIMM slots (12 per Genoa socket, 1 DIMM per channel).',
        '7 fans, one fan per kit. Standard fan kit for processors at or below cTDP 240W; Performance fan kit above 240W, or for NVMe / SAS4 drives, a 10SFF SAS/SATA/NVMe backplane, or EDSFF / GPU CTO servers.',
        'Primary riser (Slot 1, Proc 1) always available; Secondary riser (Slot 2, Proc 2) needs the 2nd processor — 2 slots max on 1 CPU, 3 on 2 (the 3rd being GPU Riser 2 / Slot 5, Proc 1). GPU Riser 1 (Slot 4) shares the secondary bay and GPU Riser 2 (Slot 5) — neither has a confirmed standalone kit part number, so they are not in the riser picker; note them manually for a GPU build.',
-       '"F" processors and 400W parts may need the liquid-cooling or high-performance tier — check the cooling matrix.']}},
+       '"F" processors and 400W parts may need the liquid-cooling or high-performance tier — check the cooling matrix.',
+       'Backplane cross-reference (2026-09-16, same doc): every front SFF cage kit found (8SFF x1/x4, 2SFF, 4SFF) is Tri-Mode-capable U.3 — no plain non-Tri-Mode SAS/SATA-only SFF cage was found for this model, same pattern as DL325/DL360/DL380 G11. 4LFF has no NVMe/Tri-Mode option (matches the generic LFF rule).']}},
  {m:'DL380',g:'G11', p:['sp4','sp5'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:151,hsWtext:'above 150W, up to 350W',hsPart:'P48818-B21',fanW:206,riserMax:3,
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},fanBays:['24SFF'],
@@ -1296,7 +1300,8 @@ var MODELS=[
        'Fan kit needed for rear drives, >205W processors, high performance NVMe, three drive cages, midtray, GPU, or certain backplanes.',
        'A 24SFF CTO server already includes the high performance fans.',
        'Any NVMe bundle requires the high performance fan kit and a second processor.',
-       '5th Gen (Emerald Rapids) CPUs added 2026-09-14 — their tertiary riser (Slot 8) is PCIe 4.0 by default (PCIe 5.0 x8 only with the optional FIO Enablement Kit P53632-B21); this tool tracks slot COUNT only, not per-slot PCIe generation, so that distinction isn\'t otherwise represented on the slip.']}},
+       '5th Gen (Emerald Rapids) CPUs added 2026-09-14 — their tertiary riser (Slot 8) is PCIe 4.0 by default (PCIe 5.0 x8 only with the optional FIO Enablement Kit P53632-B21); this tool tracks slot COUNT only, not per-slot PCIe generation, so that distinction isn\'t otherwise represented on the slip.',
+       'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage ships an x1 Tri-Mode U.3 backplane by default in bay 3 (P48813-B21), with an x4 "Premium" Tri-Mode variant also selectable (P48814-B21) — no plain non-Tri-Mode SAS/SATA-only 8SFF cage was found, same "Tri-Mode-only SFF" pattern as DL325/DL360/DL365 G11 (DL385 G11 is the one Gen11 rack model confirmed to still offer a genuine budget non-Tri-Mode SFF cage alongside its Tri-Mode ones). LFF stays SAS/SATA-only, including its own mid-tray cage (matches the generic rule).']}},
  {m:'DL385',g:'G11', p:['genoa','turin'], s:2, d:24, bays:['8SFF','16SFF','24SFF','8LFF','12LFF','48SFF'],
    rules:{verified:true,hsW:240,hsWtext:'240W–300W (above 300W needs the max-performance tier)',fanW:240,memPerSocket:3072,psuMax:2,pcie:{one:3,two:8},
      fans:{one:6,two:6,perf:6},riserMax:3,rear:['2SFF rear','4LFF midtray','4LFF rear'],
@@ -1309,7 +1314,8 @@ var MODELS=[
        'Fixed 6-fan cage regardless of CPU count — standard or performance kit depending on TDP/config, never a different fan count.',
        'Primary riser (up to 3 slots, Proc 1) + secondary riser (up to 3 slots, Proc 2) + tertiary (2 slots, Proc 2) = up to 8 total with two processors.',
        'The 8LFF chassis can add a 4LFF mid-tray AND a separate 4LFF rear cage at once (up to 20 LFF total) — add both as separate rear/midtray lines.',
-       '12 EDSFF / 36 EDSFF and the GPU CTO (8SFF or 8EDSFF backplane) chassis variants are not modeled here — pick manually and flag it if quoting one.']}},
+       '12 EDSFF / 36 EDSFF and the GPU CTO (8SFF or 8EDSFF backplane) chassis variants are not modeled here — pick manually and flag it if quoting one.',
+       'Backplane cross-reference (2026-09-16, same doc): this model genuinely offers TWO separate 8SFF front cage families, unlike DL325/DL360/DL365/DL380 G11 — a plain SAS/SATA-only cage (bundled, no extra backplane-kit P/N, up to 3) AND a Tri-Mode U.3 cage (x1 BC P55082-B21 or x4 P55083-B21, up to 3, needs its own SFF Backplane Power Cable Kit P57845-B21 + an OROC/PCIe cable kit) — a real trader choice this tool\'s single Backplane-type pill can\'t fully represent (which cage kit, x1 vs x4, and the matching cable kit are all separate order lines). Mixing x1 and x4 Tri-Mode cages is allowed, but then the mid-tray cage cannot be fitted. The 48SFF CTO chassis (6x 8SFF) is stated to run "SAS/SATA/NVMe with tri-mode controllers" — flexible, not a SAS/SATA-only build. 8LFF/12LFF/4LFF stay SAS/SATA-only, no exception found.']}},
  {m:'DL560',g:'G11', p:['sp4'], s:4, d:64, bays:['8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:151,hsWtext:'above 150W',psuMax:4,fans:{two:6,perf:6},pcie:{one:3,two:6},riserMax:2,rear:[],
      fanNVMe:true,fanRear:true,fanGPU:true,
@@ -1322,7 +1328,8 @@ var MODELS=[
        'Air-cooled CTO ships 6 high-performance fans; liquid-cooled CTO ships 5.',
        '64 DIMM slots (16 per processor). 6 PCIe Gen5 slots (3 primary + 3 secondary) plus 2 OCP. Both riser cages take an x8/x16/x8 (P54779-B21) or x16/x16/x16 (P54780-B21) kit; a double-wide GPU only fits primary slot 2 or secondary slot 5.',
        'Ships with NO riser at all ("None riser included" in the CTO base config) — at least one must be selected, it is not a given.',
-       'The x16/x16/x16 kit (P54780-B21) also needs a cable kit to the motherboard (2P) or the mezzanine board (4P) — order that alongside it.']}},
+       'The x16/x16/x16 kit (P54780-B21) also needs a cable kit to the motherboard (2P) or the mezzanine board (4P) — order that alongside it.',
+       'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage is ONLY offered as a Tri-Mode U.3 Drive Cage Kit (x1 P54798-B21, or x4) — no plain non-Tri-Mode SAS/SATA-only cage was found, same "Tri-Mode-only SFF" pattern as DL325/DL360/DL365/DL380 G11 (DL385 G11 is the one exception with a genuine budget SAS/SATA-only option). Mixing x1/x4/EDSFF cage kits together is not supported — every box must match.']}},
  /* DL580 has no Gen11 — the line went DL580 Gen10 -> DL580 Gen12. */
 
  /* Gen12 (Intel Xeon 6) — sourced 2026-09-14 from each model's own
@@ -1472,7 +1479,8 @@ var MODELS=[
        'No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a50004308enw V22).',
        'Intel VROC NVMe is not supported with the 4510, 4509Y or 3508U processors.',
        'PCIe slots are on the system board (like every ML350) — around half need the 2nd processor. Exact slot map not re-checked against the Gen11 QuickSpecs.',
-       '4 of the sp5 (5th Gen) CPUs need DLC liquid cooling this tower doesn\'t support and are not realistically orderable here: 8593Q, 8562Y+, 6544Y, 6558Q. Not excluded from the picker (this tool doesn\'t have a per-model CPU-exclusion mechanism) — confirm against QuickSpecs before quoting one of these four.']}},
+       '4 of the sp5 (5th Gen) CPUs need DLC liquid cooling this tower doesn\'t support and are not realistically orderable here: 8593Q, 8562Y+, 6544Y, 6558Q. Not excluded from the picker (this tool doesn\'t have a per-model CPU-exclusion mechanism) — confirm against QuickSpecs before quoting one of these four.',
+       'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage ships Tri-Mode U.3 by default (x1, P47217-B21), with an x4 upgrade (P47218-B21) — no plain non-Tri-Mode SAS/SATA-only 8SFF cage was found, same "Tri-Mode-only SFF" pattern as most Gen11 rack models (DL385 G11 is the one confirmed exception). 4LFF ships a fixed Basic SAS/SATA-only cage (P47216-B21), no NVMe option, matching the generic rule.']}},
  {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:225,hsWtext:'225W or higher',fans:{one:3,two:3,perf:8},psuMax:2,riserMax:3,pcie:{one:4,two:10},
      rear:['2x M.2 (dual uFF) rear'],
@@ -2385,7 +2393,17 @@ function tpmKind(m){
      DL20/DL160/DL180 G10, ML30/ML110 G10, DL20/ML30 G10+, and ML30 G11
      (this last one carries the same "no NVMe hot-plug bay" finding
      forward from G10+ — DL20 gained one at G11, see DL20 G11 below,
-     ML30 never does across any generation checked).
+     ML30 never does across any generation checked). **ML110 G11 added
+     2026-09-16** (backplane cross-reference pass) — its own QuickSpecs
+     (a00054055enw) lists every included drive cage as plain SAS/SATA
+     (4LFF NHP SATA, 4LFF SAS/SATA, 8SFF SAS/SATA) with zero "Tri-Mode"/
+     "U.3" backplane mentions anywhere in the document; every NVMe
+     reference is the NS204i-u M.2 boot device or CPU-attached Intel
+     VROC, same "not a drive-bay backplane" pattern as the rest of this
+     list. Unlike DL320 G11 (a confirmed real Tri-Mode NVMe drive
+     backplane exists there), ML110 G11 genuinely has none; DL110 G11
+     is a separate, moot case — it has no front drive bay of any kind
+     (NO FRONT BAYS, `bays:[]`), so backplane type doesn't apply to it.
    - BACKPLANE_NVME_ONLY: the mirror image — DL380a G12 is a fixed
      GPU-dense chassis with zero occurrences of "SAS" or "SATA"
      anywhere in its own QuickSpecs; SAS/SATA is the one that's
@@ -2395,15 +2413,38 @@ function tpmKind(m){
    SATA or Premium picked alongside a typed "EDSFF" bay value on that
    one model is blocked the same way rear2SFF gates a bay-specific rear
    option elsewhere in this file.
-   NOT built (deliberately, to avoid guessing at bay-string matches
-   beyond what's cleanly sourced): a full bay-by-bay Premium/Tri-Mode
-   matrix for every model — several docs describe TWO distinct
-   backplane families coexisting on the SAME bay count (e.g. DL385
-   G11's 8SFF: a plain SAS/SATA-only cage vs. a separate Tri-mode/
-   mixed cage, a real trader choice) that this tool's single 3-way
-   radio can't represent without a UI change; that stays a documented
-   gap rather than an invented rule. */
-var BACKPLANE_SAS_ONLY=['DL20 G10','DL160 G10','DL180 G10','ML30 G10','ML110 G10','DL20 G10+','ML30 G10+','ML30 G11'];
+   Full bay-by-bay Premium/Tri-Mode cross-reference — started 2026-09-16
+   for the Gen11 rack + ML350/ML110 G11 lines (the most fully-detailed
+   cached QuickSpecs), checking every front-SFF cage/backplane kit each
+   model's own doc actually lists. Findings, per model, are in that
+   model's own `notes` array (search "Backplane cross-reference" in
+   MODELS below) rather than duplicated here. Headline results:
+   - DL385 G11 is the ONE Gen11 rack model confirmed to still offer a
+     genuine budget non-Tri-Mode SAS/SATA-only SFF cage as a SEPARATE
+     SKU alongside its Tri-Mode ones — a real trader choice (which cage
+     kit, x1 vs x4, plus the matching cable/power-cable kit) this
+     tool's single 3-way radio can't fully represent; documented as a
+     note rather than a new hard rule.
+   - DL325/DL345(implied)/DL360/DL365/DL380/DL560 G11 and ML350 G11 all
+     turned out to have NO plain non-Tri-Mode SFF cage at all — every
+     SFF backplane found in each of those docs is Tri-Mode-capable by
+     default (still runs plain SAS/SATA drives fine; just no cheaper
+     non-Tri-Mode alternative exists). This did NOT require a new hard
+     rule — the generic SFF-allows-NVMe/Premium path already covers it
+     correctly, just documented per-model now.
+   - **ML110 G11 confirmed SAS-only and added to BACKPLANE_SAS_ONLY**
+     below — the one genuine NEW hard-rule fix this pass found (its own
+     QuickSpecs has zero Tri-Mode/U.3 backplane mentions at all).
+   - DL320 G11's own doc has an internally-contradicting "12LFF
+     Tri-Mode Cable Kit" mention against its front-view diagram calling
+     that same chassis "SAS/SATA drive bays" — flagged as an unresolved
+     doc inconsistency in that model's own notes rather than acted on
+     (this project has hit pdftotext column-mangling/OCR artifacts on
+     scraped mirrors before).
+   Not yet re-checked with this level of detail: G10/G10+ and the
+   remaining Gen11/Gen12 towers/entry-level models — continue this pass
+   there before treating the axis as closed. */
+var BACKPLANE_SAS_ONLY=['DL20 G10','DL160 G10','DL180 G10','ML30 G10','ML110 G10','DL20 G10+','ML30 G10+','ML30 G11','ML110 G11'];
 var BACKPLANE_NVME_ONLY=['DL380a G12'];
 var BACKPLANE_EDSFF_NVME_ONLY=['DL360 G11'];
 function backplaneKind(m){
@@ -2629,7 +2670,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.16.1'; // 1st build shipped today
+var BUILD_VERSION='2026.09.16.2'; // 2nd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

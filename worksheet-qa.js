@@ -731,6 +731,22 @@ setTimeout(()=>{
       ?pass3('ML350 G12: approximate real-bays list (no more generic 2SFF/10SFF options)')
       :fail3('ML350 G12 bay buttons: '+btns.join(', ')); }
 
+  // --- backplane cross-reference (2026-09-16): ML110 G11 has zero real
+  // Tri-Mode/U.3 backplane mentions in its own QuickSpecs (every NVMe
+  // reference is the M.2 boot device or CPU-attached VROC) — added to
+  // BACKPLANE_SAS_ONLY, same hard stop as the pre-existing sas-only models ---
+  setModel3('ML110 G11');
+  d.querySelector('input[name=bp][value="NVMe backplane"]').checked=true;
+  fire(d.querySelector('input[name=bp][value="NVMe backplane"]'),'change');
+  d.getElementById('checks').textContent.includes('BACKPLANE MISMATCH')
+    ?pass3('ML110 G11: NVMe backplane pick is blocked — no real Tri-Mode/NVMe drive backplane exists on this chassis')
+    :fail3('ML110 G11 sas-only backplane not enforced: '+d.getElementById('checks').textContent.slice(0,200));
+  d.querySelector('input[name=bp][value="SAS/SATA backplane"]').checked=true;
+  fire(d.querySelector('input[name=bp][value="SAS/SATA backplane"]'),'change');
+  !d.getElementById('checks').textContent.includes('BACKPLANE MISMATCH')
+    ?pass3('...but SAS/SATA (the real option) raises no note')
+    :fail3('ML110 G11 SAS/SATA wrongly flagged: '+d.getElementById('checks').textContent.slice(0,200));
+
   // --- ML towers: no riser cages ---
   setModel3('ML30 G10+');
   (d.getElementById('add-riser').hidden

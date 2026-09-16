@@ -1522,6 +1522,51 @@ platform pool, unchanged. 3 new regression tests guard the narrowed
 9-SKU list, the `cpu-scope` note text, and the typed-value hard stop
 (plus its converse: a real allow-listed SKU raises nothing).
 
+**Started 2026-09-16: the "full bay-by-bay Premium/Tri-Mode backplane
+matrix" this doc previously flagged as a deliberately-deferred gap.**
+Went model-by-model through the already-cached Gen11 rack QuickSpecs
+(the most fully-detailed docs available) checking every real front-SFF
+cage/backplane kit each model's own doc lists, rather than relying on
+the generic "LFF never gets NVMe/Premium, SFF always can" heuristic.
+Findings:
+- **`DL385 G11` is the one Gen11 rack model confirmed to still offer a
+  genuine budget non-Tri-Mode SAS/SATA-only 8SFF cage as a SEPARATE SKU
+  alongside its Tri-Mode ones** (x1 BC P55082-B21 / x4 P55083-B21, each
+  needing its own SFF Backplane Power Cable Kit P57845-B21 + an OROC/
+  PCIe cable kit) — a real trader choice (which cage, x1 vs x4, and the
+  matching cable kit) this tool's single Backplane-type pill genuinely
+  can't fully represent. Documented as a detailed note rather than
+  invented as a new hard rule — this is the concrete case that
+  originally justified deferring this axis.
+- **`DL325`/`DL360`/`DL365`/`DL380`/`DL560` `G11` and `ML350 G11` all
+  turned out to have NO plain non-Tri-Mode SFF cage at all** — every
+  SFF backplane kit found in each doc is Tri-Mode-capable by default
+  (it still runs plain SAS/SATA drives fine; there's just no cheaper
+  non-Tri-Mode alternative SKU). This didn't need a new hard rule — the
+  existing generic SFF-allows-NVMe/Premium path already covers it
+  correctly — but is now documented per-model so a trader isn't
+  surprised there's no "budget" cage option to order on these.
+- **`ML110 G11` confirmed genuinely SAS-only and added to
+  `BACKPLANE_SAS_ONLY`** — the one real NEW hard-rule fix this pass
+  found. Its own QuickSpecs (a00054055enw) has zero Tri-Mode/U.3
+  backplane mentions anywhere; every NVMe reference is the NS204i-u M.2
+  boot device or CPU-attached Intel VROC, same "not a drive-bay
+  backplane" pattern as the rest of that list. Picking NVMe or Premium
+  on this model now hard-stops with `BACKPLANE MISMATCH`, same as the
+  pre-existing entries in that list.
+- **`DL320 G11`'s own doc internally contradicts itself**: its
+  front-view diagram labels the 12LFF chassis plain "SAS/SATA drive
+  bays," but a separate line elsewhere lists a "12LFF Tri-Mode Cable
+  Kit" (P60892-B21). Given this project's prior history of pdftotext
+  column-mangling and OCR artifacts on scraped mirrors, this was
+  flagged as an unresolved doc inconsistency in the model's own notes
+  rather than acted on either way — the generic LFF hard-block stays.
+2 new regression tests guard the new `ML110 G11` sas-only hard stop
+(NVMe blocked, SAS/SATA clean). **Not yet re-checked at this depth:**
+G10/G10+ and the remaining Gen11/Gen12 entry-level/tower models — this
+axis stays open for a continuing pass, same multi-session pattern as
+every other verification axis in this file.
+
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.
 Search results are sometimes internally inconsistent (per-CPU notes can
