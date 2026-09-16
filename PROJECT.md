@@ -1562,10 +1562,46 @@ Findings:
   flagged as an unresolved doc inconsistency in the model's own notes
   rather than acted on either way — the generic LFF hard-block stays.
 2 new regression tests guard the new `ML110 G11` sas-only hard stop
-(NVMe blocked, SAS/SATA clean). **Not yet re-checked at this depth:**
-G10/G10+ and the remaining Gen11/Gen12 entry-level/tower models — this
-axis stays open for a continuing pass, same multi-session pattern as
-every other verification axis in this file.
+(NVMe blocked, SAS/SATA clean).
+
+**Continued 2026-09-16, same day: G10/G10+ rack lines + `ML350 G10`.**
+Went through the cached docs for `DL360`/`DL380`/`DL385`/`DL560`/
+`DL580 G10`, `ML350 G10`, and `DL325`(v1/v2)/`DL345`/`DL360`/`DL365`/
+`DL380`/`DL385`(v1/v2) `G10+` with the same method. The headline
+difference from Gen11: most G10/G10+ boards checked (`DL360`/`DL380`/
+`DL325`/`DL345`/`DL365 G10+`) still have a genuine 3-way split — a
+plain SAS/SATA-only cage, a Tri-Mode/U.3 mixed cage, AND a pure NVMe/
+U.2 cage, all separate real SKUs — where Gen11 mostly consolidated
+down to Tri-Mode-only for the equivalent chassis. Specifics:
+- **`DL385 G10+` v1 vs v2 is a genuine hardware difference, not a
+  copy-paste risk**: v1 uses a single flexible "Smart Carrier" cage
+  that mixes SAS/SATA/NVMe on one backplane (no separate plain or
+  pure-NVMe SKU found); v2's own doc explicitly says it switched to
+  "Basic Carrier" cages and regained the full 3-way split. Noted on
+  both models so a future session doesn't assume they're interchangeable.
+- **`ML350 G10`** has real NVMe (Box 2 only, all-NVMe via a dedicated
+  Express Bay kit) but no mixed/Premium cage was found at all — the
+  Premium pill isn't really modeled for this one, only SAS/SATA and
+  NVMe are real.
+- **`DL360 G10`**'s own doc names "10SFF" as its OWN distinct "Premium
+  10SFF NVMe" CTO chassis type — not a plain-SAS/SATA-selectable
+  option — and separately self-contradicts on whether reaching it via
+  the field-upgrade kit needs 1 or 2 processors (the kit's own note
+  says 2-only; this model's existing tool note says either). Flagged,
+  not resolved — the existing note was left as-is since it may
+  describe the factory CTO base config rather than the upgrade kit.
+- `DL380`/`DL385`/`DL560`/`DL580 G10` all matched already-documented
+  or generic-covered behavior — nothing new needed there.
+None of this needed a new hard rule — every finding either fits the
+existing pills already or is flagged as an unresolved doc contradiction
+rather than guessed at, so no new regression tests this half (QA still
+400/400 — verified nothing broke).
+
+**Not yet re-checked at this depth:** the remaining Gen11/Gen12
+entry-level and tower models — this axis stays open for a continuing
+pass, same multi-session pattern as every other verification axis in
+this file. Moving on to the G12 gaps next (DL380a/DL580 fan+heatsink,
+DL110 G12 PSU/fan/riser/bay/OCP) per the user's stated priority.
 
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.
