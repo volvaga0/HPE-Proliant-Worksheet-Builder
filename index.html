@@ -918,7 +918,8 @@ var MODELS=[
      notes:['1 fixed 290W FIO Power Supply (816283-B21) standard, non-redundant — no wattage choice. Optional HPE 900W AC 240VAC/240VDC Redundant Power Input Module (775595-B21/828734-B21) + RPS Backplane (814835-B21/828735-B21) expands to 2 bays — redundant PSU is SFF-only, not offered on the LFF chassis.',
        '3 fixed, non-hot-plug, non-redundant fans (2 front assemblies + 1 center) — no redundant option exists at all, let alone a performance tier.',
        '2 PCIe slots via one mandatory riser choice: Dual-side Low Profile (x8+x8), FlexibleLOM (FLOM+x8), or GPU (1x x16 only — fewer slots, not modeled separately).',
-       'Sourced 2026-09-15, QuickSpecs c04834947 (DA-15474) V32 (3-Dec-2018).']}},
+       'Sourced 2026-09-15, QuickSpecs c04834947 (DA-15474) V32 (3-Dec-2018).',
+       'Backplane cross-reference (2026-09-16, same doc): zero occurrences of "NVMe"/"Tri-Mode"/"Premium" anywhere in this model\'s own QuickSpecs — only SAS/SATA SSD/HDD options exist, on any bay config. Added to `BACKPLANE_SAS_ONLY`.']}},
  {m:'DL60', g:'G9', p:['e5v3','e5v4'], s:2, d:8, bays:['4LFF'],
    rules:{verified:true,psuMax:2,fans:{one:3,two:4,perf:6},pcie:{one:3,two:3},riserMax:1,
      notes:['1 bay standard, HPE 550W FIO Power Supply (730941-B21), non-redundant; optional HPE 900W AC 240VDC Redundant Power Supply Kit (820792-B21, 2 input modules + backplane) enables a 2nd bay.',
@@ -942,14 +943,16 @@ var MODELS=[
        '1 fixed board slot (x16, CPU1) plus a mandatory riser choice — FlexibleLOM riser or plain PCIe riser (+2 slots each) or GPU riser (+1 slot, fewer, not modeled separately). QuickSpecs states "1 PCIe LP standard/up to 3 PCIe slots (optional)."',
        '8SFF or 4LFF.',
        'Sourced 2026-09-15, QuickSpecs c04447806 (DA-15087) V15 (19-Aug-2016) — a Version 1/Dec-2014 launch doc exists too but predates the E5-2600 v4 refresh and a PCIe-slot-count revision noted in this doc\'s own changelog.',
-       'Shares its heatsink option part number with the DL160 and DL180 Gen10 (same thermal design).']}},
+       'Shares its heatsink option part number with the DL160 and DL180 Gen10 (same thermal design).',
+       'Backplane cross-reference (2026-09-16, same doc): zero occurrences of "NVMe"/"Tri-Mode"/"Premium" anywhere in this model\'s own QuickSpecs — SAS/SATA only, any bay config. Added to `BACKPLANE_SAS_ONLY`.']}},
  {m:'DL160',g:'G9', p:['e5v3','e5v4'], s:2, d:16, bays:['8SFF','4LFF'],
    rules:{verified:true,psuMax:2,fans:{one:3,two:6,perf:7},pcie:{one:2,two:3},riserMax:2,
      notes:['1 bay standard, HPE 550W FIO Power Supply, non-redundant; optional HPE 900W AC 240VDC Redundant Power Supply Kit (820792-B21, Gold/92%) enables a 2nd bay. One pre-configured "Performance" SKU labels its PSU "800W Redundant" — almost certainly the same 900W Gold module under a low-line-derated marketing name, not a distinct wattage tier.',
        'Fans: 3 (1P) / 6 (2P) non-redundant baseline; a redundant fan kit (725587-B21) raises that to 4 (1P) / 7 (2P) — the 1P-redundant figure of 4 isn\'t separately modeled here. The doc\'s own "Performance Models" tier refers only to the P440 storage controller, not a fan/heatsink tier — confirms no separate performance-fan trigger at Gen9 for this model.',
        'Mandatory CPU1 riser (2 slots: "x16 FHHL + x8 LP" or FlexibleLOM variant) + a separate, OPTIONAL CPU2 riser (1 slot, x16 LP, needs the 2nd processor) → pcie {one:2,two:3}, matching the pattern already coded for DL160 Gen10 exactly.',
        '8SFF or 4LFF only — no 10SFF option exists at Gen9 (DL160 Gen10, already in this tool, DOES add a 10SFF bay; don\'t carry that back onto this Gen9 entry).',
-       'Sourced 2026-09-15, QuickSpecs c04346224 (DA-15031) V17 (10-Jun-2016).']}},
+       'Sourced 2026-09-15, QuickSpecs c04346224 (DA-15031) V17 (10-Jun-2016).',
+       'Backplane cross-reference (2026-09-16, same doc): zero occurrences of "NVMe"/"Tri-Mode"/"Premium" anywhere in this model\'s own QuickSpecs — SAS/SATA only, any bay config. Added to `BACKPLANE_SAS_ONLY`.']}},
  {m:'DL180',g:'G9', p:['e5v3','e5v4'], s:2, d:16, bays:['8SFF','16SFF','8LFF','12LFF'],
    rules:{verified:true,psuMax:2,fans:{one:2,two:4,perf:5},pcie:{one:3,two:3},riserMax:1,
      notes:['Processor upgrade from E5-2600 v3 to v4 is supported only for processors up to 105W.',
@@ -959,7 +962,8 @@ var MODELS=[
      'Fans confirmed against QuickSpecs (2026-09-15): 2 (1P) / 4 (2P) non-redundant baseline; the redundant kit (725571-B21, +2 extra fans bundled in the CPU-upgrade -B21 kit) raises that to 4 (1P) / 5 (2P) — matches the "5 hot-swap fans for 2P redundancy" note above exactly; the 1P-redundant figure of 4 isn\'t separately modeled here.',
      'No PCIe slots exist directly on the board at all — everything comes from ONE mandatory riser bay, chosen from 3 card options: "3-Slot x8" riser (3 slots), "x16" riser (2 slots, fewer — not modeled separately), or FlexibleLOM riser (3 slots). Slot count doesn\'t change between 1P and 2P — only wiring usage does.',
      '8SFF (expandable to 16SFF, loses the optical bay), 8LFF, or 12LFF. A non-hot-plug ~4LFF SATA-only mode also exists but isn\'t modeled as a separate bay-picker option.',
-     'Sourced 2026-09-15, QuickSpecs c04375610 (DA-15032) V27 (25-Sep-2017).']}},
+     'Sourced 2026-09-15, QuickSpecs c04375610 (DA-15032) V27 (25-Sep-2017).',
+     'Backplane cross-reference (2026-09-16, same doc): zero occurrences of "NVMe"/"Tri-Mode"/"Premium" anywhere in this model\'s own QuickSpecs — SAS/SATA only, any bay config. Added to `BACKPLANE_SAS_ONLY`.']}},
  {m:'DL360',g:'G9', p:['e5v3','e5v4'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:121,hsWtext:'above 120W',hsStdException:['E5-2690v4'],hsGPU:true,fanGPU:true,riserMax:2,fanRear:true,
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2SFF rear','2x M.2 (uFF) rear'],
@@ -1224,7 +1228,8 @@ var MODELS=[
        '2 PSU bays, redundant standard on every chassis type — fixed 290W Platinum base, or Flex Slot redundant options (500W Platinum 865408-B21, 800W Titanium 865438-B21, 1000W Titanium P03178-B21).',
        '3 fixed performance fans, non-hot-plug, non-redundant, single socket only — no fan-count choice.',
        'Only 1 true PCIe slot (x16 CEM) — the doc\'s own Risers section also lists a "DL320 Gen11 x16 FHHL Riser Kit" under this model\'s own QuickSpecs, an apparent copy-paste artifact from the sibling DL320 doc; the separate Expansion Slots table confirms only 1 real slot. "Mandatory to select at least one riser" for that slot.',
-       '2SFF add-on kit (P65406-B21) upgrades the 4SFF chassis to 6SFF, mutually exclusive with the optical drive.']}},
+       '2SFF add-on kit (P65406-B21) upgrades the 4SFF chassis to 6SFF, mutually exclusive with the optical drive.',
+       'Backplane cross-reference (2026-09-16, same doc): real NVMe exists here (unlike DL20 G10+, a confirmed `BACKPLANE_SAS_ONLY` model) — up to 2 NVMe U.3 drives per config, but only on the 2SFF add-on kit (P65406-B21); no separate Tri-Mode/Premium mixed cage was found for the base 4SFF chassis.']}},
  {m:'DL110',g:'G11', p:['sp4'],    s:1, d:16, bays:[],
    rules:{verified:true,psuMax:2,fans:{one:7},pcie:{one:3},riserMax:2,rear:[],notes:['User-reported 2026-09-15: this model had no `bays` list at all, so the front-bay-config field silently fell back to the tool\'s generic list, offering LFF/SFF bay sizes on a chassis with no bay of any kind. No rear or mid-tray drive cage either — this model has no hot-plug bay at all, it\'s a front-cabled chassis; storage is 4x M.2 (SATA or NVMe) via Intel VROC (2026-09-15, QuickSpecs a00053299enw V11).',
      'Processors at 185W TDP or higher need the DIMM Blank kit (P43725-B21) fitted in any unpopulated slots.',
@@ -1363,13 +1368,15 @@ var MODELS=[
        'Fixed 7-fan cage (single socket, no fan-count split to model).',
        'A Closed-loop Liquid Cooling heat sink + 7x DLC fan kit is required above 270W instead of the air-cooled Performance heat sink.',
        'Also offers a 10SFF/20 E3.S EDSFF front cage and a dedicated GPU-server chassis variant (up to 2 DW or 4 SW GPUs) — neither is modeled in the bay list above; note it manually if quoting one.',
-       'Single power supply bay — no redundant PSU option on this chassis.']}},
+       'Single power supply bay — no redundant PSU option on this chassis.',
+       'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage is Tri-Mode-only — every 8SFF backplane kit found is either Tri-Mode U.3 (x1 L-Shaped P75084-B21) or pure NVMe U.2/U.3 (P71421/P75085-B21); no plain non-Tri-Mode SAS/SATA-only 8SFF cage was found, same pattern as most Gen11 rack models. No LFF-specific backplane kit was found either — the 4LFF/12LFF cages appear to be the base included SAS/SATA cage with no extra kit needed, matching the generic LFF rule.']}},
  {m:'DL340', g:'G12', p:['xeon6'], s:2, d:16, bays:['8SFF','12LFF'],
    rules:{hsW:250,hsWtext:'above 250W on an 8SFF (≤2 cages) config',fans:{one:6,two:6,perf:6},psuMax:2,riserMax:2,pcie:{one:1,two:2},rear:[],
      notes:['No rear or mid-tray drive cage — the only "rear" option is a PCIe Rear Captive Riser Kit (cards, not drives) (2026-09-15, harddrivesdirect.com mirror, a50004261enw V5).',
        'Heat sink threshold is config-dependent, not just wattage: 8SFF with ≤2 drive cages (or ≤4 EDSFF) ships Standard up to 250W, Performance above; a 3rd 8SFF cage, any LFF config, the front-GPU variant, or a NEBS build all need the Performance heat sink at ANY wattage.',
        'Fixed 6-fan cage (DL3X5 Gen11 fan kit part numbers, reused) regardless of processor count.',
-       'Also offers a 36-EDSFF front cage and a front-GPU CTO variant — neither is in the bay list above.']}},
+       'Also offers a 36-EDSFF front cage and a front-GPU CTO variant — neither is in the bay list above.',
+       'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage is Tri-Mode-only (x1 P75740-B21 or x4 P75741-B21) or pure NVMe U.2 (P71465-B21) — no plain non-Tri-Mode SAS/SATA-only 8SFF cage found. The LFF side (12LFF = 3x 4LFF cages, same pattern as DL325 G11) uses a plain "4LFF Backplane Kit" (P75760-B21, no NVMe/Tri-Mode designation) per cage, matching the generic LFF rule.']}},
  {m:'DL360', g:'G12', p:['xeon6'], s:2, d:32, bays:['4LFF','10SFF'],
    rules:{hsW:185,hsWtext:'above 185W',fans:{one:5,two:7,perf:7},psuMax:2,riserMax:2,pcie:{one:2,two:3},
      rear:['2x M.2 (dual uFF) rear'],
@@ -1416,7 +1423,8 @@ var MODELS=[
        '4 PCIe slots (x16, x4, x4, x8) directly on the system board — no riser cage.',
        '4LFF (non-hot-plug or hot-plug) or 8SFF hot-plug — a chassis choice via different CTO SKUs (823401/823402/823403-B21), not a swap within one build.',
        'No heatsink choice — single socket, no wattage-based tier.',
-       'Sourced 2026-09-15, QuickSpecs c04834991 V29 (02-Dec-2019).']}},
+       'Sourced 2026-09-15, QuickSpecs c04834991 V29 (02-Dec-2019).',
+       'Backplane cross-reference (2026-09-16, same doc): zero occurrences of "NVMe"/"Tri-Mode"/"Premium" anywhere in this model\'s own QuickSpecs — SAS/SATA only, any bay config. Added to `BACKPLANE_SAS_ONLY`.']}},
  {m:'ML110',g:'G9',  p:['e5v3','e5v4'], s:1, d:8,  tower:true, bays:['4LFF','8LFF','8SFF','16SFF'],
    rules:{verified:true,psuMax:2,fans:{one:1},pcie:{one:5},riserMax:0,hsNoChoice:true,
      notes:['3 PSU tiers: 350W ATX-Gen9 FIO (776442-B21) or 550W ATX-Gen9 (776444-B21), both non-redundant; or a 750W Common Slot Gold Hot Plug Kit (512327-B21) which needs the Redundant Power Supply Enablement Kit (784582-B21) to go redundant (2 bays).',
@@ -1424,7 +1432,8 @@ var MODELS=[
        '5 PCIe 3.0 slots (1x16, 2x8, 2x4), explicitly single-socket ("For processor 1" on every slot) — QuickSpecs states outright "5 PCIe 3.0 slots (without risers)".',
        '4LFF non-hot-plug standard; 4LFF hot-plug upgradable to 8LFF; 8SFF hot-plug upgradable to 16SFF (16SFF needs a P840 controller). Cable kits needed for the 8-bay/16-bay variants (784606-B21, 784608-B21).',
        'No heatsink choice — only the fan-upgrade kit above is wattage-gated.',
-       'Sourced 2026-09-15, QuickSpecs c04545452 V22 (23-Oct-2017).']}},
+       'Sourced 2026-09-15, QuickSpecs c04545452 V22 (23-Oct-2017).',
+       'Backplane cross-reference (2026-09-16, same doc): zero occurrences of "NVMe"/"Tri-Mode"/"Premium" anywhere in this model\'s own QuickSpecs — SAS/SATA only, any bay config. Added to `BACKPLANE_SAS_ONLY`.']}},
  {m:'ML150',g:'G9',  p:['e5v3','e5v4'], s:2, d:16, tower:true, bays:['4LFF','8LFF','8SFF','16SFF'],
    rules:{verified:true,psuMax:2,fans:{one:2,two:3},pcie:{one:4,two:6},riserMax:0,hsNoChoice:true,
      notes:['Standard is 1 non-redundant bay, HPE 550W Standard FIO Power Supply Kit (730941-B21). Redundant option is the HPE 900W AC/240VDC Redundant Power Supply Kit (820792-B21 = 2x input module 775595-B21 + 1x backplane 814835-B21); the backplane bay supports up to 2 modules (2 bays). QuickSpecs recommends the 900W tier for 2-processor builds.',
@@ -1432,7 +1441,8 @@ var MODELS=[
        '6 PCIe slots total (2x x16, 4x x8) — only 4 are wired live with 1 processor (2 slots, slots 1 and 3 per the doc\'s table, are wired to CPU2 and stay inert without it); all 6 are live with 2 processors.',
        '4LFF non-hot-plug/hot-plug standard, upgradable to 8LFF hot-plug; 8SFF hot-plug upgradable to 16SFF (needs a P840 controller).',
        'No heatsink choice — E5-2600 v3/v4 up to 120W all share the standard heatsink, no wattage threshold found.',
-       'Sourced 2026-09-15, QuickSpecs c04447843 V28 (02-Apr-2018, includes E5-2600v4 — an initially-found gzhls.at mirror only carried the stale Dec-2014 V1 doc, predating v4 support; superseded by the ysorkh.net mirror\'s current copy).']}},
+       'Sourced 2026-09-15, QuickSpecs c04447843 V28 (02-Apr-2018, includes E5-2600v4 — an initially-found gzhls.at mirror only carried the stale Dec-2014 V1 doc, predating v4 support; superseded by the ysorkh.net mirror\'s current copy).',
+       'Backplane cross-reference (2026-09-16, same doc): zero occurrences of "NVMe"/"Tri-Mode"/"Premium" anywhere in this model\'s own QuickSpecs — SAS/SATA only, any bay config. Added to `BACKPLANE_SAS_ONLY`.']}},
  {m:'ML350',g:'G9',  p:['e5v3','e5v4'], s:2, d:24, tower:true,
    rules:{psuMax:4,fans:{one:3,two:5},pcie:{two:9},riserMax:0,hsNoChoice:true,
      psu:['500W Common Slot Platinum Plus (720478-B21)','800W Common Slot Platinum Plus (720479-B21)','1400W Common Slot Platinum Plus (720620-B21)','X4 Redundant PSU Enablement Kit (725870-B21)'],
@@ -1510,7 +1520,8 @@ var MODELS=[
        'Fixed 3-fan baseline for any config; a 2nd processor, a GPU, or certain other options additionally require the Redundant Fan Kit (P47219-B21) AND the Second CPU Fan Kit (P47902-B21) together — its own QuickSpecs states this raises the fan count to "up to 8" (2026-09-15, re-confirmed against the same doc: "Redundant Fan Kit Optional, Up to 8 fans, 3 fans as standard").',
        'P-core Xeon 6 only — no E-core SKUs are listed for this model in its own QuickSpecs, unlike DL360/DL380.',
        'Riser count corrected 2->3, and PCIe slot max corrected 8->10 (2026-09-15): Primary (CPU1, standard) is 4x8 or optional 2x16; Secondary (CPU2, needs 2nd processor) is the same 4x8/2x16 choice; a separate Tertiary riser (CPU2, 2x8, occupies 2 CPU2 MCIO connectors) is a real THIRD riser position this tool previously missed. Max with 2 processors and every riser at its highest slot count: 4 (primary) + 4 (secondary) + 2 (tertiary) = 10.',
-       'Bay list added 2026-09-15 — approximate, not exhaustive: Box1/2/3 are each independently 4LFF, 8SFF, 8 NVMe x4, or 12EDSFF, so the truly achievable combinations are a 3-box combinatorial mix this tool\'s single bay-config field can\'t represent exactly (e.g. "4LFF+8SFF" mixed isn\'t a listed string). The 6 same-type-only totals (1-3 boxes of all-4LFF or all-8SFF) are listed so the common cases get real validation; a genuinely mixed or NVMe/EDSFF build will (correctly) get the soft "confirm against QuickSpecs" verify note rather than a wrong hard block — this check has always been `verify`, not `stop`, for exactly this kind of incomplete-list case.']}}
+       'Bay list added 2026-09-15 — approximate, not exhaustive: Box1/2/3 are each independently 4LFF, 8SFF, 8 NVMe x4, or 12EDSFF, so the truly achievable combinations are a 3-box combinatorial mix this tool\'s single bay-config field can\'t represent exactly (e.g. "4LFF+8SFF" mixed isn\'t a listed string). The 6 same-type-only totals (1-3 boxes of all-4LFF or all-8SFF) are listed so the common cases get real validation; a genuinely mixed or NVMe/EDSFF build will (correctly) get the soft "confirm against QuickSpecs" verify note rather than a wrong hard block — this check has always been `verify`, not `stop`, for exactly this kind of incomplete-list case.',
+       'Backplane cross-reference (2026-09-16, same doc): the "8SFF" box label actually covers TWO distinct backplane families — Tri-Mode x1 (P72318-B21, mixed SAS/SATA/NVMe, the default) or pure NVMe x4 (P72316-B21) — a real trader choice this tool\'s bay-config string can\'t distinguish, same "two families on one bay label" case as DL385 G11. The "4LFF" box is a single plain SAS/SATA-only cage (P72357-B21), matching the generic LFF rule.']}}
 ];
 
 /* code, description, platform, TDP watts, cores */
@@ -2486,10 +2497,28 @@ function tpmKind(m){
    new to add. None of this needed a new hard rule — every finding
    either fits the existing SAS/SATA/NVMe/Premium pills already, or is
    flagged as an unresolved doc contradiction rather than guessed at.
-   Not yet re-checked with this level of detail: the remaining Gen11/
-   Gen12 entry-level and tower models — continue this pass there before
-   treating the axis as closed. */
-var BACKPLANE_SAS_ONLY=['DL20 G10','DL160 G10','DL180 G10','ML30 G10','ML110 G10','DL20 G10+','ML30 G10+','ML30 G11','ML110 G11'];
+   **Entry-level/tower pass, 2026-09-16 (same day):** checked every
+   cached Gen9 entry-level and tower doc (`DL20`/`DL120`/`DL160`/
+   `DL180`, `ML30`/`ML110`/`ML150`) plus the remaining Gen12 entry/
+   tower models (`DL320`/`DL340`, `ML350`). **7 more genuinely SAS-only
+   models found and added below**: `DL20`/`DL120`/`DL160`/`DL180`
+   and `ML30`/`ML110`/`ML150 G9` all have ZERO occurrences of "NVMe",
+   "Tri-Mode" or "Premium" anywhere in their own QuickSpecs — Gen9
+   entry-level/tower predates NVMe hot-plug backplanes across the
+   board, not just the handful already known at G10. (`DL60`/`DL80`/
+   `ML10 G9` are LFF-only chassis with no SFF bay ever offered, so the
+   same finding would be moot there — not added, avoids listing an
+   unreachable entry.) `DL320`/`DL340 G12` both turned out Tri-Mode-
+   only for their SFF cage (no plain non-Tri-Mode option), same pattern
+   as most Gen11 rack models. `ML350 G12` has a genuine "two families
+   on one bay label" case just like `DL385 G11` — its "8SFF" box is
+   either a Tri-Mode-mixed cage (default) or a separate pure-NVMe-x4
+   cage, a real trader choice the tool's bay string can't distinguish;
+   documented as a note. `DL360`/`DL380 G12` (mainstream rack, not
+   entry/tower) remain unchecked at this depth — next in line if this
+   axis continues into a full G12 rack pass. */
+var BACKPLANE_SAS_ONLY=['DL20 G10','DL160 G10','DL180 G10','ML30 G10','ML110 G10','DL20 G10+','ML30 G10+','ML30 G11','ML110 G11',
+  'DL20 G9','DL120 G9','DL160 G9','DL180 G9','ML30 G9','ML110 G9','ML150 G9'];
 var BACKPLANE_NVME_ONLY=['DL380a G12'];
 var BACKPLANE_EDSFF_NVME_ONLY=['DL360 G11'];
 function backplaneKind(m){
@@ -2715,7 +2744,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.16.4'; // 4th build shipped today
+var BUILD_VERSION='2026.09.16.5'; // 5th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

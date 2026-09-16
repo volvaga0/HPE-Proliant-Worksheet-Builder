@@ -1655,6 +1655,40 @@ DL110 PSU/fan/riser/bay/OCP) — per the user's stated priority.**
 fixes. Verified DL110's DIMM-count fix, DL580's PSU cap, and DL380a's
 dual-processor-only button set live in the browser.
 
+**2026-09-16, same day: backplane matrix continued into the remaining
+entry-level/tower models.** Checked every cached Gen9 entry-level and
+tower doc (`DL20`/`DL120`/`DL160`/`DL180`, `ML30`/`ML110`/`ML150`) plus
+the remaining Gen12 entry/tower models (`DL320`/`DL340`, `ML350`).
+- **7 more genuinely SAS-only models found and added to
+  `BACKPLANE_SAS_ONLY`**: `DL20`/`DL120`/`DL160`/`DL180` and `ML30`/
+  `ML110`/`ML150 G9` all have zero occurrences of "NVMe," "Tri-Mode" or
+  "Premium" anywhere in their own QuickSpecs — Gen9 entry-level/tower
+  predates NVMe hot-plug backplanes across the board, not just the
+  handful already known at G10. (`DL60`/`DL80`/`ML10 G9` are LFF-only
+  chassis with no SFF bay ever offered, so the same finding would be
+  moot there — deliberately not added, to avoid an unreachable list
+  entry.) 2 new regression tests guard a rack (`DL120 G9`) and a tower
+  (`ML110 G9`) example.
+- `DL320`/`DL340 G12` both turned out Tri-Mode-only for their SFF cage
+  (no plain non-Tri-Mode option) — same pattern as most Gen11 rack
+  models, documented as a note, no new hard rule needed.
+- `ML350 G12` has a genuine "two families on one bay label" case, same
+  as `DL385 G11`: its "8SFF" box is either a Tri-Mode-mixed cage
+  (default) or a separate pure-NVMe-x4 cage — a real trader choice the
+  tool's single bay-config string can't distinguish. Documented as a
+  note rather than invented as a rule.
+- `DL20 G11` confirmed to have real NVMe (up to 2 U.3 drives, but only
+  via the 2SFF add-on kit) — not a `BACKPLANE_SAS_ONLY` case, just
+  documented for completeness alongside the sibling `DL20 G10+`, which
+  IS sas-only.
+408/408 tests passing. **Not yet checked:** `DL360`/`DL380 G12`
+(mainstream rack, not entry/tower) — next in line if this axis
+continues into a full G12 rack pass. That's now every model in this
+tool except the Gen9 mainstream rack line (`DL360`/`DL380`/`DL560`/
+`DL580 G9` — no cached QuickSpecs text exists for these, they were
+verified in an earlier session by direct read without caching) and
+`DL360`/`DL380 G12`.
+
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.
 Search results are sometimes internally inconsistent (per-CPU notes can

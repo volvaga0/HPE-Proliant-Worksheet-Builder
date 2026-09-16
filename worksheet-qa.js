@@ -747,6 +747,28 @@ setTimeout(()=>{
     ?pass3('...but SAS/SATA (the real option) raises no note')
     :fail3('ML110 G11 SAS/SATA wrongly flagged: '+d.getElementById('checks').textContent.slice(0,200));
 
+  // --- backplane cross-reference (2026-09-16), entry-level/tower Gen9 pass:
+  // DL20/DL120/DL160/DL180 and ML30/ML110/ML150 G9 all have zero NVMe/
+  // Tri-Mode/Premium mentions anywhere in their own QuickSpecs -- added to
+  // BACKPLANE_SAS_ONLY, same mechanism as ML110 G11 above ---
+  setModel3('DL120 G9');
+  d.querySelector('input[name=bp][value="NVMe backplane"]').checked=true;
+  fire(d.querySelector('input[name=bp][value="NVMe backplane"]'),'change');
+  d.getElementById('checks').textContent.includes('BACKPLANE MISMATCH')
+    ?pass3('DL120 G9: NVMe backplane pick is blocked — Gen9 entry-level predates NVMe hot-plug backplanes')
+    :fail3('DL120 G9 sas-only backplane not enforced: '+d.getElementById('checks').textContent.slice(0,200));
+  setModel3('ML110 G9');
+  d.querySelector('input[name=bp][value="Premium backplane"]').checked=true;
+  fire(d.querySelector('input[name=bp][value="Premium backplane"]'),'change');
+  d.getElementById('checks').textContent.includes('BACKPLANE MISMATCH')
+    ?pass3('ML110 G9: Premium backplane pick is blocked — no mixed SAS/SATA+NVMe cage exists on this Gen9 tower')
+    :fail3('ML110 G9 sas-only backplane not enforced: '+d.getElementById('checks').textContent.slice(0,200));
+  d.querySelector('input[name=bp][value="SAS/SATA backplane"]').checked=true;
+  fire(d.querySelector('input[name=bp][value="SAS/SATA backplane"]'),'change');
+  !d.getElementById('checks').textContent.includes('BACKPLANE MISMATCH')
+    ?pass3('...but SAS/SATA (the real option) raises no note on ML110 G9 either')
+    :fail3('ML110 G9 SAS/SATA wrongly flagged: '+d.getElementById('checks').textContent.slice(0,200));
+
   // --- ML towers: no riser cages ---
   setModel3('ML30 G10+');
   (d.getElementById('add-riser').hidden
