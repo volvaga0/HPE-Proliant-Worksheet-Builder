@@ -1600,8 +1600,60 @@ rather than guessed at, so no new regression tests this half (QA still
 **Not yet re-checked at this depth:** the remaining Gen11/Gen12
 entry-level and tower models — this axis stays open for a continuing
 pass, same multi-session pattern as every other verification axis in
-this file. Moving on to the G12 gaps next (DL380a/DL580 fan+heatsink,
-DL110 G12 PSU/fan/riser/bay/OCP) per the user's stated priority.
+this file.
+
+**2026-09-16, same day: G12 gaps closed (DL380a/DL580 fan+heatsink,
+DL110 PSU/fan/riser/bay/OCP) — per the user's stated priority.**
+- **`DL380a G12`** (already-cached QuickSpecs, a00047453enw V6): its
+  own "Standard Features" and "HPE Cooling Options" sections state
+  outright "4 hot plug fan assemblies" and no separate heatsink kit
+  SKU exists at all (every CPU kit ships its own fixed heatsink) —
+  fixed `fans:{one:4,two:4}` and `hsNoChoice:true` (same treatment as
+  DL560/DL580 Gen9). Also found and fixed while in the same doc:
+  `validCounts:[2]` — the doc states outright "only supports dual
+  processor configurations, not single," previously unenforced so a
+  1-CPU build could be quoted with zero warning. Set `verified:true`;
+  the one remaining known gap (PCIe/riser slot count is genuinely
+  config-dependent, 4 or 5 active slots by GPU/NIC fitment) is left
+  unmodeled and flagged in its own note rather than guessed at.
+- **`DL580 G12`** (same cached doc, a50009226enw V1): its base-config
+  table states "Heat Sinks: HPE High Performance Heatsinks" and "Fans:
+  4 performance fan kits" — both fixed, no Standard tier of either
+  exists. Modeled the heatsink fact via `hsSku` (all 7 of this model's
+  own confirmed CPU codes), not `hsW`, since there's no wattage
+  threshold to key off and a `hsW`-based approach would wrongly default
+  a low-wattage CPU to a "Standard" heatsink this chassis doesn't
+  actually offer. Also found and fixed: `psuMax` was 2, but the doc
+  states "2 processor configs: select min 1, max 2 PSUs" while "4
+  processor configs: select either 2 or 4" — corrected to 4 (the true
+  physical bay count) so a legitimate 4-PSU/4-CPU build isn't wrongly
+  blocked; the CPU-count-dependent min/max itself isn't enforced (this
+  tool's `psuMax` is a flat cap), flagged in the note. **Also found, not
+  resolved:** the doc names a 48-core/2.5GHz/300W P-core SKU "6548P,"
+  but the closest match already seeded in this tool's `CPUS` list under
+  identical specs is "6748P" — flagged as an unresolved doc/tool
+  discrepancy (possible OCR artifact on either side) rather than
+  silently renamed either way.
+- **`DL110 G12`** — the full QuickSpecs (a50009248enw) still won't load
+  from any mirror tried, but the shorter cached HPE Data Sheet
+  (PSN1014921967DEEN) — already used once before for the "no front bay"
+  finding — turned out to have MORE useful data than previously mined
+  from it: **"Memory slots: 4 DIMM slots"** (the model's `d:16` was
+  wrong — never independently checked against this doc before now,
+  corrected to 4); **"System fan features: 8 Hot-plug"** (fixed
+  `fans:{one:8}`); **"Expansion slots: 2"** (fixed `pcie:{one:2}` —
+  `riserMax` deliberately left unset since the doc explicitly defers
+  slot topology/type to the full QuickSpecs); and **"Network
+  controller: ... PCIe and OCP3.0"**, which confirms the OCP-slot-type
+  default `flrKind()` was already guessing was in fact correct for this
+  model. Still genuinely unsourced from this Data Sheet: PSU bay count/
+  redundancy (only the PSU type — 1300W AC or 1000W -48VDC M-CRPS — is
+  named) and full riser/slot topology; `verified` stays unset pending
+  those, and the full QuickSpecs is still the real target for a future
+  pass if a mirror or an HPE contact turns it up.
+5 new regression tests (405 total) guard the DL380a/DL580/DL110 G12
+fixes. Verified DL110's DIMM-count fix, DL580's PSU cap, and DL380a's
+dual-processor-only button set live in the browser.
 
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.

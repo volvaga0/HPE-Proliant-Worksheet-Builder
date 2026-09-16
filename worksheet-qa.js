@@ -2488,4 +2488,40 @@ function runRound11(){
   dl110Checks.includes('FIXED SoC')
     ?pass11('DL110 G12 states its fixed-SoC note (not a socketed, swappable processor)')
     :fail11('DL110 G12 fixed-SoC note missing: '+dl110Checks.slice(0,300));
+
+  // --- G12 gaps sourced 2026-09-16: DL380a/DL580 fan+heatsink, DL110 PSU/fan/riser/bay/OCP ---
+  {
+    const dl380a=MODELS.find(m=>m.m==='DL380a'&&m.g==='G12');
+    const R380a=dl380a&&rulesFor11(dl380a);
+    (R380a&&R380a.fans&&R380a.fans.one===4&&R380a.fans.two===4&&R380a.hsNoChoice===true&&
+     R380a.validCounts&&R380a.validCounts.length===1&&R380a.validCounts[0]===2)
+      ?pass11('DL380a G12: fixed 4-fan assemblies, hsNoChoice heatsink, dual-processor-only validCounts')
+      :fail11('DL380a G12 rules: fans='+JSON.stringify(R380a&&R380a.fans)+' hsNoChoice='+(R380a&&R380a.hsNoChoice)+' validCounts='+JSON.stringify(R380a&&R380a.validCounts));
+  }
+  setModel11('DL380a G12');
+  const dl380aCounts=[...d.querySelectorAll('#cpuq-btns button')].map(b=>b.getAttribute('data-n'));
+  JSON.stringify(dl380aCounts)===JSON.stringify(['2'])
+    ?pass11('DL380a G12 offers only 2 processors (dual-processor-only, no 1P)')
+    :fail11('DL380a G12 processor-count buttons: '+dl380aCounts.join(','));
+
+  {
+    const dl580g12=MODELS.find(m=>m.m==='DL580'&&m.g==='G12');
+    const R580g12=dl580g12&&rulesFor11(dl580g12);
+    (R580g12&&R580g12.psuMax===4&&R580g12.hsSku&&R580g12.hsSku.length===7&&R580g12.hsSku.indexOf('6748P')>-1)
+      ?pass11('DL580 G12: psuMax corrected to 4 (true physical bay count), hsSku lists all 7 confirmed CPUs')
+      :fail11('DL580 G12 rules: psuMax='+(R580g12&&R580g12.psuMax)+' hsSku='+JSON.stringify(R580g12&&R580g12.hsSku));
+  }
+
+  setModel11('DL110 G12');
+  const dl110Sys=d.getElementById('sys-note').textContent;
+  dl110Sys==='1 socket, 4 DIMM slots'
+    ?pass11('DL110 G12 sys-note reflects the corrected 4 DIMM slots (was wrongly 16)')
+    :fail11('DL110 G12 sys-note: "'+dl110Sys+'"');
+  {
+    const dl110g12=MODELS.find(m=>m.m==='DL110'&&m.g==='G12');
+    const R110g12=dl110g12&&rulesFor11(dl110g12);
+    (R110g12&&R110g12.fans&&R110g12.fans.one===8&&R110g12.pcie&&R110g12.pcie.one===2)
+      ?pass11('DL110 G12 fan count (8) and PCIe slot count (2) sourced from its own Data Sheet')
+      :fail11('DL110 G12 rules: fans='+JSON.stringify(R110g12&&R110g12.fans)+' pcie='+JSON.stringify(R110g12&&R110g12.pcie));
+  }
 }
