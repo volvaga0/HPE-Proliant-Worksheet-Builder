@@ -1681,13 +1681,35 @@ the remaining Gen12 entry/tower models (`DL320`/`DL340`, `ML350`).
   via the 2SFF add-on kit) — not a `BACKPLANE_SAS_ONLY` case, just
   documented for completeness alongside the sibling `DL20 G10+`, which
   IS sas-only.
-408/408 tests passing. **Not yet checked:** `DL360`/`DL380 G12`
-(mainstream rack, not entry/tower) — next in line if this axis
-continues into a full G12 rack pass. That's now every model in this
-tool except the Gen9 mainstream rack line (`DL360`/`DL380`/`DL560`/
-`DL580 G9` — no cached QuickSpecs text exists for these, they were
-verified in an earlier session by direct read without caching) and
-`DL360`/`DL380 G12`.
+408/408 tests passing.
+
+**Closed out the same day: `DL360`/`DL380 G12` and the Gen9 mainstream
+rack line.** `DL360 G12`'s own doc has the same LFF/"TriMode" naming
+ambiguity already flagged elsewhere (a "4 LFF Low Profile" bay named
+"12G x1 TriMode U.3," but no LFF NVMe drive is ever sold and a separate
+fan table lists "4LFF" apart from the NVMe-named SFF columns) — read as
+controller-wiring compatibility, not real NVMe-capable LFF, generic
+LFF block left in place. `DL380 G12` genuinely regained a 3-way split
+its G11 predecessor lost — its own doc states outright "8SFF U.3 x4/x2
+Trimode, 8SFF U.3 (x1 Trimode), and 8SFF SAS/SATA," the plain option
+being the "Multipurpose Drive Cage Kit" (P76449-B21).
+
+The four Gen9 mainstream rack models (`DL360`/`DL380`/`DL560`/
+`DL580 G9`) had never had their QuickSpecs cached at all in this
+project — fetched fresh via WebSearch + curl (dve-x.com for DL360/
+DL380, newserverlife.com for DL560, theserverstore.com for DL580; doc
+IDs and URLs recorded in `quickspecs-cache/MANIFEST.md`). All four
+confirmed to have real NVMe at SFF, matching the generic rule already
+in place. `DL380`/`DL560 G9` turned out to have only pure-NVMe
+enablement kits, no mixed Premium cage; `DL360`/`DL580 G9` genuinely
+do have a mixed SAS/SATA+NVMe option.
+
+**This closes the backplane Premium/Tri-Mode cross-reference axis —
+every model in this tool has now been checked.** No new hard rules
+came out of this final batch (every finding either matched the generic
+rule already, or was flagged as a doc ambiguity) — documentation-only,
+no new regression tests needed; QA re-run to confirm no syntax
+regressions (still 408/408).
 
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.

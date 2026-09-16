@@ -975,7 +975,8 @@ var MODELS=[
        'A performance heatsink can be added even where not required, to cut fan power (795235-B21).',
        '128GB DIMMs cannot be mixed with any other size.',
        'For a GPGPU, order the LH (low profile heatsink) controller so it fits.',
-       'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.']}},
+       'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.',
+       'Backplane cross-reference (2026-09-16, own QuickSpecs c04375623-15033 V24, freshly sourced — this model\'s doc was never cached before): real NVMe exists via two separate enablement kits — pure NVMe (764628-B21, up to 2 drives) and a genuine mixed "6 NVMe + 4 SAS/SATA" Premium kit (817676-B21, drives 5-10). All three pills (SAS/SATA, NVMe, Premium) are real at SFF, matching the generic rule already in place — no override needed.']}},
  {m:'DL380',g:'G9', p:['e5v3','e5v4'], s:2, d:24, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:121,hsWtext:'above 120W',hsStdException:['E5-2690v4'],hsGPU:true,rearMaxW:160,rear2SFF:['24SFF','12LFF'],riserMax:3,
      rear:['2SFF rear','3LFF rear','4LFF midtray'],
@@ -991,7 +992,8 @@ var MODELS=[
        '2SFF at the front requires the Universal Media Bay (724865-B21).',
        '8SFF CTO can be field-upgraded to 16SFF or 24SFF with a drive cage.',
        'Rear drives will not support CPUs above 160W, or special/unique SKUs.',
-       'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.']}},
+       'Fans are not tied to CPU wattage on this generation — only to rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.',
+       'Backplane cross-reference (2026-09-16, own QuickSpecs c04375627-15034 V23, freshly sourced): real NVMe exists via a single "NVMe 6 Solid State Drive Express Bay Enablement Kit" (774741-B21) — pure NVMe only, no mixed SAS/SATA+NVMe Premium cage was found for this model. Confirm the SAS/SATA vs NVMe split before quoting a "Premium" pick.']}},
  {m:'DL560',g:'G9', p:['e5v3x4','e5v4x4'], s:4, d:48, bays:['8SFF','10SFF'],
    rules:{verified:true,psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:3,two:7},riserMax:3,rear:[],validCounts:[1,2,4],hsNoChoice:true,
      notes:['Takes Xeon E5-4600 v3 / v4 (4-socket parts, up to 135W). Supports 1, 2 or 4 processors — not 3. Do not mix v3 and v4.',
@@ -999,7 +1001,8 @@ var MODELS=[
        '2 power supply bays: entry model ships 1, Base / Performance ship 2 (redundant). Common Slot 1200W or 1500W Platinum Plus (QuickSpecs DA-15187).',
        '6 hot-plug fans, N+1 redundancy, shipped standard.',
        'Riser positions (QuickSpecs DA-15187): primary riser slots 1-3 (Proc 1, full-height, ships standard); optional Secondary 3-Slot Riser Kit 793474-B21 slots 4-6 (Proc 2); Slot 7 is a low-profile slot on the board (Proc 2). Up to 7 PCIe 3.0 slots with the secondary riser and 2+ processors.',
-       'Storage controllers (H240 / P440 / P840) can sit in the primary riser or Slot 7.']}},
+       'Storage controllers (H240 / P440 / P840) can sit in the primary riser or Slot 7.',
+       'Backplane cross-reference (2026-09-16, own QuickSpecs c04601214-15296 V22, freshly sourced): real NVMe exists via a single "NVMe 6 Solid State Drive Express Bay Enablement Kit" (774743-B21) — pure NVMe only, no mixed SAS/SATA+NVMe Premium cage was found for this model.']}},
  {m:'DL580',g:'G9', p:['e7v3','e7v4'], s:4, d:96, bays:['5SFF','8SFF','10SFF'],
    rules:{verified:true,psuMax:4,fans:{one:4,two:4,perf:4},pcie:{one:5,two:9},validCounts:[2,3,4],rear:[],riserMax:1,hsNoChoice:true,
      notes:['Takes Xeon E7-4800 / E7-8800 v3 / v4, minimum 2 processors (2, 3 or 4). Do not mix v3 and v4.',
@@ -1008,7 +1011,8 @@ var MODELS=[
        '4 hot-plug fans (eight rotors) with N+1 redundancy, shipped standard.',
        '96 DIMM slots via up to 8 memory cartridges (12 slots each).',
        'One standard I/O riser carries all 9 PCIe 3.0 slots (4x x8 + 5x x16), all full-length/full-height (QuickSpecs DA-15187). Slot availability scales with processor count — the full nine need all four sockets; a two-socket build lights the five Proc 1/2 slots, a three-socket build adds two more.',
-       'Double-wide GPU placement: 2 cards (slots 6, 9) with 2 processors; 3 (slots 3, 6, 9) with 3; up to 5 (slots 1, 2, 3, 6, 9) with 4. Slots 5 and 8 are blocked when double-wide cards are fitted.']}},
+       'Double-wide GPU placement: 2 cards (slots 6, 9) with 2 processors; 3 (slots 3, 6, 9) with 3; up to 5 (slots 1, 2, 3, 6, 9) with 4. Slots 5 and 8 are blocked when double-wide cards are fitted.',
+       'Backplane cross-reference (2026-09-16, own QuickSpecs c04601209-15187 V15, freshly sourced): a genuine mixed config exists — "upgradeable to ten (10) SFF SATA/SAS or max of five (5) SFF SATA/SAS + five (5) NVMe SSD bays" (needs the SSD Express Bay Kit 788359-B21) — a real Premium option alongside pure SAS/SATA (up to 10SFF) and, per the drive catalog, pure NVMe. All three pills are real here, matching the generic rule.']}},
 
  {m:'DL20', g:'G10', p:['xeone'],      s:1, d:4, bays:['2LFF','4SFF','6SFF'],
    rules:{psuMax:2,pcie:{one:2,two:2},rear:[],
@@ -1382,11 +1386,13 @@ var MODELS=[
      rear:['2x M.2 (dual uFF) rear'],
      notes:['No rear/mid-tray DATA cage — "rear" language is all the NS204i-u boot device or OCP/PCIe, not a capacity bay (2026-09-15, enterinsights.com mirror, a50006984enw V4).',
        'Also offers a 20x E3.S EDSFF front cage — not modeled in the bay list above.',
-       'Above 270W (2P) needs Closed-loop liquid cooling instead of an air-cooled heat sink; up to 350W is DLC-only. Confirm the exact tier for high-wattage picks.']}},
+       'Above 270W (2P) needs Closed-loop liquid cooling instead of an air-cooled heat sink; up to 350W is DLC-only. Confirm the exact tier for high-wattage picks.',
+       'Backplane cross-reference (2026-09-16, same doc): "10SFF" (its own Chassis Types entry, really 8SFF+2SFF) is Tri-Mode/NVMe-mixed by default, same "Tri-Mode-only SFF" pattern as most Gen11+ models — no plain non-Tri-Mode SAS/SATA-only SFF cage found. Genuinely ambiguous finding, NOT acted on: the doc\'s own Chassis Types table names the "4 LFF Low Profile" bay itself "12G x1 TriMode U.3," but no LFF NVMe drive SKU is sold anywhere in the same doc, and a separate fan-config table lists "4LFF" as its own column distinct from the "10SFF NVMe"/"8SFF NVMe" columns — reads as the backplane being wired for a Tri-Mode CONTROLLER (which also runs plain SAS/SATA fine), not real NVMe-capable LFF bays, consistent with the same ambiguity already flagged on DL320 G11/DL345 G10+/DL380 G10. The generic LFF hard-block stays in place.']}},
  {m:'DL380', g:'G12', p:['xeon6'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{hsW:185,hsWtext:'above 185W',fans:{one:4,two:4,perf:6},psuMax:2,riserMax:3,pcie:{one:3,two:8},
      rear:['2SFF rear','4LFF rear','6SFF rear','4LFF midtray'],
      notes:['Rear/mid-tray (2026-09-15, idealnet.ir mirror, a00073551enw V9): both exist and combine, matching the Gen11 pattern — 24SFF gets up to 6SFF rear; 8LFF gets a 2SFF front + 4LFF mid + 4LFF/2SFF rear; 12LFF gets a 4LFF mid + 4LFF/2SFF rear; the EDSFF variant gets a 2SFF rear. Mid-tray requires a CPU at or under 225W and is mutually exclusive with GPU/DLC.',
+       'Backplane cross-reference (2026-09-16, same doc): a genuine 3-way split at 8SFF, same as this model\'s own doc states outright — "8SFF U.3 x4/x2 Trimode, 8SFF U.3 (x1 Trimode), and 8SFF SAS/SATA." The plain SAS/SATA option is the "Multipurpose Drive Cage Kit" (P76449-B21, matches the Chassis Types intro\'s "multi-purpose cage" line) — a real generational difference from DL380 G11, which dropped down to Tri-Mode-only (no plain SAS/SATA 8SFF cage was found there). LFF stays SAS/SATA-only (P74741-B21 LP Midplane), matching the generic rule.',
        'Standard fan count is tied to the BAY config, not CPU count: SFF/8LFF ship 4 standard fans, 12LFF and the EDSFF variant ship 6, 24SFF ships 6 high-performance as standard — the fans:{one,two} split above is a simplification, confirm the fan kit against the actual bay pick.',
        'Above 225W on an 8LFF/12LFF Mid-Tray config needs the High-Performance heat sink specifically (P74787-B21); 2P configs above that band need the Max-Performance kit (2 heat sinks, P74794-B21). Treat 185W as the floor only.',
        'Also offers 36 EDSFF and 12 EDSFF+16SFF front cage variants — not modeled in the bay list above.']}},
@@ -2514,9 +2520,18 @@ function tpmKind(m){
    on one bay label" case just like `DL385 G11` — its "8SFF" box is
    either a Tri-Mode-mixed cage (default) or a separate pure-NVMe-x4
    cage, a real trader choice the tool's bay string can't distinguish;
-   documented as a note. `DL360`/`DL380 G12` (mainstream rack, not
-   entry/tower) remain unchecked at this depth — next in line if this
-   axis continues into a full G12 rack pass. */
+   documented as a note. `DL360`/`DL380 G12` and the Gen9 mainstream
+   rack line (`DL360`/`DL380`/`DL560`/`DL580 G9`) closed out the same
+   day: `DL360`/`DL380 G12` both turned out to be ambiguous/multi-family
+   cases (documented, no new rule). The four Gen9 rack docs had never
+   been cached at all — fetched fresh (dve-x.com for DL360/DL380,
+   newserverlife.com for DL560, theserverstore.com for DL580; see
+   `MANIFEST.md`) since no mirror had been tried for them before this
+   axis needed them. All four have real NVMe at SFF, matching the
+   generic rule; `DL380`/`DL560 G9` turned out to have NO mixed Premium
+   cage (pure NVMe only), while `DL360`/`DL580 G9` genuinely do. This
+   closes the backplane Premium/Tri-Mode cross-reference axis — every
+   model in this tool has now been checked. */
 var BACKPLANE_SAS_ONLY=['DL20 G10','DL160 G10','DL180 G10','ML30 G10','ML110 G10','DL20 G10+','ML30 G10+','ML30 G11','ML110 G11',
   'DL20 G9','DL120 G9','DL160 G9','DL180 G9','ML30 G9','ML110 G9','ML150 G9'];
 var BACKPLANE_NVME_ONLY=['DL380a G12'];
@@ -2744,7 +2759,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.16.5'; // 5th build shipped today
+var BUILD_VERSION='2026.09.16.6'; // 6th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

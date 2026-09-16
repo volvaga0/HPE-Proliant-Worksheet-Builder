@@ -58,3 +58,7 @@ One row per cached file in this directory. See `README.md` for how to use/add to
 | DL120-G9.txt | DL120 | G9 | c04447806 (DA-15087) | V15 — 19-Aug-2016 | https://www.hp-pro.net/netcat_files/181/175/Overview_HPE_ProLiant_DL120_Generation9__Gen9_.PDF | 2026-09-15 |
 | DL160-G9.txt | DL160 | G9 | c04346224 (DA-15031) | V17 — 10-Jun-2016 | https://www.hp-pro.net/netcat_files/182/180/Overview_HPE_ProLiant_DL160_Generation9__Gen9_.PDF | 2026-09-15 |
 | DL180-G9.txt | DL180 | G9 | c04375610 (DA-15032) | V27 — 25-Sep-2017 | https://www.bargainhardware.co.uk/media/quick-specs/rack-servers/HP/HP_ProLiant_DL180_Gen9_QuickSpecs.pdf | 2026-09-15 |
+| DL360-G9.txt | DL360 | G9 | c04375623-15033 | V24 — 7-Oct-2016 | https://www.dve-x.com/fileadmin/user_upload/produkte/Hewlett_Packard/PDFs/HPE_ProLiant_DL360_Gen9_QuickSpecs_Nov2016.pdf | 2026-09-16 |
+| DL380-G9.txt | DL380 | G9 | c04375627-15034 | V23 — 28-Oct-2016 | https://www.dve-x.com/fileadmin/user_upload/produkte/Hewlett_Packard/PDFs/HPE_ProLiant_DL380_Gen9_QuickSpecs_Nov2016.pdf | 2026-09-16 |
+| DL560-G9.txt | DL560 | G9 | c04601214-15296 | V22 — 2-Apr-2018 | https://newserverlife.com/upload/iblock/695/Spec560.pdf | 2026-09-16 |
+| DL580-G9.txt | DL580 | G9 | c04601209-15187 | V15 — 28-Nov-2016 | https://www.theserverstore.com/assets/images/HPE-ProLiant-DL580-Gen9-QuickSpecs-TheServerStore.pdf | 2026-09-16 |
