@@ -1858,6 +1858,31 @@ function runRound7(){
   txt.includes('single-socket-only')
     ?pass7('G6312U (U-suffix) with 2 processors is blocked — single-socket-only SKU')
     :fail7('U-suffix 2-CPU conflict not caught: '+txt.slice(0,220));
+
+  // --- DL560 G11's real CPU pool is a confirmed 9-SKU "H"-suffix subset of
+  // sp4, not the general 2-socket-board list (2026-09-16, R.cpuAllow) ---
+  setModel7('DL560 G11');ci7.value='';fire(ci7,'input');
+  const dl560CpuCodes=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(el=>el.textContent);
+  (dl560CpuCodes.length===9 &&
+   ['P8490H','P8468H','P8460H','P8450H','P8444H','G6448H','G6434H','G6418H','G6416H'].every(c=>dl560CpuCodes.includes(c)) &&
+   !dl560CpuCodes.includes('P8480+') && !dl560CpuCodes.includes('G6434') && !dl560CpuCodes.includes('P8468'))
+    ?pass7('DL560 G11 CPU picker offers exactly its confirmed 9 "H"-suffix SKUs, not the general sp4 list')
+    :fail7('DL560 G11 CPU list wrong: '+dl560CpuCodes.join(', '));
+  d.getElementById('cpu-scope').textContent.includes('9 processors')
+    ?pass7('DL560 G11 cpu-scope note reflects the narrowed 9-CPU pool')
+    :fail7('DL560 G11 cpu-scope wrong: '+d.getElementById('cpu-scope').textContent);
+  // a mismatched value that lands in the field some other way (typed, pasted,
+  // a restored draft) is caught even though it can't be tapped from the panel
+  d.getElementById('cpu').value='P8480+';fire(d.getElementById('cpu'),'input');
+  d.getElementById('checks').textContent.includes('NOT SUPPORTED')
+    ?pass7('DL560 G11: a non-allow-listed sp4 CPU (P8480+) typed directly in is flagged, not silently accepted')
+    :fail7('DL560 G11 cpuAllow typed-value check not caught: '+d.getElementById('checks').textContent.slice(0,220));
+  pickCpu7('G6416H');
+  !d.getElementById('checks').textContent.includes('NOT SUPPORTED')
+    ?pass7('...but a real allow-listed CPU (G6416H) raises no note at all')
+    :fail7('DL560 G11 real allow-listed CPU wrongly flagged: '+d.getElementById('checks').textContent.slice(0,220));
+  d.getElementById('cpu').value='';fire(d.getElementById('cpu'),'input');
+
   runRound8();   // chained — round 7 has no nested timers, so this is safe immediately
 }
 

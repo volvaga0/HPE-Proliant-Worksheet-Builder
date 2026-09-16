@@ -1496,6 +1496,32 @@ correctly described — it just wrongly assumed `sp3` worked the same
 way. 2 new regression tests guard both (`sp3` now offers all 3 speeds;
 `rome` is confirmed to still correctly offer only 1).
 
+**Fixed 2026-09-16: `DL560 G11`'s real CPU pool is a confirmed 9-SKU
+subset of `sp4`, not the general list shared with 2-socket boards.**
+This was an open TODO flagged during the 2026-09-14 Gen11 CPU-list
+audit — DL560 G11 is 4-socket, and its own QuickSpecs looked like it
+might validate only a distinct 4-socket-rated "H"-suffix subset rather
+than every `sp4` SKU, but nothing had checked this directly and the
+tool had no mechanism to enforce a per-model CPU allow-list even if it
+had. Checked directly against the already-cached DL560 G11 QuickSpecs
+(DA-17093) — its own "Step 2a: Choose Processors" section is exhaustive
+and lists exactly 9 orderable SKUs: Platinum `8490H`/`8468H`/`8460H`/
+`8450H`/`8444H` and Gold `6448H`/`6434H`/`6418H`/`6416H`. 4 of these
+(`8468H`/`8460H`/`8450H`, and the "H"-suffix `6434H` — a distinct part
+number from the plain 2-socket `6434` despite identical clock/core/TDP)
+weren't seeded in this tool's `CPUS` list at all — added, each citing
+the same doc. Built the general mechanism: a new `cpuAllow:[...]` rules
+key, checked in both the CPU-combo picker (`getGroups`) and
+`refreshDependents()`'s "valid" filter (narrows what's selectable to
+just the model's own list, same idea as `validCounts` for CPU count),
+plus a new `evaluate()` hard `stop` (mirrors the existing platform
+mismatch check right above it) for a value that lands in the field some
+other way (typed, pasted, restored). `DL560 G11` is the only model with
+`cpuAllow` set so far — every other model keeps offering its full
+platform pool, unchanged. 3 new regression tests guard the narrowed
+9-SKU list, the `cpu-scope` note text, and the typed-value hard stop
+(plus its converse: a real allow-listed SKU raises nothing).
+
 The fastest path to more certainty: get the actual QuickSpecs PDFs from
 your HPE engineer rather than relying on search-engine text extraction.
 Search results are sometimes internally inconsistent (per-CPU notes can
