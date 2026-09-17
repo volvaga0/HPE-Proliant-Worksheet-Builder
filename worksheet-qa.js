@@ -2747,5 +2747,19 @@ function runRound12(){
     ?pass12('DL385 G10: real 3-option riser list, including the Tertiary position DL380 G10\'s own entry lacks')
     :fail12('DL385 G10 riser panel wrong: '+opts12.join(' | '));
 
+  // --- DL360/DL380 G9: closes out every rack generation (G9-G12) for
+  // this axis. DL360 G9 confirms the FH-disables-LP-slot tradeoff already
+  // existed at G9, now seen across all 4 generations on this chassis. ---
+  setModel12('DL360 G9');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/764642-B21/.test(o)) && opts12.some(o=>/764644-B21/.test(o)))
+    ?pass12('DL360 G9: real riser kits offered — the FH-disables-Slot2 tradeoff already existed at G9')
+    :fail12('DL360 G9 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL380 G9');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/719073-B21/.test(o)) && opts12.some(o=>/719076-B21/.test(o)))
+    ?pass12('DL380 G9: real 3-option riser list (default primary + 2 secondary variants)')
+    :fail12('DL380 G9 riser panel wrong: '+opts12.join(' | '));
+
   d.getElementById('risers').innerHTML='';
 }

@@ -1865,7 +1865,23 @@ numbers) and `DL110 G12` (genuinely unsourced).
 
 **Still on `GENERIC_RISERS`, needing real per-model data:** every
 G9/G10/G10+ entry-level and tower model — this is the bulk of what's
-left. This is going to take several more passes to close out fully,
+left.
+
+**2026-09-17, continued: `DL360`/`DL380 G9` added — this closes out
+EVERY rack generation (G9 through G12) for the riser axis.** `DL360
+G9` confirms the "1 FH + 1 LP primary, secondary-FH-kit-disables-the-
+LP-slot" tradeoff already existed at G9 too — now confirmed across all
+4 generations (G9/G10+/G11/G12) on this one chassis lineage, a genuinely
+durable HPE design pattern, not a one-off. `DL380 G9` added with its own
+3-slot default plus 2 secondary variants. 2 new regression tests (437
+total). Verified `DL360 G9`'s riser panel live in the browser.
+
+**Rack is now fully done for this axis, every generation.** Everything
+still open is entry-level and tower: every `DL20`/`DL60`/`DL80`/`DL120`/
+`DL160`/`DL180`/`DL320`/`DL340` and `ML10`/`ML30`/`ML110`/`ML150`/`ML350`
+across G9 through G12 (except the ones already confirmed riserMax:0 —
+system-board PCIe, no riser cage at all — which don't need a `RISERS`
+entry). This is going to take several more passes to close out fully,
 same multi-session pattern as every other verification axis in this
 file.
 
