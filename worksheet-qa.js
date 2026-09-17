@@ -2628,5 +2628,64 @@ function runRound12(){
     ?pass12('DL340 G12: real 2-option riser list (Primary Slot 3 + Secondary Slot 6 kits), no factory default')
     :fail12('DL340 G12 riser panel wrong: '+opts12.join(' | '));
 
+  // --- DL20/DL110 G11: single-socket entry rack, real per-model riser kits ---
+  setModel12('DL20 G11');
+  opts12=riserOpts12();
+  (opts12.length===1 && opts12.some(o=>/Primary Riser \(Slot 1/.test(o)))
+    ?pass12('DL20 G11: real 1-slot riser list (no fabricated 2nd slot from the DL320 copy-paste artifact)')
+    :fail12('DL20 G11 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL110 G11');
+  opts12=riserOpts12();
+  (opts12.length===2 && opts12.some(o=>/Slots 1-2/.test(o)) && opts12.some(o=>/P54288-B21/.test(o)))
+    ?pass12('DL110 G11: real 2-option riser list (2-slot default primary + optional secondary kit)')
+    :fail12('DL110 G11 riser panel wrong: '+opts12.join(' | '));
+
+  // --- ML350 G11: CORRECTED 2026-09-17 — was wrongly riserMax:0 ("PCIe on
+  // the system board"), self-flagged as unchecked; it genuinely has 3 real
+  // riser positions, identical structure to ML350 G12 ---
+  setModel12('ML350 G11');
+  (!d.getElementById('add-riser').hidden)
+    ?pass12('ML350 G11: riser section now shown (was wrongly hidden — riserMax corrected 0->3)')
+    :fail12('ML350 G11 riser section still hidden');
+  opts12=riserOpts12();
+  (opts12.length===5 && opts12.some(o=>/Default Primary Riser \(4x8/.test(o)) && opts12.some(o=>/Tertiary Riser Kit/.test(o)))
+    ?pass12('ML350 G11: real 5-option riser list (Primary/Secondary default+FIO, Tertiary), matching ML350 G12\'s shared platform')
+    :fail12('ML350 G11 riser panel wrong: '+opts12.join(' | '));
+  setModel12('ML350 G12');
+  opts12=riserOpts12();
+  (opts12.length===5 && opts12.some(o=>/Tertiary Riser Kit/.test(o)))
+    ?pass12('ML350 G12: real 5-option riser list, same shared platform as ML350 G11')
+    :fail12('ML350 G12 riser panel wrong: '+opts12.join(' | '));
+
+  // --- ML110 G11: 2 real riser cages are both GPU Riser Kits (the 2
+  // default PCIe slots are on the system board, not a riser, per its
+  // own doc's "Default Slots" vs "Optional GPU Riser Kit" distinction) ---
+  setModel12('ML110 G11');
+  opts12=riserOpts12();
+  (opts12.length===2 && opts12.some(o=>/P53487-B21/.test(o)) && opts12.some(o=>/P53488-B21/.test(o)))
+    ?pass12('ML110 G11: real 2-option riser list (both GPU Riser Kits), not the generic placeholder')
+    :fail12('ML110 G11 riser panel wrong: '+opts12.join(' | '));
+
+  // --- DL580 G12: single shared riser kit type, up to 6 cages ---
+  setModel12('DL580 G12');
+  opts12=riserOpts12();
+  (opts12.length===1 && opts12.some(o=>/P80379-B21/.test(o)))
+    ?pass12('DL580 G12: single real riser kit type offered (P80379-B21), not the generic placeholder list')
+    :fail12('DL580 G12 riser panel wrong: '+opts12.join(' | '));
+
+  // --- DL360/DL380 G10+: same chassis lineage's riser patterns already
+  // exist one generation earlier than G11 ---
+  setModel12('DL360 G10+');
+  opts12=riserOpts12();
+  (opts12.some(o=>/Default Primary Riser/.test(o)&&/FH \+ Slot 2 LP/.test(o)) &&
+   opts12.some(o=>/P26471-B21/.test(o)) && opts12.some(o=>/P26467-B21/.test(o)))
+    ?pass12('DL360 G10+: real riser kits offered — the FH-disables-Slot2 tradeoff already exists at G10+, one gen before G11')
+    :fail12('DL360 G10+ riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL380 G10+');
+  opts12=riserOpts12();
+  (opts12.length===4 && opts12.some(o=>/Default Primary Riser/.test(o)) && opts12.some(o=>/P14588-B21/.test(o)))
+    ?pass12('DL380 G10+: real riser list (default primary/secondary/tertiary + tertiary upgrade)')
+    :fail12('DL380 G10+ riser panel wrong: '+opts12.join(' | '));
+
   d.getElementById('risers').innerHTML='';
 }

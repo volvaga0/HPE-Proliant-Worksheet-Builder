@@ -1775,14 +1775,50 @@ riser-kit panel replaces the generic placeholder list, plus the G11/G12
 FH-vs-LP-tradeoff assertions. Verified DL340/DL380 G12's panels live in
 the browser too.
 
-**Still on `GENERIC_RISERS`, needing real per-model data — the bulk of
-the remaining work:** every G9/G10/G10+ entry-level and tower model, the
-remaining G12 models (`DL110`/`DL380a`/`DL580`, `ML350`), and
-`DL110`/`DL20 G11`. This is going to take several more passes to close
-out fully, same multi-session pattern as every other verification axis
-in this file — the Intel rack line was picked first because it's both
-highest resale volume and had the freshest already-read context from
-today's backplane work.
+**2026-09-17, continued: closed out the rest of Gen11/Gen12, started
+G10/G10+ rack.**
+- `DL20`/`DL110 G11` added (1 and 2 slots, both FH, single-socket).
+- `ML110 G11` added — its 2 default PCIe slots are on the system board
+  per its own doc ("Default Slots" vs "Optional GPU Riser Kit"), so
+  only the 2 real GPU riser cages needed a `RISERS` line.
+- **`ML350 G11` was a genuine DATA BUG, not just a gap fill**: it had
+  been modeled `riserMax:0` ("PCIe on the system board like every
+  ML350"), a claim its own note had self-flagged as "not re-checked
+  against the Gen11 QuickSpecs." Checking it directly shows this was
+  WRONG — it has 3 real riser positions, structurally identical to
+  `ML350 G12` (confirmed: the G12 doc's own SKUs are literally named
+  "ML350 Gen11/Gen12," shared part numbers). Corrected `riserMax` 0→3
+  and `pcie` `{one:4,two:8}`→`{one:4,two:10}`; `ML350 G12` also got the
+  same `RISERS` list.
+- `DL580 G12` added — genuinely only ONE riser kit type exists for the
+  whole chassis ("there is only one riser option," per its own doc),
+  reused across up to 6 cage positions — modeled as one repeatable kit
+  rather than per-position variants, `riserMax:6`.
+- `DL380a G12` deliberately left unmodeled — its already-documented
+  GPU-config-dependent slot count (4 or 5 depending on fitment) is too
+  variable for this tool's flat per-line riser model to enforce
+  correctly; a forced guess would be worse than the existing honest
+  note.
+- **Started G10/G10+ rack**: `DL360 G10+` confirms the same "1 FH + 1
+  LP primary, secondary-FH-kit-disables-the-LP-slot" tradeoff already
+  existed one generation before G11/G12 on this chassis lineage.
+  `DL380 G10+` added too, but only PARTIALLY — its own doc has 3
+  Primary and 3 Secondary riser TYPES (vs G11's 2 each) plus several
+  0-slot NVMe SlimSAS variants; only the confirmed default + tertiary
+  upgrade are modeled, since the Primary/Secondary 3x16 upgrade kits'
+  exact part numbers weren't matched with full confidence to the doc's
+  numbered table rows — left as a documented gap rather than guessed.
+9 new regression tests (424 total). Verified ML350 G11's riser section
+went from hidden to real live in the browser.
+
+**Still on `GENERIC_RISERS`, needing real per-model data:** every
+G9/G10/G10+ entry-level and tower model except `DL360 G10+`, the
+remaining G10+ rack models (`DL325`/`DL345`/`DL365`/`DL385`), `DL380
+G10+`'s Primary/Secondary upgrade kits, and `DL110 G12` (genuinely
+unsourced — its Data Sheet defers slot topology to the full QuickSpecs,
+which still won't load from any mirror tried). This is going to take
+several more passes to close out fully, same multi-session pattern as
+every other verification axis in this file.
 
 ## Working conventions established this session
 
