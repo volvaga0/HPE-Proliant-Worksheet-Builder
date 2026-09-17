@@ -3040,4 +3040,23 @@ function runRound14(){
   (!badgeV14.hasAttribute('href') && !badgeV14.classList.contains('on'))
     ?pass14('DL120 G10: no QuickSpecs doc exists (confirmed, not guessed) — badge has no href and correctly shows unverified, not a stale verified:true')
     :fail14('DL120 G10 badge should have no href and stay unverified: href='+badgeV14.getAttribute('href')+' on='+badgeV14.classList.contains('on'));
+
+  // --- user-reported 2026-09-17, confirmed in DL380 G11's own doc: an
+  // 8SFF U.3 x4 Mid Tray on an 8SFF front-bay build needs the SR932i-p
+  // controller or the factory-only 32NVMe Bundle Kit — alert when
+  // neither is selected (midtray8SFFCtrl) ---
+  setModel14('DL380 G11');
+  const bays14=d.getElementById('bays');bays14.value='8SFF';fire(bays14,'input');
+  setRear('8SFF midtray');
+  let chk14=d.getElementById('checks').textContent;
+  chk14.includes('MIDTRAY CONTROLLER')
+    ?pass14('DL380 G11: 8SFF + 8SFF midtray with no SR932i-p/bundle flags MIDTRAY CONTROLLER')
+    :fail14('DL380 G11 midtray controller check did not fire: '+chk14.slice(0,220));
+  const ctrl14c=d.getElementById('ctrl');ctrl14c.value='SR932i-p';fire(ctrl14c,'input');
+  chk14=d.getElementById('checks').textContent;
+  !chk14.includes('MIDTRAY CONTROLLER')
+    ?pass14('DL380 G11: ...and picking SR932i-p clears the flag')
+    :fail14('DL380 G11 midtray controller check should have cleared: '+chk14.slice(0,220));
+  ctrl14c.value='';fire(ctrl14c,'input');
+  clearRear();bays14.value='';fire(bays14,'input');
 }

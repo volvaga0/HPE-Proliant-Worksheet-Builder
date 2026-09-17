@@ -2130,6 +2130,40 @@ checks working with the new rich strings.
 3 new regression tests (round 14 extended), 476/476 passing. Verified
 all of the above live in the browser.
 
+**2026-09-17, continued — 2 more user-reported items:**
+
+1. **DL380 G11: an 8SFF U.3 x4 Mid Tray on an 8SFF front-bay build now
+   alerts if neither the SR932i-p controller nor the factory-only
+   32NVMe Balanced Bundle Kit (P53639-B21) is selected** — the user
+   spotted this exact constraint directly in the model's own doc. New
+   rule key `midtray8SFFCtrl` (reusable if another model turns out to
+   need the same pattern) + a new soft `verify` check (can't be a hard
+   `stop` since we have no way to detect "the bundle path was chosen"
+   directly). Noted, not modeled: the bundle itself pulls in a long
+   chain of other factory-only requirements (specific risers, both OCP
+   x16 kits, a cable kit, 2nd CPU, the high-performance fan kit) — the
+   check flags the top-level requirement and tells the trader to
+   confirm the rest against QuickSpecs rather than trying to model the
+   whole bundle's dependency chain.
+
+2. **ML350 G9's QuickSpecs doc ID added to `QS_DOCS`** — the user
+   linked `https://www.hpe.com/psnow/doc/c04346270` directly (matches
+   what an earlier verification pass had already independently found
+   and confirmed but never actually added to the lookup map — a real
+   oversight). Doc is RETIRED/obsolete per HPE's own version history
+   but still the genuine QuickSpecs. Important scope note: this is
+   ONLY the doc-link entry — the model's field values (`psuMax`/
+   `fans`/`pcie`/`riserMax`) haven't been freshly cross-checked
+   against it, so `verified:true` stays unset. A full re-verification
+   pass would need a different approach: this environment can't
+   reliably pull text out of an hpe.com-hosted PDF (`curl` to hpe.com
+   is fully network-blocked from Bash, and even fetching the PDF bytes
+   through the browser's own network log returns an unrecoverable
+   binary blob rather than usable text — tried both, neither worked).
+
+2 new regression tests, 478/478 passing. Verified both live in the
+browser.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are

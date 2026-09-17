@@ -857,6 +857,12 @@ button.quiet{color:var(--ink-soft)}
                    any value is blocked (dense 4-socket boxes, most 1U).
      rearMaxW      rear drives unsupported above this CPU wattage
      rear2SFF      front configs a 2SFF rear cage is allowed on
+     midtray8SFFCtrl  controller codes (ctrlCode()) that satisfy an 8SFF
+                   U.3 x4 Mid Tray on an 8SFF front-bay build — e.g. DL380
+                   G11's own doc: needs SR932i-p OR the factory-only
+                   32NVMe Balanced Bundle Kit (not otherwise modeled here,
+                   noted in the check text instead). Soft verify, not a
+                   hard stop — the bundle path can't be detected directly.
      coolTierW     dual-socket TDP at/above which air cooling is unsupported
      singleMaxAirW air-cooled TDP that is single-socket only
      liquidReqW    TDP at/above which liquid cooling is mandatory regardless of socket count
@@ -1334,7 +1340,7 @@ var MODELS=[
    rules:{verified:true,hsW:151,hsWtext:'above 150W, up to 350W',hsPart:'P48818-B21',fanW:206,riserMax:3,
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},fanBays:['24SFF'],
      rear:['2SFF rear','2SFF NVMe rear','4LFF midtray','8SFF midtray'],
-     fanNVMe:true,fanRear:true,fanGPU:true,fanPart:'P48820-B21',
+     fanNVMe:true,fanRear:true,fanGPU:true,fanPart:'P48820-B21',midtray8SFFCtrl:['SR932i-p'],
      notes:['150W or under takes the standard heatsink (P49145-B21); above 150W through 350W needs P48818-B21.',
        'A midtray drive cage with a >150W processor needs the DL3xx/560 Gen11 High Performance Heatsink (P48905-B21) instead.',
        '"Q" suffix (Speed Select) processors need the Max Performance heatsink (P48817-B21) regardless of TDP.',
@@ -1343,6 +1349,7 @@ var MODELS=[
        'Fan kit needed for rear drives, >205W processors, high performance NVMe, three drive cages, midtray, GPU, or certain backplanes.',
        'A 24SFF CTO server already includes the high performance fans.',
        'Any NVMe bundle requires the high performance fan kit and a second processor.',
+       'User-reported 2026-09-17, confirmed in this model\'s own doc: on an 8SFF CTO server, the 8SFF U.3 x4 Mid Tray requires either the SR932i-p controller or the factory-only 32NVMe Balanced Bundle Kit (P53639-B21) — now checked (`midtray8SFFCtrl`). The bundle itself pulls in a long chain of other factory-only requirements (3x16 Primary+Secondary risers, both OCP x16 Enablement Kits, a Gen4 Re-timer cable kit, 2nd CPU, the high-performance fan kit, and blocks the Tertiary riser) not individually modeled here — confirm the full bundle against QuickSpecs rather than assuming this one check covers all of it.',
        '5th Gen (Emerald Rapids) CPUs added 2026-09-14 — their tertiary riser (Slot 8) is PCIe 4.0 by default (PCIe 5.0 x8 only with the optional FIO Enablement Kit P53632-B21); this tool tracks slot COUNT only, not per-slot PCIe generation, so that distinction isn\'t otherwise represented on the slip.',
        'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage ships an x1 Tri-Mode U.3 backplane by default in bay 3 (P48813-B21), with an x4 "Premium" Tri-Mode variant also selectable (P48814-B21) — no plain non-Tri-Mode SAS/SATA-only 8SFF cage was found, same "Tri-Mode-only SFF" pattern as DL325/DL360/DL365 G11 (DL385 G11 is the one Gen11 rack model confirmed to still offer a genuine budget non-Tri-Mode SFF cage alongside its Tri-Mode ones). LFF stays SAS/SATA-only, including its own mid-tray cage (matches the generic rule).']}},
  {m:'DL385',g:'G11', p:['genoa','turin'], s:2, d:24, bays:['8SFF','16SFF','24SFF','8LFF','12LFF','48SFF'],
@@ -1489,7 +1496,7 @@ var MODELS=[
    rules:{psuMax:4,fans:{one:3,two:5},pcie:{two:9},riserMax:0,hsNoChoice:true,
      psu:['500W Common Slot Platinum Plus (720478-B21)','800W Common Slot Platinum Plus (720479-B21)','1400W Common Slot Platinum Plus (720620-B21)','X4 Redundant PSU Enablement Kit (725870-B21)'],
      notes:['5U tower, 2 sockets (2nd optional), 24 DIMM slots, up to 48 SFF / 24 LFF drives.',
-       'Hardware counts verified against ML350 Gen9 QuickSpecs.',
+       'Hardware counts verified against ML350 Gen9 QuickSpecs — doc ID confirmed 2026-09-17 (c04346270, user-provided, RETIRED/obsolete per HPE\'s own version history but still the real QuickSpecs). The individual field values below haven\'t been freshly re-checked line-by-line against it in this pass — this environment can\'t reliably extract text from an hpe.com PDF, so a full re-verification needs a different approach; `verified:true` stays unset pending that.',
        '4 HPE Flexible Slot power supply bays: Slot 1 standard, Slots 2-4 optional (X4 Redundant PSU Enablement Kit 725870-B21).',
        '3 system fans standard; the Redundant Fan Kit (725878-B21) adds 4 fans + 2 PCIe air baffles and is standard on the performance model.',
        '9 PCIe expansion slots (8 Gen3, 1 Gen2); some need the 2nd processor.',
@@ -2291,15 +2298,23 @@ function ctrlsFor(m){
    two of MANIFEST.md's own recorded IDs turned out wrong when checked
    this way (DL560 G10 had been recorded with DL560 G11's ID; DL20 G10's
    recorded ID 404s, a working alternate existed) and were corrected
-   here rather than carried over. `DL120 G10` and `ML350 G9` have no
-   entry — genuinely no findable QuickSpecs doc for either, confirmed
-   again via a fresh search rather than assumed from earlier sessions;
-   their badge stays a plain (non-link) span. */
+   here rather than carried over. `ML350 G9`'s doc (c04346270, RETIRED/
+   obsolete per its own version history) was added 2026-09-17 after the
+   user linked it directly — note this is only the doc-link entry, the
+   model's own field values (psuMax/fans/pcie/riserMax) still haven't
+   been individually cross-checked against it, so `verified:true`
+   deliberately stays unset; this environment can't reliably extract
+   text from an hpe.com-hosted PDF (network-blocked from Bash, and the
+   browser's binary response isn't recoverable as text either) so a
+   full re-verification pass needs a different approach. `DL120 G10`
+   still has no entry — genuinely no findable QuickSpecs doc at all,
+   confirmed again via a fresh search rather than assumed from earlier
+   sessions; its badge stays a plain (non-link) span. */
 var QS_DOCS={
  'DL20 G9':'c04834947','DL60 G9':'c04447824','DL80 G9':'c04447832','DL120 G9':'c04447806',
  'DL160 G9':'c04346224','DL180 G9':'c04375610','DL360 G9':'c04375623','DL380 G9':'c04375627',
  'DL560 G9':'c04601214','DL580 G9':'c04601209','ML10 G9':'c04922941','ML30 G9':'c04834991',
- 'ML110 G9':'c04545452','ML150 G9':'c04447843',
+ 'ML110 G9':'c04545452','ML150 G9':'c04447843','ML350 G9':'c04346270',
  'DL20 G10':'a00053820enw','DL160 G10':'a00021860enw','DL180 G10':'a00021862enw',
  'DL325 G10':'a00045498enw','DL360 G10':'a00008159enw','DL380 G10':'a00008180enw',
  'DL385 G10':'a00026913enw','DL560 G10':'a00008181enus','DL580 G10':'a00021850enw',
@@ -3431,7 +3446,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.12'; // 12th build shipped today
+var BUILD_VERSION='2026.09.17.13'; // 13th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4632,6 +4647,8 @@ function evaluate(){
     checks.push(['stop','NOT SUPPORTED','Rear drives do not support CPUs above '+R.rearMaxW+'W — '+cpu[0]+' is '+cpu[3]+'W.']);
   if(R.rear2SFF&&/2SFF/i.test(rear)&&bays&&!R.rear2SFF.some(function(b){return bays.indexOf(b)>-1;}))
     checks.push(['stop','NOT SUPPORTED','A 2SFF rear cage is only supported on '+R.rear2SFF.join(' or ')+' — not '+v('bays')+'.']);
+  if(R.midtray8SFFCtrl&&bays==='8SFF'&&/8SFF midtray/i.test(rear)&&R.midtray8SFFCtrl.indexOf(ctrlCode(v('ctrl')))<0)
+    checks.push(['verify','MIDTRAY CONTROLLER','An 8SFF U.3 x4 Mid Tray on an 8SFF front-bay build needs either the '+R.midtray8SFFCtrl.join('/')+' controller or the factory-only 32NVMe Balanced Bundle Kit (P53639-B21) — neither is currently selected. Confirm before quoting; the bundle also pulls in specific risers/OCP kits/2nd CPU not modeled here.']);
 
   /* rear / mid-tray option(s) vs what this chassis actually offers */
   if(m&&rear){
