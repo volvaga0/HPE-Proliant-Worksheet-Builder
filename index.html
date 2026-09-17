@@ -863,9 +863,23 @@ button.quiet{color:var(--ink-soft)}
                    G11's 4-socket-rated "H"-suffix subset of sp4). Omit and every
                    CPU on the model's platform(s) is offered, as before.
      psuMax        power supply bays in the chassis (hard cap on PSU qty)
-     psu           (kept for reference only — the PSU picker now shows plain
-                   wattages from PSUS, not per-model kit strings) the kit names
-                   + option part numbers this model's QuickSpecs lists
+     psu           real kit names + HPE part numbers this model's QuickSpecs
+                   lists, replacing the generic wattage-only PSUS list in the
+                   picker when present. 2026-09-17: RE-WIRED to actually drive
+                   the picker (was previously dead data — a stale comment here
+                   had called it "reference only, picker shows plain wattages,"
+                   but the user asked to surface real part numbers everywhere,
+                   so that simplification was reversed). psuW still parses the
+                   leading \d{3,4}W out of whichever string is picked, so a
+                   rich kit string works exactly like a plain wattage for the
+                   power-budget math.
+     ctrl          same override pattern as `psu` — real kit names + HPE part
+                   numbers replacing the generic name-only CTRLS/ctrlsFor()
+                   panel for this model. New 2026-09-17. Every generation/
+                   cache-type lookup (CTRL_GENS/CACHED_CTRLS/NOCACHE_CTRLS/
+                   CTRL_PORTS) keys off ctrlCode(v) — just the leading token —
+                   so a rich "P408i-a (804331-B21)" string still resolves
+                   correctly against those maps.
      riserMax      physical riser positions; 0 = no riser cages, PCIe slots are
                    on the system board (blocks any riser line)
      fans          {one,two,perf} standard fan count for 1 CPU / 2 CPUs, and the
@@ -1060,6 +1074,8 @@ var MODELS=[
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2x M.2 (dual uFF) rear'],
+     psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
+     ctrl:['P816i-a (804338-B21)','P816i-a LH — low-profile heatsink variant, needed for GPU builds (869083-B21)','P408i-a (804331-B21)','P408i-a LH — low-profile heatsink variant, needed for GPU builds (869081-B21)','E208i-a (804326-B21)','E208i-a LH — low-profile heatsink variant, needed for GPU builds (869079-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
      fanNVMe:true,fanRear:true,fanGPU:true,fanPart:'871244-B21',memPerSocket:768,riserMax:2,
      notes:['Up to 7 fans with redundancy built in. High performance fan kit 871244-B21 includes 7.',
        'A 10 NVMe chassis always gets 7 high performance fans, one processor or two.',
@@ -1070,6 +1086,7 @@ var MODELS=[
        'Minimum build: 1 drive, 1 processor, 1 PSU, two heatsinks, 1 Smart Array, five fans.',
        'Mixing two different processor models is not allowed.',
        'For a GPGPU, order the LH (low profile heatsink) controller so the GPU fits.',
+       'Storage controller part numbers sourced 2026-09-17 (same doc, "Core Options" Storage Controllers section): P816i-a/P408i-a/E208i-a each have 2 real SKUs — a plain kit and an "LH" (low-height, low-profile heatsink) variant needed for GPU builds, matching the existing GPU note above. No P824i-p on this chassis — its own doc changelog mentions the part generically but it never appears in this model\'s actual Core Options ordering list (unlike DL380/DL560/DL580/ML350 G10, which do offer it per DL380\'s own doc). No SR932i-p/MR-series either — those are Gen10 Plus/Gen11 additions.',
        'Fans are not tied to CPU wattage on this generation — only to NVMe, rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.',
        'Backplane cross-reference (2026-09-16): "10SFF" is its own distinct CTO chassis type in this doc ("Premium 10SFF NVMe"), not a plain-SAS/SATA option — it IS the NVMe/Premium backplane (867974-B21 "10 NVMe chassis Upgrade Kit" applied to an 8SFF chassis reaches the same config). The base "8SFF" chassis ships plain SAS/SATA; a small separate 2SFF NVMe/Premium cage kit exists too but sits in the media-bay position, not the main 8 bays. Genuine open contradiction found and NOT resolved: this doc\'s Additional Options section says the 10SFF upgrade kit "requires two processors, not supported on single processor configurations," which conflicts with this model\'s own existing note above ("one processor or two") — flagged rather than silently changed; the existing note was kept since it may describe the factory CTO base chassis rather than the field-upgrade kit specifically.']}},
  {m:'DL380',g:'G10', p:['sp1','sp2'],  s:2, d:24, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
@@ -1077,12 +1094,15 @@ var MODELS=[
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},
      rear:['2SFF rear','2SFF NVMe rear','3LFF rear','4LFF midtray'],
+     psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','1600W Flex Slot -48VDC (P17023-B21)','1800-2200W Flex Slot Titanium, EU Lot 9 compliant (P44712-B21)'],
+     ctrl:['P816i-a (804338-B21)','P408i-a (804331-B21)','E208i-a (804326-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','P824i-p — confirmed offered on this chassis (its own Cable Kit P00614-B21 names DL38X/560/580/ML350 G10), but the controller\'s own part number was not found anywhere in this doc; confirm before ordering'],
      fanNVMe:true,fanRear:true,fanGPU:true,fanBays:['12LFF','24SFF'],
      rear2SFF:['24SFF','12LFF'],fanPart:'867810-B21',memPerSocket:768,riserMax:3,
      notes:['High performance fan kit 867810-B21 is required for NVMe, for GPUs, and when boxes 1, 2 and 3 are all populated.',
        '2SFF rear is only supported on a 24SFF or 12LFF chassis.',
        'NVMe drives require a specific riser.',
        'Mixing two different processor models is not allowed.',
+       'Storage controller part numbers sourced 2026-09-17 (same doc, "Core Options" Storage Controllers section): unlike DL360 G10, no "LH" low-height variants were found for this chassis (more physical clearance, presumably not needed). P824i-p is confirmed to exist for this chassis via its own Cable Kit line (P00614-B21, explicitly scoped to "DL38X/560/580/ML350 Gen10" — NOT DL360), but the controller kit\'s own part number never appears anywhere in this document — left as an unconfirmed gap rather than guessed. No SR932i-p/MR-series — those are Gen10 Plus/Gen11 additions.',
        'Premium bay kit gives 6 SAS/SATA + 2 NVMe, or 8 SAS/SATA, per box.',
        'Fans are not tied to CPU wattage on this generation — only to NVMe, GPUs, rear drives and dense bay counts. The performance heatsink alone covers cooling up to its rated TDP.']}},
  {m:'DL385',g:'G10', p:['naples','rome'], s:2, d:32, bays:['8SFF','16SFF','24SFF','12LFF'],
@@ -2241,6 +2261,13 @@ function ctrlGroups(){
 /* filters CTRLS down to what the model's generation actually offers,
    dropping any group whose every item got filtered out (an empty "—
    Type-a —" header with nothing under it would otherwise still render). */
+/* A model-specific `ctrl:[...]` list (real HPE part numbers, e.g.
+   "P408i-a (804331-B21)") replaces the generic name-only CTRLS panel
+   for that model, same override pattern as `psu:[...]`. Every generation/
+   cache-type lookup below keys off just the leading code — ctrlCode()
+   strips the " (PN)"/" — variant" suffix so those lookups keep working
+   unchanged against a rich display string. */
+function ctrlCode(v){return v?v.split(' ')[0]:v;}
 function ctrlsFor(m){
   if(!m||m.g==='G12')return CTRLS;
   var out=[];
@@ -2895,28 +2922,27 @@ var RISERS={
  ],
  'DL380 G10':[
   {n:'Default Primary riser',d:'Slots 1-3 · x8/x16/x8 · dual M.2 · ships standard · all full-height',s:3,fh:3,lp:0,pos:'primary',def:true},
-  {n:'Primary Riser Removal FIO (875293-B21)',d:'removes the shipping primary riser',s:0,pos:'primary'},
-  {n:'Slot 1/2 x16/x16 FIO Riser',d:'Slots 1-2 primary · 1 double-wide GPU · replaces default primary',s:2,fh:2,lp:0,pos:'primary'},
-  {n:'x16/x16 GPU Slot 2/3 FIO Riser',d:'Slots 2-3 primary · 1 double-wide GPU · replaces default primary',s:2,fh:2,lp:0,pos:'primary'},
-  {n:'x16/x16/x16 Primary GPU FIO Riser',d:'Slots 1-2-3 primary · up to 3 FH-HL single-width GPUs (FIO)',s:3,fh:3,lp:0,pos:'primary'},
+  {n:'Primary Riser Removal FIO Option (873766-B21)',d:'removes the shipping primary riser · corrected 2026-09-17, the previous PN (875293-B21) was actually "Smart Memory Fast Fault Tolerance FIO Setting," an unrelated memory RAS option',s:0,pos:'primary'},
+  {n:'Slot 1/2 x16/x16 FIO Riser Kit (871674-B21)',d:'Slots 1-2 primary · 1 double-wide GPU · replaces default primary',s:2,fh:2,lp:0,pos:'primary'},
+  {n:'x16/x16 GPU Slot2/3 FIO Riser Kit (871676-B21)',d:'Slots 2-3 primary · 1 double-wide GPU · replaces default primary',s:2,fh:2,lp:0,pos:'primary'},
+  {n:'x16/x16/x16 Primary GPU FIO Riser Kit (P14374-B21)',d:'Slots 1-2-3 primary · up to 3 FH-HL single-width GPUs (FIO) · the matching x16/x16/x16 Secondary GPU FIO Riser Kit (P14373-B21) must ALSO be selected, all 6 slots populated — not independent picks',s:3,fh:3,lp:0,pos:'primary'},
   {n:'4-port 8 NVMe Primary SlimSAS FIO Riser (867807-B21)',d:'8 NVMe in primary · no add-in-card slots',s:0,pos:'primary'},
-  {n:'Secondary Riser Kit (870548-B21)',d:'Slots 4-6 · x8/x16/x8 · full-height · requires CPU 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
-  {n:'x16/x16 Secondary Riser Kit',d:'Slots 4-5 · 1 double-wide GPU · requires CPU 2',s:2,fh:2,lp:0,pos:'secondary',cpu2:true},
-  {n:'x8/x16/x8 Secondary Riser Kit',d:'Slots 4-6 · no M.2 · full-height · requires CPU 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
-  {n:'x16/x16 GPU Secondary Riser Kit',d:'Slots 5-6 · 1 double-wide GPU · requires CPU 2',s:2,fh:2,lp:0,pos:'secondary',cpu2:true},
-  {n:'x16/x16/x16 Secondary GPU FIO Riser (826694-B21)',d:'Slots 4-6 · up to 3 GPUs (FIO) · requires CPU 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
-  {n:'x8/x8/x8 1-port 2 NVMe SlimSAS Riser (871673-B21)',d:'secondary slots + 2 NVMe · requires CPU 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
-  {n:'4-port 8 NVMe Secondary SlimSAS Riser',d:'8 NVMe in secondary · no card slots · requires CPU 2',s:0,pos:'secondary',cpu2:true},
+  {n:'x8/x16/x8 Secondary Riser Kit (870548-B21)',d:'Slots 4-6 · no M.2 · full-height · requires CPU 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'x16/x16 Riser Kit (826694-B21)',d:'Slots 4-5 secondary · 1 double-wide GPU · requires CPU 2',s:2,fh:2,lp:0,pos:'secondary',cpu2:true},
+  {n:'x16/x16 GPU Riser Kit (826704-B21)',d:'Slots 5-6 secondary · 1 double-wide GPU · requires CPU 2 · shared HPE "DL Gen10" part, not DL38X-specific',s:2,fh:2,lp:0,pos:'secondary',cpu2:true},
+  {n:'x16/x16/x16 Secondary GPU FIO Riser Kit (P14373-B21)',d:'Slots 4-6 · up to 3 GPUs (FIO) · requires CPU 2 · corrected 2026-09-17, was wrongly 826694-B21 (that PN is actually the plain 2-slot "x16/x16 Riser Kit" above) · must be ordered together with the matching Primary GPU FIO Riser Kit (P14374-B21)',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'x8/x8/x8 1-port 2 NVMe SlimSAS FIO Riser Kit (871673-B21)',d:'secondary slots + 2 NVMe · requires CPU 2 · factory-integrated only (FIO)',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'x8/x8/x8 1-port 2 NVMe SlimSAS Riser (867806-B21)',d:'same slot/NVMe config as the FIO kit above · field-installable, not factory-only · requires CPU 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'4-port 8 NVMe Secondary SlimSAS Riser (873732-B21)',d:'8 NVMe in secondary · no card slots · requires CPU 2',s:0,pos:'secondary',cpu2:true},
   {n:'Tertiary Riser Kit, 2x8 (875780-B21)',d:'Slots 7-8 · full-height · requires CPU 2',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true},
-  {n:'2-port 4 NVMe SlimSAS Tertiary Riser',d:'4 NVMe in tertiary · no card slots · requires CPU 2',s:0,pos:'tertiary',cpu2:true},
+  {n:'2-port 4 NVMe SlimSAS Riser (867808-B21)',d:'4 NVMe in tertiary · no card slots · requires CPU 2',s:0,pos:'tertiary',cpu2:true},
   {n:'2SFF HDD SAS/SATA Riser Kit (826688-B21)',d:'rear 2SFF cage in a primary or secondary riser bay',s:0,pos:'any'}
  ],
  'DL360 G10':[
   {n:'Primary riser (ships standard)',d:'1x x16 full-height + 1x x8 low-profile · CPU 1',s:2,fh:1,lp:1,pos:'primary',def:true},
   {n:'SATA M.2 2280 Primary Riser Kit (867978-B21)',d:'2x SATA M.2 + 2x x16 (1 FH + 1 LP) · replaces primary',s:2,fh:1,lp:1,pos:'primary'},
-  {n:'8SFF NVMe Primary Riser',d:'2x 4-NVMe + one low-profile x8 · 8SFF only',s:1,fh:0,lp:1,pos:'primary'},
   {n:'Low Profile Secondary Riser Kit (867982-B21)',d:'1 low-profile slot · requires CPU 2',s:1,fh:0,lp:1,pos:'secondary',cpu2:true},
-  {n:'2P Full Height Riser & GPU Enablement Kit (867980-B21)',d:'FH x16 secondary · requires CPU 2 · disables primary slot 2 (max 2 FH slots)',s:0,pos:'secondary',cpu2:true},
+  {n:'2P Full Height GPU Enablement v2 Kit (P23271-B21)',d:'FH x16 secondary · requires CPU 2 · disables primary slot 2 (max 2 FH slots) · replaces the obsolete 867980-B21 (superseded, confirmed 2026-09-17)',s:0,pos:'secondary',cpu2:true},
   {n:'Rear +1SFF / +1 dual uFF (2x M.2)',d:'consumes one PCIe slot',s:-1,pos:'any'},
   {n:'10 NVMe / 10SFF chassis',d:'direct-attached NVMe — no secondary riser available',s:0,pos:'primary'}
  ],
@@ -3365,7 +3391,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.10'; // 10th build shipped today
+var BUILD_VERSION='2026.09.17.11'; // 11th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -3723,11 +3749,11 @@ document.getElementById('mem-suggestions').addEventListener('click',function(e){
 });
 
 attachList(document.getElementById('dimm'),function(){return dimmsFor(currentModel());});
-attachList(document.getElementById('ctrl'),function(){return ctrlsFor(currentModel());});
+attachList(document.getElementById('ctrl'),function(){var m=currentModel(),R=rulesFor(m);return (R&&R.ctrl)||ctrlsFor(m);});
 attachList(document.getElementById('bat'),function(){return BATS;});
 attachList(document.getElementById('flr'),function(){return flrCardsFor(currentModel());});
 attachList(document.getElementById('expander'),function(){return expandersFor(currentModel());});
-attachList(document.getElementById('psu'),function(){return PSUS;});
+attachList(document.getElementById('psu'),function(){var m=currentModel(),R=rulesFor(m);return (R&&R.psu)||PSUS;});
 attachList(document.getElementById('plan-raid'),function(){return RAID_LEVELS;});
 stepper(document.getElementById('dimmq'),{min:1});
 stepper(document.getElementById('psuq'),{min:1});
@@ -4484,12 +4510,12 @@ function evaluate(){
 
   /* battery suggestion — a hint, not an auto-fill or a block: some traders
      deliberately ship a cached controller without one. */
-  var ctrlV=v('ctrl'),batV=v('bat'),batNote=document.getElementById('bat-note');
+  var ctrlV=v('ctrl'),ctrlC=ctrlCode(ctrlV),batV=v('bat'),batNote=document.getElementById('bat-note');
   batNote.className='cap-note';batNote.textContent='';
-  if(ctrlV&&CACHED_CTRLS[ctrlV]&&!batV){
+  if(ctrlV&&CACHED_CTRLS[ctrlC]&&!batV){
     batNote.className='cap-note suggest';
     batNote.textContent='Suggested: 96W battery — '+ctrlV+' has a write-back cache that normally needs one.';
-  }else if(ctrlV&&NOCACHE_CTRLS[ctrlV]&&batV&&batV.toLowerCase().indexOf('no battery')<0){
+  }else if(ctrlV&&NOCACHE_CTRLS[ctrlC]&&batV&&batV.toLowerCase().indexOf('no battery')<0){
     batNote.className='cap-note suggest';
     batNote.textContent=ctrlV+' has no cache — a battery is not normally needed here. Confirm with the client if one was requested anyway.';
   }
@@ -4506,9 +4532,9 @@ function evaluate(){
      free-type field. G12 is mostly exempt (see the CTRL_GENS comment)
      except for the six MR-series names now confirmed for it, which are
      checked exactly like every other generation. */
-  if(m&&ctrlV&&m.g!=='G12'&&CTRL_GENS[ctrlV]&&CTRL_GENS[ctrlV].indexOf(m.g)<0)
-    checks.push(['stop','CONTROLLER GENERATION',ctrlV+' is only offered for '+CTRL_GENS[ctrlV].join('/')+' — it does not work in '+m.m+' '+m.g+'.']);
-  if(m&&ctrlV&&m.g==='G12'&&(CTRL_GENS[ctrlV]||[]).indexOf('G12')<0)
+  if(m&&ctrlV&&m.g!=='G12'&&CTRL_GENS[ctrlC]&&CTRL_GENS[ctrlC].indexOf(m.g)<0)
+    checks.push(['stop','CONTROLLER GENERATION',ctrlV+' is only offered for '+CTRL_GENS[ctrlC].join('/')+' — it does not work in '+m.m+' '+m.g+'.']);
+  if(m&&ctrlV&&m.g==='G12'&&(CTRL_GENS[ctrlC]||[]).indexOf('G12')<0)
     checks.push(['verify','CONTROLLER GENERATION','Storage controller generation compatibility for Gen12 (Xeon 6) hasn\'t been fully sourced from QuickSpecs yet — confirm '+ctrlV+' actually works with '+m.m+' '+m.g+' before quoting.']);
 
   /* expander-vs-chassis hard check — same idea as CONTROLLER GENERATION
@@ -4540,7 +4566,7 @@ function evaluate(){
   var expNote=document.getElementById('expander-note');
   expNote.className='cap-note';expNote.textContent='';
   if(m&&capBays&&!hasNVMe&&!noDrives&&!v('expander')){
-    var ports=CTRL_PORTS[ctrlV];
+    var ports=CTRL_PORTS[ctrlC];
     if(ports!=null&&capBays>ports){
       var expPart=EXPANDER_PARTS[m.m+' '+m.g];
       expNote.className='cap-note suggest';

@@ -401,7 +401,7 @@ setTimeout(()=>{
   txt=d.getElementById('checks').textContent;
   (txt.includes('TOO MANY CARDS')&&/from the risers fitted/.test(d.getElementById('riser-slot-note').textContent))
     ?pass3('4 cards vs a 3-slot primary riser -> blocked, slot count is from the riser'):fail3('card/riser slot check wrong: '+d.getElementById('riser-slot-note').textContent);
-  addRiser('Secondary Riser Kit (870548-B21)'); // +3 slots, needs CPU 2
+  addRiser('x8/x16/x8 Secondary Riser Kit (870548-B21)'); // +3 slots, needs CPU 2
   txt=d.getElementById('checks').textContent;
   /needs the 2nd processor/.test(txt)?pass3('secondary riser flagged with 1 CPU'):fail3('CPU2 riser gate silent');
   d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
@@ -1606,11 +1606,15 @@ function runRound7(){
 
   // --- the actual bug report: controllers are now filtered by generation,
   // not shown as one flat list for every model (2026-09-14, CTRL_GENS) ---
+  // 2026-09-17: DL380 G10 got a real cpuAllow-style `ctrl:[...]` override
+  // with sourced HPE part numbers, so its combo now shows rich strings
+  // ("P408i-a (804331-B21)") instead of the bare generic names — updated
+  // to check the substring, not an exact match.
   setModel7('DL380 G10');
   ctrl.dispatchEvent(new w.Event('focus'));
   let ctrlOpts=[...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);
-  (!ctrlOpts.includes('MR416i-o') && !ctrlOpts.includes('MR216i-p') && !ctrlOpts.includes('MR416i-p') && !ctrlOpts.includes('SR932i-p') && ctrlOpts.includes('P408i-a'))
-    ?pass7('DL380 G10: no OCP-mezz or MR-p/SR932i-p cards offered (Gen10 Plus+ only) — P408i-a still is')
+  (!ctrlOpts.some(o=>/^MR416i-o|^MR216i-p|^MR416i-p|^SR932i-p/.test(o)) && ctrlOpts.some(o=>/^P408i-a \(804331-B21\)/.test(o)))
+    ?pass7('DL380 G10: no OCP-mezz or MR-p/SR932i-p cards offered (Gen10 Plus+ only) — real P408i-a part number now shown')
     :fail7('DL380 G10 controller list wrong: '+ctrlOpts.join(', '));
   setModel7('DL380 G10+');
   ctrl.dispatchEvent(new w.Event('focus'));
@@ -2914,4 +2918,103 @@ function runRound13(){
   !d.getElementById('badge-v').classList.contains('on')
     ?pass13('DL110 G12: correctly stays unverified — genuine unsourced PSU/riser gaps remain')
     :fail13('DL110 G12 badge should not be verified yet');
+  runRound14();   // chained — round 13 has no nested timers of its own
+}
+
+// ---- round 14: user-reported 2026-09-17 — start of a part-number
+// verification project ("no guessing, 100% verified") beginning with
+// G10 DL360/DL380. Found a real dead-code bug along the way: the
+// per-model psu:[...] override existed on 5 models already but was
+// never wired to the picker at all (a stale comment even documented
+// this as deliberate). Re-wired it, built the same override mechanism
+// for storage controllers (ctrl:[...], new), and populated real
+// sourced HPE part numbers for DL360/DL380 G10 PSU + controllers.
+// Also found and fixed 3 confirmed WRONG part numbers already sitting
+// in DL360/DL380 G10's riser data (867980-B21, 875293-B21, 826694-B21
+// misapplied) plus several genuinely missing ones. ----
+function runRound14(){
+  function pass14(m){console.log('ok    '+m);}
+  function fail14(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi14=d.getElementById('model-input');
+  function setModel14(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi14.value='';fire(mi14,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
+    if(!opt)return fail14('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function psuOpts14(){const psu=d.getElementById('psu');psu.value='';fire(psu,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(el=>el.textContent);}
+  function ctrlOpts14(){const ctrl=d.getElementById('ctrl');ctrl.value='';fire(ctrl,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(el=>el.textContent);}
+
+  // --- the psu:[] dead-data bug: 5 models had real part numbers seeded
+  // in their rules that never reached the picker at all ---
+  setModel14('ML350 G10');
+  let opts14=psuOpts14();
+  (opts14.length===7 && opts14.some(o=>/865408-B21/.test(o)) && opts14.some(o=>/874571-B21/.test(o)))
+    ?pass14('ML350 G10: psu:[] override now actually drives the picker (was dead data — 7 real part numbers)')
+    :fail14('ML350 G10 psu panel wrong: '+opts14.join(' | '));
+  setModel14('DL325 G10'); // a model with NO psu:[] override — must still fall back cleanly to plain PSUS
+  opts14=psuOpts14();
+  (opts14.length>0 && opts14.every(o=>/^\d+W$/.test(o)))
+    ?pass14('DL325 G10 (no psu:[] override): still falls back to the plain generic PSUS wattage list')
+    :fail14('DL325 G10 psu panel should be plain wattages: '+opts14.join(' | '));
+
+  // --- DL360/DL380 G10: real PSU + storage-controller part numbers,
+  // sourced 2026-09-17 directly from the already-cached QuickSpecs ---
+  setModel14('DL360 G10');
+  opts14=psuOpts14();
+  (opts14.length===6 && opts14.some(o=>/865408-B21/.test(o)) && !opts14.some(o=>/P44712-B21|P17023-B21/.test(o)))
+    ?pass14('DL360 G10: real 6-option PSU list, no 1600W-48VDC/1800-2200W (those are DL380-only, confirmed absent)')
+    :fail14('DL360 G10 psu panel wrong: '+opts14.join(' | '));
+  opts14=ctrlOpts14();
+  (opts14.length===10 && opts14.some(o=>/^P408i-a \(804331-B21\)/.test(o)) && opts14.some(o=>/^P408i-a LH.*869081-B21/.test(o)) && !opts14.some(o=>/^P824i-p|^SR932i-p|^MR/.test(o)))
+    ?pass14('DL360 G10: real controller list incl. LH (low-profile heatsink) GPU variants, no P824i-p/MR-series')
+    :fail14('DL360 G10 ctrl panel wrong: '+opts14.join(' | '));
+  setModel14('DL380 G10');
+  opts14=psuOpts14();
+  (opts14.length===8 && opts14.some(o=>/P44712-B21/.test(o)) && opts14.some(o=>/P17023-B21/.test(o)))
+    ?pass14('DL380 G10: real 8-option PSU list, incl. the 2 higher-tier options DL360 G10 doesn\'t offer')
+    :fail14('DL380 G10 psu panel wrong: '+opts14.join(' | '));
+  opts14=ctrlOpts14();
+  (opts14.length===8 && !opts14.some(o=>/LH/.test(o)) && opts14.some(o=>/^P824i-p/.test(o)))
+    ?pass14('DL380 G10: real controller list, no LH variants (more chassis clearance), P824i-p flagged as confirmed-but-unsourced-PN rather than guessed')
+    :fail14('DL380 G10 ctrl panel wrong: '+opts14.join(' | '));
+
+  // --- ctrlCode() correctly extracts the leading code from a rich
+  // "CODE (part number)" string, so the pre-existing CACHED_CTRLS/
+  // NOCACHE_CTRLS/CTRL_GENS lookups keep working unchanged ---
+  const ctrl14=d.getElementById('ctrl');
+  ctrl14.value='P408i-a (804331-B21)';fire(ctrl14,'input');
+  d.getElementById('bat-note').textContent.includes('write-back cache')
+    ?pass14('ctrlCode(): battery suggestion still fires correctly for a rich "CODE (PN)" string')
+    :fail14('ctrlCode() battery suggestion broken: '+d.getElementById('bat-note').textContent);
+  setModel14('DL360 G10');
+  ctrl14.value='MR416i-o (a future PN)';fire(ctrl14,'input');
+  d.getElementById('checks').textContent.includes('CONTROLLER GENERATION')
+    ?pass14('ctrlCode(): CONTROLLER GENERATION hard-stop still fires for a rich out-of-generation string')
+    :fail14('ctrlCode() generation check broken: '+d.getElementById('checks').textContent.slice(0,200));
+  ctrl14.value='';fire(ctrl14,'input');
+
+  // --- 3 confirmed WRONG part numbers found already sitting in the
+  // riser data, fixed; plus several genuinely missing ones filled in ---
+  setModel14('DL360 G10');
+  const riserPanel14=d.getElementById('add-riser');
+  function riserOpts14(){d.getElementById('risers').innerHTML='';riserPanel14.click();const ri=d.querySelector('#risers [data-k=name]');ri.dispatchEvent(new w.Event('focus'));return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(el=>el.textContent);}
+  let ropts14=riserOpts14();
+  (ropts14.some(o=>/P23271-B21/.test(o)) && !ropts14.some(o=>/867980-B21/.test(o)) && !ropts14.some(o=>/8SFF NVMe Primary Riser/.test(o)))
+    ?pass14('DL360 G10: obsolete riser PN 867980-B21 corrected to P23271-B21; the wrong/borrowed "8SFF NVMe" line removed')
+    :fail14('DL360 G10 riser panel wrong: '+ropts14.join(' | '));
+  setModel14('DL380 G10');
+  ropts14=riserOpts14();
+  (ropts14.some(o=>/873766-B21/.test(o)) && !ropts14.some(o=>/875293-B21/.test(o)))
+    ?pass14('DL380 G10: Primary Riser Removal PN corrected (was 875293-B21, actually an unrelated memory RAS setting)')
+    :fail14('DL380 G10 riser removal PN not fixed: '+ropts14.join(' | '));
+  (ropts14.some(o=>/x16\/x16\/x16 Secondary GPU FIO Riser Kit \(P14373-B21\)/.test(o)) && ropts14.some(o=>/x16\/x16 Riser Kit \(826694-B21\)/.test(o)))
+    ?pass14('DL380 G10: Secondary 3x16 GPU kit PN corrected to P14373-B21 (was wrongly 826694-B21, which is really the plain 2-slot kit)')
+    :fail14('DL380 G10 secondary GPU riser PN not fixed: '+ropts14.join(' | '));
+  (['826704-B21','873732-B21','867808-B21','867806-B21'].every(pn=>ropts14.some(o=>o.indexOf(pn)>-1)))
+    ?pass14('DL380 G10: 4 genuinely missing riser part numbers filled in (826704/873732/867808/867806-B21)')
+    :fail14('DL380 G10 still missing riser PNs: '+ropts14.join(' | '));
+  d.getElementById('risers').innerHTML='';
 }

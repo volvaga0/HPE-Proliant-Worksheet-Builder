@@ -1995,6 +1995,80 @@ bugs, both fixed:
    Note corrected to describe the real gap accurately; the exclusion
    itself is still open.
 
+**2026-09-17, new axis started: real HPE part-number verification, "no
+guessing, 100% verified" — this feeds real purchasing decisions.** User's
+plan: one generation at a time (G10 → G10+ → G11), starting with
+`DL360`/`DL380 G10` (the models actually traded most). Since both
+already have cached QuickSpecs, did this pass directly rather than
+spawning a research agent — faster and more reliable than a fresh
+web search when the primary source is already on disk. Agents are the
+plan for later models without a cached doc.
+
+**Found a real dead-code bug before adding anything new**: a
+per-model `psu:[...]` override (real kit names + part numbers) already
+existed on 5 models (`ML150 G9`, `DL20 G9`, `ML110`/`ML350 G10`, `ML30
+G10+`) but was NEVER wired to the picker — a stale schema comment
+explicitly documented this as a deliberate simplification ("PSU picker
+now shows plain wattages, not per-model kit strings"). Re-wired it
+(`attachList` now checks `R.psu` first, falls back to the generic
+`PSUS` wattage list) since the user's current ask supersedes that
+earlier decision. This alone made 5 models' real PSU data visible for
+the first time.
+
+**Built the same override mechanism for storage controllers**
+(`ctrl:[...]`, brand new — `CTRLS` previously had zero real HPE part
+numbers anywhere, just family names like `P408i-a`). Every existing
+generation/cache-type lookup (`CTRL_GENS`/`CACHED_CTRLS`/
+`NOCACHE_CTRLS`/`CTRL_PORTS`) keyed off the controller value as an
+exact match, which would have broken the moment a rich "P408i-a
+(804331-B21)" string replaced the bare name — added `ctrlCode()` to
+extract just the leading token, so those lookups keep working
+unchanged.
+
+**DL360/DL380 G10 real data added:**
+- PSU: 6 real SKUs for `DL360` (500W/800W×4/1600W Platinum), 8 for
+  `DL380` (same 6 + 1600W -48VDC + 1800-2200W Titanium, confirmed
+  `DL360` doesn't offer either of those two).
+- Storage controllers: `P816i-a`/`P408i-a`/`E208i-a`/`P408i-p`/
+  `P408e-p`/`E208i-p`/`E208e-p` for both. `DL360` additionally has
+  "LH" (low-height, low-profile-heatsink) variants of the 3 embedded
+  cards for GPU builds — confirmed absent on `DL380` (more chassis
+  clearance). `P824i-p` confirmed to exist for `DL380` (its own Cable
+  Kit line names "DL38X/560/580/ML350," not `DL360`) but the
+  controller's own part number never appears anywhere in the doc —
+  flagged as confirmed-but-unsourced rather than guessed.
+
+**Found 3 confirmed WRONG part numbers already sitting in the riser
+data** (from an earlier, less rigorous pass) — exactly the risk the
+user is worried about:
+- `DL360 G10`'s "2P Full Height Riser & GPU Enablement Kit" used
+  `867980-B21`, which the doc says is OBSOLETE — superseded by
+  `P23271-B21` ("v2... replaces 867980-B21").
+- `DL380 G10`'s "Primary Riser Removal FIO" used `875293-B21`, which
+  is actually "Smart Memory Fast Fault Tolerance FIO Setting" — a
+  completely unrelated memory RAS option. Real PN is `873766-B21`.
+- `DL380 G10`'s "x16/x16/x16 Secondary GPU FIO Riser" used
+  `826694-B21` — that's actually the PN for a different, plainer
+  2-slot "x16/x16 Riser Kit." Real PN is `P14373-B21`.
+Also removed a wrong/borrowed riser line on `DL360 G10` ("8SFF NVMe
+Primary Riser") that doesn't match anything in its own doc — the "8
+NVMe SlimSAS" concept it described is `DL380`-only, confirmed absent
+from `DL360`'s doc entirely. Filled in 4 genuinely missing `DL380 G10`
+riser part numbers (`826704`/`873732`/`867808`/`867806-B21`), removed
+a duplicate riser line, and noted a real mandatory-pairing constraint
+(the Primary and Secondary 3x16 GPU FIO kits must be ordered together).
+
+Also fixed: `DL320`/`DL340`/`DL360`/`DL380 G12` were showing
+"unverified" despite having sourced DIMM/socket/bays/pcie/riserMax/
+cpuAllow data all traced to their own cached QuickSpecs — `verified:
+true` was simply never set, an oversight from the original pass, not
+a real gap. `DL110 G12` correctly stays unverified.
+
+13 new regression tests (round 14), 473/473 passing. Verified live in
+the browser: PSU/controller pickers now show the real data, and the
+`ctrlCode()` fix keeps the battery-suggestion and generation-mismatch
+checks working with the new rich strings.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are
