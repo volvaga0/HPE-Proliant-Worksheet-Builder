@@ -1369,7 +1369,7 @@ var MODELS=[
      'Also confirmed: up to 2 Half-Height Half-Length GPUs or up to 2 100W in-line accelerators are supported despite the compact 1U/1P edge form factor.',
      'Still genuinely unsourced (this Data Sheet doesn\'t cover it, and the full QuickSpecs still won\'t load from any mirror tried): PSU bay count/redundancy (only the PSU TYPE is confirmed — "HPE M-CRPS 1300W Hot Plug AC" or "1000W M-CRPS -48VDC") and riser/PCIe-slot topology. Confirm both against HPE QuickSpecs before quoting a specific build; `verified` stays unset for this model pending them.']}},
  {m:'DL320', g:'G12', p:['xeon6'], s:1, d:16, bays:['8SFF','10SFF','4LFF','12LFF'],
-   rules:{hsW:185,hsWtext:'above 185W',fans:{one:7,perf:7},psuMax:1,riserMax:2,pcie:{one:2},rear:[],
+   rules:{verified:true,hsW:185,hsWtext:'above 185W',fans:{one:7,perf:7},psuMax:1,riserMax:2,pcie:{one:2},rear:[],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6511P','6515P','6517P','6520P','6521P','6527P','6530P','6730P','6731P','6736P','6737P','6740P','6741P','6747P','6760P','6761P','6767P','6781P','6787P'],
      notes:['CPU pool restricted (cpuAllow, sourced 2026-09-17 from this model\'s own doc): all 7 E-core SKUs, plus 21 P-core SKUs — every Mainline/Performance P-core code EXCEPT `6745P` (confirmed absent), PLUS the single-socket-only "1P" variants (`6511P`/`6521P`/`6731P`/`6741P`/`6761P`/`6781P`, not previously seeded at all — added). No Socket Scalable (4S/8S) SKUs — confirmed absent, matches the single-socket board.',
        'No rear or mid-tray drive cage found (2026-09-15, device.report mirror, a50004283enw V1).',
@@ -1379,7 +1379,7 @@ var MODELS=[
        'Single power supply bay — no redundant PSU option on this chassis.',
        'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage is Tri-Mode-only — every 8SFF backplane kit found is either Tri-Mode U.3 (x1 L-Shaped P75084-B21) or pure NVMe U.2/U.3 (P71421/P75085-B21); no plain non-Tri-Mode SAS/SATA-only 8SFF cage was found, same pattern as most Gen11 rack models. No LFF-specific backplane kit was found either — the 4LFF/12LFF cages appear to be the base included SAS/SATA cage with no extra kit needed, matching the generic LFF rule.']}},
  {m:'DL340', g:'G12', p:['xeon6'], s:2, d:16, bays:['8SFF','12LFF'],
-   rules:{hsW:250,hsWtext:'above 250W on an 8SFF (≤2 cages) config',fans:{one:6,two:6,perf:6},psuMax:2,riserMax:2,pcie:{one:1,two:2},rear:[],
+   rules:{verified:true,hsW:250,hsWtext:'above 250W on an 8SFF (≤2 cages) config',fans:{one:6,two:6,perf:6},psuMax:2,riserMax:2,pcie:{one:1,two:2},rear:[],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6511P','6515P','6517P','6520P','6521P','6527P','6530P','6730P','6731P','6736P','6737P','6740P','6741P','6745P','6747P','6760P','6761P','6767P','6781P','6787P'],
      notes:['CPU pool restricted (cpuAllow, sourced 2026-09-17 from this model\'s own doc): same 28-SKU pool as DL320 G12 (all 7 E-core, all single-socket-only "1P" variants) PLUS `6745P`, which DL320\'s own doc doesn\'t list — a real difference between the two single-socket-capable G12 entry chassis. Still no Socket Scalable (4S/8S) SKUs.',
        'No rear or mid-tray drive cage — the only "rear" option is a PCIe Rear Captive Riser Kit (cards, not drives) (2026-09-15, harddrivesdirect.com mirror, a50004261enw V5).',
@@ -1388,7 +1388,7 @@ var MODELS=[
        'Also offers a 36-EDSFF front cage and a front-GPU CTO variant — neither is in the bay list above.',
        'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage is Tri-Mode-only (x1 P75740-B21 or x4 P75741-B21) or pure NVMe U.2 (P71465-B21) — no plain non-Tri-Mode SAS/SATA-only 8SFF cage found. The LFF side (12LFF = 3x 4LFF cages, same pattern as DL325 G11) uses a plain "4LFF Backplane Kit" (P75760-B21, no NVMe/Tri-Mode designation) per cage, matching the generic LFF rule.']}},
  {m:'DL360', g:'G12', p:['xeon6'], s:2, d:32, bays:['4LFF','10SFF'],
-   rules:{hsW:185,hsWtext:'above 185W',fans:{one:5,two:7,perf:7},psuMax:2,riserMax:2,pcie:{one:2,two:3},
+   rules:{verified:true,hsW:185,hsWtext:'above 185W',fans:{one:5,two:7,perf:7},psuMax:2,riserMax:2,pcie:{one:2,two:3},
      rear:['2x M.2 (dual uFF) rear'],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6730P','6736P','6737P','6740P','6747P','6760P','6767P','6787P'],
      notes:['CPU pool restricted (cpuAllow, sourced 2026-09-17 from this model\'s own doc): all 7 E-core SKUs plus the 15 "standard" Mainline/Performance P-core codes — no single-socket-only "1P" variants, no `6745P`, no Socket Scalable (4S/8S) SKUs. A genuinely narrower pool than DL320/DL340 G12, despite this chassis being 2-socket-only (the 1P-variant SKUs are apparently only sold against the single-socket-capable DL320/DL340 boards).',
@@ -1397,7 +1397,7 @@ var MODELS=[
        'Above 270W (2P) needs Closed-loop liquid cooling instead of an air-cooled heat sink; up to 350W is DLC-only. Confirm the exact tier for high-wattage picks.',
        'Backplane cross-reference (2026-09-16, same doc): "10SFF" (its own Chassis Types entry, really 8SFF+2SFF) is Tri-Mode/NVMe-mixed by default, same "Tri-Mode-only SFF" pattern as most Gen11+ models — no plain non-Tri-Mode SAS/SATA-only SFF cage found. Genuinely ambiguous finding, NOT acted on: the doc\'s own Chassis Types table names the "4 LFF Low Profile" bay itself "12G x1 TriMode U.3," but no LFF NVMe drive SKU is sold anywhere in the same doc, and a separate fan-config table lists "4LFF" as its own column distinct from the "10SFF NVMe"/"8SFF NVMe" columns — reads as the backplane being wired for a Tri-Mode CONTROLLER (which also runs plain SAS/SATA fine), not real NVMe-capable LFF bays, consistent with the same ambiguity already flagged on DL320 G11/DL345 G10+/DL380 G10. The generic LFF hard-block stays in place.']}},
  {m:'DL380', g:'G12', p:['xeon6'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{hsW:185,hsWtext:'above 185W',fans:{one:4,two:4,perf:6},psuMax:2,riserMax:3,pcie:{one:3,two:8},
+   rules:{verified:true,hsW:185,hsWtext:'above 185W',fans:{one:4,two:4,perf:6},psuMax:2,riserMax:3,pcie:{one:3,two:8},
      rear:['2SFF rear','4LFF rear','6SFF rear','4LFF midtray'],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6714P','6724P','6728P','6730P','6736P','6737P','6738P','6740P','6745P','6747P','6748P','6760P','6767P','6768P','6787P','6788P'],
      notes:['CPU pool restricted (cpuAllow, sourced 2026-09-17 from this model\'s own doc): all 7 E-core SKUs, the same 15 "standard" P-core codes as DL360 G12, PLUS `6745P`, PLUS all 7 Socket Scalable (4S/8S) SKUs — genuinely surprising but confirmed directly against this model\'s own Core Options list (same part numbers, e.g. `6748P`/P74579-B21, as DL580 G12\'s Socket-Scalable-only pool). No single-socket-only "1P" variants (those are DL320/DL340-only). This is the widest CPU pool of any G12 model.',
@@ -3365,7 +3365,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.9'; // 9th build shipped today
+var BUILD_VERSION='2026.09.17.10'; // 10th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

@@ -2896,4 +2896,22 @@ function runRound13(){
     ?pass13('DL580 G12: an E-core SKU (6710E) typed directly in is flagged, not silently accepted')
     :fail13('DL580 G12 cpuAllow typed-value check not caught: '+d.getElementById('checks').textContent.slice(0,220));
   d.getElementById('cpu').value='';fire(d.getElementById('cpu'),'input');
+
+  // --- user-reported 2026-09-17: G12 rack models showed the "unverified"
+  // badge despite this session's own sourced bays/pcie/riserMax/cpuAllow
+  // work, all traced to each model's own cached QuickSpecs. Root cause:
+  // verified:true was simply never set for 4 of the 8 G12 models
+  // (DL380a/DL580/ML350 had it, DL320/DL340/DL360/DL380 didn't) — an
+  // oversight from the original pass, not a real data gap. DL110 G12
+  // correctly stays unverified (genuine unsourced PSU/riser gaps). ---
+  ['DL320 G12','DL340 G12','DL360 G12','DL380 G12'].forEach(function(model){
+    setModel13(model);
+    d.getElementById('badge-v').classList.contains('on')
+      ?pass13(model+': verified badge now on (DIMM/socket counts were already confirmed against its own QuickSpecs, just never flagged)')
+      :fail13(model+' badge still not verified');
+  });
+  setModel13('DL110 G12');
+  !d.getElementById('badge-v').classList.contains('on')
+    ?pass13('DL110 G12: correctly stays unverified — genuine unsourced PSU/riser gaps remain')
+    :fail13('DL110 G12 badge should not be verified yet');
 }
