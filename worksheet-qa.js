@@ -2808,4 +2808,92 @@ function runRound12(){
     :fail12('DL180 G9 riser panel wrong: '+opts12.join(' | '));
 
   d.getElementById('risers').innerHTML='';
+  runRound13();   // chained — round 12 has no nested timers of its own
+}
+
+// ---- round 13: user-reported 2026-09-17 — the Gen11 CPU picker listed
+// tiers out of Bronze/Silver/Gold/Platinum order (a Bronze SKU added
+// later had been misfiled after Gold), and the Gen12 (Xeon 6) CPU pool
+// didn't separate E-core/P-core/Socket-Scalable per model at all — every
+// G12 model shared one flat 31-SKU list with no cpuAllow enforcement,
+// despite 2 of them (DL110/DL580) already having notes admitting a much
+// narrower real pool. Fixed both; this round guards them. ----
+function runRound13(){
+  function pass13(m){console.log('ok    '+m);}
+  function fail13(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi13=d.getElementById('model-input'), ci13=d.getElementById('cpu-input');
+  function setModel13(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi13.value='';fire(mi13,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
+    if(!opt)return fail13('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function cpuCodes13(){ci13.value='';fire(ci13,'input');return [...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(el=>el.textContent);}
+
+  // --- Bronze/Silver/Gold/Platinum ordering (sp4/sp5, Gen11) ---
+  setModel13('DL380 G11');
+  let codes13=cpuCodes13();
+  let b13=codes13.indexOf('B3408U'), s13=codes13.indexOf('S4410Y'), g13=codes13.indexOf('G5411N'), p13=codes13.indexOf('P8444H');
+  (b13>=0 && b13<s13 && s13<g13 && g13<p13)
+    ?pass13('DL380 G11 (sp4): CPU picker now lists Bronze before Silver/Gold/Platinum (B3408U was misfiled after Gold)')
+    :fail13('DL380 G11 sp4 order still wrong: B='+b13+' S='+s13+' G='+g13+' P='+p13);
+  setModel13('DL360 G11');
+  codes13=cpuCodes13();
+  let b5=codes13.indexOf('B3508U'), s5=codes13.indexOf('S4509Y'), g5=codes13.indexOf('G5512U'), p5=codes13.indexOf('P8558U');
+  (b5>=0 && b5<s5 && s5<g5 && g5<p5)
+    ?pass13('DL360 G11 (sp5): CPU picker now lists Bronze before Silver/Gold/Platinum (B3508U was misfiled after Gold)')
+    :fail13('DL360 G11 sp5 order still wrong: B='+b5+' S='+s5+' G='+g5+' P='+p5);
+
+  // --- Gen12 (Xeon 6): per-model cpuAllow now enforced, not just noted ---
+  setModel13('DL110 G12');
+  codes13=cpuCodes13();
+  (codes13.length===1 && codes13[0]==='6716P-B')
+    ?pass13('DL110 G12: CPU picker now offers ONLY its fixed SoC (6716P-B) — cpuAllow enforces the note that already existed')
+    :fail13('DL110 G12 CPU list wrong: '+codes13.join(', '));
+  setModel13('DL580 G12');
+  codes13=cpuCodes13();
+  (codes13.length===7 && ['6714P','6724P','6728P','6738P','6748P','6768P','6788P'].every(c=>codes13.includes(c)) &&
+   !codes13.some(c=>/E$/.test(c)))
+    ?pass13('DL580 G12: CPU picker now offers ONLY its 7 Socket-Scalable P-core SKUs, matching the pre-existing hsSku list — cpuAllow enforces it')
+    :fail13('DL580 G12 CPU list wrong: '+codes13.join(', '));
+  setModel13('ML350 G12');
+  codes13=cpuCodes13();
+  (codes13.length===15 && !codes13.some(c=>/E$/.test(c)))
+    ?pass13('ML350 G12: CPU picker has zero E-core SKUs — confirmed absent from its own doc, unlike every other G12 rack model')
+    :fail13('ML350 G12 should be P-core-only, 15 SKUs: '+codes13.join(', '));
+  setModel13('DL320 G12');
+  codes13=cpuCodes13();
+  (codes13.length===28 && ['6511P','6521P','6731P','6741P','6761P','6781P'].every(c=>codes13.includes(c)) &&
+   !codes13.some(c=>/^671[4-9]P$|^672[0-9]P$|^673[8]P$|^6748P$|^676[8]P$|^6788P$/.test(c)))
+    ?pass13('DL320 G12: CPU picker offers the 6 newly-seeded single-socket "1P" SKUs, no Socket Scalable SKUs')
+    :fail13('DL320 G12 CPU list wrong: '+codes13.join(', '));
+  setModel13('DL340 G12');
+  codes13=cpuCodes13();
+  (codes13.length===29 && codes13.includes('6745P'))
+    ?pass13('DL340 G12: same 28-SKU pool as DL320 G12 plus 6745P (confirmed present in its doc, absent from DL320\'s)')
+    :fail13('DL340 G12 CPU list wrong ('+codes13.length+' codes): '+codes13.join(', '));
+  setModel13('DL360 G12');
+  codes13=cpuCodes13();
+  (codes13.length===22 && !codes13.includes('6511P') && !codes13.includes('6745P') && !codes13.includes('6714P'))
+    ?pass13('DL360 G12: 22-SKU pool — no single-socket "1P" variants, no 6745P, no Socket Scalable')
+    :fail13('DL360 G12 CPU list wrong ('+codes13.length+' codes): '+codes13.join(', '));
+  setModel13('DL380 G12');
+  codes13=cpuCodes13();
+  (codes13.length===30 && ['6714P','6724P','6728P','6738P','6748P','6768P','6788P'].every(c=>codes13.includes(c)) && codes13.includes('6745P'))
+    ?pass13('DL380 G12: widest G12 pool (30 SKUs) — all 7 Socket Scalable SKUs confirmed orderable, same part numbers as DL580 G12')
+    :fail13('DL380 G12 CPU list wrong ('+codes13.length+' codes): '+codes13.join(', '));
+  setModel13('DL380a G12');
+  codes13=cpuCodes13();
+  (codes13.length===20 && !codes13.includes('6731E') && !codes13.includes('6505P'))
+    ?pass13('DL380a G12: 20-SKU pool, missing 6731E and 6505P specifically (confirmed absent from its own doc)')
+    :fail13('DL380a G12 CPU list wrong ('+codes13.length+' codes): '+codes13.join(', '));
+  // a mismatched value typed/pasted directly is still caught
+  setModel13('DL580 G12');
+  d.getElementById('cpu').value='6710E';fire(d.getElementById('cpu'),'input');
+  d.getElementById('checks').textContent.includes('NOT SUPPORTED')
+    ?pass13('DL580 G12: an E-core SKU (6710E) typed directly in is flagged, not silently accepted')
+    :fail13('DL580 G12 cpuAllow typed-value check not caught: '+d.getElementById('checks').textContent.slice(0,220));
+  d.getElementById('cpu').value='';fire(d.getElementById('cpu'),'input');
 }

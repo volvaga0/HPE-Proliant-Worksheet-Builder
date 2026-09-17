@@ -1360,7 +1360,7 @@ var MODELS=[
     correctly halving to 32 usable at 2 sockets via the existing
     cpuq-vs-m.s DIMM math. */
  {m:'DL110', g:'G12', p:['xeon6'], s:1, d:4, bays:[],
-   rules:{fans:{one:8},pcie:{one:2},rear:[],notes:['This is an edge/telecom box built around a single FIXED SoC (Xeon 6716P-B, 40C/2.5GHz/235W) soldered to the board — not a socketed, swappable processor. Pick "6716P-B" at qty 1; every other Xeon 6 SKU in the list is really for the other Gen12 rack models.',
+   rules:{fans:{one:8},pcie:{one:2},rear:[],cpuAllow:['6716P-B'],notes:['This is an edge/telecom box built around a single FIXED SoC (Xeon 6716P-B, 40C/2.5GHz/235W) soldered to the board — not a socketed, swappable processor. Pick "6716P-B" at qty 1; every other Xeon 6 SKU in the list is really for the other Gen12 rack models. `cpuAllow` now actually enforces this (2026-09-17) — previously just a note, the picker showed all 38 Xeon 6 SKUs with nothing blocking a wrong pick.',
      'No front drive bay of any kind, and no rear or mid-tray drive cage — assumed 2026-09-15, INFERRED not directly confirmed: the full QuickSpecs (a50009248enw) still wouldn\'t load from any mirror tried across two research passes, but the shorter HPE Data Sheet (PSN1014921967DEEN) confirms storage is "up to 2 M.2 NVMe SSD, Software RAID" only, with no other bay of any kind mentioned.',
      'DIMM slots corrected 16→4 (2026-09-16): the same cached Data Sheet (PSN1014921967DEEN) that sourced the bay finding above also states "Memory slots: 4 DIMM slots" / "Maximum memory 512GB with 128GB DDR5" outright — the model\'s d:16 was wrong, never independently checked against this doc before now.',
      'Fan count sourced 2026-09-16 (same Data Sheet): "System fan features: 8 Hot-plug" — a single fixed count, no standard/performance split given (no other fan tier mentioned anywhere in the doc).',
@@ -1370,7 +1370,9 @@ var MODELS=[
      'Still genuinely unsourced (this Data Sheet doesn\'t cover it, and the full QuickSpecs still won\'t load from any mirror tried): PSU bay count/redundancy (only the PSU TYPE is confirmed — "HPE M-CRPS 1300W Hot Plug AC" or "1000W M-CRPS -48VDC") and riser/PCIe-slot topology. Confirm both against HPE QuickSpecs before quoting a specific build; `verified` stays unset for this model pending them.']}},
  {m:'DL320', g:'G12', p:['xeon6'], s:1, d:16, bays:['8SFF','10SFF','4LFF','12LFF'],
    rules:{hsW:185,hsWtext:'above 185W',fans:{one:7,perf:7},psuMax:1,riserMax:2,pcie:{one:2},rear:[],
-     notes:['No rear or mid-tray drive cage found (2026-09-15, device.report mirror, a50004283enw V1).',
+     cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6511P','6515P','6517P','6520P','6521P','6527P','6530P','6730P','6731P','6736P','6737P','6740P','6741P','6747P','6760P','6761P','6767P','6781P','6787P'],
+     notes:['CPU pool restricted (cpuAllow, sourced 2026-09-17 from this model\'s own doc): all 7 E-core SKUs, plus 21 P-core SKUs — every Mainline/Performance P-core code EXCEPT `6745P` (confirmed absent), PLUS the single-socket-only "1P" variants (`6511P`/`6521P`/`6731P`/`6741P`/`6761P`/`6781P`, not previously seeded at all — added). No Socket Scalable (4S/8S) SKUs — confirmed absent, matches the single-socket board.',
+       'No rear or mid-tray drive cage found (2026-09-15, device.report mirror, a50004283enw V1).',
        'Fixed 7-fan cage (single socket, no fan-count split to model).',
        'A Closed-loop Liquid Cooling heat sink + 7x DLC fan kit is required above 270W instead of the air-cooled Performance heat sink.',
        'Also offers a 10SFF/20 E3.S EDSFF front cage and a dedicated GPU-server chassis variant (up to 2 DW or 4 SW GPUs) — neither is modeled in the bay list above; note it manually if quoting one.',
@@ -1378,7 +1380,9 @@ var MODELS=[
        'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage is Tri-Mode-only — every 8SFF backplane kit found is either Tri-Mode U.3 (x1 L-Shaped P75084-B21) or pure NVMe U.2/U.3 (P71421/P75085-B21); no plain non-Tri-Mode SAS/SATA-only 8SFF cage was found, same pattern as most Gen11 rack models. No LFF-specific backplane kit was found either — the 4LFF/12LFF cages appear to be the base included SAS/SATA cage with no extra kit needed, matching the generic LFF rule.']}},
  {m:'DL340', g:'G12', p:['xeon6'], s:2, d:16, bays:['8SFF','12LFF'],
    rules:{hsW:250,hsWtext:'above 250W on an 8SFF (≤2 cages) config',fans:{one:6,two:6,perf:6},psuMax:2,riserMax:2,pcie:{one:1,two:2},rear:[],
-     notes:['No rear or mid-tray drive cage — the only "rear" option is a PCIe Rear Captive Riser Kit (cards, not drives) (2026-09-15, harddrivesdirect.com mirror, a50004261enw V5).',
+     cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6511P','6515P','6517P','6520P','6521P','6527P','6530P','6730P','6731P','6736P','6737P','6740P','6741P','6745P','6747P','6760P','6761P','6767P','6781P','6787P'],
+     notes:['CPU pool restricted (cpuAllow, sourced 2026-09-17 from this model\'s own doc): same 28-SKU pool as DL320 G12 (all 7 E-core, all single-socket-only "1P" variants) PLUS `6745P`, which DL320\'s own doc doesn\'t list — a real difference between the two single-socket-capable G12 entry chassis. Still no Socket Scalable (4S/8S) SKUs.',
+       'No rear or mid-tray drive cage — the only "rear" option is a PCIe Rear Captive Riser Kit (cards, not drives) (2026-09-15, harddrivesdirect.com mirror, a50004261enw V5).',
        'Heat sink threshold is config-dependent, not just wattage: 8SFF with ≤2 drive cages (or ≤4 EDSFF) ships Standard up to 250W, Performance above; a 3rd 8SFF cage, any LFF config, the front-GPU variant, or a NEBS build all need the Performance heat sink at ANY wattage.',
        'Fixed 6-fan cage (DL3X5 Gen11 fan kit part numbers, reused) regardless of processor count.',
        'Also offers a 36-EDSFF front cage and a front-GPU CTO variant — neither is in the bay list above.',
@@ -1386,34 +1390,40 @@ var MODELS=[
  {m:'DL360', g:'G12', p:['xeon6'], s:2, d:32, bays:['4LFF','10SFF'],
    rules:{hsW:185,hsWtext:'above 185W',fans:{one:5,two:7,perf:7},psuMax:2,riserMax:2,pcie:{one:2,two:3},
      rear:['2x M.2 (dual uFF) rear'],
-     notes:['No rear/mid-tray DATA cage — "rear" language is all the NS204i-u boot device or OCP/PCIe, not a capacity bay (2026-09-15, enterinsights.com mirror, a50006984enw V4).',
+     cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6730P','6736P','6737P','6740P','6747P','6760P','6767P','6787P'],
+     notes:['CPU pool restricted (cpuAllow, sourced 2026-09-17 from this model\'s own doc): all 7 E-core SKUs plus the 15 "standard" Mainline/Performance P-core codes — no single-socket-only "1P" variants, no `6745P`, no Socket Scalable (4S/8S) SKUs. A genuinely narrower pool than DL320/DL340 G12, despite this chassis being 2-socket-only (the 1P-variant SKUs are apparently only sold against the single-socket-capable DL320/DL340 boards).',
+       'No rear/mid-tray DATA cage — "rear" language is all the NS204i-u boot device or OCP/PCIe, not a capacity bay (2026-09-15, enterinsights.com mirror, a50006984enw V4).',
        'Also offers a 20x E3.S EDSFF front cage — not modeled in the bay list above.',
        'Above 270W (2P) needs Closed-loop liquid cooling instead of an air-cooled heat sink; up to 350W is DLC-only. Confirm the exact tier for high-wattage picks.',
        'Backplane cross-reference (2026-09-16, same doc): "10SFF" (its own Chassis Types entry, really 8SFF+2SFF) is Tri-Mode/NVMe-mixed by default, same "Tri-Mode-only SFF" pattern as most Gen11+ models — no plain non-Tri-Mode SAS/SATA-only SFF cage found. Genuinely ambiguous finding, NOT acted on: the doc\'s own Chassis Types table names the "4 LFF Low Profile" bay itself "12G x1 TriMode U.3," but no LFF NVMe drive SKU is sold anywhere in the same doc, and a separate fan-config table lists "4LFF" as its own column distinct from the "10SFF NVMe"/"8SFF NVMe" columns — reads as the backplane being wired for a Tri-Mode CONTROLLER (which also runs plain SAS/SATA fine), not real NVMe-capable LFF bays, consistent with the same ambiguity already flagged on DL320 G11/DL345 G10+/DL380 G10. The generic LFF hard-block stays in place.']}},
  {m:'DL380', g:'G12', p:['xeon6'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{hsW:185,hsWtext:'above 185W',fans:{one:4,two:4,perf:6},psuMax:2,riserMax:3,pcie:{one:3,two:8},
      rear:['2SFF rear','4LFF rear','6SFF rear','4LFF midtray'],
-     notes:['Rear/mid-tray (2026-09-15, idealnet.ir mirror, a00073551enw V9): both exist and combine, matching the Gen11 pattern — 24SFF gets up to 6SFF rear; 8LFF gets a 2SFF front + 4LFF mid + 4LFF/2SFF rear; 12LFF gets a 4LFF mid + 4LFF/2SFF rear; the EDSFF variant gets a 2SFF rear. Mid-tray requires a CPU at or under 225W and is mutually exclusive with GPU/DLC.',
+     cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6714P','6724P','6728P','6730P','6736P','6737P','6738P','6740P','6745P','6747P','6748P','6760P','6767P','6768P','6787P','6788P'],
+     notes:['CPU pool restricted (cpuAllow, sourced 2026-09-17 from this model\'s own doc): all 7 E-core SKUs, the same 15 "standard" P-core codes as DL360 G12, PLUS `6745P`, PLUS all 7 Socket Scalable (4S/8S) SKUs — genuinely surprising but confirmed directly against this model\'s own Core Options list (same part numbers, e.g. `6748P`/P74579-B21, as DL580 G12\'s Socket-Scalable-only pool). No single-socket-only "1P" variants (those are DL320/DL340-only). This is the widest CPU pool of any G12 model.',
+       'Rear/mid-tray (2026-09-15, idealnet.ir mirror, a00073551enw V9): both exist and combine, matching the Gen11 pattern — 24SFF gets up to 6SFF rear; 8LFF gets a 2SFF front + 4LFF mid + 4LFF/2SFF rear; 12LFF gets a 4LFF mid + 4LFF/2SFF rear; the EDSFF variant gets a 2SFF rear. Mid-tray requires a CPU at or under 225W and is mutually exclusive with GPU/DLC.',
        'Backplane cross-reference (2026-09-16, same doc): a genuine 3-way split at 8SFF, same as this model\'s own doc states outright — "8SFF U.3 x4/x2 Trimode, 8SFF U.3 (x1 Trimode), and 8SFF SAS/SATA." The plain SAS/SATA option is the "Multipurpose Drive Cage Kit" (P76449-B21, matches the Chassis Types intro\'s "multi-purpose cage" line) — a real generational difference from DL380 G11, which dropped down to Tri-Mode-only (no plain SAS/SATA 8SFF cage was found there). LFF stays SAS/SATA-only (P74741-B21 LP Midplane), matching the generic rule.',
        'Standard fan count is tied to the BAY config, not CPU count: SFF/8LFF ship 4 standard fans, 12LFF and the EDSFF variant ship 6, 24SFF ships 6 high-performance as standard — the fans:{one,two} split above is a simplification, confirm the fan kit against the actual bay pick.',
        'Above 225W on an 8LFF/12LFF Mid-Tray config needs the High-Performance heat sink specifically (P74787-B21); 2P configs above that band need the Max-Performance kit (2 heat sinks, P74794-B21). Treat 185W as the floor only.',
        'Also offers 36 EDSFF and 12 EDSFF+16SFF front cage variants — not modeled in the bay list above.']}},
  {m:'DL380a',g:'G12', p:['xeon6'], s:2, d:32, bays:['4SFF'],
    rules:{verified:true,psuMax:2,fans:{one:4,two:4},hsNoChoice:true,validCounts:[2],rear:[],
-     notes:['No rear or mid-tray drive location at all — one drive-bay position only, ships with a 4SFF x4 U.3 NVMe cage expandable to 8SFF NVMe or 16 EDSFF, all front-mounted. A "Rear Direct Cable Kit" exists but is cabling to rear PCIe/OCP lanes, not a physical rear drive cage (2026-09-15, enterinsights.com mirror, a00047453enw V6).',
+     cpuAllow:['6710E','6740E','6746E','6756E','6766E','6780E','6507P','6515P','6517P','6520P','6527P','6530P','6730P','6736P','6737P','6740P','6747P','6760P','6767P','6787P'],
+     notes:['CPU pool restricted (cpuAllow, sourced 2026-09-17 from this model\'s own doc): only 6 of the 7 E-core SKUs (`6731E` confirmed absent — zero mentions anywhere in this doc) plus the same 14-code Mainline/Performance P-core set as DL360 G12 minus `6505P` (also confirmed absent). No single-socket "1P" variants, no `6745P`, no Socket Scalable SKUs. The most restricted CPU pool of any G12 rack model — makes sense for a fixed dual-processor GPU-dense chassis with no single-socket build path.',
+       'No rear or mid-tray drive location at all — one drive-bay position only, ships with a 4SFF x4 U.3 NVMe cage expandable to 8SFF NVMe or 16 EDSFF, all front-mounted. A "Rear Direct Cable Kit" exists but is cabling to rear PCIe/OCP lanes, not a physical rear drive cage (2026-09-15, enterinsights.com mirror, a00047453enw V6).',
      'A fixed GPU-dense chassis, not a menu of front-bay choices — ships with exactly one 4SFF x4 U.3 NVMe cage, and up to 10 double-wide GPUs is the point of the box.',
      'Fixed at 4 hot-plug fan assemblies (each 1 dual-rotor 92mm + 2 single-rotor 40mm) regardless of CPU count — no separate Standard/Performance fan tier exists (2026-09-16, same doc). The only fan-related option is a chassis-specific Upgrade Fan Module (P80098-B21), which swaps in higher-power 110W fans (same 4-assembly count) — recommended, not required, for the 8x-double-wide-GPU CTO config cooling 600W GPUs; not modeled as a `perf` tier since it changes fan wattage, not count.',
      'No separate heatsink kit exists at all in this doc — every CPU kit ships its own fixed heatsink (`hsNoChoice:true`), same treatment as DL560/DL580 Gen9 and ML350 Gen9.',
      'Dual-processor only — its own doc states outright "only supports dual processor configurations, not single processor configurations" (`validCounts:[2]`, fixed 2026-09-16; previously unenforced, so a 1-CPU build could be quoted without any warning).',
      'PCIe/riser slot count is genuinely config-dependent (4 or 5 active slots depending on which GPU/NIC options are fitted) — not modeled as a single riserMax/pcie number here; confirm the exact slot count against QuickSpecs for a specific build rather than relying on a generic riser check.']}},
  {m:'DL580', g:'G12', p:['xeon6'], s:4, d:64, bays:['8SFF','16SFF','24SFF','32SFF'],
-   rules:{verified:true,psuMax:4,fans:{one:4,two:4,perf:4},hsSku:['6714P','6724P','6728P','6738P','6748P','6768P','6788P'],validCounts:[2,4],pcie:{two:4},riserMax:6,rear:['2x M.2 (dual uFF) rear'],
+   rules:{verified:true,psuMax:4,fans:{one:4,two:4,perf:4},hsSku:['6714P','6724P','6728P','6738P','6748P','6768P','6788P'],cpuAllow:['6714P','6724P','6728P','6738P','6748P','6768P','6788P'],validCounts:[2,4],pcie:{two:4},riserMax:6,rear:['2x M.2 (dual uFF) rear'],
      notes:['No rear/mid-tray DATA cage — all 4 drive boxes are front ("up to 4x 8SFF or 8EDSFF front drive cages"); the only "rear" drive language is the NS204i-u boot device, mutually exclusive with GPU (2026-09-15, first.uz mirror, a50009226enw V1).',
        'Field-upgradeable 2→4 sockets only — 1 and 3 processors are not valid configurations.',
-     'P-core Xeon 6 only; the E-core SKUs in the CPU list are for the 2-socket DL360/DL380/ML350, not this one.',
+     'P-core Xeon 6 only; the E-core SKUs in the CPU list are for the 2-socket DL360/DL380/ML350, not this one. `cpuAllow` now actually enforces this (2026-09-17, matches the existing `hsSku` list) — previously just a note, the picker showed all 38 Xeon 6 SKUs with nothing blocking a wrong pick.',
      'Fan and heat-sink data sourced 2026-09-16 (same doc, base-config table): fixed at "4 performance fan kits" and "HPE High Performance Heatsinks" regardless of CPU count — no Standard tier of either exists for this model at all. Modeled via `hsSku` listing every one of this model\'s own 7 valid CPU codes (forces the Performance heatsink recommendation for all of them, since there is no wattage threshold to key off — the doc gives one fixed heat sink kit, P80382-B21, "quantity configured automatically based on selected processor quantity") rather than a `hsW` threshold, which would default to "Standard" for a low-wattage CPU that this chassis doesn\'t actually offer a Standard heatsink for.',
      'PSU count is genuinely CPU-count-dependent, which this tool\'s flat `psuMax` can\'t express exactly: "select minimum 1, maximum 2" at 2 processors, but "either 2 or 4" at 4 processors (2026-09-16, same doc) — psuMax corrected 2→4 (the true physical bay count, reachable at 4 CPUs) so a legitimate 4-PSU/4-CPU build isn\'t wrongly blocked; a 2-CPU build picking 3 or 4 PSUs isn\'t caught by a hard rule, confirm against the CPU count manually.',
-     'Doc/tool CPU-code discrepancy found, not resolved: this model\'s own QuickSpecs lists a 48-core/2.5GHz/300W P-core part as "6548P," but the closest match already seeded in this tool\'s CPUS list under the same specs is "6748P" — one of the two numbers may be an OCR/scrape artifact (this project has hit that before) or they may be genuinely different real SKUs; flagged rather than silently renamed. `hsSku` above uses the tool\'s existing "6748P" code so the picker still works either way.',
+     'Doc/tool CPU-code discrepancy, now more confident it\'s OCR noise (2026-09-17): this model\'s own QuickSpecs lists a 48-core/2.5GHz/300W P-core part as "6548P," but DL380 G12\'s own separately-sourced doc lists the SAME spec/part number (P74579-B21) under "6748P" — the code already seeded in this tool\'s CPUS list. Treating "6548P" as a scrape artifact for "6748P" rather than a distinct SKU; `hsSku`/`cpuAllow` above both use "6748P."',
      'PSU options also include Modular Common Redundant Power Supply (M-CRPS) kits up to 3200W in addition to the usual Flex Slot range.',
      'Riser/PCIe data sourced 2026-09-17 (same doc): up to 6 riser cages total, EVERY cage the same single kit (P80379-B21, 2 slots each — full-height half-length, one x16 + one x8) — "there is only one riser option." 2 cages ship standard at BOTH 2P (Risers 2+3) and 4P (Risers 3+4), coincidentally the same 4-slot baseline either way (`pcie:{two:4}`). Up to 1 more cage optional at 2P (cable kit P80381-B21) or up to 4 more at 4P (P80380-B21 for Risers 2/5, P71004-B21 for Risers 1/6) — `riserMax:6` is the true physical ceiling, but which specific extra cages are reachable depends on CPU count in a way this tool\'s flat per-line model can\'t fully enforce; add one "2x16 Riser Kit" line per cage fitted and confirm the exact cable-kit/position combination against QuickSpecs.']}},
 
@@ -1520,12 +1530,14 @@ var MODELS=[
        'No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a50004308enw V22).',
        'Intel VROC NVMe is not supported with the 4510, 4509Y or 3508U processors.',
        'Riser/PCIe data CORRECTED 2026-09-17 — this had been wrongly left as "riserMax:0, PCIe on the system board like every ML350" (self-flagged as "not re-checked against the Gen11 QuickSpecs" at the time). Directly checking that doc now shows this is WRONG: ML350 G11 genuinely has 3 real riser positions — Primary (4x8 default, 4 slots, or an optional 2x16 FIO upgrade), Secondary (needs Proc 2, same 4x8/2x16 choice), and Tertiary (needs Proc 2, 2x8, low-profile, occupies 2 CPU2 MCIO connectors) — structurally IDENTICAL to ML350 G12 (confirmed: the G12 doc\'s own SKUs are literally named "ML350 Gen11/Gen12," shared part numbers). `riserMax` 0→3, `pcie` {one:4,two:8}→{one:4,two:10} to match.',
-       '4 of the sp5 (5th Gen) CPUs need DLC liquid cooling this tower doesn\'t support and are not realistically orderable here: 8593Q, 8562Y+, 6544Y, 6558Q. Not excluded from the picker (this tool doesn\'t have a per-model CPU-exclusion mechanism) — confirm against QuickSpecs before quoting one of these four.',
+       '4 of the sp5 (5th Gen) CPUs need DLC liquid cooling this tower doesn\'t support and are not realistically orderable here: 8593Q, 8562Y+, 6544Y, 6558Q. Not excluded from the picker (2026-09-17: `cpuAllow` — an ALLOW-list — exists and is used elsewhere, e.g. DL560 G11/every G12 model, but blocking just these 4 out of ML350 G11\'s full sp4+sp5 pool would need a DENY-list mechanism this tool doesn\'t have yet) — confirm against QuickSpecs before quoting one of these four.',
        'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage ships Tri-Mode U.3 by default (x1, P47217-B21), with an x4 upgrade (P47218-B21) — no plain non-Tri-Mode SAS/SATA-only 8SFF cage was found, same "Tri-Mode-only SFF" pattern as most Gen11 rack models (DL385 G11 is the one confirmed exception). 4LFF ships a fixed Basic SAS/SATA-only cage (P47216-B21), no NVMe option, matching the generic rule.']}},
  {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:225,hsWtext:'225W or higher',fans:{one:3,two:3,perf:8},psuMax:2,riserMax:3,pcie:{one:4,two:10},
      rear:['2x M.2 (dual uFF) rear'],
-     notes:['No rear/mid-tray DATA cage — only a rear NS204i-u boot-device enablement kit; all capacity storage is the 3 stacked front boxes (4LFF/8SFF/12EDSFF, mixable) (2026-09-15, it-trade.uz mirror, a50006995enw V2).',
+     cpuAllow:['6505P','6507P','6515P','6517P','6520P','6527P','6530P','6730P','6736P','6737P','6740P','6747P','6760P','6767P','6787P'],
+     notes:['CPU pool restricted (cpuAllow, sourced 2026-09-17 from this model\'s own doc): a real and genuinely surprising finding — ZERO E-core Xeon 6 SKUs anywhere in this model\'s own QuickSpecs (checked directly, no "E-core" or 671xE/673xE/etc mentions at all). Every other G12 rack model offers at least some E-core option; ML350 G12 is P-core-only, just the 15 "standard" Mainline/Performance codes (same set as DL360 G12) — no single-socket "1P" variants, no `6745P`, no Socket Scalable SKUs.',
+       'No rear/mid-tray DATA cage — only a rear NS204i-u boot-device enablement kit; all capacity storage is the 3 stacked front boxes (4LFF/8SFF/12EDSFF, mixable) (2026-09-15, it-trade.uz mirror, a50006995enw V2).',
        'Fixed 3-fan baseline for any config; a 2nd processor, a GPU, or certain other options additionally require the Redundant Fan Kit (P47219-B21) AND the Second CPU Fan Kit (P47902-B21) together — its own QuickSpecs states this raises the fan count to "up to 8" (2026-09-15, re-confirmed against the same doc: "Redundant Fan Kit Optional, Up to 8 fans, 3 fans as standard").',
        'P-core Xeon 6 only — no E-core SKUs are listed for this model in its own QuickSpecs, unlike DL360/DL380.',
        'Riser count corrected 2->3, and PCIe slot max corrected 8->10 (2026-09-15): Primary (CPU1, standard) is 4x8 or optional 2x16; Secondary (CPU2, needs 2nd processor) is the same 4x8/2x16 choice; a separate Tertiary riser (CPU2, 2x8, occupies 2 CPU2 MCIO connectors) is a real THIRD riser position this tool previously missed. Max with 2 processors and every riser at its highest slot count: 4 (primary) + 4 (secondary) + 2 (tertiary) = 10.',
@@ -1767,6 +1779,7 @@ var CPUS=[
     marked "added" were missing from an earlier pass; every other entry
     was already seeded and re-confirmed correct (core/clock/TDP) against
     this same document. DDR5-4800 only — see MEM_SPEEDS/MEM_CAPS. */
+ ['B3408U','Xeon Bronze 3408U · 8C 1.8GHz — single-socket only ("U" suffix)','sp4',125,8], // moved to Bronze/Silver/Gold/Platinum order 2026-09-17 (was misfiled after Gold when added)
  ['S4410Y','Xeon Silver 4410Y · 12C 2.0GHz','sp4',150,12],
  ['S4416+','Xeon Silver 4416+ · 20C 2.0GHz','sp4',165,20],
  ['G5411N','Xeon Gold 5411N · 24C 1.9GHz','sp4',165,24], // added
@@ -1792,7 +1805,6 @@ var CPUS=[
  ['G6448Y','Xeon Gold 6448Y · 32C 2.1GHz','sp4',225,32],
  ['G6454S','Xeon Gold 6454S · 32C 2.2GHz','sp4',270,32],
  ['G6458Q','Xeon Gold 6458Q · 32C 3.1GHz — liquid-cooled Speed Select, needs the Max Performance heatsink','sp4',350,32], // added
- ['B3408U','Xeon Bronze 3408U · 8C 1.8GHz','sp4',125,8], // added — single-socket-only ("U" suffix)
  ['P8444H','Xeon Platinum 8444H · 16C 2.9GHz','sp4',270,16],
  ['P8450H','Xeon Platinum 8450H · 28C 2.0GHz — 4-socket-rated "H" SKU; confirmed on DL560 G11 (DA-17093)','sp4',250,28], // added
  ['P8452Y','Xeon Platinum 8452Y · 36C 2.0GHz','sp4',300,36],
@@ -1835,6 +1847,7 @@ var CPUS=[
     MODELS entry used to be. P8581V and P8558U/B3508U are single-
     socket-only — see the SINGLE_SOCKET_EXTRA note near the U-suffix
     check in evaluate(). */
+ ['B3508U','Xeon Bronze 3508U · 8C 2.1GHz — single-socket only, PCIe 4.0 only, blocks 96GB/5600 MT/s memory','sp5',125,8], // moved to Bronze/Silver/Gold/Platinum order 2026-09-17 (was misfiled after Gold)
  ['S4509Y','Xeon Silver 4509Y · 8C 2.6GHz','sp5',125,8],
  ['S4510','Xeon Silver 4510 · 12C 2.4GHz','sp5',150,12],
  ['S4514Y','Xeon Silver 4514Y · 16C 2.0GHz','sp5',150,16],
@@ -1853,7 +1866,6 @@ var CPUS=[
  ['G6548Y+','Xeon Gold 6548Y+ · 32C 2.5GHz','sp5',250,32],
  ['G6554S','Xeon Gold 6554S · 36C 2.2GHz','sp5',270,36],
  ['G6558Q','Xeon Gold 6558Q · 32C 3.2GHz — liquid-cooled Speed Select, needs the Max Performance heatsink','sp5',350,32],
- ['B3508U','Xeon Bronze 3508U · 8C 2.1GHz — single-socket only, PCIe 4.0 only, blocks 96GB/5600 MT/s memory','sp5',125,8],
  ['P8558U','Xeon Platinum 8558U · 48C 2.0GHz — single-socket only, capped at DDR5-4800','sp5',300,48],
  ['P8558','Xeon Platinum 8558 · 48C 2.1GHz','sp5',330,48],
  ['P8558P','Xeon Platinum 8558P · 48C 2.7GHz','sp5',350,48],
@@ -1997,19 +2009,25 @@ var CPUS=[
  ['6780E','Xeon 6780E · 144C 2.2GHz (E-core)','xeon6',330,144],
  ['6505P','Xeon 6505P · 12C 2.2GHz','xeon6',150,12],
  ['6507P','Xeon 6507P · 8C 3.5GHz','xeon6',150,8],
+ ['6511P','Xeon 6511P · 16C 2.3GHz — single-socket only (1P), found on DL320/DL340 G12','xeon6',150,16], // added 2026-09-17
  ['6515P','Xeon 6515P · 16C 2.3GHz','xeon6',150,16],
  ['6517P','Xeon 6517P · 16C 3.2GHz','xeon6',190,16],
  ['6520P','Xeon 6520P · 24C 2.4GHz','xeon6',210,24],
+ ['6521P','Xeon 6521P · 24C 2.6GHz — single-socket only (1P), found on DL320/DL340 G12','xeon6',225,24], // added 2026-09-17
  ['6527P','Xeon 6527P · 24C 3.0GHz','xeon6',255,24],
  ['6530P','Xeon 6530P · 32C 2.3GHz','xeon6',225,32],
  ['6730P','Xeon 6730P · 32C 2.5GHz','xeon6',250,32],
+ ['6731P','Xeon 6731P · 32C 2.5GHz — single-socket only (1P), found on DL320/DL340 G12','xeon6',245,32], // added 2026-09-17
  ['6736P','Xeon 6736P · 36C 2.0GHz','xeon6',205,36],
  ['6737P','Xeon 6737P · 32C 2.9GHz','xeon6',270,32],
  ['6740P','Xeon 6740P · 48C 2.1GHz','xeon6',270,48],
+ ['6741P','Xeon 6741P · 48C 2.5GHz — single-socket only (1P), found on DL320/DL340 G12','xeon6',300,48], // added 2026-09-17
  ['6745P','Xeon 6745P · 32C 3.1GHz','xeon6',300,32],
  ['6747P','Xeon 6747P · 48C 2.7GHz','xeon6',330,48],
  ['6760P','Xeon 6760P · 64C 2.2GHz','xeon6',330,64],
+ ['6761P','Xeon 6761P · 64C 2.5GHz — single-socket only (1P), found on DL320/DL340 G12','xeon6',350,64], // added 2026-09-17
  ['6767P','Xeon 6767P · 64C 2.4GHz','xeon6',350,64],
+ ['6781P','Xeon 6781P · 80C 2.0GHz — single-socket only (1P), found on DL320/DL340 G12','xeon6',350,80], // added 2026-09-17
  ['6787P','Xeon 6787P · 86C 2.0GHz','xeon6',350,86],
  /* Socket-Scalable — validated for 4S/8S NUMA configs (DL580), also sold
     for 2S boards */
@@ -3347,7 +3365,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.8'; // 8th build shipped today
+var BUILD_VERSION='2026.09.17.9'; // 9th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

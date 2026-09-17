@@ -1934,6 +1934,67 @@ regression tests (445 total). Two non-blocking gaps remain: `DL380`/
 unmatched) and `DL110 G12` (genuinely unsourced — QuickSpecs won't load
 from any mirror tried).
 
+**2026-09-17, user-reported: Gen11 CPU tier order wrong, and Gen12
+(Xeon 6) CPU pool needs E-core/P-core separation.** Two real, confirmed
+bugs, both fixed:
+
+1. **CPU tier ordering (`sp4`/`sp5`, Gen11).** A Bronze SKU added after
+   the original seeding pass (`B3408U` on `sp4`, `B3508U` on `sp5`) had
+   been appended right before Platinum instead of at the front — every
+   other platform tag in this tool (`sp1`/`sp2`/`sp3`) follows strict
+   Bronze→Silver→Gold→Platinum order, confirmed by a one-off Node script
+   that walked the whole `CPUS` array checking tier rank per platform.
+   Moved both to the front of their block.
+
+2. **Gen12 (Xeon 6) CPU pool — a much bigger finding than expected.**
+   Every one of the 8 G12 models shared the exact same flat 31-SKU
+   `xeon6` list with zero `cpuAllow` restriction, despite two models'
+   own notes already admitting a far narrower real pool (`DL110`: one
+   fixed SoC; `DL580`: P-core only, matching its existing `hsSku` list)
+   — neither restriction was actually enforced in the picker. Pulled
+   every G12 model's own cached QuickSpecs "Core Options" section (the
+   real orderable-SKU-with-part-number list, not the generic family
+   overview table earlier in each doc) and built the true per-model
+   pool:
+   - `DL110`: 1 SKU (fixed SoC).
+   - `DL320`/`DL340` (single-socket-capable boards): 28/29 SKUs — all 7
+     E-core, all "standard" P-core, PLUS 6 single-socket-only "1P"
+     variants (`6511P`/`6521P`/`6731P`/`6741P`/`6761P`/`6781P`) not
+     previously seeded at all. `DL340` additionally offers `6745P`,
+     which `DL320`'s own doc doesn't list — a real difference between
+     two chassis that otherwise look identical.
+   - `DL360` (fixed 2-socket): 22 SKUs — all E-core, the "standard"
+     P-core set, but NONE of the 1P variants, no `6745P`, no Socket
+     Scalable.
+   - `DL380`: 30 SKUs — genuinely the widest pool. Confirmed (not
+     assumed) that this 2-socket chassis' own Core Options list really
+     does include all 7 Socket Scalable (4S/8S) SKUs, same part numbers
+     as `DL580`'s pool (e.g. `6748P`/P74579-B21 on both).
+   - `DL380a` (fixed dual-GPU chassis): 20 SKUs — missing `6731E` and
+     `6505P` specifically (zero mentions anywhere in its own doc), the
+     most restricted rack pool.
+   - `DL580` (4-socket): 7 SKUs, exactly matching the existing `hsSku`
+     list — Socket Scalable only, confirmed correct.
+   - `ML350` (tower): 15 SKUs — a genuinely surprising finding, ZERO
+     E-core SKUs anywhere in its own doc, unlike every rack model.
+   Added `cpuAllow` to all 8 models with the real sourced list, seeded
+   the 6 missing single-socket "1P" SKUs into `CPUS`, and upgraded the
+   long-standing "6548P vs 6748P" doc discrepancy note from "unresolved"
+   to "likely OCR noise" — `DL380`'s independently-sourced doc lists the
+   identical spec/part number under `6748P`.
+   11 new regression tests, 456/456 passing. Verified several models'
+   real CPU pools live in the browser.
+
+   **Found but deliberately NOT fixed this pass**: `ML350 G11`'s notes
+   say 4 sp5 CPUs need DLC cooling this tower doesn't support, and were
+   "not excluded... this tool doesn't have a per-model CPU-exclusion
+   mechanism" — that claim is now WRONG (`cpuAllow` exists and is used
+   everywhere above), but `cpuAllow` is an ALLOW-list; blocking just 4
+   SKUs out of ML350 G11's full ~68-SKU sp4+sp5 pool would need a new
+   DENY-list mechanism, which is a bigger change than this pass's scope.
+   Note corrected to describe the real gap accurately; the exclusion
+   itself is still open.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are
