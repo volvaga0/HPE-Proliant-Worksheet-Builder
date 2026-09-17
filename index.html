@@ -287,6 +287,7 @@ pre.slip .gap{color:var(--check)}
 .chk{display:flex;gap:9px;padding:8px 12px;border-bottom:1px solid var(--rule);font-size:13.2px;line-height:1.4}
 .chk:last-child{border-bottom:0}
 .chk .tag{flex:0 0 auto;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:2px 6px;border-radius:5px;height:fit-content;margin-top:1px;white-space:nowrap}
+.chk>span:last-child{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
 .chk.stop .tag{background:var(--stop-bg);color:var(--stop)}
 .chk.verify .tag,.chk.flag .tag{background:var(--check-bg);color:var(--check)}
 .chk.auto .tag{background:var(--auto-bg);color:var(--auto)}
@@ -3346,7 +3347,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.7'; // 7th build shipped today
+var BUILD_VERSION='2026.09.17.8'; // 8th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
