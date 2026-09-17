@@ -3017,4 +3017,27 @@ function runRound14(){
     ?pass14('DL380 G10: 4 genuinely missing riser part numbers filled in (826704/873732/867808/867806-B21)')
     :fail14('DL380 G10 still missing riser PNs: '+ropts14.join(' | '));
   d.getElementById('risers').innerHTML='';
+
+  // --- user-reported 2026-09-17: the controller combo lost its Type-a/
+  // PCI group headers when the per-model ctrl:[] override replaced the
+  // generic list — a real regression, fixed by adding the same '—
+  // Group —' strings the generic CTRLS list uses ---
+  setModel14('DL360 G10');
+  const ctrl14b=d.getElementById('ctrl');ctrl14b.value='';fire(ctrl14b,'input');
+  const grp14=[...d.querySelectorAll('#ac-panel .combo-group')].map(el=>el.textContent);
+  (grp14.length===2 && grp14.some(g=>/type.a/i.test(g)) && grp14.some(g=>/^pci/i.test(g)))
+    ?pass14('DL360 G10: ctrl:[] override keeps the Type-a/PCI group headers (regression fixed)')
+    :fail14('DL360 G10 ctrl groups missing: '+grp14.join(' | '));
+
+  // --- new: the QUICKSPECS VERIFIED badge links to that model's real
+  // HPE PSNow doc page (2026-09-17, QS_DOCS) ---
+  setModel14('DL380 G10');
+  const badgeV14=d.getElementById('badge-v');
+  (badgeV14.tagName==='A' && badgeV14.getAttribute('href')==='https://www.hpe.com/psnow/doc/a00008180enw')
+    ?pass14('DL380 G10: QUICKSPECS VERIFIED badge links to its real HPE doc page')
+    :fail14('DL380 G10 badge link wrong: '+badgeV14.getAttribute('href'));
+  setModel14('DL120 G10');
+  (!badgeV14.hasAttribute('href') && !badgeV14.classList.contains('on'))
+    ?pass14('DL120 G10: no QuickSpecs doc exists (confirmed, not guessed) — badge has no href and correctly shows unverified, not a stale verified:true')
+    :fail14('DL120 G10 badge should have no href and stay unverified: href='+badgeV14.getAttribute('href')+' on='+badgeV14.classList.contains('on'));
 }

@@ -83,9 +83,12 @@ input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px soli
 input:disabled{opacity:.5;cursor:not-allowed}
 input.field-over{border-color:var(--stop);background:var(--stop-bg);color:var(--stop);font-weight:600}
 
-.badge{font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:2px 7px;border-radius:5px;display:none}
+.badge{font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:2px 7px;border-radius:5px;display:none;text-decoration:none}
 .badge.on{display:inline-block}
 .badge.v{background:rgba(0,177,136,0.14);color:var(--success)}
+.badge.v:not(.nolink){cursor:pointer}
+.badge.v:not(.nolink):hover,.badge.v:not(.nolink):focus-visible{text-decoration:underline}
+.badge.v.nolink{cursor:default}
 .badge.u{background:var(--check-bg);color:var(--check)}
 
 .paste{background:var(--paste-bg);border:1px solid var(--paste);border-radius:11px;padding:14px 15px 15px;
@@ -486,7 +489,7 @@ button.quiet{color:var(--ink-soft)}
 
   <section>
     <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>Base system</h2>
-      <span class="hint"><span class="badge v" id="badge-v">QUICKSPECS VERIFIED</span><span class="badge u" id="badge-u">GENERATION DEFAULTS — UNVERIFIED</span></span></div>
+      <span class="hint"><a class="badge v" id="badge-v" target="_blank" rel="noopener" title="Open this model's QuickSpecs on hpe.com">QUICKSPECS VERIFIED</a><span class="badge u" id="badge-u">GENERATION DEFAULTS — UNVERIFIED</span></span></div>
     <div class="rows">
 
       <div class="row">
@@ -1037,10 +1040,10 @@ var MODELS=[
        'No rear or mid-tray drive cage (2026-09-15, checked against its own QuickSpecs a00053820enw).',
        'Front bays added 2026-09-15: 2LFF (hot-plug or non-hot-plug) and 4SFF (expandable to 6SFF via a +2SFF kit) — same a00053820enw QuickSpecs.']}},
  {m:'DL120',g:'G10', p:['sp1','sp2'],  s:1, d:8,
-   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+   rules:{hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      notes:['Shares its heatsink option part number with the DL160 and DL180 Gen10 (same thermal design).',
-       'UNVERIFIED (2026-09-15, re-confirmed with a fresh, more thorough search 2026-09-15): media bay, rear/mid-tray, TPM, motherboard NC, PSU, fans, PCIe, and riser count could not be checked against this model\'s own QuickSpecs — no working mirror found across THREE separate research passes now. This IS a real HPE product (confirmed via a genuine support.hpe.com product page and a real CE-declaration doc, "HPE ProLiant DL120 Gen10 #EUDoC TPS-W017," doc ID a00035728enw, plus indexed HPE Maintenance-and-Service-Guide sub-pages for its system board/DIMMs/PCI riser cage/fan blank) — unlike the fabricated DL340 G11 this project found and removed, it is not invented, its QuickSpecs is just extremely poorly mirrored. Tried and failed this pass: hpe.com direct (network-blocked entirely in this environment) including guessed doc-ID neighbors a00021858/59/61/63/64enw bracketing DL160\'s a00021860enw and DL180\'s a00021862enw; support.hpe.com (SSO-gated JS SPA, serves no content to a non-browser fetch); harddrivesdirect.com/servercomputeworks.com/cdn.blueally.com guessed filenames (404); itcreations.com (serves its homepage/search shell, not the PDF); device.report\'s DL120 listing page (Gen9 documents only, no Gen10 string anywhere); archive.org Wayback CDX (503 at the time, inconclusive rather than a confirmed negative — worth retrying). A bare parts-page hit (cpumedics.com, "878937-001 Cooling Fan Module for HPE ProLiant DL120/DL160/DL325 Gen10") corroborates the shared-thermal-design note above but has no spec table and isn\'t an approved authoritative source, so nothing is asserted from it. A shared-part listing ("8 SFF Optical Disk Drive Enablement Kit" 873961-B21, sold across DL120/DL160/DL325 Gen10) suggests a media bay likely exists, and "872885-001 4 LFF SAS Backplane" confirms a SAS/SATA backplane exists — but neither is a QuickSpecs confirmation, so nothing here is asserted from them either. Next idea for a future pass: retry archive.org once it\'s back up, or ask an HPE reseller/engineer contact directly for the PDF rather than relying on search-engine discovery.']}},
+       'Removed a stray `verified:true` here 2026-09-17 — noticed while wiring the QuickSpecs-doc badge link (this is one of only 2 models with no findable doc at all, so its badge would have shown "VERIFIED" with nothing to link to). Contradicted the very next note below, which has said "UNVERIFIED" all along: media bay, rear/mid-tray, TPM, motherboard NC, PSU, fans, PCIe, and riser count could not be checked against this model\'s own QuickSpecs — no working mirror found across THREE separate research passes now. This IS a real HPE product (confirmed via a genuine support.hpe.com product page and a real CE-declaration doc, "HPE ProLiant DL120 Gen10 #EUDoC TPS-W017," doc ID a00035728enw, plus indexed HPE Maintenance-and-Service-Guide sub-pages for its system board/DIMMs/PCI riser cage/fan blank) — unlike the fabricated DL340 G11 this project found and removed, it is not invented, its QuickSpecs is just extremely poorly mirrored. Tried and failed this pass: hpe.com direct (network-blocked entirely in this environment) including guessed doc-ID neighbors a00021858/59/61/63/64enw bracketing DL160\'s a00021860enw and DL180\'s a00021862enw; support.hpe.com (SSO-gated JS SPA, serves no content to a non-browser fetch); harddrivesdirect.com/servercomputeworks.com/cdn.blueally.com guessed filenames (404); itcreations.com (serves its homepage/search shell, not the PDF); device.report\'s DL120 listing page (Gen9 documents only, no Gen10 string anywhere); archive.org Wayback CDX (503 at the time, inconclusive rather than a confirmed negative — worth retrying). A bare parts-page hit (cpumedics.com, "878937-001 Cooling Fan Module for HPE ProLiant DL120/DL160/DL325 Gen10") corroborates the shared-thermal-design note above but has no spec table and isn\'t an approved authoritative source, so nothing is asserted from it. A shared-part listing ("8 SFF Optical Disk Drive Enablement Kit" 873961-B21, sold across DL120/DL160/DL325 Gen10) suggests a media bay likely exists, and "872885-001 4 LFF SAS Backplane" confirms a SAS/SATA backplane exists — but neither is a QuickSpecs confirmation, so nothing here is asserted from them either. Next idea for a future pass: retry archive.org once it\'s back up, or ask an HPE reseller/engineer contact directly for the PDF rather than relying on search-engine discovery.']}},
  {m:'DL160',g:'G10', p:['sp1','sp2'],  s:2, d:16, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
@@ -1075,7 +1078,7 @@ var MODELS=[
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2x M.2 (dual uFF) rear'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
-     ctrl:['P816i-a (804338-B21)','P816i-a LH — low-profile heatsink variant, needed for GPU builds (869083-B21)','P408i-a (804331-B21)','P408i-a LH — low-profile heatsink variant, needed for GPU builds (869081-B21)','E208i-a (804326-B21)','E208i-a LH — low-profile heatsink variant, needed for GPU builds (869079-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
+     ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P408i-a LH — low-profile heatsink variant, needed for GPU builds (869081-B21)','P816i-a (804338-B21)','P816i-a LH — low-profile heatsink variant, needed for GPU builds (869083-B21)','E208i-a (804326-B21)','E208i-a LH — low-profile heatsink variant, needed for GPU builds (869079-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
      fanNVMe:true,fanRear:true,fanGPU:true,fanPart:'871244-B21',memPerSocket:768,riserMax:2,
      notes:['Up to 7 fans with redundancy built in. High performance fan kit 871244-B21 includes 7.',
        'A 10 NVMe chassis always gets 7 high performance fans, one processor or two.',
@@ -1095,7 +1098,7 @@ var MODELS=[
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},
      rear:['2SFF rear','2SFF NVMe rear','3LFF rear','4LFF midtray'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','1600W Flex Slot -48VDC (P17023-B21)','1800-2200W Flex Slot Titanium, EU Lot 9 compliant (P44712-B21)'],
-     ctrl:['P816i-a (804338-B21)','P408i-a (804331-B21)','E208i-a (804326-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','P824i-p — confirmed offered on this chassis (its own Cable Kit P00614-B21 names DL38X/560/580/ML350 G10), but the controller\'s own part number was not found anywhere in this doc; confirm before ordering'],
+     ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','P824i-p — confirmed offered on this chassis (its own Cable Kit P00614-B21 names DL38X/560/580/ML350 G10), but the controller\'s own part number was not found anywhere in this doc; confirm before ordering'],
      fanNVMe:true,fanRear:true,fanGPU:true,fanBays:['12LFF','24SFF'],
      rear2SFF:['24SFF','12LFF'],fanPart:'867810-B21',memPerSocket:768,riserMax:3,
      notes:['High performance fan kit 867810-B21 is required for NVMe, for GPUs, and when boxes 1, 2 and 3 are all populated.',
@@ -2277,6 +2280,43 @@ function ctrlsFor(m){
   });
   return out;
 }
+/* HPE PSNow document ID for each model's own QuickSpecs (or, where none
+   exists, the closest official Data Sheet), keyed "MODEL GEN" exactly
+   like every other lookup map in this file. https://www.hpe.com/psnow/
+   doc/<id> always redirects to HPE's own canonical, always-current page
+   for that doc ID (confirmed live 2026-09-17 — the badge link below
+   therefore always points at whatever HPE's latest revision is, not a
+   frozen snapshot). Every ID here was fetched and its resolved page
+   title checked against the expected model+gen before being trusted —
+   two of MANIFEST.md's own recorded IDs turned out wrong when checked
+   this way (DL560 G10 had been recorded with DL560 G11's ID; DL20 G10's
+   recorded ID 404s, a working alternate existed) and were corrected
+   here rather than carried over. `DL120 G10` and `ML350 G9` have no
+   entry — genuinely no findable QuickSpecs doc for either, confirmed
+   again via a fresh search rather than assumed from earlier sessions;
+   their badge stays a plain (non-link) span. */
+var QS_DOCS={
+ 'DL20 G9':'c04834947','DL60 G9':'c04447824','DL80 G9':'c04447832','DL120 G9':'c04447806',
+ 'DL160 G9':'c04346224','DL180 G9':'c04375610','DL360 G9':'c04375623','DL380 G9':'c04375627',
+ 'DL560 G9':'c04601214','DL580 G9':'c04601209','ML10 G9':'c04922941','ML30 G9':'c04834991',
+ 'ML110 G9':'c04545452','ML150 G9':'c04447843',
+ 'DL20 G10':'a00053820enw','DL160 G10':'a00021860enw','DL180 G10':'a00021862enw',
+ 'DL325 G10':'a00045498enw','DL360 G10':'a00008159enw','DL380 G10':'a00008180enw',
+ 'DL385 G10':'a00026913enw','DL560 G10':'a00008181enus','DL580 G10':'a00021850enw',
+ 'ML30 G10':'a00053821enw','ML110 G10':'a00021851enus','ML350 G10':'a00021852enw',
+ 'DL20 G10+':'a50002583enw','DL110 G10+':'a50002566enw','DL325 G10+':'a00073548enw',
+ 'DL325 G10+ v2':'a50002564enw','DL345 G10+':'a50002557enw','DL360 G10+':'a50002559enw',
+ 'DL365 G10+':'a50002558enw','DL380 G10+':'a50002553enw','DL385 G10+':'a00073549enw',
+ 'DL385 G10+ v2':'a50002560enw','ML30 G10+':'a50002590enw',
+ 'DL20 G11':'a50007009enw','DL110 G11':'a00053299enw','DL320 G11':'a50004315enw',
+ 'DL360 G11':'a50004306enw','DL380 G11':'a50004307enw','DL560 G11':'a50006983enw',
+ 'ML30 G11':'a50007008enw','ML110 G11':'a00054055enw','ML350 G11':'a50004308enw',
+ 'DL325 G11':'a50004297enw','DL345 G11':'a50004298enw','DL365 G11':'a50004299enw',
+ 'DL385 G11':'a50004300enw',
+ 'DL110 G12':'PSN1014921967DEEN','DL320 G12':'a50004283enw','DL340 G12':'a50004261enw',
+ 'DL360 G12':'a50006984enw','DL380 G12':'a00073551enw','DL380a G12':'a00047453enw',
+ 'DL580 G12':'a50009226enw','ML350 G12':'a50006995enw'
+};
 /* Which chassis+generation combos actually have a real HPE SAS Expander
    Card SKU — sourced from HPE QuickSpecs c04346272 V6 (2026-09-14; see
    PROJECT.md/memory for full citations). This used to be one flat list
@@ -3391,7 +3431,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.11'; // 11th build shipped today
+var BUILD_VERSION='2026.09.17.12'; // 12th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4050,7 +4090,11 @@ function refreshDependents(){
     :(R.riserMax?R.riserMax+' riser position'+(R.riserMax>1?'s':'')+' in this chassis'
         +(rk.length?(isOwn?' — add from the kit list below':' — generic guide below'):'')
       :'Riser count for '+m.m+' '+m.g+' not confirmed — check QuickSpecs.');
-  document.getElementById('badge-v').classList.toggle('on',!!(m&&R.verified));
+  var badgeV=document.getElementById('badge-v');
+  badgeV.classList.toggle('on',!!(m&&R.verified));
+  var qsDoc=m&&QS_DOCS[m.m+' '+m.g];
+  if(qsDoc){badgeV.href='https://www.hpe.com/psnow/doc/'+qsDoc;badgeV.classList.remove('nolink');}
+  else{badgeV.removeAttribute('href');badgeV.classList.add('nolink');}
   document.getElementById('badge-u').classList.toggle('on',!!(m&&!R.verified));
 }
 

@@ -2069,6 +2069,67 @@ the browser: PSU/controller pickers now show the real data, and the
 `ctrlCode()` fix keeps the battery-suggestion and generation-mismatch
 checks working with the new rich strings.
 
+**2026-09-17, continued — 4 user-reported items, checked one by one:**
+
+1. **"QUICKSPECS VERIFIED" badge now links to that model's real HPE
+   doc page.** Built `QS_DOCS` (keyed "MODEL GEN", same pattern as
+   every other lookup map), pointing at `https://www.hpe.com/psnow/
+   doc/<id>` — confirmed live that this URL always redirects to HPE's
+   own canonical, currently-latest revision of that doc, not a frozen
+   snapshot. Sourced every ID from `MANIFEST.md`, but verified each one
+   by actually fetching it and checking the resolved page's `<title>`
+   against the expected model+gen before trusting it — this caught 2
+   real wrong IDs already in `MANIFEST.md` (`DL560 G10` had been
+   recorded with `DL560 G11`'s ID; `DL20 G10`'s recorded ID 404s) and
+   2 with a suffix format PSNow doesn't accept (`DL360`/`DL380`/
+   `DL560`/`DL580 G9` had a `-NNNNN` mirror-reference suffix tacked on
+   that isn't part of the real HPE doc ID). All corrected. `DL80 G9`
+   had only an old pre-2016 "DA-15089" doc number on file, which
+   doesn't resolve via this URL scheme at all — found and confirmed
+   its modern doc ID (`c04447832`) via search instead. `DL120 G10` and
+   `ML350 G9` have no findable doc at all (re-confirmed via a fresh
+   search, not assumed from earlier sessions) — their badge correctly
+   shows no link.
+
+2. **Found a related pre-existing bug while doing this**: `DL120 G10`
+   had `verified:true` set despite its own very next note saying
+   "UNVERIFIED... no working mirror found across THREE separate
+   research passes" — a genuine contradiction, invisible until the
+   badge became a link with nothing to point to. Removed the stray
+   flag.
+
+3. **DL380 G10 memory speed (2933 MT/s) — confirmed CORRECT, not a
+   bug.** Checked HPE's own live QuickSpecs directly: 2933 MT/s is a
+   real, CPU-GENERATION-dependent speed — 2nd-Gen "Cascade Lake" Xeon
+   Scalable (`sp2`) support it, 1st-Gen "Skylake" (`sp1`) tops out at
+   2666 MT/s (matches Intel's own official spec). Tested the tool live
+   both ways: picking a Cascade Lake CPU (Gold 6248) correctly offers
+   2666/2933; picking a Skylake CPU (Gold 6130) correctly offers only
+   2400/2666. If 2933 wasn't showing, the most likely explanation is a
+   Skylake CPU was selected — that's the model behaving correctly, not
+   a regression.
+
+4. **Storage-controller group headers regression — confirmed real,
+   fixed.** Building the new per-model `ctrl:[...]` override for
+   `DL360`/`DL380 G10` replaced the generic grouped `CTRLS` list with a
+   flat one, losing the "Type-a"/"PCI" group headers. Added the same
+   `'— Group —'` header strings the generic list uses back into both
+   override arrays.
+
+5. **Raw "-001" spare/board part numbers instead of "-B21" orderable
+   kit numbers — investigated, NOT implemented yet.** Confirmed the
+   user's example is real (`836260-001` is genuinely the HPE spare
+   part number for `P408i-a`, distinct from the `804331-B21` orderable
+   kit number). These numbers don't appear in QuickSpecs PDFs at all —
+   they live in a completely different HPE document type ("spare
+   parts"/"Product Information Reference" pages), which this project
+   has never sourced from before. This needs its own dedicated
+   research pass, not a quick add — raised with the user rather than
+   guessed at or half-implemented.
+
+3 new regression tests (round 14 extended), 476/476 passing. Verified
+all of the above live in the browser.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are
