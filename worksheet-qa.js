@@ -2954,11 +2954,11 @@ function runRound14(){
   (opts14.length===7 && opts14.some(o=>/865408-B21/.test(o)) && opts14.some(o=>/874571-B21/.test(o)))
     ?pass14('ML350 G10: psu:[] override now actually drives the picker (was dead data — 7 real part numbers)')
     :fail14('ML350 G10 psu panel wrong: '+opts14.join(' | '));
-  setModel14('DL325 G10'); // a model with NO psu:[] override — must still fall back cleanly to plain PSUS
+  setModel14('DL160 G10'); // a model with NO psu:[] override — must still fall back cleanly to plain PSUS
   opts14=psuOpts14();
   (opts14.length>0 && opts14.every(o=>/^\d+W$/.test(o)))
-    ?pass14('DL325 G10 (no psu:[] override): still falls back to the plain generic PSUS wattage list')
-    :fail14('DL325 G10 psu panel should be plain wattages: '+opts14.join(' | '));
+    ?pass14('DL160 G10 (no psu:[] override): still falls back to the plain generic PSUS wattage list')
+    :fail14('DL160 G10 psu panel should be plain wattages: '+opts14.join(' | '));
 
   // --- DL360/DL380 G10: real PSU + storage-controller part numbers,
   // sourced 2026-09-17 directly from the already-cached QuickSpecs ---
@@ -3130,4 +3130,64 @@ function runRound15(){
   (copts15.some(function(o){return /^P440ar\/2GB.*726736-B21/.test(o);}) && copts15.some(function(o){return /^P840\/4GB.*726897-B21/.test(o);}))
     ?pass15('ML350 G9: real controller list with sourced part numbers (was the generic name-only list)')
     :fail15('ML350 G9 ctrl panel wrong: '+copts15.join(' | '));
+  runRound16();   // chained — round 15 has no nested timers of its own
+}
+
+// ---- round 16: user asked to continue the part-number project into
+// the rest of G10 rack (DL325/DL385/DL560/DL580), following DL360/
+// DL380 G10 from the last batch (2026-09-17). ----
+function runRound16(){
+  function pass16(m){console.log('ok    '+m);}
+  function fail16(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi16=d.getElementById('model-input');
+  function setModel16(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi16.value='';fire(mi16,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
+    if(!opt)return fail16('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function psuOpts16(){const psu=d.getElementById('psu');psu.value='';fire(psu,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});}
+  function ctrlOpts16(){const ctrl=d.getElementById('ctrl');ctrl.value='';fire(ctrl,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});}
+
+  setModel16('DL325 G10');
+  let p16=psuOpts16();
+  (p16.length===7 && p16.some(function(o){return /837074-B21/.test(o);}) && p16.some(function(o){return /P04983-B21/.test(o);}))
+    ?pass16('DL325 G10: real 7-option PSU list, incl. the entry-tier FIO kit that needs no enablement kit')
+    :fail16('DL325 G10 psu panel wrong: '+p16.join(' | '));
+  let c16=ctrlOpts16();
+  (c16.length===7 && c16.every(function(o){return !/^P408i-a \(|^P816i-a \(|^E208i-a \(/.test(o);}) && c16.some(function(o){return /^P408i-a LH/.test(o);}))
+    ?pass16('DL325 G10: controller list is LH-only for embedded cards — no plain (non-LH) variant exists on this 1U chassis')
+    :fail16('DL325 G10 ctrl panel wrong: '+c16.join(' | '));
+
+  setModel16('DL385 G10');
+  p16=psuOpts16();
+  (p16.length===6 && p16.some(function(o){return /865408-B21/.test(o);}))
+    ?pass16('DL385 G10: real 6-option PSU list (no enablement kit needed, unlike DL325 G10)')
+    :fail16('DL385 G10 psu panel wrong: '+p16.join(' | '));
+  c16=ctrlOpts16();
+  (c16.length===8 && c16.some(function(o){return /^P824i-p \(870658-B21/.test(o);}))
+    ?pass16('DL385 G10: real controller list, P824i-p PN backfilled from DL580 G10\'s doc')
+    :fail16('DL385 G10 ctrl panel wrong: '+c16.join(' | '));
+
+  setModel16('DL560 G10');
+  p16=psuOpts16();
+  (p16.length===5 && !p16.some(function(o){return /500W/.test(o);}))
+    ?pass16('DL560 G10: real 5-option PSU list, no 500W tier at all on this 4-socket chassis')
+    :fail16('DL560 G10 psu panel wrong: '+p16.join(' | '));
+  c16=ctrlOpts16();
+  (c16.length===7 && c16.some(function(o){return /^P408i-a LH/.test(o);}) && !c16.some(function(o){return /P824i-p/.test(o);}))
+    ?pass16('DL560 G10: LH-only embedded controllers, no P824i-p (confirmed absent, contradicting DL380 G10\'s cable-kit note)')
+    :fail16('DL560 G10 ctrl panel wrong: '+c16.join(' | '));
+
+  setModel16('DL580 G10');
+  p16=psuOpts16();
+  (p16.length===2 && p16.some(function(o){return /865414-B21/.test(o);}) && p16.some(function(o){return /830272-B21/.test(o);}))
+    ?pass16('DL580 G10: only 2 real PSU tiers exist (800W/1600W Platinum), confirmed not guessed')
+    :fail16('DL580 G10 psu panel wrong: '+p16.join(' | '));
+  c16=ctrlOpts16();
+  (c16.length===5 && !c16.some(function(o){return /-a \(|LH/.test(o);}) && c16.some(function(o){return /^P824i-p \(870658-B21\)$/.test(o);}))
+    ?pass16('DL580 G10: no embedded/LH controllers at all, and P824i-p\'s real PN (870658-B21) found here directly')
+    :fail16('DL580 G10 ctrl panel wrong: '+c16.join(' | '));
 }

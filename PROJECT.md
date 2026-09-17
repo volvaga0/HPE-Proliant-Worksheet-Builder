@@ -2204,6 +2204,44 @@ passing. Verified all of the above live in the browser. Source PDF
 deleted after extraction per this project's "text only, no raw PDFs"
 convention; `.txt` kept in `quickspecs-cache/`, `MANIFEST.md` updated.
 
+**2026-09-17, continued — rest of G10 rack: DL325/DL385/DL560/DL580.**
+Same rigor as DL360/DL380 G10 from the earlier batch — real PSU +
+storage-controller part numbers, sourced directly from each model's
+own cached QuickSpecs.
+
+- **DL325 G10** (1U, single-socket AMD): 7 real PSU options — a real
+  constraint found: every Flex Slot (redundant) supply needs the
+  Redundant PSU Enablement Kit (P04983-B21), only the 500W FIO
+  non-redundant kit doesn't. Controllers are LH-only for every
+  embedded card — no plain (non-LH) variant exists on this chassis at
+  all, confirmed by their total absence from the doc (not just an
+  oversight).
+- **DL385 G10** (2U, 2-socket AMD): 6 real PSU options, no enablement
+  kit needed. Controller PART NUMBERS were carried over from DL380
+  G10's own doc rather than read directly here — this model's own
+  cached doc is a router-switch.com reformatted "Data Sheet" that
+  names the same 8 controllers but never itemizes their part numbers;
+  trusted the family-sharing because the SAME document independently
+  confirms literal "DL38X Gen10" shared-SKU riser parts.
+- **DL560 G10** (4-socket): 5 real PSU options (no 500W tier exists at
+  all on this chassis), LH-only embedded controllers. **Found a real
+  cross-doc discrepancy**: DL380 G10's own doc names DL560 G10 as also
+  offering the P824i-p controller (via a shared cable-kit line), but
+  P824i-p never appears anywhere in DL560 G10's own QuickSpecs —
+  trusted this model's own doc over the other's claim, left P824i-p
+  out entirely rather than guessing which source was right.
+- **DL580 G10** (4-8 socket): only 2 real PSU tiers exist (800W/1600W
+  Platinum) — confirmed, not assumed to match its siblings. No
+  embedded/LH controllers at all, only external/plug-in cards. **This
+  is the model that actually resolved the P824i-p gap**: its own doc
+  itemizes the real part number (870658-B21) directly, which was then
+  backfilled into DL380/DL385 G10's entries (the shared-cable-kit
+  note groups all of DL38X/DL560/DL580/ML350 as using the identical
+  controller SKU — DL560 being the one confirmed exception).
+
+8 new regression tests (round 16), 491/491 passing. Verified all four
+live in the browser.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are
