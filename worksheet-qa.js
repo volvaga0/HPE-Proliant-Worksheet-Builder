@@ -2761,5 +2761,18 @@ function runRound12(){
     ?pass12('DL380 G9: real 3-option riser list (default primary + 2 secondary variants)')
     :fail12('DL380 G9 riser panel wrong: '+opts12.join(' | '));
 
+  // --- G10+ entry-level rack (last gap in G10/G10+, the current
+  // bread-and-butter tier): DL110 G10+ and DL20 G10+ ---
+  setModel12('DL110 G10+');
+  opts12=riserOpts12();
+  (opts12.length===2 && opts12.some(o=>/P41827.*P41828-B21|P41828.*P41827-B21/.test(o)))
+    ?pass12('DL110 G10+: real 2-option riser list (Primary default + Secondary field/FIO kit)')
+    :fail12('DL110 G10+ riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL20 G10+');
+  opts12=riserOpts12();
+  (opts12.length===2 && opts12.some(o=>/P46114-B21/.test(o)) && opts12.some(o=>/P45433-B21/.test(o)))
+    ?pass12('DL20 G10+: real 2-option riser list (LP FIO riser default vs GPU riser)')
+    :fail12('DL20 G10+ riser panel wrong: '+opts12.join(' | '));
+
   d.getElementById('risers').innerHTML='';
 }

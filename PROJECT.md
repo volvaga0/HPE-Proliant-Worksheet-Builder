@@ -1885,6 +1885,34 @@ entry). This is going to take several more passes to close out fully,
 same multi-session pattern as every other verification axis in this
 file.
 
+**2026-09-17, continued: user set priority — G10/G10+ is the current
+bread-and-butter tier, G9 is "not so fussed about ... these days" (still
+wanted on the page, just not the focus).** Closed the one remaining gap
+in the G10/G10+ tier: `DL20 G10+` and `DL110 G10+` added to `RISERS`.
+`DL110 G10+` is the same 2-slot Primary / 1-slot Secondary pattern as its
+own G11 successor, one generation earlier — the Secondary kit has 2 SKUs
+for the identical physical part (`P41828-B21` factory-integrated-only,
+`P41827-B21` field-upgrade-only). `DL20 G10+` has a mandatory pick-one-
+of-two riser choice: the LP FIO riser (`P46114-B21`, modeled as the
+`def` since the doc's own Standard Features section describes it as the
+built config) or a GPU riser (`P45433-B21` — 1 slot, physical x8
+connector but only x4 electrical per the doc's own note, not assumed
+x16). Also re-checked `ML30`/`ML110`/`ML350` at G10 and G10+: all already
+correctly `riserMax:0` with "PCIe on the system board, no riser cage"
+notes from an earlier session's pass — confirmed correct, no new work
+needed there. 2 new regression tests (439 total). Verified both models'
+`RISERS` data live in the browser.
+
+**This closes the ENTIRE G10/G10+ tier — rack, entry-level, and tower —
+for the PCIe slot/riser axis.** Still open, in priority order per the
+user: G11/G12 entry-level and tower (not yet asked for), then G9
+entry-level and tower (`DL20`/`DL60`/`DL80`/`DL120`/`DL160`/`DL180` and
+`ML10`/`ML30`/`ML110`/`ML150`, lower priority now). Two long-standing
+gaps remain regardless of priority: `DL380`/`DL385 G10+`'s Primary/
+Secondary 3x16 upgrade kits (part numbers still unmatched) and `DL110
+G12` (genuinely unsourced — QuickSpecs won't load from any mirror
+tried).
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are

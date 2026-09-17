@@ -2693,12 +2693,30 @@ var REAR=['2SFF rear','2SFF NVMe rear','3LFF rear','1SFF rear','4LFF midtray','2
    its own 3-slot default + 2 secondary variants (a 3-slot kit or a
    2-slot "GPU Ready" kit).
 
-   Still on GENERIC_RISERS, needing real per-model data: every
-   G9/G10/G10+ entry-level/tower model, DL380/DL385 G10+'s
-   Primary/Secondary 3x16 upgrade kits (still unmatched to exact part
-   numbers), and DL110 G12 (genuinely unsourced -- its Data Sheet
-   defers slot topology to the full QuickSpecs, which still won't
-   load). Continue this pass there. */
+   Seventh batch, same day: closed the one remaining gap in the G10/G10+
+   tier specifically (the user's current bread-and-butter focus, ahead
+   of G9/G11/G12 for entry-level/tower). DL110 G10+ and DL20 G10+ added.
+   DL110 G10+ is the same 2-slot Primary/1-slot Secondary pattern as its
+   own G11 successor, one generation earlier -- 2 SKUs for the identical
+   Secondary kit (P41828-B21 factory-only, P41827-B21 field-upgrade-only).
+   DL20 G10+ has a mandatory-pick-one-of-two riser choice: the LP FIO
+   riser (P46114-B21, modeled as the def since the doc's own Standard
+   Features section describes it as the built config) or a GPU riser
+   (P45433-B21, 1 slot, physical x8 connector but only x4 electrical --
+   noted as such rather than assumed x16). Also checked ML30/ML110/ML350
+   at G10 and G10+: all already correctly riserMax:0 with "no riser
+   cages, PCIe on the system board" notes from an earlier session's
+   pass, so no RISERS entry was needed there -- confirmed, not new work.
+   This closes the ENTIRE G10/G10+ tier (rack + entry-level + tower) for
+   this axis.
+
+   Still on GENERIC_RISERS, needing real per-model data: G9/G11/G12
+   entry-level and tower models (lower priority per the user --
+   "not so fussed on G9 these days", and G11/G12 entry-level/tower
+   hasn't been asked for yet), DL380/DL385 G10+'s Primary/Secondary
+   3x16 upgrade kits (still unmatched to exact part numbers), and
+   DL110 G12 (genuinely unsourced -- its Data Sheet defers slot
+   topology to the full QuickSpecs, which still won't load). */
 var GENERIC_RISERS=[
  {n:'Primary riser (ships standard)',d:'up to 3 FH slots, CPU 1',s:3,fh:3,lp:0,pos:'primary',def:true},
  {n:'Secondary riser',d:'up to 3 FH slots, requires CPU 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
@@ -2931,6 +2949,29 @@ var RISERS={
  'DL110 G11':[
   {n:'Primary Riser (Slots 1-2, ships standard)',d:'2 slots, full-height half-length x16 · Proc 1 (single-socket board)',s:2,fh:2,lp:0,pos:'primary',def:true},
   {n:'x16 FHHL PCIe Secondary Riser Kit (P54288-B21)',d:'Adds Slot 3, full-height half-length x16 · optional, no 2nd socket needed',s:1,fh:1,lp:0,pos:'secondary'}
+ ],
+ /* DL110 Gen10 Plus QuickSpecs (already cached). Same 2-slot Primary/1-slot
+    Secondary pattern as G11, one generation earlier: Primary (Slots 1-2,
+    both FH-HL x16) ships standard, single-socket SoC board. Secondary Kit
+    adds Slot 3 (FH-HL x16) — 2 SKUs for the same physical kit, P41828-B21
+    is factory-integrated-only and P41827-B21 is field-upgrade-only.
+    Matches pcie:{one:3,two:3},riserMax:2. 2026-09-17. */
+ 'DL110 G10+':[
+  {n:'Primary Riser (Slots 1-2, ships standard)',d:'2 slots, full-height half-length x16 · Proc 1 (single-socket SoC board)',s:2,fh:2,lp:0,pos:'primary',def:true},
+  {n:'x16 FHHL PCIe Secondary Riser Kit (P41827/P41828-B21 — field/FIO)',d:'Adds Slot 3, full-height half-length x16 · optional, no 2nd socket needed · P41828-B21 factory-integrated only, P41827-B21 field-upgrade only',s:1,fh:1,lp:0,pos:'secondary'}
+ ],
+ /* DL20 Gen10 Plus QuickSpecs (already cached). Single mandatory riser
+    choice between 2 kit types: Primary FIO LP Riser (P46114-B21, ships as
+    the standard/most common build — Slot 1 LP x8 + Slot 2 FH-HL x8/x16
+    connector) or x16/x4 GPU Riser Kit (P45433-B21, 1 slot, physical x8
+    connector / x4 electrical bus, full-height — GPU-capable alternate that
+    replaces the LP riser). Both listed as "Optional" in the doc's own
+    option table but the doc also states the LP riser config in its
+    Standard Features section, so it's modeled here as the def. Matches
+    pcie:{one:2,two:2},riserMax:1. 2026-09-17. */
+ 'DL20 G10+':[
+  {n:'Primary FIO LP Riser Kit (P46114-B21)',d:'Slot 1 low-profile x8 + Slot 2 full-height half-length x8 (x16 connector), PCIe4.0 · Proc 1 · standard/most common riser choice',s:2,fh:1,lp:1,pos:'primary',def:true},
+  {n:'x16/x4 GPU Riser Kit (P45433-B21)',d:'1 slot, full-height, physical x8 connector but PCIe4.0 x4 electrical bus · Proc 1 · GPU-capable alternate, replaces the Primary FIO LP Riser',s:1,fh:1,lp:0,pos:'primary'}
  ],
  /* DL360 Gen12 QuickSpecs (already cached) — shares the DL360 Gen11 chassis
     platform exactly: same Slot1 FH + Slot2 LP default primary, same
@@ -3200,7 +3241,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.4'; // 4th build shipped today
+var BUILD_VERSION='2026.09.17.5'; // 5th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
