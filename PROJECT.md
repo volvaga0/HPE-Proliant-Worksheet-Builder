@@ -1904,14 +1904,35 @@ needed there. 2 new regression tests (439 total). Verified both models'
 `RISERS` data live in the browser.
 
 **This closes the ENTIRE G10/G10+ tier — rack, entry-level, and tower —
-for the PCIe slot/riser axis.** Still open, in priority order per the
-user: G11/G12 entry-level and tower (not yet asked for), then G9
-entry-level and tower (`DL20`/`DL60`/`DL80`/`DL120`/`DL160`/`DL180` and
-`ML10`/`ML30`/`ML110`/`ML150`, lower priority now). Two long-standing
-gaps remain regardless of priority: `DL380`/`DL385 G10+`'s Primary/
-Secondary 3x16 upgrade kits (part numbers still unmatched) and `DL110
-G12` (genuinely unsourced — QuickSpecs won't load from any mirror
-tried).
+for the PCIe slot/riser axis.** Checking what was actually left turned
+up a pleasant surprise: **G11/G12 entry-level/tower and G9 towers were
+already done** from earlier passes in this same session (or an earlier
+one) — only G9 entry-level rack remained genuinely unmodeled.
+
+**2026-09-17, continued once more: closed G9 entry-level rack** —
+`DL20`/`DL60`/`DL80`/`DL120`/`DL160`/`DL180 G9`, the user's explicit
+lower priority ("not so fussed on G9 these days") but the only real
+remaining gap once everything above was checked. `DL60`/`DL120 G9`
+share the literal "DL60/120 Gen9" riser part numbers (`765508`/`509`/
+`510-B21`). `DL80 G9` is the true family outlier: 5 PCIe slots live
+directly on the motherboard with no riser needed at all, and its riser
+is genuinely *optional* (bonus slots on top) rather than mandatory like
+every sibling — deliberately left `pcie`/`riserMax` unchanged since this
+tool's flat one/two ceiling has no way to represent a 3rd "bonus tier";
+noted instead of guessed. `DL180 G9`'s doc has a rear-panel diagram that
+hints at a mirrored CPU2 riser cage (slots 1-3 primary / 4-6 secondary)
+but an earlier pass had already checked this exact doc and concluded
+slot count doesn't change 1P vs 2P — kept `riserMax:1` as-is rather than
+override a considered prior call on internally inconsistent doc
+evidence. `DL160 G9` confirmed the identical "mandatory CPU1 riser +
+optional CPU2 riser" pattern already coded for `DL160 G10`.
+
+**This closes out G9/G10/G10+/G11/G12 — every generation, every chassis
+class (rack, entry-level, tower) — for the PCIe slot/riser axis.** 6 new
+regression tests (445 total). Two non-blocking gaps remain: `DL380`/
+`DL385 G10+`'s Primary/Secondary 3x16 upgrade kits (part numbers still
+unmatched) and `DL110 G12` (genuinely unsourced — QuickSpecs won't load
+from any mirror tried).
 
 ## Working conventions established this session
 

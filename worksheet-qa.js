@@ -2774,5 +2774,38 @@ function runRound12(){
     ?pass12('DL20 G10+: real 2-option riser list (LP FIO riser default vs GPU riser)')
     :fail12('DL20 G10+ riser panel wrong: '+opts12.join(' | '));
 
+  // --- G9 entry-level rack (lower priority per the user, but the only
+  // remaining gap on this axis): DL20/DL60/DL80/DL120/DL160/DL180 G9 ---
+  setModel12('DL20 G9');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/854846-B21/.test(o)) && opts12.some(o=>/811271-B21/.test(o)))
+    ?pass12('DL20 G9: real 3-option riser list (LP riser, FlexLOM riser, GPU kit)')
+    :fail12('DL20 G9 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL60 G9');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/765508-B21/.test(o)) && opts12.some(o=>/765510-B21/.test(o)))
+    ?pass12('DL60 G9: real 3-option riser list (CPU1 base/FlexLOM/FHHL kits)')
+    :fail12('DL60 G9 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL80 G9');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/765515-B21/.test(o)) && opts12.some(o=>/765518-B21/.test(o)))
+    ?pass12('DL80 G9: real 3-option riser list (FHHL/FlexLOM/GPU kits, optional, on top of 5 motherboard slots)')
+    :fail12('DL80 G9 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL120 G9');
+  opts12=riserOpts12();
+  (opts12.length===4 && opts12.some(o=>/765510-B21/.test(o)) && opts12.some(o=>/779611-B21/.test(o)))
+    ?pass12('DL120 G9: real 4-option riser list (CPU1 base/FlexLOM/FHHL/GPU kits)')
+    :fail12('DL120 G9 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL160 G9');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/725585-B21/.test(o)) && opts12.some(o=>/725586-B21/.test(o)))
+    ?pass12('DL160 G9: real 3-option riser list (CPU1 default/FlexLOM + optional CPU2 kit)')
+    :fail12('DL160 G9 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL180 G9');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/725569-B21/.test(o)) && opts12.some(o=>/780965-B21/.test(o)))
+    ?pass12('DL180 G9: real 3-option riser list (3-slot x8 / x16 / FlexLOM kits)')
+    :fail12('DL180 G9 riser panel wrong: '+opts12.join(' | '));
+
   d.getElementById('risers').innerHTML='';
 }

@@ -2710,13 +2710,30 @@ var REAR=['2SFF rear','2SFF NVMe rear','3LFF rear','1SFF rear','4LFF midtray','2
    This closes the ENTIRE G10/G10+ tier (rack + entry-level + tower) for
    this axis.
 
-   Still on GENERIC_RISERS, needing real per-model data: G9/G11/G12
-   entry-level and tower models (lower priority per the user --
-   "not so fussed on G9 these days", and G11/G12 entry-level/tower
-   hasn't been asked for yet), DL380/DL385 G10+'s Primary/Secondary
-   3x16 upgrade kits (still unmatched to exact part numbers), and
-   DL110 G12 (genuinely unsourced -- its Data Sheet defers slot
-   topology to the full QuickSpecs, which still won't load). */
+   Eighth batch, same day: G9 entry-level rack. Lower priority per the
+   user ("not so fussed on G9 these days") but turned out to be the ONLY
+   real gap left once G10/G10+/G11/G12 closed out -- G11/G12
+   entry-level/tower and G9 towers were already done (see below).
+   DL20/DL60/DL80/DL120/DL160/DL180 G9 all added. DL60/DL120 G9 share
+   the literal "DL60/120 Gen9" riser part numbers (765508/509/510-B21).
+   DL80 G9 is the real outlier: 5 PCIe slots live on the motherboard with
+   NO riser needed at all, and its riser is genuinely OPTIONAL (bonus
+   slots on top) rather than mandatory like every sibling -- left
+   pcie/riserMax unchanged since this tool's flat ceiling can't add a
+   3rd "bonus" tier, noted instead. DL180 G9's doc hints at a mirrored
+   CPU2 riser cage (rear-panel diagram numbers slots 1-3 primary/4-6
+   secondary) but an earlier session's note already concluded slot count
+   doesn't change 1P vs 2P after checking this same doc -- kept riserMax
+   at 1 rather than override that considered call on inconsistent
+   evidence. DL160 G9 confirmed the exact same "mandatory CPU1 riser +
+   optional CPU2 riser" pattern already coded for DL160 G10.
+
+   This closes out G9/G10/G10+/G11/G12 entry-level, tower, AND rack for
+   the PCIe/riser axis -- every generation this tool models, for every
+   chassis class. Remaining gaps, none blocking: DL380/DL385 G10+'s
+   Primary/Secondary 3x16 upgrade kit part numbers (unmatched), and
+   DL110 G12 (genuinely unsourced -- Data Sheet defers slot topology to
+   the full QuickSpecs, which still won't load from any mirror). */
 var GENERIC_RISERS=[
  {n:'Primary riser (ships standard)',d:'up to 3 FH slots, CPU 1',s:3,fh:3,lp:0,pos:'primary',def:true},
  {n:'Secondary riser',d:'up to 3 FH slots, requires CPU 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
@@ -2768,6 +2785,94 @@ var RISERS={
     slot count is gated by processor count, not by adding risers. */
  'DL580 G9':[
   {n:'Primary I/O riser (9 slots, ships standard)',d:'slots 1-9 · full-length/full-height · slot 9 Proc 1, slots 5-8 Proc 2, slots 3-4 Proc 3, slots 1-2 Proc 4',s:9,fh:9,lp:0,pos:'primary',def:true}
+ ],
+ /* DL20 Gen9 QuickSpecs (already cached). Single mandatory riser choice
+    among 3 kit types, no stated default: PCIe Low Profile Riser FIO Kit
+    (854846-B21, 2 slots — 1 LP + 1 FH), Flexible LOM Riser Kit
+    (811259-B21, 1 real slot + Slot1 becomes the FlexLOM connector), or
+    GPU Enablement Kit (811271-B21, 1 FH slot, mandatory if a GPU is
+    fitted). Matches pcie:{one:2},riserMax:1. 2026-09-17. */
+ 'DL20 G9':[
+  {n:'PCIe Low Profile Riser FIO Kit (854846-B21)',d:'Slot 1 low-profile x8 + Slot 2 full-height x8, PCIe3.0 · Proc 1',s:2,fh:1,lp:1,pos:'primary'},
+  {n:'Flexible LOM Riser Kit (811259-B21)',d:'Slot 1 becomes the FlexibleLOM connector (not a card slot) + Slot 2 full-height x8, PCIe3.0 · mandatory if a FlexibleLOM is fitted',s:1,fh:1,lp:0,pos:'primary'},
+  {n:'GPU Enablement Kit (811271-B21)',d:'1 slot, full-height, PCIe3.0 x16 · mandatory if a GPU card is fitted',s:1,fh:1,lp:0,pos:'primary'}
+ ],
+ /* DL60 Gen9 QuickSpecs (already cached). Shares the "DL60/120 Gen9"
+    riser part-number family with DL120 G9 (confirmed distinct chassis
+    otherwise). 1 mandatory riser choice among 3 kits, each giving the
+    resulting TOTAL slot count (this doc's own Expansion Slots tables
+    number sequentially across all 3, implying Slot 1 carries over into
+    every kit): CPU1 Riser Kit (765508-B21, Slot 1 only), FlexibleLOM
+    Riser Kit (765509-B21, Slot 1 + Slot 2, Slot 3 becomes FlexLOM),
+    Full Height Half Length PCIe Riser Kit (765510-B21, Slots 1-3, the
+    full 3-slot count). No CPU2-specific slot exists in this model's own
+    doc despite being 2-socket (matches pcie:{one:3,two:3}, same either
+    way). riserMax:1. 2026-09-17. */
+ 'DL60 G9':[
+  {n:'CPU1 Riser Kit (765508-B21)',d:'1 slot, low-profile x16, PCIe3.0 · Proc 1',s:1,fh:0,lp:1,pos:'primary'},
+  {n:'CPU1 FlexibleLOM Riser Kit (765509-B21)',d:'Slot 1 low-profile x16 + Slot 2 low-profile x8; Slot 3 becomes the FlexibleLOM connector (not a card slot) · mandatory if a FlexibleLOM is fitted',s:2,fh:0,lp:2,pos:'primary'},
+  {n:'CPU1 Full Height Half Length PCIe Riser Kit (765510-B21)',d:'Slot 1 low-profile x16 + Slot 2 low-profile x8 + Slot 3 full-height half-length x8 · the full 3-slot count',s:3,fh:1,lp:2,pos:'primary'}
+ ],
+ /* DL80 Gen9 QuickSpecs (already cached). The family outlier: 5 PCIe
+    slots (3 CPU1 + 2 CPU2) live directly on the motherboard with NO
+    riser required — matches pcie:{one:3,two:5}, already set from an
+    earlier pass. The Primary riser here is genuinely OPTIONAL (not
+    mandatory like every DL20/60/120/160/180 G9 sibling), adding UP TO 2
+    more real slots on top of the motherboard baseline: Full Height Half
+    Length Riser Kit (765515-B21, 2 FH slots), FlexibleLOM Riser Kit
+    (765514-B21, 1 LP slot + FlexLOM connector), or GPU Enablement Kit
+    (765518-B21, 1 FH-FL slot). NOT changing pcie/riserMax here: this
+    tool's flat one/two ceiling can't represent "base motherboard slots
+    PLUS bonus optional-riser slots" as a 3rd tier, and the doc's own
+    rear-panel slot diagram is internally self-contradictory (same slot
+    number given two different descriptions) so isn't trustworthy enough
+    to justify raising the ceiling — noted instead, same as the DL360
+    FH/LP tradeoff pattern. 2026-09-17. */
+ 'DL80 G9':[
+  {n:'Full Height Half Length Riser Kit (765515-B21)',d:'2 full-height slots, PCIe3.0 · optional, adds to the 5 motherboard-fixed slots (not fully captured by this tool\'s flat slot ceiling — see model notes)',s:2,fh:2,lp:0,pos:'primary'},
+  {n:'FlexibleLOM Riser Kit (765514-B21)',d:'1 low-profile slot + FlexibleLOM connector, PCIe3.0 · mandatory if a FlexibleLOM is fitted',s:1,fh:0,lp:1,pos:'primary'},
+  {n:'GPU Enablement Kit (765518-B21)',d:'1 full-height full-length slot, PCIe3.0 · mandatory if a GPU card is fitted',s:1,fh:1,lp:0,pos:'primary'}
+ ],
+ /* DL120 Gen9 QuickSpecs (already cached). Shares the "DL60/120 Gen9"
+    riser part-number family with DL60 G9 for the first 3 kits, plus its
+    own 4th GPU option (779611-B21, not offered on DL60 G9): CPU1 Riser
+    Kit (765508-B21, Slot 1 only), FlexibleLOM Riser Kit (765509-B21,
+    Slots 1-2 + FlexLOM), Full Height Half Length PCIe Riser Kit
+    (765510-B21, the full 3-slot count), or GPU Enablement Kit
+    (779611-B21, Slot 1 + a dedicated x16 FH-FL GPU slot replacing
+    Slots 2-3). Matches pcie:{one:3},riserMax:1. 2026-09-17. */
+ 'DL120 G9':[
+  {n:'CPU1 Riser Kit (765508-B21)',d:'1 slot, low-profile x16, PCIe3.0 · Proc 1',s:1,fh:0,lp:1,pos:'primary'},
+  {n:'CPU1 FlexibleLOM Riser Kit (765509-B21)',d:'Slot 1 low-profile x16 + Slot 2 low-profile x8; Slot 3 becomes the FlexibleLOM connector (not a card slot) · mandatory if a FlexibleLOM is fitted',s:2,fh:0,lp:2,pos:'primary'},
+  {n:'CPU1 Full Height Half Length PCIe Riser Kit (765510-B21)',d:'Slot 1 low-profile x16 + Slot 2 low-profile x8 + Slot 3 full-height half-length x8 · the full 3-slot count',s:3,fh:1,lp:2,pos:'primary'},
+  {n:'GPU Enablement Kit (779611-B21)',d:'Slot 1 low-profile x16 + a dedicated Slot 3 full-height full-length x16 GPU slot (replaces Slots 2-3) · mandatory if a GPU card is fitted',s:2,fh:1,lp:1,pos:'primary'}
+ ],
+ /* DL160 Gen9 QuickSpecs (already cached), 2-socket. Mandatory CPU1
+    riser choice — CPU1 Riser FIO Kit (725585-B21, Slot 1 FH-HL x16 +
+    Slot 2 LP x8) or FlexibleLOM Enablement Kit (781844-B21, Slot 1
+    becomes FlexLOM + Slot 2 LP x8) — plus a separate OPTIONAL CPU2
+    riser (Low Profile PCIe CPU2 Riser Kit, 725586-B21, 1 slot, needs
+    Proc 2). Matches pcie:{one:2,two:3},riserMax:2 exactly. 2026-09-17. */
+ 'DL160 G9':[
+  {n:'CPU1 Riser FIO Kit (725585-B21)',d:'Slot 1 full-height half-length x16 + Slot 2 low-profile x8, PCIe3.0 · Proc 1',s:2,fh:1,lp:1,pos:'primary'},
+  {n:'FlexibleLOM Enablement Kit (781844-B21)',d:'Slot 1 becomes the FlexibleLOM connector (not a card slot) + Slot 2 low-profile x8, PCIe3.0 · mandatory if a FlexibleLOM is fitted',s:1,fh:0,lp:1,pos:'primary'},
+  {n:'Low Profile PCIe CPU2 Riser Kit (725586-B21)',d:'Adds 1 low-profile slot, PCIe3.0 x16 · Proc 2 required',s:1,fh:0,lp:1,pos:'secondary',cpu2:true}
+ ],
+ /* DL180 Gen9 QuickSpecs (already cached), 2-socket. No PCIe slots on
+    the board at all — everything comes from ONE mandatory riser bay,
+    chosen from 3 kits: 3 Slot x8 PCI-E Riser Kit (725569-B21, all FH),
+    x16 PCI-E Riser Kit (725570-B21, 2 slots, fewer — needed for x16
+    cards), or FlexibleLOM Enablement Kit (780965-B21, 2 real slots +
+    Slot 3 becomes FlexLOM). An existing note on this model already
+    concluded slot count doesn't change 1P vs 2P despite some doc
+    language suggesting a 2nd CPU2 riser cage — kept as-is (riserMax:1)
+    rather than overridden, since the doc's own rear-panel slot diagram
+    is internally inconsistent on this point. Matches pcie:{one:3,
+    two:3},riserMax:1. 2026-09-17. */
+ 'DL180 G9':[
+  {n:'3 Slot x8 PCI-E Riser Kit (725569-B21)',d:'Slot 1 full-height full-length x8 + Slot 2 full-height half-length x8 + Slot 3 full-height half-length x8, PCIe3.0',s:3,fh:3,lp:0,pos:'primary'},
+  {n:'x16 PCI-E Riser Kit (725570-B21)',d:'Slot 1 full-height full-length x16 + Slot 2 full-height half-length x8, PCIe3.0 · needed to support x16 cards — fewer total slots than the 3-slot kit',s:2,fh:2,lp:0,pos:'primary'},
+  {n:'FlexibleLOM Enablement Kit (780965-B21)',d:'Slot 1 full-height full-length x8 + Slot 2 full-height half-length x8 + Slot 3 becomes the FlexibleLOM connector (not a card slot), PCIe3.0 · mandatory if a FlexibleLOM is fitted',s:2,fh:2,lp:0,pos:'primary'}
  ],
  'DL380 G10':[
   {n:'Default Primary riser',d:'Slots 1-3 · x8/x16/x8 · dual M.2 · ships standard · all full-height',s:3,fh:3,lp:0,pos:'primary',def:true},
@@ -3241,7 +3346,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.5'; // 5th build shipped today
+var BUILD_VERSION='2026.09.17.6'; // 6th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
