@@ -1842,12 +1842,32 @@ which still won't load from any mirror tried).
 6 new regression tests (430 total). Verified `DL385 G10+`'s corrected
 riser panel live in the browser.
 
+**2026-09-17, continued: finished G10 rack.**
+- `DL20`/`DL160`/`DL180 G10` added. **`DL180 G10` had NO `pcie` or
+  `riserMax` at all before this** — a real gap, not just a missing
+  `RISERS` entry — now fixed to `pcie:{one:3,two:6}`/`riserMax:2`,
+  sourced from its own doc's 4 riser kit options.
+- `DL325 G10` added — same basic shape as its G10+ successor (single
+  riser assembly, standalone LP secondary slot), one generation earlier.
+- `DL385 G10` added, and this surfaced a real chassis difference from
+  `DL380 G10` (which shares its "DL38X Gen10" riser kit family): `DL385
+  G10` genuinely has a 3rd Tertiary riser position (Slots 7-8) that
+  `DL380 G10`'s own entry doesn't have — `riserMax` corrected from unset
+  to 3 to match. The exact Tertiary kit part number wasn't found in the
+  cached doc, so it's described generically rather than guessed.
+5 new regression tests (435 total). Verified `DL180 G10`'s 4-option
+riser panel live in the browser.
+
+**This closes out the entire G10 and G10+ rack lines** (Intel and AMD
+both) for the riser axis — the only remaining rack gaps are `DL380`/
+`DL385 G10+`'s Primary/Secondary 3x16 upgrade kits (unmatched part
+numbers) and `DL110 G12` (genuinely unsourced).
+
 **Still on `GENERIC_RISERS`, needing real per-model data:** every
-G9/G10/G10+ entry-level and tower model, `DL380`/`DL385 G10+`'s
-Primary/Secondary 3x16 upgrade kits (still unmatched to exact part
-numbers), and `DL110 G12` (genuinely unsourced). This is going to take
-several more passes to close out fully, same multi-session pattern as
-every other verification axis in this file.
+G9/G10/G10+ entry-level and tower model — this is the bulk of what's
+left. This is going to take several more passes to close out fully,
+same multi-session pattern as every other verification axis in this
+file.
 
 ## Working conventions established this session
 

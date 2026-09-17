@@ -2720,5 +2720,32 @@ function runRound12(){
     ?pass12('DL385 G10+ v2: same riser platform/part numbers as v1')
     :fail12('DL385 G10+ v2 riser panel wrong: '+opts12.join(' | '));
 
+  // --- G10 rack (Intel + AMD): DL20/DL160/DL180/DL325/DL385 ---
+  setModel12('DL20 G10');
+  opts12=riserOpts12();
+  (opts12.length===2 && opts12.some(o=>/P09145-B21/.test(o)) && opts12.some(o=>/P06667-B21/.test(o)))
+    ?pass12('DL20 G10: real 2-option riser list (LP riser vs FlexibleLOM riser)')
+    :fail12('DL20 G10 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL160 G10');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/866432-B21/.test(o)) && opts12.some(o=>/866436-B21/.test(o)))
+    ?pass12('DL160 G10: real 3-option riser list (CPU1 default/FlexLOM + CPU2 kit)')
+    :fail12('DL160 G10 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL180 G10');
+  opts12=riserOpts12();
+  (opts12.length===4 && opts12.some(o=>/878484-B21/.test(o)) && opts12.some(o=>/866945-B21/.test(o)))
+    ?pass12('DL180 G10: real 4-option riser list (previously had no pcie/riserMax at all)')
+    :fail12('DL180 G10 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL325 G10');
+  opts12=riserOpts12();
+  (opts12.length===2 && opts12.some(o=>/P04849-B21/.test(o)))
+    ?pass12('DL325 G10: real 2-option riser list (default primary + secondary LP kit)')
+    :fail12('DL325 G10 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL385 G10');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/870548-B21/.test(o)) && opts12.some(o=>/Tertiary Riser Kit/.test(o)))
+    ?pass12('DL385 G10: real 3-option riser list, including the Tertiary position DL380 G10\'s own entry lacks')
+    :fail12('DL385 G10 riser panel wrong: '+opts12.join(' | '));
+
   d.getElementById('risers').innerHTML='';
 }

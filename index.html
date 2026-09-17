@@ -1039,12 +1039,13 @@ var MODELS=[
  {m:'DL180',g:'G10', p:['sp1','sp2'],  s:2, d:16, bays:['4LFF','8LFF','12LFF','8SFF'],
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
-     psuMax:2,fans:{one:3,two:5,perf:5},rear:['2SFF rear'],
+     psuMax:2,fans:{one:3,two:5,perf:5},pcie:{one:3,two:6},riserMax:2,rear:['2SFF rear'],
      notes:['Rear cage is a "dual SFF rear drive option" (2SFF only) — cable kits tie it to the S100i/E208i-a/P408i-a/P408i-p controller or a SAS Expander/P816i-a (2026-09-15, QuickSpecs a00021862enw). No mid-tray on this chassis.',
        'First processor (-L21) includes 3 fans; second processor (-B21) adds 2 more (5 total for 2P).',
        'All models include the S100i Smart Array Controller (software RAID, 14 drives) — needs enabling.',
        'Mixing two different processor models is not supported.',
-       'Field upgrade from 1st to 2nd generation Scalable processors is not supported.']}},
+       'Field upgrade from 1st to 2nd generation Scalable processors is not supported.',
+       'PCIe/riser data added 2026-09-17 (same doc — this had no `pcie`/`riserMax` at all before): CPU1 x8/x8/x8 riser (878484-B21) ships standard, 3 slots, all full-height; a CPU1 x16/x8 alternative (866939-B21) and a mandatory-if-FlexibleLOM-fitted riser (866941-B21, only 2 real card slots) also exist. CPU2 x8/x8/x8 riser (866945-B21) adds 3 more (2 FH + 1 LP), needs Proc 2.']}},
  {m:'DL325',g:'G10', p:['naples','rome'], s:1, d:16, bays:['8SFF','16SFF','24SFF','4LFF','8LFF','12LFF'],
    rules:{verified:true,hsW:171,hsWtext:'above 170W',hsStdException:['EPYC 7532'],memPerSocket:2048,psuMax:2,pcie:{one:3,two:3},fans:{one:5,perf:5},riserMax:2,fanRear:true,rear:[],
      notes:['No rear or mid-tray drive cage on this 1U single-socket chassis (2026-09-15, QuickSpecs a00045498enw V6).',
@@ -1085,7 +1086,7 @@ var MODELS=[
        'Fans are not tied to CPU wattage on this generation — only to NVMe, GPUs, rear drives and dense bay counts. The performance heatsink alone covers cooling up to its rated TDP.']}},
  {m:'DL385',g:'G10', p:['naples','rome'], s:2, d:32, bays:['8SFF','16SFF','24SFF','12LFF'],
    rules:{verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,
-     psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},fanBays:['12LFF','24SFF'],
+     psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},riserMax:3,fanBays:['12LFF','24SFF'],
      rear:['2SFF rear','3LFF rear','4LFF midtray'],
      notes:['Rear/mid-tray (2026-09-15): both exist and combine — up to 6SFF rear on the 24SFF chassis, or a 4LFF mid-tray + 3LFF rear + 2SFF rear together on 12LFF. A processor over 125W is not supported once the 4LFF mid-tray is fitted (this tool has no per-option CPU cap to enforce that automatically — confirm manually). Source is router-switch.com\'s own reformatted Data Sheet (referencing a00026913enw), not a direct mirror of the literal HPE PDF — treat with slightly less confidence than a verified:true QuickSpecs pull, and re-check if this is ever contradicted.',
        '8SFF 1P ships 4 standard fans; a second processor adds 2 more.',
@@ -2671,6 +2672,19 @@ var REAR=['2SFF rear','2SFF NVMe rear','3LFF rear','1SFF rear','4LFF midtray','2
    P14581-B21) AND Proc 2 either way; DL380 G10+'s entry (written in
    the previous batch) had this backwards and was corrected here too.
 
+   Fifth batch, same day: finished G10 rack. DL20/DL160/DL180 G10
+   added -- DL180 G10 had NO pcie/riserMax at all before this (a real
+   gap, not just a missing RISERS entry) -- now has both, sourced from
+   its own doc's 4 riser kit options. DL325 G10 added -- same basic
+   shape as its G10+ successor (single riser assembly, LP secondary
+   slot) one generation earlier. DL385 G10 added, and confirmed a real
+   chassis difference from DL380 G10 (which shares its "DL38X Gen10"
+   riser kit family): DL385 G10 genuinely has a 3rd Tertiary riser
+   position (Slots 7-8) that DL380 G10's own entry doesn't have --
+   riserMax corrected from unset to 3 to match; the exact Tertiary kit
+   part number wasn't found in the cached doc, so it's described
+   generically rather than guessed.
+
    Still on GENERIC_RISERS, needing real per-model data: every
    G9/G10/G10+ entry-level/tower model, DL380/DL385 G10+'s
    Primary/Secondary 3x16 upgrade kits (still unmatched to exact part
@@ -3084,6 +3098,64 @@ var RISERS={
   {n:'Default Secondary Riser (x8/x16/x8)',d:'Slots 4-6, all full-height full-length, PCIe4.0 · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
   {n:'x16 Tertiary Riser Kit (P14588-B21)',d:'Slot 7 only, full-height full-length x16, PCIe4.0 · Proc 2 required',s:1,fh:1,lp:0,pos:'tertiary',cpu2:true},
   {n:'x8/x8 Tertiary Riser Kit (P14581-B21)',d:'Slots 7-8, both full-height full-length x8, PCIe4.0 · Proc 2 required — pick this OR the x16 kit above, not both',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true}
+ ],
+ /* DL325 Gen10 QuickSpecs (already cached) — single-socket, one
+    generation behind G10+'s riser platform but the same basic shape:
+    default Primary (Slot1 FH + Slot2 LP) plus one standalone Secondary
+    LP slot (PCIe3.0, not PCIe4.0). 2026-09-17. */
+ 'DL325 G10':[
+  {n:'Default Primary Riser (Slot 1 FH + Slot 2 LP)',d:'Slot 1 full-height full-length x16, Slot 2 low-profile x8, PCIe3.0 · Proc 1 · ships standard',s:2,fh:1,lp:1,pos:'primary',def:true},
+  {n:'PCIe Low Profile Riser Kit — Secondary (P04849-B21)',d:'Adds 1 low-profile slot, PCIe3.0 x16 · cannot be installed alongside a Modular Smart Array controller',s:1,fh:0,lp:1,pos:'secondary'}
+ ],
+ /* DL385 Gen10 QuickSpecs (already cached) — shares the "DL38X Gen10"
+    riser kit family with DL380 G10 (confirmed: identical GPU/NVMe SlimSAS
+    kit part numbers appear in both docs), but ALSO has a real Tertiary
+    riser position (Slots 7-8) that DL380 G10's own entry doesn't model —
+    a genuine chassis difference, not an oversight to copy over. Default
+    Primary (3 slots x8/x16/x8) + Secondary Riser Kit (870548-B21, shared
+    with DL380 G10) + Tertiary (2 slots x8/x8, exact kit part number not
+    found in this doc — described generically rather than guessed).
+    Tertiary can be fitted without Secondary (confirmed independent).
+    Matches pcie:{one:3,two:8}; riserMax set to 3. 2026-09-17. */
+ 'DL385 G10':[
+  {n:'Default Primary Riser (x8/x16/x8, ships standard)',d:'Slots 1-3, all full-height, PCIe3.0 · Proc 1',s:3,fh:3,lp:0,pos:'primary',def:true},
+  {n:'Secondary Riser Kit (870548-B21)',d:'Slots 4-6, x8/x16/x8, full-height · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'Tertiary Riser Kit (2 slots, x8/x8)',d:'Slots 7-8, full-height · Proc 2 required · exact HPE part number not confirmed in cached doc — confirm before ordering; can be fitted without the Secondary riser',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true}
+ ],
+ /* DL20 Gen10 QuickSpecs (already cached). Single mandatory riser choice
+    between 2 kit types (both give 2 slots total): Primary FIO LP Riser
+    (Slot 1 LP x8 + Slot 2 FH-HL x8) or Flexible LOM Riser (Slot 1 is a
+    FlexibleLOM connector, not a general card slot, + Slot 2 FH-HL x8 —
+    mandatory if a FlexibleLOM is fitted). Matches pcie:{one:2,two:2}.
+    2026-09-17. */
+ 'DL20 G10':[
+  {n:'Primary FIO LP Riser Kit (P09145-B21)',d:'Slot 1 low-profile x8 + Slot 2 full-height half-length x8, PCIe3.0 · ships standard',s:2,fh:1,lp:1,pos:'primary',def:true},
+  {n:'x8x16 FlexibleLOM Riser Kit (P06667-B21)',d:'Slot 1 becomes a FlexibleLOM connector (not a general card slot) + Slot 2 full-height half-length x8, PCIe3.0 · mandatory if a FlexibleLOM is fitted — replaces the Primary FIO LP Riser',s:1,fh:1,lp:0,pos:'primary'}
+ ],
+ /* DL160 Gen10 QuickSpecs (already cached), 2-socket. CPU1 x16/x8 PCIe
+    Riser Kit (866432-B21) ships standard: Slot1 FH-HL x16 + Slot2 LP x8.
+    FlexibleLOM Riser Kit (875748-B21) replaces it when a FlexibleLOM is
+    fitted (mandatory then): Slot1 becomes the FlexLOM connector, only
+    Slot2 stays a real card slot. CPU2 x16 PCIe Riser Kit (866436-B21)
+    adds 1 more LP slot, needs Proc 2, incompatible with a Type-a modular
+    Smart Array. Matches pcie:{one:2,two:3}. 2026-09-17. */
+ 'DL160 G10':[
+  {n:'CPU1 x16/x8 PCIe Riser Kit (866432-B21)',d:'Slot 1 full-height half-length x16 + Slot 2 low-profile x8, PCIe3.0 · ships standard',s:2,fh:1,lp:1,pos:'primary',def:true},
+  {n:'FlexibleLOM Riser Kit (875748-B21)',d:'Slot 1 becomes the FlexibleLOM connector (not a general card slot) + Slot 2 low-profile x8, PCIe3.0 · mandatory if a FlexibleLOM is fitted — replaces the standard CPU1 riser',s:1,fh:0,lp:1,pos:'primary'},
+  {n:'CPU2 x16 PCIe Riser Kit (866436-B21)',d:'Adds 1 low-profile slot, PCIe3.0 x16 · Proc 2 required · cannot be installed with a Type-a modular Smart Array controller',s:1,fh:0,lp:1,pos:'secondary',cpu2:true}
+ ],
+ /* DL180 Gen10 QuickSpecs (already cached), 2-socket. Had no pcie/riserMax
+    at all before this pass. CPU1 x8/x8/x8 riser (878484-B21) ships
+    standard, 3 slots all full-height. Alternatives: CPU1 x16/x8 riser
+    (866939-B21, 2 slots) or FlexibleLOM riser (866941-B21, 2 real card
+    slots + Slot3 becomes the FlexLOM connector — mandatory if fitted).
+    CPU2 x8/x8/x8 riser (866945-B21) adds 3 more (2 FH + 1 LP), needs
+    Proc 2. 2026-09-17. */
+ 'DL180 G10':[
+  {n:'CPU1 x8/x8/x8 PCIe Riser Kit (878484-B21)',d:'Slots 1-3, all full-height, PCIe3.0 x8 · ships standard',s:3,fh:3,lp:0,pos:'primary',def:true},
+  {n:'CPU1 x16/x8 PCIe Riser Kit (866939-B21)',d:'Slot 1 full-height full-length x16 + Slot 2 full-height half-length x8, PCIe3.0 · replaces the standard 3-slot riser',s:2,fh:2,lp:0,pos:'primary'},
+  {n:'CPU1 FlexibleLOM Riser Kit (866941-B21)',d:'Slots 1-2 full-height x8 (2 real card slots) + Slot 3 becomes the FlexibleLOM connector · mandatory if a FlexibleLOM is fitted — replaces the standard riser',s:2,fh:2,lp:0,pos:'primary'},
+  {n:'CPU2 x8/x8/x8 PCIe Riser Kit (866945-B21)',d:'Slots 1-3, 2 full-height + 1 low-profile, PCIe3.0 x8 · Proc 2 required',s:3,fh:2,lp:1,pos:'secondary',cpu2:true}
  ]
 };
 
@@ -3093,7 +3165,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.2'; // 2nd build shipped today
+var BUILD_VERSION='2026.09.17.3'; // 3rd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
