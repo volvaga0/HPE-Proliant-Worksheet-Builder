@@ -1342,7 +1342,7 @@ var MODELS=[
      notes:['Front drive boxes only, all 2.5-inch — no rear or mid-tray drive cage.',
        'Processors above 150W need the High Performance Heat Sink; processors ship with no heatsink or fan kit — select both.',
        'A 4-processor build requires the Liquid Cooling FIO Heat Sink Kit (P54791-B21) — 4P air cooling is not offered.',
-       'No 5th Gen (sp5) Xeon Scalable — checked directly, QuickSpecs frozen at 4th-Gen-only since Jan 2024. **Fixed 2026-09-16**: this model\'s real CPU pool is exactly the 9 4-socket-rated "H"-suffix SKUs listed under its own QuickSpecs\' "Step 2a: Choose Processors" (DA-17093, cached) — P8490H/P8468H/P8460H/P8450H/P8444H/G6448H/G6434H/G6418H/G6416H — not the general sp4 list shared with 2-socket boards. 4 of these (8468H/8460H/8450H, plus the "H"-suffix 6434H, a distinct part from the plain 2-socket 6434) weren\'t previously seeded in this tool at all — added. `cpuAllow` now restricts both the CPU picker and evaluate()\'s validation to just these 9 for this model.',
+       'No 5th Gen (sp5) Xeon Scalable — QuickSpecs frozen at 4th-Gen-only since Jan 2024. CPU pool restricted (cpuAllow, fixed 2026-09-16) to the 9 4-socket-rated "H"-suffix SKUs its own doc lists (DA-17093): P8490H/P8468H/P8460H/P8450H/P8444H/G6448H/G6434H/G6418H/G6416H — not the general sp4 list shared with 2-socket boards.',
        '2 to 4 power supplies (min 2), redundancy 1+1 / 2+2 / 3+1.',
        'Air-cooled CTO ships 6 high-performance fans; liquid-cooled CTO ships 5.',
        '64 DIMM slots (16 per processor). 6 PCIe Gen5 slots (3 primary + 3 secondary) plus 2 OCP. Both riser cages take an x8/x16/x8 (P54779-B21) or x16/x16/x16 (P54780-B21) kit; a double-wide GPU only fits primary slot 2 or secondary slot 5.',
@@ -3346,7 +3346,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.6'; // 6th build shipped today
+var BUILD_VERSION='2026.09.17.7'; // 7th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
