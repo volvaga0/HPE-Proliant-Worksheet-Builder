@@ -1527,7 +1527,10 @@ var MODELS=[
  {m:'ML110',g:'G10', p:['sp1','sp2'], s:1, d:6,  tower:true, bays:['4LFF','8LFF','8SFF','16SFF'],
    rules:{verified:true,psuMax:2,pcie:{one:5,two:5},riserMax:0,rear:[],
      psu:['350W ATX Kit','550W ATX Kit — standard','500W Flex Slot Platinum, needs RPS kit (865408-B21)','800W Flex Slot Platinum, needs RPS kit (865414-B21)','800W Flex Slot Titanium, needs RPS kit (865438-B21)','RPS Enablement Kit (supports 2 supplies)'],
-     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a00021851enus) confirms 4LFF (expandable to 8LFF) and 8SFF (upgradable to 16SFF) as the real front-bay configs.',
+     ctrl:['S100i (embedded SW RAID, off by default)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
+     notes:['Storage controller part numbers sourced 2026-09-17 (same doc, "Core Options"): no "-a"/modular embedded RAID controller at all on this chassis — only S100i (built-in SW RAID) and the 4 PCIe plug-in cards. No P824i-p/P816i-a either — this tower\'s controller pool is genuinely narrower than the rack/ML350 family.',
+       'SAS Expander found, not previously tracked: HPE ML110 Gen10 12Gb SAS Expander Card Kit (P11359-B21) — "Add this SAS Expander option kit to upgrade your ML110 Gen10 SFF system pre-configured with either P408i-p to support 16 SFF drives." Added to EXPANDER_PARTS.',
+       'Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a00021851enus) confirms 4LFF (expandable to 8LFF) and 8SFF (upgradable to 16SFF) as the real front-bay configs.',
        'No rear drive bay — Box1/Box2 are both front-mounted (2026-09-15, QuickSpecs a00021851enus).',
        '1st or 2nd Gen Xeon Scalable (no field upgrade between them), single socket, up to ~110W. 6 DIMM slots (6 channels, 1 per channel).',
        '2 fixed fans (1 system + 1 PCIe fan module). The optional Redundant Fan Kit needs the 800W Flex Slot redundant PSU and is required for a 2nd HDD cage with 15K SAS, any SAS SSD, or the A3 extended environment.',
@@ -1536,7 +1539,9 @@ var MODELS=[
  {m:'ML350',g:'G10', p:['sp1','sp2'], s:2, d:24, tower:true, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:86,hsWtext:'above 85W',psuMax:2,pcie:{one:4,two:8},riserMax:0,rear:[],
      psu:['500W Low Halogen FIO (837074-B21)','500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','Flex Slot RPS Cage Kit + PDB (874571-B21)'],
-     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a00021852enw V8) confirms 4LFF (expandable to 8LFF, then 12LFF) and 8SFF (expandable to 16SFF, then 24SFF) as the real front-bay configs.',
+     ctrl:['P816i-a — needs AROC Cable Kit, Redundant Fan Cage Kit 874572-B21 (804338-B21)','P408i-a — needs AROC Cable Kit (804331-B21)','E208i-a — needs AROC Cable Kit (804326-B21)','P408i-p — needs Mini-SAS Cable Kit (830824-B21)','P408e-p (804405-B21)','E208i-p — needs Mini-SAS Cable Kit (804394-B21)','E208e-p (804398-B21)','P824i-p — SFF only, needs Cable Kit P00614-B21 + Redundant Fan Cage Kit 874572-B21 (870658-B21)'],
+     notes:['Storage controller part numbers sourced 2026-09-17 (same doc, "Core Options"): plain (non-LH) "-a" modular variants — P816i-a/P408i-a/E208i-a all confirmed as the regular part numbers here, unlike DL325/DL560 G10\'s LH-only pattern. P824i-p\'s part number (870658-B21) is directly confirmed in THIS model\'s own doc too — matches DL580 G10\'s exactly, strongly confirming the "shared DL38X/560/580/ML350 SKU" reasoning used to backfill DL380/DL385 G10\'s entries. Every "-a" and P824i-p variant needs its own AROC/cable kit + the Redundant Fan Cage Kit (874572-B21) for P816i-a and P824i-p specifically — noted per kit rather than built as a new check.',
+       'Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a00021852enw V8) confirms 4LFF (expandable to 8LFF, then 12LFF) and 8SFF (expandable to 16SFF, then 24SFF) as the real front-bay configs.',
        'No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a00021852enw V8).',
        'A 2-processor build needs the Redundant Fan Cage kit (874572-B21) — one fan cage plus 4 extra fans.',
        'A GPU over 75W needs the external power cable kit.',
@@ -2374,12 +2379,18 @@ var EXPANDER_PARTS={
  'DL380 G10':'12G SAS Expander Card (870549-B21)',
  'DL385 G10':'12G SAS Expander Card (870549-B21)',
  'ML350 G10':'12G SAS Expander Card (874576-B21) — SFF only, not supported on LFF',
+ 'ML110 G10':'12G SAS Expander Card Kit (P11359-B21) — SFF only, to reach 16SFF with P408i-p',
  'DL560 G10':'12G SAS Expander Card (873444-B21)',
  'DL580 G10':'12G SAS Expander Card (873444-B21)',
  'DL380 G10+':'12G SAS Expander Card (P23388-B21)',
  'DL385 G10+':'12G SAS Expander Card (P23388-B21)',
  'DL385 G10+ v2':'12G SAS Expander Card (P23388-B21)'
 };
+/* ML110 G10 (P11359-B21) added 2026-09-17, found while sourcing its
+   storage controller part numbers — a real gap in the original
+   2026-09-14 expander research pass, not previously represented at
+   all here (silently fell through to "no expander SKU exists,"
+   which was wrong for this one tower). */
 /* the three "external HBA" fallbacks are controllers reused as a way to
    add ports without an expander card — gated by the same CTRL_GENS
    scope already sourced for the controller picker, so e.g. H241 (G9
@@ -3460,7 +3471,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.15'; // 15th build shipped today
+var BUILD_VERSION='2026.09.17.16'; // 16th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

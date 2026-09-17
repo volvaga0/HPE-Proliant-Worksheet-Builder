@@ -2242,6 +2242,33 @@ own cached QuickSpecs.
 8 new regression tests (round 16), 491/491 passing. Verified all four
 live in the browser.
 
+**2026-09-17, continued — ML110/ML350 G10 towers.** Continuing the
+part-number project per the user's request, now closing out G10's
+tower line too.
+
+- **ML110 G10**: real 5-option controller list (S100i embedded SW
+  RAID + 4 PCIe plug-in cards) — no "-a"/modular embedded RAID
+  controller exists on this tower at all, and no P816i-a/P824i-p
+  either. **Found a genuine gap in the original 2026-09-14 SAS
+  expander research pass**: this model has its own real expander SKU
+  (12G SAS Expander Card Kit, P11359-B21, to reach 16SFF with
+  P408i-p) that was never added to `EXPANDER_PARTS` — silently fell
+  through to "no expander exists" before. Added.
+- **ML350 G10**: real 8-option controller list, and — unlike DL325/
+  DL560 G10's LH-only pattern — every "-a" modular variant here is
+  the PLAIN (non-LH) part number. **P824i-p's part number (870658-B21)
+  is directly confirmed in THIS model's own doc too**, exactly
+  matching what was found on DL580 G10 last batch — strongly
+  confirms the "shared DL38X/560/580/ML350 SKU" reasoning already
+  used to backfill DL380/DL385 G10's entries wasn't a guess.
+
+3 new regression tests (round 17), 494/494 passing. Verified all of
+the above live in the browser, including the new expander suggestion.
+
+**This closes out G10 rack + towers for the part-number axis.**
+Remaining for G10: entry-level (`DL20`/`DL160`/`DL180`) only. Then
+move to G10+.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are

@@ -3190,4 +3190,28 @@ function runRound16(){
   (c16.length===5 && !c16.some(function(o){return /-a \(|LH/.test(o);}) && c16.some(function(o){return /^P824i-p \(870658-B21\)$/.test(o);}))
     ?pass16('DL580 G10: no embedded/LH controllers at all, and P824i-p\'s real PN (870658-B21) found here directly')
     :fail16('DL580 G10 ctrl panel wrong: '+c16.join(' | '));
+
+  setModel16('ML110 G10');
+  c16=ctrlOpts16();
+  (c16.length===5 && c16.some(function(o){return /^S100i/.test(o);}) && !c16.some(function(o){return /-a \(|P824i-p|P816i-a/.test(o);}))
+    ?pass16('ML110 G10: real controller list — S100i + 4 PCIe plug-in cards, no "-a"/P816i-a/P824i-p at all on this tower')
+    :fail16('ML110 G10 ctrl panel wrong: '+c16.join(' | '));
+
+  setModel16('ML350 G10');
+  c16=ctrlOpts16();
+  (c16.length===8 && c16.some(function(o){return /^P408i-a — needs AROC.*\(804331-B21\)/.test(o);}) && c16.some(function(o){return /870658-B21/.test(o);}))
+    ?pass16('ML350 G10: real 8-option controller list, plain (non-LH) "-a" variants, P824i-p PN (870658-B21) directly confirmed in this model\'s own doc — matches DL580 G10 exactly')
+    :fail16('ML350 G10 ctrl panel wrong: '+c16.join(' | '));
+
+  // --- ML110 G10 genuinely has its own SAS Expander SKU (P11359-B21),
+  // a real gap in the original expander research pass — found while
+  // sourcing this model's controller part numbers ---
+  setModel16('ML110 G10');
+  const bays16=d.getElementById('bays');bays16.value='16SFF';fire(bays16,'input');
+  const ctrl16b=d.getElementById('ctrl');ctrl16b.value='P408i-p';fire(ctrl16b,'input');
+  const expTxt16=d.getElementById('expander-note').textContent;
+  (/P11359-B21/.test(expTxt16) && /8 ports/.test(expTxt16))
+    ?pass16('ML110 G10: 16SFF on an 8-port P408i-p now suggests the real SAS Expander Card Kit (P11359-B21) — was previously untracked entirely')
+    :fail16('ML110 G10 expander suggestion missing/wrong: '+expTxt16);
+  ctrl16b.value='';fire(ctrl16b,'input');bays16.value='';fire(bays16,'input');
 }
