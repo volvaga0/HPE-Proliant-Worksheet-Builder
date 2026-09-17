@@ -62,3 +62,4 @@ One row per cached file in this directory. See `README.md` for how to use/add to
 | DL380-G9.txt | DL380 | G9 | c04375627-15034 | V23 — 28-Oct-2016 | https://www.dve-x.com/fileadmin/user_upload/produkte/Hewlett_Packard/PDFs/HPE_ProLiant_DL380_Gen9_QuickSpecs_Nov2016.pdf | 2026-09-16 |
 | DL560-G9.txt | DL560 | G9 | c04601214-15296 | V22 — 2-Apr-2018 | https://newserverlife.com/upload/iblock/695/Spec560.pdf | 2026-09-16 |
 | DL580-G9.txt | DL580 | G9 | c04601209-15187 | V15 — 28-Nov-2016 | https://www.theserverstore.com/assets/images/HPE-ProLiant-DL580-Gen9-QuickSpecs-TheServerStore.pdf | 2026-09-16 |
+| ML350-G9.txt | ML350 | G9 | c04346270 | V31 — 2-Apr-2018 (RETIRED per HPE's own version history) | https://www.hpe.com/psnow/doc/c04346270 (user downloaded PDF directly, hpe.com is otherwise unreachable from this environment) | 2026-09-17 |

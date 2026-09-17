@@ -623,7 +623,7 @@ setTimeout(()=>{
   mlChk('ML30 G10','4 DIMM','2','v');
   mlChk('ML110 G10','6 DIMM','2','v');
   mlChk('ML30 G10+','4 DIMM','2','v');
-  mlChk('ML350 G9','24 DIMM','4','u');
+  mlChk('ML350 G9','24 DIMM','4','v'); // now verified 2026-09-17 against the real PDF (see round 15)
 
   // --- ML tower Gen9 stragglers verified 2026-09-15 ---
   mlChk('ML10 G9','4 DIMM','1','v');
@@ -3059,4 +3059,75 @@ function runRound14(){
     :fail14('DL380 G11 midtray controller check should have cleared: '+chk14.slice(0,220));
   ctrl14c.value='';fire(ctrl14c,'input');
   clearRear();bays14.value='';fire(bays14,'input');
+  runRound15();   // chained — round 14 has no nested timers of its own
+}
+
+// ---- round 15: user downloaded and dropped in the ML350 G9 QuickSpecs
+// PDF this environment couldn't fetch itself (2026-09-17). Full
+// re-verification against the real doc found 2 genuine data bugs, not
+// just gaps: fans (two-CPU non-redundant was 5, real is 4; no redundant
+// tier was modeled at all) and pcie (no one: value at all — confirmed
+// 4 slots at 1P). PSU part numbers were already correct, just badly
+// named ("Common Slot" instead of the doc's own "Flex Slot"); added 3
+// more real PSU options and a full ctrl:[] controller list. Now
+// verified:true. ----
+function runRound15(){
+  function pass15(m){console.log('ok    '+m);}
+  function fail15(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi15=d.getElementById('model-input');
+  function setModel15(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi15.value='';fire(mi15,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
+    if(!opt)return fail15('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function grab15(name){
+    const start=html.indexOf('var '+name+'=');
+    if(start<0)return null;
+    let i=html.indexOf('=',start)+1;
+    while(' \n\r\t'.includes(html[i]))i++;
+    const open=html[i], close=open==='['?']':'}';
+    let depth=0,q=null,esc=false,j=i;
+    for(;j<html.length;j++){
+      const c=html[j];
+      if(esc){esc=false;continue;}
+      if(q){ if(c==='\\')esc=true; else if(c===q)q=null; continue; }
+      if(c==='\''||c==='"'){q=c;continue;}
+      if(c==='/'&&html[j+1]==='*'){ j=html.indexOf('*/',j)+1; continue; }
+      if(c===open)depth++;
+      else if(c===close){depth--; if(!depth){j++;break;}}
+    }
+    try{ return eval('('+html.slice(i,j)+')'); }catch(e){ return null; }
+  }
+  const MODELS15=grab15('MODELS'), GEN_DEFAULTS15=grab15('GEN_DEFAULTS');
+  const rulesFor15=function(m){
+    const d0=GEN_DEFAULTS15[m.g]||{},own=m.rules||{},out={};
+    Object.keys(d0).forEach(function(k){out[k]=d0[k];});
+    Object.keys(own).forEach(function(k){out[k]=own[k];});
+    return out;
+  };
+  setModel15('ML350 G9');
+  const ml350g9=MODELS15.find(function(x){return x.m==='ML350'&&x.g==='G9';});
+  const R15=rulesFor15(ml350g9);
+  (R15.fans.one===3 && R15.fans.two===4 && R15.fans.perf===8)
+    ?pass15('ML350 G9: fans corrected to {one:3,two:4,perf:8} (was wrongly {one:3,two:5}, no redundant tier at all)')
+    :fail15('ML350 G9 fans still wrong: '+JSON.stringify(R15.fans));
+  (R15.pcie.one===4 && R15.pcie.two===9)
+    ?pass15('ML350 G9: pcie corrected to {one:4,two:9} (was missing one: entirely)')
+    :fail15('ML350 G9 pcie still wrong: '+JSON.stringify(R15.pcie));
+  d.getElementById('badge-v').classList.contains('on')
+    ?pass15('ML350 G9: now verified:true after the full re-check against the real PDF')
+    :fail15('ML350 G9 should be verified now');
+  const psu15=d.getElementById('psu');psu15.value='';fire(psu15,'input');
+  let popts15=[...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  (popts15.length===7 && popts15.some(function(o){return /720479-B21/.test(o);}) && popts15.some(function(o){return /Flex Slot/.test(o);}) && !popts15.some(function(o){return /Common Slot/.test(o);}))
+    ?pass15('ML350 G9: real 7-option PSU list, "Flex Slot" naming corrected (was wrongly "Common Slot"), 3 new real options added')
+    :fail15('ML350 G9 psu panel wrong: '+popts15.join(' | '));
+  const ctrl15=d.getElementById('ctrl');ctrl15.value='';fire(ctrl15,'input');
+  let copts15=[...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  (copts15.some(function(o){return /^P440ar\/2GB.*726736-B21/.test(o);}) && copts15.some(function(o){return /^P840\/4GB.*726897-B21/.test(o);}))
+    ?pass15('ML350 G9: real controller list with sourced part numbers (was the generic name-only list)')
+    :fail15('ML350 G9 ctrl panel wrong: '+copts15.join(' | '));
 }

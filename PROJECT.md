@@ -2164,6 +2164,46 @@ all of the above live in the browser.
 2 new regression tests, 478/478 passing. Verified both live in the
 browser.
 
+**2026-09-17, continued once more — user downloaded and dropped in the
+ML350 G9 QuickSpecs PDF this environment couldn't fetch on its own.**
+Extracted with `pdftotext` (needed `-raw`, not `-layout` — the PSU and
+controller tables were badly column-mangled under `-layout`, same
+lesson as this project's other multi-column table fights) and did a
+full re-verification, not just adding the doc link.
+
+**Found 2 genuine data bugs, not just gaps:**
+- `fans` was `{one:3,two:5}` — the real doc's own "System Fans" table
+  says 2-CPU non-redundant is **4** fans, not 5, and there's a real
+  redundant tier (6 fans 1P / 8 fans 2P) that had never been modeled
+  at all. Corrected to `{one:3,two:4,perf:8}` (matched to the 2P
+  figure, same convention used elsewhere in this tool for the
+  not-separately-trackable 1P-redundant number).
+- `pcie` was `{two:9}` with no `one:` value at all. The doc's own
+  Expansion Slots table explicitly marks 4 of the 9 slots "For
+  processor 1" and the other 5 "For processor 2" — confirmed `one:4`.
+
+**PSU data turned out already correct, just mislabeled**: the 3
+existing part numbers (720478/720479/720620-B21) all checked out
+against the real doc (confirmed twice — once via a disambiguating
+note, once via a clean `-raw` re-extraction) — only the NAME was
+wrong ("Common Slot" is Gen8-era HPE terminology; this doc calls
+every one of them "Flex Slot"). Added 3 more real PSU options not
+previously listed (`-48VDC`/Titanium/Universal) and the field-
+orderable X4 RPS kit part number alongside the existing FIO one.
+Noted, not yet a hard check: the 500W PSU is explicitly NOT supported
+with the RPS Enablement Kit needed for a 3-4 PSU build.
+
+**Added a full `ctrl:[...]` controller list** with real part numbers
+(B140i embedded, P440ar/H240ar "no PCIe slot" variants, P440/P840
+plug-in cards, P441/P841/H241 external, each with FIO/field SKU
+noted) — this model now matches the same rigor as `DL360`/`DL380 G10`
+from the earlier part-number batch.
+
+**Now `verified:true`.** 6 new regression tests (round 15), 483/483
+passing. Verified all of the above live in the browser. Source PDF
+deleted after extraction per this project's "text only, no raw PDFs"
+convention; `.txt` kept in `quickspecs-cache/`, `MANIFEST.md` updated.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are

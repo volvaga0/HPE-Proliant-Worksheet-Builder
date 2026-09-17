@@ -1493,13 +1493,15 @@ var MODELS=[
        'Sourced 2026-09-15, QuickSpecs c04447843 V28 (02-Apr-2018, includes E5-2600v4 — an initially-found gzhls.at mirror only carried the stale Dec-2014 V1 doc, predating v4 support; superseded by the ysorkh.net mirror\'s current copy).',
        'Backplane cross-reference (2026-09-16, same doc): zero occurrences of "NVMe"/"Tri-Mode"/"Premium" anywhere in this model\'s own QuickSpecs — SAS/SATA only, any bay config. Added to `BACKPLANE_SAS_ONLY`.']}},
  {m:'ML350',g:'G9',  p:['e5v3','e5v4'], s:2, d:24, tower:true,
-   rules:{psuMax:4,fans:{one:3,two:5},pcie:{two:9},riserMax:0,hsNoChoice:true,
-     psu:['500W Common Slot Platinum Plus (720478-B21)','800W Common Slot Platinum Plus (720479-B21)','1400W Common Slot Platinum Plus (720620-B21)','X4 Redundant PSU Enablement Kit (725870-B21)'],
+   rules:{verified:true,psuMax:4,fans:{one:3,two:4,perf:8},pcie:{one:4,two:9},riserMax:0,hsNoChoice:true,
+     psu:['HPE 500W Flex Slot Platinum Hot Plug Power Supply Kit (720478-B21)','HPE 800W Flex Slot Platinum Hot Plug Power Supply Kit (720479-B21)','HPE 800W Flex Slot -48VDC Hot Plug Power Supply Kit (720480-B21)','HPE 800W Flex Slot Titanium Hot Plug Power Supply Kit (720482-B21)','HPE 800W Flex Slot Universal Hot Plug Power Supply Kit (720484-B21)','HPE 1400W Flex Slot Platinum Plus Hot Plug Power Supply Kit (720620-B21)','ML350 Gen9 X4 RPS Enablement Kit (802988-B21, or 725870-B21 FIO)'],
+     ctrl:['— Embedded (no PCIe slot used) —','B140i (embedded SATA, entry model only)','P440ar/2GB FBWC (726736-B21, or 749974-B21 FIO)','H240ar (726757-B21, or 749976-B21 FIO)','— PCI (plug-in card) —','P440/4GB FBWC (726821-B21, or 761872-B21 FIO)','P840/4GB FBWC (726897-B21, or 761874-B21 FIO)','P441/4GB FBWC — external (726825-B21)','P841/4GB FBWC — external (726903-B21)','H240 (726907-B21, or 761873-B21 FIO)','H241 — external (726911-B21)'],
      notes:['5U tower, 2 sockets (2nd optional), 24 DIMM slots, up to 48 SFF / 24 LFF drives.',
-       'Hardware counts verified against ML350 Gen9 QuickSpecs — doc ID confirmed 2026-09-17 (c04346270, user-provided, RETIRED/obsolete per HPE\'s own version history but still the real QuickSpecs). The individual field values below haven\'t been freshly re-checked line-by-line against it in this pass — this environment can\'t reliably extract text from an hpe.com PDF, so a full re-verification needs a different approach; `verified:true` stays unset pending that.',
-       '4 HPE Flexible Slot power supply bays: Slot 1 standard, Slots 2-4 optional (X4 Redundant PSU Enablement Kit 725870-B21).',
-       '3 system fans standard; the Redundant Fan Kit (725878-B21) adds 4 fans + 2 PCIe air baffles and is standard on the performance model.',
-       '9 PCIe expansion slots (8 Gen3, 1 Gen2); some need the 2nd processor.',
+       'Fully re-verified 2026-09-17 against the actual QuickSpecs PDF (c04346270, user-provided — pdftotext -layout badly mangled several tables here, -raw was needed for a clean read, same lesson as this project\'s other multi-column extraction fights). Found and fixed 2 real data bugs, not just gaps: `fans` two-CPU non-redundant was wrongly 5 (real doc: 4) and had no redundant tier modeled at all (real: 6 fans 1P-redundant / 8 fans 2P-redundant — matched to the 2P figure, same convention as this tool\'s other models where the 1P-redundant number isn\'t separately trackable). `pcie` had no `one:` value at all — confirmed 4 slots (1P, all "For processor 1" in the doc\'s own Expansion Slots table) vs 9 (2P, the other 5 slots are "For processor 2").',
+       'PSU part numbers were already correct (confirmed twice, once via a disambiguating note and once via a clean -raw re-extraction) — only the NAME was wrong ("Common Slot" is Gen8-era HPE terminology; this doc calls every one of them "Flex Slot"). Added 3 more real options (`-48VDC`/Titanium/Universal) not previously listed, and the field-orderable X4 RPS kit PN (802988-B21) alongside the existing FIO one (725870-B21).',
+       'Real constraint found, not yet enforced as a hard check: the 500W Flex Slot PSU (720478-B21) is explicitly NOT supported with the X4 RPS Enablement Kit — a 3-4 PSU build needs the 800W or 1400W tier instead. Confirm before quoting a >2-PSU build with the 500W option.',
+       'Storage controller part numbers added 2026-09-17 (same doc, Core Options): "ar"-suffix cards (P440ar/H240ar) don\'t consume a PCIe slot; the plain-suffix cards (P440/P840/H240) and both external cards (P441/P841/H241) do. Each has a separate FIO (factory-integrated) SKU alongside the field-orderable one listed here — both real, noted rather than doubled into separate lines.',
+       '4 HPE Flexible Slot power supply bays: Slot 1 standard, Slots 2-4 optional.',
        'No standard/performance heatsink choice — E5-2600 v3/v4 parts share one heatsink and it ships in the processor kit.']}},
  {m:'ML30', g:'G10', p:['xeone'], s:1, d:4,  tower:true, bays:['4LFF','6LFF','8SFF'],
    rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,rear:[],
@@ -3446,7 +3448,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.13'; // 13th build shipped today
+var BUILD_VERSION='2026.09.17.14'; // 14th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
