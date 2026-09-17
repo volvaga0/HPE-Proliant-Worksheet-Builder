@@ -2654,12 +2654,29 @@ var REAR=['2SFF rear','2SFF NVMe rear','3LFF rear','1SFF rear','4LFF midtray','2
    the doc's numbered Riser2/Riser3 table rows -- left as a documented
    gap rather than guessed.
 
+   Fourth batch, same day: finished G10+ rack (AMD side). DL325 G10+
+   and v2 added -- single-socket, only ONE riser assembly exists (no
+   Primary/Secondary as separate physical cages the DL360-family way):
+   a default Slot1 FH + Slot2 LP, plus one Secondary slot as a
+   standalone kit choice (LP keeps Slot 2 usable, FHHL disables it --
+   same tradeoff pattern, different chassis). DL345 G10+ added --
+   single-socket, both Primary and Secondary default to 2 full-height
+   slots each (coincidentally identical count either way since there's
+   no 2nd socket). DL365 G10+ added -- confirmed the exact same shared
+   "DL36X Gen10 Plus" part numbers as DL360 G10+ (its 2-socket sibling).
+   DL385 G10+ and v2 added, completing the DL38X-family Tertiary
+   correction found while fixing them: neither Tertiary variant is a
+   free default at all -- both DL380 G10+ and DL385 G10+/v2 need an
+   explicit kit (x16 single-slot P14588-B21, or x8/x8 2-slot
+   P14581-B21) AND Proc 2 either way; DL380 G10+'s entry (written in
+   the previous batch) had this backwards and was corrected here too.
+
    Still on GENERIC_RISERS, needing real per-model data: every
-   G9/G10/G10+ entry-level/tower model except DL360 G10+, the
-   remaining G10+ rack models (DL325/DL345/DL365/DL385), DL380 G10+'s
-   Primary/Secondary upgrade kits, and DL110 G12 (genuinely unsourced
-   -- its Data Sheet defers slot topology to the full QuickSpecs, which
-   still won't load). Continue this pass there. */
+   G9/G10/G10+ entry-level/tower model, DL380/DL385 G10+'s
+   Primary/Secondary 3x16 upgrade kits (still unmatched to exact part
+   numbers), and DL110 G12 (genuinely unsourced -- its Data Sheet
+   defers slot topology to the full QuickSpecs, which still won't
+   load). Continue this pass there. */
 var GENERIC_RISERS=[
  {n:'Primary riser (ships standard)',d:'up to 3 FH slots, CPU 1',s:3,fh:3,lp:0,pos:'primary',def:true},
  {n:'Secondary riser',d:'up to 3 FH slots, requires CPU 2',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
@@ -2989,12 +3006,84 @@ var RISERS={
     the Primary/Secondary 3x16 upgrade kits' exact part numbers weren't
     confirmed with full confidence against the numbered Riser2/Riser3
     table rows, so they're left as a documented gap rather than guessed.
-    Matches pcie:{one:3,two:8}. 2026-09-17. */
+    Matches pcie:{one:3,two:8}. Tertiary has no free default at all — it
+    needs its own kit AND Proc 2 either way: x16 Tertiary Riser Kit
+    (P14588-B21, confirmed 1 slot matching the table's "Tertiary Riser1"
+    row) or x8/x8 Tertiary Riser Kit (P14581-B21, confirmed 2 slots
+    matching "Tertiary Riser2"). 2026-09-17. */
  'DL380 G10+':[
   {n:'Default Primary Riser (x8/x16/x8, ships standard)',d:'Slots 1-3, all full-height full-length, PCIe4.0 · Proc 1',s:3,fh:3,lp:0,pos:'primary',def:true},
   {n:'Default Secondary Riser (x8/x16/x8)',d:'Slots 4-6, all full-height full-length, PCIe4.0 · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
-  {n:'Default Tertiary Riser (1 slot)',d:'Slot 7 only, full-height full-length, PCIe4.0 · Proc 2 required',s:1,fh:1,lp:0,pos:'tertiary',cpu2:true},
-  {n:'x16 Tertiary Riser Kit (P14588-B21)',d:'Replaces the default with 2 slots (Slots 7-8), both full-height, PCIe4.0 · Proc 2 required — pick this OR the default line, not both',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true}
+  {n:'x16 Tertiary Riser Kit (P14588-B21)',d:'Slot 7 only, full-height full-length x16, PCIe4.0 · Proc 2 required',s:1,fh:1,lp:0,pos:'tertiary',cpu2:true},
+  {n:'x8/x8 Tertiary Riser Kit (P14581-B21)',d:'Slots 7-8, both full-height full-length x8, PCIe4.0 · Proc 2 required — pick this OR the x16 kit above, not both',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true}
+ ],
+ /* DL325 Gen10 Plus QuickSpecs (already cached) — single-socket. Only ONE
+    riser assembly exists (no separate Primary/Secondary cages as physical
+    positions the way DL360-family does) — "Default Primary Riser" gives
+    Slot 1 FH + Slot 2 LP, and a single Secondary slot is a separate
+    optional kit choice (LP, keeps Slot 2; or FHHL, disables Slot 2 — same
+    slot-for-slot tradeoff pattern as the DL360 family). Matches
+    pcie:{one:3} (Primary 2 + Secondary 1). 2026-09-17. */
+ 'DL325 G10+':[
+  {n:'Default Primary Riser (Slot 1 FH + Slot 2 LP)',d:'Slot 1 full-height full-length x16, Slot 2 low-profile x16, PCIe4.0 · Proc 1 · ships standard',s:2,fh:1,lp:1,pos:'primary',def:true},
+  {n:'x16 Low Profile PCIe Riser Kit — Secondary (P17264-B21)',d:'Adds 1 low-profile slot, PCIe4.0 x16 · Slot 2 on the primary riser stays usable',s:1,fh:0,lp:1,pos:'secondary'},
+  {n:'x16 FHHL PCIe Riser Kit — Secondary (P20421-B21)',d:'Adds 1 full-height half-length slot, PCIe4.0 x16 · DISABLES Slot 2 on the primary riser, so the real total stays 2 slots despite this kit adding one',s:1,fh:1,lp:0,pos:'secondary'}
+ ],
+ /* DL325 Gen10 Plus v2 (Milan) — identical riser platform/part numbers as
+    v1, confirmed directly in this model's own doc. 2026-09-17. */
+ 'DL325 G10+ v2':[
+  {n:'Default Primary Riser (Slot 1 FH + Slot 2 LP)',d:'Slot 1 full-height full-length x16, Slot 2 low-profile x16, PCIe4.0 · Proc 1 · ships standard',s:2,fh:1,lp:1,pos:'primary',def:true},
+  {n:'x16 Low Profile PCIe Riser Kit — Secondary (P17264-B21)',d:'Adds 1 low-profile slot, PCIe4.0 x16 · Slot 2 on the primary riser stays usable',s:1,fh:0,lp:1,pos:'secondary'},
+  {n:'x16 FHHL PCIe Riser Kit — Secondary (P20421-B21)',d:'Adds 1 full-height half-length slot, PCIe4.0 x16 · DISABLES Slot 2 on the primary riser, so the real total stays 2 slots despite this kit adding one',s:1,fh:1,lp:0,pos:'secondary'}
+ ],
+ /* DL345 Gen10 Plus QuickSpecs (already cached) — single-socket, all
+    full-height full-length. Both Primary and Secondary default to 2
+    slots each (matches pcie:{one:4,two:4}, coincidentally identical
+    since there's no 2nd socket to change the count). Skipped (same
+    precedent as elsewhere): the "Slimline" Primary/Secondary riser kits
+    (P38637/P38643-B21), which can't be selected standalone — only
+    bundled with the 24NVMe DA FIO Kit, a narrow bundle-gated variant.
+    2026-09-17. */
+ 'DL345 G10+':[
+  {n:'Default Primary Riser (Slots 1-2)',d:'2 slots, full-height full-length x16, PCIe4.0 · ships standard',s:2,fh:2,lp:0,pos:'primary',def:true},
+  {n:'Default Secondary Riser (Slots 3-4, x8/x8)',d:'2 slots, full-height full-length, PCIe4.0 x8 · ships standard',s:2,fh:2,lp:0,pos:'secondary',def:true},
+  {n:'x16 Secondary Riser Kit (P38641-B21)',d:'Replaces the default with 1 slot (Slot 3 only) at PCIe4.0 x16 — higher bandwidth, fewer slots; required for cards needing more than two x16 lanes',s:1,fh:1,lp:0,pos:'secondary'}
+ ],
+ /* DL365 Gen10 Plus QuickSpecs (already cached) — same DL36X shared
+    riser platform/part numbers as DL360 G10+ (2-socket AMD sibling of
+    the same chassis). Primary default: Slot 1 FH + Slot 2 LP. Secondary
+    (needs Proc 2): LP kit (P26471-B21) adds Slot 3 LP, leaves Slot 2
+    usable; FH "Secondary GPU Riser" kit adds Slot 3 FH but disables
+    Slot 2 (net still 2 slots, both FH). Matches pcie:{one:2,two:3}.
+    2026-09-17. */
+ 'DL365 G10+':[
+  {n:'Default Primary Riser (Slot 1 FH + Slot 2 LP)',d:'Slot 1 full-height 3/4-length x16, Slot 2 low-profile half-length x16, PCIe4.0 · Proc 1 · ships standard',s:2,fh:1,lp:1,pos:'primary',def:true},
+  {n:'Low Profile Riser Kit — Secondary (P26471-B21)',d:'Adds Slot 3, low-profile half-length x16 PCIe4.0 · Proc 2 required · Slot 2 stays usable (3 slots total: 1 FH + 2 LP)',s:1,fh:0,lp:1,pos:'secondary',cpu2:true},
+  {n:'Secondary GPU Riser (Full Height)',d:'Adds Slot 3, full-height 3/4-length x16 PCIe4.0 · Proc 2 required · DISABLES Slot 2 on the primary riser, so the real total stays 2 slots (Slot 1 + Slot 3, both FH) despite this kit adding one',s:1,fh:1,lp:0,pos:'secondary',cpu2:true}
+ ],
+ /* DL385 Gen10 Plus (v1) QuickSpecs (already cached) — shares the exact
+    same "DL38X Gen10 Plus" riser platform/table as DL380 G10+ (3 Primary
+    + 3 Secondary riser types, 2 Tertiary types, all full-height, same
+    shared part numbers). Same partial-coverage caveat as DL380 G10+: only
+    the confirmed default + tertiary upgrade are modeled; the
+    Primary/Secondary 3x16 upgrade kits weren't matched with full
+    confidence to exact part numbers. Matches pcie:{one:3,two:8}.
+    Tertiary has no free default either — same two real kits as
+    DL380 G10+ (x16 single-slot P14588-B21, or x8/x8 2-slot P14581-B21).
+    2026-09-17. */
+ 'DL385 G10+':[
+  {n:'Default Primary Riser (x8/x16/x8, ships standard)',d:'Slots 1-3, all full-height full-length, PCIe4.0 · Proc 1',s:3,fh:3,lp:0,pos:'primary',def:true},
+  {n:'Default Secondary Riser (x8/x16/x8)',d:'Slots 4-6, all full-height full-length, PCIe4.0 · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'x16 Tertiary Riser Kit (P14588-B21)',d:'Slot 7 only, full-height full-length x16, PCIe4.0 · Proc 2 required',s:1,fh:1,lp:0,pos:'tertiary',cpu2:true},
+  {n:'x8/x8 Tertiary Riser Kit (P14581-B21)',d:'Slots 7-8, both full-height full-length x8, PCIe4.0 · Proc 2 required — pick this OR the x16 kit above, not both',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true}
+ ],
+ /* DL385 Gen10 Plus v2 (Milan) — confirmed identical riser platform and
+    part numbers to v1 (same shared "DL38X Gen10 Plus" table). 2026-09-17. */
+ 'DL385 G10+ v2':[
+  {n:'Default Primary Riser (x8/x16/x8, ships standard)',d:'Slots 1-3, all full-height full-length, PCIe4.0 · Proc 1',s:3,fh:3,lp:0,pos:'primary',def:true},
+  {n:'Default Secondary Riser (x8/x16/x8)',d:'Slots 4-6, all full-height full-length, PCIe4.0 · Proc 2 required',s:3,fh:3,lp:0,pos:'secondary',cpu2:true},
+  {n:'x16 Tertiary Riser Kit (P14588-B21)',d:'Slot 7 only, full-height full-length x16, PCIe4.0 · Proc 2 required',s:1,fh:1,lp:0,pos:'tertiary',cpu2:true},
+  {n:'x8/x8 Tertiary Riser Kit (P14581-B21)',d:'Slots 7-8, both full-height full-length x8, PCIe4.0 · Proc 2 required — pick this OR the x16 kit above, not both',s:2,fh:2,lp:0,pos:'tertiary',cpu2:true}
  ]
 };
 
@@ -3004,7 +3093,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.1'; // 1st build shipped today
+var BUILD_VERSION='2026.09.17.2'; // 2nd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

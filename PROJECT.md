@@ -1816,7 +1816,36 @@ G9/G10/G10+ entry-level and tower model except `DL360 G10+`, the
 remaining G10+ rack models (`DL325`/`DL345`/`DL365`/`DL385`), `DL380
 G10+`'s Primary/Secondary upgrade kits, and `DL110 G12` (genuinely
 unsourced — its Data Sheet defers slot topology to the full QuickSpecs,
-which still won't load from any mirror tried). This is going to take
+which still won't load from any mirror tried).
+
+**2026-09-17, continued: finished the G10+ AMD rack line.**
+- `DL325 G10+`/`v2` added — single-socket, and structurally different
+  from the DL360 family: only ONE riser assembly exists at all (no
+  separate Primary/Secondary physical cages) — a default Slot 1 FH +
+  Slot 2 LP, plus one Secondary slot as a standalone kit choice (LP
+  keeps Slot 2 usable, FHHL disables it — same tradeoff *pattern*,
+  different chassis).
+- `DL345 G10+` added — single-socket, Primary and Secondary both
+  default to 2 full-height slots each (coincidentally the same count
+  either way, since there's no 2nd socket to change it).
+- `DL365 G10+` added — confirmed it shares the exact same "DL36X Gen10
+  Plus" part numbers as `DL360 G10+` (its 2-socket sibling).
+- `DL385 G10+`/`v2` added, and **this surfaced a real error in the
+  `DL380 G10+` entry written the previous batch**: neither Tertiary
+  riser variant is actually a free default — both `DL380` and `DL385
+  G10+`/`v2` need an explicit kit (x16 single-slot `P14588-B21`, or
+  x8/x8 2-slot `P14581-B21`) *and* Proc 2 regardless of which is
+  picked. The earlier batch had modeled one as `def:true` and gotten
+  the two part numbers swapped relative to their real slot counts —
+  caught and fixed in all three affected entries (`DL380`/`DL385`/
+  `DL385 v2 G10+`) before committing.
+6 new regression tests (430 total). Verified `DL385 G10+`'s corrected
+riser panel live in the browser.
+
+**Still on `GENERIC_RISERS`, needing real per-model data:** every
+G9/G10/G10+ entry-level and tower model, `DL380`/`DL385 G10+`'s
+Primary/Secondary 3x16 upgrade kits (still unmatched to exact part
+numbers), and `DL110 G12` (genuinely unsourced). This is going to take
 several more passes to close out fully, same multi-session pattern as
 every other verification axis in this file.
 

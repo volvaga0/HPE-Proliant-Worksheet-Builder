@@ -2687,5 +2687,38 @@ function runRound12(){
     ?pass12('DL380 G10+: real riser list (default primary/secondary/tertiary + tertiary upgrade)')
     :fail12('DL380 G10+ riser panel wrong: '+opts12.join(' | '));
 
+  // --- DL325/DL325v2/DL345/DL365/DL385/DL385v2 G10+: AMD rack riser data ---
+  setModel12('DL325 G10+');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/P17264-B21/.test(o)) && opts12.some(o=>/P20421-B21/.test(o)))
+    ?pass12('DL325 G10+: real 3-option riser list (default primary + 2 secondary variants)')
+    :fail12('DL325 G10+ riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL325 G10+ v2');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/P17264-B21/.test(o)))
+    ?pass12('DL325 G10+ v2: same riser platform/part numbers as v1')
+    :fail12('DL325 G10+ v2 riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL345 G10+');
+  opts12=riserOpts12();
+  (opts12.length===3 && opts12.some(o=>/Slots 1-2/.test(o)) && opts12.some(o=>/P38641-B21/.test(o)))
+    ?pass12('DL345 G10+: real 3-option riser list (default primary + secondary default/x16 variant)')
+    :fail12('DL345 G10+ riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL365 G10+');
+  opts12=riserOpts12();
+  (opts12.some(o=>/Default Primary Riser/.test(o)&&/FH \+ Slot 2 LP/.test(o)) &&
+   opts12.some(o=>/P26471-B21/.test(o)) && opts12.some(o=>/Secondary GPU Riser \(Full Height\)/.test(o)))
+    ?pass12('DL365 G10+: same DL36X FH-disables-Slot2 riser tradeoff as DL360 G10+')
+    :fail12('DL365 G10+ riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL385 G10+');
+  opts12=riserOpts12();
+  (opts12.length===4 && opts12.some(o=>/P14588-B21/.test(o)) && opts12.some(o=>/P14581-B21/.test(o)))
+    ?pass12('DL385 G10+: real riser list, same DL38X platform as DL380 G10+ (both real tertiary kits, no free default)')
+    :fail12('DL385 G10+ riser panel wrong: '+opts12.join(' | '));
+  setModel12('DL385 G10+ v2');
+  opts12=riserOpts12();
+  (opts12.length===4 && opts12.some(o=>/P14588-B21/.test(o)))
+    ?pass12('DL385 G10+ v2: same riser platform/part numbers as v1')
+    :fail12('DL385 G10+ v2 riser panel wrong: '+opts12.join(' | '));
+
   d.getElementById('risers').innerHTML='';
 }
