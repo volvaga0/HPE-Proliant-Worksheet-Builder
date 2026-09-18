@@ -1111,7 +1111,7 @@ var MODELS=[
        'Only one FlexibleLOM can be fitted.',
        'Embedded 4x1GbE is not present on boards built for EPYC 7002 (7xx2) processors.']}},
  {m:'DL360',g:'G10', p:['sp1','sp2'],  s:2, d:24, bays:['4LFF','8SFF','10SFF'],
-   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+   rules:{verified:true,hsW:130,hsWtext:'130W or higher',hsPart:'871246-B21',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2x M.2 (dual uFF) rear'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
@@ -1129,10 +1129,12 @@ var MODELS=[
        'Mixing two different processor models is not allowed.',
        'For a GPGPU, order the LH (low profile heatsink) controller so the GPU fits.',
        'Storage controller part numbers sourced 2026-09-17 (same doc, "Core Options" Storage Controllers section): P816i-a/P408i-a/E208i-a each have 2 real SKUs — a plain kit and an "LH" (low-height, low-profile heatsink) variant needed for GPU builds, matching the existing GPU note above. No P824i-p on this chassis — its own doc changelog mentions the part generically but it never appears in this model\'s actual Core Options ordering list (unlike DL380/DL560/DL580/ML350 G10, which do offer it per DL380\'s own doc). No SR932i-p/MR-series either — those are Gen10 Plus/Gen11 additions.',
+       'High Performance Heat Sink Kit part number (871246-B21) added 2026-09-18, sourced directly from this model\'s own "Additional Options" section.',
+       '25 real Xeon Scalable SKUs found missing from the tool\'s shared CPUS list entirely (2026-09-18), by diffing this model\'s own "Choose Processor Options" table against the existing pool — added at the shared-list level, not just for this model.',
        'Fans are not tied to CPU wattage on this generation — only to NVMe, rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.',
        'Backplane cross-reference (2026-09-16): "10SFF" is its own distinct CTO chassis type in this doc ("Premium 10SFF NVMe"), not a plain-SAS/SATA option — it IS the NVMe/Premium backplane (867974-B21 "10 NVMe chassis Upgrade Kit" applied to an 8SFF chassis reaches the same config). The base "8SFF" chassis ships plain SAS/SATA; a small separate 2SFF NVMe/Premium cage kit exists too but sits in the media-bay position, not the main 8 bays. Genuine open contradiction found and NOT resolved: this doc\'s Additional Options section says the 10SFF upgrade kit "requires two processors, not supported on single processor configurations," which conflicts with this model\'s own existing note above ("one processor or two") — flagged rather than silently changed; the existing note was kept since it may describe the factory CTO base chassis rather than the field-upgrade kit specifically.']}},
  {m:'DL380',g:'G10', p:['sp1','sp2'],  s:2, d:24, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+   rules:{verified:true,hsW:130,hsWtext:'130W or higher',hsPart:'826706-B21',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},
      rear:['2SFF rear','2SFF NVMe rear','3LFF rear','4LFF midtray'],
@@ -1147,6 +1149,7 @@ var MODELS=[
        'NVMe drives require a specific riser.',
        'Mixing two different processor models is not allowed.',
        'Storage controller part numbers sourced 2026-09-17 (same doc, "Core Options" Storage Controllers section): unlike DL360 G10, no "LH" low-height variants were found for this chassis (more physical clearance, presumably not needed). P824i-p is confirmed to exist for this chassis via its own Cable Kit line (P00614-B21, explicitly scoped to "DL38X/560/580/ML350 Gen10" — NOT DL360). No SR932i-p/MR-series — those are Gen10 Plus/Gen11 additions. Follow-up 2026-09-17: checked DL560 G10\'s own QuickSpecs directly and it does NOT list P824i-p anywhere at all despite the same cable-kit line naming it — a genuine cross-doc discrepancy, not resolved either way; DL560 G10\'s own entry trusts its own doc over this claim. DL580 G10\'s own doc DOES itemize P824i-p\'s real part number (870658-B21) — backfilled here since the cable-kit note groups this exact controller across DL38X/DL560/DL580/ML350 as one shared SKU, not a chassis-specific variant.',
+       'High Performance Heat Sink Kit part number (826706-B21) added 2026-09-18, sourced directly from this model\'s own "Additional Options" section. Note: this model\'s own cached doc\'s "Choose Processors" ordering table only has "2nd Generation" SKU headings, no "1st Generation" section at all — inconclusive on its own (could be a later doc revision that simply dropped an EOL tier from the list without dropping real support), so `cpuAllow` was deliberately NOT added from this — would risk hard-blocking real 1st-Gen CPUs this chassis may still support.',
        'Premium bay kit gives 6 SAS/SATA + 2 NVMe, or 8 SAS/SATA, per box.',
        'Fans are not tied to CPU wattage on this generation — only to NVMe, GPUs, rear drives and dense bay counts. The performance heatsink alone covers cooling up to its rated TDP.']}},
  {m:'DL385',g:'G10', p:['naples','rome'], s:2, d:32, bays:['8SFF','16SFF','24SFF','12LFF'],
@@ -1318,12 +1321,13 @@ var MODELS=[
        'Backplane cross-reference (2026-09-16, same doc): the 8SFF front cage genuinely offers all three families as separate SKUs — plain SAS/SATA (P26930-B21), Tri-Mode U.3 (x1 P27194-B21 or x4 P26931-B21), and pure NVMe U.2 (P26932-B21), same "multi-family" pattern as DL360 G10+. Mixing SAS/SATA/NVMe drives within one U.3 Tri-Mode cage is explicitly allowed. All three genuinely fit this tool\'s existing pills; no new hard rule needed.']}},
  {m:'DL385', g:'G10+', p:['rome'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
-     fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],fanPart:'P14608-B21',riserMax:3,
+     hsPart:'P14610-B21',fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],fanPart:'P14608-B21',riserMax:3,
      rear:['2SFF rear','4LFF rear','8SFF midtray'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
      flr:['I350-T4 1Gb 4p (P08449-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','BCM57414 10/25Gb 2p (P10115-B21)','MCX562A 10/25Gb 2p — needs cable P14318-001 to reach x16, needs OCP Upgrade Cable Kit P14603-B21 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
      notes:['OCP part numbers sourced 2026-09-18 (same doc, "OCP Adapters"). No BCM5719, no MCX631432AS, no E810 cards at all on this v1 board — confirmed absent by direct search; all 3 gaps are filled on the v2 board below. Both InfiniBand OCP3 ports confirmed present even without E810 support.',
+       'High Performance Heat Sink Kit part number (P14610-B21) added 2026-09-18 — the same "HPE DL38X Gen10 Plus" shared code already set on the v2 entry below, now independently confirmed present in v1\'s own doc too, not just assumed shared.',
        'PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a00073549enw V16, "Core Options"). Same early v1 (Rome-only) doc family as DL325 G10+ v1 — genuinely predates the PSU part-number revision (old 865414-B21/830272-B21 codes, no P38995/P38997-B21, confirmed absent by direct search) and has no Tri-Mode "-a"/"-p" family at all. Embedded controllers are the PLAIN (non-LH) modular variants — opposite of DL325 G10+ v1\'s LH-only pattern, same "bigger 2U chassis doesn\'t need LH" reasoning already found at plain G10 (DL380/DL325/DL560 vs DL360/DL180/DL160/DL20).',
        'Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (etb-tech.com, a00073549enw V16) confirms 8LFF (expandable to 12LFF) and 8SFF (expandable to 16SFF, then 24SFF) as the real front-bay configs.',
        'Rear/mid-tray (2026-09-15, etb-tech.com mirror, a00073549enw V16): both exist and combine — 24SFF gets an 8SFF midtray + 6SFF rear (→38SFF total); 8LFF/12LFF get a rear 2SFF or 4LFF rear box, which consumes primary+secondary riser space.',
@@ -3638,7 +3642,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.18.7'; // 7th build shipped today
+var BUILD_VERSION='2026.09.18.8'; // 8th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
