@@ -694,9 +694,9 @@ button.quiet{color:var(--ink-soft)}
         </div>
       </div>
       <div class="row">
-        <div class="q"><span class="t">FlexibleLOM / OCP</span><span class="note" id="flr-note"></span></div>
+        <div class="q"><span class="t" id="flr-label">FlexibleLOM / OCP</span><span class="note" id="flr-note"></span></div>
         <div class="a"><div class="inline">
-          <fieldset class="pills"><legend>FlexibleLOM / OCP</legend>
+          <fieldset class="pills"><legend id="flr-legend">FlexibleLOM / OCP</legend>
             <input type="radio" id="fl1" name="flrfit" value="Fitted"><label for="fl1">Yes</label>
             <input type="radio" id="fl0" name="flrfit" value="No FlexibleLOM / OCP fitted"><label for="fl0">No</label>
           </fieldset>
@@ -889,6 +889,17 @@ button.quiet{color:var(--ink-soft)}
                    CTRL_PORTS) keys off ctrlCode(v) — just the leading token —
                    so a rich "P408i-a (804331-B21)" string still resolves
                    correctly against those maps.
+     flr           same override pattern as `psu`/`ctrl` — real FlexibleLOM
+                   or OCP 3.0 card names + HPE part numbers for this exact
+                   model, replacing the generic FLRS/OCP_CARDS fallback
+                   flrCardsFor() would otherwise return. New 2026-09-18,
+                   after checking real per-model QuickSpecs found BOTH
+                   catalogs vary far more by chassis than the 2026-09-14
+                   OCP research assumed — e.g. DL560 G10 lacks every 25Gb
+                   FlexibleLOM option DL580 G10 has, and DL110 G10+ offers
+                   only 2 of OCP_CARDS' ~18 SKUs. Only meaningful on a
+                   model whose flrKind() isn't 'none' — flrCardsFor()
+                   checks `R.flr` before falling back to the generic list.
      riserMax      physical riser positions; 0 = no riser cages, PCIe slots are
                    on the system board (blocks any riser line)
      fans          {one,two,perf} standard fan count for 1 CPU / 2 CPUs, and the
@@ -1042,7 +1053,9 @@ var MODELS=[
    rules:{verified:true,psuMax:2,pcie:{one:2,two:2},rear:[],
      psu:['290W Platinum FIO, EU Lot 9 compliant, current standard (P21649-B21)','290W FIO — OBSOLETE, unavailable since 16-Feb-2020 (P06731-B21)','500W Flex Slot Platinum — needs RPS Enablement FIO Kit P06722-B21 (865408-B21)','800W Flex Slot -48VDC — needs RPS Enablement FIO Kit P06722-B21 (865434-B21)'],
      ctrl:['S100i (embedded SW RAID, off by default, needs 784308-B21 to enable)','P408i-a LH (869081-B21)','E208i-a LH (869079-B21)','P408e-p (804405-B21)','E208e-p (804398-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). The base 290W supply has 2 real SKUs — P06731-B21 is confirmed OBSOLETE by the doc\'s own note ("unavailable in order system after 16 Feb 2020"), P21649-B21 is the current EU-Lot-9-compliant replacement. RPS Enablement FIO Kit (P06722-B21) is mandatory for either Flex Slot (redundant) supply. Only "LH" (low-height) embedded controller variants exist — no plain P408i-a/E208i-a, no P816i-a/P824i-p at all on this smallest 1U chassis.',
+     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)'],
+     notes:['FlexibleLOM part numbers sourced 2026-09-18 (same doc, a00053820enw, "FlexibleLOM Adapters"). 9 real cards — no 631FLR-SFP28/640FLR-SFP28 at all, confirmed absent by direct search; this entry-level chassis only gets the QL41401-A2G-based 622FLR-SFP28 for its one 25Gb option, not the Mellanox/Broadcom variants DL325/DL360/DL160/DL180 G10 also offer.',
+       'PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). The base 290W supply has 2 real SKUs — P06731-B21 is confirmed OBSOLETE by the doc\'s own note ("unavailable in order system after 16 Feb 2020"), P21649-B21 is the current EU-Lot-9-compliant replacement. RPS Enablement FIO Kit (P06722-B21) is mandatory for either Flex Slot (redundant) supply. Only "LH" (low-height) embedded controller variants exist — no plain P408i-a/E208i-a, no P816i-a/P824i-p at all on this smallest 1U chassis.',
        'Added `verified:true` 2026-09-17 — this model\'s d:4/s:1 were already sourced against this same doc\'s "DIMM Slots Available: 4" line in earlier notes below, just never had the flag set.',
        '4 DIMM slots. 2 PCIe expansion slots maximum.',
        'System fans are non-hot-plug and non-redundant — no fan-kit choice.',
@@ -1059,7 +1072,9 @@ var MODELS=[
      psuMax:2,fans:{one:3,two:6,perf:7},pcie:{one:2,two:3},rear:[],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','DL160/180 Gen10 Redundant PSU Enablement Kit — mandatory with any of the above (866442-B21)'],
      ctrl:['P408i-a LH — needs 4LFF/8SFF Cable Kit 866452/866448-B21 (869081-B21)','E208i-a LH — needs 4LFF/8SFF Cable Kit 866452/866448-B21 (869079-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
+     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)'],
      notes:['PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). No base/fixed PSU tier exists on this chassis — every option is a Flex Slot supply, and ALL of them need the shared "DL160/180 Gen10" Redundant PSU Enablement Kit (866442-B21, explicitly named for both models). LH-only embedded controllers, matching DL20/DL325/DL560 G10\'s pattern rather than DL380/DL385/ML350 G10\'s plain-variant one.',
+       'FlexibleLOM part numbers sourced 2026-09-18 (same doc, "FlexibleLOM adapters"). Missing only 562FLR-SFP+ (727054-B21) from the otherwise-full G10 catalog DL180/DL325 G10 offer — confirmed absent by direct search, not a transcription gap. Requires the FlexibleLOM/NVMe Riser Kit (875748-B21).',
        'No rear or mid-tray drive cage on this 1U chassis (2026-09-15, QuickSpecs a00021860enw).',
        'First processor (-L21) includes 3 fans; second processor (-B21) adds 3 more.',
      '4LFF/8SFF: 1 CPU gives 3 standard fans (4 with the redundant kit); 2 CPUs gives 6 (7 with the kit).',
@@ -1072,7 +1087,9 @@ var MODELS=[
      psuMax:2,fans:{one:3,two:5,perf:5},pcie:{one:3,two:6},riserMax:2,rear:['2SFF rear'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','DL160/180 Gen10 Redundant PSU Enablement Kit — mandatory with any of the above (866442-B21)'],
      ctrl:['P816i-a — needs cable kit P36415/P37221-B21 (804338-B21)','P408i-a — needs cable kit (804331-B21)','E208i-a — needs cable kit (804326-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
+     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)'],
      notes:['PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options") — shares the same PSU list + Redundant PSU Enablement Kit (866442-B21) as DL160 G10 (explicitly the shared "DL160/180 Gen10" kit), plus a 1600W tier DL160 doesn\'t offer. Controllers are the PLAIN (non-LH) modular variants here — a real difference from DL160/DL20/DL325/DL560 G10\'s LH-only pattern, this 2U chassis has room for the taller cards, and even gets P816i-a (16-lane) which none of those LH-only siblings offer at all.',
+       'FlexibleLOM part numbers sourced 2026-09-18 (same doc, "FlexibleLOM adapters") — the FULL 11-card G10 catalog, same set as DL325 G10 (unlike DL160 G10\'s sibling entry, which is missing one). Requires the CPU1 FlexibleLOM Riser Kit (866941-B21).',
        'Rear cage is a "dual SFF rear drive option" (2SFF only) — cable kits tie it to the S100i/E208i-a/P408i-a/P408i-p controller or a SAS Expander/P816i-a (2026-09-15, QuickSpecs a00021862enw). No mid-tray on this chassis.',
        'First processor (-L21) includes 3 fans; second processor (-B21) adds 2 more (5 total for 2P).',
        'All models include the S100i Smart Array Controller (software RAID, 14 drives) — needs enabling.',
@@ -1083,7 +1100,9 @@ var MODELS=[
    rules:{verified:true,hsW:171,hsWtext:'above 170W',hsStdException:['EPYC 7532'],memPerSocket:2048,psuMax:2,pcie:{one:3,two:3},fans:{one:5,perf:5},riserMax:2,fanRear:true,rear:[],
      psu:['500W Low Halogen FIO (non-redundant, no enablement kit needed) (837074-B21)','500W Flex Slot Platinum — needs the Redundant PSU Enablement Kit (P04983-B21) (865408-B21)','800W Flex Slot Platinum — needs P04983-B21 (865414-B21)','800W Flex Slot Titanium — needs P04983-B21 (865438-B21)','800W Flex Slot -48VDC — needs P04983-B21 (865434-B21)','800W Flex Slot Universal — needs P04983-B21 (865428-B21)','1600W Flex Slot Platinum, high-line — needs P04983-B21 (830272-B21)'],
      ctrl:['P816i-a LH (869083-B21)','P408i-a LH (869081-B21)','E208i-a LH (869079-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"): every Flex Slot (redundant) power supply needs the Redundant PSU Enablement Kit (P04983-B21) — only the 500W FIO non-redundant kit doesn\'t. Only the "LH" (low-height) variants of the embedded controllers exist here — unlike DL360/DL380 G10, the plain (non-LH) P408i-a/P816i-a/E208i-a part numbers never appear anywhere in this doc, confirming this 1U single-socket chassis genuinely has no room for the taller cards. No SR932i-p/P824i-p/MR-series — those are Gen10 Plus/Gen11 additions.',
+     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)'],
+     notes:['FlexibleLOM part numbers sourced 2026-09-18 (same doc, "FlexibleLOM adapters") — the full 11-card G10 catalog, matching DL180 G10 exactly.',
+       'PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"): every Flex Slot (redundant) power supply needs the Redundant PSU Enablement Kit (P04983-B21) — only the 500W FIO non-redundant kit doesn\'t. Only the "LH" (low-height) variants of the embedded controllers exist here — unlike DL360/DL380 G10, the plain (non-LH) P408i-a/P816i-a/E208i-a part numbers never appear anywhere in this doc, confirming this 1U single-socket chassis genuinely has no room for the taller cards. No SR932i-p/P824i-p/MR-series — those are Gen10 Plus/Gen11 additions.',
        'No rear or mid-tray drive cage on this 1U single-socket chassis (2026-09-15, QuickSpecs a00045498enw V6).',
        'EPYC 7532 (200W) is a listed exception and ships with the standard heatsink despite exceeding 170W — a source conflict exists here, double-check this specific SKU.',
        'All EPYC processors on this board are documented as supporting up to 2TB of memory each.',
@@ -1097,8 +1116,10 @@ var MODELS=[
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2x M.2 (dual uFF) rear'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P408i-a LH — low-profile heatsink variant, needed for GPU builds (869081-B21)','P816i-a (804338-B21)','P816i-a LH — low-profile heatsink variant, needed for GPU builds (869083-B21)','E208i-a (804326-B21)','E208i-a LH — low-profile heatsink variant, needed for GPU builds (869079-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
+     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','537FLR-SFP+ 2x10Gb (P08440-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)'],
      fanNVMe:true,fanRear:true,fanGPU:true,fanPart:'871244-B21',memPerSocket:768,riserMax:2,
-     notes:['Up to 7 fans with redundancy built in. High performance fan kit 871244-B21 includes 7.',
+     notes:['FlexibleLOM part numbers sourced 2026-09-18 (same doc, "FlexibleLOM Adapters") — the richest G10 catalog found, 12 cards incl. 537FLR-SFP+ (P08440-B21), a variant not confirmed on any other G10 model this pass. A 547FLR-QSFP InfiniBand FlexibleLOM card (879482-B21) also exists per this doc\'s own InfiniBand section but isn\'t itemized here — this pass focused on Ethernet cards, InfiniBand FlexibleLOM options weren\'t exhaustively checked model-by-model.',
+       'Up to 7 fans with redundancy built in. High performance fan kit 871244-B21 includes 7.',
        'A 10 NVMe chassis always gets 7 high performance fans, one processor or two.',
        'On a 10 NVMe chassis the secondary riser is not available.',
        'Rear drive option is +1SFF or 1 dual uFF (2x M.2) on any chassis type.',
@@ -1117,9 +1138,11 @@ var MODELS=[
      rear:['2SFF rear','2SFF NVMe rear','3LFF rear','4LFF midtray'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','1600W Flex Slot -48VDC (P17023-B21)','1800-2200W Flex Slot Titanium, EU Lot 9 compliant (P44712-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','P824i-p (870658-B21 — sourced from DL580 G10\'s own doc, not this one; see note)'],
+     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','535FLR-T 2x10GbT (817721-B21)','537FLR-SFP+ 2x10Gb (P08440-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)','Pensando DSP Adaptive LOM Module — needs Pensando DSP 10/25G 2p SFP28 Card P26966-B21, no GPU (P26969-B21)'],
      fanNVMe:true,fanRear:true,fanGPU:true,fanBays:['12LFF','24SFF'],
      rear2SFF:['24SFF','12LFF'],fanPart:'867810-B21',memPerSocket:768,riserMax:3,
-     notes:['High performance fan kit 867810-B21 is required for NVMe, for GPUs, and when boxes 1, 2 and 3 are all populated.',
+     notes:['FlexibleLOM part numbers sourced 2026-09-18 (same doc, "FlexibleLOM adapters") — genuinely the NARROWEST G10 rack catalog found: no 533FLR-T/534FLR-SFP+/536FLR-T/622FLR-SFP28 at all, confirmed absent by direct search, not a transcription gap. Also offers a special Pensando DSP smart-NIC option (an "Adaptive LOM Module," not found on any other G10 model this pass) that mandatorily pairs with a separate PCIe card (P26966-B21) and can\'t be combined with a GPU.',
+       'High performance fan kit 867810-B21 is required for NVMe, for GPUs, and when boxes 1, 2 and 3 are all populated.',
        '2SFF rear is only supported on a 24SFF or 12LFF chassis.',
        'NVMe drives require a specific riser.',
        'Mixing two different processor models is not allowed.',
@@ -1132,7 +1155,8 @@ var MODELS=[
      rear:['2SFF rear','3LFF rear','4LFF midtray'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
      ctrl:['P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','P824i-p (870658-B21 — sourced from DL580 G10\'s own doc, see note)'],
-     notes:['PSU part numbers sourced 2026-09-17 directly from this doc\'s own Core Options ("HPE Flex Slot Power Supplies") — 6 real SKUs, no enablement kit needed (unlike DL325 G10\'s entry-tier design). Storage controller PART NUMBERS are carried over from DL380 G10\'s own doc rather than read directly here: this mirror (a router-switch.com reformatted "Data Sheet," not the literal HPE PDF — see the existing rear/mid-tray note below) names the exact same 8 controllers (E208i-a/-p/-e-p, P408i-a/-p/-e-p, P816i-a, P824i-p) with zero part numbers listed, but the SAME document independently confirms the literal "DL38X Gen10" shared-SKU riser part numbers (e.g. 871674-B21) also used on DL380 G10 — the family-sharing is doc-confirmed, not assumed. P824i-p\'s part number (870658-B21) is backfilled from DL580 G10\'s own doc, which DOES itemize it, under the same "DL38X/560/580/ML350" shared-cable-kit grouping.',
+     notes:['FlexibleLOM: confirmed a slot genuinely exists here (2026-09-18, same router-switch.com reformatted datasheet — "Optional FlexibleLOM ports," a "336FLR"/"631FLR Adapter" mention) but this mirror has no clean orderable-SKU list with real part numbers the way the literal HPE PDFs used for DL325/360/380/560/580 G10 do. Deliberately left on the generic FLRS fallback rather than guessing whether this model matches DL380 G10\'s narrow list or DL325/DL180\'s full one — those two chassis differ enough elsewhere in this project (PSU/controller data) that assuming parity here would be exactly the kind of guess this project exists to avoid.',
+       'PSU part numbers sourced 2026-09-17 directly from this doc\'s own Core Options ("HPE Flex Slot Power Supplies") — 6 real SKUs, no enablement kit needed (unlike DL325 G10\'s entry-tier design). Storage controller PART NUMBERS are carried over from DL380 G10\'s own doc rather than read directly here: this mirror (a router-switch.com reformatted "Data Sheet," not the literal HPE PDF — see the existing rear/mid-tray note below) names the exact same 8 controllers (E208i-a/-p/-e-p, P408i-a/-p/-e-p, P816i-a, P824i-p) with zero part numbers listed, but the SAME document independently confirms the literal "DL38X Gen10" shared-SKU riser part numbers (e.g. 871674-B21) also used on DL380 G10 — the family-sharing is doc-confirmed, not assumed. P824i-p\'s part number (870658-B21) is backfilled from DL580 G10\'s own doc, which DOES itemize it, under the same "DL38X/560/580/ML350" shared-cable-kit grouping.',
        'Rear/mid-tray (2026-09-15): both exist and combine — up to 6SFF rear on the 24SFF chassis, or a 4LFF mid-tray + 3LFF rear + 2SFF rear together on 12LFF. A processor over 125W is not supported once the 4LFF mid-tray is fitted (this tool has no per-option CPU cap to enforce that automatically — confirm manually). Source is router-switch.com\'s own reformatted Data Sheet (referencing a00026913enw), not a direct mirror of the literal HPE PDF — treat with slightly less confidence than a verified:true QuickSpecs pull, and re-check if this is ever contradicted.',
        '8SFF 1P ships 4 standard fans; a second processor adds 2 more.',
        '12LFF and 24SFF ship with 6 high performance fans as standard; 8LFF ships 6 standard fans.',
@@ -1144,7 +1168,9 @@ var MODELS=[
      psuMax:4,fans:{one:6,two:6,perf:6},pcie:{one:3,two:8},riserMax:3,rear:[],
      psu:['800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
      ctrl:['P816i-a LH (869083-B21)','P408i-a LH (869081-B21)','E208i-a LH (869079-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). No 500W PSU tier exists on this 4-socket chassis, only 800W/1600W — and "for 800W, 4 power supplies need to be selected" per the doc\'s own note (not separately enforced here, this tool has no per-wattage-tier PSU-count mechanism). Only "LH" (low-height, no PCIe slot used) variants of the embedded controllers exist here — same pattern as DL325 G10. Doc discrepancy found, NOT resolved: DL380 G10\'s own doc names DL560 G10 as also offering P824i-p (via a shared cable-kit line), but P824i-p never appears anywhere in DL560 G10\'s own QuickSpecs — trusting this model\'s own doc over the other model\'s claim about it, so P824i-p is left out entirely here.',
+     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','544+FLR-QSFP InfiniBand FDR/Eth 10/40Gb (764285-B21)'],
+     notes:['FlexibleLOM part numbers sourced 2026-09-18 (same doc, "FlexibleLOM Adapters"). Genuinely lacks EVERY 25Gb option (622/631/640FLR-SFP28) and 562FLR-T — confirmed absent by direct search — a real, narrower catalog than its DL580 G10 sibling despite being the closer of the two in most other respects this project has checked. Also confirmed one FlexibleLOM-form-factor InfiniBand card (544+FLR-QSFP, 764285-B21) — a plain "544+QSFP" PCIe-standup version (764284-B21) also exists in the same doc but that\'s a different product for the "PCI cards" field, not this one.',
+       'PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). No 500W PSU tier exists on this 4-socket chassis, only 800W/1600W — and "for 800W, 4 power supplies need to be selected" per the doc\'s own note (not separately enforced here, this tool has no per-wattage-tier PSU-count mechanism). Only "LH" (low-height, no PCIe slot used) variants of the embedded controllers exist here — same pattern as DL325 G10. Doc discrepancy found, NOT resolved: DL380 G10\'s own doc names DL560 G10 as also offering P824i-p (via a shared cable-kit line), but P824i-p never appears anywhere in DL560 G10\'s own QuickSpecs — trusting this model\'s own doc over the other model\'s claim about it, so P824i-p is left out entirely here.',
        'Front drive boxes only, all 2.5-inch — the chassis back carries just PCIe risers and power supplies (DL560 Gen10 QuickSpecs).',
        'Supports 1, 2 or 4 processors — not 3.',
        '4 power supply bays. Tertiary risers can only be fitted with 2 PSUs — a 4-PSU build leaves no room for them.',
@@ -1160,7 +1186,9 @@ var MODELS=[
      psuMax:4,fans:{one:12,two:12,perf:12},pcie:{one:6,two:16},riserMax:2,rear:[],
      psu:['800W Flex Slot Platinum (865414-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
      ctrl:['P408i-p (830824-B21)','P408e-p (804405-B21)','P824i-p (870658-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). Only 2 real PSU tiers exist on this chassis — 800W or 1600W Platinum, no Titanium/-48VDC/Universal at all — and "for 800W, 4 power supplies need to be selected" per the doc\'s own note (same constraint as DL560 G10, not separately enforced here). No embedded/modular ("-a"/LH) controller variants exist at all — P408i-a/P816i-a/E208i-a never appear in this model\'s own Core Options list, only the external/plug-in cards. This is also the first model in this pass where P824i-p\'s own part number was actually found: 870658-B21 — resolves the "confirmed to exist but unsourced PN" gap left open on DL380/DL385/DL560 G10.',
+     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','544+FLR-QSFP InfiniBand FDR/Eth 10/40Gb (764285-B21)'],
+     notes:['FlexibleLOM part numbers sourced 2026-09-18 (same doc, "FlexibleLOM Adapters"). Gets one 25Gb tier (622FLR-SFP28) DL560 G10 lacks entirely, plus 631FLR-SFP28 and 562FLR-T — a real, richer catalog than its closest sibling despite being the same 4-socket generation. Same FlexibleLOM-form InfiniBand card as DL560 G10 (544+FLR-QSFP, 764285-B21) confirmed present here too.',
+       'PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). Only 2 real PSU tiers exist on this chassis — 800W or 1600W Platinum, no Titanium/-48VDC/Universal at all — and "for 800W, 4 power supplies need to be selected" per the doc\'s own note (same constraint as DL560 G10, not separately enforced here). No embedded/modular ("-a"/LH) controller variants exist at all — P408i-a/P816i-a/E208i-a never appear in this model\'s own Core Options list, only the external/plug-in cards. This is also the first model in this pass where P824i-p\'s own part number was actually found: 870658-B21 — resolves the "confirmed to exist but unsourced PN" gap left open on DL380/DL385/DL560 G10.',
        'Front drive boxes only, all 2.5-inch (up to six boxes; NVMe in boxes 1-3, box 1 limited to drives 1-4). No rear or mid-tray drive cage (DL580 Gen10 QuickSpecs).',
        'Supports 1, 2, 3 or 4 processors.',
        '3- or 4-processor builds need the CPU Mezzanine Board Kit: 872222-B21 for 1st Gen Scalable, P07991-B21 for 2nd Gen.',
@@ -1185,7 +1213,9 @@ var MODELS=[
    rules:{verified:true,psuMax:2,fans:{one:7,perf:7},pcie:{one:3,two:3},riserMax:2,fanGPU:true,rear:[],
      psu:['700W Flex Slot -48VDC — the ONLY PSU option, no AC/Platinum tier exists at all (P43150-B21)'],
      ctrl:['No Smart Array controller exists on this chassis at all — Intel VROC NVMe/SATA embedded software RAID only, no orderable card'],
-     notes:['PSU/storage-controller findings sourced 2026-09-18 (same doc, a50002566enw, "Core Options"). This Telco chassis is genuinely DC-only — the doc\'s entire "Choose Power Supplies" step offers exactly ONE part number, confirmed by direct search that no 500W/800W AC Flex Slot tier exists for this model at all (unlike every other G10+ model in this project). Same absoluteness on controllers: no Smart Array SKU of any kind (no "-a", no "-p", no Tri-Mode) is offered — storage is Intel VROC software RAID over M.2 NVMe/SATA direct to the CPU, a licensing feature rather than a physical card, so there is no real part number to list.',
+     flr:['E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-CQDA2 100Gb 2p (P22767-B21)'],
+     notes:['OCP part numbers sourced 2026-09-18 (same doc, "OCP adapters") — only 2 of the shared OCP_CARDS catalog\'s ~18 SKUs exist here, confirmed by direct search: no I350-T4/BCM5719/QL41132/BCM57414/MCX562A/etc at all. The narrowest OCP catalog found on any G10+ model this pass, matching this chassis\'s equally narrow single-PSU/no-controller pattern above.',
+       'PSU/storage-controller findings sourced 2026-09-18 (same doc, a50002566enw, "Core Options"). This Telco chassis is genuinely DC-only — the doc\'s entire "Choose Power Supplies" step offers exactly ONE part number, confirmed by direct search that no 500W/800W AC Flex Slot tier exists for this model at all (unlike every other G10+ model in this project). Same absoluteness on controllers: no Smart Array SKU of any kind (no "-a", no "-p", no Tri-Mode) is offered — storage is Intel VROC software RAID over M.2 NVMe/SATA direct to the CPU, a licensing feature rather than a physical card, so there is no real part number to list.',
        'No rear or mid-tray drive cage (2026-09-15, QuickSpecs a50002566enw).',
        'Telco 1U, single Ice Lake socket, 8 DIMM slots. 7 hot-plug fans included. Select one or two Flex Slot power supplies.',
        '3 PCIe 4.0 slots + 1 OCP 3.0. Slot 3 is enabled by the x16 FHHL Secondary Riser Kit (P41827/P41828-B21).',
@@ -1198,7 +1228,9 @@ var MODELS=[
      psuMax:2,fans:{one:6,two:6,perf:8},fanBays:['24SFF','12LFF'],pcie:{one:3,two:3},riserMax:2,rear:[],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
      ctrl:['— Type-a (embedded slimline, LH only) —','P408i-a LH (869081-B21)','P816i-a LH (869083-B21)','E208i-a LH (869079-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a00073548enw V18, "Core Options"). This is the EARLY v1 (Rome-only) board — it genuinely predates the Gen10-Plus PSU part-number revision found on DL360/DL380/DL345/DL365 G10+ and the v2 boards: this doc\'s own 800W/1600W Platinum codes are the OLD 865414-B21/830272-B21, not P38995/P38997-B21 (confirmed by direct search — this doc simply doesn\'t mention the new codes). Embedded controllers are LH-only (no plain variant exists in this doc at all) — same as DL360 G10+\'s LH side, opposite of DL385 G10+ v1\'s plain-only pattern below. No Tri-Mode "-a"/"-p" family (MR216i-a/MR416i-a/SR416i-a/MR216i-p/MR416i-p/SR932i-p) exists in this v1 doc at all — confirmed absent by direct search, not carried forward; it first appears starting with the v2 board.',
+     flr:['I350-T4 1Gb 4p (P08449-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','MCX562A 10/25Gb 2p — needs OCP Upgrade Cable Kit P16976-B21 for x16 (P10112-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','BCM57414 10/25Gb 2p (P10115-B21)'],
+     notes:['OCP part numbers sourced 2026-09-18 (same doc, "OCP Adapters"). No BCM5719, no E810 (25/100Gb Intel) cards, and no OCP3-form-factor InfiniBand at all — this v1 board only offers PCIe-standup InfiniBand (P23664/P23665-B21, a different product for the "PCI cards" field). All 4 of those gaps are filled on the v2 board below.',
+       'PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a00073548enw V18, "Core Options"). This is the EARLY v1 (Rome-only) board — it genuinely predates the Gen10-Plus PSU part-number revision found on DL360/DL380/DL345/DL365 G10+ and the v2 boards: this doc\'s own 800W/1600W Platinum codes are the OLD 865414-B21/830272-B21, not P38995/P38997-B21 (confirmed by direct search — this doc simply doesn\'t mention the new codes). Embedded controllers are LH-only (no plain variant exists in this doc at all) — same as DL360 G10+\'s LH side, opposite of DL385 G10+ v1\'s plain-only pattern below. No Tri-Mode "-a"/"-p" family (MR216i-a/MR416i-a/SR416i-a/MR216i-p/MR416i-p/SR932i-p) exists in this v1 doc at all — confirmed absent by direct search, not carried forward; it first appears starting with the v2 board.',
        'Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a00073548enw V18) confirms 4LFF (expandable to 8LFF, then 12LFF) and 8SFF NVMe U.3 (expandable to 16SFF, then 24SFF) as the real front-bay configs. Mixing LFF and SFF is not supported.',
        'No rear or mid-tray drive cage on this 1U single-socket chassis (2026-09-15, QuickSpecs a00073548enw V18).',
        'DL325 Gen10 Plus v1 QuickSpecs: processors above 150W ship the High Performance heatsink; 6 standard fans, 8 HP fans on 24SFF/12LFF; select one or two power supplies; 16 DIMM slots; primary riser 1 FH + 1 LP, secondary riser 1 LP or FH/HL.',
@@ -1209,7 +1241,9 @@ var MODELS=[
      hsPart:'P41197-B21',fanPart:'P38506-B21',psuMax:2,fans:{one:8,perf:8},pcie:{one:3,two:3},riserMax:2,rear:[],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)'],
      ctrl:['— Type-a (embedded slimline, LH only) —','P408i-a LH (869081-B21)','P816i-a LH (869083-B21)','E208i-a LH (869079-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a50002564enw, "Core Options"). Carries the Gen10-Plus PSU revision (P38995/P38997-B21 for 800W/1600W Platinum) that the v1 board above lacks. Doc lists a "HPE 1600W 48VDC Power Supply Kit" as an available option (Standard Features bullet) but genuinely never gives it a part number anywhere in the document — left OUT of the list below rather than guessed; every other option here has a confirmed B21 code. Embedded controllers stay LH-only, same as v1, PLUS the full Tri-Mode "-a"/"-p" family (MR216i-a/MR416i-a/SR416i-a/MR216i-p/MR416i-p/SR932i-p) which v1 lacked entirely — genuinely new to the v2 board, not an omission in v1.',
+     flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','MCX562A 10/25Gb 2p (P10112-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','BCM57414 10/25Gb 2p (P10115-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-CQDA2 100Gb 2p (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     notes:['OCP part numbers sourced 2026-09-18 (same doc, "OCP Adapters"). Gains BCM5719 and both E810 cards the v1 board above lacks, PLUS a genuine OCP3-form InfiniBand pair (P31323/P31348-B21, confirmed here alongside the same PCIe-standup InfiniBand v1 already had) — v1 had no OCP3 InfiniBand card at all.',
+       'PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a50002564enw, "Core Options"). Carries the Gen10-Plus PSU revision (P38995/P38997-B21 for 800W/1600W Platinum) that the v1 board above lacks. Doc lists a "HPE 1600W 48VDC Power Supply Kit" as an available option (Standard Features bullet) but genuinely never gives it a part number anywhere in the document — left OUT of the list below rather than guessed; every other option here has a confirmed B21 code. Embedded controllers stay LH-only, same as v1, PLUS the full Tri-Mode "-a"/"-p" family (MR216i-a/MR416i-a/SR416i-a/MR216i-p/MR416i-p/SR932i-p) which v1 lacked entirely — genuinely new to the v2 board, not an omission in v1.',
        'Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a50002564enw) states this v2 board supports "up to 10 SFF/4 LFF drives" — a smaller ceiling than v1\'s 24SFF/12LFF, so its bay list is NOT the same as v1 despite sharing the same chassis for other purposes.',
        'No rear or mid-tray drive cage on this 1U single-socket chassis (2026-09-15, QuickSpecs a50002564enw) — same chassis as v1.',
        'v2 takes EPYC 7003 (Milan). Its QuickSpecs lists the High Performance Heat Sink Kit (P41197-B21) for every seeded processor, 155W parts included; treat the standard heatsink as the exception and confirm the exact SKU. 8 fans; Maximum Performance Fan Kit (P38506-B21) for GPU and certain NVMe backplanes. Select one or two PSUs; 16 DIMM slots; primary riser 1 FH + 1 LP, secondary riser 1 LP or FH/HL.',
@@ -1220,7 +1254,9 @@ var MODELS=[
      rear:['2SFF rear','2SFF NVMe rear'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 (P17023-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a50002557enw, "Core Options"). Carries the Gen10-Plus PSU revision (P38995/P38997-B21) plus the 1600W -48VDC tier (P17023-B21, needs the Power Cable Lug Kit P36877-B21). Embedded controllers are the PLAIN (non-LH) modular variants — this doc\'s own detail table gives the plain G10-era codes (804331/804338/804326-B21), not the LH 869081/869083/869079-B21 codes, even though an earlier summary bullet in the same doc says "LH" (boilerplate mismatch — the Core Options detail table with real part numbers is authoritative). Full Tri-Mode "-a"/"-p" family confirmed present.',
+     flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','BCM57414 10/25Gb 2p (P10115-B21)','MCX562A 10/25Gb 2p (P10112-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     notes:['OCP part numbers sourced 2026-09-18 (same doc, "OCP Adapters"). No E810 (25/100Gb Intel) cards at all — confirmed absent, unlike the Intel-platform DL360/365/380/385 G10+ boards. Only 35W-or-under SFF OCP adapters are supported per this doc\'s own note.',
+       'PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a50002557enw, "Core Options"). Carries the Gen10-Plus PSU revision (P38995/P38997-B21) plus the 1600W -48VDC tier (P17023-B21, needs the Power Cable Lug Kit P36877-B21). Embedded controllers are the PLAIN (non-LH) modular variants — this doc\'s own detail table gives the plain G10-era codes (804331/804338/804326-B21), not the LH 869081/869083/869079-B21 codes, even though an earlier summary bullet in the same doc says "LH" (boilerplate mismatch — the Core Options detail table with real part numbers is authoritative). Full Tri-Mode "-a"/"-p" family confirmed present.',
        'Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a50002557enw) confirms 8LFF (expandable to 12LFF) and 8SFF (expandable to 24SFF) as the real front-bay configs — no 4LFF option exists on this chassis, unlike its DL325/DL365/DL385 G10+ siblings.',
        'Rear cage is a "Rear Drive Cage (2SFF SAS/SATA/NVMe optional)" — up to 26 SFF total (24 front + 2 rear). No mid-tray on this 1U chassis (2026-09-15, QuickSpecs a50002557enw).',
        'Single-socket EPYC Rome / Milan. Processors at 180W or higher need the High Performance Heat Sink (P38655-B21).',
@@ -1235,7 +1271,9 @@ var MODELS=[
      fanW:205,fanPart:'P26477-B21',fanNVMe:true,fanRear:true,fanGPU:true,
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P408i-a LH — needed for an accelerator in Slot 2/3 (869081-B21)','P816i-a (804338-B21)','P816i-a LH — needed for an accelerator in Slot 2/3 (869083-B21)','E208i-a (804326-B21)','E208i-a LH — needed for an accelerator in Slot 2/3 (869079-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-17/18 (same doc, "Core Options"). Real Gen10-Plus-specific PSU part-number REVISION found, not carried forward from G10: the 800W Platinum (P38995-B21) and 1600W Platinum (P38997-B21) tiers here are NEW part numbers — this doc has zero mentions of the "old" 865414-B21/830272-B21 codes used at plain G10, confirmed by direct search. Both plain AND "LH" (low-profile heatsink) variants of every embedded controller exist here, matching the existing note below about accelerators needing the LH variant. Also offers the full Tri-Mode "-a" family (MR216i-a/MR416i-a/SR416i-a) alongside their already-known PCIe "-p" siblings and SR932i-p — none of these "-a" Tri-Mode variants were in this tool\'s generic controller list at all before now (added to CTRLS/CTRL_GENS/CTRL_PORTS globally).',
+     flr:['BCM5719 1Gb 4p (P51181-B21)','I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57412 10Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16, needs High Performance Fan Kit (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','E810-XXVDA2 10/25Gb 2p — not for factory diagnostics (P10106-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','MCX631432AS 10/25Gb 2p — needs High Performance Fan Kit (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 + High Performance Fan Kit (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p — needs OCP x16 Enablement Kit + High Performance Fan Kit (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     notes:['OCP part numbers sourced 2026-09-18 (same doc, "OCP Adapters"). Several higher-bandwidth cards need the High Performance Fan Kit (P26477-B21, already tracked as fanPart above) and/or the OCP x16 Enablement Kit (P36661-B21, not separately modeled) to run at full bandwidth — flagged inline per card rather than as a blanket rule, since not every card needs it.',
+       'PSU/storage-controller part numbers sourced 2026-09-17/18 (same doc, "Core Options"). Real Gen10-Plus-specific PSU part-number REVISION found, not carried forward from G10: the 800W Platinum (P38995-B21) and 1600W Platinum (P38997-B21) tiers here are NEW part numbers — this doc has zero mentions of the "old" 865414-B21/830272-B21 codes used at plain G10, confirmed by direct search. Both plain AND "LH" (low-profile heatsink) variants of every embedded controller exist here, matching the existing note below about accelerators needing the LH variant. Also offers the full Tri-Mode "-a" family (MR216i-a/MR416i-a/SR416i-a) alongside their already-known PCIe "-p" siblings and SR932i-p — none of these "-a" Tri-Mode variants were in this tool\'s generic controller list at all before now (added to CTRLS/CTRL_GENS/CTRL_PORTS globally).',
        'Heatsink threshold is 150W (P26479-B21); the fan kit threshold is 205W (P26477-B21).',
        'Dual processor configurations require 7 fans, standard or high performance.',
        'All NVMe drives require the high performance fan kit, as do SAS4 drives.',
@@ -1250,7 +1288,9 @@ var MODELS=[
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,rear:[],fanNVMe:true,fanRear:true,fanGPU:true,
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 (P17023-B21)'],
      ctrl:['— Type-a (embedded slimline, LH only) —','P408i-a LH (869081-B21)','P816i-a LH (869083-B21)','E208i-a LH (869079-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a50002558enw, "Core Options"/"Additional Options"). Same Gen10-Plus PSU revision + 1600W -48VDC tier as DL345 G10+ (shared P17023-B21/P36877-B21 codes). Embedded controllers are LH-only here — this doc\'s own detail table gives the LH codes (869081/869083/869079-B21), unlike DL345 G10+\'s plain codes on the same-era doc family — a real chassis difference, not a copy-paste slip (double-checked both docs\' detail tables directly). Full Tri-Mode "-a"/"-p" family confirmed present.',
+     flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','BCM57414 10/25Gb 2p (P10115-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','MCX562A 10/25Gb 2p — needs cable P14318-001 to reach x16 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-CQDA2 100Gb 2p (P22767-B21)'],
+     notes:['OCP part numbers sourced 2026-09-18 (same doc, "OCP Adapters"). Confirms both E810 cards despite this being an AMD (rome/milan) board — OCP NICs are platform-agnostic. No genuine OCP3-form InfiniBand card here — this doc lists InfiniBand only as PCIe-standup (a different product for the "PCI cards" field), unlike DL325 G10+ v2/DL345/DL360/DL380/DL385 G10+ v2 which all get a real OCP3 InfiniBand SKU.',
+       'PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a50002558enw, "Core Options"/"Additional Options"). Same Gen10-Plus PSU revision + 1600W -48VDC tier as DL345 G10+ (shared P17023-B21/P36877-B21 codes). Embedded controllers are LH-only here — this doc\'s own detail table gives the LH codes (869081/869083/869079-B21), unlike DL345 G10+\'s plain codes on the same-era doc family — a real chassis difference, not a copy-paste slip (double-checked both docs\' detail tables directly). Full Tri-Mode "-a"/"-p" family confirmed present.',
        'Corrected 2026-09-15: this model previously listed "1SFF rear" and "2x M.2 (dual uFF) rear" here. Its own QuickSpecs CTO table (theserverstore.com, a50002558enw) states outright "Rear Drive Cages: Not Available" — no rear or mid-tray cage exists on this chassis.',
        'Processors above 155W need the High Performance Heat Sink (P19368-B21) and the High Performance Fan Kit (P26477-B21).',
        'Performance fans also for NVMe or SAS4 drives, 100GbE-plus NICs and OCP cards, and PCIe SATA or NVMe adapters.',
@@ -1264,7 +1304,9 @@ var MODELS=[
      fanW:205,fanNVMe:true,fanRear:true,fanGPU:true,
      psu:['800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 (P17023-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-17/18 (same doc, "Core Options"). No 500W tier exists at all on this chassis (confirmed absent, unlike DL360 G10+) — 6 real options from 800W up, using the same Gen10-Plus-specific 800W/1600W Platinum part numbers (P38995/P38997-B21) as DL360 G10+, not the older G10 codes. Controllers are the PLAIN (non-LH) modular variants only — no LH option at all here, a real difference from DL360 G10+\'s both-plain-and-LH pattern (more chassis clearance, same reasoning as DL380 vs DL360 at plain G10). Full Tri-Mode "-a" family (MR216i-a/MR416i-a/SR416i-a) confirmed here too, alongside the PCIe "-p" siblings and SR932i-p.',
+     flr:['I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     notes:['OCP part numbers sourced 2026-09-18 (same doc, "OCP 3.0 Adapters"). No BCM5719 here — a real absence, unlike DL325/345/360/365/385 G10+ which all have it. Both InfiniBand OCP3 ports (1p and 2p) confirmed present.',
+       'PSU/storage-controller part numbers sourced 2026-09-17/18 (same doc, "Core Options"). No 500W tier exists at all on this chassis (confirmed absent, unlike DL360 G10+) — 6 real options from 800W up, using the same Gen10-Plus-specific 800W/1600W Platinum part numbers (P38995/P38997-B21) as DL360 G10+, not the older G10 codes. Controllers are the PLAIN (non-LH) modular variants only — no LH option at all here, a real difference from DL360 G10+\'s both-plain-and-LH pattern (more chassis clearance, same reasoning as DL380 vs DL360 at plain G10). Full Tri-Mode "-a" family (MR216i-a/MR416i-a/SR416i-a) confirmed here too, alongside the PCIe "-p" siblings and SR932i-p.',
        'Added "8SFF midtray" 2026-09-15 (gzhls.at mirror, a50002553enw) — both rear AND mid-tray exist and combine: 8SFF midtray + up to 6SFF rear on 24SFF (→38SFF total); 8LFF/12LFF get a 4LFF or 8SFF midtray + up to 4LFF or 6SFF rear.',
        'Heatsink threshold is 150W (P27095-B21).',
        'Maximum performance fan kit is required for rear drives, processors above 205W, Optane persistent memory, high performance NVMe, and certain backplanes.',
@@ -1280,7 +1322,9 @@ var MODELS=[
      rear:['2SFF rear','4LFF rear','8SFF midtray'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a00073549enw V16, "Core Options"). Same early v1 (Rome-only) doc family as DL325 G10+ v1 — genuinely predates the PSU part-number revision (old 865414-B21/830272-B21 codes, no P38995/P38997-B21, confirmed absent by direct search) and has no Tri-Mode "-a"/"-p" family at all. Embedded controllers are the PLAIN (non-LH) modular variants — opposite of DL325 G10+ v1\'s LH-only pattern, same "bigger 2U chassis doesn\'t need LH" reasoning already found at plain G10 (DL380/DL325/DL560 vs DL360/DL180/DL160/DL20).',
+     flr:['I350-T4 1Gb 4p (P08449-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','BCM57414 10/25Gb 2p (P10115-B21)','MCX562A 10/25Gb 2p — needs cable P14318-001 to reach x16, needs OCP Upgrade Cable Kit P14603-B21 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     notes:['OCP part numbers sourced 2026-09-18 (same doc, "OCP Adapters"). No BCM5719, no MCX631432AS, no E810 cards at all on this v1 board — confirmed absent by direct search; all 3 gaps are filled on the v2 board below. Both InfiniBand OCP3 ports confirmed present even without E810 support.',
+       'PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a00073549enw V16, "Core Options"). Same early v1 (Rome-only) doc family as DL325 G10+ v1 — genuinely predates the PSU part-number revision (old 865414-B21/830272-B21 codes, no P38995/P38997-B21, confirmed absent by direct search) and has no Tri-Mode "-a"/"-p" family at all. Embedded controllers are the PLAIN (non-LH) modular variants — opposite of DL325 G10+ v1\'s LH-only pattern, same "bigger 2U chassis doesn\'t need LH" reasoning already found at plain G10 (DL380/DL325/DL560 vs DL360/DL180/DL160/DL20).',
        'Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (etb-tech.com, a00073549enw V16) confirms 8LFF (expandable to 12LFF) and 8SFF (expandable to 16SFF, then 24SFF) as the real front-bay configs.',
        'Rear/mid-tray (2026-09-15, etb-tech.com mirror, a00073549enw V16): both exist and combine — 24SFF gets an 8SFF midtray + 6SFF rear (→38SFF total); 8LFF/12LFF get a rear 2SFF or 4LFF rear box, which consumes primary+secondary riser space.',
        'SFF 1P ships 4 standard fans; the 2nd processor kit adds 2 (6 for 2P). 12LFF and 24SFF ship 6 Max Performance fans as standard; 8LFF ships 6 standard.',
@@ -1296,7 +1340,9 @@ var MODELS=[
      rear:['4SFF rear','4LFF rear','8SFF midtray'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 or Power Cable Kit P22173-B21 (P17023-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
-     notes:['PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a50002560enw V5, "Core Options"). Carries the Gen10-Plus PSU revision plus the 1600W -48VDC tier (P17023-B21) — this doc offers a choice of TWO alternative accessory kits for it, the Power Cable Lug Kit (P36877-B21) or the Power Cable Kit (P22173-B21), only one of which needs to be selected. Embedded controllers stay PLAIN (non-LH), same codes as v1, PLUS the full Tri-Mode "-a"/"-p" family v1 lacked entirely — exactly mirrors DL380 G10+\'s pattern (same chassis-size reasoning), independently confirmed from this model\'s own doc rather than assumed from DL380.',
+     flr:['I350-T4 1Gb 4p (P08449-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','BCM57414 10/25Gb 2p (P10115-B21)','MCX562A 10/25Gb 2p — needs OCP Upgrade Cable Kit P14603-B21 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-CQDA2 100Gb 2p — needs OCP Upgrade Cable Kit P14603-B21 (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     notes:['OCP part numbers sourced 2026-09-18 (same doc, "OCP Adapters"). Gains both E810 cards the v1 board above lacks (still no BCM5719/MCX631432AS though) — exactly mirrors DL385 G10+\'s PSU/controller v1→v2 pattern above.',
+       'PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a50002560enw V5, "Core Options"). Carries the Gen10-Plus PSU revision plus the 1600W -48VDC tier (P17023-B21) — this doc offers a choice of TWO alternative accessory kits for it, the Power Cable Lug Kit (P36877-B21) or the Power Cable Kit (P22173-B21), only one of which needs to be selected. Embedded controllers stay PLAIN (non-LH), same codes as v1, PLUS the full Tri-Mode "-a"/"-p" family v1 lacked entirely — exactly mirrors DL380 G10+\'s pattern (same chassis-size reasoning), independently confirmed from this model\'s own doc rather than assumed from DL380.',
        'Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (hp-pro.net, a50002560enw V5) confirms 8LFF (expandable to 12LFF) and 8SFF (expandable to 16SFF, then 24SFF) as the real front-bay configs — same set as v1.',
        'Rear/mid-tray (2026-09-15, hp-pro.net mirror, a50002560enw V5): both exist and combine — 24SFF gets an 8SFF midtray + 4SFF rear (→36SFF total, slightly lower than v1\'s 38SFF); LFF gets a 4LFF rear box.',
        'This v2 board raises the threshold to above 155W — different from the v1 (Rome) board, which switches above 180W.',
@@ -2468,8 +2514,26 @@ var BATS=['96w bat','12w bat','No battery'];
 /* Just the wattages — the slip only needs "2x 800W". The efficiency tier /
    part number doesn't matter for this worksheet. */
 var PSUS=['290W','350W','500W','550W','800W','900W','1000W','1200W','1400W','1500W','1600W','1800W','2200W'];
-var FLRS=['331FLR 4x1GbE','366FLR 4x1GbE','361i 2x1GbE','530FLR-SFP+ 2x10Gb','533FLR-T 2x10GbT',
- '561FLR-T 2x10GbT','562FLR-SFP+ 2x10Gb','631FLR-SFP28 2x25Gb','640FLR-SFP28 2x25Gb'];
+/* Conservative fallback ONLY — every G10 rack model this tool offers
+   except DL385/DL120 (no usable cached doc for either, see their model
+   notes) got a real per-model `flr:[]` override on 2026-09-18 once
+   checking confirmed the FlexibleLOM catalog varies far more by chassis
+   than assumed (e.g. DL560 G10 lacks every 25Gb option DL580 G10 has).
+   This list is just the handful of codes confirmed across EVERY G9/G10
+   doc sampled, real PNs included. Two entries removed outright as data
+   errors, not just unconfirmed: `361i` is an EMBEDDED LOM chip name
+   (confirmed via multiple G9 docs, e.g. "HPE Embedded Dual Port 361i
+   Adapter Network Interface") — it was never a removable FlexibleLOM
+   card and has no B21 kit number anywhere. `530FLR-SFP+` had zero hits
+   in any of the ~20 G9/G10 docs checked — likely a typo for the real
+   `534FLR-SFP+`, dropped rather than guessed. `561FLR-T` (700699-B21)
+   is confirmed G9-only (present in every G9 doc, absent from every G10
+   doc) — kept here since G9 still relies on this shared fallback and
+   it's real for that generation, but it should NOT be trusted as valid
+   on a G10 model using this fallback. */
+var FLRS=['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)',
+ '562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)',
+ '561FLR-T 2x10GbT — G9 only, confirmed absent from every G10 doc checked (700699-B21)'];
 /* FlexibleLOM vs OCP 3.0 — physically DIFFERENT connectors (a FlexibleLOM
    card does not fit an OCP slot, and vice versa), not two names for the
    same thing. Sourced across every Gen10 Plus/Gen11/Gen12 model this
@@ -2494,30 +2558,59 @@ var FLRS=['331FLR 4x1GbE','366FLR 4x1GbE','361i 2x1GbE','530FLR-SFP+ 2x10Gb','53
    HPE Data Sheet (PSN1014921967DEEN): "Network controller: ... PCIe
    and OCP3.0." The default this comment used to flag as a guess turned
    out correct; no code change needed, `flrKind()`'s existing G11/G12
-   default already covers it. */
-var FLR_NONE=['DL20 G10+','ML30 G10+','ML30 G11'];
+   default already covers it.
+   2026-09-18: added 3 more no-slot exceptions found while re-checking
+   FlexibleLOM for the G10 axis — `ML30`/`ML110`/`ML350 G10` (all 3 of
+   this tool's G10 towers) have ZERO FlexibleLOM mentions in their own
+   QuickSpecs at all: just a fixed embedded LOM chip (`361i`/`332i`/
+   `369i`) plus an OPTIONAL plain PCIe standup card (already covered by
+   the separate "PCI cards" field). The FLR_NONE check now runs before
+   the G9/G10 shortcut so these apply regardless of generation — worth
+   re-checking the same 3 towers' G9 generation too, since nothing here
+   suggests the slot was added and then removed, but that's unconfirmed
+   and out of today's G10/G10+ scope. */
+var FLR_NONE=['DL20 G10+','ML30 G10+','ML30 G11','ML30 G10','ML110 G10','ML350 G10'];
 function flrKind(m){
   if(!m)return 'flexlom';
-  if(m.g==='G9'||m.g==='G10')return 'flexlom';
   if(FLR_NONE.indexOf(m.m+' '+m.g)>-1)return 'none';
+  if(m.g==='G9'||m.g==='G10')return 'flexlom';
   return 'ocp';
 }
-/* the shared OCP 3.0 NIC catalog — the same ~12 cards turned up across
-   nearly every Gen10 Plus/11/12 model checked; InfiniBand and the
-   Gen12-new BCM57608 100Gb were only confirmed on a subset, kept in the
-   shared list anyway since nothing suggested they're chassis-specific,
-   just newer/higher-end options some builds won't need. */
-var OCP_CARDS=['I350-T4 1Gb 4p','BCM5719 1Gb 4p (P51181-B21)',
- 'X710-DA2 10Gb 2p (P28778-B21)','BCM57412 10Gb 2p (P10097-B21)','BCM57416 10Gb 2p (P26256-B21)',
- 'QL41132HQCU 10/25Gb 2p','QL41132HQRJ 10/25Gb 2p','QL41232HQCU 10/25Gb 2p',
+/* The shared OCP 3.0 NIC catalog — re-verified 2026-09-18 against every
+   G10+ model's own doc (previous pass mostly covered G11/G12). Real
+   finding: it's NOT one shared list — DL110 G10+ (Telco) offers only 2
+   of these ~18 SKUs, and the AMD DL3xx boards each differ from the
+   Intel DL360/365/380/385 boards too. Every G10+ model except DL20/
+   ML30 (no slot at all, FLR_NONE above) got a real per-model `flr:[]`
+   override; this list stays as the G11/G12 fallback (not re-verified
+   this pass — out of today's scope) and is also what an unrecognized/
+   future model would fall back to.
+   Bugs fixed in THIS list while cross-checking real docs (existing
+   data, predates 2026-09-18, wrong on every G10+ model checked):
+   BCM57412/BCM57416's part numbers were SWAPPED (every doc confirms
+   57416=P10097-B21, 57412=P26256-B21). QL41132HQCU/QL41132HQRJ were
+   mislabeled "10/25Gb" — they're 10Gb-only; the visually-similar
+   QL41232HQCU (one digit different) is the real 10/25Gb Marvell part,
+   already listed separately with its own PN. The two InfiniBand
+   entries were mislabeled "HDR100/Eth 200Gb" — HDR100 is HPE's name
+   for the 100Gb-class variant (a DIFFERENT, also-real product with its
+   own PN, P23665/P23666-B21, confirmed on DL325 G10+ v2) — P31323/
+   P31348-B21 are the plain-HDR 200Gb-class parts, relabeled to match. */
+var OCP_CARDS=['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)',
+ 'X710-DA2 10Gb 2p (P28778-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57416 10Gb 2p (P10097-B21)',
+ 'QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)',
  'BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)',
- 'MCX562A 10/25Gb 2p (P10112-B21)','MCX631432AS 25Gb 2p (P42041-B21)',
- 'E810-XXVDA2 25Gb 2p (P10106-B21)','E810-XXVDA4 25Gb 4p (P41614-B21)',
+ 'MCX562A 10/25Gb 2p (P10112-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)',
+ 'E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-XXVDA4 25Gb 4p (P41614-B21)',
  'E810-CQDA2 100Gb 2p (P22767-B21)','BCM57608 100Gb 2p (P73114-B21) — Gen12',
- 'InfiniBand HDR100/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR100/Eth 200Gb 2p (P31348-B21)'];
+ 'InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'];
 function flrCardsFor(m){
   var k=flrKind(m);
   return k==='flexlom'?FLRS:k==='ocp'?OCP_CARDS:[];
+}
+function flrLabel(m){
+  var k=flrKind(m);
+  return k==='ocp'?'OCP 3.0':k==='flexlom'?'FlexibleLOM':'FlexibleLOM / OCP';
 }
 /* Motherboard "Standard vs NC" — checked directly against every Gen11
    and Gen12 model's own QuickSpecs (2026-09-15). The Standard-vs-NC
@@ -3520,7 +3613,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.18.4'; // 4th build shipped today
+var BUILD_VERSION='2026.09.18.6'; // 6th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -3880,7 +3973,7 @@ document.getElementById('mem-suggestions').addEventListener('click',function(e){
 attachList(document.getElementById('dimm'),function(){return dimmsFor(currentModel());});
 attachList(document.getElementById('ctrl'),function(){var m=currentModel(),R=rulesFor(m);return (R&&R.ctrl)||ctrlsFor(m);});
 attachList(document.getElementById('bat'),function(){return BATS;});
-attachList(document.getElementById('flr'),function(){return flrCardsFor(currentModel());});
+attachList(document.getElementById('flr'),function(){var m=currentModel(),R=rulesFor(m);return (R&&R.flr)||flrCardsFor(m);});
 attachList(document.getElementById('expander'),function(){return expandersFor(currentModel());});
 attachList(document.getElementById('psu'),function(){var m=currentModel(),R=rulesFor(m);return (R&&R.psu)||PSUS;});
 attachList(document.getElementById('plan-raid'),function(){return RAID_LEVELS;});
@@ -4121,6 +4214,10 @@ function refreshDependents(){
     :flrK==='ocp'?'OCP 3.0 only on this chassis — FlexibleLOM was retired at Gen10 Plus.'
     :flrK==='none'?'No FlexibleLOM/OCP mezzanine on this chassis — networking is a plain PCIe NIC (see PCI cards) or the embedded LOM.'
     :'FlexibleLOM on this chassis (pre-Gen10-Plus — no OCP 3.0 slot exists yet).';
+  var flrLbl=flrLabel(m);
+  document.getElementById('flr-label').textContent=flrLbl;
+  document.getElementById('flr-legend').textContent=flrLbl;
+  document.getElementById('flr').placeholder=flrK==='ocp'?'e.g. BCM57414 10/25Gb 2p':flrK==='none'?'no slot on this chassis':'e.g. 366FLR 4x1GbE';
   var moboK=motherboardKind(m);
   document.getElementById('mobo-note').textContent=
     moboK==='always-nc'?'No embedded network controller on any '+(m.m+' '+m.g)+' board — always effectively "NC" whichever you pick here. Networking comes entirely from the FlexibleLOM/OCP field.'
@@ -5038,9 +5135,9 @@ function buildSlip(){
   if(r('fan'))L.push(join(v('fanq')?v('fanq')+'x':'',r('fan')));else gaps.push('fans');
   readLines(risers).forEach(function(x){if(x.name)L.push(join(x.q?x.q+'x':'',x.name));});
   readLines(cards).forEach(function(c){if(c.name)L.push(join(c.q?c.q+'x':'',c.name));});
-  if(r('flrfit')==='No FlexibleLOM / OCP fitted')L.push(r('flrfit'));
+  if(r('flrfit')==='No FlexibleLOM / OCP fitted')L.push('No '+flrLabel(m)+' fitted');
   else if(v('flr'))L.push(v('flr'));
-  else gaps.push('FlexibleLOM / OCP');
+  else gaps.push(flrLabel(m));
   if(v('psu'))L.push(join(v('psuq')?v('psuq')+'x':'',v('psu'),'PS'));else gaps.push('power supplies');
   if(r('tpm'))L.push(r('tpm'));
   if(r('ilo'))L.push(r('ilo'));

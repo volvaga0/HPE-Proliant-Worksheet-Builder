@@ -2423,6 +2423,91 @@ than breaking the picker.
 **G10+ is now 100% done for the part-number axis.** Moving to G11
 next, starting with DL360/DL380 per the established priority order.
 
+## FlexibleLOM/OCP label + real per-model card catalogs — 2026-09-18
+
+Two related user reports: (1) the "FlexibleLOM / OCP" field label never
+changed even though `flrKind()` already knew which one actually applied
+per model, and (2) a request to double-check the FLR (G10) and OCP
+(G10+) card catalogs are genuinely compatible per model, not just a
+generic list shown everywhere.
+
+**Label fix**: the field's `<span>`/`<legend>`/placeholder now read
+"FlexibleLOM", "OCP 3.0", or the generic "FlexibleLOM / OCP" (only when
+`flrKind()` is `'none'` — neither slot exists) via a new `flrLabel(m)`
+helper. The spec slip's own "No ___ fitted" line and its gap-list text
+use the same dynamic label (`buildSlip()`).
+
+**Compatibility re-check — real finding: neither catalog is "mostly one
+shared list" the way the 2026-09-14 OCP pass assumed.** Checked every
+cached G10 rack model's own "FlexibleLOM Adapters" section and every
+G10+ model's own "OCP Adapters" section directly, building real
+per-model `flr:[...]` overrides (same override pattern as `psu`/`ctrl`)
+for 18 models total:
+
+- **G10 (9 models: `DL20`/`DL160`/`DL180`/`DL325`/`DL360`/`DL380`/
+  `DL560`/`DL580`)**: real catalogs range from 6 cards (`DL20`) to 12
+  (`DL360`, the richest — also the only one with a confirmed FlexibleLOM
+  InfiniBand card, `547FLR-QSFP`). `DL380` is the narrowest mainstream
+  rack (9 cards) and uniquely offers a Pensando DSP smart-NIC option no
+  other G10 model has. `DL560`/`DL580` — same 4-socket generation — are
+  NOT identical: `DL560` lacks every 25Gb tier `DL580` has. A first pass
+  at `DL160`/`DL180` via simple string-grepping wrongly concluded they
+  only had ONE card each — re-reading the actual contiguous doc section
+  caught this before it shipped; both actually get 10-11 cards using
+  chip-based naming (`FLR-T BCM5719` etc.) instead of the old shorthand
+  (`331FLR` etc.) their sibling docs use for the identical PN. Building
+  a canonical shorthand↔chip-name↔PN table resolved the long-standing
+  "old vs new FlexibleLOM naming" tension flagged as blocking back on
+  2026-09-14.
+- **3 G10 towers have NO FlexibleLOM slot at all**: `ML30`/`ML110`/
+  `ML350 G10` — confirmed zero "FlexibleLOM" mentions in any of their
+  docs, just a fixed embedded LOM chip + optional plain PCIe standup
+  card. `flrKind()`'s `FLR_NONE` exception list (previously G10+/G11
+  only) now checks before the G9/G10 shortcut, so these three apply
+  regardless of generation.
+- **`DL385 G10`/`DL120 G10`** deliberately left on the generic
+  fallback rather than guessed — `DL385`'s only mirror is a reformatted
+  datasheet with no clean orderable-PN table, `DL120` has no cached doc
+  at all (unchanged from the earlier part-number pass).
+- **G10+ (9 models: `DL110`/`DL325`v1+v2/`DL345`/`DL360`/`DL365`/
+  `DL380`/`DL385`v1+v2)**: `DL110` (Telco) offers only 2 of the shared
+  list's ~18 SKUs. AMD (`DL325`/`DL345`/`DL365`/`DL385`) and Intel
+  (`DL360`/`DL380`) boards each differ from each other in E810/BCM5719/
+  InfiniBand availability — `DL325 G10+ v1` lacks BCM5719, E810, AND any
+  OCP3-form InfiniBand entirely; v2 gains all three. `DL365` is the one
+  Intel-adjacent-family board with NO real OCP3 InfiniBand card despite
+  otherwise matching `DL345`'s pattern (PCIe-standup InfiniBand only,
+  a different product for the "PCI cards" field).
+- **2 real bugs found and fixed in the pre-existing shared `OCP_CARDS`
+  list itself** (wrong on every G10+ model checked, not model-specific):
+  `BCM57412`/`BCM57416`'s part numbers were SWAPPED. `QL41132HQCU`/
+  `QL41132HQRJ` were mislabeled "10/25Gb" — they're 10Gb-only; the real
+  10/25Gb Marvell part is the visually-similar `QL41232HQCU` (one digit
+  different), already listed separately. Also fixed: `I350-T4` had no
+  part number at all; the two InfiniBand entries were mislabeled
+  "HDR100/Eth 200Gb" (HDR100 is HPE's name for a DIFFERENT, 100Gb-class
+  product with its own PN) instead of plain "HDR/Eth 200Gb".
+- **The shared `FLRS` fallback** (used by G9 + the 2 unconfirmed G10
+  models) had 2 real data errors removed: `361i` is an embedded LOM
+  chip name, not a removable FlexibleLOM card, confirmed via multiple
+  G9 docs — never had a B21 kit number. `530FLR-SFP+` had zero hits in
+  ~20 G9/G10 docs checked — likely a typo for the real `534FLR-SFP+`,
+  dropped rather than guessed. `561FLR-T` confirmed G9-only (present in
+  every G9 doc, absent from every G10 doc) — kept for G9's sake with an
+  explicit note, since removing it would regress a real G9 option.
+
+25 new regression tests (round 23), 544/544 passing. Caught 2 real
+implementation bugs while adding this: a `rulesFor is not defined`
+runtime error from calling it outside the IIFE scope where it's
+actually defined (same mistake `psu`/`ctrl` avoid by checking the
+override at their `attachList` call site, not inside the shared
+fallback function) — this one broke 138 unrelated tests via cascading
+stale DOM state before being caught and fixed; and a forgotten `flr:[]`
+override on `DL20 G10` that was sourced but never actually written into
+the model's rules object. Verified label switching and per-model card
+filtering live in the browser for both a FlexibleLOM model and an
+OCP-only model.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are

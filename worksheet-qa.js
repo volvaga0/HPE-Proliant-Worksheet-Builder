@@ -1079,14 +1079,16 @@ setTimeout(()=>{
     :fail4('iLO Advanced missing from slip');
   d.getElementById('il0').checked=true;fire(d.getElementById('il0'),'change');
 
-  // --- FlexibleLOM/OCP: blank is a gap, explicit "No" is not ---
+  // --- FlexibleLOM/OCP: blank is a gap, explicit "No" is not. DL380 G10
+  // is a flrKind()==='flexlom' model, so the dynamic label is just
+  // "FlexibleLOM" here, not the generic combined "FlexibleLOM / OCP" ---
   d.getElementById('fl1').checked=false;d.getElementById('fl0').checked=false;
   d.getElementById('flr').disabled=false;d.getElementById('flr').value='';fire(d.getElementById('flr'),'input');
-  d.getElementById('slip').textContent.includes('FlexibleLOM / OCP')
+  d.getElementById('slip').textContent.includes('FlexibleLOM')
     ?pass4('FlexibleLOM/OCP left entirely blank is a gap')
     :fail4('blank FlexibleLOM/OCP not flagged as a gap');
   d.getElementById('fl0').checked=true;fire(d.getElementById('fl0'),'change');
-  (d.getElementById('slip').textContent.includes('No FlexibleLOM / OCP fitted') && d.getElementById('flr').disabled)
+  (d.getElementById('slip').textContent.includes('No FlexibleLOM fitted') && d.getElementById('flr').disabled)
     ?pass4('FlexibleLOM/OCP "No" gives an explicit slip line, not a gap, and locks the text field')
     :fail4('FlexibleLOM/OCP "No" not handled: '+d.getElementById('slip').textContent.slice(0,220));
   d.getElementById('fl1').checked=true;fire(d.getElementById('fl1'),'change');
@@ -1861,9 +1863,11 @@ function runRound7(){
   flrOpts.some(o=>/^I350-T4|^BCM5719/.test(o))
     ?pass7('DL20 G11 gained a real OCP slot (unlike DL20 G10+) — same model name, different generation, different answer')
     :fail7('DL20 G11 should offer OCP cards: '+flrOpts.join(', '));
-  // a mismatched card typed/pasted/restored is still caught
+  // a mismatched card typed/pasted/restored is still caught. FLRS entries
+  // now carry real part numbers (2026-09-18), so the exact string must
+  // match — bare '366FLR 4x1GbE' with no PN no longer exists in the array.
   setModel7('DL380 G11');
-  flr7.value='366FLR 4x1GbE';fire(flr7,'input');
+  flr7.value='366FLR 4x1GbE (665240-B21)';fire(flr7,'input');
   d.getElementById('checks').textContent.includes('FLEXLOM/OCP MISMATCH')
     ?pass7('a FlexibleLOM card typed directly into a G11 (OCP-only) build is flagged')
     :fail7('mismatched FLR/OCP card not caught: '+d.getElementById('checks').textContent.slice(0,200));
@@ -3448,4 +3452,158 @@ function runRound21(){
   (c21.length===6 && !c21.some(function(o){return /-a \(|^P816i|LH/.test(o);}) && c21.some(function(o){return /^MR216i-p \(P26324-B21\)/.test(o);}))
     ?pass21('ML30 G10+: real 6-option controller list, PCI plug-in only — no embedded "-a"/Tri-Mode-a controller exists on this tower at all')
     :fail21('ML30 G10+ ctrl panel wrong: '+c21.join(' | '));
+  runRound22();
+}
+
+// --- Round 22: the "FlexibleLOM / OCP" field label/legend/placeholder
+// now switch to the real per-model term (flrLabel()), user-reported
+// 2026-09-18 — the generic combined label was confusing on chassis
+// that only physically have ONE of the two ---
+function runRound22(){
+  function pass22(m){console.log('ok    '+m);}
+  function fail22(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi22=d.getElementById('model-input');
+  function setModel22(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi22.value='';fire(mi22,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
+    if(!opt)return fail22('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+
+  setModel22('DL380 G10'); // flrKind()==='flexlom'
+  (d.getElementById('flr-label').textContent==='FlexibleLOM' && d.getElementById('flr-legend').textContent==='FlexibleLOM' && /366FLR/.test(d.getElementById('flr').placeholder))
+    ?pass22('DL380 G10: field label/legend/placeholder switch to plain "FlexibleLOM" (pre-Gen10-Plus chassis)')
+    :fail22('DL380 G10 flr label wrong: '+d.getElementById('flr-label').textContent);
+
+  setModel22('DL360 G10+'); // flrKind()==='ocp'
+  (d.getElementById('flr-label').textContent==='OCP 3.0' && d.getElementById('flr-legend').textContent==='OCP 3.0' && /BCM57414/.test(d.getElementById('flr').placeholder))
+    ?pass22('DL360 G10+: field label/legend/placeholder switch to plain "OCP 3.0" (FlexibleLOM was retired at Gen10 Plus)')
+    :fail22('DL360 G10+ flr label wrong: '+d.getElementById('flr-label').textContent);
+
+  setModel22('DL20 G10+'); // flrKind()==='none'
+  (d.getElementById('flr-label').textContent==='FlexibleLOM / OCP' && d.getElementById('flr').placeholder==='no slot on this chassis')
+    ?pass22('DL20 G10+: no real slot either way, so the label correctly stays generic rather than picking a wrong specific term')
+    :fail22('DL20 G10+ flr label wrong: '+d.getElementById('flr-label').textContent);
+
+  // the slip's own "No <label> fitted" line uses the same dynamic term
+  setModel22('DL360 G10+');
+  d.getElementById('fl0').checked=true;fire(d.getElementById('fl0'),'change');
+  (d.getElementById('slip').textContent.includes('No OCP 3.0 fitted'))
+    ?pass22('DL360 G10+ slip: "No OCP 3.0 fitted" (not the generic "No FlexibleLOM / OCP fitted") once a model is picked')
+    :fail22('DL360 G10+ slip "No" line wrong: '+d.getElementById('slip').textContent.slice(0,220));
+  runRound23();
+}
+
+// --- Round 23: real per-model FlexibleLOM (G10) / OCP 3.0 (G10+) card
+// lists, sourced 2026-09-18 directly from each model's own cached
+// QuickSpecs — user asked to double-check compatibility for G10/G10+
+// after noticing the field's label never changed. Found the catalogs
+// vary far more per chassis than either the 2026-09-14 OCP pass or the
+// original flat FLRS list assumed, plus 2 real bugs already sitting in
+// the shared OCP_CARDS list (BCM57412/57416 PNs swapped; QL41132HQCU/
+// QL41132HQRJ mislabeled 10/25Gb when they're 10Gb-only). ---
+function runRound23(){
+  function pass23(m){console.log('ok    '+m);}
+  function fail23(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi23=d.getElementById('model-input');
+  // round 22's last test picks the "No" pill, which disables #flr and
+  // never re-enables it — reset here so this round starts clean.
+  d.getElementById('fl1').checked=true;fire(d.getElementById('fl1'),'change');
+  d.getElementById('flr').disabled=false;
+  function setModel23(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi23.value='';fire(mi23,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
+    if(!opt)return fail23('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function flrOpts23(){const flr=d.getElementById('flr');flr.value='';fire(flr,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});}
+
+  setModel23('DL20 G10');
+  let f23dl20=flrOpts23();
+  (f23dl20.length===9 && f23dl20.some(function(o){return /^622FLR-SFP28/.test(o);}) && !f23dl20.some(function(o){return /^631FLR-SFP28|^640FLR-SFP28/.test(o);}))
+    ?pass23('DL20 G10: real 9-card FlexibleLOM list — only the QL41401-based 622FLR-SFP28 25Gb option, no Mellanox/Broadcom 25Gb variants')
+    :fail23('DL20 G10 flr panel wrong: '+f23dl20.join(' | '));
+
+  setModel23('DL160 G10');
+  let f23=flrOpts23();
+  (f23.length===10 && f23.some(function(o){return /^640FLR-SFP28.*817749-B21/.test(o);}) && !f23.some(function(o){return /^562FLR-SFP\+/.test(o);}))
+    ?pass23('DL160 G10: real 10-card FlexibleLOM list — missing only 562FLR-SFP+, which DL180 G10 (same sibling family) does have')
+    :fail23('DL160 G10 flr panel wrong: '+f23.join(' | '));
+
+  setModel23('DL180 G10');
+  f23=flrOpts23();
+  (f23.length===11 && f23.some(function(o){return /^562FLR-SFP\+/.test(o);}))
+    ?pass23('DL180 G10: the FULL 11-card G10 catalog, incl. 562FLR-SFP+ which DL160 G10 lacks')
+    :fail23('DL180 G10 flr panel wrong: '+f23.join(' | '));
+
+  setModel23('DL380 G10');
+  f23=flrOpts23();
+  (f23.length===9 && !f23.some(function(o){return /^533FLR-T|^534FLR-SFP\+|^536FLR-T|^622FLR-SFP28/.test(o);}) && f23.some(function(o){return /Pensando/.test(o);}))
+    ?pass23('DL380 G10: the NARROWEST G10 rack catalog found, missing 4 codes every richer sibling has, plus a unique Pensando smart-NIC option')
+    :fail23('DL380 G10 flr panel wrong: '+f23.join(' | '));
+
+  setModel23('DL560 G10');
+  f23=flrOpts23();
+  (f23.length===8 && !f23.some(function(o){return /FLR-SFP28|^562FLR-T/.test(o);}))
+    ?pass23('DL560 G10: lacks every 25Gb tier AND 562FLR-T — a real, narrower catalog than its DL580 G10 sibling')
+    :fail23('DL560 G10 flr panel wrong: '+f23.join(' | '));
+
+  setModel23('DL580 G10');
+  f23=flrOpts23();
+  (f23.length===11 && f23.some(function(o){return /^622FLR-SFP28/.test(o);}) && f23.some(function(o){return /^631FLR-SFP28/.test(o);}))
+    ?pass23('DL580 G10: gets 2 of the 3 25Gb tiers DL560 G10 lacks entirely, despite being the same 4-socket generation')
+    :fail23('DL580 G10 flr panel wrong: '+f23.join(' | '));
+
+  ['ML30 G10','ML110 G10','ML350 G10'].forEach(function(label){
+    setModel23(label);
+    f23=flrOpts23();
+    (f23.length===0 && d.getElementById('flr-note').textContent.includes('No FlexibleLOM/OCP mezzanine'))
+      ?pass23(label+': correctly offers NO FlexibleLOM cards at all — this G10 tower has no slot, confirmed absent from its own doc')
+      :fail23(label+' should offer nothing: '+f23.join(', ')+' / note: '+d.getElementById('flr-note').textContent);
+  });
+
+  setModel23('DL110 G10+');
+  f23=flrOpts23();
+  (f23.length===2 && f23.every(function(o){return /E810/.test(o);}))
+    ?pass23('DL110 G10+: only 2 of the shared ~18-card OCP catalog exist here — the narrowest OCP list found on any G10+ model')
+    :fail23('DL110 G10+ flr panel wrong: '+f23.join(' | '));
+
+  setModel23('DL325 G10+'); // v1
+  f23=flrOpts23();
+  (f23.length===10 && !f23.some(function(o){return /^BCM5719|E810|InfiniBand/.test(o);}))
+    ?pass23('DL325 G10+ v1: no BCM5719, no E810, no OCP3 InfiniBand at all — confirmed absent, all 3 gained at v2')
+    :fail23('DL325 G10+ v1 flr panel wrong: '+f23.join(' | '));
+
+  setModel23('DL325 G10+ v2');
+  f23=flrOpts23();
+  (f23.length===15 && f23.some(function(o){return /^BCM5719/.test(o);}) && f23.some(function(o){return /^E810-CQDA2/.test(o);}) && f23.some(function(o){return /^InfiniBand HDR\/Eth 200Gb 1p/.test(o);}))
+    ?pass23('DL325 G10+ v2: gains BCM5719 + both E810 cards + real OCP3 InfiniBand that v1 lacked entirely')
+    :fail23('DL325 G10+ v2 flr panel wrong: '+f23.join(' | '));
+
+  setModel23('DL360 G10+');
+  f23=flrOpts23();
+  (f23.length===15 && f23.some(function(o){return /^InfiniBand HDR\/Eth 200Gb 1p/.test(o);}) && f23.some(function(o){return /^InfiniBand HDR\/Eth 200Gb 2p \(P31348-B21\)/.test(o);}))
+    ?pass23('DL360 G10+: real 15-card OCP list, including BOTH InfiniBand ports (1p and 2p)')
+    :fail23('DL360 G10+ flr panel wrong: '+f23.join(' | '));
+
+  // the shared OCP_CARDS fallback (used by G11/G12, and any future
+  // unrecognized model) has 2 real bugs fixed this pass
+  setModel23('DL360 G11'); // no flr:[] override, falls back to OCP_CARDS
+  f23=flrOpts23();
+  (f23.some(function(o){return /^BCM57416 10Gb 2p \(P10097-B21\)/.test(o);}) && f23.some(function(o){return /^BCM57412 10Gb 2p \(P26256-B21\)/.test(o);}) && f23.some(function(o){return /^QL41132HQCU 10Gb 2p/.test(o);}) && !f23.some(function(o){return /^QL41132HQCU 10\/25Gb/.test(o);}))
+    ?pass23('shared OCP_CARDS: BCM57412/57416 part-number swap fixed, QL41132HQCU/HQRJ "10/25Gb" mislabel fixed to plain 10Gb')
+    :fail23('OCP_CARDS fallback still wrong: '+f23.join(' | '));
+  (!f23.some(function(o){return /^361i|^530FLR-SFP\+/.test(o);}))
+    ?pass23('shared fallback: confirms OCP_CARDS never had the FLRS-only 361i/530FLR-SFP+ entries to begin with')
+    :fail23('OCP_CARDS unexpectedly contains a FLRS-only entry: '+f23.join(' | '));
+
+  setModel23('DL60 G9'); // falls back to FLRS (no per-model override, out of this pass\'s G10/G10+ scope)
+  f23=flrOpts23();
+  (!f23.some(function(o){return /^361i|^530FLR-SFP\+/.test(o);}) && f23.some(function(o){return /^331FLR 4x1GbE \(629135-B22\)/.test(o);}))
+    ?pass23('DL60 G9 (no flr override, falls back to FLRS): 361i (embedded chip, not a card) and unconfirmed 530FLR-SFP+ removed; real PNs added to the rest')
+    :fail23('DL60 G9 flr fallback panel wrong: '+f23.join(' | '));
 }
