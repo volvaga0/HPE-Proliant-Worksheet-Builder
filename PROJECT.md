@@ -2524,3 +2524,61 @@ OCP-only model.
 4. **When adding a new rule key, update the schema comment block first**
    — it's the only documentation of what each key does and it drifts
    fast otherwise.
+
+## "Finalize as many G10/G10+ options as possible" — started 2026-09-18
+
+User asked, with weekly usage running low, to push every axis (CPU,
+heatsinks, fans, memory, controllers, risers, FlexibleLOM/OCP, PSU +
+count) as far as possible for G10/G10+, plus as many "-001" spare
+part numbers as can be pulled from QuickSpecs specifically.
+
+**"-001" spares: checked thoroughly, genuinely almost nothing there.**
+Grepped every cached G10/G10+ doc for `-001`. Every hit was one of:
+the same generic rack-installation-tool part (`695539-001`) repeated
+across unrelated models; a handful of internal CABLE part numbers
+(already captured in existing notes for `DL20`/`DL365`/`DL385 G10+`);
+or whole-system pre-configured SKU numbers (`ML110`/`ML30` G10(+)),
+not component spares. Confirms the earlier 2026-09-17 finding: board/
+controller/PSU/heatsink/fan spare numbers are a different HPE
+document type (Spare Parts List), not present in QuickSpecs at all —
+nothing more to add from this source without fetching that other doc
+type, which is out of today's scope.
+
+**CPU list: found 25 real Xeon Scalable SKUs missing from the shared
+`CPUS` array entirely**, by diffing `DL360 G10`'s own "Choose
+Processor Options" list (106 confirmed SKUs) against the tool's
+existing sp1/sp2 pool. Added at the shared-list level (benefits every
+sp1/sp2 model, not just DL360): 7 to `sp1` (`5117`/`6134M`/`6143`/
+`8160M`/`8165`/`8170`/`8180M`) and 18 to `sp2` (`4214Y`/`4215`/
+`5215L`/`5218B`/`5218N`/`5220S`/`6208U`/`6212U`/`6222V`/`6226`/
+`6230N`/`6238L`/`6240L`/`6240Y`/`6250L`/`6252N`/`8260L`/`8260Y`).
+
+**Per-model `cpuAllow` — started checking, found a real trap and
+backed off rather than guess.** `DL560 G10`'s only cached doc is
+QuickSpecs V1, dated 7-11-2017 — genuinely predates the 2nd Gen
+(Cascade Lake) CPU launch (April 2019). It exhaustively lists a
+1st-Gen-only Platinum+Gold pool, but that's silence on 2nd Gen from a
+stale doc, not evidence 2nd Gen is unsupported — building a
+`cpuAllow` from it would risk HARD-BLOCKING real, valid 2nd-Gen CPUs
+this chassis likely does support in reality. Since `cpuAllow` is an
+active block (unlike a soft note), a wrong one is worse than no
+restriction at all. Deliberately did NOT add `cpuAllow` for `DL560`/
+`DL580 G10` without a newer doc revision to confirm both generations
+— flagged here rather than guessed either way. `DL380 G10`'s cached
+doc has the same problem in reverse: its "Choose Processors" section
+only has "2nd Generation" headings, no "1st Generation" section at
+all — also inconclusive on its own (a later-revision doc could have
+simply dropped an EOL tier from the ordering list without dropping
+real support). Building real per-model `cpuAllow` lists needs a
+verified CURRENT-revision doc per model, not just whatever's cached —
+this is real work still to do, not started for any G10/G10+ model.
+
+26 new regression tests (rounds 23-24), 545/545 passing.
+
+Also fixed while sourcing this: `worksheet-qa.js`'s `grab()` helper
+(used to pull `MODELS`/`CPUS`/`RISERS`/etc. array literals out of the
+page source for testing) didn't understand `//` line comments — only
+`/* */` block comments — so a `//` comment containing an apostrophe
+silently broke bracket-depth counting for the whole array. Hardened
+`grab()` (all 3 duplicated copies) to skip `//` comments properly,
+and kept new inline comments apostrophe-free as a matter of style.

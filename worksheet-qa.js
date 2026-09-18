@@ -2251,6 +2251,7 @@ function runRound10(){
       if(q){ if(c==='\\')esc=true; else if(c===q)q=null; continue; }
       if(c==='\''||c==='"'){q=c;continue;}
       if(c==='/'&&html[j+1]==='*'){ j=html.indexOf('*/',j)+1; continue; }
+      if(c==='/'&&html[j+1]==='/'){ j=html.indexOf('\n',j)-1; continue; }
       if(c===open)depth++;
       else if(c===close){depth--; if(!depth){j++;break;}}
     }
@@ -2407,6 +2408,7 @@ function runRound11(){
       if(q){ if(c==='\\')esc=true; else if(c===q)q=null; continue; }
       if(c==='\''||c==='"'){q=c;continue;}
       if(c==='/'&&html[j+1]==='*'){ j=html.indexOf('*/',j)+1; continue; }
+      if(c==='/'&&html[j+1]==='/'){ j=html.indexOf('\n',j)-1; continue; }
       if(c===open)depth++;
       else if(c===close){depth--; if(!depth){j++;break;}}
     }
@@ -3100,6 +3102,7 @@ function runRound15(){
       if(q){ if(c==='\\')esc=true; else if(c===q)q=null; continue; }
       if(c==='\''||c==='"'){q=c;continue;}
       if(c==='/'&&html[j+1]==='*'){ j=html.indexOf('*/',j)+1; continue; }
+      if(c==='/'&&html[j+1]==='/'){ j=html.indexOf('\n',j)-1; continue; }
       if(c===open)depth++;
       else if(c===close){depth--; if(!depth){j++;break;}}
     }
@@ -3606,4 +3609,33 @@ function runRound23(){
   (!f23.some(function(o){return /^361i|^530FLR-SFP\+/.test(o);}) && f23.some(function(o){return /^331FLR 4x1GbE \(629135-B22\)/.test(o);}))
     ?pass23('DL60 G9 (no flr override, falls back to FLRS): 361i (embedded chip, not a card) and unconfirmed 530FLR-SFP+ removed; real PNs added to the rest')
     :fail23('DL60 G9 flr fallback panel wrong: '+f23.join(' | '));
+  runRound24();
+}
+
+// --- Round 24: 25 real sp1/sp2 Xeon Scalable CPU SKUs were missing from
+// the shared CPUS array entirely, found by diffing DL360 G10's own
+// "Choose Processor Options" list against the tool's existing pool
+// (2026-09-18, part of the "finalize as many G10/G10+ options as
+// possible" push). Fixed at the shared list level since these are real
+// parts on ANY sp1/sp2 model, not DL360-specific. ---
+function runRound24(){
+  function pass24(m){console.log('ok    '+m);}
+  function fail24(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi24=d.getElementById('model-input');
+  function setModel24(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi24.value='';fire(mi24,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
+    if(!opt)return fail24('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  setModel24('DL360 G10');
+  const ci24=d.getElementById('cpu-input');ci24.value='';fire(ci24,'input');
+  const cpuOpts=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  const newSkus=['5117','6134M','6143','8160M','8165','8170','8180M','4214Y','4215','5215L','5218B','5218N','5220S','6208U','6212U','6222V','6226','6230N','6238L','6240L','6240Y','6250L','6252N','8260L','8260Y'];
+  const missing=newSkus.filter(function(sku){return !cpuOpts.some(function(o){return o.indexOf(sku)>-1;});});
+  (missing.length===0)
+    ?pass24('DL360 G10: all 25 real CPU SKUs sourced from its own QuickSpecs (previously missing entirely from the tool) are now selectable')
+    :fail24('DL360 G10 still missing: '+missing.join(', '));
 }
