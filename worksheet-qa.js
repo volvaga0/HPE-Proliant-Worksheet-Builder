@@ -1619,8 +1619,8 @@ function runRound7(){
   setModel7('DL380 G10+');
   ctrl.dispatchEvent(new w.Event('focus'));
   ctrlOpts=[...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);
-  (ctrlOpts.includes('MR216i-p') && ctrlOpts.includes('SR932i-p') && ctrlOpts.includes('P408i-a') && !ctrlOpts.includes('MR416i-o'))
-    ?pass7('DL380 G10+: MR-p/SR932i-p cards now offered, still no OCP-mezz (Gen11 only)')
+  (ctrlOpts.some(o=>/^MR216i-p /.test(o)) && ctrlOpts.some(o=>/^SR932i-p /.test(o)) && ctrlOpts.some(o=>/^P408i-a \(/.test(o)) && !ctrlOpts.some(o=>/^MR416i-o/.test(o)))
+    ?pass7('DL380 G10+: MR-p/SR932i-p cards now offered (real part numbers, 2026-09-18), still no OCP-mezz (Gen11 only)')
     :fail7('DL380 G10+ controller list wrong: '+ctrlOpts.join(', '));
   setModel7('DL380 G11');
   ctrl.dispatchEvent(new w.Event('focus'));
@@ -3267,4 +3267,55 @@ function runRound18(){
   (c18.length===7 && c18.some(function(o){return /^P816i-a.*\(804338-B21\)/.test(o);}) && c18.some(function(o){return /^P408i-a — needs cable kit \(804331-B21\)/.test(o);}))
     ?pass18('DL180 G10: PLAIN (non-LH) modular controllers incl. P816i-a — a real difference from DL160 G10\'s LH-only pattern')
     :fail18('DL180 G10 ctrl panel wrong: '+c18.join(' | '));
+  runRound19();   // chained — round 18 has no nested timers of its own
+}
+
+// ---- round 19: user asked to move on to G10+ for the part-number
+// project, starting with DL360/DL380 (2026-09-18). Found a real
+// Gen10-Plus-specific PSU part-number revision (800W/1600W Platinum
+// got new codes, not carried forward from G10) and 3 controller codes
+// (MR216i-a/MR416i-a/SR416i-a) missing from the shared CTRLS list
+// entirely. ----
+function runRound19(){
+  function pass19(m){console.log('ok    '+m);}
+  function fail19(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi19=d.getElementById('model-input');
+  function setModel19(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi19.value='';fire(mi19,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
+    if(!opt)return fail19('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function psuOpts19(){const psu=d.getElementById('psu');psu.value='';fire(psu,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});}
+  function ctrlOpts19(){const ctrl=d.getElementById('ctrl');ctrl.value='';fire(ctrl,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});}
+
+  setModel19('DL360 G10+');
+  let p19=psuOpts19();
+  (p19.length===6 && p19.some(function(o){return /P38995-B21/.test(o);}) && p19.some(function(o){return /P38997-B21/.test(o);}) && p19.some(function(o){return /^500W/.test(o);}))
+    ?pass19('DL360 G10+: real 6-option PSU list, incl. the Gen10-Plus-specific 800W/1600W Platinum codes (P38995/P38997-B21), not the old G10 ones')
+    :fail19('DL360 G10+ psu panel wrong: '+p19.join(' | '));
+  let c19=ctrlOpts19();
+  (c19.length===16 && c19.some(function(o){return /^P408i-a LH.*869081-B21/.test(o);}) && c19.some(function(o){return /^MR216i-a \(P26325-B21\)/.test(o);}) && c19.some(function(o){return /^SR416i-a \(P12688-B21\)/.test(o);}))
+    ?pass19('DL360 G10+: real 16-option controller list, both plain+LH embedded variants, incl. the newly-added MR216i-a/MR416i-a/SR416i-a "-a" Tri-Mode family')
+    :fail19('DL360 G10+ ctrl panel wrong: '+c19.join(' | '));
+
+  setModel19('DL380 G10+');
+  p19=psuOpts19();
+  (p19.length===6 && !p19.some(function(o){return /^500W/.test(o);}) && p19.some(function(o){return /P38995-B21/.test(o);}))
+    ?pass19('DL380 G10+: real 6-option PSU list, no 500W tier at all (confirmed absent, unlike DL360 G10+)')
+    :fail19('DL380 G10+ psu panel wrong: '+p19.join(' | '));
+  c19=ctrlOpts19();
+  (c19.length===13 && !c19.some(function(o){return /LH/.test(o);}) && c19.some(function(o){return /^SR416i-a \(P12688-B21\)/.test(o);}))
+    ?pass19('DL380 G10+: real 13-option controller list, PLAIN-only modular variants (no LH at all) — a real difference from DL360 G10+')
+    :fail19('DL380 G10+ ctrl panel wrong: '+c19.join(' | '));
+
+  // --- the new shared CTRLS entries (MR216i-a/MR416i-a/SR416i-a) keep
+  // the Type-a group header and stay properly generation-gated ---
+  setModel19('DL360 G11'); // a model with NO ctrl:[] override, still uses generic CTRLS/CTRL_GENS
+  c19=ctrlOpts19();
+  (!c19.some(function(o){return /^MR216i-a$|^MR416i-a$|^SR416i-a$/.test(o);}))
+    ?pass19('DL360 G11 (no ctrl override): the new "-a" Tri-Mode codes stay scoped to G10+ only, not offered here')
+    :fail19('DL360 G11 should not offer the G10+-only "-a" Tri-Mode codes: '+c19.join(' | '));
 }

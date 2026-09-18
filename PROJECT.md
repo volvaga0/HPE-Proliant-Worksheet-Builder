@@ -2298,6 +2298,37 @@ three live in the browser, including the corrected verified badge.
 tower, and entry-level model.** Moving to G10+ next, starting with
 DL360/DL380 per the user's stated priority.
 
+**2026-09-18, continued: DL360/DL380 G10+ — starts the part-number
+project's move into G10+.** Two real findings that would have been
+easy to get wrong by assuming G10 data carried forward:
+
+- **A genuine PSU part-number REVISION at Gen10 Plus**: the 800W and
+  1600W Platinum tiers got NEW HPE part numbers (P38995-B21,
+  P38997-B21) — confirmed by direct search that the "old" G10 codes
+  (865414-B21, 830272-B21) have ZERO mentions in either model's own
+  doc. Everything else (Titanium/-48VDC/Universal) kept its G10 code.
+- **3 controller codes were missing from the shared `CTRLS` list
+  entirely**: `MR216i-a`/`MR416i-a` (embedded Tri-Mode MegaRAID) and
+  `SR416i-a` (Microchip SmartRAID, same "-a" family) — both models'
+  own docs list them right alongside the already-known `-p` PCIe
+  siblings. Added to `CTRLS`/`CACHED_CTRLS`/`NOCACHE_CTRLS`/
+  `CTRL_PORTS`/`CTRL_GENS` at the shared level (benefits every model
+  that falls back to the generic list, not just these two), scoped to
+  G10+ only since that's what's actually confirmed.
+
+Per-model: `DL360 G10+` offers BOTH plain and "LH" (low-profile
+heatsink) variants of every embedded controller — matches its
+existing note about accelerators needing the LH variant. `DL380 G10+`
+offers PLAIN-only (no LH at all) and has NO 500W PSU tier whatsoever
+(confirmed absent) — both real chassis differences from DL360 G10+,
+same "smaller chassis needs LH, bigger one doesn't" pattern already
+seen at plain G10.
+
+5 new regression tests (round 19), 506/506 passing. Verified all of
+the above live in the browser, including that the new shared
+controller codes stay properly scoped to G10+ and don't leak into
+G11.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are
