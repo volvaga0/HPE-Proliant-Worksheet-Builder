@@ -2954,11 +2954,11 @@ function runRound14(){
   (opts14.length===7 && opts14.some(o=>/865408-B21/.test(o)) && opts14.some(o=>/874571-B21/.test(o)))
     ?pass14('ML350 G10: psu:[] override now actually drives the picker (was dead data — 7 real part numbers)')
     :fail14('ML350 G10 psu panel wrong: '+opts14.join(' | '));
-  setModel14('DL160 G10'); // a model with NO psu:[] override — must still fall back cleanly to plain PSUS
+  setModel14('DL325 G10+'); // a model with NO psu:[] override — must still fall back cleanly to plain PSUS
   opts14=psuOpts14();
   (opts14.length>0 && opts14.every(o=>/^\d+W$/.test(o)))
-    ?pass14('DL160 G10 (no psu:[] override): still falls back to the plain generic PSUS wattage list')
-    :fail14('DL160 G10 psu panel should be plain wattages: '+opts14.join(' | '));
+    ?pass14('DL325 G10+ (no psu:[] override): still falls back to the plain generic PSUS wattage list')
+    :fail14('DL325 G10+ psu panel should be plain wattages: '+opts14.join(' | '));
 
   // --- DL360/DL380 G10: real PSU + storage-controller part numbers,
   // sourced 2026-09-17 directly from the already-cached QuickSpecs ---
@@ -3214,4 +3214,57 @@ function runRound16(){
     ?pass16('ML110 G10: 16SFF on an 8-port P408i-p now suggests the real SAS Expander Card Kit (P11359-B21) — was previously untracked entirely')
     :fail16('ML110 G10 expander suggestion missing/wrong: '+expTxt16);
   ctrl16b.value='';fire(ctrl16b,'input');bays16.value='';fire(bays16,'input');
+  runRound18();   // chained — round 16 has no nested timers of its own
+}
+
+// ---- round 18: user asked to finish G10 entry-level (DL20/DL160/
+// DL180) to close out G10 entirely, before starting G10+ (2026-09-18).
+// Same part-number rigor as the rest of G10. ----
+function runRound18(){
+  function pass18(m){console.log('ok    '+m);}
+  function fail18(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi18=d.getElementById('model-input');
+  function setModel18(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi18.value='';fire(mi18,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
+    if(!opt)return fail18('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function psuOpts18(){const psu=d.getElementById('psu');psu.value='';fire(psu,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});}
+  function ctrlOpts18(){const ctrl=d.getElementById('ctrl');ctrl.value='';fire(ctrl,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});}
+
+  setModel18('DL20 G10');
+  let p18=psuOpts18();
+  (p18.length===4 && p18.some(function(o){return /P21649-B21/.test(o);}) && p18.some(function(o){return /OBSOLETE.*P06731-B21/.test(o);}))
+    ?pass18('DL20 G10: real 4-option PSU list, obsolete 290W FIO variant flagged as such rather than silently offered')
+    :fail18('DL20 G10 psu panel wrong: '+p18.join(' | '));
+  let c18=ctrlOpts18();
+  (c18.length===5 && c18.some(function(o){return /^S100i/.test(o);}) && c18.some(function(o){return /^P408i-a LH \(869081-B21\)/.test(o);}))
+    ?pass18('DL20 G10: real 5-option controller list, LH-only embedded variants')
+    :fail18('DL20 G10 ctrl panel wrong: '+c18.join(' | '));
+  d.getElementById('badge-v').classList.contains('on')
+    ?pass18('DL20 G10: now verified:true — DIMM count was already sourced against this doc, just never flagged')
+    :fail18('DL20 G10 should be verified now');
+
+  setModel18('DL160 G10');
+  p18=psuOpts18();
+  (p18.length===6 && p18.some(function(o){return /866442-B21/.test(o);}) && !p18.some(function(o){return /1600W/.test(o);}))
+    ?pass18('DL160 G10: real 6-option PSU list (shared DL160/180 enablement kit), no 1600W tier (DL180-only)')
+    :fail18('DL160 G10 psu panel wrong: '+p18.join(' | '));
+  c18=ctrlOpts18();
+  (c18.length===6 && c18.some(function(o){return /^P408i-a LH/.test(o);}) && !c18.some(function(o){return /P816i-a/.test(o);}))
+    ?pass18('DL160 G10: LH-only embedded controllers, no P816i-a at all (DL180-only)')
+    :fail18('DL160 G10 ctrl panel wrong: '+c18.join(' | '));
+
+  setModel18('DL180 G10');
+  p18=psuOpts18();
+  (p18.length===7 && p18.some(function(o){return /866442-B21/.test(o);}) && p18.some(function(o){return /1600W/.test(o);}))
+    ?pass18('DL180 G10: real 7-option PSU list — same shared enablement kit as DL160, plus the 1600W tier DL160 lacks')
+    :fail18('DL180 G10 psu panel wrong: '+p18.join(' | '));
+  c18=ctrlOpts18();
+  (c18.length===7 && c18.some(function(o){return /^P816i-a.*\(804338-B21\)/.test(o);}) && c18.some(function(o){return /^P408i-a — needs cable kit \(804331-B21\)/.test(o);}))
+    ?pass18('DL180 G10: PLAIN (non-LH) modular controllers incl. P816i-a — a real difference from DL160 G10\'s LH-only pattern')
+    :fail18('DL180 G10 ctrl panel wrong: '+c18.join(' | '));
 }

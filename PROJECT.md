@@ -2269,6 +2269,35 @@ the above live in the browser, including the new expander suggestion.
 Remaining for G10: entry-level (`DL20`/`DL160`/`DL180`) only. Then
 move to G10+.
 
+**2026-09-18: DL20/DL160/DL180 G10 — closes out ALL of G10 for the
+part-number project.** Same rigor as the rest of the generation.
+
+- **DL20 G10**: 4 real PSU options — the base 290W tier has 2 SKUs,
+  one confirmed OBSOLETE by the doc's own note ("unavailable in order
+  system after 16 Feb 2020"); flagged as such rather than silently
+  offered alongside the current replacement. LH-only embedded
+  controllers (no P816i-a/P824i-p at all — smallest 1U chassis).
+  **Also fixed a stale-verification gap**: this model had NO
+  `verified:true` at all despite its DIMM count already being sourced
+  against the same doc in an earlier note — added the flag.
+- **DL160 G10**: 6 real PSU options, all needing the SAME "DL160/180
+  Gen10" shared Redundant PSU Enablement Kit (866442-B21) — confirmed
+  shared by name in the doc, not assumed. LH-only controllers, no
+  P816i-a.
+- **DL180 G10**: 7 real PSU options (shares the identical enablement
+  kit + PSU list as DL160, plus a 1600W tier DL160 lacks). **Real
+  chassis difference found**: controllers here are the PLAIN (non-LH)
+  modular variants, including P816i-a (16-lane) which none of
+  DL20/DL160/DL325/DL560 G10's LH-only siblings offer at all — this
+  larger 2U chassis has room for the taller cards.
+
+7 new regression tests (round 18), 501/501 passing. Verified all
+three live in the browser, including the corrected verified badge.
+
+**G10 is now fully done for the part-number axis — every rack,
+tower, and entry-level model.** Moving to G10+ next, starting with
+DL360/DL380 per the user's stated priority.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are

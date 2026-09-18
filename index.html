@@ -1039,9 +1039,12 @@ var MODELS=[
        'Backplane cross-reference (2026-09-16, own QuickSpecs c04601209-15187 V15, freshly sourced): a genuine mixed config exists — "upgradeable to ten (10) SFF SATA/SAS or max of five (5) SFF SATA/SAS + five (5) NVMe SSD bays" (needs the SSD Express Bay Kit 788359-B21) — a real Premium option alongside pure SAS/SATA (up to 10SFF) and, per the drive catalog, pure NVMe. All three pills are real here, matching the generic rule.']}},
 
  {m:'DL20', g:'G10', p:['xeone'],      s:1, d:4, bays:['2LFF','4SFF','6SFF'],
-   rules:{psuMax:2,pcie:{one:2,two:2},rear:[],
-     notes:['4 DIMM slots. 2 PCIe expansion slots maximum.',
-       'Base ships a single fixed 290W supply; 500W or 800W Flex Slot supplies add redundancy (2 bays).',
+   rules:{verified:true,psuMax:2,pcie:{one:2,two:2},rear:[],
+     psu:['290W Platinum FIO, EU Lot 9 compliant, current standard (P21649-B21)','290W FIO — OBSOLETE, unavailable since 16-Feb-2020 (P06731-B21)','500W Flex Slot Platinum — needs RPS Enablement FIO Kit P06722-B21 (865408-B21)','800W Flex Slot -48VDC — needs RPS Enablement FIO Kit P06722-B21 (865434-B21)'],
+     ctrl:['S100i (embedded SW RAID, off by default, needs 784308-B21 to enable)','P408i-a LH (869081-B21)','E208i-a LH (869079-B21)','P408e-p (804405-B21)','E208e-p (804398-B21)'],
+     notes:['PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). The base 290W supply has 2 real SKUs — P06731-B21 is confirmed OBSOLETE by the doc\'s own note ("unavailable in order system after 16 Feb 2020"), P21649-B21 is the current EU-Lot-9-compliant replacement. RPS Enablement FIO Kit (P06722-B21) is mandatory for either Flex Slot (redundant) supply. Only "LH" (low-height) embedded controller variants exist — no plain P408i-a/E208i-a, no P816i-a/P824i-p at all on this smallest 1U chassis.',
+       'Added `verified:true` 2026-09-17 — this model\'s d:4/s:1 were already sourced against this same doc\'s "DIMM Slots Available: 4" line in earlier notes below, just never had the flag set.',
+       '4 DIMM slots. 2 PCIe expansion slots maximum.',
        'System fans are non-hot-plug and non-redundant — no fan-kit choice.',
        'No rear or mid-tray drive cage (2026-09-15, checked against its own QuickSpecs a00053820enw).',
        'Front bays added 2026-09-15: 2LFF (hot-plug or non-hot-plug) and 4SFF (expandable to 6SFF via a +2SFF kit) — same a00053820enw QuickSpecs.']}},
@@ -1054,7 +1057,10 @@ var MODELS=[
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:2,fans:{one:3,two:6,perf:7},pcie:{one:2,two:3},rear:[],
-     notes:['No rear or mid-tray drive cage on this 1U chassis (2026-09-15, QuickSpecs a00021860enw).',
+     psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','DL160/180 Gen10 Redundant PSU Enablement Kit — mandatory with any of the above (866442-B21)'],
+     ctrl:['P408i-a LH — needs 4LFF/8SFF Cable Kit 866452/866448-B21 (869081-B21)','E208i-a LH — needs 4LFF/8SFF Cable Kit 866452/866448-B21 (869079-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
+     notes:['PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). No base/fixed PSU tier exists on this chassis — every option is a Flex Slot supply, and ALL of them need the shared "DL160/180 Gen10" Redundant PSU Enablement Kit (866442-B21, explicitly named for both models). LH-only embedded controllers, matching DL20/DL325/DL560 G10\'s pattern rather than DL380/DL385/ML350 G10\'s plain-variant one.',
+       'No rear or mid-tray drive cage on this 1U chassis (2026-09-15, QuickSpecs a00021860enw).',
        'First processor (-L21) includes 3 fans; second processor (-B21) adds 3 more.',
      '4LFF/8SFF: 1 CPU gives 3 standard fans (4 with the redundant kit); 2 CPUs gives 6 (7 with the kit).',
      '"U" suffix processors (e.g. 6210U) are single-socket only.',
@@ -1064,7 +1070,10 @@ var MODELS=[
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:2,fans:{one:3,two:5,perf:5},pcie:{one:3,two:6},riserMax:2,rear:['2SFF rear'],
-     notes:['Rear cage is a "dual SFF rear drive option" (2SFF only) — cable kits tie it to the S100i/E208i-a/P408i-a/P408i-p controller or a SAS Expander/P816i-a (2026-09-15, QuickSpecs a00021862enw). No mid-tray on this chassis.',
+     psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','DL160/180 Gen10 Redundant PSU Enablement Kit — mandatory with any of the above (866442-B21)'],
+     ctrl:['P816i-a — needs cable kit P36415/P37221-B21 (804338-B21)','P408i-a — needs cable kit (804331-B21)','E208i-a — needs cable kit (804326-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
+     notes:['PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options") — shares the same PSU list + Redundant PSU Enablement Kit (866442-B21) as DL160 G10 (explicitly the shared "DL160/180 Gen10" kit), plus a 1600W tier DL160 doesn\'t offer. Controllers are the PLAIN (non-LH) modular variants here — a real difference from DL160/DL20/DL325/DL560 G10\'s LH-only pattern, this 2U chassis has room for the taller cards, and even gets P816i-a (16-lane) which none of those LH-only siblings offer at all.',
+       'Rear cage is a "dual SFF rear drive option" (2SFF only) — cable kits tie it to the S100i/E208i-a/P408i-a/P408i-p controller or a SAS Expander/P816i-a (2026-09-15, QuickSpecs a00021862enw). No mid-tray on this chassis.',
        'First processor (-L21) includes 3 fans; second processor (-B21) adds 2 more (5 total for 2P).',
        'All models include the S100i Smart Array Controller (software RAID, 14 drives) — needs enabling.',
        'Mixing two different processor models is not supported.',
@@ -3471,7 +3480,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.17.16'; // 16th build shipped today
+var BUILD_VERSION='2026.09.18.1'; // 1st build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
