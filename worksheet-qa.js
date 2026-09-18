@@ -2954,11 +2954,11 @@ function runRound14(){
   (opts14.length===7 && opts14.some(o=>/865408-B21/.test(o)) && opts14.some(o=>/874571-B21/.test(o)))
     ?pass14('ML350 G10: psu:[] override now actually drives the picker (was dead data — 7 real part numbers)')
     :fail14('ML350 G10 psu panel wrong: '+opts14.join(' | '));
-  setModel14('DL110 G10+'); // a model with NO psu:[] override — must still fall back cleanly to plain PSUS
+  setModel14('DL60 G9'); // a model with NO psu:[] override — must still fall back cleanly to plain PSUS
   opts14=psuOpts14();
   (opts14.length>0 && opts14.every(o=>/^\d+W$/.test(o)))
-    ?pass14('DL110 G10+ (no psu:[] override): still falls back to the plain generic PSUS wattage list')
-    :fail14('DL110 G10+ psu panel should be plain wattages: '+opts14.join(' | '));
+    ?pass14('DL60 G9 (no psu:[] override): still falls back to the plain generic PSUS wattage list')
+    :fail14('DL60 G9 psu panel should be plain wattages: '+opts14.join(' | '));
 
   // --- DL360/DL380 G10: real PSU + storage-controller part numbers,
   // sourced 2026-09-17 directly from the already-cached QuickSpecs ---
@@ -3398,4 +3398,54 @@ function runRound20(){
   (c20.length===13 && !c20.some(function(o){return /LH/.test(o);}) && c20.some(function(o){return /^MR216i-a \(P26325-B21\)/.test(o);}))
     ?pass20('DL385 G10+ v2: real 13-option controller list, stays PLAIN (non-LH) but now WITH the full Tri-Mode family — mirrors DL380 G10+')
     :fail20('DL385 G10+ v2 ctrl panel wrong: '+c20.join(' | '));
+  runRound21();
+}
+
+// --- Round 21: DL20/DL110/ML30 G10+ real PSU + storage-controller
+// part numbers, sourced 2026-09-18 directly from each model's own
+// cached QuickSpecs — closes out entry-level/tower G10+ ---
+function runRound21(){
+  function pass21(m){console.log('ok    '+m);}
+  function fail21(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi21=d.getElementById('model-input');
+  function setModel21(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi21.value='';fire(mi21,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
+    if(!opt)return fail21('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function psuOpts21(){const psu=d.getElementById('psu');psu.value='';fire(psu,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});}
+  function ctrlOpts21(){const ctrl=d.getElementById('ctrl');ctrl.value='';fire(ctrl,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});}
+
+  setModel21('DL20 G10+');
+  let p21=psuOpts21();
+  (p21.length===5 && p21.some(function(o){return /P21649-B21/.test(o);}) && p21.some(function(o){return /FIO-only/.test(o);}))
+    ?pass21('DL20 G10+: real 5-option PSU list, incl. the FIO-only 290W/RPS-kit caveats a refurb trader can\'t retrofit')
+    :fail21('DL20 G10+ psu panel wrong: '+p21.join(' | '));
+  let c21=ctrlOpts21();
+  (c21.length===9 && c21.some(function(o){return /^P408i-a LH \(869081-B21\)/.test(o);}) && c21.some(function(o){return /^MR216i-a \(P26325-B21\)/.test(o);}) && !c21.some(function(o){return /^P408i-p |^E208i-p |SR932i-p/.test(o);}))
+    ?pass21('DL20 G10+: real 9-option controller list, LH-only embedded + Tri-Mode, no internal PCIe plug-in or SR932i-p at all')
+    :fail21('DL20 G10+ ctrl panel wrong: '+c21.join(' | '));
+
+  setModel21('DL110 G10+');
+  p21=psuOpts21();
+  (p21.length===1 && p21.some(function(o){return /P43150-B21/.test(o);}))
+    ?pass21('DL110 G10+: only ONE real PSU option exists — DC -48VDC only, no AC tier at all on this Telco chassis')
+    :fail21('DL110 G10+ psu panel wrong: '+p21.join(' | '));
+  c21=ctrlOpts21();
+  (c21.length===1 && c21.some(function(o){return /Intel VROC/.test(o);}) && !c21.some(function(o){return /-B21/.test(o);}))
+    ?pass21('DL110 G10+: no Smart Array controller of any kind exists — Intel VROC software RAID only, correctly has no part number')
+    :fail21('DL110 G10+ ctrl panel wrong: '+c21.join(' | '));
+
+  setModel21('ML30 G10+');
+  p21=psuOpts21();
+  (p21.length===5 && p21.some(function(o){return /P21652-B21/.test(o);}))
+    ?pass21('ML30 G10+: pre-existing 5-option psu:[] override unchanged (one of the 5 models that already had this before the axis started)')
+    :fail21('ML30 G10+ psu panel wrong: '+p21.join(' | '));
+  c21=ctrlOpts21();
+  (c21.length===6 && !c21.some(function(o){return /-a \(|^P816i|LH/.test(o);}) && c21.some(function(o){return /^MR216i-p \(P26324-B21\)/.test(o);}))
+    ?pass21('ML30 G10+: real 6-option controller list, PCI plug-in only — no embedded "-a"/Tri-Mode-a controller exists on this tower at all')
+    :fail21('ML30 G10+ ctrl panel wrong: '+c21.join(' | '));
 }

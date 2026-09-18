@@ -1172,7 +1172,10 @@ var MODELS=[
 
  {m:'DL20',  g:'G10+', p:['xeone3'], s:1, d:4, bays:['2LFF','4SFF','6SFF'],
    rules:{verified:true,psuMax:2,pcie:{one:2,two:2},riserMax:1,rear:[],
-     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a50002583enw) confirms 2LFF (hot-plug or non-hot-plug) and 4SFF (expandable to 6SFF via a +2SFF kit) as the real front-bay configs.',
+     psu:['290W Platinum, non-redundant (P21649-B21)','290W Plus FIO, non-redundant — EMEA only, FIO-only (P45476-B21)','500W Flex Slot Platinum — needs RPS Enablement Kit P45948-B21, FIO-only (865408-B21)','800W Flex Slot -48VDC — needs RPS Enablement Kit P45948-B21, FIO-only (865434-B21)','800W Flex Slot Titanium — needs RPS Enablement Kit P45948-B21, FIO-only (865438-B21)'],
+     ctrl:['— Type-a (embedded slimline, LH only) —','P408i-a LH (869081-B21)','E208i-a LH (869079-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (external plug-in only — no internal P408i-p/E208i-p exists on this chassis) —','P408e-p (804405-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)'],
+     notes:['PSU/storage-controller part numbers sourced 2026-09-18 (same doc, a50002583enw, "Standard Features"/"Core Options"). Both the 290W FIO variant (P45476-B21) and the RPS Enablement Kit (P45948-B21) are FIO-only — factory-integrated at build time, cannot be added or ordered standalone after the server ships, which matters for a refurb trader who can\'t retrofit either. Embedded controllers are LH-only, same pattern as DL325/DL365 G10+. No SR932i-p (too large for this chassis\'s riser) and no internal P408i-p/E208i-p at all — this entry-level 1U only offers the EXTERNAL "-e-p" PCIe variants, confirmed absent by direct search.',
+       'Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a50002583enw) confirms 2LFF (hot-plug or non-hot-plug) and 4SFF (expandable to 6SFF via a +2SFF kit) as the real front-bay configs.',
        'No rear or mid-tray drive cage (2026-09-15, QuickSpecs a50002583enw).',
        'Xeon E-2300, single socket, 4 UDIMM slots (max 128GB).',
        '3 fixed performance fans — non-hot-plug, non-redundant, no fan-kit choice.',
@@ -1180,7 +1183,9 @@ var MODELS=[
        '2 PCIe 4.0 slots on the primary low-profile riser (1 FH/HL + 1 LP).']}},
  {m:'DL110', g:'G10+', p:['sp3'],    s:1, d:8, bays:[],
    rules:{verified:true,psuMax:2,fans:{one:7,perf:7},pcie:{one:3,two:3},riserMax:2,fanGPU:true,rear:[],
-     notes:['Corrected 2026-09-15: this model had no `bays` list at all, so the front-bay-config field silently fell back to the tool\'s generic list. Its own QuickSpecs (a50002566enw) shows only 4x M.2 SSD slots (SATA or NVMe) — no LFF/SFF front drive bay of any kind exists on this chassis.',
+     psu:['700W Flex Slot -48VDC — the ONLY PSU option, no AC/Platinum tier exists at all (P43150-B21)'],
+     ctrl:['No Smart Array controller exists on this chassis at all — Intel VROC NVMe/SATA embedded software RAID only, no orderable card'],
+     notes:['PSU/storage-controller findings sourced 2026-09-18 (same doc, a50002566enw, "Core Options"). This Telco chassis is genuinely DC-only — the doc\'s entire "Choose Power Supplies" step offers exactly ONE part number, confirmed by direct search that no 500W/800W AC Flex Slot tier exists for this model at all (unlike every other G10+ model in this project). Same absoluteness on controllers: no Smart Array SKU of any kind (no "-a", no "-p", no Tri-Mode) is offered — storage is Intel VROC software RAID over M.2 NVMe/SATA direct to the CPU, a licensing feature rather than a physical card, so there is no real part number to list.',
        'No rear or mid-tray drive cage (2026-09-15, QuickSpecs a50002566enw).',
        'Telco 1U, single Ice Lake socket, 8 DIMM slots. 7 hot-plug fans included. Select one or two Flex Slot power supplies.',
        '3 PCIe 4.0 slots + 1 OCP 3.0. Slot 3 is enabled by the x16 FHHL Secondary Riser Kit (P41827/P41828-B21).',
@@ -1584,7 +1589,9 @@ var MODELS=[
  {m:'ML30', g:'G10+',p:['xeone3'],s:1, d:4,  tower:true, bays:['4LFF','8SFF'],
    rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,rear:[],
      psu:['350W Gold-level FIO (P21652-B21)','ML30 Gen10 Plus 350W FIO — EMEA only (P45212-B21)','500W Flex Slot Platinum, needs RPS kit (865408-B21)','800W Flex Slot Titanium, needs RPS kit (865438-B21)','RPS Enablement Kit — 4U (P45209-B21)'],
-     notes:['Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a50002590enw) confirms 4LFF and 8SFF as the real front-bay configs — no LFF-expansion (6LFF) option found for this chassis, unlike the G9/G10 ML30.',
+     ctrl:['E208i-p (804394-B21)','E208e-p (804398-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)'],
+     notes:['Storage-controller part numbers sourced 2026-09-18 (same doc, a50002590enw, "Standard Features"). No embedded/modular "-a" controller and no Tri-Mode "-a" family exists on this tower at all — confirmed absent by direct search — PCI plug-in only, same "no modular option on a tower" pattern already found on ML110 G10. Also offers Intel VROC as chipset software RAID alongside these real cards (not modeled as a separate list entry — it\'s a licensing feature, not a card). P408i-p/MR416i-p/MR216i-p performance controllers need the Smart Storage Battery (P01366-B21) or Hybrid Capacitor (P02377-B21), sold separately; max 1 of that trio per server.',
+       'Corrected 2026-09-15: this model had no `bays` list at all despite being verified:true. Its own QuickSpecs (a50002590enw) confirms 4LFF and 8SFF as the real front-bay configs — no LFF-expansion (6LFF) option found for this chassis, unlike the G9/G10 ML30.',
        'No rear drive bay — tower, front-only (2026-09-15, QuickSpecs a50002590enw).',
        'Xeon E-2300 (or Pentium), single socket, 4 UDIMM slots (max 128GB).',
        '2 fixed fans (1 system + 1 PCI fan module, P06303-B21) — non-hot-plug, non-redundant.',
@@ -3513,7 +3520,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.18.3'; // 3rd build shipped today
+var BUILD_VERSION='2026.09.18.4'; // 4th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

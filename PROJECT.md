@@ -2384,6 +2384,45 @@ models/variants live in the browser.
 `DL385`(v1+v2) done.** Remaining for G10+: entry-level `DL20`/`DL110`,
 tower `ML30`. Then G11.
 
+**2026-09-18, continued: `DL20`/`DL110`/`ML30 G10+` — closes out ALL
+of G10+.** Two genuinely extreme edge cases surfaced, both handled by
+documenting the real hardware truth rather than forcing generic
+picker data onto a chassis that doesn't support it:
+
+- **`DL110 G10+` has exactly ONE real PSU option** (700W Flex Slot
+  -48VDC, P43150-B21) — this Telco chassis is DC-only, no AC/Platinum
+  tier exists at all, confirmed by the doc's own "Choose Power
+  Supplies" step listing nothing else. It ALSO has **NO Smart Array
+  controller of any kind** — no "-a", no "-p", no Tri-Mode — storage
+  is Intel VROC software RAID direct to the CPU (a licensing feature,
+  not a card), so `ctrl:[]` got a single informational entry with no
+  part number instead of a fabricated one, same spirit as the
+  existing `S100i` (embedded SW RAID) entries elsewhere in the tool.
+- **`DL20 G10+`**: LH-only embedded controllers + the full Tri-Mode
+  "-a"/"-p" family, but genuinely NO internal PCIe plug-in option
+  (no `P408i-p`/`E208i-p`) and no `SR932i-p` (too large for this
+  chassis) — only the external "-e-p" PCIe variants exist. Also found
+  that the 290W FIO PSU variant and its RPS Enablement Kit are both
+  FIO-only (factory-integrated, cannot be added or ordered standalone
+  after the server ships) — flagged since that matters to a refurb
+  trader who can't retrofit either one.
+- **`ML30 G10+`**: its `psu:[]` was already correct (one of the 5
+  pre-existing overrides from before this axis started, confirmed
+  unchanged). Added `ctrl:[]` fresh — PCI plug-in only, no embedded
+  "-a" or Tri-Mode-a controller exists on this tower at all, same
+  "no modular option on a tower" pattern already found on ML110 G10.
+
+7 new regression tests (round 21), 524/524 passing. Fixed the
+round-14 no-override fallback test again — it had drifted onto
+`DL110 G10+`, which now has a real override — swapped to `DL60 G9`
+(low priority per the user's stated order, so unlikely to churn
+again soon). Verified all 3 models live in the browser, including
+that the single-PSU/no-controller edge cases render cleanly rather
+than breaking the picker.
+
+**G10+ is now 100% done for the part-number axis.** Moving to G11
+next, starting with DL360/DL380 per the established priority order.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are
