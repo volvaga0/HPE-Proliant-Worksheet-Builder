@@ -2954,11 +2954,11 @@ function runRound14(){
   (opts14.length===7 && opts14.some(o=>/865408-B21/.test(o)) && opts14.some(o=>/874571-B21/.test(o)))
     ?pass14('ML350 G10: psu:[] override now actually drives the picker (was dead data — 7 real part numbers)')
     :fail14('ML350 G10 psu panel wrong: '+opts14.join(' | '));
-  setModel14('DL325 G10+'); // a model with NO psu:[] override — must still fall back cleanly to plain PSUS
+  setModel14('DL110 G10+'); // a model with NO psu:[] override — must still fall back cleanly to plain PSUS
   opts14=psuOpts14();
   (opts14.length>0 && opts14.every(o=>/^\d+W$/.test(o)))
-    ?pass14('DL325 G10+ (no psu:[] override): still falls back to the plain generic PSUS wattage list')
-    :fail14('DL325 G10+ psu panel should be plain wattages: '+opts14.join(' | '));
+    ?pass14('DL110 G10+ (no psu:[] override): still falls back to the plain generic PSUS wattage list')
+    :fail14('DL110 G10+ psu panel should be plain wattages: '+opts14.join(' | '));
 
   // --- DL360/DL380 G10: real PSU + storage-controller part numbers,
   // sourced 2026-09-17 directly from the already-cached QuickSpecs ---
@@ -3318,4 +3318,84 @@ function runRound19(){
   (!c19.some(function(o){return /^MR216i-a$|^MR416i-a$|^SR416i-a$/.test(o);}))
     ?pass19('DL360 G11 (no ctrl override): the new "-a" Tri-Mode codes stay scoped to G10+ only, not offered here')
     :fail19('DL360 G11 should not offer the G10+-only "-a" Tri-Mode codes: '+c19.join(' | '));
+  runRound20();
+}
+
+// --- Round 20: DL325/DL345/DL365/DL385 G10+ (and DL325/DL385's v2
+// variants) real PSU + storage-controller part numbers, sourced
+// 2026-09-18 directly from each model's own cached QuickSpecs ---
+function runRound20(){
+  function pass20(m){console.log('ok    '+m);}
+  function fail20(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi20=d.getElementById('model-input');
+  function setModel20(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi20.value='';fire(mi20,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
+    if(!opt)return fail20('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  function psuOpts20(){const psu=d.getElementById('psu');psu.value='';fire(psu,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});}
+  function ctrlOpts20(){const ctrl=d.getElementById('ctrl');ctrl.value='';fire(ctrl,'input');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});}
+
+  setModel20('DL325 G10+'); // matches the v1 (Rome) MODELS entry, not the v2 one
+  let p20=psuOpts20();
+  (p20.length===6 && p20.some(function(o){return /865414-B21/.test(o);}) && p20.some(function(o){return /830272-B21/.test(o);}) && !p20.some(function(o){return /P38995-B21|P38997-B21/.test(o);}))
+    ?pass20('DL325 G10+ v1: real 6-option PSU list using the OLD pre-revision codes (865414/830272-B21), not the newer P38995/P38997 ones')
+    :fail20('DL325 G10+ v1 psu panel wrong: '+p20.join(' | '));
+  let c20=ctrlOpts20();
+  (c20.length===7 && c20.every(function(o){return !/MR216i-a|MR416i-a|SR416i-a|MR216i-p|MR416i-p|SR932i-p/.test(o);}) && c20.some(function(o){return /^P408i-a LH \(869081-B21\)/.test(o);}))
+    ?pass20('DL325 G10+ v1: real 7-option controller list, LH-only, no Tri-Mode "-a"/"-p" family at all on this early board')
+    :fail20('DL325 G10+ v1 ctrl panel wrong: '+c20.join(' | '));
+
+  setModel20('DL325 G10+ v2');
+  p20=psuOpts20();
+  (p20.length===6 && p20.some(function(o){return /P38995-B21/.test(o);}) && p20.some(function(o){return /P38997-B21/.test(o);}))
+    ?pass20('DL325 G10+ v2: real 6-option PSU list, carries the Gen10-Plus revision (P38995/P38997-B21) the v1 board lacks')
+    :fail20('DL325 G10+ v2 psu panel wrong: '+p20.join(' | '));
+  c20=ctrlOpts20();
+  (c20.length===13 && c20.some(function(o){return /^P408i-a LH \(869081-B21\)/.test(o);}) && c20.some(function(o){return /^MR216i-a \(P26325-B21\)/.test(o);}))
+    ?pass20('DL325 G10+ v2: real 13-option controller list, still LH-only but now WITH the full Tri-Mode "-a"/"-p" family')
+    :fail20('DL325 G10+ v2 ctrl panel wrong: '+c20.join(' | '));
+
+  setModel20('DL345 G10+');
+  p20=psuOpts20();
+  (p20.length===7 && p20.some(function(o){return /P38995-B21/.test(o);}) && p20.some(function(o){return /P17023-B21/.test(o);}))
+    ?pass20('DL345 G10+: real 7-option PSU list, incl. the 1600W -48VDC tier (P17023-B21) DL325 G10+ lacks')
+    :fail20('DL345 G10+ psu panel wrong: '+p20.join(' | '));
+  c20=ctrlOpts20();
+  (c20.length===13 && !c20.some(function(o){return /LH/.test(o);}) && c20.some(function(o){return /^MR216i-a \(P26325-B21\)/.test(o);}))
+    ?pass20('DL345 G10+: real 13-option controller list, PLAIN (non-LH) modular variants with the full Tri-Mode family')
+    :fail20('DL345 G10+ ctrl panel wrong: '+c20.join(' | '));
+
+  setModel20('DL365 G10+');
+  p20=psuOpts20();
+  (p20.length===7 && p20.some(function(o){return /P38995-B21/.test(o);}) && p20.some(function(o){return /P17023-B21/.test(o);}))
+    ?pass20('DL365 G10+: real 7-option PSU list, same tiers as DL345 G10+')
+    :fail20('DL365 G10+ psu panel wrong: '+p20.join(' | '));
+  c20=ctrlOpts20();
+  (c20.length===13 && c20.some(function(o){return /^P408i-a LH \(869081-B21\)/.test(o);}) && c20.some(function(o){return /^MR216i-a \(P26325-B21\)/.test(o);}))
+    ?pass20('DL365 G10+: real 13-option controller list, LH-only (unlike sibling DL345 G10+) with the full Tri-Mode family')
+    :fail20('DL365 G10+ ctrl panel wrong: '+c20.join(' | '));
+
+  setModel20('DL385 G10+'); // matches the v1 (Rome) MODELS entry, not the v2 one
+  p20=psuOpts20();
+  (p20.length===6 && p20.some(function(o){return /865414-B21/.test(o);}) && !p20.some(function(o){return /P38995-B21/.test(o);}))
+    ?pass20('DL385 G10+ v1: real 6-option PSU list, same OLD pre-revision codes as DL325 G10+ v1')
+    :fail20('DL385 G10+ v1 psu panel wrong: '+p20.join(' | '));
+  c20=ctrlOpts20();
+  (c20.length===7 && !c20.some(function(o){return /LH/.test(o);}) && c20.every(function(o){return !/MR216i-a|MR416i-a|SR416i-a/.test(o);}))
+    ?pass20('DL385 G10+ v1: real 7-option controller list, PLAIN (non-LH), no Tri-Mode — opposite LH pattern from DL325 G10+ v1')
+    :fail20('DL385 G10+ v1 ctrl panel wrong: '+c20.join(' | '));
+
+  setModel20('DL385 G10+ v2');
+  p20=psuOpts20();
+  (p20.length===7 && p20.some(function(o){return /P38995-B21/.test(o);}) && p20.some(function(o){return /P17023-B21/.test(o);}))
+    ?pass20('DL385 G10+ v2: real 7-option PSU list, carries the Gen10-Plus revision + 1600W -48VDC tier the v1 board lacks')
+    :fail20('DL385 G10+ v2 psu panel wrong: '+p20.join(' | '));
+  c20=ctrlOpts20();
+  (c20.length===13 && !c20.some(function(o){return /LH/.test(o);}) && c20.some(function(o){return /^MR216i-a \(P26325-B21\)/.test(o);}))
+    ?pass20('DL385 G10+ v2: real 13-option controller list, stays PLAIN (non-LH) but now WITH the full Tri-Mode family — mirrors DL380 G10+')
+    :fail20('DL385 G10+ v2 ctrl panel wrong: '+c20.join(' | '));
 }

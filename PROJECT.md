@@ -2329,6 +2329,61 @@ the above live in the browser, including that the new shared
 controller codes stay properly scoped to G10+ and don't leak into
 G11.
 
+**2026-09-18, continued: `DL325`/`DL345`/`DL365`/`DL385 G10+` (and
+`DL325`/`DL385`'s v2 variants) — 6 MODELS entries in one batch.** The
+biggest finding here: the "Gen10 Plus PSU part-number revision" found
+on DL360/DL380 is NOT universal across every G10+ chassis — it's a
+timing thing, not a chassis thing.
+
+- **`DL325 G10+` (v1, Rome) and `DL385 G10+` (v1, Rome)** are on the
+  EARLY doc family (`a00073548enw`/`a00073549enw`, V16-18,
+  2021/2022) — confirmed by direct search that their own docs
+  genuinely predate the revision: still the OLD 865414-B21/
+  830272-B21 codes for 800W/1600W Platinum, and NO Tri-Mode "-a"/"-p"
+  family (`MR216i-a`/`MR416i-a`/`SR416i-a`/etc.) exists in either doc
+  at all — not omitted, genuinely absent from that generation of
+  board.
+- **`DL325 G10+ v2`, `DL385 G10+ v2`, `DL345 G10+`, `DL365 G10+`** are
+  all on the newer doc family (`a5000255x`) — all four carry the
+  P38995-B21/P38997-B21 revision AND the full Tri-Mode "-a"/"-p"
+  family. `DL345`/`DL365 G10+` also add a 7th PSU tier neither DL325
+  variant has: 1600W Flex Slot -48VDC (P17023-B21, needs the Power
+  Cable Lug Kit P36877-B21). `DL385 G10+ v2`'s own doc offers a choice
+  of TWO alternative accessory kits for that same PSU (P36877-B21 OR
+  P22173-B21) — read carefully since at first glance the doc looks
+  self-contradictory (two different lug-kit PNs for the same PSU in
+  two different sections), but it's actually just "pick either one."
+- **LH-vs-plain embedded-controller split, confirmed independently
+  per model rather than assumed from chassis size:** `DL325 G10+`
+  (both v1 and v2) and `DL365 G10+` are LH-only. `DL345 G10+` and
+  `DL385 G10+` (both v1 and v2) are PLAIN-only. Notably this means
+  `DL325`/`DL385` do NOT follow the same LH-or-plain answer across
+  their v1→v2 revisions (each stays consistent with itself), but
+  `DL325` and `DL385` land on OPPOSITE answers from each other despite
+  being adjacent chassis in the same family — worth remembering this
+  axis needs a per-model check every time, size/socket-count alone
+  doesn't predict it. One doc-internal gotcha caught along the way:
+  `DL345 G10+`'s own summary bullet says "LH" for its embedded
+  controllers, but its own detail table (the one with real part
+  numbers) gives the plain codes — trusted the detail table, which is
+  consistent with the pattern already established for other models.
+- **One unsourced gap flagged, not guessed**: `DL325 G10+ v2`'s doc
+  lists a "HPE 1600W 48VDC Power Supply Kit" as an available Standard
+  Features bullet but never gives it a part number anywhere in the
+  document — left OUT of `psu:[]` rather than invented; every other
+  option in that list has a confirmed B21 code.
+
+7 new regression tests (round 20), 518/518 passing. Fixed the
+round-14 no-override fallback test, which had drifted onto `ML30
+G10+` — turns out that model already had a real `psu:[]` (one of the
+5 pre-existing overrides from before this axis started) — swapped to
+`DL110 G10+`, confirmed still override-free. Verified all 6
+models/variants live in the browser.
+
+**G10+ so far: `DL360`/`DL380`/`DL325`(v1+v2)/`DL345`/`DL365`/
+`DL385`(v1+v2) done.** Remaining for G10+: entry-level `DL20`/`DL110`,
+tower `ML30`. Then G11.
+
 ## Working conventions established this session
 
 1. **Never ship without running the QA harness.** Syntax errors are
