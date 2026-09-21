@@ -2717,3 +2717,43 @@ were added for the sales side ("pointing the sales guys in the right direction")
 Also removed two mislabelled entries from the PCI `CARDLIST`: "804405-B21 12G SAS Expander" (804405-B21 is the
 P408e-p controller, already listed) and "804331-B21 SmartArch" (804331-B21 is the P408i-a). On the slip they would
 have read as a SAS expander / "SmartArch".
+
+## 2026-09-21 — SAS expander note under the field; fan TDP step shown and audited per model
+
+**SAS expander.** The amber note under the SAS expander field used to appear only when the picked controller had a
+known port count smaller than the bay count, while the Config check "EXPANDER" fired for any build over 8 bays — so
+with no controller picked yet the check said "needs an expander" and the field itself said nothing. One function,
+`expanderNeed()` (above `buildSlip()`), now drives BOTH: the amber (`cap-note suggest`) note under the field and the
+Config check. It returns nothing when the controller's known port count already covers the bays (P816i-a with 16 bays,
+SR932i-p with 24 — the old check nagged there too), when NVMe is used, when an expander is picked, or with no drives.
+With no controller yet, or a controller whose port count isn't fixed by its name (Gen8/9 cards), the note is generic
+("Suggested: <chassis-correct expander> — N bays usually needs a SAS expander or a second controller") and never
+invents a port count.
+
+**Fans — TDP step shown like the heatsink one.** The fan rule was never removed: `fanW` is a hard requirement
+(`applyRec('fan',…,hard=true)`, "Perf Fans is required" blocks the build) and has been since the first commit. What was
+missing: (1) the threshold was worded as "181W or above" rather than as the model's own QuickSpecs words it, and (2)
+with no CPU-wattage step the fan line said nothing, so it looked like the rule had gone. Now `fanWtext` (like
+`hsWtext`) carries the doc wording ("above 205W", "205W or higher"), the fan line reads "X (165W) is below the high
+performance fan step (above 205W)" once a CPU is picked, the reason reads "X is 350W — above 205W requires the high
+performance fan kit (P48820-B21)", and verified models WITHOUT a step say "Fan choice on this model is not tied to
+processor wattage" (G9 and most G10 racks — confirmed by direct QuickSpecs text, not inferred: DL360/DL380/DL160/
+DL180/DL325/DL560/DL580/ML350 G10 and the G9 racks have fan requirements for NVMe, rear drives, GPU and bay counts only).
+
+**Per-model audit of `fanW` against each model's cached QuickSpecs** (the G10+/G11 defaults 205/206 were being inherited
+by models whose docs say otherwise):
+- DL325 G10+ v2 and DL345 G10+: 205 → **280W** ("processors equal to 280W require the Max Performance fan kit").
+- DL380 G10+: 205 → **206** (doc: ">205W"; DL360 G10+ stays 205, its doc says "equal to or greater than 205W").
+- DL325 G10+ v1, DL110 G10+, DL20/ML30 G10+, DL20/DL110/ML30/ML110 G11: inherited step **removed** (`fanW:0`) —
+  fixed-fan chassis or no CPU-wattage fan rule in the doc (e.g. DL110 G11's 7 fans no longer "require" performance
+  fans for a 350W CPU).
+- DL320 G11: 206 → **185** (doc ">185W", same reading as its heatsink rule). DL325 G11: 206 → **241** ("above 240W");
+  its heatsink step had the same inherited-default bug (150 → **241**: doc says Standard heatsink up to 240W,
+  Performance to 300W, liquid cooling from 320W).
+- Added where the doc states a step and the model had none: DL320 G12 and DL360 G12 (**above 185W**), ML350 G12
+  (**300W** → Redundant Fan Kit P47219-B21 + Second CPU Fan Kit P47902-B21, same as ML350 G11), ML110 G9 (**140W**
+  E5-1600 v3/v4 → System Fan Upgrade Kit 789654-B21).
+- DL380 G12 has NO fan step in its doc (the 185W statement is about the standard HEAT SINK) — left without one.
+- Doc wording added as `fanWtext` for every model that has a step.
+Not audited / left as found: DL560 G11 (still inherits 206; doc has no fan/TDP text and the air-cooled CTO ships
+performance fans anyway) and every model's HEATSINK step other than DL325 G11 — worth a matching pass.

@@ -845,7 +845,12 @@ button.quiet{color:var(--ink-soft)}
      hsNoChoice    true = the heatsink ships in the processor kit and there
                    is no standard/performance selection (4-socket Gen9, ML350
                    Gen9) — the sheet skips the heatsink recommendation
-     fanW          TDP at/above this -> high performance fan kit
+     fanW/fanWtext TDP at/above this -> high performance fan kit (a hard requirement,
+                   like the fan recommendation itself). fanWtext is the threshold as
+                   the model's own QuickSpecs words it ("above 205W") and is shown in
+                   the fan reason. fanW:0 = the QuickSpecs give this model NO CPU-wattage
+                   fan trigger (fixed fans, or fans follow NVMe/rear/GPU/bays only) —
+                   set it explicitly so the G10+/G11 default (205/206) is not inherited.
      fanNVMe/fanRear/fanGPU   condition requires performance fans
      fanBays       bay configs shipping performance fans as standard
      rear          the rear / mid-tray drive options this exact chassis offers
@@ -1132,7 +1137,7 @@ var MODELS=[
        'Premium bay kit gives 6 SAS/SATA + 2 NVMe, or 8 SAS/SATA, per box.',
        'Fans are not tied to CPU wattage on this generation — only to NVMe, GPUs, rear drives and dense bay counts. The performance heatsink alone covers cooling up to its rated TDP.']}},
  {m:'DL385',g:'G10', p:['naples','rome'], s:2, d:32, bays:['8SFF','16SFF','24SFF','12LFF'],
-   rules:{verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,
+   rules:{fanWtext:'above 180W',verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},riserMax:3,fanBays:['12LFF','24SFF'],
      rear:['2SFF rear','3LFF rear','4LFF midtray'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
@@ -1185,7 +1190,7 @@ var MODELS=[
        'Internal storage controllers and SAS expanders fit only the primary and tertiary risers — not the secondary.']}},
 
  {m:'DL20',  g:'G10+', p:['xeone3'], s:1, d:4, bays:['2LFF','4SFF','6SFF'],
-   rules:{verified:true,psuMax:2,pcie:{one:2,two:2},riserMax:1,rear:[],
+   rules:{fanW:0,verified:true,psuMax:2,pcie:{one:2,two:2},riserMax:1,rear:[],
      psu:['290W Platinum, non-redundant (P21649-B21)','290W Plus FIO, non-redundant — EMEA only, FIO-only (P45476-B21)','500W Flex Slot Platinum — needs RPS Enablement Kit P45948-B21, FIO-only (865408-B21)','800W Flex Slot -48VDC — needs RPS Enablement Kit P45948-B21, FIO-only (865434-B21)','800W Flex Slot Titanium — needs RPS Enablement Kit P45948-B21, FIO-only (865438-B21)'],
      ctrl:['— Type-a (embedded slimline, LH only) —','P408i-a LH (869081-B21)','E208i-a LH (869079-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (external plug-in only — no internal P408i-p/E208i-p exists on this chassis) —','P408e-p (804405-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)'],
      notes:['The 290W FIO supply (P45476-B21) and the RPS Enablement Kit (P45948-B21) are factory-integrated only — neither can be added or ordered after the server ships. Only LH embedded controllers fit; no SR932i-p and no internal P408i-p/E208i-p — only the external "-e-p" PCIe variants.',
@@ -1196,7 +1201,7 @@ var MODELS=[
        'Standard PSU is a single non-redundant 290W; a 500W or 800W Flex Slot pair needs the RPS enablement kit (2 bays).',
        '2 PCIe 4.0 slots on the primary low-profile riser (1 FH/HL + 1 LP).']}},
  {m:'DL110', g:'G10+', p:['sp3'],    s:1, d:8, bays:[],
-   rules:{verified:true,psuMax:2,fans:{one:7,perf:7},pcie:{one:3,two:3},riserMax:2,fanGPU:true,rear:[],
+   rules:{fanW:0,verified:true,psuMax:2,fans:{one:7,perf:7},pcie:{one:3,two:3},riserMax:2,fanGPU:true,rear:[],
      psu:['700W Flex Slot -48VDC (P43150-B21)','700W Flex Slot Platinum AC (P44975-B21)','900W-1000W Titanium AC, 96% efficient — meets the 2024 EU efficiency rule (P54290-B21)'],
      ctrl:['No Smart Array controller exists on this chassis at all — Intel VROC NVMe/SATA embedded software RAID only, no orderable card'],
      flr:['I350-T4 1Gb 4p (P08449-B21)','BCM57414 10/25Gb 2p — not NEBS compliant (P10115-B21)','MCX562A 10/25Gb 2p (P10112-B21)','E810-XXVDA2 10/25Gb 2p — not NEBS compliant (P10106-B21)','E810-XXVDA4 10/25Gb 4p (P41614-B21)','E810-CQDA2 100Gb 2p — not NEBS compliant (P22767-B21)'],
@@ -1210,7 +1215,7 @@ var MODELS=[
        '12x NVIDIA T4 GPUs are only supported when processor TDP is 165W or under.',
        'With 2x T4 GPUs and a 136–165W processor, Enhanced Processor Performance Profile must stay disabled or the processor throttles.']}},
  {m:'DL325', g:'G10+', p:['rome'],   s:1, d:16, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
+   rules:{fanW:0,verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
      psuMax:2,fans:{one:6,two:6,perf:8},fanBays:['24SFF','12LFF'],pcie:{one:3,two:3},riserMax:2,rear:[],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
      ctrl:['— Type-a (embedded slimline, LH only) —','P408i-a LH (869081-B21)','P816i-a LH (869083-B21)','E208i-a LH (869079-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
@@ -1225,7 +1230,7 @@ var MODELS=[
        'Takes EPYC 7002 (Rome) only; EPYC 7003 needs the Gen10 Plus v2 board.',
        '8SFF backplanes: plain SAS/SATA Smart Carrier (P15511-B21), Tri-Mode U.3 (P15730-B21) or pure NVMe U.2 (P17209-B21). 4LFF is SAS/SATA-only.']}},
  {m:'DL325', g:'G10+ v2', p:['milan','rome'], s:1, d:16, bays:['4LFF','8SFF','10SFF'],
-   rules:{verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
+   rules:{fanWtext:'280W or higher',fanW:280,verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
      hsPart:'P41197-B21',fanPart:'P38506-B21',psuMax:2,fans:{one:8,perf:8},pcie:{one:3,two:3},riserMax:2,rear:[],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)'],
      ctrl:['— Type-a (embedded slimline, LH only) —','P408i-a LH (869081-B21)','P816i-a LH (869083-B21)','E208i-a LH (869079-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
@@ -1239,7 +1244,7 @@ var MODELS=[
        'Maximum Performance Fan Kit (P38506-B21) is needed for a GPU and for certain NVMe backplanes.',
        '8SFF backplanes: plain SAS/SATA Basic Carrier (P38473-B21), Tri-Mode U.3 (P38476-B21) or pure NVMe U.2 (P38479-B21). 4LFF has a SAS/SATA-only Low Profile variant (P38470-B21).']}},
  {m:'DL345', g:'G10+', p:['rome','milan'], s:1, d:16, bays:['8LFF','12LFF','8SFF','24SFF'],
-   rules:{verified:true,hsW:180,hsWtext:'180W or higher',hsPart:'P38655-B21',fanRear:true,fanGPU:true,
+   rules:{fanWtext:'280W or higher',fanW:280,verified:true,hsW:180,hsWtext:'180W or higher',hsPart:'P38655-B21',fanRear:true,fanGPU:true,
      psuMax:2,fans:{one:6,two:6,perf:6},fanBays:['12LFF','24SFF'],pcie:{one:4,two:4},riserMax:2,
      rear:['2SFF rear','2SFF NVMe rear'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 (P17023-B21)'],
@@ -1257,7 +1262,7 @@ var MODELS=[
        'Select one or two Flex Slot power supplies.',
        '8SFF backplanes: plain SAS/SATA (P38652-B21), Tri-Mode U.3 (x1 P27194-B21 or x4 P26931-B21) or pure NVMe U.2 (P26932-B21). The 12LFF Tri-Mode kit (P57819-B21) is treated as SAS/SATA-only — LFF has no NVMe.']}},
  {m:'DL360', g:'G10+', p:['sp3'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
-   rules:{verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P26479-B21',riserMax:2,
+   rules:{fanWtext:'205W or higher',verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P26479-B21',riserMax:2,
      psuMax:2,fans:{two:7,perf:7},pcie:{one:2,two:3},rear:[],
      fanW:205,fanPart:'P26477-B21',fanNVMe:true,fanRear:true,fanGPU:true,
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)'],
@@ -1275,7 +1280,7 @@ var MODELS=[
        'Each processor feeds 2 x8 front NVMe connectors, supporting up to 4 drives — the socket must be populated for them to work.',
        '8SFF backplanes: plain SAS/SATA-only (P26427-B21, cannot connect to Tri-Mode controllers), Tri-Mode U.3 (x1 P26431-B21 or x4 P26429-B21) or pure NVMe U.2 (P26433-B21).']}},
  {m:'DL365', g:'G10+', p:['rome','milan'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
-   rules:{verified:true,hsW:156,hsWtext:'above 155W',fanW:156,hsPart:'P19368-B21',fanPart:'P26477-B21',
+   rules:{fanWtext:'above 155W',verified:true,hsW:156,hsWtext:'above 155W',fanW:156,hsPart:'P19368-B21',fanPart:'P26477-B21',
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,rear:[],fanNVMe:true,fanRear:true,fanGPU:true,
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 (P17023-B21)'],
      ctrl:['— Type-a (embedded slimline, LH only) —','P408i-a LH (869081-B21)','P816i-a LH (869083-B21)','E208i-a LH (869079-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
@@ -1290,10 +1295,10 @@ var MODELS=[
        '32 DIMM slots (16 per Rome/Milan socket). 2 PCIe slots on the primary riser, up to 3 with the 2nd processor.',
        '8SFF backplanes: plain SAS/SATA-only (P38579-B21), Tri-Mode U.3 (P26429-B21) or pure NVMe U.2 (P26433-B21). 4LFF is SAS/SATA-only.']}},
  {m:'DL380', g:'G10+', p:['sp3'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P27095-B21',riserMax:3,
+   rules:{fanWtext:'above 205W',verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P27095-B21',riserMax:3,
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},fanBays:['12LFF','24SFF'],
      rear:['2SFF rear','2SFF NVMe rear','4LFF midtray','8SFF midtray'],
-     fanW:205,fanNVMe:true,fanRear:true,fanGPU:true,
+     fanW:206,fanNVMe:true,fanRear:true,fanGPU:true,
      psu:['800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 (P17023-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
      flr:['BCM5719 1Gb 4p (P51181-B21)','I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p — discontinued in the current doc, still real (P10103-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','QL41232HQCU 10/25Gb 2p — discontinued in the current doc, still real (P10118-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
@@ -1309,7 +1314,7 @@ var MODELS=[
        'Some cards are not supported on the 12LFF config or with midtray drive cages.',
        '8SFF backplanes: plain SAS/SATA (P26930-B21), Tri-Mode U.3 (x1 P27194-B21 or x4 P26931-B21) or pure NVMe U.2 (P26932-B21). SAS/SATA/NVMe drives can be mixed within one U.3 Tri-Mode cage.']}},
  {m:'DL385', g:'G10+', p:['rome'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
+   rules:{fanWtext:'above 180W',verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
      hsPart:'P14610-B21',fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],fanPart:'P14608-B21',riserMax:3,
      rear:['2SFF rear','4LFF rear','8SFF midtray'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
@@ -1328,7 +1333,7 @@ var MODELS=[
        'The 7F52 (240W) is only supported under 25°C ambient with LFF/SFF + midtray configurations.',
        '8SFF is one flexible NVMe/SAS Smart Carrier family (P14578-B21 front, P14601-B21 mid-tray) that mixes SAS/SATA/NVMe drives — effectively Premium-only. LFF bays get a SAS/SATA-only Smart Carrier (P14507-B21).']}},
  {m:'DL385', g:'G10+ v2', p:['milan','rome'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:156,hsWtext:'above 155W',fanW:156,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
+   rules:{fanWtext:'above 155W',verified:true,hsW:156,hsWtext:'above 155W',fanW:156,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
      hsPart:'P14610-B21',fanPart:'P14608-B21',fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],riserMax:3,
      rear:['4SFF rear','4LFF rear','8SFF midtray'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 or Power Cable Kit P22173-B21 (P17023-B21)'],
@@ -1348,7 +1353,7 @@ var MODELS=[
  /* HPE made no Ice Lake 4-socket server — DL560/DL580 have no Gen10 Plus. */
 
  {m:'DL20', g:'G11', p:['xeone3'], s:1, d:4, bays:['2LFF','4SFF','6SFF'],
-   rules:{verified:true,psuMax:2,fans:{one:3},pcie:{one:1},riserMax:1,rear:[],
+   rules:{fanW:0,verified:true,psuMax:2,fans:{one:3},pcie:{one:1},riserMax:1,rear:[],
      notes:['No rear or mid-tray drive cage — front bays only.',
        '2 PSU bays, redundant standard on every chassis type — fixed 290W Platinum base, or Flex Slot redundant options (500W Platinum 865408-B21, 800W Titanium 865438-B21, 1000W Titanium P03178-B21).',
        '3 fixed performance fans, non-hot-plug, non-redundant, single socket only — no fan-count choice.',
@@ -1356,14 +1361,14 @@ var MODELS=[
        '2SFF add-on kit (P65406-B21) upgrades the 4SFF chassis to 6SFF, mutually exclusive with the optical drive.',
        'NVMe exists only on the 2SFF add-on kit (P65406-B21) — up to 2 NVMe U.3 drives; the base 4SFF chassis has no Tri-Mode/Premium cage.']}},
  {m:'DL110',g:'G11', p:['sp4'],    s:1, d:16, bays:[],
-   rules:{verified:true,psuMax:2,fans:{one:7},pcie:{one:3},riserMax:2,rear:[],notes:['No drive bays of any kind, and no rear or mid-tray cage — front-cabled chassis; storage is 4x M.2 (SATA or NVMe) via Intel VROC.',
+   rules:{fanW:0,verified:true,psuMax:2,fans:{one:7},pcie:{one:3},riserMax:2,rear:[],notes:['No drive bays of any kind, and no rear or mid-tray cage — front-cabled chassis; storage is 4x M.2 (SATA or NVMe) via Intel VROC.',
        'Processors at 185W TDP or higher need the DIMM Blank kit (P43725-B21) fitted in any unpopulated slots.',
        '4th Gen Xeon Scalable only — no 5th Gen. Telco N-suffix Gold SKUs (5423N/6403N/6423N/6433N/6443N) exist for this model but are not in the CPU list — note them manually.',
        '2 PSU bays — pick two of the same part (700W Flex Slot -48VDC P43150-B21, 700W Flex Slot Platinum AC P44975-B21, or 900-1000W Titanium AC P54290-B21). Mixing different PSU part numbers is not supported.',
        '7 dual-rotor hot-plug fans included standard, single socket only — no fan-count choice.',
        'Primary riser ships standard with 2 slots (PCIe 5.0 x16/x16 FHHL); an optional Secondary riser (P54288-B21) adds a 3rd. If a 5423N processor is selected, the secondary riser cannot be fitted.']}},
  {m:'DL320',g:'G11', p:['sp4','sp5'],    s:1, d:16, bays:['4LFF','8SFF','10SFF','12LFF'],
-   rules:{verified:true,psuMax:2,fans:{one:5,perf:7},hsW:185,hsWtext:'above 185W',hsPart:'P52756-B21',pcie:{one:2},riserMax:2,rear:[],
+   rules:{fanWtext:'above 185W',fanW:185,verified:true,psuMax:2,fans:{one:5,perf:7},hsW:185,hsWtext:'above 185W',hsPart:'P52756-B21',pcie:{one:2},riserMax:2,rear:[],
      notes:['No rear or mid-tray drive cage — the SFF expansion next to the media bay is a front position.',
        '2 PSU bays (1+1 redundancy) — 500W Platinum (865408-B21) up to 2200W Titanium (P44712-B21), plus a 1600W -48VDC option (P17023-B21).',
        'Standard Fan Kit is 5 fans (P48907-B21); High-Performance Fan Kit is 7 (P48908-B21) at 185W TDP and above (the doc words this both as "greater than" and "equal to or greater than" 185W — treat 185W as needing it).',
@@ -1373,7 +1378,7 @@ var MODELS=[
        'A separate GPU-Dense chassis variant (P61218-B21, either 4SFF NVMe or 8 EDSFF) is not in the bay list — note it manually if quoting one.',
        '8SFF (P52766-B21) is really 8+2 SFF and Tri-Mode-only (x1 P52743-B21 or x4 P52747-B21) — no plain SAS/SATA-only cage. 12LFF (P52767-B21) is SAS/SATA; the doc also lists a 12LFF Tri-Mode Cable Kit (P60892-B21) that conflicts with that, so treat 12LFF as SAS/SATA-only until confirmed.']}},
  {m:'DL325',g:'G11', p:['genoa'],  s:1, d:12, bays:['4LFF','8SFF'],
-   rules:{verified:true,liquidReqW:320,memPerSocket:3072,fanPart:'P58462-B21',psuMax:2,fans:{one:7,perf:7},pcie:{one:2,two:2},riserMax:2,rear:[],
+   rules:{hsWtext:'above 240W',hsW:241,fanWtext:'above 240W',fanW:241,verified:true,liquidReqW:320,memPerSocket:3072,fanPart:'P58462-B21',psuMax:2,fans:{one:7,perf:7},pcie:{one:2,two:2},riserMax:2,rear:[],
      notes:['Front bays: 4LFF or 8SFF (media bay on the 8SFF/4LFF CTO only). An EDSFF/GPU variant exists but is not in the bay list — note it manually if quoting one.',
        'No rear or mid-tray drive cage on this 1U chassis — front bays only.',
        '12 DIMM slots (1 DIMM per channel, single Genoa socket) — up to 3TB.',
@@ -1391,7 +1396,7 @@ var MODELS=[
     (bare {m,g,p,s,d}, no rules, never verified) — removed rather than
     left in place offering a product that was never orderable. */
  {m:'DL345',g:'G11', p:['genoa'],  s:1, d:12, bays:['4LFF','8LFF','8SFF','24SFF'],
-   rules:{verified:true,hsW:260,hsWtext:'260W or higher (241–259W: check the cooling matrix)',fanW:260,
+   rules:{fanWtext:'260W or higher (241–259W: check the cooling matrix)',verified:true,hsW:260,hsWtext:'260W or higher (241–259W: check the cooling matrix)',fanW:260,
      memPerSocket:3072,psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:6,two:6},riserMax:2,
      hsPart:'P58459-B21',fanPart:'P58465-B21',fanNVMe:true,fanRear:true,fanGPU:true,
      rear:['4LFF rear','4LFF midtray','2SFF rear','8SFF midtray'],
@@ -1404,7 +1409,7 @@ var MODELS=[
        'Ships with 1 slot in each position by default (Slot 3 primary, Slot 6 secondary) — the 4/6 PCIe Enablement Kits upgrade one or both to 3 slots.',
        'Neither PCIe Enablement Kit is selectable once the 4LFF rear cage is fitted — use the LFF Rear Cage riser variants instead.']}},
  {m:'DL360',g:'G11', p:['sp4','sp5'], s:2, d:32, bays:['4LFF','8SFF'],
-   rules:{verified:true,hsW:186,hsWtext:'186W–270W',fanW:186,fanPart:'P48908-B21',hsPart:'P48905-B21',riserMax:2,
+   rules:{fanWtext:'above 185W',verified:true,hsW:186,hsWtext:'186W–270W',fanW:186,fanPart:'P48908-B21',hsPart:'P48905-B21',riserMax:2,
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['2x M.2 (dual uFF) rear'],
      coolTierW:271,singleMaxAirW:300,fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['Front bays: 4LFF or 8SFF only. A 20EDSFF variant exists but is not in the bay list — note it manually if quoting one.',
@@ -1418,7 +1423,7 @@ var MODELS=[
        'Up to 7 fans with redundancy — one rotor failure degrades but keeps running.',
        '8SFF is Tri-Mode only (x1 or x4 U.3 backplane) — no plain SAS/SATA-only cage. 4LFF is a fixed SAS-only backplane (12G x1, no NVMe); the 20EDSFF variant is a fixed NVMe-only backplane.']}},
  {m:'DL365',g:'G11', p:['genoa'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
-   rules:{verified:true,hsW:241,hsWtext:'above 240W (cTDP)',fanW:241,
+   rules:{fanWtext:'above 240W (cTDP)',verified:true,hsW:241,hsWtext:'above 240W (cTDP)',fanW:241,
      memPerSocket:3072,psuMax:2,fans:{one:7,two:7,perf:7},pcie:{one:2,two:3},riserMax:3,rear:[],
      fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['No rear or mid-tray drive cage on this chassis.',
@@ -1430,7 +1435,7 @@ var MODELS=[
        '"F" processors and 400W parts may need the liquid-cooling or high-performance tier — check the cooling matrix.',
        'Every front SFF cage kit (8SFF x1/x4, 2SFF, 4SFF) is Tri-Mode U.3 — no plain SAS/SATA-only SFF cage. 4LFF has no NVMe/Tri-Mode option.']}},
  {m:'DL380',g:'G11', p:['sp4','sp5'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:151,hsWtext:'above 150W, up to 350W',hsPart:'P48818-B21',fanW:206,riserMax:3,
+   rules:{fanWtext:'above 205W',verified:true,hsW:151,hsWtext:'above 150W, up to 350W',hsPart:'P48818-B21',fanW:206,riserMax:3,
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},fanBays:['24SFF'],
      rear:['2SFF rear','2SFF NVMe rear','4LFF midtray','8SFF midtray'],
      fanNVMe:true,fanRear:true,fanGPU:true,fanPart:'P48820-B21',midtray8SFFCtrl:['SR932i-p'],
@@ -1446,7 +1451,7 @@ var MODELS=[
        'On 5th Gen (Emerald Rapids) CPUs the tertiary riser (Slot 8) is PCIe 4.0 unless the optional FIO Enablement Kit (P53632-B21) is fitted (then PCIe 5.0 x8) — the slip shows slot count only, not per-slot generation.',
        '8SFF ships an x1 Tri-Mode U.3 backplane by default in bay 3 (P48813-B21); an x4 "Premium" Tri-Mode variant is also selectable (P48814-B21) — no plain SAS/SATA-only SFF cage. LFF, including its mid-tray cage, is SAS/SATA-only.']}},
  {m:'DL385',g:'G11', p:['genoa','turin'], s:2, d:24, bays:['8SFF','16SFF','24SFF','8LFF','12LFF','48SFF'],
-   rules:{verified:true,hsW:240,hsWtext:'240W–300W (above 300W needs the max-performance tier)',fanW:240,memPerSocket:3072,psuMax:2,pcie:{one:3,two:8},
+   rules:{fanWtext:'240W or higher',verified:true,hsW:240,hsWtext:'240W–300W (above 300W needs the max-performance tier)',fanW:240,memPerSocket:3072,psuMax:2,pcie:{one:3,two:8},
      fans:{one:6,two:6,perf:6},riserMax:3,rear:['2SFF rear','4LFF midtray','4LFF rear'],
      fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['Below 240W: standard heatsink and standard fan kit. 240W–300W: high performance heatsink and fans. Above 300W: max-performance heatsink and fans.',
@@ -1491,7 +1496,7 @@ var MODELS=[
        'Up to 2 half-height half-length GPUs or up to 2 100W in-line accelerators are supported.',
        'PSU types are 1300W M-CRPS AC or 1000W M-CRPS -48VDC; PSU bay count/redundancy and the riser/PCIe-slot topology are not confirmed — check QuickSpecs before quoting a specific build.']}},
  {m:'DL320', g:'G12', p:['xeon6'], s:1, d:16, bays:['8SFF','10SFF','4LFF','12LFF'],
-   rules:{verified:true,hsW:185,hsWtext:'above 185W',fans:{one:7,perf:7},psuMax:1,riserMax:2,pcie:{one:2},rear:[],
+   rules:{fanWtext:'above 185W',fanW:186,verified:true,hsW:185,hsWtext:'above 185W',fans:{one:7,perf:7},psuMax:1,riserMax:2,pcie:{one:2},rear:[],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6511P','6515P','6517P','6520P','6521P','6527P','6530P','6730P','6731P','6736P','6737P','6740P','6741P','6747P','6760P','6761P','6767P','6781P','6787P'],
      notes:['Single-socket. The CPU list is limited to the 7 E-core SKUs, 21 P-core SKUs (not 6745P) and the single-socket "1P" variants (6511P/6521P/6731P/6741P/6761P/6781P); no 4S/8S Socket Scalable SKUs.',
        'No rear or mid-tray drive cage.',
@@ -1510,7 +1515,7 @@ var MODELS=[
        'A 36-EDSFF front cage and a front-GPU CTO variant also exist — neither is in the bay list.',
        '8SFF is Tri-Mode-only (x1 P75740-B21 or x4 P75741-B21) or pure NVMe U.2 (P71465-B21) — no plain SAS/SATA-only cage. 12LFF is 3x 4LFF cages, each with a plain 4LFF Backplane Kit (P75760-B21).']}},
  {m:'DL360', g:'G12', p:['xeon6'], s:2, d:32, bays:['4LFF','10SFF'],
-   rules:{verified:true,hsW:185,hsWtext:'above 185W',fans:{one:5,two:7,perf:7},psuMax:2,riserMax:2,pcie:{one:2,two:3},
+   rules:{fanWtext:'above 185W',fanW:186,verified:true,hsW:185,hsWtext:'above 185W',fans:{one:5,two:7,perf:7},psuMax:2,riserMax:2,pcie:{one:2,two:3},
      rear:['2x M.2 (dual uFF) rear'],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6730P','6736P','6737P','6740P','6747P','6760P','6767P','6787P'],
      notes:['The CPU list is the 7 E-core SKUs plus the 15 standard P-core SKUs — no single-socket "1P" variants, no 6745P, no 4S/8S Socket Scalable SKUs.',
@@ -1565,7 +1570,7 @@ var MODELS=[
        'No heatsink choice — single socket, no wattage-based tier.',
        'SAS/SATA only — no NVMe, Tri-Mode or Premium backplane on any bay config.']}},
  {m:'ML110',g:'G9',  p:['e5v3','e5v4'], s:1, d:8,  tower:true, bays:['4LFF','8LFF','8SFF','16SFF'],
-   rules:{verified:true,psuMax:2,fans:{one:1},pcie:{one:5},riserMax:0,hsNoChoice:true,
+   rules:{fanPart:'System Fan Upgrade Kit 789654-B21',fanWtext:'140W or higher (E5-1600 v3/v4)',fanW:140,verified:true,psuMax:2,fans:{one:1},pcie:{one:5},riserMax:0,hsNoChoice:true,
      notes:['3 PSU tiers: 350W ATX-Gen9 FIO (776442-B21) or 550W ATX-Gen9 (776444-B21), both non-redundant; or a 750W Common Slot Gold Hot Plug Kit (512327-B21), which needs the Redundant Power Supply Enablement Kit (784582-B21) to go redundant (2 bays).',
        '1 non-hot-plug, non-redundant system fan standard (single socket only). Two config-gated add-on kits: the PCI Fan and Baffle Kit (784580-B21) is mandatory if any PCIe card is fitted; the System Fan Upgrade Kit (789654-B21, 92x38mm) is mandatory for any 140W E5-1600 v3/v4 processor or a SAS SSD.',
        '5 PCIe 3.0 slots (1x16, 2x8, 2x4), all "For processor 1" — single socket, no risers.',
@@ -1627,7 +1632,7 @@ var MODELS=[
        'Security bezel is standard on every unit.',
        'NVMe is Box 2 only: the NVMe Express Bay Kit (874569-B21) replaces Box 2 with pure NVMe — there is no mixed SAS/SATA+NVMe (Premium) cage on this model.']}},
  {m:'ML30', g:'G10+',p:['xeone3'],s:1, d:4,  tower:true, bays:['4LFF','8SFF'],
-   rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,rear:[],
+   rules:{fanW:0,verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,rear:[],
      psu:['350W Gold-level FIO (P21652-B21)','ML30 Gen10 Plus 350W FIO — EMEA only (P45212-B21)','500W Flex Slot Platinum, needs RPS kit (865408-B21)','800W Flex Slot Titanium, needs RPS kit (865438-B21)','RPS Enablement Kit — 4U (P45209-B21)'],
      ctrl:['E208i-p (804394-B21)','E208e-p (804398-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)'],
      notes:['No embedded/modular "-a" controller and no Tri-Mode family — PCI plug-in cards only. Intel VROC software RAID is also offered (a licence, not a card). P408i-p/MR416i-p/MR216i-p need the Smart Storage Battery (P01366-B21) or Hybrid Capacitor (P02377-B21), sold separately; max 1 of that trio per server.',
@@ -1638,21 +1643,21 @@ var MODELS=[
        'Standard PSU is a single non-hot-plug 350W Gold (P21652-B21); Flex Slot supplies (500W Platinum 865408-B21 / 800W Titanium 865438-B21) need the RPS Enablement Kit (P45209-B21) — 2 bays, 1+1.',
        '4 PCIe slots on the system board (slot 1 x16 PCIe 4.0 from the CPU — PCIe 3.0 with a Pentium; slots 2-4 x4 from the PCH). No riser cages.']}},
  {m:'ML30', g:'G11', p:['xeone3'],s:1, d:4,  tower:true, bays:['4LFF','8SFF'],
-   rules:{verified:true,rear:[],psuMax:2,fans:{one:1,perf:2},pcie:{one:4},riserMax:0,
+   rules:{fanW:0,verified:true,rear:[],psuMax:2,fans:{one:1,perf:2},pcie:{one:4},riserMax:0,
      notes:['No rear drive bay — tower, front-only.',
        '1 fixed non-redundant 350W FIO Power Supply (P45212-B21) standard; optional Flex Slot redundant supplies (500W Platinum 865408-B21, 800W EMEA-only, 1000W Titanium P03178-B21) need the RPS Enablement Kit (P65104-B21) to go redundant (2 bays).',
        '1 default system fan module standard; a 2nd, the PCI Fan and Baffle Kit (P65106-B21), is REQUIRED on the 4LFF Hot Plug and 8SFF Hot Plug CTO servers, and on the 4LFF NHP/Entry model if any PCIe card is fitted.',
        '4 PCIe slots (1x PCIe 5.0 x16 + 3x PCIe 4.0 x8/x4) directly on the system board/PCH — no riser cage.',
        '4LFF (hot-plug or non-hot-plug) or 8SFF hot-plug.']}},
  {m:'ML110',g:'G11', p:['sp4','sp5'],   s:1, d:16, tower:true, bays:['4LFF','8LFF','8SFF','16SFF'],
-   rules:{verified:true,rear:[],psuMax:2,fans:{one:2},pcie:{one:4},riserMax:2,
+   rules:{fanW:0,verified:true,rear:[],psuMax:2,fans:{one:2},pcie:{one:4},riserMax:2,
      notes:['No rear drive bay — Box1/Box2 are both front-mounted expansion positions.',
        '4 Flex Slot PSU wattage tiers (500W/800W/1000W/1600W Platinum/Titanium); a 2nd module of the same kit provides 1+1 redundancy.',
        '2 standard, non-hot-plug fans by default. An optional Redundant Fan Kit (P49984-B21) is required with a 15K RPM SAS SFF HDD (and other heavier configs) for advanced cooling and redundancy — the fan count it gives is not stated, so confirm against QuickSpecs before quoting a build that needs it.',
        '2 PCIe 5.0 x16 slots ship standard (Slot 1, Slot 4); 2 more (Slot 2, then Slot 3) are each unlocked by an optional riser kit (P53487-B21 for Slot 2, required before P53488-B21 can add Slot 3) — up to 4 total, single socket only.',
        'Box1 + optional Box2, each independently 4LFF/NHP or 8SFF SAS/SATA — mixed LFF/SFF across the two boxes is supported.']}},
  {m:'ML350',g:'G11', p:['sp4','sp5'],   s:2, d:32, tower:true, bays:['4LFF','8SFF'],
-   rules:{verified:true,hsW:195,hsWtext:'195W or higher',hsPart:'P47224-B21',psuMax:2,pcie:{one:4,two:10},riserMax:3,rear:[],
+   rules:{fanWtext:'300W or higher',verified:true,hsW:195,hsWtext:'195W or higher',hsPart:'P47224-B21',psuMax:2,pcie:{one:4,two:10},riserMax:3,rear:[],
      fanW:300,fanPart:'P47219-B21 + Second CPU Fan Kit P47902-B21',
      notes:['Front bays: 4LFF (also supports RDX docking) or 8SFF (also Tri-Mode U.3). A 12EDSFF variant exists but is not in the bay list.',
        'No rear drive bay — tower, front-only.',
@@ -1661,7 +1666,7 @@ var MODELS=[
        'Four 5th Gen CPUs need DLC liquid cooling this tower does not support and are not realistically orderable here: 8593Q, 8562Y+, 6544Y, 6558Q. They are still selectable in the picker — do not quote them.',
        '8SFF ships Tri-Mode U.3 by default (x1 P47217-B21, x4 upgrade P47218-B21) — no plain SAS/SATA-only 8SFF cage. 4LFF ships a fixed Basic SAS/SATA-only cage (P47216-B21), no NVMe option.']}},
  {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:225,hsWtext:'225W or higher',fans:{one:3,two:3,perf:8},psuMax:2,riserMax:3,pcie:{one:4,two:10},
+   rules:{fanPart:'P47219-B21 + Second CPU Fan Kit P47902-B21',fanWtext:'300W or higher',fanW:300,verified:true,hsW:225,hsWtext:'225W or higher',fans:{one:3,two:3,perf:8},psuMax:2,riserMax:3,pcie:{one:4,two:10},
      rear:['2x M.2 (dual uFF) rear'],
      cpuAllow:['6505P','6507P','6515P','6517P','6520P','6527P','6530P','6730P','6736P','6737P','6740P','6747P','6760P','6767P','6787P'],
      notes:['The CPU list is the 15 standard P-core Xeon 6 SKUs only — no E-core SKUs, no single-socket "1P" variants, no 6745P, no Socket Scalable SKUs.',
@@ -3647,7 +3652,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.21.4'; // 4th build shipped today
+var BUILD_VERSION='2026.09.21.5'; // 5th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4768,13 +4773,19 @@ function evaluate(){
     checks.push(['stop','TOO MANY DRIVES',used+' drives specified but the chassis as configured has '+capBays+' bays.']);
   }
 
-  /* SAS expander prompt */
-  if(capBays>8&&!v('expander')&&!hasNVMe&&!noDrives)
-    checks.push(['verify','EXPANDER',capBays+' bays usually needs a SAS expander or a second controller — a single 8-port controller only addresses 8 drives directly.']);
+  var ctrlV=v('ctrl'),ctrlC=ctrlCode(ctrlV),batV=v('bat'),batNote=document.getElementById('bat-note');
+
+  /* SAS expander prompt — one decision (expanderNeed) drives BOTH this config
+     check and the amber note under the expander field further down, so the
+     two can never disagree. */
+  var expNeed=expanderNeed(capBays,ctrlV,hasNVMe,noDrives);
+  if(expNeed)
+    checks.push(['verify','EXPANDER',expNeed.ports!=null
+      ?(capBays+' bays is more than '+ctrlV+'\'s '+expNeed.ports+' ports — it needs a SAS expander or a second controller.')
+      :(capBays+' bays usually needs a SAS expander or a second controller — a single 8-port controller only addresses 8 drives directly.')]);
 
   /* battery suggestion — a hint, not an auto-fill or a block: some traders
      deliberately ship a cached controller without one. */
-  var ctrlV=v('ctrl'),ctrlC=ctrlCode(ctrlV),batV=v('bat'),batNote=document.getElementById('bat-note');
   batNote.className='cap-note';batNote.textContent='';
   if(ctrlV&&CACHED_CTRLS[ctrlC]&&!batV){
     batNote.className='cap-note suggest';
@@ -4829,15 +4840,17 @@ function evaluate(){
      controllers whose port count isn't fixed by the SKU (see CTRL_PORTS). */
   var expNote=document.getElementById('expander-note');
   expNote.className='cap-note';expNote.textContent='';
-  if(m&&capBays&&!hasNVMe&&!noDrives&&!v('expander')){
-    var ports=CTRL_PORTS[ctrlC];
-    if(ports!=null&&capBays>ports){
-      var expPart=EXPANDER_PARTS[m.m+' '+m.g];
-      expNote.className='cap-note suggest';
+  if(m&&expNeed){
+    var expPart=EXPANDER_PARTS[m.m+' '+m.g];
+    expNote.className='cap-note suggest';
+    if(expNeed.ports!=null)
       expNote.textContent=expPart
-        ?('Suggested: '+expPart+' — '+capBays+' bays exceeds '+ctrlV+'\'s '+ports+' ports.')
-        :('No SAS Expander Card exists for '+m.m+' '+m.g+' — '+capBays+' bays exceeds '+ctrlV+'\'s '+ports+' ports. Use a second (or higher-port) controller instead.');
-    }
+        ?('Suggested: '+expPart+' — '+capBays+' bays exceeds '+ctrlV+'\'s '+expNeed.ports+' ports.')
+        :('No SAS Expander Card exists for '+m.m+' '+m.g+' — '+capBays+' bays exceeds '+ctrlV+'\'s '+expNeed.ports+' ports. Use a second (or higher-port) controller instead.');
+    else /* no controller yet, or one whose port count is not fixed by its name — stay generic, never invent a port count */
+      expNote.textContent=expPart
+        ?('Suggested: '+expPart+' — '+capBays+' bays usually needs a SAS expander or a second controller.')
+        :('No SAS Expander Card exists for '+m.m+' '+m.g+' — '+capBays+' bays usually needs one, so use a second (or higher-port) controller instead.');
   }
 
   if(R.coolTierW&&cpu&&cpu[3]>=R.coolTierW&&cpuq>=2)
@@ -4916,7 +4929,10 @@ function evaluate(){
   if(R.fanRear&&rear)fanReasons.push('Rear/midtray drives require high performance fans'+fanPart+'.');
   if(R.fanGPU&&hasGPU)fanReasons.push('GPUs and accelerators require high performance fans'+fanPart+'.');
   (R.fanBays||[]).forEach(function(b){if(bays.indexOf(b)>-1)fanReasons.push(b+' ships with high performance fans as standard.');});
-  if(R.fanW&&cpu&&cpu[3]>=R.fanW)fanReasons.push(cpu[0]+' is '+cpu[3]+'W — '+R.fanW+'W or above requires the high performance fan kit'+fanPart+'.');
+  /* fanWtext is the threshold as the model's own QuickSpecs words it ("above 205W",
+     "205W or higher") — same idea as hsWtext for heatsinks */
+  var fanThr=R.fanW?(R.fanWtext||R.fanW+'W or higher'):'';
+  if(R.fanW&&cpu&&cpu[3]>=R.fanW)fanReasons.push(cpu[0]+' is '+cpu[3]+'W — '+fanThr+' requires the high performance fan kit'+fanPart+'.');
   applyRec('fan',fanReasons.length?'Perf Fans':null,fanReasons,checks,'FANS',true);
 
   /* fan kit + quantity by socket count, plus the "standard is fine" explainer */
@@ -4933,14 +4949,19 @@ function evaluate(){
       var stdEl=document.querySelector('input[name="fan"][value="Std Fans"]');
       if(stdEl&&!stdEl.checked)stdEl.checked=true;
       var extra=[];
-      if(R.fanW)extra.push('a processor at '+R.fanW+'W or more');
+      if(R.fanW)extra.push('a processor '+(/^above/i.test(fanThr)?fanThr:'at '+fanThr));
       if(R.fanNVMe)extra.push('NVMe');
       if(R.fanRear)extra.push('rear or midtray drives');
       if(R.fanGPU)extra.push('a GPU');
       var stdN=cpuq>=2?R.fans.two:(cpuq===1?R.fans.one:null);
+      /* mirror the heatsink line: with a processor picked, say where it sits against the step */
+      var belowFan=(R.fanW&&cpu)?' '+cpu[0]+' ('+cpu[3]+'W) is below the high performance fan step ('+fanThr+').':'';
+      /* verified models with no threshold have none in their QuickSpecs (fans follow NVMe / rear drives / GPU / bays only) —
+         say so instead of leaving the trader wondering why the heatsink reacts to wattage and the fans do not */
+      var notTied=(R.verified&&!R.fanW)?' Fan choice on this model is not tied to processor wattage.':'';
       whyF.className='why on';
       whyF.textContent='Standard fans are adequate'+(stdN?' — '+stdN+' fans for '+cpuq+' processor'+(cpuq>1?'s':''):'')+
-        (extra.length?'. High performance would be needed for '+extra.join(', ')+'.':'.');
+        '.'+belowFan+(extra.length?' High performance would be needed for '+extra.join(', ')+'.':'')+notTied;
     }
     var perfNow=r('fan')==='Perf Fans';
     var want=perfNow?R.fans.perf:(cpuq>=2?R.fans.two:(cpuq===1?R.fans.one:null));
@@ -5170,6 +5191,18 @@ function slipName(s){
      .replace(new RegExp('\\s*'+SLIP_PN,'g'),'')
      .replace(/\(\s*\)/g,'').replace(/\s{2,}/g,' ').replace(/[\s,;:]+$/,'').trim();
   return /[A-Za-z]/.test(o)?o:String(s==null?'':s).trim();
+}
+/* Does this build need a SAS expander (or a second controller)? Null when it
+   does not, else {ports:n} when the picked controller's port count is known and
+   too small, or {ports:null} when there is no controller yet / its port count is
+   not fixed by its name (Gen8/9 cards, embedded controllers) and the chassis has
+   more than 8 bays. NVMe routes around the SAS expander; a controller whose
+   ports already cover every bay (e.g. P816i-a with 16 bays) needs nothing. */
+function expanderNeed(capBays,ctrlV,hasNVMe,noDrives){
+  if(!capBays||v('expander')||hasNVMe||noDrives)return null;
+  var ports=CTRL_PORTS[ctrlCode(ctrlV)];
+  if(ports!=null)return capBays>ports?{ports:ports}:null;
+  return capBays>8?{ports:null}:null;
 }
 function buildSlip(){
   var L=[],gaps=[],m=currentModel();

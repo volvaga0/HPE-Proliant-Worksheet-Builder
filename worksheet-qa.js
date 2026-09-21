@@ -2006,11 +2006,13 @@ function runRound8(){
     :fail8('expander suggestion still showing: "'+d.getElementById('expander-note').textContent+'"');
   d.getElementById('expander').value='';fire(d.getElementById('expander'),'input');
 
-  // --- no port-count data for a Gen8/9 card (P440) -> no fabricated suggestion ---
+  // --- no port-count data for a Gen8/9 card (P440) -> the note stays generic: it still
+  // points at the expander (the build does need one for 16 bays) but never invents a port count ---
   ctrl8.value='';fire(ctrl8,'input');ctrl8.value='P440';fire(ctrl8,'input');
-  d.getElementById('expander-note').textContent===''
-    ?pass8('P440 (no fixed port count known) gets no expander suggestion — avoids guessing')
-    :fail8('unexpected expander suggestion for P440: "'+d.getElementById('expander-note').textContent+'"');
+  { const p440Txt=d.getElementById('expander-note').textContent;
+    (/727250-B21/.test(p440Txt) && !/ports/.test(p440Txt) && d.getElementById('expander-note').classList.contains('suggest'))
+      ?pass8('P440 (no fixed port count known): amber expander note stays generic — names the part, invents no port count')
+      :fail8('P440 expander note wrong: "'+p440Txt+'"'); }
   runRound9();   // chained — round 8 has no nested timers, so this is safe immediately
 }
 
@@ -3835,4 +3837,93 @@ function runRound25(){
     ?pass25('a label without a part number keeps its whole text on the slip')
     :fail25('part-number-free label was trimmed');
   risersEl25.innerHTML='';
+  ctrl25.value='';fire(ctrl25,'input');
+
+  // --- the amber note under the SAS expander field follows the same decision as the EXPANDER
+  // config check: whenever the build suggests one, the field says so too (2026-09-21) ---
+  setModel25('DL380 G10');
+  const bays25=d.getElementById('bays'); bays25.value='12LFF'; fire(bays25,'input');
+  const expNote25=d.getElementById('expander-note'), exp25=d.getElementById('expander');
+  exp25.value=''; fire(exp25,'input'); ctrl25.value=''; fire(ctrl25,'input');
+  (/870549-B21/.test(expNote25.textContent) && expNote25.classList.contains('suggest') && /EXPANDER/.test(d.getElementById('checks').textContent))
+    ?pass25('12 bays with no controller picked yet: amber note under the expander field names the DL380 G10 part, matching the EXPANDER check')
+    :fail25('no-controller expander note wrong: "'+expNote25.textContent+'"');
+  ctrl25.value='P408i-a'; fire(ctrl25,'input');
+  (/8 ports/.test(expNote25.textContent) && /870549-B21/.test(expNote25.textContent))
+    ?pass25('P408i-a (8 ports) with 12 bays: the note quotes the port count')
+    :fail25('P408i-a expander note wrong: "'+expNote25.textContent+'"');
+  ctrl25.value='P816i-a'; fire(ctrl25,'input');
+  (expNote25.textContent==='' && !/EXPANDER/.test(d.getElementById('checks').textContent))
+    ?pass25('P816i-a (16 ports) already addresses 12 bays: no expander note and no EXPANDER check')
+    :fail25('P816i-a wrongly asks for an expander: "'+expNote25.textContent+'"');
+  ctrl25.value='P408i-a'; fire(ctrl25,'input');
+  exp25.value='12G SAS Expander Card (870549-B21)'; fire(exp25,'input');
+  (expNote25.textContent==='' && !/EXPANDER/.test(d.getElementById('checks').textContent))
+    ?pass25('picking an expander clears the note and the check')
+    :fail25('expander note/check still showing after a pick: "'+expNote25.textContent+'"');
+  exp25.value=''; fire(exp25,'input'); ctrl25.value=''; fire(ctrl25,'input'); bays25.value=''; fire(bays25,'input');
+
+  // --- fan TDP step: worded like the heatsink one, shown up front, and a hard requirement ---
+  // start from a blank sheet: earlier rounds leave a manual fan override, a FlexibleLOM, 2 PSUs etc. behind
+  w.confirm=function(){return true;};
+  d.getElementById('clear').click();
+  const CPUS25=grab25('CPUS')||[];
+  function pickCpuExact25(code){
+    const ci=d.getElementById('cpu-input'); ci.value=''; fire(ci,'input');
+    const opt=[...d.querySelectorAll('#cpu-panel .combo-item')].find(function(el){return el.querySelector('.ci-main').textContent===code;});
+    if(!opt)return false;
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true})); return true;
+  }
+  const fanState25=function(){ const c=d.querySelector('input[name="fan"]:checked'); return c?c.value:''; };
+  [['DL380 G11',206,'above 205W'],['DL345 G10+',280,'280W or higher'],['DL325 G10+ v2',280,'280W or higher'],
+   ['DL380 G10+',206,'above 205W'],['DL360 G10+',205,'205W or higher'],['DL320 G12',186,'above 185W'],
+   ['DL360 G12',186,'above 185W'],['ML350 G12',300,'300W or higher'],['DL325 G11',241,'above 240W']].forEach(function(t){
+    const label=t[0], thr=t[1], words=t[2];
+    const mo=MODELS25.find(function(m){return (m.m+' '+m.g)===label;});
+    const allow=(mo.rules&&mo.rules.cpuAllow)||null;
+    const pool=CPUS25.filter(function(c){return mo.p.indexOf(c[2])>-1&&(!allow||allow.indexOf(c[0])>-1)&&c[3];});
+    const below=pool.filter(function(c){return c[3]<thr;}).sort(function(a,b){return b[3]-a[3];})[0];
+    const above=pool.filter(function(c){return c[3]>=thr;}).sort(function(a,b){return a[3]-b[3];})[0];
+    setModel25(label);
+    if(!below||!above||!pickCpuExact25(below[0]))return fail25(label+': could not pick a CPU under the fan step');
+    const why=d.getElementById('why-fan').textContent;
+    (fanState25()==='Std Fans' && why.indexOf(words)>-1 && /below the high performance fan step/.test(why))
+      ?pass25(label+': '+below[0]+' ('+below[3]+'W) keeps standard fans and the fan line states the step ("'+words+'")')
+      :fail25(label+' fan line wrong under the step: '+fanState25()+' | '+why);
+    if(!pickCpuExact25(above[0]))return fail25(label+': could not pick a CPU at the fan step');
+    const chk=d.getElementById('checks').textContent;
+    (fanState25()==='Perf Fans' && chk.indexOf(words)>-1 && /requires the high performance fan kit/.test(chk))
+      ?pass25(label+': '+above[0]+' ('+above[3]+'W) sets Perf Fans automatically and says why ("'+words+'")')
+      :fail25(label+' fans not raised at '+above[3]+'W: '+fanState25()+' | '+chk.slice(0,240));
+  });
+  // ...and it is mandatory: forcing Standard fans with a CPU over the step blocks the build, like NVMe does
+  setModel25('DL380 G11');
+  { const mo=MODELS25.find(function(m){return m.m==='DL380'&&m.g==='G11';});
+    const hot=CPUS25.filter(function(c){return mo.p.indexOf(c[2])>-1&&c[3]>=206;}).sort(function(a,b){return a[3]-b[3];})[0];
+    pickCpuExact25(hot[0]);
+    d.getElementById('fn1').checked=true; fire(d.getElementById('fn1'),'change');
+    (/Perf Fans is required/.test(d.getElementById('checks').textContent) && /Unsupported/.test(d.getElementById('count').textContent))
+      ?pass25('DL380 G11: Standard fans forced with a '+hot[3]+'W CPU is a blocking error (performance fans are mandatory over the step)')
+      :fail25('Standard fans over the fan step not blocked: '+d.getElementById('checks').textContent.slice(0,200));
+    d.getElementById('clear').click(); }   // drops the manual fan override before the next checks
+  // models with fixed fans / no CPU-wattage trigger in their QuickSpecs no longer inherit the G10+/G11 default step
+  setModel25('DL110 G11');
+  { const mo=MODELS25.find(function(m){return m.m==='DL110'&&m.g==='G11';});
+    const hot=CPUS25.filter(function(c){return mo.p.indexOf(c[2])>-1&&c[3];}).sort(function(a,b){return b[3]-a[3];})[0];
+    pickCpuExact25(hot[0]);
+    (fanState25()!=='Perf Fans' && !/high performance fan kit/.test(d.getElementById('checks').textContent))
+      ?pass25('DL110 G11 (fixed 7 fans): a '+hot[3]+'W CPU no longer forces performance fans')
+      :fail25('DL110 G11 still gets a CPU-wattage fan requirement: '+fanState25()); }
+  setModel25('DL325 G10+');
+  { const mo=MODELS25.find(function(m){return m.m==='DL325'&&m.g==='G10+';});
+    const hot=CPUS25.filter(function(c){return mo.p.indexOf(c[2])>-1&&(mo.rules.cpuAllow||[]).indexOf(c[0])>-1;}).sort(function(a,b){return b[3]-a[3];})[0];
+    pickCpuExact25(hot[0]);
+    (fanState25()==='Std Fans' && /not tied to processor wattage/.test(d.getElementById('why-fan').textContent))
+      ?pass25('DL325 G10+ v1: '+hot[3]+'W CPU keeps standard fans; the fan line says fans are not tied to processor wattage on this model')
+      :fail25('DL325 G10+ v1 fan line wrong: '+fanState25()+' | '+d.getElementById('why-fan').textContent); }
+  setModel25('DL380 G10');
+  { pickCpuExact25('S4110');
+    (fanState25()==='Std Fans' && /not tied to processor wattage/.test(d.getElementById('why-fan').textContent))
+      ?pass25('DL380 G10: the fan line explains fans follow NVMe / rear drives / GPU, not processor wattage')
+      :fail25('DL380 G10 fan line wrong: '+d.getElementById('why-fan').textContent); }
 }
