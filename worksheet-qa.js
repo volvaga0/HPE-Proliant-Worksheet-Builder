@@ -1646,8 +1646,8 @@ function runRound7(){
   setModel7('DL380 G11');
   ctrl.dispatchEvent(new w.Event('focus'));
   ctrlOpts=[...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);
-  (ctrlOpts.includes('MR416i-o') && ctrlOpts.includes('MR216i-p') && ctrlOpts.includes('E208e-p') && !ctrlOpts.includes('P408i-a') && !ctrlOpts.includes('P408i-p'))
-    ?pass7('DL380 G11: OCP-mezz + MR-p offered, old Smart Array P-series dropped (E208e-p is the one survivor)')
+  (ctrlOpts.some(o=>/^MR416i-o /.test(o)) && ctrlOpts.some(o=>/^MR216i-p /.test(o)) && ctrlOpts.some(o=>/^E208e-p /.test(o)) && !ctrlOpts.some(o=>/^P408i-a/.test(o)) && !ctrlOpts.some(o=>/^P408i-p/.test(o)))
+    ?pass7('DL380 G11: OCP-mezz + MR-p offered (now with part numbers), old Smart Array P-series dropped (E208e-p is the one survivor)')
     :fail7('DL380 G11 controller list wrong: '+ctrlOpts.join(', '));
   setModel7('DL380 G9');
   ctrl.dispatchEvent(new w.Event('focus'));
@@ -1753,19 +1753,28 @@ function runRound7(){
    !dOpts7.some(o=>/2133|2400|2666|2933|3200/.test(o)))
     ?pass7('DL380 G11 (no CPU yet): unions 4th Gen 4800 and 5th Gen 5600, zero DDR4 speeds offered')
     :fail7('DL380 G11 dimm panel (no CPU) wrong: '+dOpts7.join(', '));
-  pickCpu7('G5416S'); // 4th Gen Sapphire Rapids, sp4
+  // per-CPU memory speed cap (2026-09-21, CPU_MEM_MAX from the DL360/DL380 Gen11 QuickSpecs feature
+  // tables): a 4th Gen Gold 5416S tops out at 4400, so 4800 must not be offered for it
+  pickCpu7('G5416S'); // 4th Gen Sapphire Rapids, sp4, 4400 MT/s max
   dOpts7=dimmOpts7();
-  (dOpts7.some(o=>/^64GB 4800 MT\/s$/.test(o)) && !dOpts7.some(o=>/5600|5200|4400|4000/.test(o)))
-    ?pass7('DL380 G11 (4th Gen G5416S): narrows to just 4800 — no 5th-Gen speeds offered for a 4th-Gen CPU')
-    :fail7('DL380 G11 dimm panel (4th Gen CPU) wrong: '+dOpts7.join(', '));
-  pickCpu7('G6530'); // 5th Gen Emerald Rapids, sp5
+  (dOpts7.some(o=>/^64GB 4400 MT\/s$/.test(o)) && dOpts7.some(o=>/^64GB 4000 MT\/s$/.test(o)) && !dOpts7.some(o=>/4800|5200|5600/.test(o)))
+    ?pass7('DL380 G11 (4th Gen G5416S, 4400 max): offers only 4000/4400 — never 4800 or a 5th-Gen speed')
+    :fail7('DL380 G11 dimm panel (4th Gen CPU, 4400 max) wrong: '+dOpts7.join(', '));
+  pickCpu7('G6448Y'); // 4th Gen, 4800 MT/s max
   dOpts7=dimmOpts7();
-  // sp5's real tier-capped grid legitimately includes 4800 too (some 5th-Gen
-  // tiers cap there) — 4000 is the value that only exists on sp5, so that's
-  // the one that actually proves the narrowing happened.
+  (dOpts7.some(o=>/^64GB 4800 MT\/s$/.test(o)) && !dOpts7.some(o=>/5200|5600/.test(o)))
+    ?pass7('DL380 G11 (4th Gen G6448Y, 4800 max): offers up to 4800, no 5th-Gen speeds')
+    :fail7('DL380 G11 dimm panel (4th Gen CPU, 4800 max) wrong: '+dOpts7.join(', '));
+  pickCpu7('G6530'); // 5th Gen Emerald Rapids, sp5, but capped at 4800 by its own tier
+  dOpts7=dimmOpts7();
+  (dOpts7.some(o=>/^64GB 4800 MT\/s$/.test(o)) && dOpts7.some(o=>/^64GB 4000 MT\/s$/.test(o)) && !dOpts7.some(o=>/5200|5600/.test(o)))
+    ?pass7('DL380 G11 (5th Gen G6530, capped at 4800): sp5 grid narrowed to what this CPU runs — no 5200/5600')
+    :fail7('DL380 G11 dimm panel (5th Gen CPU, 4800 max) wrong: '+dOpts7.join(', '));
+  pickCpu7('P8592+'); // 5th Gen Platinum, 5600 MT/s
+  dOpts7=dimmOpts7();
   (dOpts7.some(o=>/^64GB 5600 MT\/s$/.test(o)) && dOpts7.some(o=>/^64GB 4000 MT\/s$/.test(o)))
-    ?pass7('DL380 G11 (5th Gen G6530): narrows to the sp5 grid, including its lower tier-capped speeds')
-    :fail7('DL380 G11 dimm panel (5th Gen CPU) wrong: '+dOpts7.join(', '));
+    ?pass7('DL380 G11 (5th Gen P8592+): the full sp5 grid up to 5600')
+    :fail7('DL380 G11 dimm panel (5th Gen P8592+) wrong: '+dOpts7.join(', '));
   // tapping a size then a speed button assembles one value, each preserving the other
   const szBtn7=d.querySelector('#dimm-size-btns button[data-sz="64"]'),spBtn7=d.querySelector('#dimm-speed-btns button[data-sp="5600"]');
   szBtn7.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
@@ -1895,7 +1904,7 @@ function runRound7(){
   // --- a mismatched DDR4 speed typed/pasted/restored into a DDR5 build is
   // caught (hard stop) even though it can't be tapped from the panel any
   // more; capacity gets a softer verify, not a stop (lower confidence) ---
-  setModel7('DL380 G11');pickCpu7('G5416S');
+  setModel7('DL380 G11');pickCpu7('G6448Y');   // a 4800 MT/s Sapphire Rapids part
   dimmq7.value='4';fire(dimmq7,'input');
   dimm7.value='32GB 2933';fire(dimm7,'input');
   d.getElementById('checks').textContent.includes('MEMORY SPEED')
@@ -1909,6 +1918,16 @@ function runRound7(){
   (d.getElementById('checks').textContent.includes('MEMORY CAPACITY') && !d.getElementById('checks').textContent.includes('MEMORY SPEED'))
     ?pass7('an unconfirmed capacity (384GB) gets a soft verify note, not a hard stop, and the valid speed stays clean')
     :fail7('unconfirmed capacity check wrong: '+d.getElementById('checks').textContent.slice(0,200));
+  // per-CPU cap (2026-09-21): the 4400 MT/s Gold 5416S cannot run a 4800 module at 4800
+  pickCpu7('G5416S');
+  dimm7.value='32GB 4800';fire(dimm7,'input');
+  (d.getElementById('checks').textContent.includes('MEMORY SPEED') && /4400 MT\/s/.test(d.getElementById('checks').textContent))
+    ?pass7('G5416S (4400 max) with a 4800 module is a hard stop that names the 4400 ceiling')
+    :fail7('4800 on a 4400-capped CPU not caught: '+d.getElementById('checks').textContent.slice(0,200));
+  dimm7.value='32GB 4400';fire(dimm7,'input');
+  !d.getElementById('checks').textContent.includes('MEMORY SPEED')
+    ?pass7('...and 4400 on the same CPU is clean')
+    :fail7('4400 on G5416S wrongly flagged: '+d.getElementById('checks').textContent.slice(0,200));
   dimmq7.value='';dimm7.value='';fire(dimm7,'input');
 
   // --- "U"-suffix (single-socket-only) Xeon SKUs blocked above 1 processor ---
@@ -2310,7 +2329,7 @@ function runRound10(){
       note(key,'multi-socket but fans.one with no fans.two');
     // bayCapacity() reads /(\d{1,2})\s*(LFF|SFF)/ — anything else silently counts as 0 bays
     (m.bays||[]).forEach(b=>{
-      if(!/^\d{1,2}\s*(LFF|SFF)$/i.test(b))note(key,'bay string "'+b+'" is not a shape bayCapacity() can read');
+      if(!/^\d{1,2}\s*(ED)?(LFF|SFF)$/i.test(b))note(key,'bay string "'+b+'" is not a shape bayCapacity() can read');
     });
     if(R.rear2SFF&&m.bays){
       const miss=R.rear2SFF.filter(b=>m.bays.indexOf(b)<0);
@@ -2619,7 +2638,7 @@ function runRound12(){
   setModel12('DL380 G11');
   opts12=riserOpts12();
   (opts12.length===6 && opts12.some(o=>/P48803-B21/.test(o)) && opts12.some(o=>/P48802-B21/.test(o)) &&
-   opts12.some(o=>/Tertiary Riser \(Slots 7-8\)/.test(o)))
+   opts12.some(o=>/Tertiary Riser Kit \(P48804-B21\)/.test(o)))
     ?pass12('DL380 G11: real 6-option riser list (primary/secondary default+upgrade, tertiary+FIO kit)')
     :fail12('DL380 G11 riser panel wrong: '+opts12.join(' | '));
 
@@ -2872,7 +2891,7 @@ function runRound13(){
     :fail13('DL380 G11 sp4 order still wrong: B='+b13+' S='+s13+' G='+g13+' P='+p13);
   setModel13('DL360 G11');
   codes13=cpuCodes13();
-  let b5=codes13.indexOf('B3508U'), s5=codes13.indexOf('S4509Y'), g5=codes13.indexOf('G5512U'), p5=codes13.indexOf('P8558U');
+  let b5=codes13.indexOf('B3508U'), s5=codes13.indexOf('S4509Y'), g5=codes13.indexOf('G5515+'), p5=codes13.indexOf('P8558U');
   (b5>=0 && b5<s5 && s5<g5 && g5<p5)
     ?pass13('DL360 G11 (sp5): CPU picker now lists Bronze before Silver/Gold/Platinum (B3508U was misfiled after Gold)')
     :fail13('DL360 G11 sp5 order still wrong: B='+b5+' S='+s5+' G='+g5+' P='+p5);
@@ -3635,7 +3654,7 @@ function runRound23(){
 
   // the shared OCP_CARDS fallback (used by G11/G12, and any future
   // unrecognized model) has 2 real bugs fixed this pass
-  setModel23('DL360 G11'); // no flr:[] override, falls back to OCP_CARDS
+  setModel23('DL320 G11'); // no flr:[] override (DL360/DL380 G11 have their own now), falls back to OCP_CARDS
   f23=flrOpts23();
   (f23.some(function(o){return /^BCM57416 10Gb 2p \(P10097-B21\)/.test(o);}) && f23.some(function(o){return /^BCM57412 10Gb 2p \(P26256-B21\)/.test(o);}) && f23.some(function(o){return /^QL41132HQCU 10Gb 2p/.test(o);}) && !f23.some(function(o){return /^QL41132HQCU 10\/25Gb/.test(o);}))
     ?pass23('shared OCP_CARDS: BCM57412/57416 part-number swap fixed, QL41132HQCU/HQRJ "10/25Gb" mislabel fixed to plain 10Gb')
@@ -3972,4 +3991,130 @@ function runRound25(){
     (hsState25()==='Perf Heatsinks')
       ?pass25('DL340 G12: '+over[0]+' ('+over[3]+'W) gets the performance heatsink (doc: above 250W)')
       :fail25('DL340 G12 '+over[3]+'W CPU not moved to performance heatsinks: '+hsState25()); }
+
+  // ===== DL360 G11 / DL380 G11 audit against the V48 / V47 QuickSpecs (2026-09-21) =====
+  w.confirm=function(){return true;};
+  d.getElementById('clear').click();
+  const chk26=function(){return d.getElementById('checks').textContent;};
+  const setv26=function(id,val){const el=d.getElementById(id);el.value=val;fire(el,'input');};
+  const cpuList26=function(){const ci=d.getElementById('cpu-input');ci.value='';fire(ci,'input');return [...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(function(e){return e.textContent;});};
+  const opts26=function(id){const inp=d.getElementById(id);inp.disabled=false;inp.value='';fire(inp,'input');fire(inp,'focus');return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(e){return e.textContent;});};
+  const speeds26=function(){return [...d.querySelectorAll('#dimm-speed-btns button')].map(function(b){return Number(b.getAttribute('data-sp'));});};
+
+  // --- CPU pools: current orderable list plus SKUs the older docs still list; other models' parts excluded ---
+  ['DL380 G11','DL360 G11'].forEach(function(label){
+    setModel25(label);
+    const cl=cpuList26();
+    (cl.length===66 && cl.indexOf('P8593Q')>-1 && cl.indexOf('G6458Q')>-1 && cl.indexOf('P9462')>-1 && cl.indexOf('P8468H')<0 && cl.indexOf('G5412U')<0 && cl.indexOf('G6434H')<0 && cl.indexOf('G5512U')<0)
+      ?pass25(label+': cpuAllow enforces the 66 SKUs its docs list (incl. discontinued 6458Q/8470Q), and keeps out the 4-socket H parts and other models\' U parts')
+      :fail25(label+' CPU list wrong: '+cl.length+' options');
+  });
+  { const g6548=CPUS25.find(function(c){return c[0]==='G6548N';});
+    (g6548&&g6548[3]===250)?pass25('Gold 6548N is 250W (both ordering lists; the DL380 feature table\'s 300W is a typo)'):fail25('G6548N TDP wrong: '+(g6548&&g6548[3])); }
+  setModel25('DL380 G11'); pickCpuExact25('G6421N'); setv26('cpuq','2');
+  /single-socket-only/.test(chk26())?pass25('Gold 6421N (0 UPI links) is single-socket-only, like 5411N and the U parts'):fail25('6421N not caught as single-socket: '+chk26().slice(0,160));
+  setv26('cpuq','1');
+
+  // --- per-CPU memory speed cap ---
+  setModel25('DL380 G11'); pickCpuExact25('S4410Y');
+  (speeds26().join()==='4000') ?pass25('DL380 G11 + Silver 4410Y: the speed buttons offer only 4000 MT/s (its cap)'):fail25('S4410Y speeds wrong: '+speeds26().join());
+  setv26('dimmq','4'); setv26('dimm','32GB 4400 MT/s');
+  (/MEMORY SPEED/.test(chk26()) && /4000 MT\/s/.test(chk26()))?pass25('a 4400 module on the 4000-capped Silver 4410Y is a hard stop naming the 4000 ceiling'):fail25('S4410Y cap not enforced: '+chk26().slice(0,200));
+  pickCpuExact25('P8593Q');
+  (speeds26().indexOf(5600)>-1 && speeds26().indexOf(4000)>-1)?pass25('DL380 G11 + Platinum 8593Q: up to 5600 MT/s offered'):fail25('P8593Q speeds wrong: '+speeds26().join());
+
+  // --- DIMM kit part numbers (sales hint under the memory field, never on the slip) ---
+  setModel25('DL380 G11'); pickCpuExact25('G6448Y'); setv26('dimmq','4'); setv26('dimm','64GB 4800 MT/s');
+  (/P43331-B21/.test(d.getElementById('dimm-kit').textContent) && !/P43331/.test(d.getElementById('slip').textContent))
+    ?pass25('64GB on a 4th Gen CPU shows the DDR5-4800 kit P43331-B21 under the field and not on the slip')
+    :fail25('4th Gen kit hint wrong: "'+d.getElementById('dimm-kit').textContent+'"');
+  pickCpuExact25('P8592+'); setv26('dimm','64GB 5600 MT/s');
+  /P64707-B21/.test(d.getElementById('dimm-kit').textContent)?pass25('64GB on a 5th Gen CPU shows the DDR5-5600 kit P64707-B21'):fail25('5th Gen kit hint wrong: "'+d.getElementById('dimm-kit').textContent+'"');
+  setv26('dimm','256GB 5600 MT/s');
+  /P90554-B21/.test(d.getElementById('dimm-kit').textContent)?pass25('256GB 5600 kit is P90554-B21 (sp5 now offers 256GB)'):fail25('256GB 5th Gen kit hint wrong');
+  pickCpuExact25('G6448Y'); setv26('dimm','256GB 4800 MT/s');
+  (/P90050-B21/.test(d.getElementById('dimm-kit').textContent) && !/P90550/.test(d.getElementById('dimm-kit').textContent))
+    ?pass25('256GB 4800 kit is P90050-B21 (the DL380 doc\'s P90550-B21 is a typo; its DL360 sibling and the -F21 twin say P90050)'):fail25('256GB 4th Gen kit wrong: "'+d.getElementById('dimm-kit').textContent+'"');
+
+  // --- DL380 memory limits from the doc: 24SFF max 16 DIMMs; 256GB max 2 front cages; 128GB+ needs the HP fan kit ---
+  setModel25('DL380 G11'); pickCpuExact25('G6438Y+'); setv26('cpuq','2'); setv26('bays','24SFF'); setv26('dimmq','20'); setv26('dimm','64GB 4800 MT/s');
+  (/TOO MANY DIMMS/.test(chk26()) && d.getElementById('dimmq').max==='16')
+    ?pass25('DL380 G11 24SFF: more than 16 DIMMs is blocked (doc: 16 DIMMs maximum with 24SFF) and the qty field caps at 16')
+    :fail25('24SFF DIMM cap not enforced: max='+d.getElementById('dimmq').max+' '+chk26().slice(0,160));
+  setv26('dimmq','8'); setv26('dimm','256GB 4800 MT/s');
+  /256GB MEMORY/.test(chk26())?pass25('256GB DIMMs with the 24SFF chassis (3 front cages) are blocked'):fail25('256GB + 24SFF not blocked: '+chk26().slice(0,160));
+  setv26('bays','16SFF');
+  !/256GB MEMORY/.test(chk26())?pass25('...but 256GB with 16SFF (2 cages) is fine'):fail25('256GB + 16SFF wrongly blocked');
+  setv26('bays','8SFF'); setv26('dimm','128GB 4800 MT/s'); setv26('dimmq','4');
+  (/128GB memory modules require high performance fans/.test(chk26()))?pass25('128GB DIMMs require the high performance fan kit on the DL380 G11'):fail25('128GB fan rule missing: '+chk26().slice(0,200));
+  setv26('cpuq','1'); setv26('dimm','96GB 4800 MT/s'); setv26('dimmq','8');
+  !/96GB memory modules require high performance fans/.test(chk26())?pass25('...96GB alone does not force performance fans (128GB is the trigger where the doc is consistent)'):fail25('96GB wrongly forces fans');
+  setv26('dimmq','5');
+  /96GB MEMORY/.test(chk26())?pass25('5 x 96GB on one processor is flagged (4th Gen allows 8 or 16 per processor)'):fail25('96GB quantity rule missing');
+  setv26('dimmq','8'); !/96GB MEMORY/.test(chk26())?pass25('8 x 96GB on one processor is fine'):fail25('96GB qty 8 wrongly flagged');
+
+  // --- EE-LCC / HBM processors and large modules (both docs) ---
+  setModel25('DL360 G11'); pickCpuExact25('S4509Y'); setv26('dimmq','4'); setv26('dimm','96GB 4400 MT/s');
+  /96GB MEMORY/.test(chk26())?pass25('Silver 4509Y (EE-LCC die) cannot take 96GB modules'):fail25('4509Y + 96GB not blocked: '+chk26().slice(0,160));
+  setv26('dimm','128GB 4400 MT/s');
+  /128GB MEMORY/.test(chk26())?pass25('...nor non-3DS 128GB'):fail25('4509Y + 128GB not blocked');
+
+  // --- lists with part numbers ---
+  setModel25('DL380 G11');
+  { const psu=opts26('psu'), ctrl=opts26('ctrl'), flr=opts26('flr'), bat=opts26('bat');
+    (psu.length===5 && psu.every(function(o){return PN25.test(o);}))?pass25('DL380 G11 PSU picker: the 5 supplies its doc lists, each with its part number'):fail25('DL380 psu list wrong: '+psu.join(' | '));
+    (ctrl.filter(function(o){return PN25.test(o);}).length===7 && ctrl.some(function(o){return /^SR932i-p.*P47184-B21/.test(o);}) && ctrl.some(function(o){return /^MR408i-o.*P58335-B21/.test(o);}))
+      ?pass25('DL380 G11 controllers: SR932i-p, MR416i/MR216i -p/-o, MR408i-o and E208e-p, with part numbers'):fail25('DL380 ctrl list wrong: '+ctrl.join(' | '));
+    (flr.length===11 && flr.every(function(o){return PN25.test(o);}) && flr.some(function(o){return /^BCM57608.*P73114-B21\)$/.test(o);}))
+      ?pass25('DL380 G11 OCP 3.0 list: the 11 cards its doc lists (BCM57608 100Gb included, no "Gen12" tag)'):fail25('DL380 flr list wrong: '+flr.join(' | '));
+    (bat.length===4 && bat.some(function(o){return /P02377-B21/.test(o);}) && bat.some(function(o){return /P01366-B21/.test(o);}))
+      ?pass25('DL380 G11 battery list: 96W battery, hybrid capacitor(s), or none'):fail25('DL380 bat list wrong: '+bat.join(' | ')); }
+  setModel25('DL360 G11');
+  { const psu=opts26('psu'), flr=opts26('flr');
+    (psu.length===7 && psu.some(function(o){return /^500W.*865408-B21/.test(o);}))?pass25('DL360 G11 PSU picker: 7 supplies incl. the 500W (4LFF only)'):fail25('DL360 psu list wrong: '+psu.join(' | '));
+    (flr.length===11)?pass25('DL360 G11 OCP 3.0 list: 11 cards'):fail25('DL360 flr list wrong: '+flr.length); }
+  // the slip still carries no part numbers for any of it
+  setv26('psu','800W Flex Slot Platinum (P38995-B21)'); setv26('psuq','2'); setv26('ctrl','MR416i-p — x16 lanes, 8GB cache (P47777-B21)');
+  setv26('bat','96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21; stand-alone P68039-B21)');
+  { const sl=d.getElementById('slip').textContent;
+    (!PN25.test(sl) && /2x 800W Flex Slot Platinum PS/.test(sl) && /MR416i-p \+ 96W Smart Storage Lithium-ion battery with 145mm cable/.test(sl))
+      ?pass25('slip: controller + battery + PSU named without any part number'):fail25('slip carries a part number or lost a name: '+sl.slice(0,300)); }
+  setv26('psu',''); setv26('ctrl',''); setv26('bat','');
+
+  // --- bays: DL360 10SFF (8+2) and EDSFF chassis on both ---
+  { const mods=[['DL360 G11',['4LFF','8SFF','10SFF','20EDSFF']],['DL380 G11',['8LFF','12LFF','8SFF','16SFF','24SFF','12EDSFF','36EDSFF']]];
+    mods.forEach(function(t){
+      setModel25(t[0]);
+      const btn=[...d.querySelectorAll('#bays-btns button')].map(function(b){return b.textContent.trim();});
+      t[1].every(function(b){return btn.indexOf(b)>-1;})?pass25(t[0]+': bay buttons '+t[1].join('/')):fail25(t[0]+' bay buttons wrong: '+btn.join('/'));
+    }); }
+  setModel25('DL360 G11'); setv26('bays','20EDSFF');
+  /20 bays/.test(d.getElementById('bay-note').textContent)?pass25('20EDSFF counts as 20 drive bays'):fail25('EDSFF bay count wrong: '+d.getElementById('bay-note').textContent);
+  setv26('ctrl','MR416i-p — x16 lanes, 8GB cache (P47777-B21)');
+  /EDSFF CONTROLLER/.test(chk26())?pass25('an internal RAID controller on the EDSFF chassis is blocked (none exists for it)'):fail25('EDSFF + controller not blocked: '+chk26().slice(0,160));
+  setv26('ctrl','E208e-p — external HBA, 8 lanes, no cache (804398-B21)');
+  !/EDSFF CONTROLLER/.test(chk26())?pass25('...the external E208e-p HBA is allowed'):fail25('E208e-p wrongly blocked on EDSFF');
+  setv26('ctrl','');
+  setModel25('DL380 G11'); setv26('bays','12EDSFF'); d.getElementById('bp1').checked=true; fire(d.getElementById('bp1'),'change');
+  /BACKPLANE MISMATCH/.test(chk26())?pass25('DL380 G11 EDSFF is NVMe-only: a SAS/SATA backplane is blocked'):fail25('DL380 EDSFF backplane not blocked: '+chk26().slice(0,160));
+  pickCpuExact25('P8581V'); setv26('cpuq','1');
+  /cannot be selected with the EDSFF chassis/.test(chk26())?pass25('Platinum 8581V is not offered on the DL380 G11 EDSFF chassis'):fail25('8581V + EDSFF not blocked');
+  setv26('bays','');
+
+  // --- fans / heatsinks ---
+  setModel25('DL380 G11'); setv26('dimm',''); setv26('dimmq',''); pickCpuExact25('G6438Y+'); setv26('cpuq','2');
+  d.getElementById('fanq').value==='4'?pass25('DL380 G11 with two processors: 4 standard fans (the doc has no 2P standard kit; only the 6-fan HP kit differs)'):fail25('DL380 G11 2P standard fans wrong: '+d.getElementById('fanq').value);
+  setModel25('DL360 G11'); pickCpuExact25('G6426Y'); setv26('cpuq','1');
+  hsState25()==='Std Heatsinks'?pass25('DL360 G11 + 185W Gold 6426Y: standard heatsink'):fail25('DL360 185W heatsink wrong: '+hsState25());
+  d.getElementById('bp2').checked=true; fire(d.getElementById('bp2'),'change');
+  (hsState25()==='Perf Heatsinks' && /NVMe \/ 24G SAS drives require the performance heatsink/.test(chk26()))?pass25('DL360 G11: NVMe forces the performance heatsink even at 185W (doc)'):fail25('DL360 NVMe heatsink rule missing: '+hsState25());
+  d.getElementById('bp1').checked=true; fire(d.getElementById('bp1'),'change');
+  setv26('dimmq','4'); setv26('dimm','256GB 4800 MT/s');
+  (hsState25()==='Perf Heatsinks' && /256GB memory modules require the performance heatsink/.test(chk26()))?pass25('DL360 G11: 256GB DIMMs require the performance heatsink'):fail25('DL360 256GB heatsink rule missing: '+chk26().slice(0,200));
+  setv26('dimm',''); setv26('dimmq','');
+  pickCpuExact25('P8580'); setv26('cpuq','1');
+  /LIQUID COOLING REQUIRED/.test(chk26())?pass25('DL360 G11: a single 350W CPU needs liquid cooling (air only covers up to 300W)'):fail25('DL360 350W liquid rule missing: '+chk26().slice(0,200));
+  { const RIS26=grab25('RISERS')||{};
+    (RIS26['DL360 G11']||[]).some(function(k){return /P75407-B21/.test(k.n);})?pass25('DL360 G11 riser kits include the field-upgrade primary riser P75407-B21'):fail25('P75407 riser missing');
+    (RIS26['DL380 G11']||[]).some(function(k){return /Tertiary.*P48804-B21/.test(k.n);})?pass25('DL380 G11 tertiary riser carries its part number P48804-B21'):fail25('P48804 tertiary name missing'); }
 }

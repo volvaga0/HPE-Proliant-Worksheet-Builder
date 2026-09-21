@@ -2795,3 +2795,53 @@ the column taller than the window (very short windows) the sticky `top` goes neg
 once the page scrolls. Tablet/phone (<=980px) and print are unchanged (normal flow; print uses !important to drop the
 inline max/min-height). jsdom can not lay out, so QA checks the CSS/JS wiring as text like the earlier sticky tests; the
 layout itself was checked in the browser pane at 1360x720, 1360x1270, 1360x520 and 432x800.
+
+## 2026-09-21 — DL360 G11 / DL380 G11 audit against the CURRENT QuickSpecs
+
+Bread-and-butter systems, so audited section by section. Sources: **DL360 Gen11 V48 and DL380 Gen11 V47 (both 08-Sep-2026)**,
+downloaded from hpe.com with the user's OK for those two PDFs (the cached copies were V38 Nov-2025 and V23 Jul-2024 —
+DL380 was 24 versions behind). Text in `quickspecs-cache/` (`DL360-G11.txt`, `DL380-G11.txt`; the old ones kept as `*-STALE.txt`
+for SKUs later versions dropped). `pdftotext -raw` gives clean per-CPU tables and inline part numbers; `-layout` scrambles them.
+
+**CPU.** `cpuAllow` on both = the 66 SKUs the docs list (current orderable list plus 8 SKUs only the older doc still had —
+refurb stock — plus 6458Q which the DL360 thermal rules still name). Keeps out the 4-socket H parts (8450H/8460H/8468H/6434H)
+and the DL320/ML-only 5412U/5512U. **Gold 6548N is 250W, not 300W** (both ordering lists and the DL360 feature table; the DL380
+feature table prints 300W — typo). Single-socket parts now also include Gold 6421N and 5411N (0 UPI links in both tables).
+**Memory speed is per-CPU** (`CPU_MEM_MAX`, 69 CPUs, docs agree on every one): Silver 4410Y/4416+ and Gold 5418N 4000, most
+Gold 5 / Silver 4400, most Gold 6 / Platinum 4th Gen 4800, 5th Gen Gold 6 5200, 8558P/8570/8580/8592+/8593Q/8562Y+/8568Y+ 5600.
+`sp4` used to be a flat 4800 (wrong for ~20 of its CPUs). The speed buttons narrow to what the picked CPU runs and a higher speed
+is a hard stop ("MEMORY SPEED … runs memory at up to N MT/s"); applies to every sp4/sp5 model.
+
+**Memory.** `sp5` now offers 256GB (P90554-B21) and the per-socket ceiling for both models is 4TB (was the shared sp5 2TB).
+DDR5 SmartMemory kit part numbers are shown under the memory field (`DIMM_KITS`, sales side only — not on the slip):
+4800: 16GB P43322, 32GB P43328, 64GB P43331, 96GB P66675, 128GB P69974, 256GB P90050; 5600: 16GB P64705, 32GB P64706,
+64GB P64707, 96GB P64708, 128GB P69976, 256GB P90554 (all -B21; -F21 = factory). **Doc typos not copied:** DL380 prints the
+256GB 4800 kit as P90550-B21 (DL360, with its matching -F21, says P90050); DL360 prints the 128GB 5600 -F21 as P66976.
+Rules from the memory notes: even DIMM quantity (verify); 96GB quantities (4800: 8/16 per CPU; 5600: 1P 1/6/8/12/16, 2P
+2/12/16/24/32); 96GB and non-3DS 128GB not with the EE-LCC parts 4509Y/4510/3508U or the HBM 9462; **DL380: 24SFF is limited to
+16 DIMMs, 256GB DIMMs limit the server to 2 front cages (so not 24SFF/12LFF), 128GB+ needs the High-Performance fan kit** (the doc
+also says "96GB or higher" once; 128GB used, noted); **DL360: 256GB needs the performance heatsink**, plus a verify note with the
+1DPC/approval/DLC conditions.
+
+**Chassis, cages, backplanes.** Added the missing chassis: **DL360 10SFF (8SFF + 2SFF cage), 20EDSFF; DL380 12EDSFF/36EDSFF**
+(`bayCapacity()` now counts EDSFF). EDSFF is NVMe-only (DL380 added to `BACKPLANE_EDSFF_NVME_ONLY`), has no internal RAID
+controller (new `edsffNoCtrl` check; external E208e-p allowed), and DL380 excludes 8581V/8558U on it. DL380 rear options gained
+2LFF/4LFF rear (LFF riser cages). Cage/backplane/midtray/media-bay kit part numbers are in the notes (DL380: P48813 x1 Tri-Mode,
+P48814 x4 Premium, P50728 UMB, P48811 stacking, P48812 side-by-side, P48809 4LFF mid, P48815/P48816 8SFF mid, P48810 2SFF rear,
+P48823/P51095/P48826 2LFF rear; DL360: P48895 x1, P48896 x4, P48899 2SFF, P48926 UMB, P48928, P48914, cable kits P48909/P52416/P48910).
+DL380 doc's chassis text mentions an "8SFF SAS/SATA" cage that has no part number in its ordering list — noted, not modelled.
+
+**Power / storage / network part numbers** (picker labels; the slip strips them): PSU lists (DL380 5, DL360 7 — incl. the DL360 500W
+limits), controller lists with PNs (SR932i-p P47184, MR416i-p/-o P47777/P47781, MR216i-p/-o P47785/P47789, MR408i-o P58335, E208e-p
+804398), a per-model battery list (96W P01366/P68039, hybrid capacitor P02377, 16W P65038 on DL380), and the 11 OCP 3.0 cards each doc lists
+(shared `OCP_CARDS` corrected: BCM57608 is not "Gen12"-only, E810-XXVDA4 is 10/25Gb). The slip now strips the battery label too.
+
+**Cooling.** DL380 G11 standard fans are 4 for any CPU count (`two` was 6; the doc has no 2P standard kit — only the 6-fan HP kit);
+DL360 G11: NVMe/24G SAS and EDSFF and 256GB DIMMs require the performance heatsink, a CPU over 300W needs liquid cooling (single
+300W air exception kept). Riser fixes: DL380 slot lengths, tertiary riser part number P48804, DL360 field-upgrade primary riser P75407.
+
+**Not done for these two (candidates for the next pass):** PCIe stand-up NIC/HBA/GPU card lists with part numbers (CARDLIST is
+generic), rails/bezel/iLO/TPM option part numbers, the 100Gb-NIC/25°C and per-slot GPU limits, per-position rear-cage quantities
+(the tool has one rear bay location), DLC module options, NS204i-u boot device kits, and the DL380 12EDSFF/36EDSFF bundle
+requirements. Other Gen11 models (DL320, DL325, DL345, DL365, DL385, DL560, ML) still use the older data — the per-CPU memory
+speeds and DIMM rules generalise, the per-model lists do not.
