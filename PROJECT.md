@@ -2845,3 +2845,57 @@ generic), rails/bezel/iLO/TPM option part numbers, the 100Gb-NIC/25°C and per-s
 (the tool has one rear bay location), DLC module options, NS204i-u boot device kits, and the DL380 12EDSFF/36EDSFF bundle
 requirements. Other Gen11 models (DL320, DL325, DL345, DL365, DL385, DL560, ML) still use the older data — the per-CPU memory
 speeds and DIMM rules generalise, the per-model lists do not.
+
+## DL360 G11 / DL380 G11 — second pass: rear-cage positions, rails/bezel/iLO/TPM, stand-up cards, NS204i-u (2026-09-21, build .9)
+
+Same sources as the first pass (DL360 Gen11 V48, DL380 Gen11 V47 — `quickspecs-cache/DL360-G11.txt`, `DL380-G11.txt`;
+raw-mode text for the tables). GPUs and liquid cooling were declared out of scope by the user and are not touched.
+
+**Rear cages, per position (DL380).** The tool used to treat the whole rear as one bay location ("REAR CONFLICT: one rear-cage
+location"). From the CTO drive-cage table + the kit notes the DL380 has three riser positions and one mid-tray bay:
+2SFF U.3 cage P48810 in the primary or secondary position (8SFF/24SFF chassis only; the QuickSpecs require the x8/x16/x8 secondary
+riser P48802 with it, which needs CPU 2, and one cage blocks Slots 4-5 of that riser), the 2SFF stacking cage P48811 in the
+tertiary position (the rear-view diagram shows a 2SFF cage there, and 2xP48810 + 1xP48811 = the table's "3 optional" on the SFF
+chassis), and on LFF chassis 2LFF cages: primary P48823, secondary low-profile P51095, or one secondary-and-tertiary cage P48826
+(secondary/tertiary risers cannot be selected with it). Chassis totals from the table: SFF 3x2SFF; LFF 1x2SFF + 2x2LFF;
+EDSFF 1x2SFF. New rule keys `rearCages` (kit, position, chassis class, riser exclusions) + `rearMax`; `rearCageChecks()` enforces
+one cage per position, chassis eligibility, the totals, one mid-tray, the riser exclusions and the P48802 requirement. Rear
+picker labels carry the position + PN; the slip keeps the position ("2SFF rear, primary riser") and drops the PN. The x1 Tri-Mode
+8SFF mid-tray (P48815) no longer triggers the SR932i-p / bundle check — only the x4 (P48816) does (that is what the doc says).
+**Doc quirk:** P51095 is named "LP Secondary Riser Cage" but its note says "rear Primary Riser position" — treated as secondary
+(the secondary riser's own note says "2LFF Secondary Cage selected -> Secondary Riser cannot be selected"). The 2SFF cage on the
+LFF/EDSFF tertiary position is P48811 by elimination — no separate note names it. DL360 G11 has no rear drive bays: its old
+"2x M.2 (dual uFF) rear" entry (really the NS204i-u) is gone, `rear:[]`.
+
+**Rails / CMA / bezel / iLO / TPM (sales hints under the fields, never on the slip).** Rails: both models P52341-B21 Easy Install
+Rail 3 Kit; the DL360 4LFF and 20EDSFF chassis take the Rail 5 Kit P52343-B21 instead (8SFF/10SFF = Rail 3); CMA DL380 P22020-B21,
+DL360 P70741-B21 (CMA 4) or P26489-B21; the rail kit does not include the CMA. Bezel: DL380 Gen11 2U Bezel Kit P50400-B21 + Bezel
+Lock Kit 875519-B21 (needs the bezel kit; new check for a bezel key with no bezel); **the DL360 QuickSpecs list no bezel part number
+at all** — the hint says so rather than guessing. iLO: Advanced 1-server licence 512485-B21 (1 yr) / BD505A (3 yr), electronic
+E6U59ABE / E6U64ABE — sourced from the DL380 doc and applied to the DL360 too (its doc says the licences are for all ProLiant
+servers but prints no table). Gen11 QuickSpecs list iLO Advanced only, so picking "Advanced Premium" gets a verify. **TPM: no
+option part number exists on Gen11 — TPM 2.0 is embedded** (both docs; already handled by `tpmKind`, the info check says "no part
+number to order").
+
+**Stand-up cards.** New per-model `cards` list (picker labels with PNs): 17 NIC/InfiniBand + 8 Fibre Channel HBAs + 6 NS204i-u,
+DL380 also the NVIDIA crypto card S2A69A. Ethernet (1Gb P21106/P51178; 10Gb P26253/P26259; 10/25Gb P08443/P08458/P26262/P26264/
+P87940/P21109/P42044; 100Gb P73111/P25960/P21112), InfiniBand P45642-H23/P65333-H21/P45641-H24, FC R2E08A/R2E09A/R2J62A/R2J63A/
+R7N86A/R7N87A/R7N77A/R7N78A. The slip PN pattern now also strips suffix-less SKUs (`[RS]\d[A-Z0-9]{3}A`). Rules from the notes:
+100/200/400Gb adapters (PCIe or OCP) need performance fans; DL360 also the performance heatsink and no 256GB DIMMs with any of
+them; DL380 100GbE: 25°C ambient + x16 slots note, 256GB excluded only by InfiniBand, InfiniBand not on 24SFF/12LFF and needs the
+OCP2 x16 kit P48828; DL360 4-port cards not in Slot 2, 1 without / 2 with a secondary riser (verify). 500W-PSU/x16-NIC rule stays a
+note only (card labels carry no lane width). **Left out:** the DL380 NVIDIA/Slingshot/storage-offload cards (Cray-only or DPU), the
+per-config ambient tables for 100Gb (they are liquid-cooling driven).
+
+**NS204i-u.** Three devices — Gen11 P48183, v2 960GB P81160, v2 960GB SED P81162 — each internal or hot-plug, as card-picker
+entries (6 per model). DL380: Internal Cable Kit P52152; the externally accessible mounting also needs FIO bundle kit P54542; takes no
+PCIe slot. DL360: Internal Cable Kit P48920 or Rear Cable Kit P54702 (never both); the rear kit replaces the Slot 2 cage (counted as
+a used slot), cannot be used with the full-height secondary riser P48901 (the LP one P48903 keeps Slots 1 and 3); any NS204i-u needs
+the performance heatsink (or liquid cooling). One per server (stop). I did not state the drives' size for P48183 — the DL360 doc's
+"2x 480GB M.2 RAID 1" note is not tied to a device and v2 is 960GB.
+
+**QA harness:** the data-table readers now eval the MODELS literal with `DATA_PRELUDE` (the shared `G11_*`/`ns204Cards`/
+`DL380G11_CAGES` code declared above it). 725 ok / 0 FAIL.
+
+**Still not done:** DL380 EDSFF-bundle rules, the DL380 chassis-intrusion kit P48922, DL360 cable-kit requirements per backplane,
+Cray/DPU cards, and the other Gen11 models. `-001` spares are not in QuickSpecs.

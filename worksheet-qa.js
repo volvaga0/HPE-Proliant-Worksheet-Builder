@@ -9,6 +9,9 @@ const HTML_PATH=process.argv[2]
      .find(p=>fs.existsSync(p))
   || path.join(__dirname,'index.html');
 const html=fs.readFileSync(HTML_PATH,'utf8');
+// the MODELS literal references the shared constants + helper declared just above it (G11 card lists,
+// NS204i-u builder, DL380 cage table); the data-table readers below eval that literal in isolation, so hand them the same code
+const DATA_PRELUDE=html.slice(html.indexOf('var G11_NIC_CARDS='),html.indexOf('var MODELS=['));
 console.log('testing '+HTML_PATH+'\n');
 
 const errors=[];
@@ -877,11 +880,15 @@ setTimeout(()=>{
     ?pass3('DL380 G10: "4LFF midtray" accepted (2U LFF chassis)'):fail3('DL380 midtray wrongly blocked');
   rearTest('DL380 G10','8SFF midtray').includes('not a rear or mid-tray option on DL380 G10')
     ?pass3('DL380 G10: "8SFF midtray" blocked (Gen10 mid cage is 4LFF)'):fail3('DL380 G10 8SFF midtray not blocked');
-  setModel3('DL360 G11');
+  setModel3('DL380 G11');
   const rOpts=[...d.querySelectorAll('#rearopts option')].map(o=>o.value);
-  (rOpts.length===1 && rOpts[0]==='2x M.2 (dual uFF) rear')
-    ?pass3('rear datalist is per-model (DL360 G11: only the NS204i-u M.2 rear boot device, corrected 2026-09-15 — no 1SFF/2SFF rear cage exists on this chassis)')
+  (rOpts.length===9 && rOpts.every(o=>/rear|midtray/.test(o)) && rOpts.some(o=>/primary riser \(P48810-B21\)/.test(o)))
+    ?pass3('rear datalist is per-model (DL380 G11: the nine cage kits, one per riser position plus the mid-tray options, with part numbers)')
     :fail3('rear datalist not filtered: '+rOpts.join(', '));
+  setModel3('DL360 G11');
+  (d.getElementById('add-rear').disabled && /No rear or mid-tray drive bays/.test(d.getElementById('rear-note').textContent))
+    ?pass3('DL360 G11: no rear or mid-tray bays (the 1U chassis has none) — the NS204i-u boot device is a card-list option, no longer a rear line')
+    :fail3('DL360 G11 rear note wrong: '+d.getElementById('rear-note').textContent);
 
   // --- 4-socket dense boxes: SFF only, no rear/mid-tray cage ---
   setModel3('DL560 G10');
@@ -2295,7 +2302,7 @@ function runRound10(){
       if(c===open)depth++;
       else if(c===close){depth--; if(!depth){j++;break;}}
     }
-    try{ return eval('('+html.slice(i,j)+')'); }catch(e){ return null; }
+    try{ return eval(DATA_PRELUDE+'('+html.slice(i,j)+')'); }catch(e){ return null; }
   }
   const MODELS=grab('MODELS'), CPUS=grab('CPUS'), RISERS=grab('RISERS'),
         GEN_DEFAULTS=grab('GEN_DEFAULTS'), PLATFORM_LABELS=grab('PLATFORM_LABELS'),
@@ -2452,7 +2459,7 @@ function runRound11(){
       if(c===open)depth++;
       else if(c===close){depth--; if(!depth){j++;break;}}
     }
-    try{ return eval('('+html.slice(i,j)+')'); }catch(e){ return null; }
+    try{ return eval(DATA_PRELUDE+'('+html.slice(i,j)+')'); }catch(e){ return null; }
   }
   const MODELS=grab('MODELS'), CPUS=grab('CPUS'), MEM_PER_SOCKET=grab('MEM_PER_SOCKET'),
         GEN_DEFAULTS=grab('GEN_DEFAULTS');
@@ -3149,7 +3156,7 @@ function runRound15(){
       if(c===open)depth++;
       else if(c===close){depth--; if(!depth){j++;break;}}
     }
-    try{ return eval('('+html.slice(i,j)+')'); }catch(e){ return null; }
+    try{ return eval(DATA_PRELUDE+'('+html.slice(i,j)+')'); }catch(e){ return null; }
   }
   const MODELS15=grab15('MODELS'), GEN_DEFAULTS15=grab15('GEN_DEFAULTS');
   const rulesFor15=function(m){
@@ -3808,7 +3815,7 @@ function runRound25(){
       if(c===open)depth++;
       else if(c===close){depth--; if(!depth){j++;break;}}
     }
-    try{ return eval('('+html.slice(i,j)+')'); }catch(e){ return null; }
+    try{ return eval(DATA_PRELUDE+'('+html.slice(i,j)+')'); }catch(e){ return null; }
   }
   const MODELS25=grab25('MODELS')||[];
   const provRe=/\b20\d\d-\d\d-\d\d\b|sourced|this pass|confirmed absent|direct search|mirror|cached (?:doc|copy)|verified:true|cpuAllow|hsSku|BACKPLANE_|QuickSpecs a\d|stale-source/i;
@@ -4117,4 +4124,210 @@ function runRound25(){
   { const RIS26=grab25('RISERS')||{};
     (RIS26['DL360 G11']||[]).some(function(k){return /P75407-B21/.test(k.n);})?pass25('DL360 G11 riser kits include the field-upgrade primary riser P75407-B21'):fail25('P75407 riser missing');
     (RIS26['DL380 G11']||[]).some(function(k){return /Tertiary.*P48804-B21/.test(k.n);})?pass25('DL380 G11 tertiary riser carries its part number P48804-B21'):fail25('P48804 tertiary name missing'); }
+
+  // ===== DL360 / DL380 Gen11: rear-cage positions, rail / bezel / iLO hints, stand-up cards, NS204i-u (2026-09-21) =====
+  const reset27=function(){d.getElementById('clear').click();};
+  const addRear27=function(val){
+    d.getElementById('add-rear').disabled=false;
+    d.getElementById('add-rear').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    const rows=d.querySelectorAll('#rear-lines [data-k=v]'),inp=rows[rows.length-1];
+    inp.value=val;fire(inp,'input');return inp;};
+  const addLine27=function(btn,boxSel,val,q){
+    d.getElementById(btn).dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    const rows=d.querySelectorAll(boxSel+' .line'),row=rows[rows.length-1];
+    const nm=row.querySelector('[data-k=name]');nm.value=val;fire(nm,'input');
+    if(q){const qq=row.querySelector('[data-k=q]');qq.value=q;fire(qq,'input');}
+    return row;};
+  const addCard27=function(val,q){return addLine27('add-card','#cards',val,q);};
+  const addRiser27=function(val,q){return addLine27('add-riser','#risers',val,q);};
+  const slip27=function(){return d.getElementById('slip').textContent;};
+  const fanState27=function(){const c=d.querySelector('input[name="fan"]:checked');return c?c.value:'';};
+  const CAGE={
+    p2sff:'2SFF rear, primary riser (P48810-B21)', s2sff:'2SFF rear, secondary riser (P48810-B21)', t2sff:'2SFF rear, tertiary riser (P48811-B21)',
+    p2lff:'2LFF rear, primary riser (P48823-B21)', s2lff:'2LFF rear, secondary riser, low-profile (P51095-B21)', st2lff:'2LFF rear, secondary and tertiary risers (P48826-B21)',
+    m4lff:'4LFF midtray (P48809-B21)', m8x1:'8SFF midtray, x1 Tri-Mode (P48815-B21)', m8x4:'8SFF midtray, x4 Tri-Mode (P48816-B21)'};
+
+  // --- rear cages: one per riser position, chassis class decides which kits exist ---
+  reset27(); setModel25('DL380 G11'); setv26('bays','24SFF');
+  addRear27(CAGE.p2sff); addRear27(CAGE.s2sff); addRear27(CAGE.t2sff);
+  (!/REAR CONFLICT|REAR NOT SUPPORTED/.test(chk26()))?pass25('DL380 G11 24SFF: 2SFF cages in the primary, secondary and tertiary positions are accepted together (6SFF rear)'):fail25('DL380 3-position rear wrongly blocked: '+chk26().slice(0,240));
+  { const sl=slip27();
+    (/24SFF \+ 2SFF rear, primary riser \+ 2SFF rear, secondary riser \+ 2SFF rear, tertiary riser/.test(sl) && !PN25.test(sl))
+      ?pass25('slip: each rear cage keeps its riser position and drops its part number'):fail25('slip rear line wrong: '+sl.slice(0,200)); }
+  /30 bays/.test(d.getElementById('bay-note').textContent)
+    ?pass25('24SFF + three 2SFF rear cages = 30 drive bays'):fail25('bay count wrong: '+d.getElementById('bay-note').textContent);
+  addRear27('2SFF rear');
+  /at most 3 2SFF rear cages/.test(chk26())?pass25('a fourth 2SFF rear cage (typed) on the SFF chassis is blocked — the table allows 3'):fail25('4th 2SFF not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G11'); setv26('bays','24SFF');
+  addRear27(CAGE.p2sff); addRear27(CAGE.p2sff);
+  /Two rear cages are in the primary riser position/.test(chk26())?pass25('two cages in the same riser position are blocked'):fail25('same-position cages not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G11'); setv26('bays','24SFF'); addRear27(CAGE.p2lff);
+  /REAR NOT SUPPORTED.*8LFF and 12LFF chassis only/.test(chk26())?pass25('a 2LFF rear cage on the 24SFF chassis is blocked (LFF chassis only)'):fail25('2LFF on SFF not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G11'); setv26('bays','12LFF'); addRear27(CAGE.p2sff);
+  /REAR NOT SUPPORTED.*8SFF and 24SFF chassis only/.test(chk26())?pass25('the 2SFF primary/secondary riser cage on a 12LFF chassis is blocked (SFF chassis only)'):fail25('2SFF riser cage on LFF not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G11'); setv26('bays','12LFF'); addRear27(CAGE.p2lff); addRear27(CAGE.s2lff);
+  (!/REAR CONFLICT|REAR NOT SUPPORTED/.test(chk26()))?pass25('DL380 G11 12LFF: primary + secondary 2LFF cages (4LFF rear) accepted'):fail25('4LFF rear wrongly blocked: '+chk26().slice(0,240));
+  /uses up every PCIe slot/.test(chk26())?pass25('a 2LFF rear cage notes that it uses up its riser position\'s slots'):fail25('2LFF slot note missing');
+  addRear27('2LFF rear');
+  /at most 2 2LFF rear cages/.test(chk26())?pass25('a third 2LFF rear cage is blocked (the table allows 2)'):fail25('3rd 2LFF not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G11'); setv26('bays','12LFF'); addRear27(CAGE.s2lff); addRear27(CAGE.st2lff);
+  /Two rear cages are in the secondary riser position/.test(chk26())?pass25('the secondary-and-tertiary 2LFF cage collides with a secondary-position cage'):fail25('ST vs S not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G11'); setv26('bays','12LFF'); addRear27(CAGE.s2lff);
+  addRiser27('2U x16/x16/x16 Secondary Riser Kit (P51083-B21)');
+  /REAR \/ RISER CONFLICT.*secondary riser position/.test(chk26())?pass25('a 2LFF secondary cage with a secondary riser kit is blocked (the QuickSpecs rule)'):fail25('S cage + secondary riser not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G11'); setv26('bays','12LFF'); addRear27(CAGE.st2lff);
+  addRiser27('2U x16/x16 Tertiary Riser Kit (P48804-B21)');
+  /REAR \/ RISER CONFLICT.*tertiary riser position/.test(chk26())?pass25('the secondary-and-tertiary 2LFF cage with a tertiary riser is blocked'):fail25('ST cage + tertiary riser not blocked: '+chk26().slice(0,240));
+  // 2SFF riser cage needs the x8/x16/x8 secondary riser (and so CPU 2)
+  reset27(); setModel25('DL380 G11'); setv26('bays','24SFF'); setv26('cpuq','1'); addRear27(CAGE.s2sff);
+  /x8\/x16\/x8 Secondary Riser Kit \(P48802-B21\).*second processor, but one is selected/.test(chk26())?pass25('a 2SFF riser cage without the P48802 secondary riser is flagged (and the 2nd processor it needs)'):fail25('P48802 requirement missing: '+chk26().slice(0,240));
+  addRiser27('2U x8/x16/x8 Secondary Riser Kit (P48802-B21)');
+  (!/require the x8\/x16\/x8 Secondary Riser/.test(chk26()) && /blocks Slots 4 and 5/.test(chk26()))?pass25('...with P48802 fitted the flag clears and the "blocks Slots 4 and 5" note appears'):fail25('P48802 present handling wrong: '+chk26().slice(0,240));
+  // mid-tray: one location; only the x4 cage needs SR932i-p on an 8SFF build
+  reset27(); setModel25('DL380 G11'); setv26('bays','8SFF'); addRear27(CAGE.m4lff); addRear27(CAGE.m8x1);
+  /More than one mid-tray cage/.test(chk26())?pass25('two mid-tray cages are blocked — one mid-tray bay'):fail25('two midtrays not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G11'); setv26('bays','8SFF'); addRear27(CAGE.m8x1);
+  !/MIDTRAY CONTROLLER/.test(chk26())?pass25('the x1 Tri-Mode 8SFF mid-tray does not trigger the SR932i-p / bundle requirement'):fail25('x1 midtray wrongly flagged');
+  reset27(); setModel25('DL380 G11'); setv26('bays','8SFF'); addRear27(CAGE.m8x4);
+  /MIDTRAY CONTROLLER/.test(chk26())?pass25('the x4 8SFF mid-tray on an 8SFF build still requires SR932i-p or the bundle'):fail25('x4 midtray not flagged: '+chk26().slice(0,240));
+  // EDSFF: only the tertiary 2SFF cage, one at most
+  reset27(); setModel25('DL380 G11'); setv26('bays','12EDSFF'); addRear27(CAGE.p2sff);
+  /REAR NOT SUPPORTED/.test(chk26())?pass25('EDSFF chassis: the primary/secondary 2SFF riser cage is not offered'):fail25('EDSFF P48810 not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G11'); setv26('bays','12EDSFF'); addRear27(CAGE.t2sff);
+  (!/REAR CONFLICT|REAR NOT SUPPORTED/.test(chk26()))?pass25('EDSFF chassis: one 2SFF rear cage (tertiary) accepted'):fail25('EDSFF T cage wrongly blocked: '+chk26().slice(0,240));
+  addRear27('2SFF rear');
+  /at most 1 2SFF rear cage/.test(chk26())?pass25('EDSFF chassis: a second 2SFF rear cage is blocked'):fail25('EDSFF 2nd 2SFF not blocked: '+chk26().slice(0,240));
+  // typed lines that carry no position are still accepted (and counted)
+  reset27(); setModel25('DL380 G11'); setv26('bays','24SFF'); addRear27('2SFF rear'); addRear27('4LFF midtray');
+  (!/REAR CONFLICT|REAR NOT SUPPORTED/.test(chk26()))?pass25('a hand-typed "2SFF rear" + "4LFF midtray" still passes (no position to conflict)'):fail25('typed rear wrongly blocked: '+chk26().slice(0,240));
+  // DL360 G11 has no rear bays at all
+  reset27(); setModel25('DL360 G11'); addRear27('2SFF rear');
+  /NO REAR BAYS/.test(chk26())?pass25('DL360 G11: any rear line is blocked — 1U, no rear or mid-tray bays'):fail25('DL360 G11 rear not blocked');
+
+  // --- rail / bezel / iLO hints ---
+  reset27(); setModel25('DL380 G11');
+  { const rn=d.getElementById('rail-note').textContent;
+    (/Easy Install Rail 3 Kit P52341-B21/.test(rn) && /P22020-B21/.test(rn) && !/P52343-B21/.test(rn))?pass25('DL380 G11 rail hint: Easy Install Rail 3 Kit P52341-B21 and the 2U cable management arm P22020-B21'):fail25('DL380 rail note wrong: '+rn); }
+  reset27(); setModel25('DL360 G11'); setv26('bays','4LFF');
+  { const rn=d.getElementById('rail-note').textContent;
+    (/Rail 5 Kit P52343-B21/.test(rn) && !/P52341-B21/.test(rn) && /P70741-B21/.test(rn) && /P26489-B21/.test(rn))?pass25('DL360 G11 4LFF rail hint: Rail 5 Kit P52343-B21 (not Rail 3), both CMAs'):fail25('DL360 4LFF rail note wrong: '+rn); }
+  setv26('bays','8SFF');
+  { const rn=d.getElementById('rail-note').textContent;
+    (/Rail 3 Kit P52341-B21/.test(rn) && !/P52343-B21/.test(rn))?pass25('DL360 G11 8SFF rail hint: Rail 3 Kit P52341-B21'):fail25('DL360 8SFF rail note wrong: '+rn); }
+  setv26('bays','20EDSFF');
+  /Rail 5 Kit P52343-B21/.test(d.getElementById('rail-note').textContent)?pass25('DL360 G11 20EDSFF rail hint: Rail 5 Kit'):fail25('DL360 EDSFF rail note wrong: '+d.getElementById('rail-note').textContent);
+  setv26('bays','');
+  { const rn=d.getElementById('rail-note').textContent;
+    (/P52341-B21 \(8SFF \/ 10SFF\)/.test(rn) && /P52343-B21 \(4LFF \/ 20EDSFF\)/.test(rn))?pass25('DL360 G11 rail hint with no bay chosen lists both kits with the chassis each fits'):fail25('DL360 blank-bay rail note wrong: '+rn); }
+  reset27(); setModel25('DL380 G11');
+  { const bn=d.getElementById('bezel-note').textContent;
+    (/P50400-B21/.test(bn) && /875519-B21/.test(bn))?pass25('DL380 G11 bezel hint: Gen11 2U Bezel Kit P50400-B21, lock kit 875519-B21'):fail25('DL380 bezel note wrong: '+bn); }
+  d.getElementById('bz0').checked=true; d.getElementById('bk1').checked=true; fire(d.getElementById('bk1'),'change');
+  /BEZEL.*needs the bezel kit/.test(chk26())?pass25('a bezel key with no bezel is flagged (the lock kit needs the bezel kit)'):fail25('bezel key without bezel not flagged: '+chk26().slice(0,240));
+  d.getElementById('bz1').checked=true; fire(d.getElementById('bz1'),'change');
+  !/A bezel key is ticked/.test(chk26())?pass25('...and clears once the bezel is on'):fail25('bezel flag did not clear');
+  d.getElementById('bk0').checked=true; d.getElementById('bz0').checked=true;
+  setModel25('DL360 G11');
+  /No bezel or bezel-lock part number is listed/.test(d.getElementById('bezel-note').textContent)?pass25('DL360 G11 bezel hint: its QuickSpecs list no bezel part number — says so instead of guessing'):fail25('DL360 bezel note wrong: '+d.getElementById('bezel-note').textContent);
+  ['DL380 G11','DL360 G11'].forEach(function(label){
+    setModel25(label);
+    const inote=d.getElementById('ilo-note').textContent;
+    (/512485-B21/.test(inote) && /BD505A/.test(inote) && /E6U59ABE/.test(inote) && /E6U64ABE/.test(inote))?pass25(label+' iLO hint: Advanced licence 1-year 512485-B21 / 3-year BD505A and the electronic licences'):fail25(label+' iLO note wrong: '+inote);
+    d.getElementById('il2').checked=true; fire(d.getElementById('il2'),'change');
+    /ILO.*no separate Advanced Premium licence/.test(chk26())?pass25(label+': iLO Advanced Premium is flagged — the QuickSpecs list iLO Advanced only'):fail25(label+' Premium not flagged: '+chk26().slice(0,240));
+    d.getElementById('il0').checked=true; fire(d.getElementById('il0'),'change');
+  });
+  setModel25('DL380 G10');
+  (d.getElementById('rail-note').textContent==='' && d.getElementById('bezel-note').textContent==='' && d.getElementById('ilo-note').textContent==='')?pass25('models without sourced rail / bezel / iLO data (DL380 G10) show no hint'):fail25('DL380 G10 shows a hint');
+  reset27(); setModel25('DL380 G11'); d.getElementById('rl1').checked=true; d.getElementById('bz1').checked=true; d.getElementById('il1').checked=true;
+  fire(d.getElementById('il1'),'change');
+  !/P52341|P22020|P50400|875519|512485|BD505A/.test(slip27())?pass25('slip: rail / bezel / iLO part numbers never appear'):fail25('slip carries a rail/bezel/iLO PN: '+slip27().slice(0,300));
+
+  // --- stand-up NIC / FC HBA / NS204i-u lists ---
+  const cardOpts27=function(){
+    d.getElementById('add-card').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    const rows=d.querySelectorAll('#cards .line'),nm=rows[rows.length-1].querySelector('[data-k=name]');
+    nm.value='';fire(nm,'input');fire(nm,'focus');
+    const out=[...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(e){return e.textContent;});
+    rows[rows.length-1].remove();return out;};
+  reset27(); setModel25('DL380 G11');
+  { const o=cardOpts27();
+    (o.length===32 && o.every(function(x){return /\((?:[0-9P][0-9A-Z]{5}-[0-9A-Z]{3}|[RS][0-9][A-Z0-9]{3}A)\)$/.test(x)||/\(.*(?:[0-9P][0-9A-Z]{5}-[0-9A-Z]{3}).*\)$/.test(x);}))
+      ?pass25('DL380 G11 card picker: 32 stand-up NIC / InfiniBand / FC / NS204i-u options, every one carrying its part number'):fail25('DL380 card list wrong ('+o.length+'): '+o.slice(0,4).join(' | '));
+    ['E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','BCM57608 100Gb 2p QSFP112 (P73111-B21)','SN1610Q 32Gb FC 1p (R2E08A)','SN1700E 64Gb FC 2p (R7N78A)','NVIDIA 10/25Gb 2p SFP28 NVMe-oF crypto (S2A69A)','I350-T4 1Gb 4p BASE-T (P21106-B21)'].every(function(x){return o.indexOf(x)>-1;})
+      ?pass25('DL380 G11 card picker carries the doc\'s PNs (E810-XXVDA2 P08443-B21, BCM57608 P73111-B21, SN1610Q R2E08A, SN1700E R7N78A, the crypto card S2A69A, I350-T4 P21106-B21)'):fail25('DL380 card PNs missing');
+    (!o.some(function(x){return /NVIDIA (?:A|L|H|T)\d|Tesla/.test(x);}))?pass25('no GPUs in the DL380 G11 stand-up list (out of scope)'):fail25('a GPU is in the list'); }
+  reset27(); setModel25('DL360 G11');
+  { const o=cardOpts27();
+    (o.length===31 && !o.some(function(x){return /S2A69A/.test(x);}))?pass25('DL360 G11 card picker: 31 options — the same catalogue minus the DL380-only crypto card'):fail25('DL360 card list wrong ('+o.length+')'); }
+  reset27(); setModel25('DL380 G10');
+  { const o=cardOpts27();
+    (o.indexOf('366T 4x1GbE')>-1 && !o.some(function(x){return /P08443-B21/.test(x);}))?pass25('models without their own card list keep the generic starter list'):fail25('DL380 G10 card list changed: '+o.slice(0,3).join(' | ')); }
+  // slip strips the part numbers off the cards (hyphenated and suffix-less SKUs)
+  reset27(); setModel25('DL380 G11');
+  addCard27('SN1610Q 32Gb FC 1p (R2E08A)','1'); addCard27('E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','2');
+  addCard27('NS204i-u Gen11 boot device, internal (P48183-B21, cable kit P52152-B21)','1');
+  { const sl=slip27();
+    (/1x SN1610Q 32Gb FC 1p(?!\s*\()/.test(sl) && /2x E810-XXVDA2 10\/25Gb 2p SFP28(?!\s*\()/.test(sl) && /1x NS204i-u Gen11 boot device, internal(?!\s*\()/.test(sl) && !/R2E08A|P08443|P48183|P52152/.test(sl))
+      ?pass25('slip: card names keep model, ports and mounting, lose every part number (incl. the suffix-less R2E08A)'):fail25('slip cards wrong: '+sl.slice(0,400)); }
+
+  // --- 100Gb+ adapters: fans, heatsinks, 256GB ---
+  reset27(); setModel25('DL360 G11'); pickCpuExact25('G6426Y'); setv26('cpuq','1');
+  addCard27('E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','1');
+  (fanState27()!=='Perf Fans' && hsState25()==='Std Heatsinks')?pass25('DL360 G11: a 10/25Gb adapter does not trigger performance fans or heatsinks (control)'):fail25('25Gb wrongly forces perf: '+fanState27()+'/'+hsState25());
+  reset27(); setModel25('DL360 G11'); pickCpuExact25('G6426Y'); setv26('cpuq','1');
+  addCard27('E810-CQDA2 100Gb 2p QSFP28 (P21112-B21)','1');
+  (fanState27()==='Perf Fans' && hsState25()==='Perf Heatsinks' && /100Gb-or-faster adapter.*high performance fan kit/.test(chk26()) && /100Gb-or-faster adapter.*performance heatsink/.test(chk26()))
+    ?pass25('DL360 G11: a 100Gb PCIe adapter sets performance fans AND heatsinks (both QuickSpecs rules)'):fail25('DL360 100Gb rules wrong: '+fanState27()+'/'+hsState25()+' '+chk26().slice(0,240));
+  reset27(); setModel25('DL360 G11'); pickCpuExact25('G6426Y'); setv26('cpuq','1');
+  setv26('flr','E810-CQDA2 100Gb 2p (P22767-B21)');
+  (fanState27()==='Perf Fans' && hsState25()==='Perf Heatsinks')?pass25('DL360 G11: a 100Gb OCP card triggers the same performance fans + heatsinks'):fail25('DL360 100Gb OCP rules wrong: '+fanState27()+'/'+hsState25());
+  setv26('dimmq','8'); setv26('dimm','256GB 4800 MT/s');
+  /256GB MEMORY.*E810-CQDA2 100Gb 2p/.test(chk26())?pass25('DL360 G11: 256GB DIMMs with a 100Gb OCP card are blocked (either way round)'):fail25('DL360 256GB + 100Gb not blocked: '+chk26().slice(0,300));
+  setv26('flr',''); addCard27('BCM57608 100Gb 2p QSFP112 (P73111-B21)','1');
+  /256GB MEMORY.*BCM57608 100Gb 2p QSFP112/.test(chk26())?pass25('DL360 G11: 256GB DIMMs with a 100Gb PCIe card are blocked'):fail25('DL360 256GB + PCIe 100Gb not blocked: '+chk26().slice(0,300));
+  reset27(); setModel25('DL380 G11'); pickCpuExact25('G5416S'); setv26('cpuq','1');
+  addCard27('E810-CQDA2 100Gb 2p QSFP28 (P21112-B21)','1');
+  (fanState27()==='Perf Fans' && hsState25()==='Std Heatsinks' && /25°C ambient only/.test(chk26()))
+    ?pass25('DL380 G11: a 100Gb adapter needs performance fans (no heatsink rule) and shows the 25°C / x16-slot note'):fail25('DL380 100Gb rules wrong: '+fanState27()+'/'+hsState25()+' '+chk26().slice(0,240));
+  setv26('dimmq','8'); setv26('dimm','256GB 4800 MT/s');
+  !/256GB MEMORY/.test(chk26())?pass25('DL380 G11: 256GB DIMMs are not excluded by a 100GbE adapter (only by InfiniBand)'):fail25('DL380 256GB wrongly blocked by 100GbE');
+  reset27(); setModel25('DL380 G11'); pickCpuExact25('G6426Y'); setv26('cpuq','1'); setv26('dimmq','8'); setv26('dimm','256GB 4800 MT/s');
+  addCard27('InfiniBand NDR 400Gb 1p OSFP MCX75310AAS-NEAT (P45641-H24)','1');
+  (/256GB MEMORY.*InfiniBand/.test(chk26()) && /INFINIBAND.*OCP2 x16 Enablement Kit \(P48828-B21\)/.test(chk26()))?pass25('DL380 G11: InfiniBand + 256GB DIMMs blocked, and the IB requirements listed'):fail25('DL380 IB rules wrong: '+chk26().slice(0,300));
+  setv26('dimm',''); setv26('dimmq',''); setv26('bays','24SFF');
+  /NOT SUPPORTED.*InfiniBand adapters are not supported on the 24SFF chassis/.test(chk26())?pass25('DL380 G11: InfiniBand on the 24SFF chassis is blocked'):fail25('IB on 24SFF not blocked: '+chk26().slice(0,300));
+  setv26('bays','12LFF');
+  /InfiniBand adapters are not supported on the 12LFF chassis/.test(chk26())?pass25('DL380 G11: InfiniBand on the 12LFF chassis is blocked'):fail25('IB on 12LFF not blocked');
+
+  // --- 4-port NICs (DL360: not in Slot 2, one without a secondary riser) ---
+  reset27(); setModel25('DL360 G11');
+  addCard27('BCM57504 10/25Gb 4p SFP28 (P26264-B21)','1');
+  /4-PORT NIC.*cannot go in Slot 2.*allow 1 of them/.test(chk26())?pass25('DL360 G11: one 4-port PCIe NIC carries the Slot 2 / one-without-secondary-riser note'):fail25('4-port note missing: '+chk26().slice(0,240));
+  addCard27('I350-T4 1Gb 4p BASE-T (P21106-B21)','1');
+  /verify.*4-PORT NIC|4-PORT NIC.*2 listed/.test(chk26()) || /2 listed/.test(chk26())?pass25('DL360 G11: two 4-port cards with no secondary riser exceed the doc\'s limit of 1'):fail25('4-port excess not flagged: '+chk26().slice(0,240));
+  addRiser27('x16 LP Riser Kit — Secondary (P48903-B21)'); setv26('cpuq','2');
+  /allow 2 of them with the secondary riser/.test(chk26())?pass25('...with a secondary riser the limit is 2'):fail25('4-port limit with riser wrong: '+chk26().slice(0,240));
+
+  // --- NS204i-u boot device ---
+  reset27(); setModel25('DL360 G11'); pickCpuExact25('G6426Y'); setv26('cpuq','1');
+  addCard27('NS204i-u Gen11 boot device, internal (P48183-B21, cable kit P48920-B21)','1');
+  (hsState25()==='Perf Heatsinks' && /NS204i-u boot device requires the performance heatsink/.test(chk26()))?pass25('DL360 G11: any NS204i-u boot device sets the performance heatsink'):fail25('DL360 NS204i-u heatsink rule missing: '+hsState25());
+  addCard27('E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','2');
+  !/TOO MANY CARDS/.test(chk26())?pass25('DL360 G11: the internal NS204i-u takes no PCIe slot (2 NICs still fit the 2 slots)'):fail25('internal NS204i-u wrongly counted as a slot: '+chk26().slice(0,240));
+  reset27(); setModel25('DL360 G11'); pickCpuExact25('G6426Y'); setv26('cpuq','1');
+  addCard27('NS204i-u Gen11 boot device, hot-plug at rear (P48183-B21, cable kit P54702-B21)','1'); addCard27('E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','2');
+  (/TOO MANY CARDS/.test(chk26()) && /replaces the Slot 2 cage/.test(chk26()))?pass25('DL360 G11: the rear (hot-plug) NS204i-u kit uses Slot 2 — 2 NICs + it exceed the 2 slots, and the note says why'):fail25('DL360 rear NS204i-u slot rule wrong: '+chk26().slice(0,300));
+  reset27(); setModel25('DL360 G11'); setv26('cpuq','2');
+  addCard27('NS204i-u v2 960GB boot device, hot-plug at rear (P81160-B21, cable kit P54702-B21)','1');
+  addRiser27('x16 Full Height Riser Kit — Secondary (P48901-B21)');
+  /NS204i-u.*cannot be fitted with the full-height secondary riser \(P48901-B21\)/.test(chk26())?pass25('DL360 G11: the rear NS204i-u kit with the full-height secondary riser is blocked'):fail25('NS204i-u + P48901 not blocked: '+chk26().slice(0,300));
+  reset27(); setModel25('DL360 G11');
+  addCard27('NS204i-u Gen11 boot device, internal (P48183-B21, cable kit P48920-B21)','1'); addCard27('NS204i-u v2 960GB boot device, hot-plug at rear (P81160-B21, cable kit P54702-B21)','1');
+  /NS204i-u.*One NS204i-u boot device fits per server|One NS204i-u boot device fits per server/.test(chk26())?pass25('a second NS204i-u (internal + rear) is blocked — one per server'):fail25('2 NS204i-u not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G11'); pickCpuExact25('G5416S'); setv26('cpuq','1');
+  addCard27('NS204i-u v2 960GB SED boot device, hot-plug (externally accessible) (P81162-B21, cable kit P52152-B21, FIO bundle P54542-B21)','1');
+  addCard27('E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','3');
+  (!/TOO MANY CARDS/.test(chk26()) && hsState25()!=='Perf Heatsinks')?pass25('DL380 G11: the NS204i-u takes no PCIe slot and has no heatsink rule (3 NICs fit the 3 slots)'):fail25('DL380 NS204i-u handling wrong: '+hsState25()+' '+chk26().slice(0,240));
+  reset27();
 }

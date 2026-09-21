@@ -723,7 +723,8 @@ button.quiet{color:var(--ink-soft)}
           <input type="radio" id="il0" name="ilo" value="iLO Standard (included)" checked><label for="il0">Standard</label>
           <input type="radio" id="il1" name="ilo" value="iLO Advanced license"><label for="il1">Advanced</label>
           <input type="radio" id="il2" name="ilo" value="iLO Advanced Premium license"><label for="il2">Advanced Premium</label>
-        </fieldset></div>
+        </fieldset>
+        <span class="cap-note" id="ilo-note"></span></div>
       </div>
     </div>
   </section>
@@ -747,7 +748,8 @@ button.quiet{color:var(--ink-soft)}
             <input type="radio" id="rl0" name="rail" value="No rail kit"><label for="rl0">No</label>
           </fieldset>
           <input type="text" id="railt" placeholder="Kit type, if specified" style="flex:1;min-width:130px">
-        </div></div>
+        </div>
+        <span class="cap-note" id="rail-note"></span></div>
       </div>
       <div class="row">
         <div class="q"><span class="t">Bezel</span></div>
@@ -760,7 +762,8 @@ button.quiet{color:var(--ink-soft)}
             <input type="radio" id="bk1" name="bkey" value="+ key"><label for="bk1">With key</label>
             <input type="radio" id="bk0" name="bkey" value=""><label for="bk0">No key</label>
           </fieldset>
-        </div></div>
+        </div>
+        <span class="cap-note" id="bezel-note"></span></div>
       </div>
     </div>
   </section>
@@ -881,6 +884,27 @@ button.quiet{color:var(--ink-soft)}
                    32NVMe Balanced Bundle Kit (not otherwise modeled here,
                    noted in the check text instead). Soft verify, not a
                    hard stop — the bundle path can't be detected directly.
+     rearCages     per-position rear / mid-tray cage kits (DL380 Gen11): [{n,pos,cls,only,noRiser,needSec}].
+                   pos P/S/T = primary / secondary / tertiary riser position (ST = one cage over both
+                   S and T, M = the single mid-tray bay). Each position takes one cage, cls limits the
+                   front chassis class (SFF / LFF / EDSFF), noRiser names riser positions the cage
+                   replaces, needSec = the doc requires the P48802 secondary riser. `rear` is the same
+                   list as plain names (feeds the picker and the allow-list); rearMax gives the per-
+                   class totals {SFF:{'2SFF':3,'2LFF':0},...}. Typed lines that match no cage carry no
+                   position and are only counted against those totals.
+     cards         the model's own stand-up card list (with part numbers) replacing the generic
+                   CARDLIST in the PCI-card picker. GPUs are deliberately left out.
+     ns204         NS204i-u boot device rules: rearSlot (the hot-plug "at rear" mounting uses a PCIe
+                   slot), noRiser (a riser PN it cannot share the chassis with), hs (needs the
+                   performance heatsink). The device never counts as a PCIe slot otherwise.
+     hiNic/hsHiNic/hiNic256   100/200/400Gb adapters (PCIe or OCP): performance fans; performance
+                   heatsink (hsHiNic); no 256GB DIMMs with any of them ('all') or only with
+                   InfiniBand ('ib'). nic4p = 4-port PCIe cards are not for Slot 2 and are limited
+                   to one without / two with a secondary riser.
+     rails         {kits:[{pn,n,bays}],cma:[{pn,n}]} — sales hint under the Rails field; bays picks the
+                   kit by front-bay config. bezelKit {pn,n,lock} / bezelNote (plain text when the
+                   QuickSpecs list no bezel part number) and iloLic/iloNoPremium do the same for the
+                   Bezel and iLO fields. None of these ever reach the slip.
      coolTierW     dual-socket TDP at/above which air cooling is unsupported
      singleMaxAirW air-cooled TDP that is single-socket only
      liquidReqW    TDP at/above which liquid cooling is mandatory regardless of socket count
@@ -964,6 +988,55 @@ var GEN_DEFAULTS={
  'G11'  :{hsW:150,hsWtext:'above 150W',fanW:206,fanNVMe:true,fanRear:true,fanGPU:true},
  'G12'  :{fanNVMe:true,fanRear:true,fanGPU:true}
 };
+
+/* DL360 / DL380 Gen11 stand-up (PCIe) card catalogue — both QuickSpecs list the
+   same Ethernet, InfiniBand and Fibre Channel adapters (DL380 adds one NVIDIA
+   10/25Gb crypto card). Labels keep the HPE part number in a trailing bracket:
+   the picker and checks show it, the spec slip strips it (slipName). Only the
+   PCIe adapters are here — OCP cards live in each model's `flr` list and the
+   RAID / HBA controllers in `ctrl`. GPUs are left out on purpose (out of scope
+   for this shop) — the field still takes any typed card. */
+var G11_NIC_CARDS=[
+ 'I350-T4 1Gb 4p BASE-T (P21106-B21)','BCM5719 1Gb 4p BASE-T (P51178-B21)',
+ 'BCM57416 10Gb 2p BASE-T (P26253-B21)','BCM57412 10Gb 2p SFP+ (P26259-B21)',
+ 'E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','E810-XXVDA4 10/25Gb 4p SFP28 (P08458-B21)',
+ 'BCM57414 10/25Gb 2p SFP28 (P26262-B21)','BCM57504 10/25Gb 4p SFP28 (P26264-B21)',
+ 'X4522-PLUS 10/25Gb 2p SFP56 (P87940-B21)','X2522-25G-PLUS 10/25Gb 2p SFP28 (P21109-B21)',
+ 'MCX631102AS-ADAT 10/25Gb 2p SFP28 (P42044-B21)',
+ 'BCM57608 100Gb 2p QSFP112 (P73111-B21)','MCX623106AS-CDAT 100Gb 2p QSFP56 (P25960-B21)',
+ 'E810-CQDA2 100Gb 2p QSFP28 (P21112-B21)',
+ 'InfiniBand NDR200 200Gb 1p OSFP MCX75310AAS-HEAT (P45642-H23)',
+ 'InfiniBand NDR200 200Gb 2p QSFP112 MCX755106AC-HEAT (P65333-H21)',
+ 'InfiniBand NDR 400Gb 1p OSFP MCX75310AAS-NEAT (P45641-H24)'];
+var G11_FC_CARDS=[
+ 'SN1610Q 32Gb FC 1p (R2E08A)','SN1610Q 32Gb FC 2p (R2E09A)','SN1610E 32Gb FC 1p (R2J62A)','SN1610E 32Gb FC 2p (R2J63A)',
+ 'SN1700Q 64Gb FC 1p (R7N86A)','SN1700Q 64Gb FC 2p (R7N87A)','SN1700E 64Gb FC 1p (R7N77A)','SN1700E 64Gb FC 2p (R7N78A)'];
+/* NS204i-u boot device: three device SKUs, each either mounted internally or
+   externally accessible (hot-plug). The device takes no PCIe slot on the DL380;
+   on the DL360 only the rear (hot-plug) mounting does — it swaps Slot 2's cage. */
+function ns204Cards(intKit,rearKit,rearName,extra){
+  var devs=[['Gen11','P48183-B21'],['v2 960GB','P81160-B21'],['v2 960GB SED','P81162-B21']],out=[];
+  devs.forEach(function(d){
+    out.push('NS204i-u '+d[0]+' boot device, internal ('+d[1]+', cable kit '+intKit+')');
+    out.push('NS204i-u '+d[0]+' boot device, '+rearName+' ('+d[1]+', cable kit '+rearKit+(extra?', '+extra:'')+')');
+  });
+  return out;
+}
+/* DL380 Gen11 rear / mid-tray cage kits, one entry per (kit, position). pos: P primary
+   riser, S secondary riser, T tertiary riser, ST secondary + tertiary (one 2LFF cage over
+   both), M the single mid-tray bay. cls narrows the front chassis class; noRiser lists riser
+   positions that cannot also hold a riser kit; needSec = the QuickSpecs require the
+   x8/x16/x8 Secondary Riser (P48802-B21) with this cage. */
+var DL380G11_CAGES=[
+ {n:'2SFF rear, primary riser (P48810-B21)',pos:'P',cls:['SFF'],only:'the 8SFF and 24SFF chassis',needSec:true},
+ {n:'2SFF rear, secondary riser (P48810-B21)',pos:'S',cls:['SFF'],only:'the 8SFF and 24SFF chassis',needSec:true},
+ {n:'2SFF rear, tertiary riser (P48811-B21)',pos:'T'},
+ {n:'2LFF rear, primary riser (P48823-B21)',pos:'P',cls:['LFF'],only:'the 8LFF and 12LFF chassis'},
+ {n:'2LFF rear, secondary riser, low-profile (P51095-B21)',pos:'S',cls:['LFF'],only:'the 8LFF and 12LFF chassis',noRiser:['secondary']},
+ {n:'2LFF rear, secondary and tertiary risers (P48826-B21)',pos:'ST',cls:['LFF'],only:'the 8LFF and 12LFF chassis',noRiser:['secondary','tertiary']},
+ {n:'4LFF midtray (P48809-B21)',pos:'M'},
+ {n:'8SFF midtray, x1 Tri-Mode (P48815-B21)',pos:'M'},
+ {n:'8SFF midtray, x4 Tri-Mode (P48816-B21)',pos:'M'}];
 
 var MODELS=[
  {m:'DL20', g:'G9', p:['e3'],    s:1, d:4, bays:['4SFF','2LFF'],
@@ -1423,7 +1496,13 @@ var MODELS=[
        'Neither PCIe Enablement Kit is selectable once the 4LFF rear cage is fitted — use the LFF Rear Cage riser variants instead.']}},
  {m:'DL360',g:'G11', p:['sp4','sp5'], s:2, d:32, bays:['4LFF','8SFF','10SFF','20EDSFF'],
    rules:{hsNVMe:true,liquidReqW:301,hsEDSFF:true,hsDimmGB:256,edsffNoCtrl:true,bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21; stand-alone P68039-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-XXVDA4 10/25Gb 4p (P41614-B21)','E810-CQDA2 100Gb 2p (P22767-B21)','BCM57608 100Gb 2p (P73114-B21)'],ctrl:['— PCI (plug-in card) —','SR932i-p — 32 lanes, 8GB wide cache, needs a x16 riser slot and the Storage Controller Enablement Cable Kit P48918-B21 (P47184-B21)','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','E208e-p — external HBA, 8 lanes, no cache (804398-B21)','— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache (P58335-B21)'],psu:['500W Flex Slot Platinum — 4LFF chassis only, one processor of 125W or less, 8 DIMMs at most (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium, high-line only (865438-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum, high-line only (P38997-B21)','1600W Flex Slot -48VDC — needs a DC Power Cable Kit or the Lug Kit P36877-B21, one per supply (P17023-B21)','1800-2200W Flex Slot Titanium (P44712-B21)'],cpuAllow:['B3408U','B3508U','G5411N','G5415+','G5416S','G5418N','G5418Y','G5420+','G5515+','G5520+','G6414U','G6416H','G6418H','G6421N','G6426Y','G6430','G6434','G6438N','G6438Y+','G6442Y','G6444Y','G6448H','G6448Y','G6454S','G6458Q','G6526Y','G6530','G6534','G6538N','G6538Y+','G6542Y','G6544Y','G6548N','G6548Y+','G6554S','G6558Q','P8444H','P8452Y','P8458P','P8460Y+','P8462Y+','P8468','P8468V','P8470','P8470N','P8470Q','P8480+','P8490H','P8558','P8558P','P8558U','P8562Y+','P8568Y+','P8570','P8580','P8581V','P8592+','P8592V','P8593Q','P9462','S4410Y','S4416+','S4509Y','S4510','S4514Y','S4516Y+'],dimm256note:'256GB DIMMs on the DL360 Gen11: 1 DIMM per channel only (8 per processor); 2 DIMMs per channel (16 per processor) needs an HPE approval request before ordering, and 32 x 256GB is only allowed with DLC or with air cooling at CPU 250W or less, 8 SAS/SATA front drives at most, performance fans, inlet 25°C or below and NICs under 100Gb.',dimmKits:true,memPerSocket:4096,fanWtext:'above 185W',verified:true,hsW:186,hsWtext:'186W–270W',fanW:186,fanPart:'P48908-B21',hsPart:'P48905-B21',riserMax:2,
-     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['2x M.2 (dual uFF) rear'],
+     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:[],
+     cards:G11_NIC_CARDS.concat(G11_FC_CARDS,ns204Cards('P48920-B21','P54702-B21','hot-plug at rear')),
+     ns204:{rearSlot:true,noRiser:'P48901-B21',hs:true},hiNic:true,hsHiNic:true,hiNic256:'all',nic4p:true,
+     rails:{kits:[{pn:'P52341-B21',n:'Easy Install Rail 3 Kit',bays:['8SFF','10SFF']},{pn:'P52343-B21',n:'Easy Install Rail 5 Kit',bays:['4LFF','20EDSFF']}],
+       cma:[{pn:'P70741-B21',n:'Cable Management Arm 4 for Friction Rail Kit'},{pn:'P26489-B21',n:'DL300 Gen10 Plus 1U Cable Management Arm'}]},
+     bezelNote:'No bezel or bezel-lock part number is listed in the DL360 Gen11 QuickSpecs.',
+     iloLic:true,iloNoPremium:true,
      coolTierW:271,singleMaxAirW:300,fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['Chassis: 4LFF (fixed 4-bay SAS/SATA backplane, no NVMe), 8SFF, 10SFF (8SFF + a 2SFF cage), or 20EDSFF (E3.S NVMe, factory only). EDSFF has no internal hardware RAID controller, no optical drive and no System Insight Display.',
        '8SFF backplanes: x1 Tri-Mode U.3 P48895-B21 (SAS/SATA/NVMe drives on a Tri-Mode controller; no NVMe direct attach; not with SR932i-p) or x4 Tri-Mode U.3 P48896-B21 (allows NVMe direct attach). There is no plain SAS/SATA-only 8SFF cage. The 2SFF x4 cage P48899-B21 needs an 8SFF cage and takes the media-bay slot, so no optical drive with it.',
@@ -1431,7 +1510,9 @@ var MODELS=[
        'Media: the 8SFF chassis takes the Universal Media Bay P48926-B21 (DisplayPort/USB/optical drive); the 4LFF chassis takes the DisplayPort/USB kit P48928-B21 and the LFF Optical Cable Kit P48914-B21 for an optical drive.',
        'Fans: 5 standard fans for one processor below 185W, plus the optional 2P Standard Fan Kit (+2 = 7) for a second processor; the Performance Fan Kit P48908-B21 has 7. A dual-processor build needs 7 fans either way.',
        'Heatsinks: Standard up to 185W; Performance P48905-B21 for 186–270W. Above 270W (two processors) needs Closed-Loop Liquid Cooling P48906-B21 or DLC. A single 300W processor can be air-cooled but cannot be upgraded to two sockets. Processors ship without heatsinks or fans.',
-       'The performance heatsink (or liquid cooling) and performance fans are also needed with NVMe or 24G SAS drives; 256GB DIMMs and the EDSFF chassis need the performance heatsink too. 100Gb+ NICs and an external NS204i-u boot device need it as well.',
+       'The performance heatsink (or liquid cooling) and performance fans are also needed with NVMe or 24G SAS drives; 256GB DIMMs and the EDSFF chassis need the performance heatsink too. 100Gb+ NICs (PCIe or OCP) and any NS204i-u boot device need it as well.',
+       'Boot device: the NS204i-u (Gen11 P48183-B21, v2 960GB P81160-B21 or v2 960GB SED P81162-B21) mounts internally with the Internal Cable Kit P48920-B21, or hot-plug at the rear with the Rear Cable Kit P54702-B21 — never both. The rear kit replaces the Slot 2 cage (Slot 2 is lost) and cannot be used with the full-height secondary riser; the low-profile secondary riser P48903-B21 keeps Slots 1 and 3.',
+       'NICs: 4-port PCIe adapters cannot go in Slot 2 — one without a secondary riser, two with it. 100Gb and faster adapters (PCIe or OCP) need the performance fans and heatsink and cannot be combined with 256GB DIMMs.',
        'Memory: 32 DIMM slots, up to 8TB (4TB per processor). Speed is capped by the processor and 4800 kits run at 4400 at 2 DIMMs per channel. 96GB modules cannot be mixed with other sizes and need an XCC/MCC processor; 128GB (non-3DS) is not offered with 4509Y, 4510 or 3508U.',
        'Mixing two different processor models is not allowed. 5th Gen processors need a 5th Gen board — no field upgrade from 4th Gen. Single-socket only: U-suffix parts, 8581V, 6421N and 5411N.',
        'Power: one or two supplies, both the same. The 500W supply is for the 4LFF chassis only with one processor of 125W or less, at most 8 DIMMs and no x16 NICs. 800W Titanium and 1600W Platinum are high-line only. The 1600W -48VDC needs a DC Power Cable Kit or the Lug Kit P36877-B21, one per supply.',
@@ -1453,13 +1534,21 @@ var MODELS=[
  {m:'DL380',g:'G11', p:['sp4','sp5'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF','12EDSFF','36EDSFF'],
    rules:{cpuNotEDSFF:['P8581V','P8558U'],edsffNoCtrl:true,bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21; stand-alone P68039-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','16W Smart Hybrid Capacitor with 145mm cable (P65038-B21)','No battery'],flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-XXVDA4 10/25Gb 4p (P41614-B21)','E810-CQDA2 100Gb 2p (P22767-B21)','BCM57608 100Gb 2p (P73114-B21)'],ctrl:['— PCI (plug-in card) —','SR932i-p — 32 lanes, 8GB wide cache, needs a x16 riser slot and the Storage Controller Enablement Cable Kit P48918-B21 (P47184-B21)','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','E208e-p — external HBA, 8 lanes, no cache (804398-B21)','— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache (P58335-B21)'],psu:['800W Flex Slot Platinum (P38995-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum, high-line only (P38997-B21)','1600W Flex Slot -48VDC — needs a DC Power Cable Kit or the Lug Kit P36877-B21, one per supply (P17023-B21)','1800-2200W Flex Slot Titanium (P44712-B21)'],cpuAllow:['B3408U','B3508U','G5411N','G5415+','G5416S','G5418N','G5418Y','G5420+','G5515+','G5520+','G6414U','G6416H','G6418H','G6421N','G6426Y','G6430','G6434','G6438N','G6438Y+','G6442Y','G6444Y','G6448H','G6448Y','G6454S','G6458Q','G6526Y','G6530','G6534','G6538N','G6538Y+','G6542Y','G6544Y','G6548N','G6548Y+','G6554S','G6558Q','P8444H','P8452Y','P8458P','P8460Y+','P8462Y+','P8468','P8468V','P8470','P8470N','P8470Q','P8480+','P8490H','P8558','P8558P','P8558U','P8562Y+','P8568Y+','P8570','P8580','P8581V','P8592+','P8592V','P8593Q','P9462','S4410Y','S4416+','S4509Y','S4510','S4514Y','S4516Y+'],dimm256MaxCages:2,fanDimmGB:128,dimmMaxByBay:{'24SFF':16},dimmKits:true,memPerSocket:4096,fanWtext:'above 205W',verified:true,hsW:151,hsWtext:'above 150W, up to 350W',hsPart:'P48818-B21',fanW:206,riserMax:3,
      psuMax:2,fans:{one:4,two:4,perf:6},pcie:{one:3,two:8},fanBays:['24SFF'],
-     rear:['2SFF rear','2SFF NVMe rear','2LFF rear','4LFF rear','4LFF midtray','8SFF midtray'],
+     rear:DL380G11_CAGES.map(function(c){return c.n;}),rearCages:DL380G11_CAGES,
+     rearMax:{SFF:{'2SFF':3,'2LFF':0},LFF:{'2SFF':1,'2LFF':2},EDSFF:{'2SFF':1,'2LFF':0}},
+     cards:G11_NIC_CARDS.concat(['NVIDIA 10/25Gb 2p SFP28 NVMe-oF crypto (S2A69A)'],G11_FC_CARDS,ns204Cards('P52152-B21','P52152-B21','hot-plug (externally accessible)','FIO bundle P54542-B21')),
+     ns204:{hs:false},hiNic:true,hiNic256:'ib',
+     rails:{kits:[{pn:'P52341-B21',n:'Easy Install Rail 3 Kit'}],cma:[{pn:'P22020-B21',n:'DL38X 2U Cable Management Arm for Rail Kit'}]},
+     bezelKit:{pn:'P50400-B21',n:'Gen11 2U Bezel Kit',lock:'875519-B21'},
+     iloLic:true,iloNoPremium:true,
      fanNVMe:true,fanRear:true,fanGPU:true,fanPart:'P48820-B21',midtray8SFFCtrl:['SR932i-p'],
      notes:['Chassis: 8SFF (one 8SFF U.3 x1 Tri-Mode cage P48813-B21 fitted; up to 3 cages), 24SFF (3 cages, ships with the high-performance fans), 8LFF, 12LFF, or 12EDSFF (up to 36 EDSFF, factory only). The 8LFF chassis cannot be upgraded to 12LFF in the field.',
        '8SFF cages: x1 Tri-Mode U.3 P48813-B21 (direct attach = SATA only) or x4 Premium U.3 P48814-B21 (direct attach = NVMe only), max 3 of either; three front cages need the High-Performance Fan Kit. The doc\'s chassis text also mentions an 8SFF SAS/SATA cage, but the ordering list has no separate part number for it — only these two Tri-Mode cages.',
        'Universal Media Bay P50728-B21: 8SFF chassis only, Box 1 only; gives DisplayPort/USB and either a 2SFF stacking cage (P48811-B21) or an optical drive. Not on 24SFF, 8LFF, 12LFF or EDSFF.',
        'Mid-tray: 4LFF SAS/SATA cage P48809-B21 (up to 16LFF with a controller, 14LFF SATA direct) or an 8SFF cage, x1 Tri-Mode P48815-B21 / x4 Tri-Mode P48816-B21. With a mid-tray, processors up to 205W need the low-profile High-Performance heatsink P48905-B21.',
-       'Rear cages: 2SFF U.3 cage P48810-B21 (8SFF/24SFF, max 2 in the riser positions, up to 6SFF rear in total) or the 2SFF stacking cage P48811-B21; LFF chassis take 2LFF riser cages (primary P48823-B21, secondary LP P51095-B21, tertiary P48826-B21) for up to 4LFF rear. A rear riser cage uses up that riser\'s PCIe slots.',
+       'Rear cages, one per riser position: the 2SFF U.3 cage P48810-B21 goes in the primary or secondary position (8SFF/24SFF chassis only, and it needs the x8/x16/x8 secondary riser P48802-B21 and so the 2nd processor); the 2SFF stacking cage P48811-B21 goes in the tertiary position. Up to three 2SFF rear cages (6SFF) on 8SFF/24SFF, one on 8LFF/12LFF or EDSFF.',
+       'LFF chassis take 2LFF rear cages instead: primary P48823-B21, secondary low-profile P51095-B21, or one secondary-and-tertiary cage P48826-B21 (which rules out both those risers) — up to 4LFF rear. A 2LFF cage uses up every PCIe slot of its riser position.',
+       'Boot device: the NS204i-u (Gen11 P48183-B21, v2 960GB P81160-B21 or v2 960GB SED P81162-B21) has its own mount and takes no PCIe slot; it needs the Internal Cable Kit P52152-B21, and the externally accessible hot-plug mounting also needs the FIO bundle kit P54542-B21. One per server.',
        'On an 8SFF CTO server the 8SFF U.3 x4 mid tray needs the SR932i-p controller or the factory-only 32NVMe Balanced Bundle Kit P53639-B21 (checked automatically). That bundle also needs many factory-only parts (3x16 primary+secondary risers, both OCP x16 enablement kits, Gen4 re-timer cable kit, 2nd CPU, high-performance fan kit) and blocks the tertiary riser — confirm it against QuickSpecs.',
        'Processors: both must match; 5th Gen (Emerald Rapids) needs a 5th Gen system board — no field upgrade from 4th Gen. Single-socket only: U-suffix parts, 8581V, 6421N and 5411N; 8581V and 8558U are also not offered on the EDSFF chassis. Q-suffix parts need the Max Performance heatsink P48817-B21 (or DLC).',
        'Mixing two different processor models is not allowed.',
@@ -3712,7 +3801,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.21.8'; // 8th build shipped today
+var BUILD_VERSION='2026.09.21.9'; // 9th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4355,8 +4444,11 @@ function refreshDependents(){
   var addRearBtn=document.getElementById('add-rear');
   addRearBtn.disabled=rearNone;
   if(rearNone&&rearLinesEl.children.length){rearLinesEl.innerHTML='';}
+  fill('cardlist',(m&&R.cards)?R.cards:CARDLIST); // probe only, like rearopts — the live list is attachList's
   document.getElementById('rear-note').textContent=rearNone
     ?'No rear or mid-tray drive bays on this model'
+    :(rearListed&&R.rearCages)
+      ?'Rear / midtray — one line per cage. Each riser position (primary, secondary, tertiary) takes one rear cage, and there is one mid-tray bay.'
     :rearListed
       ?'Rear / midtray — '+R.rear.length+' option'+(R.rear.length>1?'s':'')+' for this model. Add a line per cage if the chassis fits more than one at once.'
       :'Rear / midtray — leave blank if none. Add a line per cage if the chassis fits more than one at once.';
@@ -4450,6 +4542,10 @@ document.getElementById('add-rear').addEventListener('click',function(){rearLine
 function rearJoined(){
   return [].slice.call(rearLinesEl.querySelectorAll('[data-k=v]')).map(function(x){return x.value.trim();}).filter(Boolean).join(' + ');
 }
+/* the same lines for the spec slip — cage part numbers stay off it, the position stays on */
+function rearJoinedSlip(){
+  return [].slice.call(rearLinesEl.querySelectorAll('[data-k=v]')).map(function(x){return slipName(x.value);}).filter(Boolean).join(' + ');
+}
 /* picking/typing an item into a line's key field (capacity, card, riser kit…)
    implies at least one of it — default the qty to 1 if it's still blank. */
 function autoQty(d,keyAttr){
@@ -4492,7 +4588,7 @@ function cardRow(v){
    '<input type="text" placeholder="Card — model and slot if it matters" data-k="name" autocomplete="off" value="'+(v.name||'').replace(/"/g,'&quot;')+'">'+
    '<button type="button" class="kill" title="Remove line">&times;</button>';
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
-  attachList(d.querySelector('[data-k=name]'),function(){return CARDLIST;});
+  attachList(d.querySelector('[data-k=name]'),function(){var m=currentModel(),R=rulesFor(m);return (m&&R.cards)?R.cards:CARDLIST;});
   stepper(d.querySelector('[data-k=q]'),{min:1});
   autoQty(d,'name');
   return d;}
@@ -4569,10 +4665,80 @@ function updateHardCaps(m,R,cpuq){
 }
 
 /* ---------------- rules engine ---------------- */
+/* a 100/200/400Gb adapter (Ethernet or InfiniBand, PCIe or OCP) — 10/25Gb labels do not match */
+var HI_NIC_RE=/\b(?:100|200|400)Gb\b/i;
+var REAR_POS_NAME={P:'primary riser',S:'secondary riser',T:'tertiary riser'};
+function chassisClass(b){b=String(b||'').toUpperCase();return /EDSFF/.test(b)?'EDSFF':/LFF/.test(b)?'LFF':/SFF/.test(b)?'SFF':'';}
+function normRear(s){return String(s||'').toLowerCase().replace(/\s*\([^()]*\)/g,'').replace(/\s+/g,' ').trim();}
+function rearCageFor(R,val){
+  var nv=normRear(val),c=R.rearCages||[];
+  for(var i=0;i<c.length;i++)if(normRear(c[i].n)===nv)return c[i];
+  return null;
+}
+/* Per-position rear / mid-tray checks for a model with `rearCages` (DL380 Gen11): each
+   riser position takes one cage, there is one mid-tray bay, the chassis class decides which
+   cage kits exist and how many, and a 2LFF cage replaces the riser(s) it sits on. A line the
+   list does not match (typed by hand, e.g. "2SFF rear") has no position, so it is only
+   counted against the chassis totals. */
+function rearCageChecks(m,R,bays,vals,riserLines,cpuq,checks){
+  var cls=chassisClass(bays),nm=m.m+' '+m.g,occ={},tot={'2SFF':0,'2LFF':0},mids=0,needSecN=0;
+  var secRiser=false,terRiser=false,p48802=false;
+  riserLines.forEach(function(x){
+    var k=riserKitByName(x.name);
+    if(k&&k.pos==='secondary')secRiser=true;
+    if(k&&k.pos==='tertiary')terRiser=true;
+    if(/P48802-B21/.test(x.name))p48802=true;
+  });
+  vals.forEach(function(val){
+    var c=rearCageFor(R,val),nice=slipName(val),eligible=true;
+    if(c&&c.cls&&cls&&c.cls.indexOf(cls)<0){
+      eligible=false;
+      checks.push(['stop','REAR NOT SUPPORTED','"'+nice+'" is for '+c.only+' only — not the '+bays+' chassis.']);
+    }
+    if(!eligible)return;
+    rearSigs(val).forEach(function(sg){
+      if(sg==='2sff:rear')tot['2SFF']++;
+      if(sg==='2lff:rear')tot['2LFF']++;
+      if(/:mid$/.test(sg)||sg==='any:mid')mids++;
+    });
+    if(!c)return;
+    (c.pos==='ST'?['S','T']:[c.pos]).forEach(function(p){if(p!=='M')(occ[p]=occ[p]||[]).push(nice);});
+    if((c.noRiser||[]).indexOf('secondary')>-1&&secRiser)
+      checks.push(['stop','REAR / RISER CONFLICT','"'+nice+'" sits in the secondary riser position — a secondary riser kit cannot be fitted with it. Remove the secondary riser line.']);
+    if((c.noRiser||[]).indexOf('tertiary')>-1&&terRiser)
+      checks.push(['stop','REAR / RISER CONFLICT','"'+nice+'" sits over the tertiary riser position — a tertiary riser kit cannot be fitted with it. Remove the tertiary riser line.']);
+    if(c.needSec)needSecN++;
+    if(/^2LFF/i.test(c.n))
+      checks.push(['info','REAR CAGE','"'+nice+'" uses up every PCIe slot of the riser position it sits in.']);
+  });
+  Object.keys(occ).forEach(function(p){
+    if(occ[p].length>1)
+      checks.push(['stop','REAR CONFLICT','Two rear cages are in the '+REAR_POS_NAME[p]+' position ("'+occ[p].join('"; "')+'") — each riser position takes one cage.']);
+  });
+  if(mids>1)
+    checks.push(['stop','REAR CONFLICT','More than one mid-tray cage entered — the chassis has one mid-tray bay. Remove all but one mid-tray line.']);
+  var mx=cls&&R.rearMax&&R.rearMax[cls];
+  if(mx){
+    if(tot['2LFF']>mx['2LFF']&&tot['2LFF']>0)
+      checks.push(['stop','REAR CONFLICT',mx['2LFF']===0
+        ?'The '+bays+' chassis takes no 2LFF rear cage.'
+        :'The '+bays+' chassis takes at most '+mx['2LFF']+' 2LFF rear cages — '+tot['2LFF']+' entered.']);
+    if(tot['2SFF']>mx['2SFF'])
+      checks.push(['stop','REAR CONFLICT','The '+bays+' chassis takes at most '+mx['2SFF']+' 2SFF rear cage'+(mx['2SFF']>1?'s':'')+' — '+tot['2SFF']+' entered.']);
+  }
+  if(needSecN){
+    if(!p48802)
+      checks.push(['verify','REAR CAGE','The QuickSpecs require the x8/x16/x8 Secondary Riser Kit (P48802-B21) with a 2SFF primary/secondary riser cage'+
+        (cpuq===1?' — and a secondary riser needs the second processor, but one is selected':' — a secondary riser needs the second processor')+'.']);
+    else if(needSecN===1)
+      checks.push(['info','REAR CAGE','A single 2SFF riser cage blocks Slots 4 and 5 of the x8/x16/x8 secondary riser — only Slot 6 stays usable.']);
+  }
+}
 function evaluate(){
   var checks=[];
   var m=currentModel(),R=rulesFor(m),cpu=cpuByCode(v('cpu'));
   var bays=v('bays').toUpperCase(),rear=rearJoined(),bp=r('bp');
+  var rearLineVals=readLines(rearLinesEl).map(function(x){return x.v||'';}).filter(Boolean);
   var noDrives=document.getElementById('nodrives').checked;
   var dl=noDrives?[]:readLines(drives).filter(function(d){return d.cap;});
   var hasNVMe=bp.indexOf('NVMe')>-1||dl.some(function(d){return (d.int||'').indexOf('NVMe')>-1;});
@@ -4682,7 +4848,13 @@ function evaluate(){
   }
 
   /* PCIe add-in-card slots vs the risers actually fitted */
-  var namedCards=readLines(cards).filter(function(c){return c.name;})
+  /* the NS204i-u boot device has its own mount, not a PCIe slot — except the DL360 rear (hot-plug)
+     kit, which replaces Slot 2's cage and so does use one (ns204.rearSlot) */
+  var cardUsesSlot=function(n){
+    if(!/NS204i-u/i.test(n||''))return true;
+    return !!(R.ns204&&R.ns204.rearSlot&&/at rear/i.test(n));
+  };
+  var namedCards=readLines(cards).filter(function(c){return c.name&&cardUsesSlot(c.name);})
     .reduce(function(t,c){return t+(Number(c.q)||1);},0);
   var cardNoteEl=document.getElementById('card-note');cardNoteEl.className='cap-note';
   var chassisMax=(m&&R.pcie)?(cpuq>=2?R.pcie.two:R.pcie.one):null;
@@ -4709,6 +4881,34 @@ function evaluate(){
 
   /* PCIe bracket / form factor — low-profile slots need LP brackets */
   var cardNames=readLines(cards).filter(function(c){return c.name;}).map(function(c){return c.name;});
+  /* Gen11 stand-up cards: 100Gb-and-faster adapters, the 4-port cards and the NS204i-u boot device */
+  var cardLines=readLines(cards).filter(function(c){return c.name;});
+  var qtyOf=function(list){return list.reduce(function(t,c){return t+(Number(c.q)||1);},0);};
+  var hiNicNames=cardNames.filter(function(n){return HI_NIC_RE.test(n);});
+  if(HI_NIC_RE.test(v('flr')))hiNicNames.push(v('flr'));
+  var ns204Lines=cardLines.filter(function(c){return /NS204i-u/i.test(c.name);});
+  if(m&&R.hiNic&&hiNicNames.some(function(n){return /InfiniBand/i.test(n);})&&R.hiNic256==='ib')
+    checks.push(['info','INFINIBAND','InfiniBand adapters need the high performance fan kit, a x16 slot, an ambient of 25°C or below and the OCP2 x16 Enablement Kit (P48828-B21); they are not offered on the 24SFF or 12LFF chassis.']);
+  if(m&&R.hiNic256==='ib'&&hiNicNames.some(function(n){return /InfiniBand/i.test(n);})&&/^(24SFF|12LFF)$/.test(bays))
+    checks.push(['stop','NOT SUPPORTED','InfiniBand adapters are not supported on the '+bays+' chassis.']);
+  if(m&&R.hiNic256==='ib'&&hiNicNames.some(function(n){return !/InfiniBand/i.test(n)&&HI_NIC_RE.test(n);}))
+    checks.push(['info','100Gb NIC','100Gb adapters are supported at 25°C ambient only and only in x16 slots (Slots 1, 4, 5 or 7 with three front cages, 24SFF, 12LFF or the EDSFF bundle — three cards at most).']);
+  if(m&&R.nic4p){
+    var fourP=qtyOf(cardLines.filter(function(c){return /\b4p\b/i.test(c.name);}));
+    var secFH=riserLines.some(function(x){var k=riserKitByName(x.name);return k&&k.pos==='secondary';});
+    if(fourP>0)
+      checks.push([fourP>(secFH?2:1)?'verify':'info','4-PORT NIC','4-port PCIe adapters cannot go in Slot 2. The QuickSpecs allow '+(secFH?'2':'1')+' of them'+(secFH?' with the secondary riser':' without a secondary riser (2 with one)')+
+        ' — '+fourP+' listed. A low-profile 4-port SFP card in Slot 3 also fouls the neighbouring cage unless the secondary riser is full-height.']);
+  }
+  if(m&&R.ns204&&ns204Lines.length){
+    if(qtyOf(ns204Lines)>1)
+      checks.push(['stop','NS204i-u','One NS204i-u boot device fits per server — '+qtyOf(ns204Lines)+' entered (internal and hot-plug cannot be combined).']);
+    if(R.ns204.rearSlot&&ns204Lines.some(function(c){return /at rear/i.test(c.name);})){
+      checks.push(['info','NS204i-u','The rear (hot-plug) mounting replaces the Slot 2 cage, so Slot 2 is lost. Keeping Slots 1 and 3 needs the x16 low-profile secondary riser kit (P48903-B21).']);
+      if(R.ns204.noRiser&&riserLines.some(function(x){return x.name.indexOf(R.ns204.noRiser)>-1;}))
+        checks.push(['stop','NS204i-u','The rear NS204i-u kit cannot be fitted with the full-height secondary riser ('+R.ns204.noRiser+').']);
+    }
+  }
   var gpuRe=/nvidia|tesla|\bgpu\b|\ba2\b|\ba16\b|\ba30\b|\ba40\b|\ba100\b|\bh100\b|\bl4\b|\bl40\b|\bmi\d/i;
   var lpRe=/\b(lp|low[\s-]?profile)\b/i, fhRe=/\b(fh|fl|full[\s-]?(height|length)|fhhl|fhfl)\b/i;
   if(m&&profileKnown&&(fhSlots+lpSlots)>0){
@@ -4772,6 +4972,14 @@ function evaluate(){
 
   /* memory limits */
   var dq=Number(v('dimmq'))||0, dsize=parseInt((v('dimm').match(/(\d+)\s*GB/i)||[])[1]||0,10);
+  /* 256GB modules and the fast adapters exclude each other (DL360: any 100Gb+ card, PCIe or OCP;
+     DL380: the InfiniBand adapters) */
+  if(m&&R.hiNic256&&dsize>=256&&typeof hiNicNames!=='undefined'){
+    var bad256=hiNicNames.filter(function(n){return R.hiNic256==='all'||/InfiniBand/i.test(n);});
+    if(bad256.length)
+      checks.push(['stop','256GB MEMORY','256GB DIMMs are not supported with '+slipName(bad256[0])+
+        (R.hiNic256==='all'?' (or with any 100Gb-and-faster adapter, PCIe or OCP)':'')+'. Use 128GB or smaller modules, or drop the adapter.']);
+  }
   var memNote=document.getElementById('mem-note');memNote.className='cap-note';memNote.textContent='';
   /* the orderable SmartMemory kit for the size picked (sales reference — never on the slip) */
   var kitNote=document.getElementById('dimm-kit');kitNote.textContent='';
@@ -4782,6 +4990,26 @@ function evaluate(){
       if(k)kitParts.push((kitPl.length>1?(p==='sp4'?'4th Gen: ':'5th Gen: '):'')+'HPE '+k[1]+' Smart Memory Kit '+k[0]);
     });
     if(kitParts.length)kitNote.textContent=kitParts.join(' — ')+' (for a factory-integrated build swap -B21 for -F21).';
+  }
+  /* sales hints under the rail / bezel / iLO fields — orderable part numbers from the model's
+     QuickSpecs, never on the slip */
+  var railNote=document.getElementById('rail-note');railNote.textContent='';
+  if(m&&R.rails){
+    var railKits=R.rails.kits.filter(function(k){return !k.bays||!bays||k.bays.indexOf(bays)>-1;});
+    railNote.textContent='Rail kit: '+railKits.map(function(k){return 'HPE '+k.n+' '+k.pn+(k.bays&&!bays?' ('+k.bays.join(' / ')+')':'');}).join(' · ')+
+      '. It does not include the cable management arm — optional, needs a rail kit: '+R.rails.cma.map(function(c){return c.n+' '+c.pn;}).join(' or ')+'.';
+  }
+  var bezelNote=document.getElementById('bezel-note');bezelNote.textContent='';
+  if(m&&R.bezelKit){
+    bezelNote.textContent='Bezel: HPE '+R.bezelKit.n+' '+R.bezelKit.pn+'. The Bezel Lock Kit '+R.bezelKit.lock+' needs the bezel kit.';
+    if(r('bkey')&&r('bezel')!=='Bezel')
+      checks.push(['verify','BEZEL','A bezel key is ticked but there is no bezel — the Bezel Lock Kit ('+R.bezelKit.lock+') needs the bezel kit ('+R.bezelKit.pn+').']);
+  }else if(m&&R.bezelNote){bezelNote.textContent=R.bezelNote;}
+  var iloNote=document.getElementById('ilo-note');iloNote.textContent='';
+  if(m&&R.iloLic){
+    iloNote.textContent='iLO Advanced licence, 1 server: 1-year 512485-B21, 3-year BD505A (electronic licences E6U59ABE 1-year, E6U64ABE 3-year). Standard needs no licence.';
+    if(R.iloNoPremium&&r('ilo')==='iLO Advanced Premium license')
+      checks.push(['verify','ILO','The '+m.m+' '+m.g+' QuickSpecs list iLO Advanced only — there is no separate Advanced Premium licence for this model.']);
   }
   if(m&&dq){
     var slots=m.d, usable=cpuq>0&&cpuq<m.s?Math.round(m.d*cpuq/m.s):m.d;
@@ -4978,7 +5206,8 @@ function evaluate(){
     checks.push(['stop','NOT SUPPORTED','Rear drives do not support CPUs above '+R.rearMaxW+'W — '+cpu[0]+' is '+cpu[3]+'W.']);
   if(R.rear2SFF&&/2SFF/i.test(rear)&&bays&&!R.rear2SFF.some(function(b){return bays.indexOf(b)>-1;}))
     checks.push(['stop','NOT SUPPORTED','A 2SFF rear cage is only supported on '+R.rear2SFF.join(' or ')+' — not '+v('bays')+'.']);
-  if(R.midtray8SFFCtrl&&bays==='8SFF'&&/8SFF midtray/i.test(rear)&&R.midtray8SFFCtrl.indexOf(ctrlCode(v('ctrl')))<0)
+  /* only the x4 mid-tray needs it (an x1 Tri-Mode mid-tray, P48815-B21, does not) */
+  if(R.midtray8SFFCtrl&&bays==='8SFF'&&rearLineVals.some(function(x){return /8SFF midtray/i.test(x)&&!/\bx1\b/i.test(x);})&&R.midtray8SFFCtrl.indexOf(ctrlCode(v('ctrl')))<0)
     checks.push(['verify','MIDTRAY CONTROLLER','An 8SFF U.3 x4 Mid Tray on an 8SFF front-bay build needs either the '+R.midtray8SFFCtrl.join('/')+' controller or the factory-only 32NVMe Balanced Bundle Kit (P53639-B21) — neither is currently selected. Confirm before quoting; the bundle also pulls in specific risers/OCP kits/2nd CPU not modeled here.']);
 
   /* rear / mid-tray option(s) vs what this chassis actually offers */
@@ -5003,11 +5232,13 @@ function evaluate(){
     var rSigs=rearSigs(rear);
     var rearDistinct=rSigs.filter(function(x){return /:rear$/.test(x);}).length;
     var midDistinct=rSigs.filter(function(x){return /:mid$/.test(x)||x==='any:mid';}).length;
-    if(rearDistinct>1)
+    /* models with per-position cages (rearCages) are checked position by position below */
+    if(rearDistinct>1&&!R.rearCages)
       checks.push(['stop','REAR CONFLICT','More than one rear-cage option entered ("'+rear+'") — a chassis has one rear-cage bay location. Remove all but one rear line.']);
-    if(midDistinct>1)
+    if(midDistinct>1&&!R.rearCages)
       checks.push(['stop','REAR CONFLICT','More than one mid-tray option entered ("'+rear+'") — a chassis has one mid-tray bay location. Remove all but one mid-tray line.']);
   }
+  if(m&&R.rearCages&&rearLineVals.length)rearCageChecks(m,R,bays,rearLineVals,riserLines,cpuq,checks);
 
   /* TPM — see tpmKind()'s comment above for the sourcing behind each case. */
   var tpm=r('tpm'),tpmK=tpmKind(m);
@@ -5042,6 +5273,7 @@ function evaluate(){
   if(R.fanRear&&rear)fanReasons.push('Rear/midtray drives require high performance fans'+fanPart+'.');
   if(R.fanGPU&&hasGPU)fanReasons.push('GPUs and accelerators require high performance fans'+fanPart+'.');
   if(R.fanDimmGB&&dsize>=R.fanDimmGB)fanReasons.push(dsize+'GB memory modules require high performance fans'+fanPart+'.');
+  if(R.hiNic&&hiNicNames.length)fanReasons.push('A 100Gb-or-faster adapter ('+slipName(hiNicNames[0])+') requires the high performance fan kit'+fanPart+'.');
   (R.fanBays||[]).forEach(function(b){if(bays.indexOf(b)>-1)fanReasons.push(b+' ships with high performance fans as standard.');});
   /* fanWtext is the threshold as the model's own QuickSpecs words it ("above 205W",
      "205W or higher") — same idea as hsWtext for heatsinks */
@@ -5119,6 +5351,14 @@ function evaluate(){
     if(R.hsDimmGB&&dsize>=R.hsDimmGB&&recHs!=='Perf Heatsinks'){
       recHs='Perf Heatsinks';
       hsReasons.push(dsize+'GB memory modules require the performance heatsink (or liquid cooling)'+hsPart+'.');
+    }
+    if(R.hsHiNic&&hiNicNames.length&&recHs!=='Perf Heatsinks'){
+      recHs='Perf Heatsinks';
+      hsReasons.push('A 100Gb-or-faster adapter ('+slipName(hiNicNames[0])+') requires the performance heatsink (or liquid cooling)'+hsPart+'.');
+    }
+    if(R.ns204&&R.ns204.hs&&ns204Lines.length&&recHs!=='Perf Heatsinks'){
+      recHs='Perf Heatsinks';
+      hsReasons.push('An NS204i-u boot device requires the performance heatsink (or liquid cooling)'+hsPart+'.');
     }
     if(R.hsEDSFF&&/EDSFF/i.test(bays)&&recHs!=='Perf Heatsinks'){
       recHs='Perf Heatsinks';
@@ -5307,8 +5547,9 @@ document.getElementById('plan-go').addEventListener('click',function(){
    number are trimmed — a label without one (e.g. "no Smart Array controller —
    Intel VROC software RAID") is spec information and stays whole. Text typed
    by hand that has nothing left after stripping (e.g. only a part number) is
-   kept as typed. */
-var SLIP_PN='\\b[0-9P][0-9A-Z]{5}-(?=[0-9A-Z]*[0-9])[0-9A-Z]{3}\\b';
+   kept as typed. The pattern also covers HPE's suffix-less SKUs (R2E08A Fibre
+   Channel HBAs, S2A69A) — letter, digit, three characters, trailing A. */
+var SLIP_PN='(?:\\b[0-9P][0-9A-Z]{5}-(?=[0-9A-Z]*[0-9])[0-9A-Z]{3}\\b|\\b[RS][0-9][A-Z0-9]{3}A\\b)';
 function slipName(s){
   var o=String(s==null?'':s);
   if(!new RegExp(SLIP_PN).test(o))return o.trim();
@@ -5335,7 +5576,7 @@ function expanderNeed(capBays,ctrlV,hasNVMe,noDrives){
 function buildSlip(){
   var L=[],gaps=[],m=currentModel();
   var head=join(m?(m.m+' '+m.g):'',v('bays'));
-  if(rearJoined())head=join(head,'+ '+rearJoined());
+  if(rearJoined())head=join(head,'+ '+rearJoinedSlip());
   if(head)L.push(head);else gaps.push('system model');
   if(m&&!v('bays')&&!document.getElementById('nodrives').checked)gaps.push('drive bay config');
   if(r('bp'))L.push(r('bp'));
