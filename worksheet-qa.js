@@ -502,17 +502,16 @@ setTimeout(()=>{
     ?pass3('spec slip has no max-height / scrollbar — the box grows so the whole slip is always visible')
     :fail3('spec slip still limits its height or scrolls: '+slipRule);
   const deskMq=(html.match(/@media \(min-width:981px\)\{[\s\S]*?\n\}/)||[''])[0];
-  (/\.slip-wrap\{[^}]*max-height:\s*max\(calc\(100vh[^}]*var\(--bar-h[^}]*var\(--wrap-min/.test(deskMq)
-    && /\.slip-checks\s+\.checks\{[^}]*overflow-y:\s*auto/.test(deskMq)
-    && /class="slip-checks"/.test(html))
-    ?pass3('desktop (>=981px): the right column is capped to the window and only the Config checks box scrolls, inside itself')
-    :fail3('desktop column clamp rules missing: '+deskMq.slice(0,300));
-  (/function syncSlipWrap\(\)/.test(html) && /syncSlipWrap\(\);\s*\n\s*save\(\);/.test(html) && /addEventListener\('resize',syncSlipWrap\)/.test(html))
-    ?pass3('syncSlipWrap() measures the bottom bar and pins the column to it — runs on every refresh and on resize')
+  (/\.slip-checks\s+\.checks\{[^}]*overflow-y:\s*auto/.test(deskMq) && /class="slip-checks"/.test(html))
+    ?pass3('desktop (>=981px): only the Config checks box scrolls, inside itself')
+    :fail3('desktop checks-box scroll rule missing: '+deskMq.slice(0,300));
+  (/function syncSlipWrap\(\)/.test(html) && /box\.style\.maxHeight=room\+'px'/.test(html) && /box\.style\.minHeight=room\+'px'/.test(html)
+    && /syncSlipWrap\(\);\s*\n\s*save\(\);/.test(html) && /addEventListener\('resize',syncSlipWrap\)/.test(html))
+    ?pass3('syncSlipWrap() gives the checks box an exact max-height (window - gaps - bar - slip - buttons) and pins the column to the bar — runs on every refresh and on resize')
     :fail3('syncSlipWrap wiring missing');
   const printMq=(html.match(/@media print\{[\s\S]*?\n\}/)||[''])[0];
-  (/\.checks\{[^}]*overflow:\s*visible/.test(printMq) && /\.slip-wrap\{[^}]*max-height:\s*none/.test(printMq))
-    ?pass3('print: the checks box and column are un-clamped so nothing is cut off on paper')
+  (/\.checks\{[^}]*max-height:\s*none\s*!important[^}]*overflow:\s*visible\s*!important/.test(printMq))
+    ?pass3('print: the checks box is un-clamped (!important beats the inline max-height) so nothing is cut off on paper')
     :fail3('print un-clamp rules missing: '+printMq.slice(0,200));
 
   // --- scrolling a dropdown to its end doesn't chain into the page behind it ---

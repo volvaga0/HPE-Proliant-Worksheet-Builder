@@ -2783,10 +2783,15 @@ DL110 G12 has no data-sheet statement, left as is.
 **Right column (Spec slip / Config checks / buttons) is clamped to the window on desktop (>=981px).** Before, a long
 notes list pushed the sticky column below the fold and the page had to be scrolled to the very end to read/scroll the
 rest; the slip also had its own scrollbar (`max-height:34vh`). Now: the spec slip has NO scrollbar and grows to show all
-of itself; the column is capped to `100vh - 24px - bottom bar - 14px`; only the Config checks box scrolls, inside itself,
-and the Copy spec / Copy link / Print buttons stay just above the bottom bar. `syncSlipWrap()` (after `run()`) measures
-the bar into `--bar-h`, sets `--wrap-min` (slip + buttons + a 130px minimum notes box) so the cap can never squash the
-slip or the buttons, and, if even that minimum is taller than the window (very short windows), gives the sticky
-`top` a negative value so the column's bottom pins to the bar as soon as the page scrolls. Tablet/phone (<=980px) and
-print are unchanged (normal page flow, nothing clamped). jsdom can't lay out, so QA checks the CSS/JS wiring as text,
-like the earlier sticky tests; the layout itself was checked in the real browser pane at 1360x720, 1360x520 and 432x800.
+of itself, and only the Config checks box scrolls, inside itself. `syncSlipWrap()` (called at the end of `run()` and on
+resize) gives that box an EXACT `max-height` in px = window height - 24px top gap - bottom bar - 14px - the slip block - the
+buttons - the panel heading - the 14px gaps (min 88px), so the buttons sit 14px above the bar. (A first attempt used CSS
+flex + `max-height` on the column; Chrome left the column 8-22px short of its cap while the notes still scrolled, which
+showed up as the buttons ending a few px above the bottom of the engineer-notes card.) At the end of the page the last
+card on the left ends 12px above the column limit (26px body padding vs the 14px bar gap), so when the notes are within
+60px of filling their room the box is also given `min-height` = room: the column then ends exactly flush with that card
+(verified: 0px difference at 720px and 1270px tall; a clearly shorter column stays compact). If even the 88px minimum makes
+the column taller than the window (very short windows) the sticky `top` goes negative so the column bottom pins to the bar
+once the page scrolls. Tablet/phone (<=980px) and print are unchanged (normal flow; print uses !important to drop the
+inline max/min-height). jsdom can not lay out, so QA checks the CSS/JS wiring as text like the earlier sticky tests; the
+layout itself was checked in the browser pane at 1360x720, 1360x1270, 1360x520 and 432x800.

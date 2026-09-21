@@ -298,15 +298,15 @@ pre.slip .gap{color:var(--check)}
 .chk.info .tag,.chk.ok .tag{background:var(--shade);color:var(--ink-soft)}
 .slip-actions{display:flex;gap:7px;flex-wrap:wrap}
 /* Desktop: the sticky right column never outgrows the window. The spec slip (all of it, no
-   scrollbar) and the buttons keep their natural height; the config checks take whatever is left
-   and scroll inside their own box, so the buttons stay put just above the bottom bar instead of
-   needing a page scroll to reach the end of a long notes list. --bar-h is measured by JS
-   (syncSlipWrap), which also pins the column's BOTTOM to the bar if a very long slip makes even
-   the minimum size taller than the window. Phones/tablets (<=980px) stay in normal page flow. */
+   scrollbar) and the buttons keep their natural height; the config checks box gets an exact
+   max-height from syncSlipWrap() (whatever is left between the top gap and the bottom bar) and
+   scrolls inside itself, so the buttons stay put just above the bar — and, once the notes need to
+   scroll, the column ends flush with the bottom of the last card on the left when the page is
+   scrolled to the end. If a very long slip makes even the 88px minimum taller than the window,
+   syncSlipWrap() pins the column's BOTTOM to the bar instead. Phones/tablets (<=980px) stay in
+   normal page flow. */
 @media (min-width:981px){
-  .slip-wrap{max-height:max(calc(100vh - 24px - var(--bar-h,60px) - 14px),var(--wrap-min,0px))}
-  .slip-wrap>.slip-checks{flex:1 1 auto;min-height:130px;display:flex;flex-direction:column}
-  .slip-wrap>.slip-checks .checks{flex:1 1 auto;min-height:88px;overflow-y:auto;overscroll-behavior:contain}
+  .slip-wrap>.slip-checks .checks{overflow-y:auto;overscroll-behavior:contain}   /* max-height is set by syncSlipWrap() */
 }
 
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:900;background:var(--card);border-top:1.5px solid var(--signal);
@@ -452,9 +452,8 @@ button.quiet{color:var(--ink-soft)}
   .row{page-break-inside:avoid;padding:4px 7px}
   #tower-rows{display:block !important}
   pre.slip{border:1.5px solid #000;page-break-inside:avoid;max-height:none}
-  .checks{max-height:none;overflow:visible}
-  .slip-wrap{position:static;max-height:none}
-  .slip-wrap>.slip-checks{display:block;min-height:0}
+  .checks{max-height:none !important;min-height:0 !important;overflow:visible !important}   /* !important: syncSlipWrap sets inline max/min-height */
+  .slip-wrap{position:static}
   .col-slip{margin-top:18px}
   .pills input:checked + label{background:#000;color:#fff}
 }
@@ -3665,7 +3664,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.21.6'; // 6th build shipped today
+var BUILD_VERSION='2026.09.21.7'; // 7th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -5301,16 +5300,27 @@ function run(){
    between the top gap and the bar (a very long spec slip), pins its bottom to the bar instead
    of its top so the buttons and the last checks stay reachable without a page scroll. */
 function syncSlipWrap(){
-  var wrap=document.querySelector('.slip-wrap'),bar=document.querySelector('.bar');
-  if(!wrap||!bar)return;
-  var bh=bar.offsetHeight||60,root=document.documentElement.style;
-  root.setProperty('--bar-h',bh+'px');
-  if(window.matchMedia&&window.matchMedia('(max-width:980px)').matches){wrap.style.top='';return;}
-  /* the column may shrink only the Config checks box, down to its 130px minimum: everything else (the
-     slip, the buttons) is never cut, so the cap can never go below that total. --wrap-min feeds the CSS max() */
-  var kids=wrap.children,fixed=0,i;
-  for(i=0;i<kids.length;i++)if(!kids[i].classList.contains('slip-checks'))fixed+=kids[i].offsetHeight;
-  root.setProperty('--wrap-min',(fixed+14*(kids.length-1)+130)+'px');   /* 14 = the .slip-wrap gap */
+  var wrap=document.querySelector('.slip-wrap'),bar=document.querySelector('.bar'),box=document.getElementById('checks');
+  if(!wrap||!bar||!box||!window.matchMedia)return;
+  if(window.matchMedia('(max-width:980px)').matches){wrap.style.top='';box.style.maxHeight='';box.style.minHeight='';return;}
+  var bh=bar.offsetHeight||60,kids=wrap.children,other=0,head=0,i;
+  /* only the Config checks box may shrink: the slip and the buttons are never cut. Its max-height is
+     an exact number (window - top gap - bar - bottom gap - everything else) rather than flex sizing,
+     so the column really reaches the bottom limit whenever the notes need to scroll. 14 = .slip-wrap gap */
+  for(i=0;i<kids.length;i++){
+    if(kids[i].classList.contains('slip-checks'))head=kids[i].firstElementChild.offsetHeight;
+    else other+=kids[i].offsetHeight;
+  }
+  var room=Math.max(88,window.innerHeight-24-bh-14-other-head-14*(kids.length-1));
+  box.style.minHeight='';
+  box.style.maxHeight=room+'px';
+  /* Tidy ending: at the bottom of the page the last card on the left sits 12px above the column's
+     limit (26px page padding vs the 14px gap above the bar). A column that stops a few px short of
+     that looks ragged, so if the notes are within 60px of filling their room (or overflow it) they
+     are stretched to exactly fill it and the column ends flush with that card. Clearly shorter
+     content is left compact. */
+  var natural=box.scrollHeight+(box.offsetHeight-box.clientHeight);
+  if(natural>=room-60)box.style.minHeight=room+'px';
   wrap.style.top=Math.min(24,window.innerHeight-bh-14-wrap.offsetHeight)+'px';
 }
 window.addEventListener('resize',syncSlipWrap);
