@@ -3688,4 +3688,16 @@ function runRound25(){
   (cpuOpts25d.length===24 && cpuOpts25d.some(function(o){return o.indexOf('7232P')>-1;}) && cpuOpts25d.some(function(o){return o.indexOf('7601')>-1;}) && !cpuOpts25d.some(function(o){return o.indexOf('7742')>-1;}))
     ?pass25('DL325 G10: cpuAllow enforces the 24-SKU EPYC pool (Naples + Rome) confirmed across V6/V15/V26 — no dual-socket-only 7742/7H12 etc.')
     :fail25('DL325 G10 CPU list wrong: '+cpuOpts25d.length+' options');
+
+  setModel25('DL385 G10');
+  const ci25e=d.getElementById('cpu-input');ci25e.value='';fire(ci25e,'input');
+  const cpuOpts25e=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  (cpuOpts25e.length===23 && cpuOpts25e.some(function(o){return o.indexOf('7601')>-1;}) && cpuOpts25e.some(function(o){return o.indexOf('7702')>-1;}) && !cpuOpts25e.some(function(o){return o.indexOf('7742')>-1 || o.indexOf('7H12')>-1;}))
+    ?pass25('DL385 G10: cpuAllow enforces the 23 confirmed EPYC SKUs (11 Naples + 12 Rome), excluding Gen10 Plus-era 7742/7H12')
+    :fail25('DL385 G10 CPU list wrong: '+cpuOpts25e.length+' options');
+  const flr25=d.getElementById('flr');flr25.disabled=false;flr25.value='';fire(flr25,'input');
+  const flrOpts25=[...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  (flrOpts25.length===9 && flrOpts25.some(function(o){return /^622FLR-SFP28/.test(o);}) && !flrOpts25.some(function(o){return /^562FLR-T|Pensando|^537FLR/.test(o);}))
+    ?pass25('DL385 G10: real 9-option FlexibleLOM list from the official V29 doc — differs from DL380 G10 (no 562FLR-T/537FLR/Pensando)')
+    :fail25('DL385 G10 flr panel wrong: '+flrOpts25.join(' | '));
 }
