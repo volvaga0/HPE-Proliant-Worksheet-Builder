@@ -283,7 +283,7 @@ pre.slip{margin:0;background:var(--slip);color:var(--slip-ink);border:1px solid 
   box-shadow:inset 0 1px 0 rgba(255,255,255,0.04);
   border-radius:0 0 10px 10px;
   padding:14px 15px 16px;font-family:ui-monospace,"Cascadia Mono",Consolas,Menlo,monospace;
-  font-size:13px;line-height:1.75;white-space:pre-wrap;word-break:break-word;min-height:130px;max-height:34vh;overflow:auto}
+  font-size:13px;line-height:1.75;white-space:pre-wrap;word-break:break-word;min-height:130px}   /* no scrollbar: the box grows so the whole slip is always visible */
 pre.slip .gap{color:var(--check)}
 .checks{border:1px solid var(--rule);border-top:0;background:var(--card);border-radius:0 0 10px 10px;
   box-shadow:0 8px 20px rgba(0,0,0,0.25), inset 0 1px 0 var(--glass-highlight)}
@@ -297,6 +297,17 @@ pre.slip .gap{color:var(--check)}
 .chk.info,.chk.ok{color:var(--ink-soft)}
 .chk.info .tag,.chk.ok .tag{background:var(--shade);color:var(--ink-soft)}
 .slip-actions{display:flex;gap:7px;flex-wrap:wrap}
+/* Desktop: the sticky right column never outgrows the window. The spec slip (all of it, no
+   scrollbar) and the buttons keep their natural height; the config checks take whatever is left
+   and scroll inside their own box, so the buttons stay put just above the bottom bar instead of
+   needing a page scroll to reach the end of a long notes list. --bar-h is measured by JS
+   (syncSlipWrap), which also pins the column's BOTTOM to the bar if a very long slip makes even
+   the minimum size taller than the window. Phones/tablets (<=980px) stay in normal page flow. */
+@media (min-width:981px){
+  .slip-wrap{max-height:max(calc(100vh - 24px - var(--bar-h,60px) - 14px),var(--wrap-min,0px))}
+  .slip-wrap>.slip-checks{flex:1 1 auto;min-height:130px;display:flex;flex-direction:column}
+  .slip-wrap>.slip-checks .checks{flex:1 1 auto;min-height:88px;overflow-y:auto;overscroll-behavior:contain}
+}
 
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:900;background:var(--card);border-top:1.5px solid var(--signal);
   padding:9px 16px calc(9px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,0.35);
@@ -441,7 +452,9 @@ button.quiet{color:var(--ink-soft)}
   .row{page-break-inside:avoid;padding:4px 7px}
   #tower-rows{display:block !important}
   pre.slip{border:1.5px solid #000;page-break-inside:avoid;max-height:none}
-  .checks{max-height:none}
+  .checks{max-height:none;overflow:visible}
+  .slip-wrap{position:static;max-height:none}
+  .slip-wrap>.slip-checks{display:block;min-height:0}
   .col-slip{margin-top:18px}
   .pills input:checked + label{background:#000;color:#fff}
 }
@@ -791,7 +804,7 @@ button.quiet{color:var(--ink-soft)}
       <div class="panel-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6"/><path d="M9 16h6"/></svg>Spec slip</h2><span class="hint" id="gapcount"></span></div>
       <pre class="slip" id="slip"></pre>
     </div>
-    <div>
+    <div class="slip-checks">
       <div class="panel-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Config checks</h2><span class="hint" id="chkcount"></span></div>
       <div class="checks" id="checks"></div>
     </div>
@@ -960,35 +973,35 @@ var MODELS=[
        '2 PCIe slots via one mandatory riser: Dual-side Low Profile (x8+x8), FlexibleLOM (FLOM+x8), or a single-slot x16 riser.',
        'SAS/SATA only — no NVMe, Tri-Mode or Premium backplane on any bay config.']}},
  {m:'DL60', g:'G9', p:['e5v3','e5v4'], s:2, d:8, bays:['4LFF'],
-   rules:{verified:true,psuMax:2,fans:{one:3,two:4,perf:6},pcie:{one:3,two:3},riserMax:1,
+   rules:{hsNoChoice:true,verified:true,psuMax:2,fans:{one:3,two:4,perf:6},pcie:{one:3,two:3},riserMax:1,
      notes:['1 bay standard: 550W FIO Power Supply (730941-B21), non-redundant. The 900W AC 240VDC Redundant Power Supply Kit (820792-B21, 2 input modules + backplane) enables a 2nd bay.',
        'Fans: 3 (1P) / 4 (2P) non-redundant; the redundant fan kit (765513-B21) raises that to 5 (1P) / 6 (2P). No performance-fan tier.',
        'PCIe: 1 fixed x16 board slot (CPU1) plus one mandatory riser (FlexibleLOM or plain PCIe, +2 slots) = 3 slots, the same on 1P and 2P.',
        '4LFF only — no SFF option.',
        'SAS/SATA only — no NVMe option.']}},
  {m:'DL80', g:'G9', p:['e5v3','e5v4'], s:2, d:8, bays:['4LFF','8LFF','12LFF'],
-   rules:{verified:true,psuMax:2,fans:{one:3,two:4,perf:6},pcie:{one:3,two:5},riserMax:1,
+   rules:{hsNoChoice:true,verified:true,psuMax:2,fans:{one:3,two:4,perf:6},pcie:{one:3,two:5},riserMax:1,
      notes:['1 bay standard: 550W FIO Power Supply (730941-B21), non-redundant. The 800W Gold (redundant) / 900W (non-redundant) AC Power Input Module (744689-B21) plus Redundant PSU Backplane Kit (745813-B21, up to 2 modules) enables a 2nd bay.',
        'Fans: 3 (1P) / 4 (2P) non-redundant, 5 (1P) / 6 (2P) redundant. Pre-configured 1P SKUs ship fewer (2 without a riser, 4 with one) — confirm the SKU before quoting a riser-less 1P build.',
        '5 PCIe slots sit directly on the board (3 on CPU1, 2 on CPU2) — the Primary / FlexibleLOM / single-slot x16 riser is optional, not required.',
        'Bays: 4LFF (non-hot-plug), 8LFF or 12LFF (hot-plug).',
        'The only QuickSpecs found (Sep 2015) predates the E5-2600 v4 refresh — confirm v4 processor support before quoting.']}},
  {m:'DL120',g:'G9', p:['e5v3','e5v4'], s:1, d:8, bays:['8SFF','4LFF'],
-   rules:{verified:true,psuMax:2,fans:{one:3,perf:5},pcie:{one:3},riserMax:1,
+   rules:{hsNoChoice:true,verified:true,psuMax:2,fans:{one:3,perf:5},pcie:{one:3},riserMax:1,
      notes:['1 bay standard: 550W FIO Power Supply, non-redundant. A 900W AC 240VDC Redundant module + backplane enables a 2nd bay.',
        'Fans: 3 standard, non-redundant; the redundant fan kit (765513-B21) raises that to 5. Fan redundancy is not supported for processors over 105W — check the CPU before ordering it.',
        'PCIe: 1 fixed x16 board slot (CPU1) plus one mandatory riser — FlexibleLOM or plain PCIe (+2 slots each), or a single-slot x16 riser. Up to 3 slots.',
        'Bays: 8SFF or 4LFF.',
        'SAS/SATA only — no NVMe option.']}},
  {m:'DL160',g:'G9', p:['e5v3','e5v4'], s:2, d:16, bays:['8SFF','4LFF'],
-   rules:{verified:true,psuMax:2,fans:{one:3,two:6,perf:7},pcie:{one:2,two:3},riserMax:2,
+   rules:{hsNoChoice:true,verified:true,psuMax:2,fans:{one:3,two:6,perf:7},pcie:{one:2,two:3},riserMax:2,
      notes:['1 bay standard: 550W FIO Power Supply, non-redundant. The 900W AC 240VDC Redundant Power Supply Kit (820792-B21) enables a 2nd bay.',
        'Fans: 3 (1P) / 6 (2P) non-redundant; the redundant fan kit (725587-B21) raises that to 4 (1P) / 7 (2P). No performance-fan tier.',
        'PCIe: mandatory CPU1 riser (2 slots: x16 FHHL + x8 LP, or the FlexibleLOM variant) plus an optional CPU2 riser (1 x16 LP slot, needs the 2nd processor).',
        'Bays: 8SFF or 4LFF only — no 10SFF at Gen9.',
        'SAS/SATA only — no NVMe option.']}},
  {m:'DL180',g:'G9', p:['e5v3','e5v4'], s:2, d:16, bays:['8SFF','16SFF','8LFF','12LFF'],
-   rules:{verified:true,psuMax:2,fans:{one:2,two:4,perf:5},pcie:{one:3,two:3},riserMax:1,
+   rules:{hsNoChoice:true,verified:true,psuMax:2,fans:{one:2,two:4,perf:5},pcie:{one:3,two:3},riserMax:1,
      notes:['Processor upgrade from E5-2600 v3 to v4 is supported only for processors up to 105W.',
        'Mixing different processor models is not supported.',
        '1 bay standard: 550W FIO Power Supply, non-redundant. A 900W AC 240VDC Redundant module + backplane enables a 2nd bay. Mixing power supplies is not supported.',
@@ -1058,7 +1071,7 @@ var MODELS=[
        'No rear or mid-tray drive cage.',
        'Front bays: 2LFF (hot-plug or non-hot-plug) or 4SFF (expandable to 6SFF with a +2SFF kit).']}},
  {m:'DL160',g:'G10', p:['sp1','sp2'],  s:2, d:16, bays:['4LFF','8SFF','10SFF'],
-   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+   rules:{hsNoChoice:true,verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:2,fans:{one:3,two:6,perf:7},pcie:{one:2,two:3},rear:[],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','DL160/180 Gen10 Redundant PSU Enablement Kit — mandatory with any of the above (866442-B21)'],
@@ -1073,7 +1086,7 @@ var MODELS=[
        'Mixing two different processor models is not supported.',
        'Field upgrade from 1st to 2nd generation Scalable processors is not supported.']}},
  {m:'DL180',g:'G10', p:['sp1','sp2'],  s:2, d:16, bays:['4LFF','8LFF','12LFF','8SFF'],
-   rules:{verified:true,hsW:130,hsWtext:'130W or higher',
+   rules:{hsNoChoice:true,verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:2,fans:{one:3,two:5,perf:5},pcie:{one:3,two:6},riserMax:2,rear:['2SFF rear'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','DL160/180 Gen10 Redundant PSU Enablement Kit — mandatory with any of the above (866442-B21)'],
@@ -1201,7 +1214,7 @@ var MODELS=[
        'Standard PSU is a single non-redundant 290W; a 500W or 800W Flex Slot pair needs the RPS enablement kit (2 bays).',
        '2 PCIe 4.0 slots on the primary low-profile riser (1 FH/HL + 1 LP).']}},
  {m:'DL110', g:'G10+', p:['sp3'],    s:1, d:8, bays:[],
-   rules:{fanW:0,verified:true,psuMax:2,fans:{one:7,perf:7},pcie:{one:3,two:3},riserMax:2,fanGPU:true,rear:[],
+   rules:{hsNoChoice:true,fanW:0,verified:true,psuMax:2,fans:{one:7,perf:7},pcie:{one:3,two:3},riserMax:2,fanGPU:true,rear:[],
      psu:['700W Flex Slot -48VDC (P43150-B21)','700W Flex Slot Platinum AC (P44975-B21)','900W-1000W Titanium AC, 96% efficient — meets the 2024 EU efficiency rule (P54290-B21)'],
      ctrl:['No Smart Array controller exists on this chassis at all — Intel VROC NVMe/SATA embedded software RAID only, no orderable card'],
      flr:['I350-T4 1Gb 4p (P08449-B21)','BCM57414 10/25Gb 2p — not NEBS compliant (P10115-B21)','MCX562A 10/25Gb 2p (P10112-B21)','E810-XXVDA2 10/25Gb 2p — not NEBS compliant (P10106-B21)','E810-XXVDA4 10/25Gb 4p (P41614-B21)','E810-CQDA2 100Gb 2p — not NEBS compliant (P22767-B21)'],
@@ -1361,7 +1374,7 @@ var MODELS=[
        '2SFF add-on kit (P65406-B21) upgrades the 4SFF chassis to 6SFF, mutually exclusive with the optical drive.',
        'NVMe exists only on the 2SFF add-on kit (P65406-B21) — up to 2 NVMe U.3 drives; the base 4SFF chassis has no Tri-Mode/Premium cage.']}},
  {m:'DL110',g:'G11', p:['sp4'],    s:1, d:16, bays:[],
-   rules:{fanW:0,verified:true,psuMax:2,fans:{one:7},pcie:{one:3},riserMax:2,rear:[],notes:['No drive bays of any kind, and no rear or mid-tray cage — front-cabled chassis; storage is 4x M.2 (SATA or NVMe) via Intel VROC.',
+   rules:{hsNoChoice:true,fanW:0,verified:true,psuMax:2,fans:{one:7},pcie:{one:3},riserMax:2,rear:[],notes:['No drive bays of any kind, and no rear or mid-tray cage — front-cabled chassis; storage is 4x M.2 (SATA or NVMe) via Intel VROC.',
        'Processors at 185W TDP or higher need the DIMM Blank kit (P43725-B21) fitted in any unpopulated slots.',
        '4th Gen Xeon Scalable only — no 5th Gen. Telco N-suffix Gold SKUs (5423N/6403N/6423N/6433N/6443N) exist for this model but are not in the CPU list — note them manually.',
        '2 PSU bays — pick two of the same part (700W Flex Slot -48VDC P43150-B21, 700W Flex Slot Platinum AC P44975-B21, or 900-1000W Titanium AC P54290-B21). Mixing different PSU part numbers is not supported.',
@@ -1496,7 +1509,7 @@ var MODELS=[
        'Up to 2 half-height half-length GPUs or up to 2 100W in-line accelerators are supported.',
        'PSU types are 1300W M-CRPS AC or 1000W M-CRPS -48VDC; PSU bay count/redundancy and the riser/PCIe-slot topology are not confirmed — check QuickSpecs before quoting a specific build.']}},
  {m:'DL320', g:'G12', p:['xeon6'], s:1, d:16, bays:['8SFF','10SFF','4LFF','12LFF'],
-   rules:{fanWtext:'above 185W',fanW:186,verified:true,hsW:185,hsWtext:'above 185W',fans:{one:7,perf:7},psuMax:1,riserMax:2,pcie:{one:2},rear:[],
+   rules:{fanWtext:'above 185W',fanW:186,verified:true,hsW:186,hsWtext:'above 185W',fans:{one:7,perf:7},psuMax:1,riserMax:2,pcie:{one:2},rear:[],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6511P','6515P','6517P','6520P','6521P','6527P','6530P','6730P','6731P','6736P','6737P','6740P','6741P','6747P','6760P','6761P','6767P','6781P','6787P'],
      notes:['Single-socket. The CPU list is limited to the 7 E-core SKUs, 21 P-core SKUs (not 6745P) and the single-socket "1P" variants (6511P/6521P/6731P/6741P/6761P/6781P); no 4S/8S Socket Scalable SKUs.',
        'No rear or mid-tray drive cage.',
@@ -1506,7 +1519,7 @@ var MODELS=[
        'Single power supply bay — no redundant PSU option on this chassis.',
        '8SFF is Tri-Mode-only (x1 L-Shaped P75084-B21) or pure NVMe U.2/U.3 (P71421/P75085-B21) — no plain SAS/SATA-only cage. 4LFF/12LFF use the base SAS/SATA cage with no extra kit.']}},
  {m:'DL340', g:'G12', p:['xeon6'], s:2, d:16, bays:['8SFF','12LFF'],
-   rules:{verified:true,hsW:250,hsWtext:'above 250W on an 8SFF (≤2 cages) config',fans:{one:6,two:6,perf:6},psuMax:2,riserMax:2,pcie:{one:1,two:2},rear:[],
+   rules:{verified:true,hsW:251,hsWtext:'above 250W on an 8SFF (≤2 cages) config',fans:{one:6,two:6,perf:6},psuMax:2,riserMax:2,pcie:{one:1,two:2},rear:[],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6511P','6515P','6517P','6520P','6521P','6527P','6530P','6730P','6731P','6736P','6737P','6740P','6741P','6745P','6747P','6760P','6761P','6767P','6781P','6787P'],
      notes:['Single-socket. The CPU list is the same as DL320 G12 (7 E-core SKUs plus the single-socket "1P" variants) plus 6745P; no 4S/8S Socket Scalable SKUs.',
        'No rear or mid-tray drive cage — the only "rear" option is a PCIe Rear Captive Riser Kit (cards, not drives).',
@@ -1515,7 +1528,7 @@ var MODELS=[
        'A 36-EDSFF front cage and a front-GPU CTO variant also exist — neither is in the bay list.',
        '8SFF is Tri-Mode-only (x1 P75740-B21 or x4 P75741-B21) or pure NVMe U.2 (P71465-B21) — no plain SAS/SATA-only cage. 12LFF is 3x 4LFF cages, each with a plain 4LFF Backplane Kit (P75760-B21).']}},
  {m:'DL360', g:'G12', p:['xeon6'], s:2, d:32, bays:['4LFF','10SFF'],
-   rules:{fanWtext:'above 185W',fanW:186,verified:true,hsW:185,hsWtext:'above 185W',fans:{one:5,two:7,perf:7},psuMax:2,riserMax:2,pcie:{one:2,two:3},
+   rules:{fanWtext:'above 185W',fanW:186,verified:true,hsW:186,hsWtext:'above 185W',fans:{one:5,two:7,perf:7},psuMax:2,riserMax:2,pcie:{one:2,two:3},
      rear:['2x M.2 (dual uFF) rear'],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6730P','6736P','6737P','6740P','6747P','6760P','6767P','6787P'],
      notes:['The CPU list is the 7 E-core SKUs plus the 15 standard P-core SKUs — no single-socket "1P" variants, no 6745P, no 4S/8S Socket Scalable SKUs.',
@@ -1524,7 +1537,7 @@ var MODELS=[
        'Above 270W (2P) needs Closed-loop liquid cooling instead of an air-cooled heat sink; up to 350W is DLC-only. Confirm the exact tier for high-wattage picks.',
        '10SFF (really 8SFF+2SFF) is Tri-Mode/NVMe-mixed by default — no plain SAS/SATA-only SFF cage. 4LFF Low Profile is treated as SAS/SATA-only even though the doc names its backplane "12G x1 TriMode U.3" (no LFF NVMe drive is sold).']}},
  {m:'DL380', g:'G12', p:['xeon6'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:185,hsWtext:'above 185W',fans:{one:4,two:4,perf:6},psuMax:2,riserMax:3,pcie:{one:3,two:8},
+   rules:{verified:true,hsW:186,hsWtext:'above 185W',fans:{one:4,two:4,perf:6},psuMax:2,riserMax:3,pcie:{one:3,two:8},
      rear:['2SFF rear','4LFF rear','6SFF rear','4LFF midtray'],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6714P','6724P','6728P','6730P','6736P','6737P','6738P','6740P','6745P','6747P','6748P','6760P','6767P','6768P','6787P','6788P'],
      notes:['The CPU list is the widest of any G12 model: all 7 E-core SKUs, the 15 standard P-core SKUs, 6745P and the 7 Socket Scalable (4S/8S) SKUs. No single-socket "1P" variants.',
@@ -1606,7 +1619,7 @@ var MODELS=[
        'Standard PSU is a single non-hot-plug 350W (Gold, P21652-B21); a 500W Flex Slot Platinum (865408-B21) with the RPS Enablement Kit (P06305-B21) adds redundancy — 2 bays.',
        '4 PCIe slots on the system board (slot 1 x16 from the CPU, slots 2-4 x4 from the PCH) — no riser cages.']}},
  {m:'ML110',g:'G10', p:['sp1','sp2'], s:1, d:6,  tower:true, bays:['4LFF','8LFF','8SFF','16SFF'],
-   rules:{verified:true,psuMax:2,pcie:{one:5,two:5},riserMax:0,rear:[],
+   rules:{hsNoChoice:true,verified:true,psuMax:2,pcie:{one:5,two:5},riserMax:0,rear:[],
      psu:['350W ATX Kit','550W ATX Kit — standard','500W Flex Slot Platinum, needs RPS kit (865408-B21)','800W Flex Slot Platinum, needs RPS kit (865414-B21)','800W Flex Slot Titanium, needs RPS kit (865438-B21)','RPS Enablement Kit (supports 2 supplies)'],
      ctrl:['S100i (embedded SW RAID, off by default)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
      notes:['No embedded/modular "-a" RAID controller — only S100i (built-in software RAID) and the 4 PCIe plug-in cards. No P824i-p or P816i-a.',
@@ -1650,7 +1663,7 @@ var MODELS=[
        '4 PCIe slots (1x PCIe 5.0 x16 + 3x PCIe 4.0 x8/x4) directly on the system board/PCH — no riser cage.',
        '4LFF (hot-plug or non-hot-plug) or 8SFF hot-plug.']}},
  {m:'ML110',g:'G11', p:['sp4','sp5'],   s:1, d:16, tower:true, bays:['4LFF','8LFF','8SFF','16SFF'],
-   rules:{fanW:0,verified:true,rear:[],psuMax:2,fans:{one:2},pcie:{one:4},riserMax:2,
+   rules:{hsNoChoice:true,fanW:0,verified:true,rear:[],psuMax:2,fans:{one:2},pcie:{one:4},riserMax:2,
      notes:['No rear drive bay — Box1/Box2 are both front-mounted expansion positions.',
        '4 Flex Slot PSU wattage tiers (500W/800W/1000W/1600W Platinum/Titanium); a 2nd module of the same kit provides 1+1 redundancy.',
        '2 standard, non-hot-plug fans by default. An optional Redundant Fan Kit (P49984-B21) is required with a 15K RPM SAS SFF HDD (and other heavier configs) for advanced cooling and redundancy — the fan count it gives is not stated, so confirm against QuickSpecs before quoting a build that needs it.',
@@ -3652,7 +3665,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.21.5'; // 5th build shipped today
+var BUILD_VERSION='2026.09.21.6'; // 6th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4974,12 +4987,14 @@ function evaluate(){
 
   var hsReasons=[],recHs=null;
   if(R.hsNoChoice){
-    /* 4-socket Gen9 and similar: the heatsink comes in the processor kit — nothing to select */
+    /* 4-socket Gen9, the entry-level racks/towers and the DL110 telco boxes: the heatsink comes with
+       the processor kit (or the CTO server) and the QuickSpecs list no orderable performance heatsink
+       and no wattage step — nothing to select */
     var hsStd=document.querySelector('input[name="hs"][value="Std Heatsinks"]');
     if(hsStd&&!manualOverride.hs)hsStd.checked=true;
     var whyHsEl=document.getElementById('why-hs');
-    whyHsEl.className='why on';whyHsEl.textContent='Ships in the processor kit — no standard / performance choice on this model.';
-    if(m)checks.push(['info','HEATSINK',m.m+' '+m.g+' has one heatsink design and it ships in the processor kit — there is no standard-vs-performance heatsink choice to make.']);
+    whyHsEl.className='why on';whyHsEl.textContent='Comes with the processor kit / server — no standard / performance choice on this model.';
+    if(m)checks.push(['info','HEATSINK',m.m+' '+m.g+' has one heatsink design and it comes with the processor kit or the server — there is no standard-vs-performance heatsink choice to make.']);
   }else{
     if(midtray&&m&&m.m==='DL380'&&m.g==='G11'&&cpu&&cpu[3]>150){
       recHs='Perf Heatsinks';
@@ -5278,8 +5293,27 @@ function run(){
   cnt.innerHTML=ev.blocked?'<b>Unsupported configuration</b> — see config checks'
     :(out.gaps.length?'<b>'+out.gaps.length+'</b> item'+(out.gaps.length>1?'s':'')+' still to confirm'
     :'<b>Ready to build</b> — nothing outstanding');
+  syncSlipWrap();
   save();
 }
+/* Keeps the sticky right column inside the window on desktop (see the .slip-wrap CSS): tells
+   the CSS how tall the fixed bottom bar is, and if the column is STILL taller than the room
+   between the top gap and the bar (a very long spec slip), pins its bottom to the bar instead
+   of its top so the buttons and the last checks stay reachable without a page scroll. */
+function syncSlipWrap(){
+  var wrap=document.querySelector('.slip-wrap'),bar=document.querySelector('.bar');
+  if(!wrap||!bar)return;
+  var bh=bar.offsetHeight||60,root=document.documentElement.style;
+  root.setProperty('--bar-h',bh+'px');
+  if(window.matchMedia&&window.matchMedia('(max-width:980px)').matches){wrap.style.top='';return;}
+  /* the column may shrink only the Config checks box, down to its 130px minimum: everything else (the
+     slip, the buttons) is never cut, so the cap can never go below that total. --wrap-min feeds the CSS max() */
+  var kids=wrap.children,fixed=0,i;
+  for(i=0;i<kids.length;i++)if(!kids[i].classList.contains('slip-checks'))fixed+=kids[i].offsetHeight;
+  root.setProperty('--wrap-min',(fixed+14*(kids.length-1)+130)+'px');   /* 14 = the .slip-wrap gap */
+  wrap.style.top=Math.min(24,window.innerHeight-bh-14-wrap.offsetHeight)+'px';
+}
+window.addEventListener('resize',syncSlipWrap);
 function plain(){
   var ev=evaluate(),out=buildSlip(),t=out.lines.join('\n');
   if(out.gaps.length)t+='\n\nStill needed: '+out.gaps.join(', ');

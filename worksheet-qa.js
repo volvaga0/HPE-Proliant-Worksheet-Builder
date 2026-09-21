@@ -495,6 +495,26 @@ setTimeout(()=>{
     ?fail3('body still uses overflow-x:hidden — this forces overflow-y:auto per the CSS overflow computed-value pairing rule, turning <body> into its own scroll container and silently breaking every position:sticky element on the page (this exact bug broke the sticky sidebar once already)')
     :pass3('body uses overflow-x:clip, not hidden — avoids the hidden/auto overflow-pairing quirk that breaks position:sticky');
 
+  // --- desktop right column is clamped to the window (2026-09-21): the spec slip shows in FULL with no
+  // scrollbar, the Config checks box scrolls inside itself, and the buttons stay above the bottom bar ---
+  const slipRule=(html.match(/pre\.slip\{[^}]*\}/)||[''])[0];
+  (!/max-height/.test(slipRule) && !/overflow\s*:\s*(auto|scroll)/.test(slipRule))
+    ?pass3('spec slip has no max-height / scrollbar — the box grows so the whole slip is always visible')
+    :fail3('spec slip still limits its height or scrolls: '+slipRule);
+  const deskMq=(html.match(/@media \(min-width:981px\)\{[\s\S]*?\n\}/)||[''])[0];
+  (/\.slip-wrap\{[^}]*max-height:\s*max\(calc\(100vh[^}]*var\(--bar-h[^}]*var\(--wrap-min/.test(deskMq)
+    && /\.slip-checks\s+\.checks\{[^}]*overflow-y:\s*auto/.test(deskMq)
+    && /class="slip-checks"/.test(html))
+    ?pass3('desktop (>=981px): the right column is capped to the window and only the Config checks box scrolls, inside itself')
+    :fail3('desktop column clamp rules missing: '+deskMq.slice(0,300));
+  (/function syncSlipWrap\(\)/.test(html) && /syncSlipWrap\(\);\s*\n\s*save\(\);/.test(html) && /addEventListener\('resize',syncSlipWrap\)/.test(html))
+    ?pass3('syncSlipWrap() measures the bottom bar and pins the column to it — runs on every refresh and on resize')
+    :fail3('syncSlipWrap wiring missing');
+  const printMq=(html.match(/@media print\{[\s\S]*?\n\}/)||[''])[0];
+  (/\.checks\{[^}]*overflow:\s*visible/.test(printMq) && /\.slip-wrap\{[^}]*max-height:\s*none/.test(printMq))
+    ?pass3('print: the checks box and column are un-clamped so nothing is cut off on paper')
+    :fail3('print un-clamp rules missing: '+printMq.slice(0,200));
+
   // --- scrolling a dropdown to its end doesn't chain into the page behind it ---
   const comboPanelRule=(html.match(/\.combo-panel\s*\{[^}]*\}/)||[''])[0];
   const acPanelRule=(html.match(/#ac-panel\s*\{[^}]*\}/)||[''])[0];
@@ -3926,4 +3946,31 @@ function runRound25(){
     (fanState25()==='Std Fans' && /not tied to processor wattage/.test(d.getElementById('why-fan').textContent))
       ?pass25('DL380 G10: the fan line explains fans follow NVMe / rear drives / GPU, not processor wattage')
       :fail25('DL380 G10 fan line wrong: '+d.getElementById('why-fan').textContent); }
+
+  // --- heatsink pass (2026-09-21): models whose QuickSpecs list no orderable performance heatsink and no
+  // wattage step get no recommendation; the G12 steps start one watt above the doc's "<=" value ---
+  const hsState25=function(){ const c=d.querySelector('input[name="hs"]:checked'); return c?c.value:''; };
+  ['DL160 G10','DL180 G10','ML110 G10','ML110 G11','DL110 G11','DL110 G10+','DL160 G9'].forEach(function(label){
+    const mo=MODELS25.find(function(m){return (m.m+' '+m.g)===label;});
+    const allow=(mo.rules&&mo.rules.cpuAllow)||null;
+    const hot=CPUS25.filter(function(c){return mo.p.indexOf(c[2])>-1&&(!allow||allow.indexOf(c[0])>-1)&&c[3];}).sort(function(a,b){return b[3]-a[3];})[0];
+    setModel25(label);
+    if(!pickCpuExact25(hot[0]))return fail25(label+': could not pick '+hot[0]);
+    (hsState25()==='Std Heatsinks' && /no standard-vs-performance heatsink choice/.test(d.getElementById('checks').textContent) && !/Recommended: Perf Heatsinks/.test(d.getElementById('checks').textContent))
+      ?pass25(label+': a '+hot[3]+'W CPU gets no performance-heatsink recommendation (no such option in its QuickSpecs)')
+      :fail25(label+' still recommends/asks for a heatsink choice: '+hsState25()+' | '+d.getElementById('checks').textContent.slice(0,200));
+  });
+  setModel25('DL340 G12');
+  { const mo=MODELS25.find(function(m){return m.m==='DL340'&&m.g==='G12';});
+    const allow=(mo.rules&&mo.rules.cpuAllow)||null;
+    const pool=CPUS25.filter(function(c){return mo.p.indexOf(c[2])>-1&&(!allow||allow.indexOf(c[0])>-1)&&c[3];});
+    const at250=pool.filter(function(c){return c[3]===250;})[0], over=pool.filter(function(c){return c[3]>250;}).sort(function(a,b){return a[3]-b[3];})[0];
+    pickCpuExact25(at250[0]);
+    (hsState25()==='Std Heatsinks')
+      ?pass25('DL340 G12: a 250W CPU ('+at250[0]+') keeps the standard heatsink (doc: standard up to 250W)')
+      :fail25('DL340 G12 250W CPU wrongly moved off standard heatsinks: '+hsState25());
+    pickCpuExact25(over[0]);
+    (hsState25()==='Perf Heatsinks')
+      ?pass25('DL340 G12: '+over[0]+' ('+over[3]+'W) gets the performance heatsink (doc: above 250W)')
+      :fail25('DL340 G12 '+over[3]+'W CPU not moved to performance heatsinks: '+hsState25()); }
 }

@@ -2757,3 +2757,36 @@ by models whose docs say otherwise):
 - Doc wording added as `fanWtext` for every model that has a step.
 Not audited / left as found: DL560 G11 (still inherits 206; doc has no fan/TDP text and the air-cooled CTO ships
 performance fans anyway) and every model's HEATSINK step other than DL325 G11 — worth a matching pass.
+
+## 2026-09-21 — Heatsink-step audit; right column clamped to the window
+
+**Heatsink audit (same method as the fan audit): every model's `hsW`/`hsWtext` against its cached QuickSpecs.**
+Already right, no change: DL360/DL380 G10 ("130W or higher" + 8256/5222/8156/6128/5122), DL325 G10 (>170W), DL385 G10
+(>180W), ML350 G10 (>85W), DL360/DL380 G9 (>120W), all G10+ boards (DL325 v1 >150W, DL345 >=180W, DL360/DL380
+>=150W, DL365/DL385 v2 >155W, DL385 >180W), DL320 G11 (>185W), DL345 G11 (>=260W), DL365 G11 (>240W), DL380 G11 (150W),
+DL385 G11 (240W), ML350 G11/G12 (>=195W / >=225W). Changed:
+- **`hsNoChoice:true` (no standard-vs-performance choice)** for models whose QuickSpecs list NO orderable performance
+  heatsink kit and no wattage step, so the inherited G9/G10/G11 default (121/130/150W) was recommending a part the doc
+  never offers: DL60/DL80/DL120/DL160/DL180 G9 (nothing about a heatsink option at all), DL160/DL180 G10 and
+  ML110 G10 (docs only ever say "standard heatsink"), ML110 G11, and DL110 G10+/G11 ("fans and heatsink are included in
+  the CTO server"). The info line now reads "comes with the processor kit or the server".
+- **Off-by-one at the step:** DL340 G12's doc says standard up to 250W and performance ABOVE 250W — `hsW` 250 → **251**
+  (five 250W parts — 6731E/6740E/6746E/6766E/6730P — were wrongly pushed to the performance heatsink). DL320/DL360/DL380
+  G12 (doc "<=185W standard") 185 → 186 (no Xeon 6 part sits at exactly 185W, so no behaviour change; kept in line with
+  their fan step).
+- DL325 G11's step (150 → 241) was fixed in the fan pass.
+Not changed (needs a per-SKU list, not a wattage step): **DL560/DL580 G10** flag individual SKUs "ships with performance
+heatsink" — a few sub-130W parts (DL560: 6230/6230N/8158; DL580: 8158) are flagged there but not in the shared `hsSku`
+list. DL380 G11's own doc says both ">= 150W" and "<= 150W" needs the performance/standard heatsink; kept "above 150W".
+DL110 G12 has no data-sheet statement, left as is.
+
+**Right column (Spec slip / Config checks / buttons) is clamped to the window on desktop (>=981px).** Before, a long
+notes list pushed the sticky column below the fold and the page had to be scrolled to the very end to read/scroll the
+rest; the slip also had its own scrollbar (`max-height:34vh`). Now: the spec slip has NO scrollbar and grows to show all
+of itself; the column is capped to `100vh - 24px - bottom bar - 14px`; only the Config checks box scrolls, inside itself,
+and the Copy spec / Copy link / Print buttons stay just above the bottom bar. `syncSlipWrap()` (after `run()`) measures
+the bar into `--bar-h`, sets `--wrap-min` (slip + buttons + a 130px minimum notes box) so the cap can never squash the
+slip or the buttons, and, if even that minimum is taller than the window (very short windows), gives the sticky
+`top` a negative value so the column's bottom pins to the bar as soon as the page scrolls. Tablet/phone (<=980px) and
+print are unchanged (normal page flow, nothing clamped). jsdom can't lay out, so QA checks the CSS/JS wiring as text,
+like the earlier sticky tests; the layout itself was checked in the real browser pane at 1360x720, 1360x520 and 432x800.
