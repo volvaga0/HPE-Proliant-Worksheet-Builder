@@ -2665,3 +2665,30 @@ probed: unrelated products).
 Method caveat that still applies: HPE prunes discontinued items from EOL docs, so a hard block (cpuAllow) is only
 built where two or more independent snapshots agree; DL360/DL380/DL560/DL580/ML350 G10 pools stay unrestricted
 or rely on the largest mid-life snapshot.
+
+## 2026-09-21 — Model notes trimmed to build-guide text only
+
+User directive: model notes are strictly for build guides — what to use and what does not work — not a sourcing
+log. All 60 models' `rules.notes` were rewritten (109K → 55K characters, 442 notes; longest now ~450 chars).
+Removed: "sourced/added/corrected <date>" statements, doc IDs and mirror names, "confirmed absent by direct search",
+"verified:true added", research-pass history, "stale-source check" write-ups, internal keys (`cpuAllow`,
+`BACKPLANE_SAS_ONLY`, `hsSku`), and the two-line "Backplane cross-reference" narratives (kept as one line of
+usable part numbers per model). The full original wording is in git at `7826bba` and earlier; the audit findings
+themselves are in the dated sections above and `quickspecs-cache/MANIFEST.md`.
+
+Kept: mandatory kits and dependencies (RPS/enablement kits, riser kits, cable kits, fan/heatsink kits and their
+thresholds), what a chassis cannot take (no rear cage, LH-only controllers, no NVMe, no 4LFF…), limits (max DIMMs,
+fan counts, CPU counts), and the still-open caveats worded as actions ("confirm before quoting").
+
+Fixed while trimming:
+- **547FLR-QSFP InfiniBand FlexibleLOM (879482-B21)** was missing from the FlexibleLOM lists of DL325/DL360/DL380/
+  DL560/DL580 G10 although each model's own doc lists it (only DL385 G10 had it). The old DL360 G10 note admitted
+  this gap ("InfiniBand FlexibleLOM options weren't exhaustively checked"). Added to all five.
+- **DL360 G10 "10 NVMe" contradiction resolved**: the doc's fan section lists only a 2-CPU configuration for the
+  10 NVMe Premium chassis, and the upgrade kit (867974-B21) requires two processors and the HP fan kit. The old
+  note said "one processor or two". Note now says 2-processor build.
+- P824i-p list labels on DL380/DL385 G10 no longer carry "sourced from DL580 G10's own doc" text.
+- Because notes are keyword-filtered (`noteRelevant`: bay counts, NVMe, rear/midtray, GPU, 24G/SAS4, 3-/4-processor),
+  general facts that shared a note with a conditional word were split so they always show (DL320 G11 fans vs GPU
+  heatsink, DL325 G10+ v1/v2, DL365 G11 fans/risers, DL345 G11 riser, DL560 G11 riser vs GPU slot, DL380a G12 fans,
+  ML350 G12 fans, DL80 G9 / DL120 G10 / ML350 G9 / ML110 G11 / DL580 G10 / DL580 G12 wording).

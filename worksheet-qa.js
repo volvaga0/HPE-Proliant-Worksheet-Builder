@@ -2517,7 +2517,7 @@ function runRound11(){
   // --- DL110 G12: fixed-SoC note actually reaches the checks panel ---
   setModel11('DL110 G12');
   const dl110Checks=d.getElementById('checks').textContent;
-  dl110Checks.includes('FIXED SoC')
+  /fixed SoC/i.test(dl110Checks)
     ?pass11('DL110 G12 states its fixed-SoC note (not a socketed, swappable processor)')
     :fail11('DL110 G12 fixed-SoC note missing: '+dl110Checks.slice(0,300));
 
@@ -3545,21 +3545,37 @@ function runRound23(){
 
   setModel23('DL380 G10');
   f23=flrOpts23();
-  (f23.length===9 && !f23.some(function(o){return /^533FLR-T|^534FLR-SFP\+|^536FLR-T|^622FLR-SFP28/.test(o);}) && f23.some(function(o){return /Pensando/.test(o);}))
-    ?pass23('DL380 G10: the NARROWEST G10 rack catalog found, missing 4 codes every richer sibling has, plus a unique Pensando smart-NIC option')
+  (f23.length===10 && !f23.some(function(o){return /^533FLR-T|^534FLR-SFP\+|^536FLR-T|^622FLR-SFP28/.test(o);}) && f23.some(function(o){return /Pensando/.test(o);}))
+    ?pass23('DL380 G10: the narrowest G10 rack catalog (no 533/534/536/622), plus a unique Pensando smart-NIC option and the 547FLR-QSFP InfiniBand card')
     :fail23('DL380 G10 flr panel wrong: '+f23.join(' | '));
 
   setModel23('DL560 G10');
   f23=flrOpts23();
-  (f23.length===12 && f23.some(function(o){return /^622FLR-SFP28/.test(o);}) && f23.some(function(o){return /^562FLR-T/.test(o);}))
-    ?pass23('DL560 G10: real 12-card catalog once sourced from the CURRENT doc (2026-09-18) — matches DL580 G10, not the narrower list the stale 2017 doc implied')
+  (f23.length===13 && f23.some(function(o){return /^622FLR-SFP28/.test(o);}) && f23.some(function(o){return /^562FLR-T/.test(o);}))
+    ?pass23('DL560 G10: real 13-card catalog once sourced from the CURRENT doc — matches DL580 G10, not the narrower list the stale 2017 doc implied')
     :fail23('DL560 G10 flr panel wrong: '+f23.join(' | '));
 
   setModel23('DL580 G10');
   f23=flrOpts23();
-  (f23.length===12 && f23.some(function(o){return /^622FLR-SFP28/.test(o);}) && f23.some(function(o){return /^631FLR-SFP28/.test(o);}) && f23.some(function(o){return /^640FLR-SFP28/.test(o);}))
-    ?pass23('DL580 G10: real 12-card catalog (all 3 25Gb tiers) once sourced from the current doc — matches DL560 G10\'s equally-corrected list')
+  (f23.length===13 && f23.some(function(o){return /^622FLR-SFP28/.test(o);}) && f23.some(function(o){return /^631FLR-SFP28/.test(o);}) && f23.some(function(o){return /^640FLR-SFP28/.test(o);}))
+    ?pass23('DL580 G10: real 13-card catalog (all 3 25Gb tiers) once sourced from the current doc — matches DL560 G10\'s equally-corrected list')
     :fail23('DL580 G10 flr panel wrong: '+f23.join(' | '));
+
+  // 547FLR-QSFP InfiniBand FlexibleLOM (879482-B21): in these models own docs, not in DL160/DL180/DL20 G10
+  ['DL325 G10','DL360 G10','DL380 G10','DL385 G10','DL560 G10','DL580 G10'].forEach(function(label){
+    setModel23(label);
+    const fl=flrOpts23();
+    fl.some(function(o){return /^547FLR-QSFP.*879482-B21/.test(o);})
+      ?pass23(label+': 547FLR-QSFP InfiniBand FlexibleLOM (879482-B21) is offered (listed in its own doc)')
+      :fail23(label+' is missing 547FLR-QSFP: '+fl.join(' | '));
+  });
+  ['DL20 G10','DL160 G10','DL180 G10'].forEach(function(label){
+    setModel23(label);
+    const fl=flrOpts23();
+    !fl.some(function(o){return /547FLR/.test(o);})
+      ?pass23(label+': no 547FLR-QSFP (not in its own doc)')
+      :fail23(label+' wrongly offers 547FLR-QSFP');
+  });
 
   ['ML30 G10','ML110 G10','ML350 G10'].forEach(function(label){
     setModel23(label);
@@ -3729,4 +3745,54 @@ function runRound25(){
   (v2opts.some(function(o){return o.indexOf('7402')>-1;}) && v2opts.some(function(o){return o.indexOf('7773X')>-1;}) && !v2opts.some(function(o){return o.indexOf('7742')>-1;}))
     ?pass25('DL385 G10+ v2: accepts the selected Rome parts (7252/7302/7402) alongside Milan, per the latest doc — but not the full Rome range')
     :fail25('DL385 G10+ v2 platform/CPU pool wrong');
+
+  // --- model notes are build-guide text only (user directive 2026-09-21): no
+  // sourcing history, no internal keys, and no essay-length notes ---
+  function grab25(name){
+    const start=html.indexOf('var '+name+'=');
+    if(start<0)return null;
+    let i=html.indexOf('=',start)+1;
+    while(' \n\r\t'.includes(html[i]))i++;
+    const open=html[i], close=open==='['?']':'}';
+    let depth=0,q=null,esc=false,j=i;
+    for(;j<html.length;j++){
+      const c=html[j];
+      if(esc){esc=false;continue;}
+      if(q){ if(c==='\\')esc=true; else if(c===q)q=null; continue; }
+      if(c==='\''||c==='"'){q=c;continue;}
+      if(c==='/'&&html[j+1]==='*'){ j=html.indexOf('*/',j)+1; continue; }
+      if(c==='/'&&html[j+1]==='\/'){ j=html.indexOf('\n',j)-1; continue; }
+      if(c===open)depth++;
+      else if(c===close){depth--; if(!depth){j++;break;}}
+    }
+    try{ return eval('('+html.slice(i,j)+')'); }catch(e){ return null; }
+  }
+  const MODELS25=grab25('MODELS')||[];
+  const provRe=/\b20\d\d-\d\d-\d\d\b|sourced|this pass|confirmed absent|direct search|mirror|cached (?:doc|copy)|verified:true|cpuAllow|hsSku|BACKPLANE_|QuickSpecs a\d|stale-source/i;
+  const badProv=[], tooLong=[];
+  let noteCount25=0;
+  MODELS25.forEach(function(m){
+    ((m.rules&&m.rules.notes)||[]).forEach(function(n,idx){
+      noteCount25++;
+      if(provRe.test(n))badProv.push(m.m+' '+m.g+' ['+idx+']');
+      if(n.length>500)tooLong.push(m.m+' '+m.g+' ['+idx+'] '+n.length);
+    });
+  });
+  (MODELS25.length>=60 && noteCount25>=400 && !badProv.length)
+    ?pass25('model notes carry no sourcing history or internal keys ('+noteCount25+' notes across '+MODELS25.length+' models)')
+    :fail25('model notes still hold provenance text: '+badProv.slice(0,8).join(', ')+' (models '+MODELS25.length+', notes '+noteCount25+')');
+  !tooLong.length
+    ?pass25('no model note runs past 500 characters (build-guide text, not a research log)')
+    :fail25('over-long model notes: '+tooLong.join(', '));
+  // the labels in the P824i-p controller entries must not narrate where the part number came from
+  const provLabels=[];
+  MODELS25.forEach(function(m){
+    const r=m.rules||{};
+    ['psu','ctrl','flr'].forEach(function(k){
+      (r[k]||[]).forEach(function(l){ if(/sourced from|see note|own doc|not this one/i.test(l))provLabels.push(m.m+' '+m.g+' '+k+': '+l.slice(0,60)); });
+    });
+  });
+  !provLabels.length
+    ?pass25('psu/ctrl/flr list labels carry no "sourced from / see note" narration')
+    :fail25('list labels with provenance text: '+provLabels.slice(0,5).join(' | '));
 }
