@@ -2692,3 +2692,28 @@ Fixed while trimming:
   general facts that shared a note with a conditional word were split so they always show (DL320 G11 fans vs GPU
   heatsink, DL325 G10+ v1/v2, DL365 G11 fans/risers, DL345 G11 riser, DL560 G11 riser vs GPU slot, DL380a G12 fans,
   ML350 G12 fans, DL80 G9 / DL120 G10 / ML350 G9 / ML110 G11 / DL580 G10 / DL580 G12 wording).
+
+## 2026-09-21 — DL120 G10 removed; spec slip carries no part numbers
+
+**DL120 G10 removed from the tool entirely** (user request). It was the one model with no findable QuickSpecs
+(media bay, rear/mid-tray, TPM, mobo NC, PSU, fans, PCIe and riser data all unverified), so it could never be quoted
+with confidence. MODELS entry, its two notes and its QA test are gone; the tool now has 59 models. DL120 G9 is
+unaffected. Earlier entries in this file that call DL120 G10 "the one open item" are historical.
+
+**Spec slip no longer shows HPE part numbers.** The slip goes to the engineers who build the server; part numbers
+were added for the sales side ("pointing the sales guys in the right direction"). Now:
+- The pickers (controller, PSU, FlexibleLOM/OCP, riser, expander) and the config checks still show part numbers.
+- `slipName()` (just above `buildSlip()`) strips, at display time only, a picked label's part-number parentheticals,
+  "— …" explanations, ", needs …" kit notes and any bare part number: "800W Flex Slot Platinum (865414-B21)" →
+  "800W Flex Slot Platinum", "P408i-a LH — low-profile heatsink variant … (869081-B21)" → "P408i-a LH". Field values
+  are not changed, so the controller-code lookups (`ctrlCode`), riser slot lookups and drafts still work.
+- Only labels that carry a part number are trimmed; a label without one (e.g. the DL110 G10+ "no Smart Array —
+  Intel VROC software RAID" entry) stays whole. A hand-typed bare part number is kept as typed, never blanked.
+- The part-number test needs a digit in the suffix so names like "534FLR-SFP+" are not mistaken for one.
+- Checked against all 849 list labels: 716 carry a part number, none survive `slipName()`, none come out empty.
+- Not changed: the flag/stop lines that "Copy spec" appends under the slip (they are for the person fixing the
+  build, and a few quote a kit part number).
+
+Also removed two mislabelled entries from the PCI `CARDLIST`: "804405-B21 12G SAS Expander" (804405-B21 is the
+P408e-p controller, already listed) and "804331-B21 SmartArch" (804331-B21 is the P408i-a). On the slip they would
+have read as a SAS expander / "SmartArch".

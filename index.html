@@ -1052,11 +1052,6 @@ var MODELS=[
        'System fans are non-hot-plug and non-redundant — no fan-kit choice.',
        'No rear or mid-tray drive cage.',
        'Front bays: 2LFF (hot-plug or non-hot-plug) or 4SFF (expandable to 6SFF with a +2SFF kit).']}},
- {m:'DL120',g:'G10', p:['sp1','sp2'],  s:1, d:8,
-   rules:{hsW:130,hsWtext:'130W or higher',
-     hsSku:['P8256','P8156','G6128','G5222','G5122'],
-     notes:['Shares its heatsink option part number with the DL160 and DL180 Gen10 (same thermal design).',
-       'No QuickSpecs could be found for this model, so the media bay, drive-cage layout, TPM, motherboard NC, PSU, fans, PCIe and riser details are unverified — confirm against HPE before quoting.']}},
  {m:'DL160',g:'G10', p:['sp1','sp2'],  s:2, d:16, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
@@ -2462,10 +2457,8 @@ function ctrlsFor(m){
    deliberately stays unset; this environment can't reliably extract
    text from an hpe.com-hosted PDF (network-blocked from Bash, and the
    browser's binary response isn't recoverable as text either) so a
-   full re-verification pass needs a different approach. `DL120 G10`
-   still has no entry — genuinely no findable QuickSpecs doc at all,
-   confirmed again via a fresh search rather than assumed from earlier
-   sessions; its badge stays a plain (non-link) span. */
+   full re-verification pass needs a different approach. (`DL120 G10` was
+   removed from the tool 2026-09-21 — no QuickSpecs doc could be found.) */
 var QS_DOCS={
  'DL20 G9':'c04834947','DL60 G9':'c04447824','DL80 G9':'c04447832','DL120 G9':'c04447806',
  'DL160 G9':'c04346224','DL180 G9':'c04375610','DL360 G9':'c04375623','DL380 G9':'c04375627',
@@ -2557,8 +2550,7 @@ var BATS=['96w bat','12w bat','No battery'];
    part number doesn't matter for this worksheet. */
 var PSUS=['290W','350W','500W','550W','800W','900W','1000W','1200W','1400W','1500W','1600W','1800W','2200W'];
 /* Conservative fallback ONLY — every G10 rack model this tool offers
-   except DL385/DL120 (no usable cached doc for either, see their model
-   notes) got a real per-model `flr:[]` override on 2026-09-18 once
+   got a real per-model `flr:[]` override (2026-09-18, DL385 on 2026-09-21) once
    checking confirmed the FlexibleLOM catalog varies far more by chassis
    than assumed (e.g. DL560 G10 lacks every 25Gb option DL580 G10 has).
    This list is just the handful of codes confirmed across EVERY G9/G10
@@ -2866,8 +2858,8 @@ var CARDLIST=[
  'SN1100Q 16Gb FC 2p','SN1600Q 32Gb FC 2p','SN1610Q 32Gb FC 2p','SN1700Q 64Gb FC 2p',
  'SN1100E 16Gb FC 2p','SN1600E 32Gb FC 2p','82Q 8Gb FC 2p','82E 8Gb FC 2p',
  /* Storage HBA / expander / controllers */
- 'P408e-p SR Gen10','E208e-p SR Gen10','H241 12G HBA','804405-B21 12G SAS Expander',
- 'MR216i-p','MR416i-p','SR932i-p','804331-B21 SmartArch',
+ 'P408e-p SR Gen10','E208e-p SR Gen10','H241 12G HBA',
+ 'MR216i-p','MR416i-p','SR932i-p',
  /* Boot / NVMe */
  'NS204i-p Gen10+ boot','NS204i-r boot','1200GB NVMe AIC','2x M.2 enablement (AIC)',
  /* GPU / accelerator (full height) */
@@ -3655,7 +3647,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.21.3'; // 3rd build shipped today
+var BUILD_VERSION='2026.09.21.4'; // 4th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -5156,6 +5148,29 @@ document.getElementById('plan-go').addEventListener('click',function(){
 });
 
 /* ---------------- spec slip ---------------- */
+/* The spec slip goes to the engineers who build the server, so it names the
+   part ("P408i-a LH", "800W Flex Slot Platinum") but never the HPE part number
+   or the ordering notes around it — those stay in the pickers and the config
+   checks for the sales side. Strips, from a picked label: any parenthetical
+   that carries a part number, "— ..." explanations, ", needs ..." kit notes
+   and any bare part number. The suffix must contain a digit so model names
+   like "534FLR-SFP+" are not mistaken for one. Only labels that carry a part
+   number are trimmed — a label without one (e.g. "no Smart Array controller —
+   Intel VROC software RAID") is spec information and stays whole. Text typed
+   by hand that has nothing left after stripping (e.g. only a part number) is
+   kept as typed. */
+var SLIP_PN='\\b[0-9P][0-9A-Z]{5}-(?=[0-9A-Z]*[0-9])[0-9A-Z]{3}\\b';
+function slipName(s){
+  var o=String(s==null?'':s);
+  if(!new RegExp(SLIP_PN).test(o))return o.trim();
+  o=o.replace(new RegExp('\\s*\\([^()]*'+SLIP_PN+'[^()]*\\)','g'),'')
+     .replace(/\s+—\s+.*$/,'')
+     .replace(/,\s*needs\b[^,()]*/gi,'')
+     .replace(/,?\s*no enablement kit needed/gi,'')
+     .replace(new RegExp('\\s*'+SLIP_PN,'g'),'')
+     .replace(/\(\s*\)/g,'').replace(/\s{2,}/g,' ').replace(/[\s,;:]+$/,'').trim();
+  return /[A-Za-z]/.test(o)?o:String(s==null?'':s).trim();
+}
 function buildSlip(){
   var L=[],gaps=[],m=currentModel();
   var head=join(m?(m.m+' '+m.g):'',v('bays'));
@@ -5167,20 +5182,20 @@ function buildSlip(){
   if(v('dimm'))L.push(join(v('dimmq')?v('dimmq')+'x':'',v('dimm')));else gaps.push('memory');
   if(r('media'))L.push(r('media'));
   if(v('ctrl')){
-    var c=v('ctrl');
+    var c=slipName(v('ctrl'));
     if(v('bat')&&v('bat').toLowerCase().indexOf('no battery')<0)c+=' + '+v('bat');
     if(v('batdate'))c+=' ('+v('batdate')+')';
     L.push(c);
   }else gaps.push('storage controller');
-  if(v('expander')&&v('expander').toLowerCase().indexOf('none')<0)L.push(v('expander'));
+  if(v('expander')&&v('expander').toLowerCase().indexOf('none')<0)L.push(slipName(v('expander')));
   if(r('hs'))L.push(r('hs'));else gaps.push('heatsinks');
   if(r('fan'))L.push(join(v('fanq')?v('fanq')+'x':'',r('fan')));else gaps.push('fans');
-  readLines(risers).forEach(function(x){if(x.name)L.push(join(x.q?x.q+'x':'',x.name));});
-  readLines(cards).forEach(function(c){if(c.name)L.push(join(c.q?c.q+'x':'',c.name));});
+  readLines(risers).forEach(function(x){if(x.name)L.push(join(x.q?x.q+'x':'',slipName(x.name)));});
+  readLines(cards).forEach(function(c){if(c.name)L.push(join(c.q?c.q+'x':'',slipName(c.name)));});
   if(r('flrfit')==='No FlexibleLOM / OCP fitted')L.push('No '+flrLabel(m)+' fitted');
-  else if(v('flr'))L.push(v('flr'));
+  else if(v('flr'))L.push(slipName(v('flr')));
   else gaps.push(flrLabel(m));
-  if(v('psu'))L.push(join(v('psuq')?v('psuq')+'x':'',v('psu'),'PS'));else gaps.push('power supplies');
+  if(v('psu'))L.push(join(v('psuq')?v('psuq')+'x':'',slipName(v('psu')),'PS'));else gaps.push('power supplies');
   if(r('tpm'))L.push(r('tpm'));
   if(r('ilo'))L.push(r('ilo'));
   if(r('mobo'))L.push(r('mobo'));

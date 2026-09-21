@@ -3042,10 +3042,13 @@ function runRound14(){
   (badgeV14.tagName==='A' && badgeV14.getAttribute('href')==='https://www.hpe.com/psnow/doc/a00008180enw')
     ?pass14('DL380 G10: QUICKSPECS VERIFIED badge links to its real HPE doc page')
     :fail14('DL380 G10 badge link wrong: '+badgeV14.getAttribute('href'));
-  setModel14('DL120 G10');
-  (!badgeV14.hasAttribute('href') && !badgeV14.classList.contains('on'))
-    ?pass14('DL120 G10: no QuickSpecs doc exists (confirmed, not guessed) — badge has no href and correctly shows unverified, not a stale verified:true')
-    :fail14('DL120 G10 badge should have no href and stay unverified: href='+badgeV14.getAttribute('href')+' on='+badgeV14.classList.contains('on'));
+  // DL120 G10 was removed from the tool (2026-09-21) — no QuickSpecs could be found for it
+  { const rk=d.getElementById('ct-r'); if(!rk.checked){rk.checked=true;fire(rk,'change');}
+    const mi120=d.getElementById('model-input'); mi120.value='DL120'; fire(mi120,'input');
+    const items120=[...d.querySelectorAll('#model-panel .combo-item')].map(el=>el.textContent.replace(/\s+/g,' '));
+    (items120.some(x=>/DL120 G9/.test(x)) && !items120.some(x=>/DL120 G10/.test(x)))
+      ?pass14('DL120 G10 is no longer offered (DL120 G9 still is)')
+      :fail14('DL120 model list wrong: '+items120.join(' | ')); }
 
   // --- user-reported 2026-09-17, confirmed in DL380 G11's own doc: an
   // 8SFF U.3 x4 Mid Tray on an 8SFF front-bay build needs the SR932i-p
@@ -3778,7 +3781,7 @@ function runRound25(){
       if(n.length>500)tooLong.push(m.m+' '+m.g+' ['+idx+'] '+n.length);
     });
   });
-  (MODELS25.length>=60 && noteCount25>=400 && !badProv.length)
+  (MODELS25.length===59 && !MODELS25.some(function(m){return m.m==='DL120'&&m.g==='G10';}) && noteCount25>=400 && !badProv.length)
     ?pass25('model notes carry no sourcing history or internal keys ('+noteCount25+' notes across '+MODELS25.length+' models)')
     :fail25('model notes still hold provenance text: '+badProv.slice(0,8).join(', ')+' (models '+MODELS25.length+', notes '+noteCount25+')');
   !tooLong.length
@@ -3795,4 +3798,41 @@ function runRound25(){
   !provLabels.length
     ?pass25('psu/ctrl/flr list labels carry no "sourced from / see note" narration')
     :fail25('list labels with provenance text: '+provLabels.slice(0,5).join(' | '));
+
+  // --- the spec slip is for the engineers: it names parts but carries no HPE part
+  // numbers (2026-09-21). The pickers keep them for the sales side. ---
+  const PN25=/\b[0-9P][0-9A-Z]{5}-(?=[0-9A-Z]*[0-9])[0-9A-Z]{3}\b/;
+  function pick25(id,re){
+    const inp=d.getElementById(id); inp.disabled=false; inp.value=''; fire(inp,'input'); fire(inp,'focus');
+    const item=[...d.querySelectorAll('#ac-panel .combo-item')].find(function(el){return re.test(el.textContent.replace(/\s+/g,' ').trim());});
+    if(!item)return null;
+    const shown=item.textContent.replace(/\s+/g,' ').trim();
+    item.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));   // attachList panels select on click
+    return shown;
+  }
+  setModel25('DL360 G10');
+  const risersEl25=d.getElementById('risers'); risersEl25.innerHTML='';
+  const shownCtrl=pick25('ctrl',/^P408i-a LH/);
+  const shownPsu=pick25('psu',/^800W Flex Slot Platinum/);
+  const shownFlr=pick25('flr',/^562FLR-SFP\+/);
+  const psuq25=d.getElementById('psuq'); psuq25.value='2'; fire(psuq25,'input');
+  d.getElementById('add-riser').click();
+  { const rn=[...risersEl25.querySelectorAll('[data-k=name]')].pop(); rn.value='Secondary 3-Slot Riser Kit (719073-B21)'; fire(rn,'input'); }
+  const slip25=d.getElementById('slip').textContent;
+  (shownCtrl && shownPsu && shownFlr && PN25.test(shownCtrl) && PN25.test(shownPsu) && PN25.test(shownFlr))
+    ?pass25('the pickers still show part numbers to the sales side ('+shownCtrl+' | '+shownPsu+' | '+shownFlr+')')
+    :fail25('picker labels lost their part numbers: '+[shownCtrl,shownPsu,shownFlr].join(' | '));
+  (!PN25.test(slip25) && slip25.includes('P408i-a LH') && slip25.includes('2x 800W Flex Slot Platinum PS') && slip25.includes('562FLR-SFP+ 2x10Gb') && slip25.includes('Secondary 3-Slot Riser Kit'))
+    ?pass25('spec slip names the controller, PSU, FlexibleLOM and riser but carries no part numbers')
+    :fail25('slip still has part numbers or lost a name: '+slip25.slice(0,400));
+  // a hand-typed bare part number is never blanked out, and a label with no part number stays whole
+  const ctrl25=d.getElementById('ctrl'); ctrl25.value='804331-B21'; fire(ctrl25,'input');
+  d.getElementById('slip').textContent.includes('804331-B21')
+    ?pass25('a controller typed as a bare part number is kept on the slip as typed (never blanked)')
+    :fail25('bare typed part number was dropped from the slip');
+  ctrl25.value='No Smart Array controller exists on this chassis at all — Intel VROC embedded software RAID only'; fire(ctrl25,'input');
+  d.getElementById('slip').textContent.includes('Intel VROC embedded software RAID only')
+    ?pass25('a label without a part number keeps its whole text on the slip')
+    :fail25('part-number-free label was trimmed');
+  risersEl25.innerHTML='';
 }
