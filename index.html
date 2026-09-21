@@ -1148,7 +1148,7 @@ var MODELS=[
        '2SFF rear is only supported on a 24SFF or 12LFF chassis.',
        'NVMe drives require a specific riser.',
        'Mixing two different processor models is not allowed.',
-       'Storage controller part numbers sourced 2026-09-17 (same doc, "Core Options" Storage Controllers section): unlike DL360 G10, no "LH" low-height variants were found for this chassis (more physical clearance, presumably not needed). P824i-p is confirmed to exist for this chassis via its own Cable Kit line (P00614-B21, explicitly scoped to "DL38X/560/580/ML350 Gen10" — NOT DL360). No SR932i-p/MR-series — those are Gen10 Plus/Gen11 additions. Follow-up 2026-09-17: checked DL560 G10\'s own QuickSpecs directly and it does NOT list P824i-p anywhere at all despite the same cable-kit line naming it — a genuine cross-doc discrepancy, not resolved either way; DL560 G10\'s own entry trusts its own doc over this claim. DL580 G10\'s own doc DOES itemize P824i-p\'s real part number (870658-B21) — backfilled here since the cable-kit note groups this exact controller across DL38X/DL560/DL580/ML350 as one shared SKU, not a chassis-specific variant.',
+       'Storage controller part numbers sourced 2026-09-17 (same doc, "Core Options" Storage Controllers section): unlike DL360 G10, no "LH" low-height variants were found for this chassis (more physical clearance, presumably not needed). P824i-p is confirmed to exist for this chassis via its own Cable Kit line (P00614-B21, explicitly scoped to "DL38X/560/580/ML350 Gen10" — NOT DL360). No SR932i-p/MR-series — those are Gen10 Plus/Gen11 additions. DL580 G10\'s own doc DOES itemize P824i-p\'s real part number (870658-B21) — backfilled here since the cable-kit note groups this exact controller across DL38X/DL560/DL580/ML350 as one shared SKU, not a chassis-specific variant. 2026-09-18 resolution: the "DL560 G10 doesn\'t list P824i-p" discrepancy noted here on 2026-09-17 is NOT real — that check was against DL560 G10\'s stale 2017 cached doc, which predates this controller\'s introduction; DL560 G10\'s current (2019) QuickSpecs confirms P824i-p with the identical part number, now added there too.',
        'High Performance Heat Sink Kit part number (826706-B21) added 2026-09-18, sourced directly from this model\'s own "Additional Options" section. Note: this model\'s own cached doc\'s "Choose Processors" ordering table only has "2nd Generation" SKU headings, no "1st Generation" section at all — inconclusive on its own (could be a later doc revision that simply dropped an EOL tier from the list without dropping real support), so `cpuAllow` was deliberately NOT added from this — would risk hard-blocking real 1st-Gen CPUs this chassis may still support.',
        'Premium bay kit gives 6 SAS/SATA + 2 NVMe, or 8 SAS/SATA, per box.',
        'Fans are not tied to CPU wattage on this generation — only to NVMe, GPUs, rear drives and dense bay counts. The performance heatsink alone covers cooling up to its rated TDP.']}},
@@ -1169,11 +1169,12 @@ var MODELS=[
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],validCounts:[1,2,4],
      psuMax:4,fans:{one:6,two:6,perf:6},pcie:{one:3,two:8},riserMax:3,rear:[],
-     psu:['800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
-     ctrl:['P816i-a LH (869083-B21)','P408i-a LH (869081-B21)','E208i-a LH (869079-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
-     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','544+FLR-QSFP InfiniBand FDR/Eth 10/40Gb (764285-B21)'],
-     notes:['FlexibleLOM part numbers sourced 2026-09-18 (same doc, "FlexibleLOM Adapters"). Genuinely lacks EVERY 25Gb option (622/631/640FLR-SFP28) and 562FLR-T — confirmed absent by direct search — a real, narrower catalog than its DL580 G10 sibling despite being the closer of the two in most other respects this project has checked. Also confirmed one FlexibleLOM-form-factor InfiniBand card (544+FLR-QSFP, 764285-B21) — a plain "544+QSFP" PCIe-standup version (764284-B21) also exists in the same doc but that\'s a different product for the "PCI cards" field, not this one.',
-       'PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). No 500W PSU tier exists on this 4-socket chassis, only 800W/1600W — and "for 800W, 4 power supplies need to be selected" per the doc\'s own note (not separately enforced here, this tool has no per-wattage-tier PSU-count mechanism). Only "LH" (low-height, no PCIe slot used) variants of the embedded controllers exist here — same pattern as DL325 G10. Doc discrepancy found, NOT resolved: DL380 G10\'s own doc names DL560 G10 as also offering P824i-p (via a shared cable-kit line), but P824i-p never appears anywhere in DL560 G10\'s own QuickSpecs — trusting this model\'s own doc over the other model\'s claim about it, so P824i-p is left out entirely here.',
+     psu:['800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','4x Power Supply Enablement Kit — mandatory when selecting 4 PSUs (875675-B21)'],
+     ctrl:['P816i-a LH (869083-B21)','P408i-a LH (869081-B21)','E208i-a LH (869079-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','P824i-p — needs Cable Kit P00614-B21 (870658-B21)'],
+     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)','544+FLR-QSFP InfiniBand FDR/Eth 10/40Gb (764285-B21)'],
+     cpuAllow:['G5115','G5118','G5120','G5122','G5215','G5215L','G5215M','G5217','G5218','G5218B','G5218N','G5220','G5220S','G5222','G6126','G6128','G6130','G6132','G6134','G6134M','G6136','G6138','G6140','G6142','G6143','G6144','G6146','G6148','G6150','G6152','G6154','G6222V','G6226','G6230','G6230N','G6234','G6238','G6238L','G6238M','G6240','G6240L','G6240M','G6240Y','G6242','G6244','G6246','G6248','G6252','G6252N','G6254','G6262V','P8153','P8156','P8158','P8160','P8160M','P8164','P8165','P8168','P8170','P8176','P8180','P8180M','P8253','P8256','P8260','P8260L','P8260M','P8260Y','P8268','P8270','P8276','P8276L','P8276M','P8280','P8280L','P8280M'],
+     notes:['2026-09-18: replaced the STALE cached doc this model was built from (a50006983enw V1, 7-11-2017 — predates the 2nd Gen CPU launch entirely) with the CURRENT version (a00008181enus V19, 1-July-2019, now officially retired but still the latest/final revision — downloaded directly from hpe.com). This fixed 3 real errors introduced by the old source: (1) the FlexibleLOM list was wrongly narrowed — V1 genuinely lacked 562FLR-T/622/631/640FLR-SFP28 since 25Gb options postdate 2017; V19 confirms all 11 real cards, matching DL580 G10 exactly, not a narrower sibling as previously noted. (2) No `cpuAllow` had been set — V19\'s own "Choose Processor Options" table exhaustively lists a real, confirmed 77-SKU Gold+/Platinum-only pool (no Silver/Bronze, no -R/-U suffix SKUs at all), now enforced. Includes 6 "M"-suffix (2TB medium-memory-tier) variants (5215M/6238M/6240M/8260M/8276M/8280M) not previously in the tool\'s shared CPUS list at all, added there too since they benefit any sp2 model. Doc also confirms mixing 1st- and 2nd-Gen processors together is not supported (not separately enforced here). (3) P824i-p is REAL on this chassis (870658-B21, needs Cable Kit P00614-B21) — the "cross-doc discrepancy" previously noted (DL380 G10\'s doc says DL560 offers it, DL560\'s own doc said no) was never a real discrepancy — the OLD V1 (2017) source simply predated this controller\'s introduction. Also found the 4x Power Supply Enablement Kit (875675-B21), mandatory when selecting 4 PSUs, not previously captured.',
+       'PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). No 500W PSU tier exists on this 4-socket chassis, only 800W/1600W — and "for 800W, 4 power supplies need to be selected" per the doc\'s own note (not separately enforced here, this tool has no per-wattage-tier PSU-count mechanism). Only "LH" (low-height, no PCIe slot used) variants of the embedded controllers exist here — same pattern as DL325 G10.',
        'Front drive boxes only, all 2.5-inch — the chassis back carries just PCIe risers and power supplies (DL560 Gen10 QuickSpecs).',
        'Supports 1, 2 or 4 processors — not 3.',
        '4 power supply bays. Tertiary risers can only be fitted with 2 PSUs — a 4-PSU build leaves no room for them.',
@@ -1187,11 +1188,12 @@ var MODELS=[
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:4,fans:{one:12,two:12,perf:12},pcie:{one:6,two:16},riserMax:2,rear:[],
-     psu:['800W Flex Slot Platinum (865414-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
+     psu:['800W Flex Slot Platinum (865414-B21)','800W Flex Slot -48VDC (865434-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','1800-2200W Flex Slot Titanium, EU Lot 9 compliant (P44712-B21)'],
      ctrl:['P408i-p (830824-B21)','P408e-p (804405-B21)','P824i-p (870658-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
-     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','544+FLR-QSFP InfiniBand FDR/Eth 10/40Gb (764285-B21)'],
-     notes:['FlexibleLOM part numbers sourced 2026-09-18 (same doc, "FlexibleLOM Adapters"). Gets one 25Gb tier (622FLR-SFP28) DL560 G10 lacks entirely, plus 631FLR-SFP28 and 562FLR-T — a real, richer catalog than its closest sibling despite being the same 4-socket generation. Same FlexibleLOM-form InfiniBand card as DL560 G10 (544+FLR-QSFP, 764285-B21) confirmed present here too.',
-       'PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). Only 2 real PSU tiers exist on this chassis — 800W or 1600W Platinum, no Titanium/-48VDC/Universal at all — and "for 800W, 4 power supplies need to be selected" per the doc\'s own note (same constraint as DL560 G10, not separately enforced here). No embedded/modular ("-a"/LH) controller variants exist at all — P408i-a/P816i-a/E208i-a never appear in this model\'s own Core Options list, only the external/plug-in cards. This is also the first model in this pass where P824i-p\'s own part number was actually found: 870658-B21 — resolves the "confirmed to exist but unsourced PN" gap left open on DL380/DL385/DL560 G10.',
+     flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)','544+FLR-QSFP InfiniBand FDR/Eth 10/40Gb (764285-B21)'],
+     cpuAllow:['G5115','G5118','G5120','G5122','G5215','G5215L','G5215M','G5217','G5218','G5218B','G5218N','G5220','G5220S','G5222','G6126','G6128','G6130','G6132','G6134','G6134M','G6136','G6138','G6140','G6140M','G6142','G6143','G6144','G6146','G6148','G6150','G6152','G6154','G6222V','G6226','G6230','G6230N','G6234','G6238','G6238L','G6238M','G6240','G6240L','G6240M','G6240Y','G6242','G6244','G6246','G6248','G6252','G6252N','G6254','G6262V','P8153','P8156','P8158','P8160','P8160M','P8164','P8165','P8168','P8170','P8176','P8180','P8180M','P8253','P8256','P8260','P8260L','P8260M','P8260Y','P8268','P8270','P8276','P8276L','P8276M','P8280','P8280L','P8280M'],
+     notes:['2026-09-18: this model\'s cached doc was Version 3 (4-Dec-2017) — predates the 2nd Gen CPU launch, same staleness problem found and fixed on DL560 G10. Checked hpe.com directly: the CURRENT version is 52 (16-Sep-2024, retired) but its own CPU ordering list has been pruned down to just 11 still-orderable SKUs by end-of-life — not representative of the full real lineup a refurb trader would encounter. Used Version 20 (1-July-2019, same era as DL560 G10\'s V19) for CPUs instead: a confirmed 78-SKU Gold+/Platinum-only pool (no Silver/Bronze/-R/-U suffix), now enforced via cpuAllow — includes 6140M, a 7th "M"-suffix (medium-memory-tier) SKU not found on DL560 G10. Used Version 52 for PSU specifically, since that catalog genuinely GREW over time rather than being pruned: 3 more real tiers (-48VDC, 1000W Titanium, 1800-2200W Titanium) exist now that didn\'t exist in 2019, confirmed absent from V20 — the "only 2 real PSU tiers" note below was accurate for its 2017 source at the time but is now stale. FlexibleLOM also gained 640FLR-SFP28, missing from the original 2017-sourced list — now the full 12-card catalog, matching DL560 G10\'s equally-corrected list (both chassis genuinely share the same rich FlexibleLOM catalog once sourced from current docs).',
+       'PSU/storage-controller part numbers sourced 2026-09-17 (same doc, "Core Options"). "For 800W, 4 power supplies need to be selected" per the doc\'s own note (same constraint as DL560 G10, not separately enforced here). No embedded/modular ("-a"/LH) controller variants exist at all — P408i-a/P816i-a/E208i-a never appear in this model\'s own Core Options list, only the external/plug-in cards, reconfirmed in the 2019/2024 docs too. P824i-p\'s own part number (870658-B21) matches DL560 G10\'s.',
        'Front drive boxes only, all 2.5-inch (up to six boxes; NVMe in boxes 1-3, box 1 limited to drives 1-4). No rear or mid-tray drive cage (DL580 Gen10 QuickSpecs).',
        'Supports 1, 2, 3 or 4 processors.',
        '3- or 4-processor builds need the CPU Mezzanine Board Kit: 872222-B21 for 1st Gen Scalable, P07991-B21 for 2nd Gen.',
@@ -1819,8 +1821,10 @@ var CPUS=[
  ['G6134','Xeon Gold 6134 · 8C 3.2GHz','sp1',130,8],
  ['G6134M','Xeon Gold 6134M · 8C 3.2GHz','sp1',130,8], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
  ['G6136','Xeon Gold 6136 · 12C 3.0GHz','sp1',150,12],
+ ['G6137','Xeon Gold 6137 · 8C 3.9GHz — Financial Sector kit only','sp1',205,8], // added 2026-09-21, sourced from DL380 G10 QuickSpecs v24 (Financial Sector FIO kit)
  ['G6138','Xeon Gold 6138 · 20C 2.0GHz','sp1',125,20],
  ['G6140','Xeon Gold 6140 · 18C 2.3GHz','sp1',140,18],
+ ['G6140M','Xeon Gold 6140M · 18C 2.3GHz','sp1',140,18], // added 2026-09-18, sourced from DL580 G10 current QuickSpecs v20 — M-suffix = medium memory tier (2TB per socket), not a 4-socket marker
  ['G6142','Xeon Gold 6142 · 16C 2.6GHz','sp1',150,16],
  ['G6143','Xeon Gold 6143 · 16C 2.8GHz','sp1',205,16], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
  ['G6148','Xeon Gold 6148 · 20C 2.4GHz','sp1',150,20],
@@ -1854,6 +1858,7 @@ var CPUS=[
  ['S4216','Xeon Silver 4216 · 16C 2.1GHz','sp2',100,16],
  ['G5215','Xeon Gold 5215 · 10C 2.5GHz','sp2',85,10],
  ['G5215L','Xeon Gold 5215L · 10C 2.5GHz','sp2',85,10], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
+ ['G5215M','Xeon Gold 5215M · 10C 2.5GHz','sp2',85,10], // added 2026-09-18, sourced from DL560 G10 current QuickSpecs v19 — M-suffix = medium memory tier (2TB per socket), not a 4-socket marker
  ['G5217','Xeon Gold 5217 · 8C 3.0GHz','sp2',115,8],
  ['G5218','Xeon Gold 5218 · 16C 2.3GHz','sp2',125,16],
  ['G5218B','Xeon Gold 5218B · 16C 2.3GHz','sp2',125,16], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
@@ -1876,9 +1881,11 @@ var CPUS=[
  ['G6234','Xeon Gold 6234 · 8C 3.3GHz','sp2',130,8],
  ['G6238','Xeon Gold 6238 · 22C 2.1GHz','sp2',140,22],
  ['G6238L','Xeon Gold 6238L · 22C 2.1GHz','sp2',140,22], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
+ ['G6238M','Xeon Gold 6238M · 22C 2.1GHz','sp2',140,22], // added 2026-09-18, sourced from DL560 G10 current QuickSpecs v19 — M-suffix = medium memory tier (2TB per socket), not a 4-socket marker
  ['G6238R','Xeon Gold 6238R · 28C 2.2GHz','sp2',165,28],
  ['G6240','Xeon Gold 6240 · 18C 2.6GHz','sp2',150,18],
  ['G6240L','Xeon Gold 6240L · 18C 2.6GHz','sp2',150,18], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
+ ['G6240M','Xeon Gold 6240M · 18C 2.6GHz','sp2',150,18], // added 2026-09-18, sourced from DL560 G10 current QuickSpecs v19 — M-suffix = medium memory tier (2TB per socket), not a 4-socket marker
  ['G6240R','Xeon Gold 6240R · 24C 2.4GHz','sp2',165,24],
  ['G6240Y','Xeon Gold 6240Y · 18C 2.6GHz','sp2',150,18], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
  ['G6242','Xeon Gold 6242 · 16C 2.8GHz','sp2',150,16],
@@ -1900,13 +1907,16 @@ var CPUS=[
  ['P8256','Xeon Platinum 8256 · 4C 3.8GHz','sp2',105,4],
  ['P8260','Xeon Platinum 8260 · 24C 2.4GHz','sp2',165,24],
  ['P8260L','Xeon Platinum 8260L · 24C 2.4GHz','sp2',165,24], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
+ ['P8260M','Xeon Platinum 8260M · 24C 2.4GHz','sp2',165,24], // added 2026-09-18, sourced from DL560 G10 current QuickSpecs v19 — M-suffix = medium memory tier (2TB per socket), not a 4-socket marker
  ['P8260Y','Xeon Platinum 8260Y · 24C 2.4GHz','sp2',165,24], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
  ['P8268','Xeon Platinum 8268 · 24C 2.9GHz','sp2',205,24],
  ['P8270','Xeon Platinum 8270 · 26C 2.7GHz','sp2',205,26],
  ['P8276','Xeon Platinum 8276 · 28C 2.2GHz','sp2',165,28],
  ['P8276L','Xeon Platinum 8276L · 28C 2.2GHz','sp2',165,28],
+ ['P8276M','Xeon Platinum 8276M · 28C 2.2GHz','sp2',165,28], // added 2026-09-18, sourced from DL560 G10 current QuickSpecs v19 — M-suffix = medium memory tier (2TB per socket), not a 4-socket marker
  ['P8280','Xeon Platinum 8280 · 28C 2.7GHz','sp2',205,28],
  ['P8280L','Xeon Platinum 8280L · 28C 2.7GHz','sp2',205,28],
+ ['P8280M','Xeon Platinum 8280M · 28C 2.7GHz','sp2',205,28], // added 2026-09-18, sourced from DL560 G10 current QuickSpecs v19 — M-suffix = medium memory tier (2TB per socket), not a 4-socket marker
  ['S4309Y','Xeon Silver 4309Y · 8C 2.8GHz','sp3',105,8],
  ['S4310','Xeon Silver 4310 · 12C 2.1GHz','sp3',120,12],
  ['S4314','Xeon Silver 4314 · 16C 2.4GHz','sp3',135,16],
@@ -3642,7 +3652,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.18.8'; // 8th build shipped today
+var BUILD_VERSION='2026.09.21.1'; // 1st build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}

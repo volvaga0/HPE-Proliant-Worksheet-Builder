@@ -3180,18 +3180,18 @@ function runRound16(){
 
   setModel16('DL560 G10');
   p16=psuOpts16();
-  (p16.length===5 && !p16.some(function(o){return /500W/.test(o);}))
-    ?pass16('DL560 G10: real 5-option PSU list, no 500W tier at all on this 4-socket chassis')
+  (p16.length===6 && !p16.some(function(o){return /500W/.test(o);}) && p16.some(function(o){return /4x Power Supply Enablement/.test(o);}))
+    ?pass16('DL560 G10: real 6-option PSU list (incl. the 4x enablement kit), no 500W tier at all on this 4-socket chassis')
     :fail16('DL560 G10 psu panel wrong: '+p16.join(' | '));
   c16=ctrlOpts16();
-  (c16.length===7 && c16.some(function(o){return /^P408i-a LH/.test(o);}) && !c16.some(function(o){return /P824i-p/.test(o);}))
-    ?pass16('DL560 G10: LH-only embedded controllers, no P824i-p (confirmed absent, contradicting DL380 G10\'s cable-kit note)')
+  (c16.length===8 && c16.some(function(o){return /^P408i-a LH/.test(o);}) && c16.some(function(o){return /P824i-p/.test(o);}))
+    ?pass16('DL560 G10: LH-only embedded controllers, PLUS P824i-p (confirmed real once sourced from the current, not stale 2017, doc)')
     :fail16('DL560 G10 ctrl panel wrong: '+c16.join(' | '));
 
   setModel16('DL580 G10');
   p16=psuOpts16();
-  (p16.length===2 && p16.some(function(o){return /865414-B21/.test(o);}) && p16.some(function(o){return /830272-B21/.test(o);}))
-    ?pass16('DL580 G10: only 2 real PSU tiers exist (800W/1600W Platinum), confirmed not guessed')
+  (p16.length===5 && p16.some(function(o){return /865414-B21/.test(o);}) && p16.some(function(o){return /830272-B21/.test(o);}) && p16.some(function(o){return /P44712-B21/.test(o);}))
+    ?pass16('DL580 G10: real 5-option PSU list once sourced from the current (not stale 2017) doc — 3 tiers were added since')
     :fail16('DL580 G10 psu panel wrong: '+p16.join(' | '));
   c16=ctrlOpts16();
   (c16.length===5 && !c16.some(function(o){return /-a \(|LH/.test(o);}) && c16.some(function(o){return /^P824i-p \(870658-B21\)$/.test(o);}))
@@ -3551,14 +3551,14 @@ function runRound23(){
 
   setModel23('DL560 G10');
   f23=flrOpts23();
-  (f23.length===8 && !f23.some(function(o){return /FLR-SFP28|^562FLR-T/.test(o);}))
-    ?pass23('DL560 G10: lacks every 25Gb tier AND 562FLR-T — a real, narrower catalog than its DL580 G10 sibling')
+  (f23.length===12 && f23.some(function(o){return /^622FLR-SFP28/.test(o);}) && f23.some(function(o){return /^562FLR-T/.test(o);}))
+    ?pass23('DL560 G10: real 12-card catalog once sourced from the CURRENT doc (2026-09-18) — matches DL580 G10, not the narrower list the stale 2017 doc implied')
     :fail23('DL560 G10 flr panel wrong: '+f23.join(' | '));
 
   setModel23('DL580 G10');
   f23=flrOpts23();
-  (f23.length===11 && f23.some(function(o){return /^622FLR-SFP28/.test(o);}) && f23.some(function(o){return /^631FLR-SFP28/.test(o);}))
-    ?pass23('DL580 G10: gets 2 of the 3 25Gb tiers DL560 G10 lacks entirely, despite being the same 4-socket generation')
+  (f23.length===12 && f23.some(function(o){return /^622FLR-SFP28/.test(o);}) && f23.some(function(o){return /^631FLR-SFP28/.test(o);}) && f23.some(function(o){return /^640FLR-SFP28/.test(o);}))
+    ?pass23('DL580 G10: real 12-card catalog (all 3 25Gb tiers) once sourced from the current doc — matches DL560 G10\'s equally-corrected list')
     :fail23('DL580 G10 flr panel wrong: '+f23.join(' | '));
 
   ['ML30 G10','ML110 G10','ML350 G10'].forEach(function(label){
@@ -3638,4 +3638,47 @@ function runRound24(){
   (missing.length===0)
     ?pass24('DL360 G10: all 25 real CPU SKUs sourced from its own QuickSpecs (previously missing entirely from the tool) are now selectable')
     :fail24('DL360 G10 still missing: '+missing.join(', '));
+  runRound25();
+}
+
+// --- Round 25: DL560 G10's cached QuickSpecs was Version 1 (7-11-2017),
+// which predates the 2nd Gen CPU launch entirely — user asked to check
+// for stale sources across the project. Re-sourced from the CURRENT
+// doc (V19, retired 1-July-2019, downloaded directly from hpe.com) and
+// found 3 real errors the stale source introduced: FlexibleLOM list
+// wrongly narrowed, P824i-p wrongly excluded (it's real, the old doc
+// just predated it), and no cpuAllow had been built at all despite a
+// clean, confirmed 77-SKU pool being available. ---
+function runRound25(){
+  function pass25(m){console.log('ok    '+m);}
+  function fail25(m){console.log('FAIL  '+m);process.exitCode=1;}
+  const mi25=d.getElementById('model-input');
+  function setModel25(label){
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
+    mi25.value='';fire(mi25,'input');
+    const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
+    if(!opt)return fail25('model not found: '+label);
+    opt.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  setModel25('DL560 G10');
+  const ci25=d.getElementById('cpu-input');ci25.value='';fire(ci25,'input');
+  const cpuOpts25=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  (cpuOpts25.length===77 && cpuOpts25.some(function(o){return o.indexOf('8280M')>-1;}) && cpuOpts25.some(function(o){return o.indexOf('5215M')>-1;}) && !cpuOpts25.some(function(o){return o.indexOf('6230R')>-1;}) && !cpuOpts25.some(function(o){return /\bS4\d{3}/.test(o);}))
+    ?pass25('DL560 G10: cpuAllow now enforces the real 77-SKU Gold+/Platinum-only pool from the CURRENT doc, incl. 6 new M-suffix (2TB medium-memory-tier) SKUs, excluding Silver/Bronze and -R suffix parts never offered here')
+    :fail25('DL560 G10 CPU list wrong: '+cpuOpts25.length+' options — '+cpuOpts25.slice(0,5).join(', ')+'...');
+
+  setModel25('DL580 G10');
+  const ci25b=d.getElementById('cpu-input');ci25b.value='';fire(ci25b,'input');
+  const cpuOpts25b=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  (cpuOpts25b.length===78 && cpuOpts25b.some(function(o){return o.indexOf('6140M')>-1;}) && !cpuOpts25b.some(function(o){return o.indexOf('6230R')>-1;}))
+    ?pass25('DL580 G10: cpuAllow enforces its real 78-SKU pool (sourced from V20, not the end-of-life-pruned V52) — includes 6140M, a 7th M-suffix SKU not found on DL560 G10')
+    :fail25('DL580 G10 CPU list wrong: '+cpuOpts25b.length+' options — '+cpuOpts25b.slice(0,5).join(', ')+'...');
+
+  setModel25('DL380 G10');
+  const ci25c=d.getElementById('cpu-input');ci25c.value='';fire(ci25c,'input');
+  const cpuOpts25c=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  (cpuOpts25c.some(function(o){return o.indexOf('6137')>-1;}) && cpuOpts25c.some(function(o){return o.indexOf('8260M')>-1;}))
+    ?pass25('DL380 G10: Gold 6137 (Financial Sector kit, found in its v24 QuickSpecs) and the M-suffix parts are selectable')
+    :fail25('DL380 G10 CPU list missing 6137/8260M');
 }

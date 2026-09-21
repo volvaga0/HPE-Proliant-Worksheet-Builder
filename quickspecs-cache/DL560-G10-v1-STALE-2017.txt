@@ -1,0 +1,2280 @@
+HPE ProLiant DL560 Gen10 Server
+The HPE ProLiant DL560 Gen10 Server is a high-density, four-socket (4S) server with high performance,
+scalability and reliability, all in a 2U chassis. Supporting the latest Intel® Xeon® Scalable processors, the
+HPE ProLiant DL560 Gen10 Server offers greater processing power, up to 3 TB of faster memory, IO of up
+to eight PCIe 3.0 slots, plus the intelligence and simplicity of automated management with HPE OneView
+and HPE iLO 5.
+The HPE ProLiant DL560 Gen10 Server is the ideal server for business critical workloads, virtualization,
+server consolidation, database, business processing, and general 4P data-intensive applications where
+data center space and the right performance are paramount.
+Front View - DL560 Gen10
+1. Quick removal access panel 2. Optional Universal Media bay. 2 USB 2.0 and
+VGA standard (8 SFF bay or 6 SFF+2NVMe
+optional)
+3. Optional Optical drive. Requires Universal Media bay 4. Drive Box 2. (8 SFF, 6SFF+2NVMe or 8 NVMe
+PCIe SSD optional)
+5.
+Drive Bos 3. (8 SFF, 6SFF+2NVMe optional) 6. Power On/Standby button and system power
+LED button
+7. Health LED 8. NIC status
+9. UID button 10.iLO Front Service Port
+11.USB 3.0 12.Serial label pull tag
+13.Box 3 14.Box 2
+15.Box 1 16.Optional 2 SFF HDD, requires optional
+Universal Media bay
+17.Optional front display port (via Universal Media Bay) 18.Optional USB 2.0 (via Universal Media Bay)
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Overview
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 1
+Rear View - DL560 Gen10
+1. PCIe Slots (Slots 1-3 top to bottom, riser shipped
+standard)
+2. PCIe Slots (Slots 4-6 top to bottom, requires
+second riser card and second processor)
+3. PCIe Slots (Slots 7-8 top to bottom), requires tertiary
+riser card and second processor, Not available with
+4x Flex Slot power supplies
+4. Power supply power connection
+5. Power supply power LED
+6. HPE Flexible Slot Power Supply bay 1 (800W
+PS shown)
+7. Power supply power connection 8. Power supply power LED
+9. HPE Flexible Slot Power Supply bay 2 (800W PS
+shown)
+10. Serial connector
+11. Dedicated iLO connector 12. VGA (video) connector
+13. USB connectors 2.0 (2) 14. USB connectors 3.0 (2)
+15. Unit ID LED 16. FlexibleLOM ports (Port 1 on right side)
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Overview
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 2
+Internal View: DL560 Gen10 with upper CPU mezzanine tray
+1. Left connector used for DL560 4-port NVMe
+Mezzanine card (Daughter card)
+2. DDR4 DIMM slots. Shown fully populated in
+24 slots (12 per processor)
+3. Upper CPU Mezzanine Board Kit 4. Optional secondary PCIe riser
+5. Default primary PCIe riser 6. DDR4 DIMM slots on upper CPU mezzanine
+board kit. Shown fully populated in 24 slots
+(12 per processor)
+7. 2 Processors, heatsink showing 8. Fan cage shown with 6 standard Hot-plug
+fans
+9. (Under) Hot Plug redundant HPE Flexible Slot Power
+supplies
+10. Optional Tertiary riser
+11. Handle for removing upper CPU Mezzanine Board Kit 12. 2 Processors, heatsink showing on upper
+CPU mezzanine board kit
+What's New
+Support for the Intel® Xeon® Processor Scalable Family supporting up to 4 processors with core count
+ranging from 4 to 28 per processor
+Support for up to 12 NVMe drives
+Up to 3 TB of 2666 MT/s HPE DDR4 Smart Memory modules for increased performance for data-
+intensive application workloads
+HPE innovation with Intelligent System Tuning
+Supports up to 4 Flex Slot power supplies with 96% efficiency
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Overview
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 3
+Platform Information
+Form Factor 2U Rack Form Factor
+Entry, Base and Performance pre-configured models ship with Gen10 Easy
+Install Rail Kits and Cable Management Assembly
+Chassis Types 24 SFF with optional Universal Media Bay
+NOTE: The Universal Media Bay (872267-B21) is not available with the 24
+SFF front end, and can only be populated in Box 1.
+NOTE: The 8 SFF can be upgraded with a drive cage to 16 or 24 SFF with
+field upgrades. For optimal upgrade Box 2 should be populated second,
+with Box 1 the last to be populated for a field upgrade to 24 SFF.
+NOTE: All pre-configured models come with embedded software RAID
+support for 10 SATA drives. Optional HPE Smart Array Controllers can be
+added.
+System Fans 6 Hot Plug Fans (with N+1 redundancy)
+NOTE: 6 hot plug fans are shipped as standard.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Platform Information
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 4
+Processors
+One, two or four of the following depending on model.
+NOTE: For more information regarding Intel Xeon processors, please see thefollowing
+http://www.intel.com/xeon.
+Intel Xeon Models
+CPU
+Frequency
+Cores
+L3
+Cache
+Power UPI
+DDR4
+MT/s
+Memory
+per
+socket
+Platinum Processors
+Platinum 8180M
+Processor 2.5 GHz 28
+38.50
+MB 205W
+3 @ 10.4
+GT/s
+2666
+MT/s 1.5 TB
+Platinum 8180
+Processor 2.5 GHz 28
+38.50
+MB 205W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Platinum 8176M
+Processor 2.1 GHz 28
+38.50
+MB 165W
+3 @ 10.4
+GT/s
+2666
+MT/s 1.5 TB
+Platinum 8176
+Processor 2.1 GHz 28
+38.50
+MB 165W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Platinum 8170M
+Processor 2.1 GHz 26
+35.75
+MB 165W
+3 @ 10.4
+GT/s
+2666
+MT/s 1.5 TB
+Platinum 8170
+Processor 2.1 GHz 26
+35.75
+MB 165W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Platinum 8168
+Processor 2.7 GHz 24
+33.00
+MB 205W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Platinum 8164
+Processor 2.0 GHz 26
+35.75
+MB 150W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Platinum 8160M
+Processor 2.1 GHz 24
+33.00
+MB 150W
+3 @ 10.4
+GT/s
+2666
+MT/s 1.5 TB
+Platinum 8160
+Processor 2.1 GHz 24
+33.00
+MB 150W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Platinum 8158
+Processor 3.0 GHz 12
+24.75
+MB 150W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Platinum 8156
+Processor 3.6 GHz 4
+16.50
+MB 105W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Platinum 8153
+Processor 2.0 GHz 16
+22.00
+MB 125W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold Processors
+Gold 6154 Processor 3.0 GHz 18
+24.75
+MB 200W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 6152 Processor 2.1 GHz 22
+30.25
+MB 140W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 6150 Processor 2.7 GHz 18
+24.75
+MB 165W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 6148 Processor 2.4 GHz 20
+27.50
+MB 150W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 6142M
+Processor 2.6 GHz 16
+22.00
+MB 150W
+3 @ 10.4
+GT/s
+2666
+MT/s 1.5 TB
+Gold 6142 Processor 2.6 GHz 16
+22.00
+MB 150W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 6140M
+Processor 2.3 GHz 18
+24.75
+MB 140W
+3 @ 10.4
+GT/s
+2666
+MT/s 1.5 TB
+Gold 6140 Processor 2.3 GHz 18
+24.75
+MB 140W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 6138 Processor 2.0 GHz 20
+27.50
+MB 125W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 6136 Processor 3.0 GHz 12
+24.75
+MB 150W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Standard Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 5
+Gold 6134M
+Processor 3.2 GHz 8
+24.75
+MB 130W
+3 @ 10.4
+GT/s
+2666
+MT/s 1.5 TB
+Gold 6134 Processor 3.2 GHz 8
+24.75
+MB 130W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 6132 Processor 2.6 GHz 14
+19.25
+MB 140W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 6130 Processor 2.1 GHz 16
+22.00
+MB 125W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 6128 Processor 3.4 GHz 6
+19.25
+MB 115W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 6126 Processor 2.6 GHz 12
+19.25
+MB 125W
+3 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 5122 Processor 3.6 GHz 4
+16.50
+MB 105W
+2 @ 10.4
+GT/s
+2666
+MT/s 768 GB
+Gold 5120 Processor 2.2 GHz 14
+19.25
+MB 105W
+2 @ 10.4
+GT/s
+2400
+MT/s 768 GB
+Gold 5118 Processor 2.3 GHz 12
+16.50
+MB 105W
+2 @ 10.4
+GT/s
+2400
+MT/s 768 GB
+Gold 5115 Processor 2.4 GHz 10
+13.75
+MB 85W
+2 @ 10.4
+GT/s
+2400
+MT/s 768 GB
+NOTE: Platinum - 2 and 4 socket capable, 2S - 2UPI, 4S - 3UPI, 8S - 3UPI @ 10.4 GT/s, 6-Channel DDR4
+@ 2666 MT/s, 768 GB memory capacity (1.5 TB on select skus), Intel Turbo Boost Technology, Intel Hyper-
+Threading Technology
+Intel AVX-512 (2x 512-bit FMA), 48 lanes PCIe 3.0, advanced RAS.
+NOTE: Gold - 2 and 4 socket capable, 2S - 2UPI, 4S - 3UPI @ 10.4 GT/s, 6-Channel DDR4 @ 2400 MHz
+(SKU 5122=supports 2666), 768 GB memory capacity (1.5 TB on select skus), Intel Turbo Boost
+Technology, Intel Hyper-Threading Technology, Intel AVX-512(1x 512-bit FMA) (SKU 5122 supports 2x 512
+bit FMA), 48 lanes PCIe 3.0, advanced RAS.
+NOTE: All processors with power above 130W ship with a high performance heatsink
+NOTE: 61xx and 81xx processors support 3 UPI links and all processors are connected in a cross bar
+configuration with each processor connected to another directly in a four processor system. 51xx processors
+support 2 UPI links only and all processors are connected in a ring configuration with processors 1, 3 and 2,
+4 not connected directly in a four processor system.
+Chipset
+Intel C621 Chipset
+NOTE: For more information regarding Intel® chipsets, please see the following URL:
+http://www.intel.com/products/server/chipsets/
+On System Management Chipset
+HPE iLO 5 ASIC
+NOTE: Read and learn more in the iLO QuickSpecs.
+Memory
+One of the following depending on model
+Type: SmartMemory
+Registered (RDIMM), Load Reduced (LRDIMM)
+DIMM Slots Available 48 12 DIMM slots per processor, 6 channels per
+processor, 2 DIMMs per channel
+Maximum capacity (LRDIMM) 3 TB 48 x 64 GB LRDIMM @ 2666 MT/s
+Maximum capacity (RDIMM) 1.5 TB 48 x 32 GB RDIMM @ 2666 MT/s
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Standard Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 6
+NOTE: Mixing of RDIMM and LRDIMM memory is not supported.
+NOTE: Memory speed depends on the processor selected.
+Memory Protection
+For details on the HPE Server Memory Options RAS feature, visit: http://www.hpe.com/docs/memory-ras-feature.
+Expansion Slots
+Primary Riser
+(Standard)
+Expansion
+Slots #
+Technology Bus/Connector
+Width
+Form
+Factor/Connector
+Notes
+1 PCIe 3.0 x8 ¾ length/full height Proc 1
+2 PCIe 3.0 X16 ¾ length/full height Proc 1
+3 PCIe 3.0 x8 ¾ length/full height Proc 1
+None 2 x M.2 SATA lanes M.2 Chipset
+Primary/Secondary
+Riser (Optional)
+826704-B21
+Expansion
+Slots(Primary/
+Secondary) #
+Technology Bus/Connector
+Width
+Form Factor/
+Connector
+(Primary)
+Form
+Factor/
+Connector
+(Secondary)
+Notes
+(Primary/
+secondary)
+2/5 PCIe 3.0 x16 ¾ length/full
+height
+Half
+length/full
+height
+Proc 1/2
+3/6 PCIe 3.0 x16 ¾ length/full
+height
+Half
+length/full
+height
+Proc 1/2
+Primary/Secondary
+Riser (Optional)
+873418-B21
+Expansion
+Slots
+(Primary/
+Secondary) #
+Technology Bus/Connector
+Width
+Form Factor
+/Connector
+Notes (P
+None NVMe x8 Slimline
+None NVMe x8 Slimline
+None NVMe x8 Slimline
+None NVMe x8 Slimline
+Primary/Secondary
+Riser (Optional)
+873420-B21
+Expansion
+Slots
+(Primary/
+Secondary)#
+Technology Bus/Connector
+Width
+Form Factor/
+Connector
+(Primary)
+Form Factor/
+Connector
+(Secondary)
+1/4 PCIe 3.0 x8 ¾ length/full height Half length/full
+height
+2/5 PCIe 3.0 x8 ¾ length/full height Half length/full
+height
+3/6 PCIe 3.0 x8 ¾ length/full height Half length/full
+height
+None NVMe x8 Slimline Slimline
+Secondary Riser Expansion Technology Bus Width Form Factor
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Standard Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 7
+(Optional)
+870548-B21
+Slots #
+4 PCIe 3.0 x8 Half length/full
+height
+5 PCIe 3.0 x16 Half length/full
+height
+6 PCIe 3.0 x8 Half length/full
+height
+Tertiary riser (Optional)
+872253-B21
+Expansion
+Slots #
+Technology Bus Width Form Factor
+7 PCIe 3.0 x8 Half length/full
+height
+8 PCIe 3.0 x8 Half length/full
+height
+Tertiary riser (Optional)
+872255-B21
+Expansion
+Slots #
+Technology Bus Width Form
+Factor/Connector
+7 PCIe 3.0 x8 Half length/full
+height
+None NVMe x8 Slimline
+Tertiary riser
+(Optional)
+872257-B21
+Expansion
+Slots #
+Technology Bus Width Form
+Factor/Connector
+None NVMe x8 Slimline
+None NVMe x8 Slimline
+4-port NVMe Mezzanine
+card (Optional)
+874633-B21
+Expansion
+Slots #
+Technology Bus Width Form
+Factor/Connector
+None NVMe x8 Slimline
+None NVMe x8 Slimline
+None NVMe x8 Slimline
+None NVMe x8 Slimline
+NOTE: The secondary and tertiary risers need the 2nd processor to be installed.
+NOTE: The expansion slots at the back are numbered in ascending order from top to bottom and from left to right
+NOTE: Some riser kits (826704-B21, 873418-B21, 873420-B21) have FIO options with separate numbers and the
+riser cages. Please review the FIO section for details.
+NOTE: The optional 4-port NVMe Mezzanine card 874633-B21 supports a maximum of 8 NVMe drives and does
+slot. It goes on top of the HPE DL5x0 Gen10 CPU Mezzanine Board Kit (872222-B21) and requires a four process
+NOTE: The tertiary risers can only be installed when using two PSUs. There is no space for tertiary risers when t
+installed. If a secondary riser is required it needs to be ordered separately. Please refer section HPE I/O Expansio
+NOTE: A maximum of 1 primary, 1 secondary and 1 tertiary riser can be installed in one server.
+NOTE: Slimline riser kit (873418-B21) does not contain any additional PCIe slots.
+Network Controller
+The HPE ProLiant DL560 Gen10 servers offer a flexible network technology - FlexibleLOMs, which offers custome
+10 Gb, 25 Gb or 10 Gb base-T Ethernet or converged networking in their embedded adapter. A range of NIC cards
+to enhance networking capabilities.
+NOTE: For additional details see the Networking Section of this document.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Standard Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 8
+Model Adapter
+Entry Model HPE Ethernet 1Gb 4-port 331FLR Adapter
+Base Model HPE FlexFabric 10Gb 2P 533FLR-T Adapter
+Performance Model HPE FlexFabric 10/25 Gb 2P 640FLR-SFP28 Adapter or HPE FlexFabric 1
+SFP28 Adapter
+Storage Controllers
+The Gen10 controller naming framework has been updated to simplify identification as depicted below. For a more
+of the available Gen10 Smart Array controllers visit the HPE Smart Array Gen10 Controllers Data Sheet.
+Software RAID HPE Smart Array S100i SR Gen10 SW RAID
+NOTE: HPE Smart Array S100i SR Gen10 SW RAID will operate in UEFI mode only. For legacy support an additi
+be needed, and for CTO orders please also select the Legacy mode settings part, 758959-B22.
+NOTE: HPE Smart Array S100i SR Gen10 SW RAID is off by default and must be enabled. For enabling, please s
+Enable Smart Array SW RAID (784308-B21).
+Essential RAID HPE Smart Array E208i-a SR G10 LH Controller
+HPE Smart Array E208i-p SR Gen10 Controller
+HPE Smart Array E208e-p SR Gen10 Controller
+Performance RAID HPE Smart Array P408i-a SR G10 LH Controller
+HPE Smart Array P408i-p SR Gen10 Controller
+HPE Smart Array P408e-p SR Gen10 Controller
+HPE Smart Array P816i-a SR G10 LH Controller
+Internal Storage Devices
+One of the following depending on model
+Optical Drive Optional: DVD-ROM, DVD-RW
+Hard Drives None ship standard
+Hard Drive Bays 8 hot plug SFF SAS/SATA HDD Bays in Entry and Base Models
+16 hot plug SFF SAS/SATA HDD Bays in Performance Models
+NOTE: Box 3 is populated by 8 SFF SAS/SATA bay and shipped as defaul
+NOTE: The 8 NVMe drive option can only placed in Bay 2.
+NOTE: The Universal Media Bay (872267-B21) not available with the 24 SF
+only be populated in Box 1.
+NOTE: The 8 SFF can be upgraded with a drive cage to 16 or 24 SFF with
+optimal upgrade Box 2 should be populated second, with Box 1 the last to b
+field upgrade to 24 SFF.
+NOTE: A maximum of 12 NVMe drives can be supported with 2 NVMe drive
+drives in Bay 2 and 2 NVMe drives in Bay 3.
+NOTE: All pre-configured models come with embedded software RAID sup
+drives. Optional HPE Smart Array Controllers can be added.
+Maximum Internal Storage
+CAPACITY CONFIGURATION
+Hot Plug SFF SATA HDD 48 TB 24 x 2 TB
+Hot Plug SFF SAS HDD 48 TB 24 x 2 TB
+Hot Plug SFF SATA SSD 92 TB 24 x 3.84 TB
+Hot Plug SFF SAS SSD 92 TB 24 x 3.84 TB
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Standard Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 9
+SFF NVMe SSD 24 TB 12 x 2 TB
+Power Supply
+One of the following depending on model
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+NOTE: Available in 94% and 96% efficiency.
+NOTE: Also available in -48VDC and 227VAC/380VDC power inputs.
+NOTE: Must order 4x800W Flex Slot PSU.
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+NOTE: Available in 94% efficiency.
+HPE Flexible Slot (Flex Slot) Power Supplies share a common electrical and physical design that allows for hot pl
+installation into HPE ProLiant Gen10 Servers. Flex Slot power supplies are certified for high-efficiency operation a
+power output options, allowing users to "right-size" a power supply for specific server configurations. This flexibilit
+power waste, lower overall energy costs, and avoid "trapped" power capacity in the data center.
+All pre-configured servers ship with a standard 6-foot IEC C-13/C-14 jumper cord (416151-B21). This jumper cord
+with each standard AC power supply option kit. If a different power cord is required, please check the ProLiant Po
+page.
+To review the power requirements for your selected system, please use the HPE Power Advisor Tool.
+For information on power specifications and technical content visit HPE Server power supplies
+Interfaces
+Serial 1 rear
+Video 1 front (optional with Universal Media Bay), 1 rear
+HPE iLO Remote Management Network Port 1
+HPE iLO Front Service Port 1
+Micro SD Slot 1 (Internal), 2 (optional, internal)
+NOTE: Requires the optional HPE Dual Micro SD 8GB USB kit.
+USB 2.0 Ports 4 total: 2 front (optional); 2 rear
+USB 3.0 Ports 5 total: 1 front; 2 rear, 2 internal
+NOTE: 2 front (optional) USB 2.0 ports need the HPE DL560 Gen10 Universal Media Bay Kit (872267-B21).
+Operating Systems and Virtualization Software Support for ProLiant Servers
+Windows Server 2012 R2
+Windows Server 2016
+VMware ESXi 6.0 U3
+VMware ESXi 6.5 and U1 upon release
+Red Hat Enterprise Linux (RHEL) 6.9 and 7.3
+SUSE Linux Enterprise Server (SLES) 11 SP4 and 12 SP2
+CentOS 6.9 and 7.3
+NOTE: Not directly supported / Community Supported (Based on RHEL so RHEL testing and enablement applica
+CentOS 6.9 / CentOS 7.3.
+NOTE: For more information on Hewlett Packard Enterprise Certified and Supported ProLiant Servers for OS and
+Software and latest listing of software drivers available for your server.
+http://h20566.www2.hpe.com/portal/site/hpsc/public/psi/home?sp4ts.oid=1010026837.
+Industry Standard Compliance
+ACPI 6.1 Compliant
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Standard Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 10
+PCIe 3.0 Compliant
+WOL Support
+Microsoft® Logo certifications
+PXE Support
+USB 3.0 Compliant (internal); USB 2.0 Compliant (external ports via SUV)
+SMBIOS 3.1
+UEFI 2.6
+Redfish API
+NOTE: For additional technical thermal details regarding ambient temperatures, humidity and features support ple
+http://www.hpe.com/servers/ashrae.
+Graphics
+Integrated Video Standard
+Video modes up to 1920 x 1200@60Hz (32 bpp)
+16MB Video Memory
+HPE iLO 5 on system management memory
+32 MB Flash
+4 Gbit DDR 3 with ECC protection
+HPE Server UEFI/Legacy ROM
+Unified Extensible Firmware Interface (UEFI) is an industry standard that provides better manageability and more
+configuration than the legacy ROM while interacting with your server at boot time. HPE ProLiant Gen10 servers ha
+implementation and support both UEFI Mode (default) and Legacy BIOS Mode.
+NOTE: The UEFI System Utilities tool is analogous to the HPE ROM-Based Setup Utility (RBSU) of legacy BIOS.
+information, please visit http://www.hpe.com/servers/uefi.
+UEFI enables numerous new capabilities specific to HPE ProLiant servers such as:
+Secure Boot and Secure Start enable for enhanced security
+Operating system specific functionality
+Support for > 2.2 TB (using GPT) boot drives
+USB 3.0 Stack
+Embedded UEFI Shell
+Mass Configuration Deployment Tool using iLO RESTful API that is Redfish API Conformant
+PXE boot support for IPv6 networks
+Workload profiles for simple performance optimization
+UEFI Boot Mode only:
+TPM 2.0 support
+NVMe Boot Support
+Platform Trust Technology (PTT) can be enabled
+iSCSI Software Initiator Support
+HTTP/HTTPs Boot support as a PXE alternative
+Boot support for option cards that only support a UEFI option ROM
+NOTE: For UEFI Boot Mode, boot environment and OS image installations should be configured properly to suppo
+NOTE: UEFI FIO Setting (758959-B22) can be selected to configure the system in Legacy mode in the factory for
+Gen10 Server.
+Embedded Management
+HPE Integrated Lights-Out
+(HPE iLO)
+Monitor your servers for ongoing management, service alerting, reporting and re
+with HPE iLO. Learn more at http://www.hpe.com/info/ilo.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Standard Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 11
+UEFI Configure and boot your servers securely with industry standard Unified Extens
+Interface (UEFI). Learn more at http://www.hpe.com/servers/uefi.
+Intelligent Provisioning Hassle free server and OS provisioning for one or more servers with Intelligent
+more at http://www.hpe.com/servers/intelligentprovisioning.
+iLO RESTful API iLO RESTful API is Redfish API conformance and offers simplified server mana
+such as configuration and maintenance tasks based on modern industry standa
+http://www.hpe.com/info/restfulapi.
+Server Utilities
+Active Health System The HPE Active Health System (AHS) is an essential component of the iLO ma
+that provides continuous, proactive health monitoring of HPE servers. Learn m
+http://www.hpe.com/servers/ahs.
+Active Health System
+Viewer
+Use the Active Health System Viewer, a web-based portal, to easily read AHS lo
+problem resolution with HPE self-repair recommendations, to learn more visit:
+http://www.hpe.com/servers/ahsv.
+Smart Update Keep your servers up to date with the HPE Smart Update solution by using Sma
+(SUM) to optimize the firmware and driver updates of the Service Pack for ProL
+more at http://www.hpe.com/info/smartupdate.
+iLO Amplifier Pack Designed for large enterprise and service provider environments with hundreds
+iLO Amplifier Pack is a free, downloadable open virtual application (OVA) that d
+discover, inventory and update Gen8, Gen9 and Gen10 HPE servers at unmatc
+Use with an iLO Advanced License to unlock full capabilities. Learn more at
+http://www.hpe.com/servers/iLOamplifierpack.
+HPE iLO Mobile
+Application
+Enables the ability to access, deploy, and manage your server anytime from an
+smartphones and mobile devices. For additional information please visit:
+http://www.hpe.com/info/ilo/mobileapp.
+RESTful Interface Tool RESTful Interface tool (iLOREST) is a single scripting tool to provision using iLO
+discover and deploy servers at scale. Learn more at http://www.hpe.com/info
+Scripting Tools Provision one to many servers using your own scripts to discover and deploy w
+(STK) for Windows and Linux or Scripting Tools for Windows PowerShell. Lear
+http://www.hpe.com/servers/stk or http://www.hpe.com/servers/powershe
+HPE OneView Standard HPE OneView Standard can be used for inventory, health monitoring, alerting, a
+additional fees. It can monitor multiple HPE server generations. The user interfa
+HPE OneView Advanced version, but the software-defined functionality is not av
+at http://www.hpe.com/info/oneview.
+HPE Systems Insight
+Manager (HPE SIM)
+Ideal for environments already using HPE SIM, it allows you to monitor the healt
+ProLiant Servers and HPE Integrity Servers. Also provides you with basic suppo
+servers. HPE SIM also integrates with Smart Update Manager to provide quick
+firmware updates. Learn more at http://www.hpe.com/info/hpesim.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Standard Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 12
+Security
+UEFI Secure Boot and Secure Start support
+Immutable Silicon Root of Trust
+FIPS 140-2 validation (iLO 5 certification in progress)
+Common Criteria certification (iLO 5 certification in progress)
+Configurable for PCI DSS compliance
+Advanced Encryption Standard (AES) and Triple Data Encryption Standard (3DES) on browser
+Support for Commercial National Security Algorithms (CNSA)
+iLO Security Modes including a New iLO Advance Premium Security Edition License
+Granular control over iLO interfaces
+Smart card (PIV/CAC) and Kerberos based 2-factor Authentication
+Tamper-free updates - components digitally signed and verified
+Secure Recovery - recover critical firmware to known good state on detection of compromised firmware
+Ability to rollback firmware
+Secure erase of NAND/User data
+TPM (Trusted Platform Module) 1.2 option
+TPM (Trusted Platform Module) 2.0 option Bezel Locking Kit
+Chassis Intrusion detection option
+NOTE: HPE Trusted Platform Module 2.0 Option (864279-B21) works with Gen10 servers with UEFI Mode and no
+The Trusted Platform Module 2.0 Option can be configured to the 1.2 version through the UEFI BIOS to support T
+functionality.
+NOTE: HPE server systems can have a TPM module (of any type) installed only once. It cannot be replaced with
+module.
+About Trusted Platform Module
+Trusted Platform Module (TPM) is a separate processor that monitors the system state. TPM is a passive
+component needing to be updated and not able to lock down any component in the system except
+access to its own memory. It also provides some cryptographic operations - among them: creating RSA
+key pairs, and working with them.
+The first verification of signatures happens by code on the CPU, which can be intercepted and replaced.
+Emulating a "properly" booted system is possible by sending the right values to the TPM.
+HPE supports two version of TPM, the 1.2 device and the 2.0 device. The TPM 2.0 device works with
+Gen10 servers that are using a Linux operating system or Microsoft Windows Server 2016. Both TPM 1.2
+and 2.0 are compatible with HPE ProLiant Gen9 and Gen10 servers. These TPM modules are not
+compatible with server generations prior to Gen9. Once the TPM module is installed, it locks into place
+and cannot be removed, nor can it be replaced with a different TPM device.
+HPE Silicon Root of Trust
+HPE's Silcon Root of Trust provides protection because as soon as the server is powered on and the iLO
+firmware comes alive, it looks into the silicon for the immutable fingerprint that verifies all the firmware
+code is valid and uncompromised. Over a million lines of firmware code run, before the operating system
+starts, making it essential to confirm that all server essential firmware is free from malware or
+compromised code.
+Silicon Root of Trust is included with iLO5 Standard with all platforms that contain the iLO5 chip. That
+includes ML, DL, Apollo, C-Class Blades, and Synergy Compute Modules. HPE Cloudline and the HPE
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Standard Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 13
+Microserver do not have silicon root of trust, since they do not contain an iLO5 silicon chip. This
+technology is NOT available on any previous version of HP ProLiant like the Gen9, Gen8, or Gen 7
+servers, nor can those previous generations be retrofitted to accommodate the silicon root of trust.
+The silicon validates the iLO 5 firmware code before it is fetched and executed. If any malware or
+compromised code has been inserted in the iLO 5 firmware, the silicon will detect that, because any
+infected firmware code will not match-up with the hash burned into the silicon. From there, the iLO 5
+firmware validates the rest of the server firmware, namely the UEFI, CPLD, IE, and ME. The UEFI then
+validates the connection to the operating system, thus completing a complete root, or chain, that is
+anchored into the silicon.
+During operation of the server, HPE has a new technology that conducts run-time firmware validation that
+checks the firmware stored in the server. At any point, if compromised code or malware is inserted in
+any of the critical firmware, an iLO audit log alert is created to notify the customer that a compromised
+has occurred.
+In the unlikely event of a breach into the HPE server firmware, after detection has been completed, the
+customer may then securely recover the firmware automatically to a previous known good state. HPE
+provides this function through a new HPE license called, HPE iLO Advanced Premium Security Edition.
+Warranty
+This product is covered by a global limited warranty and supported by HPE Services and a worldwide
+network of HPE Authorized Channel Partners resellers. Hardware diagnostic support and repair is
+available for three years from date of purchase. Support for software and initial setup is available for 90
+days from date of purchase. Enhancements to warranty services are available through HPE Care Pack
+services or customized service agreements. Hard drives have either a one year or three year warranty;
+refer to the specific hard drive QuickSpecs for details.
+Server Warranty includes 3-Year Parts, 3-Year Labor, 3-Year Onsite support with next business day
+response. Warranty repairs may be accomplished through the use of Customer Self Repair (CSR) parts.
+These parts fall into two categories: 1) Mandatory CSR parts are designed for easy replacement. A travel
+and labor charge will result when customers decline to replace a Mandatory CSR part; 2) Optional CSR
+parts are also designed for easy replacement but may involve added complexity. Customers may choose
+to have Hewlett Packard Enterprise replace Optional CSR parts at no charge. Additional information
+regarding worldwide limited warranty and technical support is available at:
+http://h17007.www1.hpe.com/us/en/enterprise/servers/warranty/.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Standard Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 14
+Server Management
+HPE iLO Advanced HPE iLO Advanced licenses offer smart remote functionality without
+compromise, for all HPE ProLiant servers. The license includes the full
+integrated remote console, virtual keyboard, video, and mouse (KVM), multi-
+user collaboration, console record and replay, and GUI-based and scripted
+virtual media and virtual folders. You can also activate the enhanced security
+and power management functionality. Learn more about HPE iLO Advanced
+at http://www.hpe.com/servers/iloadvanced.
+HPE iLO Advanced
+Premium Security
+Edition
+HPE iLO Advanced Premium Security Edition for iLO 5 includes iLO
+Advanced License plus high-end security modes, unique security capabilities,
+like Automatic FW recovery; Runtime FW verification, and Secure erase.
+Learn more about HPE iLO Advanced Premium Security Edition at:
+http://www.hpe.com/servers/ilopremium.
+HPE OneView
+Advanced
+HPE OneView brings a new level of automation to infrastructure
+management by taking a template driven approach to provisioning, updating,
+and integrating compute, storage, and networking infrastructure. It provides
+full-featured licenses which can be purchased for managing Gen8, Gen9 and
+Gen10 servers. To learn more visit http://www.hpe.com/info/oneview.
+HPE Insight Cluster
+Management Utility
+(CMU)
+HPE Insight Cluster Management Utility is a HyperScale management
+framework that includes software for the centralized provisioning,
+management and monitoring of nodes and infrastructure. Learn more at
+http://www.hpe.com/info/cmu.
+HPE Insight Control HPE Insight Control is recommended for current implementation on HPE
+Servers to deploy, migrate, monitor, remote control, and optimize your IT
+infrastructure through a single, simple management console. For more
+information, see http://www.hpe.com/info/insightcontrol.
+GPGPU Information
+HPE NVIDIA Quadro P2000 Graphics Accelerator
+Rack and Power Infrastructure
+The story may end with servers, but it starts with the foundation that makes compute go - and business
+grow. We've reinvented our entire portfolio of rack and power products to make IT infrastructure more
+secure, more practical, and more efficient. In other words, we've created a stronger, smarter, and
+simpler infrastructure to help you get the most out of your IT equipment. As an industry leader, Hewlett
+Packard Enterprise is uniquely positioned to address the key concerns of power, cooling, cable
+management and system access.
+HPE G2 Advanced and Enterprise Racks are perfect for the server room or today's modern data center
+with enhanced airflow and thermal management, flexible cable management, and a 10 year Warranty
+to support higher density computing.
+HPE G2 PDUs offer reliable power in flexible form factors that operate at temperatures up to 60°,
+include color-coded outlets and load segments and a low-profile design for optimal access to the rack
+and support for dense rack environments.
+HPE Uninterruptible Power Systems are cost-effective power protection for any type workload. Some
+UPSs include options for remote management and extended runtime modules so you're critical dense
+data center is covered in power outages.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Optional Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 15
+HPE KVM Solutions include a console and switches designed to work with your server and IT
+equipment reliably. We've got a cost-effective KVM switch for your first rack and multiple connection IP
+switches with remote management and security capabilities to keep your data center rack up and
+running.
+Learn more about HPE Racks, KVM, PDUs and UPSs at HPE Rack and Power Infrastructure.
+One Config Simple (SCE)
+SCE is a guided self-service tool to help sales and non-technical people provide customers with initial
+configurations in 3 to 5 minutes. You may then send the configuration on for configuration help, or use in
+your existing ordering processes. If you require "custom" rack configuration or configuration for products
+not available in SCE, please contact Hewlett Packard Enterprise Customer Business Center or an
+Authorized Partner for assistance. https://h22174.www2.hpe.com/SimplifiedConfig/Welcome#
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Optional Features
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 16
+HPE Pointnext
+Protect your business beyond warranty with HPE Support Services
+HPE Pointnext provides a comprehensive portfolio including Advisory and Transformational,
+Professional, and Operational Services to help accelerate your digital transformation. From the onset of
+your transformation journey, Advisory and Transformational Services focus on designing the
+transformation and creating a solution roadmap. Professional Services specializes in creative
+configurations with flawless and on-time implementation, and on-budget execution. Finally, operational
+services provides innovative new approaches like Flexible Capacity and Datacenter Care, to keep your
+business at peak performance. HPE is ready to bring together all the pieces of the puzzle for you, with
+an eye on the future, and make the complex simple.
+Connect your devices:
+Unlock all of the benefits of your technology investment by connecting your products to Hewlett Packard
+Enterprise. Reduce down time and improve diagnostic accuracy with a single consolidated view of your
+environment. By connecting, you will receive 24x7monitoring, pre-failure alerts, automatic call logging,
+and automatic parts dispatch. HPE Proactive Care Service and HPE
+Datacenter Care Service customers will also benefit from proactive activities to help prevent issues and
+increase optimization. All of these benefits are already available to you with your server storage and
+networking products, securely connected to HPE support.
+Learn more about getting connected at http://www.hpe.com/services/getconnected
+Parts and Materials
+HPE will provide HPE-supported replacement parts and materials necessary to maintain the covered
+hardware product in operating condition, including parts and materials for available and recommended
+engineering improvements.
+Parts and components that have reached their maximum supported lifetime and/or the maximum usage
+limitations as set forth in the manufacturer's operating manual, product quick-specs, or the technical
+product data sheet will not be provided, repaired, or replaced as part of these services.
+The defective media retention service feature option applies only to Disk or eligible SSD/Flash Drives
+replaced by HPE due to malfunction.
+HPE Education Services
+Keep your IT staff trained making sure they have the right skills to deliver on your business outcomes.
+Book on a class today and learn how to get the most from your technology investment.
+http://www.hpe.com/ww/learn
+HPE Support Center
+The HPE Support Center is a personalized online support portal with access to information, tools and
+experts to support HPE business products. Submit support cases online, chat with HPE experts, access
+support resources or collaborate with peers. Learn more http://www.hpe.com/support/hpesc
+HPE's Support Center Mobile App* allows you to resolve issues yourself or quickly connect to an agent
+for live support. Now, you can get access to personalized IT support anywhere, anytime.
+HPE Insight Remote Support and HPE Support Center are available at no additional cost with a HPE
+warranty, HPE Support Service or HPE contractual support agreement.
+*HPE Support Center Mobile App is subject to local availability.
+For more information: http://www.hpe.com/services
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Service and Support
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 17
+Entry Models Base Models
+SKU Number 840369-B21 875807-B21 840370-B21
+Model Name HPE DL560 Gen10 5120
+32GB 2P Entry Svr
+HPE DL560 Gen10 6130
+64GB 2P Entry 2 Svr
+HPE DL560 Gen10 6148
+128GB 4P Base Svr
+Processor Intel® Xeon® 5120 Intel® Xeon® 6130 Intel® Xeon® 6148
+Number of
+Processors
+2 2 4
+Memory 32 GB (2x16GB Registered
+DIMMs, 2666 MT/s)
+NOTE: 24 DIMM slots
+available with Entry Model; 2
+more processor slots and 24
+more DIMMs available via
+optional HPE DL5x0 Gen10
+CPU Mezzanine Board Kit
+(872222-B21).
+64 GB (4x16GB
+Registered DIMMs, 2666
+MT/s)
+NOTE: 24 DIMM slots
+available with Entry
+Model; 2 more processor
+slots and 24 more DIMMs
+available via optional
+HPE DL5x0 Gen10 CPU
+Mezzanine Board Kit
+(872222-B21).
+128 GB (8x16GB
+Registered DIMMs, 2666
+MT/s )
+Network
+Controller
+1 Gb 4-port 331FLR Adapter 10GbE
+FlexFabric 2-port
+533FLR-T Adapter
+10GbE
+FlexFabric 2-port 533FLR-
+T Adapter
+Storage
+Controller
+HPE Smart Array S100i
+Software RAID
+NOTE: Additional Storage
+controllers are available as
+options, to enable both SAS
+capability as well as provide
+data retention
+with flash-backed write
+cache (FBWC).
+HPE Smart Array P408i-a
+NOTE: Additional
+storage controllers are
+available as options.
+HPE Smart Array P408i-a
+NOTE: Additional storage
+controllers are available
+as options.
+Power Supply 1x 1600W 2x 1600W 2x 1600W
+PCI-Express
+Slots
+3 PCIe 3.0 slots available
+NOTE: 8 PCIe 3.0 slots
+available with the secondary
+and tertiary riser installed.
+3 PCIe 3.0 slots available
+NOTE: 8 PCIe 3.0 slots
+available with the
+secondary and tertiary
+riser installed.
+6 PCIe 3.0 slots available
+NOTE: 8 PCIe 3.0 slots
+available with the tertiary
+riser installed.
+Hard Drive None ship standard
+Internal
+Storage
+8 SFF Drive Bays
+NOTE: Can be expanded up to a max of 24 SFF drives, with optional HPE DL560
+Gen10 8SFF HDD Bay2 Kit (872235-B21) and HPE DL560 Gen10 8 SFF HDD Bay1
+Kit (872231-B21).
+NOTE: Optionally NVMe SSD drives can be added with HPE DL560 Gen10 Premium
+6SFF and 2 NVMe or 8 SFF Bay1 Kit (872227-B21) or HPE DL560 Gen10 Prem 6
+SFF+2 NVMe Bay2 Kit(872229-B21) or HPE DL560 Gen10 Premium 6 SFF and 2
+NVMe or 8 SFF Bay3 Kit (872231-B21) or HPE DL560 NVMe 8 SSD Express Bay
+Enablement Kit (872225-B21).
+NOTE: Alternatively, optional HPE DL560 Gen10 Universal Media Bay Kit.
+Optical Drive
+Bay
+Optional via Universal Media Bay
+Optical Drive Optional via Universal Media Bay
+Fans 6 hot plug fans, redundant
+Management HPE iLO Standard with Intelligent Provisioning (embedded), HPE OneView Standard
+(requires download); HPE iLO Advanced, HPE iLO Advanced Premium Security
+Edition, Insight Control and HPE OneView Advanced (require licenses)
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Pre-configured Models
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 18
+Form Factor Rack (2U), HPE Easy Install Rails with CMA
+Warranty 3-Year Parts, 3-Year Labor, 3-Year Onsite support with next business day response
+Performance Models
+SKU Number 840371-B21 880173-B21
+Model Name HPE DL560 Gen10 8170 256GB 4P Adv
+Svr
+HPE DL560 Gen10 8164 256GB 4P Adv 2
+Svr
+Processor Intel® Xeon® 8170 Intel® Xeon® 8164
+Number of
+Processors
+4 4
+Memory 256 GB (8x 16 GB Registered DIMMs, 2666 MT/s)
+Network
+Controller
+10/25Gb2p 640FLR-SFP28 Adapter 10/25Gb 2p 631FLR-SFP28 Adapter
+Storage
+Controller
+Smart Array P816i-a
+PCI-Express
+Slots
+8 PCIe 3.0 slots available
+Power Supply 2x 1600W
+Hard Drive None ship standard
+Internal Storage 8 SFF Drive Bays
+Optical Drive
+Bay
+None ship standard. optional via Universal Media Bay
+Optical Drive None ship standard. optional via Universal Media Bay
+Fans 6 hot plug fans, redundant
+Management HPE iLO Standard with Intelligent Provisioning (embedded), HPE OneView Standard
+(requires download); HPE iLO Advanced (included), HPE iLO Advanced Premium
+Security Edition (require licenses), Insight Control (require licenses) and HPE
+OneView Advanced (included)
+Form Factor Rack (2U), HPE Easy Install Rails with CMA
+Warranty 3-Year Parts, 3-Year Labor, 3-Year Onsite support with next business day response
+NOTE: UEFI is the standard default for all pre-defined models.
+Country Code Key xx1 = B21 Worldwide
+NOTE: The -B21 WW SKU is to be ordered in all countries other than Japan or PRC.
+xx1 = 291 Japan
+xx1 = AA1 PRC
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Pre-configured Models
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 19
+This section lists some of the steps required to configure a Factory Integrated Model. To ensure only valid
+configurations are ordered, Hewlett Packard Enterprise recommends the use of an HPE approved
+configurator. Contact your local sales representative for information on configurable product offerings and
+requirements.
+1. Factory Integrated Models must start with a CTO Server.
+2. FIO indicates that this option is only available as a factory installable option.
+3. All Factory Integrated Models will be populated with sufficient hard drive blanks based on the number of
+initial hard drives ordered with the server.
+4. Some options may not be integrated at the factory. Contact your local sales representative for additional
+information.
+Step 1: Base Configuration (choose one of the following configurable models)
+Server descriptionHPE DL560 Gen10 CTO Svr
+SKU Number 841730-B21
+TAA SKU 875797-B21
+Chipset Intel® C621 Chipset
+Processor 2U Server Chassis with 2 processor slots available; 4 processor configuration would
+require optional HPE
+ProLiant HPE DL5x0 Gen10 CPU Mezzanine Board Kit (872222-B21)
+DIMM Slots 24 DIMM slots for RDIMM, LRDIMM DDR4 Memory; 48 DIMM configuration would
+require optional HPE
+ProLiant HPE DL5x0 Gen10 CPU Mezzanine Board Kit (872222-B21) and 4
+processors
+Network
+Controller
+None. FlexibleLOM slot (various options can be chosen for networking; NIC cards also
+available via expansion slots)
+Storage ControllerHPE Smart Array S100i
+NOTE: HPE Smart Array S100i SR Gen10 SW RAID is off by default and must be
+enabled. For enabling, please select HPE FIO Enable Smart Array SW RAID (784308-
+B21).
+PCIe 3 PCIe 3.0 slots (8 PCIe 3.0 slots are available if second processor is chosen and a
+Secondary and Tertiary Riser Kits has been installed)
+Drive Cage -
+included
+8 SFF, no drives
+Fans 6 hot plug fans, redundant
+Management HPE iLO Standard with Intelligent Provisioning and (Standard); HPE OneView
+Standard (requires download) and HPE iLO Advanced, HPE iLO Advanced Premium
+Security Edition, Insight Control, HPE OneView Advanced (require additional licenses)
+microSD Slots 1 microSD card slot (internal)
+TPM Connector 1 Trusted Platform Module (TPM) connector
+UEFI BIOS Legacy mode (field configurable) or Unified Extensible Firmware Interface (UEFI)
+mode (default)
+USB 7 USB ports (2 USB 2.0 and 5 USB 3.0)
+Video Ports 2 video ports (1 front optional via the Universal Media Kit upgrade option, 1 rear)
+Rails Easy install rails and cable management arm are optional
+NOTE: Trade Agreement Act (TAA) and means that these SKUs are manufactured in countries that are
+part of the global trade act. This provides greater security assurance that these servers come from
+countries that signed the agreement act. This is particularly important to HPE customers in our federal
+sector and other verticals that have concerns about the country of origin for our solutions.
+NOTE: PCIe slot availability is dependent on the number of processors and riser kits installed. Please refer
+to the "Expansion slots" section for more details.
+NOTE: For the DL560 Gen10, the number of processors can be one, two or four installed. For four
+processors, the HPE DL5x0 Gen10 CPU Mezzanine Board Kit is required.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Configuration Information - Factory Integrated Models
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 20
+NOTE: This aplies to CTO configurations, field upgrades may differ depending on field configuration.
+Step 2a: Choose Processor Options
+Processor Option Kits Required Processor
+HPE DL560 Gen10 Intel® Xeon-Platinum 8180M (2.5GHz/28-core/205W) FIO
+Processor Kit
+875335-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8180 (2.5GHz/28-core/205W) FIO
+Processor Kit
+872766-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8176M (2.1GHz/28-core/165W) FIO
+Processor Kit
+875336-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8176 (2.1GHz/28-core/165W) FIO
+Processor Kit
+840379-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8170M (2.1GHz/26-core/165W) FIO
+Processor Kit
+875337-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8170 (2.1GHz/26-core/165W) FIO
+Processor Kit
+870730-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8168 (2.7GHz/24-core/205W) FIO
+Processor Kit
+872768-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8164 (2.0GHz/26-core/145W) FIO
+Processor Kit
+840383-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8160M (2.1GHz/24-core/145W) FIO
+Processor Kit
+875338-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8160 (2.1GHz/24-core/145W) FIO
+Processor Kit
+840381-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8158 (3.0GHz/12-core/105W) FIO
+Processor Kit
+840397-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8156 (3.6GHz/4-core/105W) FIO
+Processor Kit
+840395-L21
+HPE DL560 Gen10 Intel® Xeon-Platinum 8153 (2.0GHz/16-core/125W) FIO
+Processor Kit
+872841-L21
+HPE DL560 Gen10 Intel® Xeon-Gold 6154 (3.0GHz/18-core/200W) FIO
+Processor Kit
+872770-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6152 (2.1GHz/22-core/135W) FIO
+Processor Kit
+840387-L21
+NOTE: Ships with Performance Heatsink.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Configuration Information - Factory Integrated Models
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 21
+HPE DL560 Gen10 Intel® Xeon-Gold 6150 (2.7GHz/18-core/165W) FIO
+Processor Kit
+870732-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6148 (2.4GHz/20-core/145W) FIO
+Processor Kit
+840385-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6142M (2.6GHz/16-core/150W) FIO
+Processor Kit
+875342-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6142 (2.6GHz/16-core/145W) FIO
+Processor Kit
+872828-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6140M (2.3GHz/18-core/135W) FIO
+Processor Kit
+875339-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6140 (2.3GHz/18-core/135W) FIO
+Processor Kit
+840389-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6138 (2.0GHz/20-core/120W) FIO
+Processor Kit
+872835-L21
+HPE DL560 Gen10 Intel® Xeon-Gold 6136 (3.0GHz/12-core/150W) FIO
+Processor Kit
+872831-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6134M (3.2GHz/8-core/130W) FIO
+Processor Kit
+875343-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6134 (3.3GHz/8-core/130W) FIO
+Processor Kit
+872833-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6132 (2.6GHz/14-core/140W) FIO
+Processor Kit
+840391-L21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6130 (2.1GHz/16-core/120W) FIO
+Processor Kit
+840393-L21
+HPE DL560 Gen10 Intel® Xeon-Gold 6128 (3.4GHz/6-core/115W) FIO
+Processor Kit
+872839-L21
+HPE DL560 Gen10 Intel® Xeon-Gold 6126 (2.6GHz/12-core/120W) FIO
+Processor Kit
+870734-L21
+HPE DL560 Gen10 Intel® Xeon-Gold 5122 (3.6GHz/4-core/105W) FIO
+Processor Kit
+870736-L21
+HPE DL560 Gen10 Intel® Xeon-Gold 5120 (2.2GHz/14-core/105W) FIO
+Processor Kit
+870738-L21
+HPE DL560 Gen10 Intel® Xeon-Gold 5118 (2.3GHz/12-core/105W) FIO
+Processor Kit
+840399-L21
+HPE DL560 Gen10 Intel® Xeon-Gold 5115 (2.4GHz/10-core/85W) FIO
+Processor Kit
+875349-L21
+NOTE: If more than one processor is desired select one xxxxxx-L21 and one or three corresponding
+xxxxxx-B21 processors. Mixing different processor models is not supported.
+Step 2b: Choose Memory Options
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Configuration Information - Factory Integrated Models
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 22
+Only one of the following from each list unless otherwise noted
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2666 CAS-19-19-19 Registered
+Memory Kit
+815097-B21
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2666 CAS-19-19-19 Registered
+Memory Kit
+815098-B21
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2666 CAS-19-19-19 Registered
+Memory Kit
+815100-B21
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2666 CAS-19-19-19 Load Reduced
+Memory Kit
+815101-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2666 CAS-19-19-19 Registered
+Memory Kit
+835955-B21
+NOTE: LRDIMM and RDIMM are distinct memory technologies and cannot be mixed within a server.
+Step 2c: Choose Power Supplies
+Only one or more of the following from each list unless otherwise noted
+HPE 800W Flex Slot Titanium Hot Plug Low Halogen Power Supply Kit 865438-B21
+HPE 800W Flex Slot Universal Hot Plug Low Halogen Power Supply Kit 865428-B21
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 865414-B21
+HPE 800W Flex Slot -48VDC Hot Plug Low Halogen Power Supply Kit 865434-B21
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 830272-B21
+NOTE: Select one or more power supplies. For 800W, 4 power supplies need to
+be selected
+NOTE: Prior to making a power supply selection it is highly recommended that
+the HPE Power Advisor is run to determine the right size power supply for your
+server configuration. The HPE Power Advisor is located at:
+http://www.hpe.com/info/hppoweradvisor.
+NOTE: All power supplies in a server should match. Mixing Power Supplies is
+not supported.
+NOTE: HPE ProLiant servers ship with an IEC-IEC power cord used for rack
+mounting with Power Distribution Units (PDUs). Visit HPE power cords for a full
+list of optional power cords.
+Step 2d: Choose network adapters
+Only one of the following from each list unless otherwise noted
+HPE Ethernet 10/25Gb 2-port 631FLR-SFP28 FIO Adapter 817710-B21
+HPE FlexFabric 10Gb 4-port 536FLR-T FIO Adapter 764303-B21
+HPE FlexFabric 10Gb 2-port 534FLR-SFP+ FIO Adapter 700752-B21
+HPE Ethernet 10Gb 2-port 535FLR-T FIO Adapter 817722-B21
+HPE Ethernet 1Gb 4-port 331FLR FIO Adapter 684208-B21
+HP FlexFabric 10Gb 2-port 533FLR-T FIO Adapter 700760-B21
+HP Ethernet 10Gb 2-port 562FLR-SFP+ FIO Adapter 789006-B21
+HPE Ethernet 1Gb 4-port 366FLR FIO Adapter 684217-B21
+HPE Ethernet 10/25Gb 2-port 640FLR-SFP28 FIO Adapter 817750-B21
+Step 3: Choose Additional Factory Integratable Options
+Only one of the following from each list unless otherwise noted
+Risers
+HPE DL560 Gen10 4-port 8 NVMe Slimline FIO Riser Kit 876242-B21
+HPE DL560 Gen10 x8/x8/x8 1-port 2 NVMe Slimline FIO Riser Kit 876245-B21
+HPE DL38X Gen10 x16/x16 GPU Slot2/3 FIO Riser Kit 871676-B21
+HPE OneView
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Configuration Information - Factory Integrated Models
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 23
+HPE OneView w/o iLO including 3yr 24x7 Support 1-server FIO LTU P8B31A
+HPE OneView for ProLiant DL Server including 3yr 24x7 Support FIO Bundle
+Physical 1-server LTU
+E5Y43A
+BIOS Mode
+HP Legacy FIO Mode Setting 758959-B22
+NOTE: Selecting this option will change the UEFI BIOS setting into Legacy BIOS
+Setting.
+Controller State
+HP FIO Enable Smart Array B140i Setting 784308-B21
+NOTE: If not selecting an HPE Storage Controller, this option may be selected
+to
+support RAID and Hot-plug capabilities for SATA hard drives. The S100i does
+not support SAS hard drives.
+Step 4: Choose Additional Options for Factory Integration from Core and
+additional Options sections below
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Configuration Information - Factory Integrated Models
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 24
+NOTE: Some options may not be integrated at the factory. To ensure only valid configurations are ordered,
+Hewlett Packard Enterprise recommends the use of an Hewlett Packard Enterprise approved configurator.
+Contact your local sales representative for additional information.
+HPE Unique Options
+HPE DL5x0 Gen10 12Gb SAS Expander Card Kit with Cables 873444-B21
+HPE DL560 Gen10 2SFF Premium HDD Front NVMe/SAS/SATA Kit 872223-B21
+NOTE: Needs to be ordered with the HPE DL560 Gen10 Uni Media Bay Kit (872267-B21).
+HPE DL560 NVMe 8 SSD Express Bay Enablement Kit 872225-B21
+HPE DL560 Gen10 Premium 6SFF and 2 NVMe or 8SFF Bay1 Kit 872227-B21
+HPE DL560 Gen10 Premium 6SFF and 2 NVMe or 8SFF Bay2 Kit 872229-B21
+HPE DL560 Gen10 Premium 6SFF and 2 NVMe or 8SFF Bay3 Kit 872231-B21
+HPE DL560 Gen10 4-port NVMe Mezzanine Card 874633-B21
+HPE DL560 Gen10 8SFF HDD Bay1 Kit 872233-B21
+HPE DL560 Gen10 8SFF HDD Bay2 Kit 872235-B21
+HPE DL560 Gen10 8SFF HDD Bay3 Kit 872237-B21
+HPE DL560 Gen10 Universal Media Bay Kit 872267-B21
+NOTE: An optional Optical Disk Drive can be added, either DVD-ROM (726536-B21) or DVD-RW
+(726537-B21).
+HPE DL5x0 Gen10 System Insight Display Kit 872261-B21
+HPE DL560 Gen10 4x Power Supply Enablement Kit 875675-B21
+NOTE: Must be ordered when selecting 4 power supplies.
+HPE DL5x0 Gen10 CPU Mezzanine Board Kit 872222-B21
+HPE DL5x0 Gen10 CPU Mezzanine Board Kit 875608-B21
+NOTE: The HPE DL5x0 Gen10 CPU Mezz Kit (872222-B21) is needed for four processor configurations.
+NOTE: The HPE DL5x0 Gen10 CPU Mezz Perf Kit (875608-B21) can only be used in a two processor
+configuration. This kit ships with the mezzanine tray and connects the two processors with 3 UPI (2 UPI
+links for 51xx processors) links.
+NOTE: The HPE DL560 Gen10 8 SFF Bay 3 Cage/Backplane Kit (872237-B21) is shipped default with
+the server. The priority order of drive box population is Box 3, followed by Box 2 and then Box 1.
+HPE Processors
+HPE DL560 Gen10 Intel® Xeon-Platinum 8180M (2.5GHz/28-core/205W) Processor Kit 875335-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8180 (2.5GHz/28-core/205W) Processor Kit 872766-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8176M (2.1GHz/28-core/165W) Processor Kit 875336-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8176 (2.1GHz/28-core/165W) Processor Kit 840379-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8170M (2.1GHz/26-core/165W) Processor Kit 875337-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8170 (2.1GHz/26-core/165W) Processor Kit 870730-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8168 (2.7GHz/24-core/205W) Processor Kit 872768-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8164 (2.0GHz/26-core/150W) Processor Kit 840383-B21
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Core Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 25
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon® -Platinum 8160M (2.1GHz/24-core/145W) Processor Kit 875338-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8160 (2.1GHz/24-core/145W) Processor Kit 840381-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8158 (3.0GHz/12-core/105W) Processor Kit 840397-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Platinum 8156 (3.6GHz/4-core/105W) Processor Kit 840395-B21
+HPE DL560 Gen10 Intel® Xeon-Platinum 8153 (2.0GHz/16-core/125W) Processor Kit 872841-B21
+HPE DL560 Gen10 Intel® Xeon-Gold 6154 (3.0GHz/18-core/200W) Processor Kit 872770-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6152 (2.1GHz/22-core/135W) Processor Kit 840387-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6150 (2.7GHz/18-core/165W) Processor Kit 870732-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6148 (2.4GHz/20-core/145W) Processor Kit 840385-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6142M (2.6GHz/16-core/150W) Processor Kit 875342-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6142 (2.6GHz/16-core/145W) Processor Kit 872828-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6140M (2.3GHz/18-core/140W) Processor Kit 875339-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6140 (2.3GHz/18-core/140W) Processor Kit 840389-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6138 (2.0GHz/20-core/125W) Processor Kit 872835-B21
+HPE DL560 Gen10 Intel® Xeon-Gold 6136 (3.0GHz/12-core/150W) Processor Kit 872831-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6134M (3.2GHz/8-core/130W) Processor Kit 875343-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6134 (3.3GHz/8-core/130W) Processor Kit 872833-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6132 (2.6GHz/14-core/140W) Processor Kit 840391-B21
+NOTE: Ships with Performance Heatsink.
+HPE DL560 Gen10 Intel® Xeon-Gold 6130 (2.1GHz/16-core/125W) Processor Kit 840393-B21
+HPE DL560 Gen10 Intel® Xeon-Gold 6128 (3.4GHz/6-core/115W) Processor Kit 872839-B21
+HPE DL560 Gen10 Intel® Xeon-Gold 6126 (2.6GHz/12-core/125W) Processor Kit 870734-B21
+HPE DL560 Gen10 Intel® Xeon-Gold 5122 (3.6GHz/4-core/105W) Processor Kit 870736-B21
+HPE DL560 Gen10 Intel® Xeon-Gold 5120 (2.2GHz/14-core/105W) Processor Kit 870738-B21
+HPE DL560 Gen10 Intel® Xeon-Gold 5118 (2.3GHz/12-core/105W) Processor Kit 840399-B21
+HPE DL560 Gen10 Intel® Xeon-Gold 5115 (2.4GHz/10-core/85W) Processor Kit 875349-B21
+NOTE: If more than one processor is desired select one xxxxxx-L21 and one or three corresponding
+xxxxxx-B21 processors. Mixing different processor models is not supported.
+Memory Selection
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Core Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 26
+To streamline the configuration process for HPE ProLiant Gen10 servers and to provide the best product
+availability, HPE recommends memory from the list located here:
+http://www.hpe.com/products/recommend.
+Best product availability is limited to US, Canada, and Latin America at this time.
+HPE Memory
+NOTE: Hewlett Packard Enterprise memory from previous generation servers is not
+qualified or warranted with this HPE ProLiant Server. HPE SmartMemory is required to
+realize the memory performance improvements and enhanced functionality listed in this
+document for Gen10. For additional information, please see the HPE SmartMemory
+QuickSpecs.
+NOTE: LRDIMM and RDIMM are all distinct memory technologies and cannot be mixed
+within a server.
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2666 CAS-19-19-19 Registered Memory Kit 815097-B21
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2666 CAS-19-19-19 Registered Memory Kit 815098-B21
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2666 CAS-19-19-19 Registered Memory Kit 815100-B21
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2666 CAS-19-19-19 Load Reduced Memory
+Kit
+815101-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2666 CAS-19-19-19 Registered Memory Kit 835955-B21
+NOTE: The maximum memory speed is a function of the memory type, memory
+configuration, and processor model.
+HPE Optical Drives
+HP 9.5mm SATA DVD-ROM JackBlack Gen9 Optical Drive 726536-B21
+NOTE: The optional Universal Media Bay Kits are required for this option. (HPE ProLiant
+DL560 Gen10 Universal Media Bay kit (872267-B21).
+HP 9.5mm SATA DVD-RW JackBlack G9 Optical Drive 726537-B21
+NOTE: The optional Universal Media Bay Kits are required for this option. (HPE ProLiant
+DL560 Gen10 Universal Media Bay kit - 872267-B21).
+HP Mobile USB Non Leaded System DVD RW Drive 701498-B21
+NOTE: External
+HPE Drives
+NOTE: The components of a storage subsystem (e.g. the drive, the HBA/controller, firmware, and the
+server backplane) should operate at the same data transfer rate or the system bandwidth will be
+negotiated down to an acceptable level for all components.
+NOTE: Hard drives have either a one year or three year warranty; refer to the specific hard drive
+QuickSpecs for details.
+Enterprise - 12G SAS - SFF Drives
+HPE 300GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+HDD
+870753-B21
+HPE 300GB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+HDD
+872475-B21
+HPE 600GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+HDD
+870757-B21
+HPE 600GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty 512e Digitally Signed
+Firmware HDD
+870763-B21
+HPE 600GB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+HDD
+872477-B21
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Core Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 27
+HPE 900GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+HDD
+870759-B21
+HPE 900GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty 512e Digitally Signed
+Firmware HDD
+870765-B21
+HPE 1.2TB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+HDD
+872479-B21
+HPE 1.8TB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty 512e Digitally Signed
+Firmware HDD
+872481-B21
+Midline - 12G SAS - SFF Drives
+HPE 1TB SAS 12G Midline 7.2K SFF (2.5in) SC 1yr Wty HDD 832514-B21
+HPE 1TB SAS 12G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e HDD 765464-B21
+HPE 2TB SAS 12G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e HDD 765466-B21
+Midline - 6G SATA - SFF Drives
+HPE 1TB SATA 6G Midline 7.2K SFF (2.5in) SC 1yr Wty Digitally Signed Firmware HDD 655710-B21
+HPE 1TB SATA 6G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e Digitally Signed Firmware
+HDD
+765453-B21
+HPE 2TB SATA 6G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e Digitally Signed Firmware
+HDD
+765455-B21
+SSD Selection
+To streamline the configuration process for HPE ProLiant Gen10 servers and to provide the best product
+availability, HPE recommends SSDs from the list located here:
+http://www.hpe.com/products/recommend.
+Best product availability is limited to US, Canada, and Latin America at this time.
+To further assist with configuration, HPE also offers an SSD Selector Tool located here:
+http://ssd.hpe.com.
+Write Intensive - PCIe/NVMe - SFF - Solid State Drives
+HPE 400GB NVMe x4 Lanes Write Intensive SFF (2.5in) SCN 3yr Wty SSD 736936-B21
+HPE 800GB NVMe x4 Lanes Write Intensive SFF (2.5in) SCN 3yr Wty SSD 736939-B21
+HPE 1.6TB NVMe x4 Lanes Write Intensive SFF (2.5in) SCN 3yr Wty SSD 764892-B21
+HPE 2TB NVMe x4 Lanes Write Intensive SFF(2.5in) SCN 3yr Wty SSD 764894-B21
+Write Intensive - 6G SATA - SFF - Solid State Drives
+HPE 400GB SATA 6G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+SSD 872355-B21
+HPE 800GB SATA 6G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+SSD 872359-B21
+HPE 1.6TB SATA 6G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+SSD 872363-B21
+Read Intensive - 6G SATA - SFF - Solid State Drives
+HPE 240GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+SSD 868814-B21
+HPE 480GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+SSD 868818-B21
+HPE 960GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+SSD 868822-B21
+HPE 1.92TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+SSD 868826-B21
+HPE 3.8TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+SSD 868830-B21
+Read Intensive - 12G SAS - SFF - Solid State Drives
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Core Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 28
+HPE 960GB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+SSD 872390-B21
+HPE 1.92TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+SSD 872392-B21
+HPE 3.84TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware
+SSD 872394-B21
+Read Intensive - 6G SATA - M.2 - UFF - Solid State Drives
+HPE 340GB SATA 6G Read Intensive UFF 3yr Wty Dual M.2 Kit 815605-B21
+HPE 340GB SATA 6G Read Intensive UFF 3yr Wty M.2 Kit 815606-B21
+NOTE: M.2 drives go in the Primary Riser and use S100i SATA controller only.
+NOTE: M.2 supports Software RAID only.
+Read Intensive - NVMe - SFF - Solid State Drives
+HPE 400GB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty SSD 764904-B21
+HPE 1.2TB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty SSD 764906-B21
+NOTE: A NVME (872225-B21 or 872227-B21 or 872229-B21, 872231-B21) or Premium (872223-B21)
+drive cage are required to support these drives in conjunction with a NVMe riser kit or 4-port NVMe
+Mezzanine card .
+NOTE: Not supported by HPE Smart Array controllers.
+Mixed Use - 12G SAS - SFF - Solid State Drives
+HPE 400GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872374-B21
+HPE 800GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872376-B21
+HPE 1.6TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872382-B21
+HPE 3.2TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872386-B21
+Mixed Use - 6G SATA - SFF - Solid State Drives
+HPE 480GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872344-B21
+HPE 960GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872348-B21
+HPE 1.92TB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872352-B21
+Mixed Use - NVMe - SFF - Solid State Drives
+HPE 400GB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty SSD 765034-B21
+HPE 800GB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty SSD 765036-B21
+HPE 1.6TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty SSD 765038-B21
+HPE 2TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty SSD 765044-B21
+NOTE: A NVME (872225-B21 or 872227-B21 or 872229-B21, 872231-B21) or Premium (872223-B21)
+drive cage are required to support these drives in conjunction with a NVMe riser kit.
+NOTE: Not supported by HPE Smart Array controllers.
+Hard Drive Blank Kits
+HPE Small Form Factor Hard Drive Blank Kit 666987-B21
+Hard Drive Kits
+HPE DL560 Gen10 8SFF HDD Bay1 Kit 872233-B21
+HPE DL560 Gen10 8SFF HDD Bay2 Kit 872235-B21
+HPE DL560 Gen10 8SFF HDD Bay3 Kit 872237-B21
+NVMe Kit
+HPE DL560 NVMe 8 SSD Express Bay Enablement Kit 872225-B21
+HPE DL560 Gen10 Premium 6SFF and 2 NVMe or 8SFF Bay1 Kit 872227-B21
+HPE DL560 Gen10 Premium 6SFF and 2 NVMe or 8SFF Bay2 Kit 872229-B21
+HPE DL560 Gen10 Premium 6SFF and 2 NVMe or 8SFF Bay3 Kit 872231-B21
+Media Bay Kits
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Core Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 29
+HPE DL560 Gen10 Universal Media Bay Kit 872267-B21
+HPE DL560 Gen10 2SFF Premium HDD Front NVMe/SAS/SATA Kit 872223-B21
+HPE Networking
+25 Gigabit Ethernet adapters
+HPE Ethernet 10/25Gb 2-port 640FLR-SFP28 Adapter 817749-B21
+HPE Ethernet 10/25Gb 2-port 640SFP28 Adapter 817753-B21
+HPE Ethernet 4x25Gb 1-port 620QSFP28 Adapter 817762-B21
+HPE Ethernet 10/25Gb 2-port 631FLR-SFP28 Adapter 817709-B21
+HPE Ethernet 10/25Gb 2-port 631SFP28 Adapter 817718-B21
+10 Gigabit Ethernet adapters
+HPE Ethernet 10Gb 2-port 530SFP Adapter 652503-B21
+HPE Ethernet 10Gb 2-port 530T Adapter 656596-B21
+HPE Ethernet 10Gb 2-port 535T Adapter 813661-B21
+HPE Ethernet 10Gb 2-port 562SFP+ Adapter 727055-B21
+NOTE: A minimum of two Gigabytes (2 GB) of server memory is required per each
+adapter.
+NOTE: Direct Attach Cable (DAC) for copper environments or fiber transceivers and
+cables for fiber-optic environments must be purchased separately. Please see the related
+NIC QuickSpecs for Technical Specifications and additional information:
+https://www.hpe.com/us/en/product-catalog/servers/server-adapters.hits-12.html
+1 Gigabit Ethernet adapters
+HPE Ethernet 1Gb 4-port 331T Adapter 647594-B21
+HPE Ethernet 1Gb 2-port 332T Adapter 615732-B21
+HPE Ethernet 1Gb 2-port 361T Adapter 652497-B21
+HPE Ethernet 1Gb 4-port 366T Adapter 811546-B21
+FlexibleLOM Adapters
+HPE Ethernet 1Gb 4-port 331FLR Adapter 629135-B22
+HPE Ethernet 1Gb 4-port 366FLR Adapter 665240-B21
+HPE FlexFabric 10Gb 2-port 533FLR-T Adapter 700759-B21
+HPE FlexFabric 10Gb 2-port 534FLR-SFP+ Adapter 700751-B21
+HPE Ethernet 10Gb 2-port 535FLR-T Adapter 817721-B21
+HPE Ethernet 10Gb 2-port 562FLR-SFP+ Adapter 727054-B21
+HPE FlexFabric 10Gb 4-port 536FLR-T Adapter 764302-B21
+NOTE: Please see the NIC QuickSpecs for Technical Specifications and additional
+information: https://www.hpe.com/us/en/product-catalog/servers/server-
+adapters.hits-12.html
+HPE InfiniBand
+HPE InfiniBand FDR/Ethernet 10Gb/40Gb 2-port 544+QSFP Adapter 764284-B21
+HPE InfiniBand FDR/Ethernet 10Gb/40Gb 2-port 544+FLR-QSFP Adapter 764285-B21
+HPE InfiniBand EDR/Ethernet 100Gb 1-port 840QSFP28 Adapter 825110-B21
+HPE InfiniBand EDR/Ethernet 100Gb 2-port 840QSFP28 Adapter 825111-B21
+HPE 100Gb 1-port OP101 QSFP28 x8 PCIe Gen3 with Intel® Omni-Path Architecture
+Adapter
+829334-B21
+HPE 100Gb 1-port OP101 QSFP28 x16 PCIe Gen3 with Intel® Omni-Path Architecture
+Adapter
+829335-B21
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Core Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 30
+NOTE: For additional InfiniBand information:
+https://www.hpe.com/h20195/v2/GetHTML.aspx?docname=c04154440
+HPE I/O Expansion Options
+HPE DL560 Gen10 x8/x8/x8 1-port 2 NVMe Slimline Riser Kit 873420-B21
+HPE DL560 Gen10 4-port 8 NVMe Slimline Riser Kit 873418-B21
+HPE DL560 Gen10 x8/x8 Tertiary Riser Kit 872253-B21
+HPE DL Gen10 x16/x16 GPU Riser Kit 826704-B21
+HPE DL Gen10 x8/x16/x8 Riser Kit 870548-B21
+HPE DL560 Gen10 x8 2-port 4 NVMe Slimline Riser Kit 872255-B21
+HPE DL560 Gen10 2-port 4 NVMe Slimline Tertiary Riser Kit 872257-B21
+NOTE: Secondary and Tertiary risers are optional kits which can be utilized when system
+is populated with at least two (2) processors. Refer to "Expansion Slots" section for
+additional details on risers.
+HPE Power Supplies
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 830272-B21
+NOTE: Flex Slot Platinum Plus power supplies support power efficiency of up to 94% and
+include a C-14 power inlet connector that can support HPE Power Discovery Services
+(blue connector).
+HPE 800W Flex Slot -48VDC Hot Plug Low Halogen Power Supply Kit 865434-B21
+NOTE: Flex Slot -48VDC power supplies support power efficiency of up to 94%.
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit 865414-B21
+NOTE: Flex Slot Platinum power supplies support power efficiency of up to 94% and
+include a standard C-14 power inlet connector.
+HPE 800W Flex Slot Universal Hot Plug Low Halogen Power Supply Kit 865428-B21
+NOTE: Flex Slot universal power supplies support power efficiency of up to 94% and
+support both 277VAC/380VDC power inputs.
+HPE 800W Flex Slot Titanium Hot Plug Low Halogen Power Supply Kit 865438-B21
+NOTE: Flex Slot Titanium power supplies support power efficiency of up to 96% and
+include a standard C-14 power inlet connector.
+NOTE: Prior to making a power supply selection it is highly recommended that the HPE
+Power Advisor is run to determine the right size power supply for your server
+configuration. The HPE Power Advisor is located at:
+http://www.hpe.com/info/hppoweradvisor.
+NOTE: All power supplies in a server should match. Mixing Power Supplies is not
+supported.
+NOTE: Option kits contain the specified power supply and a PDU IEC cable.
+NOTE: 1600W power supplies only support high line voltage.
+NOTE: HPE ProLiant servers ship with an IEC-IEC power cord used for rack mounting
+with Power Distribution Units (PDUs). Visit HPE power cords for a full list of optional HPE
+power cords.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Core Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 31
+GPGPU information
+Part number Card
+Qty
+support
+Processor
+support
+PCIe
+speed
+8/16/24
+SFF
+Max. 8
+NVMe
+Greater
+than 8
+NVMe
+Q0V77A
+NVIDIA
+Quadro
+P2000 GPU
+Module
+2 All Gen3 35C 35C 30C
+NOTE: Check the power usage via the HPE Power Advisor Tool located at
+http://www.hpe.com/info/hppoweradvisor.
+NOTE: A maximum of 2 GPU cards can be supported, 1 in primary riser expansion slot 2 and another in
+secondary riser expansion slot 5. Refer Expansion Slots sections for additional details on risers.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Core Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 32
+NOTE: Some options may not be integrated at the factory. To ensure only valid configurations are ordered,
+Hewlett Packard Enterprise recommends the use of an HPE approved configurator. Contact your local
+sales representative for additional information.
+iLO Advanced
+HPE iLO Advanced including 1yr 24x7 Technical Support and Updates E-LTU E6U59ABE
+HPE iLO Advanced including 3yr 24x7 Technical Support and Updates E-LTU E6U64ABE
+HPE iLO Advanced including 3yr 24x7 Tech Support and Updates 1-server LTU BD505A
+HPE iLO Advanced including 3yr 24x7 Tech Support and Updates Flexible Quantity LTU BD506A
+HPE iLO Advanced including 3yr 24x7 Tech Support and Updates Tracking LTU BD507A
+HPE iLO Advanced including 1yr 24x7 Technical Support and Updates 1-server LTU 512485-B21
+HPE iLO Advanced including 1yr 24x7 Technical Support and Updates Flexible Quantity
+LTU
+512486-B21
+HPE iLO Advanced including 1yr 24x7 Technical Support and Updates Tracking LTU 512487-B21
+HPE Converged Infrastructure Management Software
+HPE OneView Physical Media Kit LTU E5Y37A
+HPE OneView Advanced (with HPE iLO Advanced)
+HPE OneView including 3yr 24x7 Support Physical 1-server LTU E5Y34A
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU E5Y35AAE
+HPE OneView for ProLiant DL Server including 3yr 24x7 Support FIO Bundle Physical 1-
+server LTU
+E5Y43A
+HPE OneView Advanced (without HPE iLO Advanced)
+HPE OneView w/o iLO including 3yr 24x7 Support 1-server LTU P8B24A
+HPE OneView w/o iLO including 3yr 24x7 Support Track 1-server LTU P8B25A
+HPE OneView w/o iLO including 3yr 24x7 Support Flexible Quantity E-LTU P8B26AAE
+HPE OneView w/o iLO including 3yr 24x7 Support 1-server FIO LTU P8B31A
+NOTE: Full licenses of HPE OneView Advanced also provide the right-to-use HPE Insight
+Control without additional charge.
+NOTE: Server provisioning (via 'HPE Insight Control server provisioning') is licensed as
+part of HPE OneView Advanced and provides multi-server OS and driver provisioning.
+NOTE: Licenses ship without media. The HPE OneView Media Kit can be ordered
+separately, or can be downloaded at: https://www.hpe.com/us/en/integrated-
+systems/software.html.
+NOTE: Electronic and flexible-quantity licenses can be used to purchase multiple licenses
+with a single activation key.
+NOTE: Please see the HPE OneView QuickSpecs for technical specifications and
+additional information.
+HPE PCIe Workload Accelerator Options
+HPE Write Intensive PCIe Workload Accelerator
+HPE 1.6TB NVMe Write Intensive HH/HL PCIe Workload Accelerator 803197-B21
+HPE 800GB NVMe Write Intensive HH/HL PCIe Workload Accelerator 803195-B21
+HPE Mixed Use PCIe Workload Accelerator
+HPE 2.0TB NVMe Mixed Use HH/HL PCIe Workload Accelerator 803204-B21
+HPE 1.6TB NVMe Mixed Use HH/HL PCIe Workload Accelerator 803202-B21
+HPE 800GB NVMe Mixed Use HH/HL PCIe Workload Accelerator 803200-B21
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Additional Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 33
+NOTE: Please see the HPE PCIe Workload Accelerators for ProLiant Servers
+QuickSpecs for Technical Specifications and additional information.
+HPE Security
+HPE Trusted Platform Module 2.0 Kit 864279-B21
+HPE iLO Adv Security Upg Elc Lic 3yr Sup Q7E12AAE
+HPE iLO Advanced Premium Security Edition License with 1yr Support on Licensed
+Features
+Q7E31A
+HPE iLO Advanced Premium Security Flex Qty License with 1yr Support on
+Licensed Features
+Q7E32A
+HPE iLO Advanced Premium Security Edition Electronic License with 1yr Support
+on Licensed Features
+Q7E32AAE
+HPE iLO Advanced Premium Security Edition License with 3yr Support on Licensed
+Features
+Q7E33A
+HPE iLO Advanced Premium Security Flex Qty License with 3yr Support on
+Licensed Features
+Q7E34A
+HPE iLO Advanced Premium Security Edition Electronic License with 3yr Support
+on Licensed Features
+Q7E34AAE
+HPE iLO Advanced Premium Security AKA Tracking License with 1yr Support on
+Licensed Features
+Q7E35A
+HPE iLO Advanced Premium Security AKA Tracking License with 1yr Support on
+Licensed Features
+Q7E36A
+NOTE: HPE Trusted Platform Module 2.0 Option (864279-B21) works with Gen10 servers with UEFI
+Mode not Legacy Mode. It is not compatible with HPE ProLiant Gen9 servers or earlier generation
+variants.HPE server systems can have a TPM module (of any type) installed only once. It cannot be
+replaced with any other TPM module.
+HPE Smart Array Controllers
+The Gen10 controller naming framework has been updated to simplify identification as depicted below.
+For a more detailed breakout of the available Gen10 Smart Array controllers visit the HPE Smart Array
+Gen10 Controllers Data Sheet.
+Performance RAID Controllers
+NOTE: All performance RAID controllers are supported by the HPE Smart Storage
+Battery (875241-B21), which supports multiple devices and is sold separately.
+HPE Smart Array P816i-a SR Gen10 (16 Int Lanes/4GB Cache/SmartCache) 12G
+SAS Modular LH Controller
+869083-B21
+NOTE: Does not occupy a PCIe expansion slot.
+HPE Smart Array P408i-a SR Gen10 (8 Internal Lanes/2GB Cache) 12G SAS
+Modular LH Controller
+869081-B21
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Additional Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 34
+NOTE: Does not occupy a PCIe expansion slot.
+HPE Smart Array P408i-p SR Gen10 (8 Internal Lanes/2GB Cache) 12G SAS PCIe
+Plug-in Controller
+830824-B21
+HPE Smart Array P408e-p SR Gen10 (8 External Lanes/4GB Cache) 12G SAS
+PCIe Plug-in Controller
+804405-B21
+Essential RAID Controllers
+HPE Smart Array E208i-a SR Gen10 (8 Internal Lanes/No Cache) 12G SAS
+Modular LH Controller
+869079-B21
+NOTE: Does not occupy a PCIe expansion slot.
+HPE Smart Array E208i-p SR Gen10 (8 Internal Lanes/No Cache) 12G SAS PCIe
+Plug-in Controller
+804394-B21
+HPE Smart Array E208e-p SR Gen10 (8 External Lanes/No Cache) 12G SAS PCIe
+Plug-in Controller
+804398-B21
+Optional Software
+HPE Smart Array Secure Encryption/Data at Rest Encryption/per Server
+Entitlement E-LTU
+Q2F26AAE
+HPE SmartCache No Media 24x7 Technical Support 1-server LTU D7S26A
+HPE SmartCache No Media 24x7 Technical Support Flexible LTU D7S27A
+HPE SmartCache No Media 24x7 Technical Support E-LTU D7S27AAE
+NOTE: SmartCache is offered on HPE Smart Array performance RAID controllers
+and comes standard (no licensing is required) if the HPE Smart Array P816i-a SR
+Gen10 LH Controller is installed in the server.
+Optional Upgrades
+HPE 96W Smart Storage Battery (up to 20 Devices/145mm Cable) Kit 875241-B21
+NOTE: Provides backup power for multiple HPE Smart Array controllers or other
+devices. Is required with performance RAID controllers.
+HPE Tape Backup
+NOTE: For the complete range of tape drives, autoloaders, libraries and media see:
+https://www.hpe.com/us/en/storage/storeever-tape-storage.html. For hardware and software
+compatibility of Hewlett Packard Enterprise tape backup products
+http://www.hpe.com/storage/BURAcompatibility.
+HPE Storage Options
+Emulex Fibre Channel HBAs
+HPE StoreFabric SN1200E 16Gb Single Port Fibre Channel Host Bus Adapter Q0L13A
+HPE StoreFabric SN1200E 16Gb Dual Port Fibre Channel Host Bus Adapter Q0L14A
+HPE StoreFabric SN1600E 32Gb Single Port Fibre Channel Host Bus Adapter Q0L11A
+HPE StoreFabric SN1600E 32Gb Dual Port Fibre Channel Host Bus Adapter Q0L12A
+QLogic Fibre Channel HBAs
+HPE StoreFabric SN1100Q 16Gb Single Port Fibre Channel Host Bus Adapter P9D93A
+HPE StoreFabric SN1100Q 16Gb Dual Port Fibre Channel Host Bus Adapter P9D94A
+HPE StoreFabric SN1600Q 32Gb Single Port Fibre Channel Host Bus Adapter P9M75A
+HPE StoreFabric SN1600Q 32Gb Dual Port Fibre Channel Host Bus Adapter P9M76A
+Converged Network Adapter
+HPE StoreFabric CN1100R Dual Port Converged Network Adapter QW990A
+HPE StoreFabric CN1100R 10GBASE-T Dual Port Converged Network Adapter N3U52A
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Additional Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 35
+HPE StoreFabric CN1200E 10Gb Converged Network Adapter E7Y06A
+HPE StoreFabric CN1200E 10GBASE-T Dual Port Converged Network Adapter N3U51A
+HPE Racks
+NOTE: Please see the HPE Advanced Series Racks QuickSpecs for information on additional racks
+options and rack specifications.
+NOTE: Please see the HPE Enterprise Series Racks QuickSpecs for information on additional racks
+options and rack specifications.
+NOTE: Please see the HPE Standard Series Racks QuickSpecs for information on additional racks
+options and rack specifications.
+HPE Power Distribution Units (PDUs)
+NOTE: Please see the HPE Basic Power Distribution Units (PDU) QuickSpecs for information on
+these products and their specifications.
+NOTE: Please see the HPE Metered Power Distribution Units (PDU) QuickSpecs for information on
+these products and their specifications.
+NOTE: Please see the HPE Intelligent Power Distribution Unit (PDU) QuickSpecs for information on
+these products and their specifications.
+NOTE: Please see the HPE Metered and Switched Power Distribution Units (PDU) QuickSpecs for
+information on these products and their specifications.
+HPE Uninterruptible Power Systems (UPS)
+NOTE: To learn more, please visit the HPE Uninterruptible Power Systems (UPS) web page.
+NOTE: Please see the HPE DirectFlow Three Phase Uninterruptible Power System QuickSpecs for
+information on these products and their specifications.
+NOTE: Please see the HPE Line Interactive Single Phase UPS QuickSpecs for information on these
+products and their specifications.
+HPE Rack Options
+NOTE: Please see the HPE KVM Switches web page for information on these
+products and their specifications.
+Rail Kits
+HP 2U Large Form Factor Easy Install Rail Kit 733662-B21
+NOTE: Does not include CMA (733664-B21).
+HP 2U Cable Management Arm for Easy Install Rail Kit 733664-B21
+HPE 2U Large Form Factor Ball Bearing Rail Kit 720864-B21
+NOTE: Does not include CMA (720865-B21).
+HPE 2U Cable Management Arm for Ball Bearing Rail Kit 720865-B21
+NOTE: Rail kits are optional for DL560 Gen10 and are no longer included standard with the server.
+Customers have the option to purchase their server without a rail kit.
+NOTE: Ball bearing and Easy Install rail kits contain telescoping rails which allow for in-rack
+serviceability.
+NOTE: Hewlett Packard Enterprise recommends that a minimum of two people are required for all Rack
+Server installations. Please refer to your installation instructions for proper tools and number of people to
+use for any installation.
+HPE USB and SD Options
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Additional Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 36
+HPE Enterprise Mainstream Flash Media Kits for Memory Cards
+HPE 32GB microSD Mainstream Flash Media Kit 700139-B21
+HPE 8GB microSD Enterprise Mainstream Flash Media Kit 726116-B21
+HP Dual 8GB microSD Enterprise Midline USB Kit 741279-B21
+NOTE: Please see the HPE Flash Media Kits QuickSpecs for additional
+information.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Additional Options
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 37
+Memory Population guidelines
+General Memory Population Rules and Guidelines:
+. Install DIMMs only if the corresponding processor is installed.
+. If only one processor is installed in a two-processor system, only half of the DIMM slots are available.
+. To maximize performance, it is recommended to balance the total memory capacity between all installed
+processors.
+. When two processors are installed, balance the DIMMs across the two processors.
+. White DIMM slots denote the first slot to be populated in a channel.
+. Mixing of DIMM types (UDIMM, RDIMM, and LRDIMM) is not supported.
+. The maximum memory speed is a function of the memory type, memory configuration, and processor
+model.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Memory
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 38
+. The maximum memory capacity is a function of the number of DIMM slots on the platform, the largest
+DIMM capacity qualified on the platform, the number and model of installed processors qualified on the
+platform.
+. For details on the HPE Server Memory Options Population Rules, visit:
+http://www.hpe.com/docs/memory-population-rules
+. To realize the performance memory capabilities listed in this document, HPE DDR4 SmartMemory is
+required. For additional information, please see the HPE DDR4 SmartMemory QuickSpecs.
+Memory Speed Table
+500 Series Platforms - DL560 Gen 10
+DIMM Type Register DIMM (RDIMM)
+HPE SKU P/N 815097-B21 815098-B21 835955-B21 815100-B21
+SKU Description
+HPE 8GB 1Rx8
+PC4-2666V-R Kit
+HPE 16GB 1Rx4
+PC4-2666V-R Kit
+HPE 16GB 2Rx8
+PC4-2666V-R Kit
+HPE 32GB 2Rx4
+PC4-2666V-R Kit
+DIMM Rank -> Single Rank (1R) Single Rank (1R) Dual Rank (2R) Dual Rank (2R)
+DIMM Capacity -> 8 GB 16 GB 16 GB 32 GB
+Voltage 1.2V 1.2V 1.2V 1.2V
+DRAM depth [bit] 1G 2G 1G 2G
+DRAM Width [bit] x8 x4 x8 x4
+DRAM Density 8 Gb 8 Gb 8 Gb 8 Gb
+CAS Latency 19-19-19 19-19-19 19-19-19 19-19-19
+DIMM Native
+Speed (MT/s)
+2666 MT/s 2666 MT/s 2666 MT/s 2666 MT/s
+Intel® Xeon® Platinum 81xx Processors Officially Supported Memory Speed (MT/s)
+1 DIMM Per
+Channel
+2666 MT/s 2666 MT/s 2666 MT/s 2666 MT/s
+2 DIMM Per
+Channel
+2666 MT/s 2666 MT/s 2666 MT/s 2666 MT/s
+Intel® Xeon® Gold and Silver 51xx/61xx Processors Officially Supported Memory Speed (MT/s)
+1 DIMM Per
+Channel
+2400 MT/s 2400 MT/s 2400 MT/s 2400 MT/s
+2 DIMM Per
+Channel
+2400 MT/s 2400 MT/s 2400 MT/s 2400 MT/s
+HPE Server Memory Speed (MT/s): Intel® Xeon® Platinum 81xx Processors *
+1 DIMM Per
+Channel
+2666 MT/s 2666 MT/s 2666 MT/s 2666 MT/s
+2 DIMM Per
+Channel
+2666 MT/s 2666 MT/s 2666 MT/s 2666 MT/s
+HPE Server Memory Speed (MT/s): Intel® Xeon® Gold and Silver 51xx/61xx Processors *
+1 DIMM Per
+Channel
+2400 MT/s 2400 MT/s 2400 MT/s 2400 MT/s
+2 DIMM Per
+Channel
+2400 MT/s 2400 MT/s 2400 MT/s 2400 MT/s
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Memory
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 39
+DIMM Type Load Reduced (LRDIMM)
+HPE SKU P/N 815101-B21
+SKU Description HPE 64 GB 4Rx4 PC4-2666V-L Kit
+DIMM Rank -> Quad Rank (4R)
+DIMM Capacity -> 64 GB
+Voltage 1.2V
+DRAM depth [bit] 2G
+DRAM Width [bit] x4
+DRAM Density 8 Gb
+CAS Latency 19-19-19
+DIMM Native Speed (MT/s) 2666 MT/s
+Intel® Xeon® Platinum 81xx Processors Officially Supported Memory Speed (MT/s)
+1 DIMM Per Channel 2666 MT/s
+2 DIMM Per Channel 2666 MT/s
+Intel® Xeon® Gold and Silver 51xx/61xx Processors Officially Supported Memory Speed (MT/s)
+1 DIMM Per Channel 2400 MT/s
+2 DIMM Per Channel 2400 MT/s
+HPE Server Memory Speed (MT/s): Intel® Xeon® Platinum 81xx Processors *
+1 DIMM Per Channel 2666 MT/s
+2 DIMM Per Channel 2666 MT/s
+HPE Server Memory Speed (MT/s): Intel® Xeon® Gold and Silver 51xx/61xx Processors *
+1 DIMM Per Channel 2400 MT/s
+2 DIMM Per Channel 2400 MT/s
+For details on the HPE Server Memory speed, visit: https://www.hpe.com/docs/memory-speed-table
+Standard and Maximum Memory Capacity (Pre-configured Models)
+Pre Configured
+Models
+Standard Memory
+Maximum Memory Plus
+Optional Memory
+Standard Memory
+Replaced with Optional
+Memory
+5120 32 GB (2 x16 GB) 384 GB (24 x16 GB) 3072GB (48 x64 GB)
+6130 64 GB (4 x16 GB) 384 GB (24 x16 GB) 3072GB (48 x64 GB)
+6148 128 GB (8 x16 GB) 384 GB (48 x16 GB) 3072GB (48 x64 GB)
+8170 256 GB (16 x16 GB) 384 GB (48 x16 GB) 3072GB (48 x64 GB)
+8164 256 GB (16 x16 GB) 384 GB (48 x16 GB) 3072GB (48 x64 GB)
+DDR4 memory options part number decoder
+NOTE: Capacity references are rounded to the common gigabyte (GB) values.
+4 GB = 4,096 MB
+8 GB = 8,192 MB
+16 GB = 16,384 MB
+32 GB = 32,768 MB
+64 GB = 65,536 MB
+For more information on memory, please see the Memory Quickspecs: HPE DDR4 SmartMemory
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Memory
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 40
+8 SFF (+2 SFF) hot-plug drive model with Universal Media Bay
+24 SFF (incl 12 NVMe SSDs) hot-plug drive model
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Storage
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 41
+System Unit
+Dimensions
+(H x W x D)
+(with bezel)
+8.75cm x 44.54cm x 75.47cm
+3.44 x 17.54 x 29.71 in
+Weight
+(approximate)
+34.12 kg
+75.23 lb
+Maximum: (all hard drives, power supplies, DIMMs and
+processors installed)
+18.45 kg
+40.67 lb
+Minimum: (one processor, one standard heatsink, one air
+baffle, one hard drive, one power supply, one DIMM, one rail
+kit with CMA and one primary riser installed)
+Input Requirements
+(per power supply)
+Rated Input
+Voltage
+100 - 127 VAC, 200 - 240 VAC, 240VDC for China Only
+(800W Platinum PS only)
+200 - 240 VAC, 240VDC for China Only (800W Titanium PS
+only)
+200 V to 277 VAC, 380 VDC (800W Universal PS only)
+-40 VDC to -72 VDC, -48 VDC nominal input (800W -48VDC
+PS only)
+200 - 240 VAC, 240 VDC for China only (1600W PS Only)
+Rated Input Current 9.4 A (100 VAC), 4.5 A (200 VAC), 3.8 A at 240VDC for
+China Only (800W Platinum PS only)
+4.35 A at 200 VAC 3.62 A at
+240 VAC, 3.62 A at 240 VDC for China
+Only (800W Titanium PS only)
+4.5 A at 200 V AC, 3.2 A at 277 V AC, 2.3 A at 380 VDC -
+(800W Universal PS only)
+26 A at -40 VDC input, 19 A at -48 VDC input, nominal input,
+12.4 A at -72 VDC input - (800W -48VDC PS only)
+8.7 A at 200 VAC, 7.2 A at 240 VAC - (1600W PS Only)
+Rated Input
+Frequency
+50 to 60 Hz (Not applicable for VDC ranges)
+Maximum Rated
+Input Power
+940 W (100 VAC), 900 W (200VAC), 912 W at 240 VDC for
+China Only - (800W Platinum PS only)
+870 W at 200 VAC, 870 W at 240 VAC, 870 W at 240 VDC
+for China only - (800W Titanium PS only)
+900 W at 200 VAC, 887 W at 277 VAC, 874 W at 380 VDC -
+(800W Universal PS only)
+936 W at -40 VDC input 912 W at -48 VDC input, nominal
+input 900 W at -72 VDC input - (800W -48VDC PS only)
+1734 W at 200 VAC 1720 W at 240 VAC - (1600W PS Only)
+BTU Rating Maximum 3207 BTU/hr at 100 VAC, 3071 BTU/hr at 200 VAC, 3112
+BTU/hr at 240 for China only - (800W Platinum PS only)
+2969 BTU/hr at 200 VAC, 2969 BTU/hr at 240 VAC, 2969
+BTU/hr at 240 VDC for China only - (800W Titanium PS only)
+3071 BTU/hr at 200 VAC, 3026 BTU/hr at 277 VAC, 2982
+BTU/hr at 380 VDC - (800W Universal PS only)
+3194 BTU/hr at -40 VDC input, 3112 BTU/hr at -48 VDC input
+(nominal input), 3071 BTU/hr at -72 VDC input - (800W -
+48VDC PS only)
+5918 BTU/hr at 200 VAC, 5884 BTU/hr at 240 VAC - (1600W
+PS Only)
+Power Supply Output
+(per power supply)
+Rated Steady-State
+Power
+800 W at 100 VAC to 127 VAC input, 800 W at 200 VAC to
+240 VAC input, 800 W at 240 VDC input for China only -
+(800W Platinum PS only)
+800 W at 200 VAC to 240 VAC input, 800 W at 240 VDC
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Technical Specifications
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 42
+input for China only - (800W Titanium PS only)
+800 W at 200 VAC to 277 VAC input, 800 W at 380 VDC
+input - (800W Universal PS only)
+800 W at -40 VDC to -72 VDC - (800W -48VDC PS only)
+1600 W at 200 VAC to 240 VAC input, 1600 W at 240 VDC
+input - (1600W PS Only)
+Maximum Peak
+Power
+800 W at 100 VAC to 127 VAC input, 800 W at 200 VAC to
+240 VAC input, 800 W at 240 VDC input for China only -
+(800W Platinum PS only)
+800 W at 200 VAC to 240 VAC input, 800 W at 240 VDC
+input for China only - (800W Titanium PS only)
+800 W at 200 VAC to 277 VAC input, 800 W at 380 VDC
+input- (800W Universal PS only)
+800 W at -40 VDC to -72 VDC - (800W -48VDC PS only)
+2200 W for 1ms (turbo mode) at 200 VAC to 240 VAC input -
+(1600W PS Only)
+NOTE: To review typical system power ratings use the HPE
+Power Advisor which is available online located at url:
+http://www.hpe.com/info/hppoweradvisor.
+System Inlet
+Temperature
+Standard Operating
+Support
+10° to 35°C (50° to 95°F) at sea level with an altitude
+derating of 1.0°C per every 305 m (1.8°F per every 1000 ft)
+above sea level to a maximum of 3050 m (10,000 ft), no
+direct sustained sunlight. Maximum rate of change is 20°C/hr
+(36°F/hr). The upper limit and rate of change may be limited
+by the type and number of options installed. System
+performance during standard operating support may be
+reduced if operating with a fan fault or above 30°C (86°F).
+Extended Ambient
+Operating Support
+For approved hardware configurations, the supported system
+inlet range is extended to be: 5° to 10°C (41° to 50°F) and
+35° to 40°C (95° to 104°F) at sea level with an altitude
+derating of 1.0°C per every 175 m (1.8°F per every 574 ft)
+above 900 m (2953 ft) to a maximum of 3050 m (10,000 ft).
+The approved hardware configurations for this system are
+listed at the URL:
+http://www.hpe.com/servers/ashrae
+For approved hardware configurations, the supported system
+inlet range is extended to be: 40° to 45°C (104° to 113°F) at
+sea level with an altitude derating of 1.0°C per every 125 m
+(1.8°F per every 410 ft) above 900 m (2953 ft) to a maximum
+of 3050 m (10,000 ft). The approved hardware configurations
+for this system are listed at the URL:
+http://www.hpe.com/servers/ashrae
+System performance may be reduced if operating in the
+extended ambient operating range or with a fan fault.
+Non-operating -30° to 60°C (-22° to 140°F). Maximum rate of change is
+20°C/hr (36°F/hr).
+Relative Humidity Operating 8% to 90% relative humidity (Rh), 28°C (82.4°F) maximum
+wet bulb temperature, non-condensing.
+(non-condensing) Non-operating 5 to 95% relative humidity (Rh), 38.7°C (101.7°F) maximum
+wet bulb temperature, non-condensing.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Technical Specifications
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 43
+Altitude Operating 3050 m (10,000 ft). This value may be limited by the type and
+number of options installed. Maximum allowable altitude
+change rate is 457 m/min (1500 ft/min).
+Non-operating 9144 m (30,000 ft). Maximum allowable altitude change rate
+is 457 m/min (1500 ft/min).
+Acoustic Noise Listed are the declared A-Weighted sound power levels (LWAd) and declared
+average bystander position A-Weighted sound pressure levels (LpAm) when the
+product is operating in a 23°C ambient environment. Noise emissions were
+measured in accordance with ISO 7779 (ECMA 74) and declared in accordance
+with ISO 9296 (ECMA 109). The listed sound levels apply to standard shipping
+configurations. Additional options may result in increased sound levels. Please
+have your HPE representative provide information from the HPE EMESC website
+for further technical details regarding the configurations listed below.
+Product
+Configuration
+Entry Base Performance
+Idle - LWAd 5.0 B 5.1 B 5.1 B
+Idle - LpAm 47 dBA 48 dBA 48 dBA
+Operating - LWAd 5.3 B 5.7 B 5.6 B
+Operating - LpAm 50 dBA 54 dBA 53 dBA
+NOTE: Acoustics levels presented here are generated by the test configuration
+only. Acoustics levels will vary depending on system configuration. Values are
+subject to change without notification and are for reference only.
+Regulatory Information To view the regulatory information for your product, view the Safety and
+Compliance Information for Server, Storage, Power, Networking, and Rack
+Products, available at the Hewlett Packard Enterprise Support Center:
+http://www.hpe.com/support/Safety-Compliance-EnterpriseProducts
+Please refer to the appropriate QuickSpecs listes below for technical specifications on controllers.
+For information on the HPE Smart Array E208i-a SR G10 LH Controller please refer to their
+QuickSpecs.
+For information on the HPE Smart Array E208i-p SR Gen10 Controller please refer to their QuickSpecs.
+For information on the HPE Smart Array E208e-p SR Gen10 Controller please refer to their
+QuickSpecs.
+For information on the HPE Smart Array P408i-a SR G10 LH Controller please refer to their
+QuickSpecs.
+For information on the HPE Smart Array P408i-p SR Gen10 Controller please refer to their QuickSpecs.
+For information on the HPE Smart Array P408e-p SR Gen10 Controller please refer to their
+QuickSpecs.
+For information on the HPE Smart Array P816i-a SR G10 LH Controller please refer to their
+QuickSpecs.
+Environment-
+friendly
+Products and
+Approach
+End-of-life
+Management and
+Recycling
+Hewlett Packard Enterprise offers end-of-life product return,
+trade-in, and recycling programs, in many geographic areas,
+for our products. Products returned to Hewlett Packard
+Enterprise will be recycled, recovered or disposed of in a
+responsible manner.
+The EU WEEE directive (2002/95/EC) requires manufacturers to
+provide treatment information for each product type for use by
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Technical Specifications
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 44
+treatment facilities. This information (product disassembly
+instructions) is posted on the Hewlett Packard Enterprise web
+site. These instructions may be used by recyclers and other
+WEEE treatment facilities as well as Hewlett Packard Enterprise
+OEM customers who integrate and re-sell Hewlett Packard
+Enterprise equipment.
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Technical Specifications
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 45
+Date Version History Action Description of Change
+11-Jul-2017 Version 1 New New QuickSpecs.
+Sign up for updates
+© Copyright 2017 Hewlett Packard Enterprise Development LP. The information contained
+herein is subject to change without notice. The only warranties for Hewlett Packard
+Enterprise products and services are set forth in the express warranty statements
+accompanying such products and services. Nothing herein should be construed as
+constituting an additional warranty. Hewlett Packard Enterprise shall not be liable for
+technical or editorial errors or omissions contained herein.
+Intel® and Xeon® are registered trademarks of Intel Corporation in the U.S. and other
+countries.
+Microsoft®, Windows®, and Windows Server® are U.S. registered trademarks of the
+Microsoft group of companies.
+For hard drives, 1GB = 1 billion bytes. Actual formatted capacity is less
+a00008181 - 15931 - Worldwide - V1 - 11-July-2017
+QuickSpecs HPE ProLiant DL560 Gen10 Server
+Summary of Changes
+DA - 15931 Worldwide QuickSpecs -- Version 1 -- 7-11-2017 Page 46
+

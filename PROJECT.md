@@ -2582,3 +2582,54 @@ page source for testing) didn't understand `//` line comments — only
 silently broke bracket-depth counting for the whole array. Hardened
 `grab()` (all 3 duplicated copies) to skip `//` comments properly,
 and kept new inline comments apostrophe-free as a matter of style.
+
+## Stale-source audit for G10/G10+ — started 2026-09-18, continued 2026-09-21
+
+User: "check the quickspec sheets for the ones that predate the 2nd gen
+cpus... make sure they're the most recent ones — no point working from
+old sources." Found that hpe.com/psnow/doc/<id> works from the browser
+(unlike Bash) and shows each doc's full version history; the doc page
+renders either an Adobe PDF viewer (download -> `pdftotext -layout`) or,
+for the latest version of some models, plain HTML text readable via
+`document.body.innerText`. `?ver=N` on the URL selects an older version.
+User authorized downloading current PDFs for this pass.
+
+**Key lesson: "most recent" is not always "best."** HPE prunes discontinued
+SKUs from a doc's ordering lists as the product ages, so the FINAL version
+of an old server (DL580 G10 V52: 11 CPUs; DL360 G10 V74: 31; DL380 G10
+V77: 35) is a thin end-of-life catalog, while a mid-life version (2019-
+2021) has the full lineup a refurb trader will actually encounter. Other
+sections behave the opposite way (PSU options GREW over time). So: take
+CPU pools from a mid-life version (union across several if needed), take
+PSU/FlexibleLOM/controllers from the latest.
+
+Findings:
+- **DL560 G10** cached doc was V1 (2017), predating 2nd Gen. Replaced by
+  V19 (2019). Three real errors from the stale source, all fixed:
+  FlexibleLOM list wrongly narrowed (V19 has all 11 cards incl. 3 25Gb
+  tiers), P824i-p wrongly excluded (the old "cross-doc discrepancy" was
+  never real — V1 just predated the controller), and no cpuAllow. Built
+  a 77-SKU Gold+/Platinum cpuAllow (no Silver/Bronze, no -R/-U). Also
+  found the mandatory 4x PSU Enablement Kit (875675-B21).
+- **DL580 G10** cached doc was V3 (2017). Used V20 (2019) for a 78-SKU
+  cpuAllow; V52 (2024) for PSU: 3 tiers added since 2019 (-48VDC, 1000W
+  Titanium, 1800-2200W Titanium) so the old "only 2 PSU tiers" note was
+  stale. FlexibleLOM gained 640FLR-SFP28.
+- **DL360 G10** current V74: all 31 SKUs already in the tool. No change.
+- **DL380 G10** current V77 (35 SKUs, "2nd Generation" headings only —
+  explained: 1st Gen pruned at EOL, NOT unsupported). Fetched V24 (81
+  SKUs) and V45 (66); union across V24/V45/V77 = 111. Added Gold 6137
+  (Financial Sector kit). PSU + FlexibleLOM re-verified against V77:
+  unchanged. Deliberately no cpuAllow — three snapshots can't prove a
+  SKU absent, and a wrong hard-block is worse than none.
+- **Correction to my own earlier comments:** Intel's "M" suffix is the
+  2TB medium-memory tier, NOT "4-socket certified" (DL580's own doc:
+  "up to 2 TB on M processors and up to 4.5TB on L processors"). Fixed
+  in CPU entry comments, model notes, tests. Memory caps for M/L parts
+  are not modeled beyond the existing note on DL360 G10.
+- Also added 7 M-suffix SKUs (5215M, 6238M, 6240M, 8260M, 8276M, 8280M,
+  6140M) to the shared CPUS list.
+
+Not yet re-checked against current/mid-life docs: DL20/DL160/DL180/
+DL325/DL385 G10, ML30/ML110/ML350 G10, and all G10+ (cached mirrors have
+mostly unknown or old versions).
