@@ -3438,8 +3438,8 @@ function runRound21(){
 
   setModel21('DL110 G10+');
   p21=psuOpts21();
-  (p21.length===1 && p21.some(function(o){return /P43150-B21/.test(o);}))
-    ?pass21('DL110 G10+: only ONE real PSU option exists — DC -48VDC only, no AC tier at all on this Telco chassis')
+  (p21.length===3 && p21.some(function(o){return /P43150-B21/.test(o);}) && p21.some(function(o){return /P54290-B21/.test(o);}))
+    ?pass21('DL110 G10+: 3 real PSU options (700W -48VDC plus two AC tiers) from the latest doc — the older mirror wrongly showed a single DC-only option')
     :fail21('DL110 G10+ psu panel wrong: '+p21.join(' | '));
   c21=ctrlOpts21();
   (c21.length===1 && c21.some(function(o){return /Intel VROC/.test(o);}) && !c21.some(function(o){return /-B21/.test(o);}))
@@ -3571,8 +3571,8 @@ function runRound23(){
 
   setModel23('DL110 G10+');
   f23=flrOpts23();
-  (f23.length===2 && f23.every(function(o){return /E810/.test(o);}))
-    ?pass23('DL110 G10+: only 2 of the shared ~18-card OCP catalog exist here — the narrowest OCP list found on any G10+ model')
+  (f23.length===6 && f23.filter(function(o){return /E810/.test(o);}).length===3 && f23.some(function(o){return /NEBS/.test(o);}))
+    ?pass23('DL110 G10+: 6 real OCP cards from the latest doc (the older mirror showed only 2), three flagged not NEBS compliant')
     :fail23('DL110 G10+ flr panel wrong: '+f23.join(' | '));
 
   setModel23('DL325 G10+'); // v1
@@ -3712,4 +3712,21 @@ function runRound25(){
   (flrOpts25b.length===16 && flrOpts25b.some(function(o){return /^BCM5719/.test(o);}) && flrOpts25b.some(function(o){return /^BCM57504/.test(o);}) && flrOpts25b.some(function(o){return /discontinued in the current doc/.test(o);}))
     ?pass25('DL380 G10+: OCP list is the union of the older mirror and the latest doc (adds BCM5719/BCM57412/BCM57504, keeps discontinued parts labelled)')
     :fail25('DL380 G10+ flr panel wrong: '+flrOpts25b.length+' options');
+
+  // AMD G10+ boards: cpuAllow sizes from the union of the cached mirror and the latest hpe.com doc
+  const amdExpect=[['DL325 G10+',19],['DL325 G10+ v2',26],['DL345 G10+',24],['DL365 G10+',26],['DL385 G10+',19],['DL385 G10+ v2',24],['DL110 G10+',12]];
+  amdExpect.forEach(function(pair){
+    setModel25(pair[0]);
+    const cx=d.getElementById('cpu-input');cx.value='';fire(cx,'input');
+    const opts=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+    (opts.length===pair[1])
+      ?pass25(pair[0]+': cpuAllow enforces the '+pair[1]+'-SKU pool confirmed across the cached mirror and the latest hpe.com doc')
+      :fail25(pair[0]+' CPU pool wrong: '+opts.length+' options, expected '+pair[1]);
+  });
+  setModel25('DL385 G10+ v2');
+  const cv2=d.getElementById('cpu-input');cv2.value='';fire(cv2,'input');
+  const v2opts=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  (v2opts.some(function(o){return o.indexOf('7402')>-1;}) && v2opts.some(function(o){return o.indexOf('7773X')>-1;}) && !v2opts.some(function(o){return o.indexOf('7742')>-1;}))
+    ?pass25('DL385 G10+ v2: accepts the selected Rome parts (7252/7302/7402) alongside Milan, per the latest doc — but not the full Rome range')
+    :fail25('DL385 G10+ v2 platform/CPU pool wrong');
 }

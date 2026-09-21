@@ -2633,3 +2633,35 @@ Findings:
 Not yet re-checked against current/mid-life docs: DL20/DL160/DL180/
 DL325/DL385 G10, ML30/ML110/ML350 G10, and all G10+ (cached mirrors have
 mostly unknown or old versions).
+
+### Stale-source audit, continued 2026-09-21 — rest of G10 and all of G10+
+
+Checked every remaining cached G10/G10+ doc against hpe.com (version history, plus a downloaded latest or mid-life
+version, diffed by part-number set). Workflow that worked: `document.getElementById('selectVersionHistory')` lists
+versions; `[...document.querySelectorAll('a')].find(a=>/downloadDoc/.test(a.href)).click()` triggers the PDF
+download; `pdftotext -layout` (or `-raw` when a part-number column is detached from its description) extracts it.
+
+Fixed because the mirrors were stale or incomplete:
+- **DL110 G10+ — three earlier claims were wrong** (mirror was an early version): it is NOT DC-only (latest V18 adds
+  a 700W Platinum AC P44975 and 900-1000W Titanium AC P54290 to the 700W -48VDC P43150), it has 6 OCP3 cards not 2
+  (I350-T4, BCM57414, MCX562A, E810-XXVDA2/XXVDA4/CQDA2, three flagged not NEBS), and a 12-SKU telco CPU pool
+  (now `cpuAllow`; added Gold 5320T/6338T to the shared sp3 list). Still no Smart Array; optional NS204i-p boot device.
+- **DL385 G10+ v2 is not Milan-only**: the latest doc says "7003 series plus additional selected 7002 series" and its
+  kit list includes Rome 7252/7302/7402. Platform widened to milan+rome; cpuAllow 24 SKUs. Same widening for
+  DL325 G10+ v2 (mirror already listed Rome P parts 7232P/7302P/7402P), cpuAllow 26.
+- **Shared CPU pools were incomplete**: added 4 Ice Lake (Gold 5318N/5318S/6314U, Platinum 8352S) and 4 Milan
+  single-socket parts (EPYC 7203P/7303P/7643P/7663P).
+- **cpuAllow now on every AMD G10/G10+ board** (DL325/DL385 G10, DL325/DL345/DL365/DL385 G10+ incl. v2): built from
+  the union of the cached mirror and the latest doc; for both v1 boards the two were identical (19 SKUs each).
+- **DL380 G10+**: latest adds BCM57412/BCM5719/BCM57504 OCP3 cards (so "no BCM5719" was mirror age); discontinued
+  QL41132HQRJ/QL41232HQCU kept but labelled. DL360 G10+ latest only removes items.
+- **DL385 G10** FlexibleLOM gap closed from the official V29 doc (8 cards + InfiniBand, differs from DL380).
+- **ML350 G10**: added the 800W -48VDC PSU (was in the old doc too — an omission, not staleness).
+
+Checked, no change needed: DL160/DL180/DL20/ML30/ML110 G10, DL20 G10+, ML30 G10+, DL365/DL345 G10+ hardware PNs
+(latest only adds PCIe-standup NICs). Still no doc found for DL120 G10 (hpe.com IDs a00021855-59/61/63/64enw
+probed: unrelated products).
+
+Method caveat that still applies: HPE prunes discontinued items from EOL docs, so a hard block (cpuAllow) is only
+built where two or more independent snapshots agree; DL360/DL380/DL560/DL580/ML350 G10 pools stay unrestricted
+or rely on the largest mid-life snapshot.

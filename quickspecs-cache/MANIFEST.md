@@ -78,3 +78,16 @@ One row per cached file in this directory. See `README.md` for how to use/add to
 | DL385-G10-v29.txt | DL385 | G10 | a00026913enw | Version 29 -- 6-Apr-2021 (latest; OFFICIAL doc from hpe.com — replaces the third-party reformatted datasheet in DL385-G10.txt as the source for FlexibleLOM and Rome CPUs; the datasheet is still the only source for the 11 Naples SKUs) | hpe.com/psnow/doc/a00026913enw | 2026-09-21 |
 | DL380-G10+-v42.txt | DL380 | G10+ | a50002553enw | Version 42 -- 28-Jul-2025 (latest). Adds BCM57412/BCM5719/BCM57504 OCP3 cards vs the older mirror DL380-G10+.txt; drops discontinued QL41132HQRJ/QL41232HQCU/1p InfiniBand (kept in the tool, labelled). | hpe.com/psnow/doc/a50002553enw | 2026-09-21 |
 | DL360-G10+-v44.txt | DL360 | G10+ | a50002559enw | Version 44 -- 28-Jul-2025 (latest). Only REMOVES discontinued items vs the mirror DL360-G10+.txt; no additions, mirror data stands. | hpe.com/psnow/doc/a50002559enw | 2026-09-21 |
+| DL345-G10+-v34.txt | DL345 | G10+ | a50002557enw | Version 34 -- 2-Dec-2024 (latest). Diffed vs mirror: adds Milan 7203P/7303P/7643P/7663P; hardware PNs unchanged. | hpe.com/psnow/doc/a50002557enw | 2026-09-21 |
+| DL365-G10+-v30.txt | DL365 | G10+ | a50002558enw | Version 30 -- 28-Jul-2025 (latest). Milan only; hardware PNs unchanged vs mirror. | hpe.com/psnow/doc/a50002558enw | 2026-09-21 |
+| DL385-G10+-v31.txt | DL385 | G10+ | a00073549enw | Version 31 -- 18-Mar-2024 (latest). EPYC list identical to mirror (19 Rome SKUs). | hpe.com/psnow/doc/a00073549enw | 2026-09-21 |
+| DL385-G10+v2-v30.txt | DL385 | G10+ v2 | a50002560enw | Version 30 -- 28-Jul-2025 (latest). Shows the board also takes selected Rome parts (7252/7302/7402) — missed by the V5 mirror. | hpe.com/psnow/doc/a50002560enw | 2026-09-21 |
+| DL325-G10+-v27.txt | DL325 | G10+ | a00073548enw | Version 27 -- 11-Sep-2023 (latest). EPYC list identical to mirror (19 Rome SKUs). | hpe.com/psnow/doc/a00073548enw | 2026-09-21 |
+| DL325-G10+v2-v32.txt | DL325 | G10+ v2 | a50002564enw | Version 32 -- 2-Dec-2024 (latest). Adds Milan 7203P/7303P/7643P/7663P. | hpe.com/psnow/doc/a50002564enw | 2026-09-21 |
+| DL110-G10+-v18.txt | DL110 | G10+ | a50002566enw | Version 18 -- 16-Sep-2024 (latest). CORRECTS the mirror: 3 PSUs (2 AC tiers), 6 OCP3 cards, 12 CPUs. | hpe.com/psnow/doc/a50002566enw | 2026-09-21 |
+| DL20-G10+-v24.txt | DL20 | G10+ | a50002583enw | Version 24 -- 16-Sep-2024 (latest). No hardware changes vs mirror. | hpe.com/psnow/doc/a50002583enw | 2026-09-21 |
+| ML30-G10+-v22.txt | ML30 | G10+ | a50002590enw | Version 22 -- 3-Sep-2024 (latest). No hardware changes vs mirror. | hpe.com/psnow/doc/a50002590enw | 2026-09-21 |
+| DL20-G10-v25.txt | DL20 | G10 | a00053820enw | Version 25 -- 18-Mar-2024 (latest). No hardware changes vs mirror. | hpe.com/psnow/doc/a00053820enw | 2026-09-21 |
+| DL180-G10-v35.txt | DL180 | G10 | a00021862enw | Version 35 -- 18-Aug-2025 (latest, EOL-pruned). No additions vs mirror. | hpe.com/psnow/doc/a00021862enw | 2026-09-21 |
+| ML30-G10-v24.txt | ML30 | G10 | a00053821enw | Version 24 -- 18-Mar-2024 (latest). No hardware changes vs mirror. | hpe.com/psnow/doc/a00053821enw | 2026-09-21 |
+| ML110-G10-v15.txt | ML110 | G10 | a00021851enus | Version 15 -- 3-Jun-2019 (latest; identical era to the cached official copy). No changes. | hpe.com/psnow/doc/a00021851enus | 2026-09-21 |
