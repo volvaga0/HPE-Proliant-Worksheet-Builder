@@ -1313,8 +1313,9 @@ var MODELS=[
      fanW:205,fanNVMe:true,fanRear:true,fanGPU:true,
      psu:['800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 (P17023-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
-     flr:['I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
-     notes:['OCP part numbers sourced 2026-09-18 (same doc, "OCP 3.0 Adapters"). No BCM5719 here — a real absence, unlike DL325/345/360/365/385 G10+ which all have it. Both InfiniBand OCP3 ports (1p and 2p) confirmed present.',
+     flr:['BCM5719 1Gb 4p (P51181-B21)','I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p — discontinued in the current doc, still real (P10103-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','QL41232HQCU 10/25Gb 2p — discontinued in the current doc, still real (P10118-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     notes:['2026-09-21 stale-source check: hpe.com shows 42 versions (Apr 2021 - Jul 2025); compared the cached mirror against V42 (latest). The OCP catalog moved in BOTH directions: V42 adds BCM57412 (P26256), BCM5719 (P51181) and the 4-port BCM57504 (P26269) — so the earlier "no BCM5719 here" note was a mirror-age artifact, not a real absence — and drops QL41132HQRJ, QL41232HQCU and the 1-port InfiniBand (discontinued; kept here and labelled, since they still exist in used/refurb stock). PSU, controller, riser and heatsink part numbers are unchanged between the two versions. CPU: added Gold 5318N/5318S/6314U and Platinum 8352S (in this model\'s own doc, missing from the shared sp3 list). Some OCP cards need the OCP x16 Enablement Kit (P36661-B21) and/or Max Performance fan kit (P14608-B21) — see the per-card labels.',
+       'OCP part numbers sourced 2026-09-18 (same doc, "OCP 3.0 Adapters"). Both InfiniBand OCP3 ports (1p and 2p) confirmed present in the mirror.',
        'PSU/storage-controller part numbers sourced 2026-09-17/18 (same doc, "Core Options"). No 500W tier exists at all on this chassis (confirmed absent, unlike DL360 G10+) — 6 real options from 800W up, using the same Gen10-Plus-specific 800W/1600W Platinum part numbers (P38995/P38997-B21) as DL360 G10+, not the older G10 codes. Controllers are the PLAIN (non-LH) modular variants only — no LH option at all here, a real difference from DL360 G10+\'s both-plain-and-LH pattern (more chassis clearance, same reasoning as DL380 vs DL360 at plain G10). Full Tri-Mode "-a" family (MR216i-a/MR416i-a/SR416i-a) confirmed here too, alongside the PCIe "-p" siblings and SR932i-p.',
        'Added "8SFF midtray" 2026-09-15 (gzhls.at mirror, a50002553enw) — both rear AND mid-tray exist and combine: 8SFF midtray + up to 6SFF rear on 24SFF (→38SFF total); 8LFF/12LFF get a 4LFF or 8SFF midtray + up to 4LFF or 6SFF rear.',
        'Heatsink threshold is 150W (P27095-B21).',
@@ -1929,8 +1930,11 @@ var CPUS=[
  ['G5315Y','Xeon Gold 5315Y · 8C 3.2GHz','sp3',140,8],
  ['G5317','Xeon Gold 5317 · 12C 3.0GHz','sp3',150,12],
  ['G5318Y','Xeon Gold 5318Y · 24C 2.1GHz','sp3',165,24],
+ ['G5318N','Xeon Gold 5318N · 24C 2.1GHz','sp3',150,24], // added 2026-09-21, sourced from DL380 G10+ QuickSpecs
+ ['G5318S','Xeon Gold 5318S · 24C 2.1GHz','sp3',165,24], // added 2026-09-21, sourced from DL380 G10+ QuickSpecs
  ['G5320','Xeon Gold 5320 · 26C 2.2GHz','sp3',185,26],
  ['G6312U','Xeon Gold 6312U · 24C 2.4GHz','sp3',185,24],
+ ['G6314U','Xeon Gold 6314U · 32C 2.3GHz','sp3',205,32], // added 2026-09-21, sourced from DL380 G10+ QuickSpecs
  ['G6326','Xeon Gold 6326 · 16C 2.9GHz','sp3',185,16],
  ['G6330','Xeon Gold 6330 · 28C 2.0GHz','sp3',205,28],
  ['G6330N','Xeon Gold 6330N · 28C 2.2GHz','sp3',165,28],
@@ -1944,6 +1948,7 @@ var CPUS=[
  ['G6354','Xeon Gold 6354 · 18C 3.0GHz','sp3',205,18],
  ['P8351N','Xeon Platinum 8351N · 36C 2.4GHz','sp3',225,36],
  ['P8352M','Xeon Platinum 8352M · 32C 2.3GHz','sp3',185,32],
+ ['P8352S','Xeon Platinum 8352S · 32C 2.2GHz','sp3',205,32], // added 2026-09-21, sourced from DL380 G10+ QuickSpecs
  ['P8352V','Xeon Platinum 8352V · 36C 2.1GHz','sp3',195,36],
  ['P8352Y','Xeon Platinum 8352Y · 32C 2.2GHz','sp3',205,32],
  ['P8358','Xeon Platinum 8358 · 32C 2.6GHz','sp3',250,32],

@@ -3700,4 +3700,16 @@ function runRound25(){
   (flrOpts25.length===9 && flrOpts25.some(function(o){return /^622FLR-SFP28/.test(o);}) && !flrOpts25.some(function(o){return /^562FLR-T|Pensando|^537FLR/.test(o);}))
     ?pass25('DL385 G10: real 9-option FlexibleLOM list from the official V29 doc — differs from DL380 G10 (no 562FLR-T/537FLR/Pensando)')
     :fail25('DL385 G10 flr panel wrong: '+flrOpts25.join(' | '));
+
+  setModel25('DL380 G10+');
+  const ci25f=d.getElementById('cpu-input');ci25f.value='';fire(ci25f,'input');
+  const cpuOpts25f=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  (['5318N','5318S','6314U','8352S'].every(function(s){return cpuOpts25f.some(function(o){return o.indexOf(s)>-1;});}))
+    ?pass25('DL380 G10+: Gold 5318N/5318S/6314U and Platinum 8352S (in its own QuickSpecs, missing from the shared sp3 list) are now selectable')
+    :fail25('DL380 G10+ still missing sp3 CPUs');
+  const flr25b=d.getElementById('flr');flr25b.disabled=false;flr25b.value='';fire(flr25b,'input');
+  const flrOpts25b=[...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  (flrOpts25b.length===16 && flrOpts25b.some(function(o){return /^BCM5719/.test(o);}) && flrOpts25b.some(function(o){return /^BCM57504/.test(o);}) && flrOpts25b.some(function(o){return /discontinued in the current doc/.test(o);}))
+    ?pass25('DL380 G10+: OCP list is the union of the older mirror and the latest doc (adds BCM5719/BCM57412/BCM57504, keeps discontinued parts labelled)')
+    :fail25('DL380 G10+ flr panel wrong: '+flrOpts25b.length+' options');
 }
