@@ -2899,3 +2899,21 @@ the performance heatsink (or liquid cooling). One per server (stop). I did not s
 
 **Still not done:** DL380 EDSFF-bundle rules, the DL380 chassis-intrusion kit P48922, DL360 cable-kit requirements per backplane,
 Cray/DPU cards, and the other Gen11 models. `-001` spares are not in QuickSpecs.
+
+## Correction — DL380 G11/G12 fan counts (2026-09-21, build .10; user-reported)
+
+**The first Gen11 pass was wrong** to set DL380 G11 standard fans to 4 for any processor count: the tool then flagged "DL380 G11 with 2
+processors takes 4 standard fans — 6 entered", and the user (correctly) said that can't be right. I had read the QuickSpecs line "8SFF, 8LFF
+and 12LFF CTO models ship with 4 standard fans" (the base server, no processors) as the count for every build, and treated the absence of a
+2-fan standard kit in the current V47 text as proof there was none. **Sources that settle it:** HPE's own *DL380 Gen11 Server User Guide*,
+"Fan mode behavior" (support.hpe.com, docId sd00002446en_us) — single processor = fans in bays 3-6 with blanks in 1-2 ("four fans and two
+blanks"), dual processors = "six fans are required for redundancy"; the Gen12 user guide (sd00005878en_us) says the same; the stale V23 doc
+lists "HPE ProLiant DL380 Gen11 Standard Fan Kit P49146-B21 — includes two standard fans, not supported with 24SFF and 12EDSFF CTO server"; the
+DL380 Gen12 QuickSpecs list the same kit ("Includes 2 Standard Fans"), and the V47 cooling page still carries P49146-B21 in its part-number column.
+**Now:** DL380 G11 `fans:{one:4,two:6,perf:6}`, the 12EDSFF/36EDSFF chassis ship 6 standard whatever the processor count (`fansByBay`, new key), the
+24SFF ships 6 high-performance (unchanged), and the fan explainer names the 2-fan Standard Fan Kit P49146-B21 (`fanKit2P`, new key) for the
+second processor. **DL380 G12 had the same wrong count** (pre-existing, `two:4`): fixed the same way — 4 ship on SFF/8LFF, 6 on 12LFF (`fansByBay`) /
+EDSFF, 24SFF ships 6 high-performance (`fanBays` added), two processors need 6. Both models' fan notes rewritten (the old G12 note said fans
+depend on the bay "not CPU count" — wrong). Lesson recorded in memory: a QuickSpecs "CTO ships N" line is the base server, not the count for a
+built one — check the server's user guide for fan/DIMM population, and when the user pushes back on a check, treat their hardware knowledge as
+the prior. 739 ok / 0 FAIL. Not audited for this: DL560 G11 / other 2U models' fan counts.

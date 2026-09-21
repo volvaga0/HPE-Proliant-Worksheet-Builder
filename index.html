@@ -1533,7 +1533,7 @@ var MODELS=[
        'Every front SFF cage kit (8SFF x1/x4, 2SFF, 4SFF) is Tri-Mode U.3 — no plain SAS/SATA-only SFF cage. 4LFF has no NVMe/Tri-Mode option.']}},
  {m:'DL380',g:'G11', p:['sp4','sp5'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF','12EDSFF','36EDSFF'],
    rules:{cpuNotEDSFF:['P8581V','P8558U'],edsffNoCtrl:true,bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21; stand-alone P68039-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','16W Smart Hybrid Capacitor with 145mm cable (P65038-B21)','No battery'],flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-XXVDA4 10/25Gb 4p (P41614-B21)','E810-CQDA2 100Gb 2p (P22767-B21)','BCM57608 100Gb 2p (P73114-B21)'],ctrl:['— PCI (plug-in card) —','SR932i-p — 32 lanes, 8GB wide cache, needs a x16 riser slot and the Storage Controller Enablement Cable Kit P48918-B21 (P47184-B21)','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','E208e-p — external HBA, 8 lanes, no cache (804398-B21)','— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache (P58335-B21)'],psu:['800W Flex Slot Platinum (P38995-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum, high-line only (P38997-B21)','1600W Flex Slot -48VDC — needs a DC Power Cable Kit or the Lug Kit P36877-B21, one per supply (P17023-B21)','1800-2200W Flex Slot Titanium (P44712-B21)'],cpuAllow:['B3408U','B3508U','G5411N','G5415+','G5416S','G5418N','G5418Y','G5420+','G5515+','G5520+','G6414U','G6416H','G6418H','G6421N','G6426Y','G6430','G6434','G6438N','G6438Y+','G6442Y','G6444Y','G6448H','G6448Y','G6454S','G6458Q','G6526Y','G6530','G6534','G6538N','G6538Y+','G6542Y','G6544Y','G6548N','G6548Y+','G6554S','G6558Q','P8444H','P8452Y','P8458P','P8460Y+','P8462Y+','P8468','P8468V','P8470','P8470N','P8470Q','P8480+','P8490H','P8558','P8558P','P8558U','P8562Y+','P8568Y+','P8570','P8580','P8581V','P8592+','P8592V','P8593Q','P9462','S4410Y','S4416+','S4509Y','S4510','S4514Y','S4516Y+'],dimm256MaxCages:2,fanDimmGB:128,dimmMaxByBay:{'24SFF':16},dimmKits:true,memPerSocket:4096,fanWtext:'above 205W',verified:true,hsW:151,hsWtext:'above 150W, up to 350W',hsPart:'P48818-B21',fanW:206,riserMax:3,
-     psuMax:2,fans:{one:4,two:4,perf:6},pcie:{one:3,two:8},fanBays:['24SFF'],
+     psuMax:2,fans:{one:4,two:6,perf:6},fansByBay:{'12EDSFF':{one:6,two:6,perf:6},'36EDSFF':{one:6,two:6,perf:6}},fanKit2P:{n:'Standard Fan Kit',pn:'P49146-B21'},pcie:{one:3,two:8},fanBays:['24SFF'],
      rear:DL380G11_CAGES.map(function(c){return c.n;}),rearCages:DL380G11_CAGES,
      rearMax:{SFF:{'2SFF':3,'2LFF':0},LFF:{'2SFF':1,'2LFF':2},EDSFF:{'2SFF':1,'2LFF':0}},
      cards:G11_NIC_CARDS.concat(['NVIDIA 10/25Gb 2p SFP28 NVMe-oF crypto (S2A69A)'],G11_FC_CARDS,ns204Cards('P52152-B21','P52152-B21','hot-plug (externally accessible)','FIO bundle P54542-B21')),
@@ -1553,7 +1553,7 @@ var MODELS=[
        'Processors: both must match; 5th Gen (Emerald Rapids) needs a 5th Gen system board — no field upgrade from 4th Gen. Single-socket only: U-suffix parts, 8581V, 6421N and 5411N; 8581V and 8558U are also not offered on the EDSFF chassis. Q-suffix parts need the Max Performance heatsink P48817-B21 (or DLC).',
        'Mixing two different processor models is not allowed.',
        'Heatsinks: Standard P49145-B21 up to 150W; High-Performance P48818-B21 above 150W (one per processor). Processors ship without heatsinks or fans, so both must be ordered.',
-       'High-Performance Fan Kit P48820-B21 (6 fans) replaces the 4 standard fans: required above 205W, with 128GB or larger DIMMs and with three front drive cages; the 24SFF chassis ships with it. The doc also words the memory trigger as "96GB or higher" in one place — 128GB is used here.',
+       'Fans: one processor runs on 4 standard fans, two on 6 — the 2-fan Standard Fan Kit P49146-B21 adds the pair (the EDSFF chassis ships with 6). The High-Performance Fan Kit P48820-B21 (6 fans) replaces them all: required above 205W, with 128GB or larger DIMMs and with three front drive cages; the 24-bay SFF chassis ships with it. The doc also words the memory trigger as "96GB or higher" in one place — 128GB is used here.',
        'The High-Performance fan kit is also required with NVMe, rear drives and GPUs; 100Gb+ NICs and InfiniBand adapters need it too (25°C ambient) and only sit in x16 slots.',
        'Memory: 32 DIMM slots, up to 8TB (32 x 256GB); 4TB per processor. Speed is capped by the processor and 4800 kits run at 4400 at 2 DIMMs per channel. 96GB modules cannot be mixed with any other size and need an XCC/MCC processor; 128GB (non-3DS) is not offered with the EE-LCC parts 4509Y, 4510 and 3508U.',
        'The 24SFF chassis is limited to 16 DIMMs, and 256GB DIMMs limit the server to two front drive cages (so not 24SFF or 12LFF).',
@@ -1635,13 +1635,13 @@ var MODELS=[
        'Above 270W (2P) needs Closed-loop liquid cooling instead of an air-cooled heat sink; up to 350W is DLC-only. Confirm the exact tier for high-wattage picks.',
        '10SFF (really 8SFF+2SFF) is Tri-Mode/NVMe-mixed by default — no plain SAS/SATA-only SFF cage. 4LFF Low Profile is treated as SAS/SATA-only even though the doc names its backplane "12G x1 TriMode U.3" (no LFF NVMe drive is sold).']}},
  {m:'DL380', g:'G12', p:['xeon6'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:186,hsWtext:'above 185W',fans:{one:4,two:4,perf:6},psuMax:2,riserMax:3,pcie:{one:3,two:8},
+   rules:{verified:true,hsW:186,hsWtext:'above 185W',fans:{one:4,two:6,perf:6},fansByBay:{'12LFF':{one:6,two:6,perf:6}},fanKit2P:{n:'Standard Fan Kit',pn:'P49146-B21'},fanBays:['24SFF'],psuMax:2,riserMax:3,pcie:{one:3,two:8},
      rear:['2SFF rear','4LFF rear','6SFF rear','4LFF midtray'],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6714P','6724P','6728P','6730P','6736P','6737P','6738P','6740P','6745P','6747P','6748P','6760P','6767P','6768P','6787P','6788P'],
      notes:['The CPU list is the widest of any G12 model: all 7 E-core SKUs, the 15 standard P-core SKUs, 6745P and the 7 Socket Scalable (4S/8S) SKUs. No single-socket "1P" variants.',
        'Rear and mid-tray drives combine: 24SFF takes up to 6SFF rear; 8LFF takes a 2SFF front + 4LFF mid + 4LFF/2SFF rear; 12LFF takes a 4LFF mid + 4LFF/2SFF rear; the EDSFF variant takes a 2SFF rear. Mid-tray needs a CPU at or under 225W and excludes GPU/DLC.',
        '8SFF comes as U.3 x4/x2 Tri-Mode, U.3 (x1 Tri-Mode) or plain SAS/SATA (Multipurpose Drive Cage Kit P76449-B21). LFF is SAS/SATA-only (P74741-B21 LP Midplane).',
-       'Standard fan count depends on the BAY config, not CPU count: SFF/8LFF ship 4 standard fans, 12LFF and the EDSFF variant ship 6, 24SFF ships 6 high-performance as standard. Confirm the fan kit against the bay pick.',
+       'Fans: the SFF and 8-bay LFF chassis ship 4 standard fans, the 12-bay LFF and EDSFF chassis ship 6, and the 24-bay SFF chassis ships 6 high-performance. Two processors need 6 fans — add the 2-fan Standard Fan Kit P49146-B21 where 4 ship.',
        'Above 225W on an 8LFF/12LFF Mid-Tray config needs the High-Performance heat sink (P74787-B21); 2P configs above that band need the Max-Performance kit (2 heat sinks, P74794-B21). Treat 185W as the floor only.',
        '36 EDSFF and 12 EDSFF+16SFF front cage variants also exist — not in the bay list.']}},
  {m:'DL380a',g:'G12', p:['xeon6'], s:2, d:32, bays:['4SFF'],
@@ -3801,7 +3801,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.21.9'; // 9th build shipped today
+var BUILD_VERSION='2026.09.21.10'; // 10th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -5285,8 +5285,11 @@ function evaluate(){
   if(m&&!R.fans&&!fanTouched&&!fanReasons.length&&document.getElementById('fanq').value)
     document.getElementById('fanq').value='';
   var fqEl=document.getElementById('fanq');
+  /* a chassis can ship a different fan count than the model default (fansByBay) — e.g. DL380 Gen11's
+     12EDSFF ships 6 standard fans whatever the processor count */
+  var fansEff=(R.fansByBay&&R.fansByBay[bays])||R.fans;
   if(m&&R.fans){
-    var fanCage=Math.max(R.fans.one||0,R.fans.two||0,R.fans.perf||0);
+    var fanCage=Math.max(fansEff.one||0,fansEff.two||0,fansEff.perf||0);
     if(fanCage)fqEl.max=fanCage;else fqEl.removeAttribute('max');
   }else{fqEl.removeAttribute('max');}
   if(m&&R.fans){
@@ -5299,7 +5302,10 @@ function evaluate(){
       if(R.fanNVMe)extra.push('NVMe');
       if(R.fanRear)extra.push('rear or midtray drives');
       if(R.fanGPU)extra.push('a GPU');
-      var stdN=cpuq>=2?R.fans.two:(cpuq===1?R.fans.one:null);
+      var stdN=cpuq>=2?fansEff.two:(cpuq===1?fansEff.one:null);
+      /* the second processor's extra standard fans are an orderable kit on some models */
+      var kit2P=(R.fanKit2P&&cpuq>=2&&fansEff===R.fans&&fansEff.two>fansEff.one)
+        ?' The second processor takes the '+R.fanKit2P.n+' ('+R.fanKit2P.pn+', +'+(fansEff.two-fansEff.one)+' fans) on top of the '+fansEff.one+' that ship.':'';
       /* mirror the heatsink line: with a processor picked, say where it sits against the step */
       var belowFan=(R.fanW&&cpu)?' '+cpu[0]+' ('+cpu[3]+'W) is below the high performance fan step ('+fanThr+').':'';
       /* verified models with no threshold have none in their QuickSpecs (fans follow NVMe / rear drives / GPU / bays only) —
@@ -5307,10 +5313,10 @@ function evaluate(){
       var notTied=(R.verified&&!R.fanW)?' Fan choice on this model is not tied to processor wattage.':'';
       whyF.className='why on';
       whyF.textContent='Standard fans are adequate'+(stdN?' — '+stdN+' fans for '+cpuq+' processor'+(cpuq>1?'s':''):'')+
-        '.'+belowFan+(extra.length?' High performance would be needed for '+extra.join(', ')+'.':'')+notTied;
+        '.'+kit2P+belowFan+(extra.length?' High performance would be needed for '+extra.join(', ')+'.':'')+notTied;
     }
     var perfNow=r('fan')==='Perf Fans';
-    var want=perfNow?R.fans.perf:(cpuq>=2?R.fans.two:(cpuq===1?R.fans.one:null));
+    var want=perfNow?fansEff.perf:(cpuq>=2?fansEff.two:(cpuq===1?fansEff.one:null));
     var fq=fqEl;
     if(want&&!fanTouched&&String(Number(fq.value))!==String(want))fq.value=want;
     fq.classList.toggle('field-over',!!(want&&fq.value&&Number(fq.value)!==want));

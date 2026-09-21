@@ -4110,7 +4110,7 @@ function runRound25(){
 
   // --- fans / heatsinks ---
   setModel25('DL380 G11'); setv26('dimm',''); setv26('dimmq',''); pickCpuExact25('G6438Y+'); setv26('cpuq','2');
-  d.getElementById('fanq').value==='4'?pass25('DL380 G11 with two processors: 4 standard fans (the doc has no 2P standard kit; only the 6-fan HP kit differs)'):fail25('DL380 G11 2P standard fans wrong: '+d.getElementById('fanq').value);
+  d.getElementById('fanq').value==='6'?pass25('DL380 G11 with two processors: 6 standard fans (4 that ship + the 2-fan Standard Fan Kit) — HPE\'s user guide: dual processors need all six fan bays'):fail25('DL380 G11 2P standard fans wrong (want 6): '+d.getElementById('fanq').value);
   setModel25('DL360 G11'); pickCpuExact25('G6426Y'); setv26('cpuq','1');
   hsState25()==='Std Heatsinks'?pass25('DL360 G11 + 185W Gold 6426Y: standard heatsink'):fail25('DL360 185W heatsink wrong: '+hsState25());
   d.getElementById('bp2').checked=true; fire(d.getElementById('bp2'),'change');
@@ -4329,5 +4329,41 @@ function runRound25(){
   addCard27('NS204i-u v2 960GB SED boot device, hot-plug (externally accessible) (P81162-B21, cable kit P52152-B21, FIO bundle P54542-B21)','1');
   addCard27('E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','3');
   (!/TOO MANY CARDS/.test(chk26()) && hsState25()!=='Perf Heatsinks')?pass25('DL380 G11: the NS204i-u takes no PCIe slot and has no heatsink rule (3 NICs fit the 3 slots)'):fail25('DL380 NS204i-u handling wrong: '+hsState25()+' '+chk26().slice(0,240));
+  reset27();
+
+  // ===== DL380 fan counts (user-reported 2026-09-21: "takes 4 standard fans — 6 entered" on a 2-processor build) =====
+  // HPE's DL380 Gen11 / Gen12 user guides: single processor = 4 fans + 2 blanks, dual processors = 6 fans.
+  reset27(); setModel25('DL380 G11'); pickCpuExact25('G5416S'); setv26('bays','8SFF'); setv26('cpuq','1');
+  (fanState27()==='Std Fans' && d.getElementById('fanq').value==='4')?pass25('DL380 G11 8SFF, 1 processor: 4 standard fans'):fail25('DL380 G11 1P fans wrong: '+fanState27()+' x'+d.getElementById('fanq').value);
+  setv26('cpuq','2');
+  (fanState27()==='Std Fans' && d.getElementById('fanq').value==='6')?pass25('DL380 G11 8SFF, 2 processors: 6 standard fans'):fail25('DL380 G11 2P fans wrong: '+fanState27()+' x'+d.getElementById('fanq').value);
+  /Standard Fan Kit \(P49146-B21, \+2 fans\) on top of the 4 that ship/.test(d.getElementById('why-fan').textContent)
+    ?pass25('the fan explainer names the 2-fan Standard Fan Kit P49146-B21 for the second processor'):fail25('P49146 hint missing: '+d.getElementById('why-fan').textContent);
+  setv26('fanq','6');
+  !/FAN QTY/.test(chk26())?pass25('typing 6 fans on a 2-processor DL380 G11 is no longer flagged (the reported false alarm)'):fail25('6 fans on 2P still flagged: '+chk26().slice(0,240));
+  setv26('fanq','4');
+  /FAN QTY.*takes 6 standard fans — 4 entered/.test(chk26())?pass25('...and 4 fans on 2 processors is the one that gets flagged'):fail25('4 fans on 2P not flagged: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G11'); pickCpuExact25('G5416S'); setv26('bays','12EDSFF'); setv26('cpuq','1');
+  (d.getElementById('fanq').value==='6')?pass25('DL380 G11 12EDSFF ships with 6 standard fans, even with one processor'):fail25('DL380 G11 EDSFF fans wrong: '+d.getElementById('fanq').value);
+  setv26('bays','12LFF');
+  (d.getElementById('fanq').value==='4')?pass25('DL380 G11 12LFF still ships 4 (its doc says 4; only EDSFF ships 6)'):fail25('DL380 G11 12LFF fans wrong: '+d.getElementById('fanq').value);
+  reset27(); setModel25('DL380 G11'); pickCpuExact25('G5416S'); setv26('bays','24SFF'); setv26('cpuq','2');
+  (fanState27()==='Perf Fans' && d.getElementById('fanq').value==='6')?pass25('DL380 G11 24SFF: 6 high performance fans'):fail25('DL380 G11 24SFF fans wrong: '+fanState27()+' x'+d.getElementById('fanq').value);
+  reset27(); setModel25('DL380 G11'); pickCpuExact25('G5416S'); setv26('bays','8SFF'); setv26('cpuq','1');
+  d.getElementById('bp2').checked=true; fire(d.getElementById('bp2'),'change');
+  (fanState27()==='Perf Fans' && d.getElementById('fanq').value==='6')?pass25('DL380 G11 with NVMe: the high performance kit is 6 fans'):fail25('DL380 G11 NVMe fans wrong: '+fanState27()+' x'+d.getElementById('fanq').value);
+  // Gen12 has the same chassis: 4 ship on SFF/8LFF, 6 on 12LFF/EDSFF, the 24SFF ships 6 HP, two processors need 6
+  reset27(); setModel25('DL380 G12'); setv26('bays','8SFF'); setv26('cpuq','1');
+  (d.getElementById('fanq').value==='4')?pass25('DL380 G12 8SFF, 1 processor: 4 standard fans'):fail25('DL380 G12 1P fans wrong: '+d.getElementById('fanq').value);
+  setv26('cpuq','2');
+  (d.getElementById('fanq').value==='6')?pass25('DL380 G12 8SFF, 2 processors: 6 standard fans'):fail25('DL380 G12 2P fans wrong: '+d.getElementById('fanq').value);
+  setv26('bays','12LFF'); setv26('cpuq','1');
+  (d.getElementById('fanq').value==='6')?pass25('DL380 G12 12LFF ships 6 standard fans'):fail25('DL380 G12 12LFF fans wrong: '+d.getElementById('fanq').value);
+  setv26('bays','24SFF');
+  (fanState27()==='Perf Fans' && d.getElementById('fanq').value==='6')?pass25('DL380 G12 24SFF ships 6 high performance fans'):fail25('DL380 G12 24SFF fans wrong: '+fanState27()+' x'+d.getElementById('fanq').value);
+  // control: the DL360 is unchanged (5 with one processor, 7 with two)
+  reset27(); setModel25('DL360 G11'); pickCpuExact25('G6426Y'); setv26('bays','8SFF'); setv26('cpuq','1');
+  const f1=d.getElementById('fanq').value; setv26('cpuq','2');
+  (f1==='5' && d.getElementById('fanq').value==='7')?pass25('DL360 G11 fans unchanged: 5 with one processor, 7 with two'):fail25('DL360 G11 fans changed: '+f1+'/'+d.getElementById('fanq').value);
   reset27();
 }
