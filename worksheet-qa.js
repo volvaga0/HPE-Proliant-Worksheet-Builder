@@ -2957,8 +2957,8 @@ function runRound14(){
   // in their rules that never reached the picker at all ---
   setModel14('ML350 G10');
   let opts14=psuOpts14();
-  (opts14.length===7 && opts14.some(o=>/865408-B21/.test(o)) && opts14.some(o=>/874571-B21/.test(o)))
-    ?pass14('ML350 G10: psu:[] override now actually drives the picker (was dead data — 7 real part numbers)')
+  (opts14.length===8 && opts14.some(o=>/865408-B21/.test(o)) && opts14.some(o=>/874571-B21/.test(o)))
+    ?pass14('ML350 G10: psu:[] override now actually drives the picker (was dead data — 8 real part numbers incl. the 800W -48VDC tier added 2026-09-21)')
     :fail14('ML350 G10 psu panel wrong: '+opts14.join(' | '));
   setModel14('DL60 G9'); // a model with NO psu:[] override — must still fall back cleanly to plain PSUS
   opts14=psuOpts14();
@@ -3681,4 +3681,11 @@ function runRound25(){
   (cpuOpts25c.some(function(o){return o.indexOf('6137')>-1;}) && cpuOpts25c.some(function(o){return o.indexOf('8260M')>-1;}))
     ?pass25('DL380 G10: Gold 6137 (Financial Sector kit, found in its v24 QuickSpecs) and the M-suffix parts are selectable')
     :fail25('DL380 G10 CPU list missing 6137/8260M');
+
+  setModel25('DL325 G10');
+  const ci25d=d.getElementById('cpu-input');ci25d.value='';fire(ci25d,'input');
+  const cpuOpts25d=[...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  (cpuOpts25d.length===24 && cpuOpts25d.some(function(o){return o.indexOf('7232P')>-1;}) && cpuOpts25d.some(function(o){return o.indexOf('7601')>-1;}) && !cpuOpts25d.some(function(o){return o.indexOf('7742')>-1;}))
+    ?pass25('DL325 G10: cpuAllow enforces the 24-SKU EPYC pool (Naples + Rome) confirmed across V6/V15/V26 — no dual-socket-only 7742/7H12 etc.')
+    :fail25('DL325 G10 CPU list wrong: '+cpuOpts25d.length+' options');
 }

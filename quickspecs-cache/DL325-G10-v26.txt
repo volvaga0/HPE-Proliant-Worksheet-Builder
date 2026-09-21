@@ -1,0 +1,2346 @@
+RETIRED: This document has been officially retired, and the base products listed herein are now considered obsolete and
+are no longer available for sale. Consequently, the information contained within may no longer be current. This document
+
+                                        is provided exclusively for reference and informational purposes.
+
+QuickSpecs                                      HPE ProLiant DL325 Gen10 Server
+
+Overview
+
+HPE ProLiant DL325 Gen10 Server
+
+The HPE ProLiant DL325 Gen10 Server is the secure and versatile single socket server for virtualization and I/O intensive
+workloads.
+
+Powered by the latest AMD® EPYC® 7xx2 Series Processors , the HPE ProLiant DL325 Gen10 Server offers greater processing
+power and faster memory speeds upto 2933 MT/s
+
+This 1P, 1U server delivers an exceptional balance of processor, memory and I/O for 2P performance at 1P TCO. Get the most out
+of your virtualized environment with this versatile server.
+
+            8SFF Front View - 8SFF + ODD Shown
+
+1. Quick removal access panel                   6. USB 3.0 port
+                                                7. NIC status LED
+2. Serial no. label pull tab                    8. iLO Service Port
+                                                9. UID button/LED
+3. Optional Media Bay*                          10. Standard 8 SAS/SATA drive bays
+4 Power On/Standby button and system power LED
+5. Health LED
+Notes: *
+- Option Shown: DVD-RW or DVD-ROM
+- Option +2 SFF SAS/SATA (total 10 SFF)
+- Option +2 SFF NVMe drives
+
+                                                                                    Page 1
+QuickSpecs                                             HPE ProLiant DL325 Gen10 Server
+
+Overview
+
+            NVMe SFF Front View - 10 SFF NVMe Shown
+
+1. Quick removal access panel                          6. USB 3.0 port
+2. Serial no. label pull tab                           7. NIC status LED
+3. Optional Media Bay*.                                8. iLO Service Port
+4 Power On/Standby button and system power LED         9. UID button/LED
+5. Health LED                                          10. Standard 8 NVMe drive bays
+Notes: *
+- Option Shown: +2 SFF NVMe drives (total 10SFF NVMe)
+- Option: +2 SFF SAS/SATA
+- Option: DVD-RW or DVD-ROM
+
+            4LFF Front View - with Optional ODD shown
+
+1. Quick removal access panel                          6. UID button/LED
+2. Optional: DVD-RW or DVD-ROM shown                   7 NIC status LED
+3 Serial no. label pull tab                            8 Health LED
+4 iLO Service Port                                     9 Power On/Standby button and system power LED
+5 USB 3.0 Port                                         10. Standard 4 SAS/SATA drive bays
+
+                                                                                                       Page 2
+QuickSpecs                                              HPE ProLiant DL325 Gen10 Server
+
+Overview
+
+            Internal View 8SFF chassis -with optional FlexLOM, Smart array shown
+
+1 Fan cage shown with 5 Performance Hot-swappable fans  8 Hot Plug redundant HPE Flexible Slot Power supplies
+2 Optional HPE Smart Storage Battery                    9 Optional HPE Flexible Smart Array Controller (P408i-a
+
+3 Hard drive Backplane Power Connector                       shown)
+4 Chassis intrusion detection connector                 10 Serial Port Connector
+5 Processor (heatsink shown)                            11 (Under) Optional Flexible LOM slot
+6 DDR4 DIMM slots. Shown fully populated in 16 slots    12 Primary PCIe riser, standard
+7 Connection for second (optional) riser                13 Internal USB 3.0 connector
+                                                        14 MicroSD card slot
+
+                                                                                  Page 3
+QuickSpecs                                                                        HPE ProLiant DL325 Gen10 Server
+
+Overview
+
+                                        Rear View - With optional FlexLOM shown.
+
+1. Slot 1 PCIe 3.0                      6 iLO Management Port
+
+2. Slot 2 PCIe 3.0                      7 UID LED
+
+3 Optional Slot 3 PCIe 3.0              8 **Embedded 4x 1GbE Adapter ( if equipped)
+
+4. HPE Flexible Slot Power Supply Bay   9 VGA Port
+
+5 USB 3.0 Ports                         10 **Option: FlexibleLOM (Shown: 4x 1GbE)
+
+Notes:
+
+- **Supports Various NICs up to 25GbE.
+
+- **Embedded 4x 1GbE Adapter is not equipped on new boards for 7xx2 series processors.
+
+What's New
+
+    · Supports the next generation AMD EPYC 7xx2 Series processor with double the core density compared to the previous
+         generation and memory speeds up to 2933 MT/s
+
+    · Embedded 4x 1GbE LOM is not supported with 7xx2 series processors.
+    · New 2933 Memory DIMMs with capacity upto 128 GB
+    · New Disk Cartridge Options
+    · New SATA Read Intensive SSD drives
+    · New NVMe Read Intensive and Mixed Use SSD drives
+    · European Union (EU) Lot 9 regulation, please visit:
+
+         https://www.hpe.com/us/en/about/environment/msds-specs-more.html for more information.
+
+Platform Information
+
+Form Factor
+
+     · 1U rack
+
+Chassis Types
+
+     · 8 SFF with optional Optical Drive, 2 SFF SAS/SATA or 2 NVMe drive bay options
+     · 8 SFF NVMe with optional Optical Drive 2 SFF SAS/SATA or 2 NVMe drive bay options
+     · 4 LFF with an optional Optical Drive bay
+Notes:
+- The 8 SFF can be upgraded with either an additional 2SFF SAS/SATA kit for a total 10 SAS/SATA drives or 2SFF NVMe Kit
+    for a total of 8 SAS/SATA + 2 NVMe drives.
+- The NVMe chassis can be upgraded with either an additional 2SFF NVMe kit for a total of 10 NVMe drives or 2SFF
+    SAS/SATA kit for a total of 8NVMe + 2 SAS/SATA drives.
+
+System Fans
+
+     · 4LFF Chassis includes 5 Single Rotor Hot Swappable cable fans
+     · 8SFF Chassis includes 5 Dual Rotor Hot Swappable cable fans
+     · NVMe Chassis includes 7 Dual Rotor Hot Swappable cable fans
+
+                                                                                        Page 4
+QuickSpecs                                                                            HPE ProLiant DL325 Gen10 Server
+
+Standard Features
+
+Processors - One of the following depending on model.
+
+Notes: For more information regarding AMD EPYC processors, please see the following:
+
+https://www.amd.com/en/products/epyc-server
+
+AMD® EPYC® 7xx2 Series Processor Family
+
+AMD EPYC Processor     Cores Base                      Max            Max  Wattage            Cache  Memory
+
+                                         Frequency Frequency Memory                           256MB  2933MT/S
+                                                                                              256MB  2933MT/S
+EPYC 7702P             64                2.0Ghz        3.35Ghz 2TB         200                192MB  2933MT/S
+                                                                                              256MB  2933MT/s
+EPYC 7702              64                2.0Ghz        3.35Ghz 2TB         200                128MB  2933MT/S
+                                                                                              128MB  2933MT/S
+EPYC 7552              48                2.2Ghz        3.3Ghz         2TB  200                128MB  2933MT/S
+                                                                                              128MB  2933MT/S
+EPYC 7532              32                2.4GHz        3.3GHz         4TB  200                128MB  2933MT/S
+                                                                                              64MB   2933MT/s
+EPYC 7502P             32                2.5Ghz        3.35Ghz 2TB         180                64MB   2933MT/s
+                                                                                              128MB  2933MT/S
+EPYC 7452              32                2.35Ghz 3.35Ghz 2TB               155                32MB   2933MT/s
+
+EPYC 7402P             24                2.8Ghz        3.35Ghz 2TB         180
+
+EPYC 7352              24                2.3Ghz        3.2Ghz         2TB  155
+
+EPYC 7302P             16                3.0Ghz        3.3Ghz         2TB  155
+
+EPYC 7282              16                2.8GHz        3.2GHz         4TB  120
+
+EPYC 7272              12                2.9GHz        3.2GHz         4TB  120
+
+EPYC 7262              8                 3.2GHz        3.4GHz         2TB  155
+
+EPYC 7232P             8                 3.1GHz        3.2GHz         4TB  120
+
+Notes: All AMD EPYC processors can support up to 2TB of memory each.
+
+Chipset
+
+No chipset - System on Chip (SoC) design.
+
+On System Management Chipset
+
+HPE iLO 5 ASIC
+Notes: Read and learn more in the iLO QuickSpecs.
+
+Memory
+
+One of the following depending on model
+
+Type:                  HPE DDR4 SmartMemory                 Registered (RDIMM), Load Reduced (LRDIMM)
+
+DIMM Slots Available   16                                   16 DIMM slots per processor, 8 channels per processor, 2
+                                                            DIMMs per channel
+
+With AMD® EPYC® 7xx2 Series Processor Family
+
+Maximum capacity (LRDIMM) 2.0TB          16 x 128 GB RDIMM @ 2933 MHz at 1 DPC
+
+Maximum capacity (RDIMM) 1.0TB           16 x 64 GB RDIMM @ 2933 MT/S
+
+Notes:
+- The maximum memory speed is limited by the processor selection.
+- When 2DIMMs are populated per channel, memory speed drops to 2666 MT/S
+
+Expansion Slots
+
+Default Primary Riser  Technology        Bus Width     Connector Width     Slot Form Factor               Notes
+                       PCIe 3.0          X16           X16                 Full-height, full-length slot  Proc 1
+Slots #                PCIe 3.0          X8            X8                  Low Profile                    Proc 1
+1
+2
+
+Notes: Bus Width Indicates the number of physical electrical lanes running to the connector.
+
+                                                                                                               Page 5
+QuickSpecs                                                                              HPE ProLiant DL325 Gen10 Server
+
+Standard Features
+
+Secondary Riser    Technology Bus Width Connector Width   Slot Form Factor              Notes
+                                                          Low Profile                   Proc 1
+Slots #            PCIe 3.0              X16         X16
+1
+
+Notes:
+- Secondary riser cannot be installed with Modular Smart Array Options
+- Bus width indicated the number of physical electrical lanes running to the connector
+
+Storage Controllers
+
+The Gen10 controller naming framework has been updated to simplify identification as depicted below. For a more detailed
+breakout of the available Gen10 Smart Array controllers visit the HPE Smart Array Gen10 Controllers Data Sheet.
+One of the following depending on model
+
+Software RAID
+
+HPE Smart Array S100i SR Gen10 SW RAID
+Notes:
+- HPE Smart Array S100i SR Gen10 SW RAID will operate in UEFI mode only. For legacy support an additional controller will
+
+    be needed, and for CTO orders please also select the Legacy mode settings part, 758959-B22.
+- HPE Smart Array S100i SR Gen10 SW RAID is off by default and must be enabled.
+- HPE Smart Array S100i SR Gen10 SW RAID can operate only in Windows OS
+- HPE Smart Array S100i SR Gen10 SW RAID is supported only on 4LFF chassis or on the optional 2SFF SAS/SATA Kit
+
+    when selected with the 8SFF chasiss/ 8SFF SFF NVMe chassis.
+- A maximum of 4 devices can be connected to HPE Smart Array S100i SR Gen10 SW RAID.
+- HPE Smart Array S100i SR Gen10 SW RAID can support M.2 SSDs
+
+Essential RAID Controller
+
+     · HPE Smart Array E208i-a SR G10 LH Controller
+     · HPE Smart Array E208e-p SR Gen10 Controller
+
+Performance RAID Controller
+
+     · HPE Smart Array P408i-a SR G10 LH Controller
+     · HPE Smart Array P408e-p SR Gen10 Controller
+     · HPE Smart Array P816i-a SR G10 LH Controller
+Notes: Performance RAID Controllers require the HPE Smart Storage Battery (P01366-B21) which is sold separately.
+
+Internal Storage Devices
+
+One of the following depending on model
+
+    · Optical Drive
+
+         Optional: DVD-ROM, DVD-RW
+
+    · Hard Drives
+
+         None ship standard
+
+                                                                                                                          Page 6
+QuickSpecs                             HPE ProLiant DL325 Gen10 Server
+
+Standard Features
+
+Maximum Internal Storage     Capacity  Configuration
+                             24.0 TB   8+2 x 2.4 TB (with optional 2SFF drive cage)
+ Drive                       20.0 TB   8+2 x 2 TB (with optional 2SFF drive cage)
+ Hot Plug SFF SAS            56 TB     4 x 14 TB
+ Hot Plug SFF SATA           56 TB     4 x 14 TB
+ Hot Plug LFF SAS            153 TB    8+2 x 15.3 TB (with optional 2SFF drive cage)
+ Hot Plug LFF SATA           7.68 TB   4 x 1.92 TB
+ Hot Plug SFF SAS SSD        76.8 TB   8+2 x 7.68 TB (with optional 2SFF drive cage)
+ Hot Plug LFF SATA SSD       153.6 TB  8+2 x 15.36 TB
+ Hot Plug SFF SATA SSD
+ Hot Plug SFF NVMe PCIe SSD
+
+Power Supply
+
+HPE 500W Non Hot Plug Low Halogen FIO Power Supply
+Notes: Available in 92% efficiency.
+HPE 500W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+Notes: Available in 94% efficiency.
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+Notes:
+- Available in 94% and 96% efficiency.
+- Also available in -48VDC and 227VAC/380VDC power inputs.
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+Notes:
+- Available in 94% efficiency.
+- 240v power input only.
+
+The HPE 500W FIO Power Supply offers Gold-certified 80 Plus power efficiency up to 92% with an optimized set of features for
+non-redundant power configurations for Gen10 ProLiant ML 10/100 Series Servers, as well as ML350 Gen10 and DL325 Gen10.
+HPE Flexible Slot (Flex Slot) Power Supplies share a common electrical and physical design that allows for hot plug, tool-less
+installation into HPE ProLiant Gen10 Performance Servers. Flex Slot power supplies are certified for high-efficiency operation and
+offer multiple power output options, allowing users to "right-size" a power supply for specific server configurations. This flexibility
+helps to reduce power waste, lower overall energy costs, and avoid "trapped" power capacity in the data center.
+
+All pre-configured servers ship with a standard 6-foot IEC C-13/C-14 jumper cord (A0K02A). This jumper cord is also included
+with each standard AC power supply option kit. If a different power cord is required, please check the ProLiant Power Cables web
+page.
+
+To review the power requirements for your selected system, please use the HPE Power Advisor Tool.
+
+For information on power specifications and technical content visit HPE Server power supplies.
+
+Interfaces                   Optional, rear
+                             1 Rear VGA Port - Standard
+ Serial                      4 x 1 Gb ports shipping standard ( if equipped), with optional FlexibleLOM or stand up card
+ Video Port                  Notes: Embedded 4x 1GbE LOM is not equipped on new boards for 7xx2 series processors.
+ Network Ports               1 Gb Dedicated
+
+ HPE iLO Remote              1 standard
+ Management Network Port     1 Micro SD
+ Front iLO Service Port      Notes: The Micro SD slot is not a hot-pluggable device. Customers should not attempt to
+ Micro SD Slot               plug an SD card into the SD slot while the server is powered
+                             Up to 4 total: 1 front, 2 rear, 1 internal (secure)
+ USB 3.0
+
+                                                                                      Page 7
+QuickSpecs         HPE ProLiant DL325 Gen10 Server
+
+Standard Features
+
+Operating Systems and Virtualization Software Support for ProLiant Servers
+
+AMD® EPYC® 7xx2 Series Processor Family
+
+    · Windows Server 2016 (Most Recent Version)
+    · Windows Server 2019 (Most Recent Version)
+    · VMware ESXi 6.5 U3
+    · VMware ESXi 6.7 U3
+    · Red Hat Enterprise Linux (RHEL) 7.6
+    · Red Hat Enterprise Linux (RHEL) 8.1
+    · SUSE Linux Enterprise Server (SLES) 12 SP4
+    · SUSE Linux Enterprise Server (SLES) 15 SP1
+    · Citrix XenServer
+
+         HPE and ClearCenter will help you lower the cost of building on-premise solutions without sacrificing security and ease of
+         use. HPE ProLiant servers with ClearOS give you a simple, secure, and affordable operating system with an intuitive web
+         based graphical user interface that provides a cloud-like experience on- premise, and an Application Marketplace with
+         over 100 apps and growing. Whether you're starting out or scaling, you decide what applications you need and pay as you
+         grow.
+         Notes: ClearOS allows you to build a fully functional server that is just right for you at no upfront cost.
+         For more information on ClearOS, please visit http://www.hpe.com/servers/clearos
+    · CentOS
+         CentOS not directly supported / Community Supported (Based on RHEL so RHEL testing and enablement applicable to
+         CentOS) CentOS 7.4/ CentOS 7.5
+
+For more information on Hewlett Packard Enterprise Certified and Supported ProLiant Servers for OS and Virtualization Software
+and latest listing of software drivers available for your server http://www.hpe.com/info/ossupport.
+
+Industry Standard Compliance
+
+    · ACPI 6.1 Compliant
+    · PCIe 3.0 Compliant
+    · WOL Support
+    · Microsoft® Logo certifications
+    · PXE Support
+    · VGA Port
+    · USB 3.0 Compliant (internal)
+    · USB 2.0 Compliant (external ports via SUV)
+    · Energy Star
+    · SMBIOS 3.1
+    · UEFI 2.6
+    · Redfish API
+    · IPMI 2.0
+    · Secure Digital 2.0
+    · Advanced Encryption Standard (AES)
+    · Triple Data Encrytion Standard (3DES)
+    · SNMP v3
+    · TLS 1.2
+    · DMTF Systems Management Architecture for Server Hardware Command Line Protocol (SMASH CLP)
+    · Active Directory v1.0
+    · European Union (EU) eco-design regulations for server and storage products, known as Lot 9, go into effect on March
+
+         1st, 2020. Among other requirements, for servers this directive establishes power thresholds for idle state, as well as
+         efficiency and performance in active state which vary among configurations. HPE ProLiant Gen10 servers are compliant
+         with Lot9 requirements.
+
+                                                                                                                                                                           Page 8
+QuickSpecs         HPE ProLiant DL325 Gen10 Server
+
+Standard Features
+
+         For more information regarding HPE Lot 9 conformance, please visit:
+         https://www.hpe.com/us/en/about/environment/msds-specs-more.html
+    · ASHRAE A3/A4
+         Notes: For additional technical thermal details regarding ambient temperatures, humidity and features support please
+         visit: http://www.hpe.com/servers/ashrae.
+    · UEFI (Unified Extensible Firmware Interface Forum)
+         Notes: UEFI is the default for the DL325 Gen10. Legacy mode can be selected in the field or as a CTO option
+         (758959-B22).
+
+Graphics
+
+Integrated Video Standard
+
+     · Video modes up to 1920 x 1200@60Hz (32 bpp)
+     · 16MB Video Memory
+
+HPE iLO 5 on system management memory
+
+     · 32 MB Flash
+     · 4 Gbit DDR 3 with ECC protection
+
+HPE Server UEFI/Legacy ROM
+
+Unified Extensible Firmware Interface (UEFI) is an industry standard that provides better manageability and more secured
+configuration than the legacy ROM while interacting with your server at boot time. HPE ProLiant Gen10 servers have a UEFI Class
+2 implementation and support both UEFI Mode (default) and Legacy BIOS Mode.
+
+UEFI enables numerous new capabilities specific to HPE ProLiant servers such as:
+     · Secure Boot and Secure Start enable for enhanced security
+     · Operating system specific functionality
+     · Support for > 2.2 TB (using GPT) boot drives
+     · USB 3.0 Stack
+     · Embedded UEFI Shell
+     · Mass Configuration Deployment Tool using iLO RESTful API that is Redfish API Conformant
+     · PXE boot support for IPv6 networks
+     · Workload Profiles for simple performance optimization
+
+UEFI Boot Mode only:
+     · TPM 2.0 Support
+     · NVMe Boot Support
+     · iSCSI Software Initiator Support.
+     · HTTP/HTTPs Boot support as a PXE alternative.
+     · Boot support for option cards that only support a UEFI option ROM
+
+Notes:
+- For UEFI Boot Mode, boot environment and OS image installations should be configured properly to support UEFI.
+- UEFI FIO Setting (758959-B22) can be selected to configure the system in Legacy mode in the factory for your HPE
+
+    ProLiant Gen10 Server.
+
+                   Page 9
+QuickSpecs         HPE ProLiant DL325 Gen10 Server
+
+Standard Features
+
+Embedded Management
+
+HPE Integrated Lights-Out (HPE iLO)
+
+Monitor your servers for ongoing management, service alerting, reporting and remote management with HPE iLO.
+Learn more at http://www.hpe.com/info/ilo.
+
+UEFI
+
+Configure and boot your servers securely with industry standard Unified Extensible Firmware Interface (UEFI).
+Learn more at http://www.hpe.com/servers/uefi
+
+Intelligent Provisioning
+
+Hassle free server and OS provisioning for 1 or more servers with Intelligent Provisioning.
+Learn more at https://www.hpe.com/us/en/product-catalog/detail/pip.5219984.html
+
+iLO RESTful API
+
+iLO RESTful API is Redfish API conformance and offers simplified server management automation such as configuration and
+maintenance tasks based on modern industry standards. Learn more at http://www.hpe.com/info/restfulapi.
+
+Server Utilities
+
+Active Health System
+
+The HPE Active Health System (AHS) is an essential component of the iLO management portfolio that provides continuous,
+proactive health monitoring of HPE servers. Learn more at http://www.hpe.com/servers/ahs.
+
+Active Health System Viewer
+
+Use the Active Health System Viewer, a web-based portal, to easily read AHS logs and speed problem resolution with HPE self-
+repair recommendations, to learn more visit: http://www.hpe.com/servers/ahsv.
+
+Smart Update
+
+Keep your servers up to date with the HPE Smart Update solution by using Smart Update Manager (SUM) to optimize the
+firmware and driver updates of the Service Pack for ProLiant (SPP). Learn more at
+https://buy.hpe.com/b2c/us/en/enterprise-software/infrastructure-management-software/system-server-management-
+software/hpe-system-server-software-management-software/smart-update-manager-%28sum%29/p/5182020.
+
+iLO Amplifier Pack
+
+Designed for large enterprise and service provider environments with hundreds of HPE servers, the iLO Amplifier Pack is a free,
+downloadable open virtual application (OVA) that delivers the power to discover, inventory and update Gen8, Gen9 and Gen10
+HPE servers at unmatched speed and scale. Use with an iLO Advanced License to unlock full capabilities.
+Learn more at http://www.hpe.com/servers/iLOamplifierpack.
+
+HPE iLO Mobile Application
+
+Enables the ability to access, deploy, and manage your server anytime from anywhere from select smartphones and mobile
+devices. For additional information please visit: http://www.hpe.com/info/ilo/mobileapp.
+
+RESTful Interface Tool
+
+RESTful Interface tool (iLOREST) is a single scripting tool to provision using iLO RESTful API to discover and deploy servers at
+scale. Learn more at http://www.hpe.com/info/resttool.
+
+Scripting Tools
+
+Provision one to many servers using your own scripts to discover and deploy with Scripting Tool (STK) for Windows and Linux or
+Scripting Tools for Windows PowerShell. Learn more at http://www.hpe.com/servers/powershell.
+
+                   Page 10
+QuickSpecs         HPE ProLiant DL325 Gen10 Server
+
+Standard Features
+
+HPE OneView Standard
+
+HPE OneView Standard can be used for inventory, health monitoring, alerting, and reporting without additional fees. It can monitor
+multiple HPE server generations. The user interface is similar to the HPE OneView Advanced version, but the software-defined
+functionality is not available. Learn more at http://www.hpe.com/info/oneview.
+
+HPE Systems Insight Manager (HPE SIM)
+
+Ideal for environments already using HPE SIM, it allows you to monitor the health of your HPE ProLiant Servers and HPE Integrity
+Servers. Also provides you with basic support for non-HPE servers. HPE SIM also integrates with Smart Update Manager to
+provide quick and seamless firmware updates. Learn more at http://www.hpe.com/info/hpesim.
+
+Security
+
+     · UEFI Secure Boot and Secure Start support
+     · Immutable Silicon Root of Trust
+     · FIPS 140-2 validation (iLO 5 certification in progress)
+     · Common Criteria certification (iLO 5 certification in progress)
+     · Configurable for PCI DSS compliance
+     · Advanced Encryption Standard (AES) and Triple Data Encryption Standard (3DES) on browser
+     · Support for Commercial National Security Algorithms (CNSA)
+     · Tamper-free updates - components digitally signed and verified
+     · Secure Recovery - recover critical firmware to known good state on detection of compromised firmware
+     · Ability to rollback firmware
+     · Secure erase of NAND/User data
+     · TPM (Trusted Platform Module) 1.2 option
+     · TPM (Trusted Platform Module) 2.0 option
+     · Bezel Locking Kit option
+     · Chassis Intrusion detection option
+
+Warranty
+
+This product is covered by a global limited warranty and supported by HPE Services and a worldwide network of HPE Authorized
+Channel Partners resellers. Hardware diagnostic support and repair is available for three years from date of purchase. Support for
+software and initial setup is available for 90 days from date of purchase. Enhancements to warranty services are available through
+HPE Pointnext operational services or customized service agreements. Hard drives have either a one year or three year warranty;
+refer to the specific hard drive QuickSpecs for details.
+
+Notes: Server Warranty includes 3-Year Parts, 3-Year Labor, 3-Year Onsite support with next business day response. Warranty
+repairs may be accomplished through the use of Customer Self Repair (CSR) parts. These parts fall into two categories: 1)
+Mandatory CSR parts are designed for easy replacement. A travel and labor charge will result when customers decline to
+replace a Mandatory CSR part; 2) Optional CSR parts are also designed for easy replacement but may involve added
+complexity. Customers may choose to have Hewlett Packard Enterprise replace Optional CSR parts at no charge. Additional
+information regarding worldwide limited warranty and technical support is available at:
+http://h17007.www1.hpe.com/us/en/enterprise/servers/warranty/.
+
+                   Page 11
+QuickSpecs         HPE ProLiant DL325 Gen10 Server
+
+Optional Features
+
+Server Management
+
+HPE iLO Advanced
+
+HPE iLO Advanced licenses offer smart remote functionality without compromise, for all HPE ProLiant servers. The license
+includes the full integrated remote console, virtual keyboard, video, and mouse (KVM), multi-user collaboration, console record and
+replay, and GUI-based and scripted virtual media and virtual folders. You can also activate the enhanced security and power
+management functionality.
+
+HPE OneView Advanced
+
+HPE OneView brings a new level of automation to infrastructure management by taking a template driven approach to
+provisioning, updating, and integrating compute, storage, and networking infrastructure. It provides full-featured licenses which can
+be purchased for managing Gen8, Gen9 and Gen10 servers. To learn more visit http://www.hpe.com/info/oneview.
+
+HPE InfoSight for Servers
+
+HPE InfoSight for Servers combines the cloud-based machine learning of InfoSight with the health and performance monitoring of
+Active Health System (AHS) and iLO to optimize performance and predict and prevent problems. The end result is an intelligent
+environment that modernizes IT operations and enhances the support experience by predicting and preventing the infrastructure
+issues that lead to application disruptions, wasted IT staff time and missed business opportunities.
+Learn more at https://www.hpe.com/servers/infosight
+
+HPE Insight Cluster Management Utility (CMU)
+
+HPE Insight Cluster Management Utility is a HyperScale management framework that includes software for the centralized
+provisioning, management and monitoring of nodes and infrastructure. Learn more at http://www.hpe.com/info/cmu.
+
+Accelerator and GPU Information
+
+Hewlett Packard Enterprise supports various accelerators on select HPE Proliant servers to support different workloads. The
+accelerators enable seamless integration of GPU computing with HPE ProLiant servers for high-performance computing, large
+data center graphics, deep learning and virtual desktop deployments. These accelerators deliver all of the standard benefits of
+GPU computing while enabling maximum reliability and tight integration with system monitoring and management tools such as
+HPE Insight Cluster Management Utility.
+
+Rack and Power Infrastructure
+
+The story may end with servers, but it starts with the foundation that makes compute go - and business grow. We've reinvented
+our entire portfolio of rack and power products to make IT infrastructure more secure, more practical, and more efficient. In other
+words, we've created a stronger, smarter, and simpler infrastructure to help you get the most out of your IT equipment. As an
+industry leader, Hewlett Packard Enterprise is uniquely positioned to address the key concerns of power, cooling, cable
+management and system access.
+
+HPE G2 Advanced and Enterprise Racks are perfect for the server room or today's modern data center with enhanced airflow and
+thermal management, flexible cable management, and a 10 year Warranty to support higher density computing.
+HPE G2 PDUs offer reliable power in flexible form factors that operate at temperatures up to 60°C, include color-coded outlets and
+load segments and a low-profile design for optimal access to the rack and support for dense rack environments.
+HPE Uninterruptible Power Systems are cost-effective power protection for any type workload. Some UPSs include options for
+remote management and extended runtime modules so you're critical dense data center is covered in power outages.
+HPE KVM Solutions include a console and switches designed to work with your server and IT equipment reliably. We've got a cost-
+effective KVM switch for your first rack and multiple connection IP switches with remote management and security capabilities to
+keep your data center rack up and running.
+
+Learn more about HPE Racks, KVM, PDUs and UPSs at HPE Rack and Power Infrastructure.
+
+                   Page 12
+QuickSpecs         HPE ProLiant DL325 Gen10 Server
+
+Optional Features
+
+One Config Simple (SCE)
+
+SCE is a guided self-service tool to help sales and non-technical people provide customers with initial configurations in 3 to 5
+minutes. You may then send the configuration on for configuration help, or use in your existing ordering processes. If you require
+"custom" rack configuration or configuration for products not available in SCE, please contact Hewlett Packard Enterprise
+Customer Business Center or an Authorized Partner for assistance. https://h22174.www2.hpe.com/SimplifiedConfig/Welcome
+
+                   Page 13
+QuickSpecs           HPE ProLiant DL325 Gen10 Server
+
+Service and Support
+
+HPE Pointnext - Service and Support
+
+Get the most from your HPE Products. Get the expertise you need at every step of your IT journey with HPE Pointnext Services.
+We help you lower your risks and overall costs using automation and methodologies that have been tested and refined by HPE
+experts through thousands of deployments globally. HPE Pointnext Advisory Services, focus on your business outcomes and
+goals, partnering with you to design your transformation and build a roadmap tuned to your unique challenges. Our Professional
+and Operational Services can be leveraged to speed up time-to-production, boost performance and accelerate your business. HPE
+Pointnext specializes in flawless and on-time implementation, on-budget execution, and creative configurations that get the most
+out of software and hardware alike.
+
+Consume IT on your terms
+
+HPE GreenLake brings the cloud experience directly to your apps and data wherever they are--the edge, colocations, or your data
+center. It delivers cloud services for on-premises IT infrastructure specifically tailored to your most demanding workloads. With a
+pay-per-use, scalable, point-and-click self-service experience that is managed for you, HPE GreenLake accelerates digital
+transformation in a distributed, edge-to-cloud world.
+
+    · Get faster time to market
+    · Save on TCO, align costs to business
+    · Scale quickly, meet unpredictable demand
+    · Simplify IT operations across your data centers and clouds
+
+Managed services to run your IT operations
+
+HPE GreenLake Management Services provides services that monitor, operate, and optimize your infrastructure and applications,
+delivered consistently and globally to give you unified control and let you focus on innovation.
+
+Recommended Services
+
+HPE Pointnext Tech Care.
+
+HPE Pointnext Tech Care is the new operational service experience for HPE products. Tech Care goes beyond traditional support
+by providing access to product specific experts, an AI driven digital experience, and general technical guidance to not only reduce
+risk but constantly search for ways to do things better. HPE Pointnext Tech Care has been reimagined from the ground up to
+support a customer-centric, AI driven, and digitally enabled customer experience to move your business forward. HPE Pointnext
+Tech Care is available in three response levels. Basic, which provides 9x5 business hour availability and a 2 hour response time.
+Essential which provides a 15 minute response time 24x7 for most enterprise level customers, and Critical which includes a 6 hour
+repair commitment where available and outage management response for severity 1 incidents.
+https://www.hpe.com/services/techcare
+
+HPE Pointnext Complete Care
+
+HPE Pointnext Complete Care is a modular, edge-to-cloud IT environment service that provides a holistic approach to optimizing
+your entire IT environment and achieving agreed upon IT outcomes and business goals through a personalized and customer-
+centric experience. All delivered by an assigned team of HPE Pointnext Services experts. HPE Pointnext Complete Care provides:
+
+    · A complete coverage approach -- edge to cloud
+    · An assigned HPE team
+    · Modular and fully personalized engagement
+    · Enhanced Incident Management experience with priority access
+    · Digitally enabled and AI driven customer experience
+
+https://www.hpe.com/services/completecare
+
+                     Page 14
+QuickSpecs           HPE ProLiant DL325 Gen10 Server
+
+Service and Support
+
+Other related Services
+
+HPE Server Hardware Installation
+
+Provides for the basic hardware installation of HPE branded servers, storage devices and networking options to assist you in
+bringing your new hardware into operation in a timely and professional manner.
+https://h20195.www2.hpe.com/v2/Getdocument.aspx?docname=5981-9356enw
+
+HPE Installation and Startup Service
+
+Provides for the installation of your HPE hardware according to product specifications including options. The HPE service delivery
+technician will connect the product to a LAN as appropriate and enable remote support to allow for automatic case creation for
+hardware failures. Installation and start up services also includes the installation of one supported operating system type
+(Windows® or Linux).
+
+DC for Hyperscale
+
+Datacenter Care for Hyperscale is available for Service Providers and HPC customers who use a scale out approach to computing
+with a high volume homogenous infrastructure and resilient architecture can take advantage of this environment support tailored
+to their operating model.
+
+HPE Factory Express for Servers and storage
+
+HPE Factory Express offers configuration, customization, integration and deployment services for HPE servers and storage
+products. Customers can choose how their factory solutions are built, tested, integrated, shipped and deployed.
+
+Factory Express offers service packages for simple configuration, racking, installation, complex configuration and design services as
+well as individual factory services, such as image loading, asset tagging, and custom packaging. HPE products supported through
+Factory Express include a wide array of servers and storage: HPE Integrity, HPE ProLiant, HPE Apollo, HPE ProLiant Server Blades,
+HPE BladeSystem, HPE 9000 servers as well as the MSAxxxx3PAR suite, XP, rackable tape libraries and configurable network
+switches.
+
+HPE Service Credits
+
+HPE Service Credits offers flexible services and technical skills to meet your changing IT demands. With a menu of service that is
+tailored to suit your needs, you get additional resources and specialist skills to help you maintain peak performance of your IT.
+Offered as annual credits, you can plan your budgets while proactively responding to your dynamic business.
+
+HPE Education Services
+
+Keep your IT staff trained making sure they have the right skills to deliver on your business outcomes. Book on a class today and
+learn how to get the most from your technology investment. http://www.hpe.com/ww/learn
+
+                     Page 15
+QuickSpecs           HPE ProLiant DL325 Gen10 Server
+
+Service and Support
+
+HPE Support Center
+
+The HPE Support Center is a personalized online support portal with access to information, tools and experts to support HPE
+business products. Submit support cases online, chat with HPE experts, access support resources or collaborate with peers.
+Learn more http://www.hpe.com/support/hpesc.
+
+The HPE Support Center Mobile App* allows you to resolve issues yourself or quickly connect to an agent for live support. Now,
+you can get access to personalized IT support anywhere, anytime.
+HPE Insight Remote Support and HPE Support Center are available at no additional cost with a HPE warranty, HPE Support
+Service or HPE contractual support agreement.
+Notes: *HPE Support Center Mobile App is subject to local availability.
+
+For more information: http://www.hpe.com/services.
+Notes: HPE ProLiant DL385 Gen10 Plus Server is covered under the HPE Service Contract applied to the HPE ProLiant Server.
+No separate HPE support services need to be purchased.
+
+Warranty and Support Services will extend to include HPE options configured with your server or storage device. The price of
+support service is not impacted by configuration details. HPE sourced options that are compatible with your product will be
+covered under your server support at the same level of coverage allowing you to upgrade freely. Installation for HPE options is
+available as needed. To keep support costs low for everyone, some high value options will require additional support. Additional
+support is only required on select high value workload accelerators, fibre switches, InfiniBand and UPS batteries over 12KVA. See
+the specific high value options that require additional support here.
+
+Parts and Materials
+
+Hewlett Packard Enterprise will provide HPE-supported replacement parts and materials necessary to maintain the covered
+hardware product in operating condition, including parts and materials for available and recommended engineering improvements.
+
+Parts and components that have reached their maximum supported lifetime and/or the maximum usage limitations as set forth in
+the manufacturer's operating manual, product QuickSpecs, or the technical product data sheet will not be provided, repaired, or
+replaced as part of these services.
+
+The defective media retention service feature option applies only to Disk or eligible SSD/Flash Drives replaced by Hewlett Packard
+Enterprise due to malfunction.
+
+                     Page 16
+QuickSpecs                                                                HPE ProLiant DL325 Gen10 Server
+
+Pre-configured Models
+
+European Union (EU) eco-design regulations for server and storage products, known as Lot 9, go into effect on March 1st, 2020.
+Among other requirements, for servers this directive establishes power thresholds for idle state, as well as efficiency and
+performance in active state which vary among configurations. HPE ProLiant Gen10 servers are compliant with Lot9 requirements.
+For more information regarding HPE Lot 9 conformance, please visit:
+https://www.hpe.com/us/en/about/environment/msds-specs-more.html
+
+                       Entry Models                             Base Model
+
+SKU Number             P17199-B21                               P17200-B21
+
+Model Name             P17199-291                               P17200-291
+
+Processor              HPE ProLiant DL325 Gen10 7262 3.2GHz 8- HPE ProLiant DL325 Gen10 7262 3.2GHz 8-
+Number of Processors
+Memory                 core 1P 16GB-R S100i 4LFF 800W RPS       core 1P 16GB-R P408i-a 8SFF 500W RPS
+Network Controller
+                       Server                                   Server
+Storage Controller
+                       7262 (8-Core, 3.2 GHz, 155W)             7262 (8-Core, 3.2 GHz, 155W)
+Hard Drive
+Internal Storage       One processor                            One processor
+Optical Drive Bay
+Optical Drive          16 GB RDIMM SR 2933 MT/s (1x 16 GB)      16 GB RDIMM SR 2933 MT/s (2x 8 GB)
+PCI-Express Slots
+Power Supply           HPE 1Gb Ethernet 4-Port 336FLR Adapter HPE 1Gb Ethernet 4-Port 336FLR Adapter
+Fans
+Management             plus optional HPE FlexibleLOM or stand up plus optional HPE FlexibleLOM or stand up
+
+Energy Star            card                                     card
+Form Factor
+Warranty               S100i                                    P408i-a
+
+                                                                Notes: 8-Port modular Smart Array.
+
+                       None ship as standard                    None ship as standard
+
+                       4 LFF chassis                            8 SFF Chassis
+
+                       Optional                                 Optional
+
+                       None ship as standard                    None ship as standard
+
+                       2-slots (x16, x8) as standard            2-slots (x16, x8) as standard
+
+                       1X800W HPE FlexSlot Power Supply         1x 500W HPE FlexSlot Power Supply
+
+                       5-performance fans                       5-performance fans
+
+                       Default: HPE iLO Standard with Intelligent Provisioning, HPE OneView Standard (requires
+
+                       download)
+
+                       Optional (require licenses): HPE iLO Advanced, HPE iLO Advanced Premium Security Edition,
+
+                       HPE OneView Advanced
+
+                       2.1 certified
+
+                       1U Rack, Easy Install rails without CMA
+
+                       3-year parts, 3-year labor, 3-year onsite support with next business day response.
+
+                                                                                                           Page 17
+QuickSpecs                                                                HPE ProLiant DL325 Gen10 Server
+
+Pre-configured Models
+
+Performance Model      P17201-B21                               P16696-B21
+
+SKU Number             P17201-291                               P16696-291
+
+Model Name             HPE ProLiant DL325 Gen10 7302P 3.0GHz HPE ProLiant DL325 Gen10 7402P 2.8GHz
+
+Processor              16-core 1P 16GB-R P408i-a 8SFF 800W RPS 24-core 1P 64GB-R P408i-a 8SFF 800W RPS
+Number of Processors
+Memory                 Server                                   Server
+Network Controller
+                       7302P (16-Core, 3.0 GHz, 155W)           7402P (24-Core, 2.8 GHz, 180W)
+Storage Controller
+                       One processor                            One processor
+Hard Drive
+Internal Storage       16 GB RDIMM SR 2933 MT/s (1x 16 GB)      64 GB RDIMM SR 2933 MT/s (2x 32 GB)
+Optical Drive Bay
+Optical Drive          HPE 1Gb Ethernet 4-Port 336FLR Adapter HPE 1Gb Ethernet 4-Port 336FLR Adapter
+PCI-Express Slots
+Power Supply           plus optional HPE FlexibleLOM or stand up plus optional HPE FlexibleLOM or stand up
+Fans
+Management             card                                     card
+
+Energy Star            P408i-a                                  P408i-a
+Form Factor
+Warranty                                                        Notes: 8-Port modular Smart Array.
+
+                       None ship as standard                    None ship as standard
+
+                       8 SFF chassis                            8 SFF Chassis
+
+                       Optional                                 Optional
+
+                       None ship as standard                    None ship as standard
+
+                       2-slots (x16, x8) as standard            2-slots (x16, x8) as standard
+
+                       1X800W HPE FlexSlot Power Supply         1x 800W HPE FlexSlot Power Supply
+
+                       5-performance fans                       5-performance fans
+
+                       Default: HPE iLO Standard with Intelligent Provisioning, HPE OneView Standard (requires
+
+                       download)
+
+                       Optional (require licenses): HPE iLO Advanced, HPE iLO Advanced Premium Security Edition,
+
+                       HPE OneView Advanced
+
+                       2.1 certified
+
+                       1U Rack, Easy Install rails without CMA
+
+                       3-year parts, 3-year labor, 3-year onsite support with next business day response.
+
+                                                                                                           Page 18
+QuickSpecs             HPE ProLiant DL325 Gen10 Server
+
+Pre-configured Models
+
+Entry Model            P27086-B21
+                       P27086-291
+SKU Number             HPE ProLiant DL325 Gen10 7232P 3.1GHz 8-core 1P 16GB-R P408i-a 8SFF 500W RPS
+                       Performance Server
+Model Name             7232P (8-Core, 3.1 GHz, 120W)
+                       One processor
+Processor              16 GB RDIMM DR 2933 MT/s (1x 16 GB)
+Number of Processors   HPE 1Gb Ethernet 4-Port 336FLR Adapter plus optional HPE FlexibleLOM or stand up card
+Memory                 P408i-a
+Network Controller     Notes:
+Storage Controller     - 8-Port modular Smart Array.
+                       - Smart Storage battery included.
+Hard Drive             None ship as standard
+Internal Storage       8 SFF Chassis
+Optical Drive Bay      Optional
+Optical Drive          Optional
+PCI-Express Slots      2-slots (x16, x8) as standard
+Power Supply           1x 500W HPE FlexSlot Power Supply
+Fans                   5-performance fans
+Management             Default: HPE iLO Standard with Intelligent Provisioning, HPE OneView Standard (requires
+                       download)
+Energy Star            Optional (require licenses): HPE iLO Advanced, HPE iLO Advanced Premium Security Edition,
+Form Factor            HPE OneView Advanced
+Warranty               2.1 certified
+                       1U Rack, Easy Install rails without CMA
+                       3-year parts, 3-year labor, 3-year onsite support with next business day response.
+
+                       Page 19
+QuickSpecs             HPE ProLiant DL325 Gen10 Server
+
+Pre-configured Models
+
+SMB Model              P27087-B21
+                       P27087-291
+SKU Number             HPE ProLiant DL325 Gen10 7282 2.8GHz 16-core 1P 16GB-R P408i-a 8SFF 500W RPS
+                       Performance Server
+Model Name             7282 (16 Core, 2.8GHz, 120W)
+                       One processor
+Processor              16 GB RDIMM DR 2933 MT/s (1x 16 GB)
+Number of Processors   HPE 1Gb Ethernet 4-Port 336FLR Adapter plus optional HPE FlexibleLOM or stand up card
+Memory                 P408i-a
+Network Controller     Notes:
+Storage Controller     - 8-Port modular Smart Array.
+                       - Smart Storage battery included.
+Hard Drive             None ship as standard
+Internal Storage       8 SFF Chassis
+Optical Drive Bay      Optional
+Optical Drive          Optional
+PCI-Express Slots      2-slots (x16, x8) as standard
+Power Supply           1x 500W HPE FlexSlot Power Supply
+Fans                   5-performance fans
+Management             Default: HPE iLO Standard with Intelligent Provisioning, HPE OneView Standard (requires
+                       download)
+Energy Star            Optional (require licenses): HPE iLO Advanced, HPE iLO Advanced Premium Security Edition,
+Form Factor            HPE OneView Advanced
+Warranty               2.1 certified
+                       1U Rack, Easy Install rails without CMA
+                       3-year parts, 3-year labor, 3-year onsite support with next business day response.
+
+                       Page 20
+QuickSpecs                                                                        HPE ProLiant DL325 Gen10 Server
+
+Configuration Information
+
+European Union (EU) eco-design regulations for server and storage products, known as Lot 9, go into effect on March 1st, 2020.
+Among other requirements, for servers this directive establishes power thresholds for idle state, as well as efficiency and
+performance in active state which vary among configurations. HPE ProLiant Gen10 servers are compliant with Lot9 requirements.
+For more information regarding HPE Lot 9 conformance, please visit:
+https://www.hpe.com/us/en/about/environment/msds-specs-more.html
+
+This section lists some of the steps required to configure a Factory Integrated Model. To ensure only valid configurations are
+ordered, Hewlett Packard Enterprise recommends the use of an HPE approved configurator. Contact your local sales
+representative for information on configurable product offerings and requirements.
+
+     · Factory Integrated Models must start with a CTO Server.
+     · FIO indicates that this option is only available as a factory installable option.
+     · All Factory Integrated Models will be populated with sufficient hard drive blanks based on the number of initial hard drives
+
+         ordered with the server.
+     · Some options may not be integrated at the factory. Contact your local sales representative for additional information.
+
+Step 1: Base Configuration (choose one of the following configurable models)
+
+CTO Server                 HPE ProLiant DL325             HPE ProLiant DL325      HPE ProLiant DL325 Gen10
+
+SKU Number                 Gen10 4 LFF CTO Server Gen10 8 SFF CTO Server NVMe SFF CTO Server
+TAA SKU
+Processor                  P04653-B21                     P04654-B21              P04662-B21
+DIMM Slots
+Storage Controller         P04652-B21                     P04848-B21              P05046-B21
+PCIe
+Drive Cage - included      Not included as standard       Not included as standard Not included as standard
+Network Controller
+                           16-DIMM slots                  16-DIMM slots           16-DIMM slots
+Fans
+Management                 Choice of HPE modular Smart Array and PCIe plug-in controller
+USB
+                           Two standard in primary riser
+
+                           4 LFF                          8 SFF                   8 SFF NVMe
+
+                           HPE 1Gb Ethernet 4-Port 331i Adapter (if equipped) and /or optional HPE FlexibleLOM or
+
+                           stand up card
+
+                           5-Standard                     5-Performance           7-Performance
+
+                           HPE iLO with Intelligent Provisioning (standard), iLO Advances and OneView (optional)
+
+                           Front: 1 USB 3.0 + iLO         Front: 1 USB 3.0 + iLO  Front: 1 USB 3.0 + iLO service
+
+                           service port                   service port            port
+
+                           Rear: 2 USB 3.0                Rear: 2 USB 3.0         Rear: 2 USB 3.0
+
+                           Internal: 1 USB 3.0            Internal: 1 USB 3.0     Internal: 1 USB 3.0
+
+Notes:
+- HPE offers multiple Trade Agreement Act (TAA) compliant configurations to meet the needs of US Federal Government
+
+    customers. These products are either manufactured or substantially transformed in a designated country. TAA compliance
+    is only provided when HPE options are included as part of factory integrated orders (CTO).
+- TAA chassis are only orderable in North America and Canada.
+- The HPE ProLiant DL325 Gen10 NVMe SFF CTO Server ships with the cable required for 8 NVMe drives installation.
+- All CTO servers are Energy Star 2.1 compliant.
+- CTO servers do not ship with Rail Kits ,they need to be ordered separately.
+- Embedded 4x 1GbE Adapter is not equipped on new boards for 7xx2 series processors.
+
+CTO Server                 8 SFF CTO Chassis              4 LFF CTO Chassis               NVMe SFF CTO Chassis
+
+Included Drive Cage        8 SFF SAS/SATA                 4 LFF + UMB                     8 NVMe Chassis
+
+Additional drive cages     -                              -                               -
+
+Universal Media Bay        1 Optional                     1 Included                      1 Optional
+
+ODD                        1 Optional with UMB            1 Optional                      1 Optional with UMB
+
+2 SFF SAS/SATA             1 Optional                     Not available                   1 Optional
+2 SFF NVMe                 1 Optional                     Not available                   1 Optional
+
+                                                                                                               Page 21
+QuickSpecs                 HPE ProLiant DL325 Gen10 Server
+
+Configuration Information
+
+Notes:                                                                                                   SKU
+- This aplies to CTO configurations, field upgrades may differ depending field configuration.  P16637-L21
+- Only one of the 2 SFF SAS/SATA or 2 SFF NVMe can be selected at any time.                    P22034-L21
+                                                                                               P21864-L21
+Step 2: Choose Required Options                                                                P25854-L21
+                                                                                               P16639-L21
+Please select one -L21 processor required below.                                               P16641-L21
+Notes:                                                                                         P21424-L21
+- All CTO Models ship with redundant fan configuration.                                        P16921-L21
+- DDR4 memory speed will depend on the quantity and type of DIMMs installed.                   P16644-L21
+- Processors with greater than 170W will ship with the High Performance heatsink.              P25853-L21
+                                                                                               P25852-L21
+Step 2a Choose Processors (only one of the following unless otherwise noted)                   P16922-L21
+                                                                                               P25851-L21
+Processor Option Kits
+AMD® EPYC® 7xx2 Generation Processor Family
+AMD EPYC 7702P (2.0GHz/64-core/200W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with High Performance Heatsink.
+AMD EPYC 7702 (2.0GHz/64-core/200W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with High Performance Heatsink.
+AMD EPYC 7552 (2.2GHz/48-core/165-200W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with High Performance Heatsink.
+AMD EPYC 7532 (2.4GHz/32-core/200W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with Standard Heatsink.
+AMD EPYC 7502P (2.5GHz/32-core/180-200W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with High Performance Heatsink.
+AMD EPYC 7402P (2.8GHz/24-core/180-200W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with High Performance Heatsink.
+AMD EPYC 7352 (2.3GHz/24-core/155W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with Standard Heatsink.
+AMD EPYC 7452 (2.35GHz/32-core/155W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with Standard Heatsink.
+AMD EPYC 7302P (3.0GHz/16-core/155-180W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with Standard Heatsink.
+AMD EPYC 7282 (2.8GHz/16-core/120W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with Standard Heatsink.
+AMD EPYC 7272 (2.9GHz/12-core/120W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with Standard Heatsink.
+AMD EPYC 7262 (3.2GHz/8-core/155-180W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with Standard Heatsink.
+AMD EPYC 7232P (3.1GHz/8-core/120W) FIO Processor Kit for HPE ProLiant DL325 Gen10
+Notes: Ships with Standard Heatsink.
+
+                                                                                               Page 22
+QuickSpecs                 HPE ProLiant DL325 Gen10 Server
+
+Configuration Information
+
+Step 2b: Choose Memory Options                                                                                 P19040-B21
+                                                                                                               P19042-B21
+Please select one or more memory from below.                                                                   P19041-B21
+For new Gen10 memory population rule whitepaper and optimal memory performance guidelines, please go to:       P19043-B21
+http://www.hpe.com/docs/amd-population-rules                                                                   P19045-B21
+Notes:                                                                                                         P19044-B21
+- Memory DIMM availability with a server platform is dependent upon completion of certification testing.       P19047-B21
+- The maximum memory speed is a function of the memory type, memory configuration, and processor model.
+                                                                                                               837074-B21
+Registered DIMMs (RDIMMs)
+                                                                                                               865408-B21
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit                              865414-B21
+                                                                                                               865438-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit                              865434-B21
+                                                                                                               830272-B21
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart                                       865428-B21
+
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart
+
+HPE 64GB (1x64GB) Dual Rank x4 DDR4-2933 CAS-21-21-21 Registered Smart Memory Kit
+
+Load Reduced DIMMs (LRDIMMs)
+
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2933 CAS-21-21-21 Load Reduced Smart Memory Kit
+
+HPE 128GB (1x128GB) Quad Rank x4 DDR4-2933 CAS-21-21-21 Load Reduced Smart Memory Kit
+
+Notes:
+- Mixing of x4 & x8 memory is not allowed
+- 2933 MT/s DIMMs are only supported with AMD® EPYC® 7xx2 Series Processor Family
+- 2933 MT/s memory SKUs offer a transfer rate of 2933 MT/s at 1 DIMM per channel and 2666 MT/s at 2
+
+    DIMMs per channel
+
+Step 2c: Choose Power Supplies
+
+Select one or two power supplies from below.
+Notes: Mixing of 2 different power supplies is NOT allowed.
+
+HPE ProLiant Gen10 Entry Level Server Power Supplies - Non-Redundant
+
+HPE 500W Low Halogen FIO Power Supply Kit
+
+Notes:
+- This is a Factory Installed Option (FIO) only.
+- Supports Gold-level efficiency (92%) with a standard C14 inlet connector. No support for HPE Power
+
+    Discovery Services.
+Select one or two power supplies from below.
+- Mixing of 2 different power supplies is NOT allowed.
+- HPE DL325 Gen10 Redundant Power Supply Enablement Kit (P04983-B21) is mandatory to use any of
+
+    the following power supplies.
+
+HPE 500W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+
+HPE 800W Flex Slot Titanium Hot Plug Low Halogen Power Supply Kit
+
+HPE 800W Flex Slot -48VDC Hot Plug Low Halogen Power Supply Kit
+
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit
+
+HPE 800W Flex Slot Universal Hot Plug Low Halogen Power Supply Kit
+
+Notes:
+- Prior to making a power supply selection it is highly recommended that the HPE Power Advisor is run to
+
+    determine the right size power supply for your server configuration. The HPE Power Advisor is located at:
+    http://www.hpe.com/info/hppoweradvisor.
+- All power supplies in a server should match. Mixing Power Supplies is not supported.
+
+                                                                                                               Page 23
+QuickSpecs                 HPE ProLiant DL325 Gen10 Server
+
+Configuration Information
+
+Step 3: Choose Additional Factory Integratable Options                                                   P05036-B21
+                                                                                                         P05030-B21
+One of the following from each list may be selected if desired at time of factory integration            P05039-B21
+                                                                                                         866444-B21
+HPE Unique Options                                                                                       881179-B21
+
+HPE DL325 Gen10 2SFF Smart Array SAS FIO Cable Kit                                                       872108-B21
+Notes: This option kit is required to connect the 2SFF FIO Enablement Kit (881179-B21) to E208i-a or     758959-B22
+P408i-a controller.
+HPE DL325 Gen10 8SFF Embedded SATA Controller FIO Cable Kit                                                   E5Y34A
+Notes:                                                                                                        P8B31A
+- This option kit is used with the 8SFF CTO to connect to the embedded SATA controller on mother board.
+- The embedded SATA controller works only in the AHCI mode and does not support SW RAID.
+HPE DL325 Gen10 2SFF Embedded SATA Controller FIO Cable Kit
+Notes: This option kit is used with the 2SFF SAS/SATA FIO Enablement Kit to connect to the embedded
+SATA controller on mother board.
+HPE 1U Gen10 4LFF Embedded SATA Controller FIO Cable Kit
+Notes:
+- This option kit is used with the 4LFF CTO to connect to the embedded SATA controller on mother board.
+- The embedded SATA controller works only in the AHCI mode and does not support SW RAID
+HPE 1U Gen10 2SFF SAS/SATA FIO Enablement Kit without Cables
+Notes:
+- This option can be selected only on 8SFF CTO or NVMe SFF CTO.
+- This is an FIO option only.
+- This option kit will enable 2SFF SAS/SATA drives.
+
+Security
+
+HPE Gen10 TPM 1.2 FIO Setting
+Notes: HPE Trusted Platform Module 2.0 Gen10 Option (864279-B21), if it needs to be operated in TPM 1.2
+Mode.
+
+BIOS Mode
+
+HPE Legacy FIO Mode Setting
+Notes: UEFI is the default, this FIO part can be used for CTO to enable Legacy mode.
+
+HPE Converged Infrastructure Management Software
+
+HPE OneView including 3yr 24x7 Support Physical 1-server LTU
+HPE OneView w/o iLO including 3yr 24x7 Support 1-server FIO LTU
+
+Step 4: Choose additional options for Factory Integration from Core and Additional Options sections
+below
+
+                                                                                                         Page 24
+QuickSpecs                                                                           HPE ProLiant DL325 Gen10 Server
+
+Core Options
+
+Some options may not be integrated at the factory. To ensure only valid configurations are ordered, Hewlett Packard Enterprise
+recommends the use of an HPE approved configurator. Contact your local sales representative for additional information.
+
+HPE Unique Options
+
+HPE DL325 Gen10 PCIe Low Profile Riser Kit                                                                P04849-B21
+
+Notes: This riser cannot be used when Modular Smart Array is chosen.
+
+HPE DL325 Gen10 2SFF NVMe Enablement Kit                                                                  P04979-B21
+
+Notes: This option provides support for up to 2 NVMe drives, and can only be populated in SFF or NVMe
+model only.
+
+HPE DL325 Gen10 2SFF SAS/SATA Enablement Kit                                                              P05050-B21
+
+Notes:
+- This option can be selected only on 8SFF CTO or NVMe SFF CTO.
+- This is an Field Upgrade option only.
+- This option kit will enable 2SFF SAS/SATA drives.
+- This option kit contains the necessary cables to connect to controllers
+
+HPE DL325 Gen10 Serial Port Enablement Kit                                                                P05045-B21
+
+Notes: This kit would take up the position of Slot 3 and thus cannot be selected in conjunction with Low
+Profile Riser Kit.
+
+HPE DL325 Gen10 GPU Enablement Kit                                                                        P10779-B21
+
+Notes:
+- This option kit requires addition of standard fans if 4LFF model is chosen
+- This option kit requires addition of performance fans if 8LFF model is chosen
+
+HPE Optical Drives                                                                                        726536-B21
+                                                                                                          726537-B21
+HPE 9.5mm SATA DVD-ROM Optical Drive                                                                      P05968-B21
+HPE 9.5mm SATA DVD-RW Optical Drive
+HPE DL325 Gen10 4LFF Optical Disk Drive Cable Kit                                                         701498-B21
+Notes: This cable kit must be selected if Optical Drive is chosen on the 4LFF CTO Model
+HPE Mobile USB DVD-RW Optical Drive                                                                       873961-B21
+Notes: This is only supported on USB 3.0 ports.
+HPE 1U Gen10 8SFF Optical Disk Drive Enablement Kit
+Notes: This enablement kit must be selected if Optical Drive is chosen on the 8SFF or NVMe CTO Model
+
+HPE Drives                                                                                                870753-B21
+                                                                                                          872475-B21
+Enterprise - 12G SAS - SFF Drives                                                                         870757-B21
+                                                                                                          872477-B21
+HPE 300GB SAS 12G Mission Critical 15K SFF SC 3-year Warranty Multi Vendor HDD                            870759-B21
+HPE 300GB SAS 12G Mission Critical 10K SFF SC 3-year Warranty Multi Vendor HDD                            872479-B21
+HPE 600GB SAS 12G Mission Critical 15K SFF SC 3-year Warranty Multi Vendor HDD                            872481-B21
+HPE 600GB SAS 12G Mission Critical 10K SFF SC 3-year Warranty Multi Vendor HDD                            881457-B21
+HPE 900GB SAS 12G Mission Critical 15K SFF SC 3-year Warranty Multi Vendor HDD
+HPE 1.2TB SAS 12G Mission Critical 10K SFF SC 3-year Warranty Multi Vendor HDD                            832514-B21
+HPE 1.8TB SAS 12G Mission Critical 10K SFF SC 3-year Warranty 512e Multi Vendor HDD                       765466-B21
+HPE 2.4TB SAS 12G Mission Critical 10K SFF SC 3-year Warranty 512e Multi Vendor HDD
+                                                                                                          833926-B21
+Midline - 12G SAS - SFF Drives                                                                            833928-B21
+
+HPE 1TB SAS 12G Business Critical 7.2K SFF SC 1-year Warranty HDD
+HPE 2TB SAS 12G Business Critical 7.2K SFF SC 1-year Warranty 512e HDD
+
+Midline - 12G SAS - LFF Drives
+
+HPE 2TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty HDD
+HPE 4TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty HDD
+
+                                                                                                          Page 25
+QuickSpecs    HPE ProLiant DL325 Gen10 Server
+
+Core Options
+
+HPE 6TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty 512e HDD                                  861746-B21
+HPE 8TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty 512e HDD                                  834031-B21
+
+Midline - 12G SAS - LFF Drives                                                                          P09149-B21
+                                                                                                        881781-B21
+HPE 10TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e HDD                          P09155-B21
+HPE 12TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e HDD                          P23608-B21
+HPE 14TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e Multi Vendor HDD             P37669-B21
+HPE 16TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE Multi Vendor HDD
+HPE 18TB SAS 12G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE Multi Vendor HDD         655710-B21
+                                                                                                        765455-B21
+Midline - 6G SATA - SFF Drives
+                                                                                                        861686-B21
+HPE 1TB SATA 6G Business Critical 7.2K SFF SC 1-year Warranty HDD                                       861681-B21
+HPE 2TB SATA 6G Business Critical 7.2K SFF SC 1-year Warranty 512e HDD                                  861683-B21
+                                                                                                        861742-B21
+Midline - 6G SATA - LFF Drives                                                                          834028-B21
+                                                                                                        P09161-B21
+HPE 1TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty HDD                                       881787-B21
+HPE 2TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty HDD                                       P09165-B21
+HPE 4TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty HDD                                       P23449-B21
+HPE 6TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty 512e HDD                                  P37678-B21
+HPE 8TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty 512e HDD
+HPE 10TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e HDD                                        .
+HPE 12TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e HDD
+HPE 14TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e Multi Vendor HDD             P26285-B21
+HPE 16TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE Multi Vendor HDD         P19903-B21
+HPE 18TB SATA 6G Business Critical 7.2K LFF LP 1-year Warranty Helium 512e ISE Multi Vendor HDD         P26302-B21
+                                                                                                        P19905-B21
+SSD Selection                                                                                           P04521-B21
+                                                                                                        P26306-B21
+To streamline the configuration process for HPE ProLiant Gen10 servers and to provide the best product  P19907-B21
+availability,                                                                                           P26310-B21
+HPE recommends SSDs from the list located here: http://www.hpe.com/products/recommend                   P19909-B21
+                                                                                                        P26314-B21
+Read Intensive - 12G SAS - SFF - Solid State Drives                                                     P19911-B21
+
+HPE 960GB SAS 12G Read Intensive SFF SC PM6 SSD                                                         P26290-B21
+HPE 960GB SAS 12G Read Intensive SFF SC PM1643a SSD                                                     P19913-B21
+HPE 1.92TB SAS 12G Read Intensive SFF SC PM6 SSD                                                        P26354-B21
+HPE 1.92TB SAS 12G Read Intensive SFF SC PM1643a SSD                                                    P04553-B21
+HPE 3.84TB SAS 12G Read Intensive SFF SC PM5 SSD                                                        P19915-B21
+HPE 3.84TB SAS 12G Read Intensive SFF SC PM6 SSD                                                        P26358-B21
+HPE 3.84TB SAS 12G Read Intensive SFF SC PM1643a SSD                                                    P19917-B21
+HPE 7.68TB SAS 12G Read Intensive SFF SC PM6 SSD                                                        P26362-B21
+HPE 7.68TB SAS 12G Read Intensive SFF SC PM1643a SSD                                                    P19919-B21
+HPE 15.3TB SAS 12G Read Intensive SFF SC PM6 SSD
+HPE 15.36TB SAS 12G Read Intensive SFF SC PM1643a SSD                                                          Page 26
+
+Mixed Use - 12G SAS - SFF - Solid State Drives
+
+HPE 800GB SAS 12G Mixed Use SFF SC PM6 SSD
+HPE 800GB SAS 12G Mixed Use SFF SC PM1645a SSD
+HPE 1.6TB SAS 12G Mixed Use SFF SC PM6 SSD
+HPE 1.6TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD
+HPE 1.6TB SAS 12G Mixed Use SFF SC PM1645a SSD
+HPE 3.2TB SAS 12G Mixed Use SFF SC PM6 SSD
+HPE 3.2TB SAS 12G Mixed Use SFF SC PM1645a SSD
+HPE 6.4TB SAS 12G Mixed Use SFF SC PM6 SSD
+HPE 6.4TB SAS 12G Mixed Use SFF SC PM1645a SSD
+QuickSpecs                                                 HPE ProLiant DL325 Gen10 Server
+
+Core Options                                                                          P26295-B21
+                                                                                      P21125-B21
+Write Intensive - 12G SAS - SFF - Solid State Drives                                  P26372-B21
+                                                                                      P21127-B21
+HPE 400GB SAS 12G Write Intensive SFF SC PM6 SSD                                      P26376-B21
+HPE 400GB SAS 12G Write Intensive SFF SC SS540 SSD
+HPE 800GB SAS 12G Write Intensive SFF SC PM6 SSD                                      P21139-B21
+HPE 800GB SAS 12G Write Intensive SFF SC SS540 SSD                                    P21141-B21
+HPE 1.6TB SAS 12G Write Intensive SFF SC PM6 SSD                                      P21145-B21
+
+Read Intensive - 12G Value SAS - SFF - Solid State Drives                             P21131-B21
+                                                                                      P21133-B21
+HPE 960GB SAS 12G Read Intensive SFF SC SS540 SSD                                     P21135-B21
+HPE 1.92TB SAS 12G Read Intensive SFF SC SS540 SSD                                    P21137-B21
+HPE 7.68TB SAS 12G Read Intensive SFF SC SS540 SSD
+                                                                                      P04556-B21
+Mixed Use - 12G Value SAS - SFF - Solid State Drives                                  P05924-B21
+                                                                                      P18420-B21
+HPE 800GB SAS 12G Mixed Use SFF SC SS540 SSD                                          P04560-B21
+HPE 1.6TB SAS 12G Mixed Use SFF SC SS540 SSD                                          P05928-B21
+HPE 3.2TB SAS 12G Mixed Use SFF SC SS540 SSD                                          P18422-B21
+HPE 6.4TB SAS 12G Mixed Use SFF SC SS540 SSD                                          P04564-B21
+                                                                                      P05932-B21
+Read Intensive - 6G SATA - SFF - Solid State Drives                                   P18424-B21
+                                                                                      P04566-B21
+HPE 240GB SATA 6G Read Intensive SFF SC PM883 SSD                                     P05938-B21
+HPE 240GB SATA 6G Read Intensive SFF SC S4510 SSD                                     P18426-B21
+HPE 240GB SATA 6G Read Intensive SFF SC Multi Vendor SSD                              P04570-B21
+HPE 480GB SATA 6G Read Intensive SFF SC PM883 SSD                                     P05946-B21
+HPE 480GB SATA 6G Read Intensive SFF SC S4510 SSD                                     P18428-B21
+HPE 480GB SATA 6G Read Intensive SFF SC Multi Vendor SSD                              P18430-B21
+HPE 960GB SATA 6G Read Intensive SFF SC PM883 SSD                                     P19937-B21
+HPE 960GB SATA 6G Read Intensive SFF SC S4510 SSD                                     P19945-B21
+HPE 960GB SATA 6G Read Intensive SFF SC Multi Vendor SSD
+HPE 1.92TB SATA 6G Read Intensive SFF SC PM883 SSD                                    P09712-B21
+HPE 1.92TB SATA 6G Read Intensive SFF SC S4510 SSD                                    P05976-B21
+HPE 1.92TB SATA 6G Read Intensive SFF SC Multi Vendor SSD                             P18432-B21
+HPE 3.84TB SATA 6G Read Intensive SFF SC PM883 SSD                                    P09716-B21
+HPE 3.84TB SATA 6G Read Intensive SFF SC S4510 SSD                                    P05980-B21
+HPE 3.84TB SATA 6G Read Intensive SFF SC Multi Vendor SSD                             P18434-B21
+HPE 7.68TB SATA 6G Read Intensive SFF SC Multi Vendor SSD                             P09722-B21
+HPE 480GB SATA 6G Read Intensive SFF SC 5300P SSD                                     P18436-B21
+HPE 7.68TB SATA 6G Read Intensive SFF SC 5300P SSD                                    P18438-B21
+                                                                                      P21517-B21
+Mixed Use - 6G SATA - SFF - Solid State Drives                                        P05986-B21
+                                                                                      P05994-B21
+HPE 480GB SATA 6G Mixed Use SFF SC SM883 SSD                                          P19947-B21
+HPE 480GB SATA 6G Mixed Use SFF SC S4610 SSD
+HPE 480GB SATA 6G Mixed Use SFF SC Multi Vendor SSD                                                Page 27
+HPE 960GB SATA 6G Mixed Use SFF SC SM883 SSD
+HPE 960GB SATA 6G Mixed Use SFF SC S4610 SSD
+HPE 960GB SATA 6G Mixed Use SFF SC Multi Vendor SSD
+HPE 1.92TB SATA 6G Mixed Use SFF SC SM883 SSD
+HPE 1.92TB SATA 6G Mixed Use SFF SC Multi Vendor SSD
+HPE 3.84TB SATA 6G Mixed Use SFF SC Multi Vendor SSD
+HPE 3.84TB SATA 6G Mixed Use SFF SC SM883 SSD
+HPE 1.92TB SATA 6G Mixed Use SFF SC S4610 SSD
+HPE 3.84TB SATA 6G Mixed Use SFF SC S4610 SSD
+HPE 480GB SATA 6G Mixed Use SFF SC 5300M SSD
+QuickSpecs    HPE ProLiant DL325 Gen10 Server
+
+Core Options
+
+HPE 1.92TB SATA 6G Mixed Use SFF SC 5300M SSD                                            P19951-B21
+HPE 3.84TB SATA 6G Mixed Use SFF SC 5300M SSD                                            P19953-B21
+
+Read Intensive - 6G SATA - LFF - Solid State Drives                                      P09691-B21
+                                                                                         P19974-B21
+HPE 960GB SATA 6G Read Intensive LFF LPC PM883 SSD
+HPE 480GB SATA 6G Read Intensive LFF LPC 5300P SSD                                       P19980-B21
+
+Mixed Use - 6G SATA - LFF - Solid State Drives                                           P23487-B21
+                                                                                         P23489-B21
+HPE 960GB SATA 6G Mixed Use LFF LPC 5300M SSD                                            P23493-B21
+
+VRO - 6G SATA - SFF - Solid State Drives                                                 P13678-B21
+                                                                                         P19811-B21
+HPE 1.92TB SATA 6G Very Read Optimized SFF SC 5210 SSD                                   P19813-B21
+HPE 3.84TB SATA 6G Very Read Optimized SFF SC 5210 SSD                                   P13695-B21
+HPE 7.68TB SATA 6G Very Read Optimized SFF SC 5210 SSD                                   P19815-B21
+                                                                                         P19817-B21
+Read Intensive - NVMe - SFF - Solid State Drives                                         P13697-B21
+                                                                                         P19819-B21
+HPE 1.92TB NVMe Gen3 Mainstream Performance Read Intensive SFF SCN U.2 PE6011 SSD        P19821-B21
+HPE 1.92TB NVMe Gen4 Mainstream Performance Read Intensive SFF SC U.3 PE8010 SSD         P20139-B21
+HPE 1.92TB NVMe Gen4 Mainstream Performance Read Intensive SFF SCN U.3 PE8010 SSD        P20141-B21
+HPE 2TB NVMe Gen3 High Performance Read Intensive SFF SCN U.2 P4510 SSD                  P20143-B21
+HPE 3.84TB NVMe Gen4 Mainstream Performance Read Intensive SFF SC U.3 PE8010 SSD
+HPE 3.84TB NVMe Gen4 Mainstream Performance Read Intensive SFF SCN U.3 PE8010 SSD        P20094-B21
+HPE 4TB NVMe Gen3 High Performance Read Intensive SFF SCN U.2 P4510 SSD                  P13699-B21
+HPE 7.68TB NVMe Gen4 Mainstream Performance Read Intensive SFF SC U.3 PE8010 SSD         P13670-B21
+HPE 7.68TB NVMe Gen4 Mainstream Performance Read Intensive SFF SCN U.3 PE8010 SSD        P20096-B21
+HPE 1.92TB NVMe Gen4 Mainstream Performance Read Intensive SFF SCN U.3 CD6 SSD           P19827-B21
+HPE 3.84TB NVMe Gen4 Mainstream Performance Read Intensive SFF SCN U.3 CD6 SSD           P19829-B21
+HPE 7.68TB NVMe Gen4 Mainstream Performance Read Intensive SFF SCN U.3 CD6 SSD           P13701-B21
+                                                                                         P20098-B21
+Mixed Use - NVMe - SFF - Solid State Drives                                              P19831-B21
+                                                                                         P19833-B21
+HPE 800GB NVMe Gen4 High Performance Mixed Use SFF SCN U.3 CM6 SSD                       P20100-B21
+HPE 1.6TB NVMe Gen3 High Performance Mixed Use SFF SCN U.2 P4610 SSD                     P19837-B21
+HPE 1.6TB NVMe Gen3 Mainstream Performance Mixed Use SFF SCN U.2 PE6031 SSD              P20203-B21
+HPE 1.6TB NVMe Gen4 High Performance Mixed Use SFF SCN U.3 CM6 SSD                       P20205-B21
+HPE 1.6TB NVMe Gen4 Mainstream Performance Mixed Use SFF SC U.3 PE8030 SSD               P20207-B21
+HPE 1.6TB NVMe Gen4 Mainstream Performance Mixed Use SFF SCN U.3 PE8030 SSD
+HPE 3.2TB NVMe Gen3 High Performance Mixed Use SFF SCN U.2 P4610 SSD                     878014-B21
+HPE 3.2TB NVMe Gen4 High Performance Mixed Use SFF SCN U.3 CM6 SSD                       P06952-B21
+HPE 3.2TB NVMe Gen4 Mainstream Performance Mixed Use SFF SCN U.3 PE8030 SSD
+HPE 3.2TB NVMe Gen4 Mainstream Performance Mixed Use SFF SC U.3 PE8030 SSD               807878-B21
+HPE 6.4TB NVMe Gen4 High Performance Mixed Use SFF SCN U.3 CM6 SSD                       666987-B21
+HPE 6.4TB NVMe Gen4 Mainstream Performance Mixed Use SFF SCN U.3 PE8030 SSD
+HPE 1.6TB NVMe Gen4 Mainstream Performance Mixed Use SFF SCN U.3 CD6 SSD
+HPE 3.2TB NVMe Gen4 Mainstream Performance Mixed Use SFF SCN U.3 CD6 SSD
+HPE 6.4TB NVMe Gen4 Mainstream Performance Mixed Use SFF SCN U.3 CD6 SSD
+
+Write Intensive - NVMe - SFF - Solid State Drives
+
+HPE 375GB NVMe Gen3 High Performance Low Latency Write Intensive SFF SCN U.2 P4800X SSD
+HPE 750GB NVMe Gen3 High Performance Low Latency Write Intensive SFF SCN U.2 P4800X SSD
+
+Hard Drive Blank Kits
+
+HPE Gen9 LFF HDD Spade Blank Kit
+HPE Small Form Factor Hard Drive Blank Kit
+
+                                                                                         Page 28
+QuickSpecs                                                                                HPE ProLiant DL325 Gen10 Server
+
+Core Options
+
+Internal Dual M.2 Kit                                                                                           878783-B21
+
+HPE Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit                                                           P19888-B21
+Notes: The Universal SATA M.2 Kit above will require a PCIe slot and support up to two of the same M.2 cards    P19890-B21
+below.                                                                                                          P19892-B21
+
+Read Intensive - M.2 - Solid State Drives
+
+HPE 240GB SATA 6G Read Intensive M.2 2280 5300B SSD
+HPE 480GB SATA 6G Read Intensive M.2 2280 5300P SSD
+HPE 960GB SATA 6G Read Intensive M.2 2280 5300P SSD
+
+HPE Smart IO
+
+Requirements:
+
+· One 3yr/4yr/5yr Silver or 3yr/4yr/5yr Platinum license must be purchased for every DSC-25 card in a server.
+
+· 1yr Silver, 1yr Platinum, and 1yr Policy and Services Manager (PSM) licenses are reserved for renewals only.
+
+· One Policy and Services Manager (PSM) license is required to manage up to 3,000 DSC-25 cards.
+
+Pensando iLO Management Module
+
+Pensando Distributed Services Platform for HPE iLO Sideband Management Adaptive LOM Module                      P26969-B21
+
+Pensando Distributed Services Card (DSC)
+
+Pensando Distributed Services Platform DSC-25 Enterprise 10/25Gb 2-port SFP28 Card                              P26966-B21
+
+Notes: Each card instance requires one RTU license of Silver or Platinum software. In case of more than one
+
+adapter, RTU licenses doesn't need to be of the same part number.
+
+Pensando DSP Silver Software Licenses
+
+Pensando Distributed Services Platform Enterprise 1-year Renewal Subscription 24x7 Support E-RTU                R6A06AAE
+
+Pensando Distributed Services Platform Enterprise 3-year Subscription 24x7 Support E-RTU                        R6A07AAE
+
+Pensando Distributed Services Platform Enterprise 4-year Subscription 24x7 Support E-RTU                        R6F68AAE
+
+Pensando Distributed Services Platform Enterprise 5-year Subscription 24x7 Support E-RTU                        R6A08AAE
+
+Pensando DSP Platinum Software Licenses
+
+Pensando Distributed Services Platform Enterprise Pro 1-year Renewal Subscription 24x7 Support E-RTU            R6A09AAE
+
+Pensando Distributed Services Platform Enterprise Pro 3-year Subscription 24x7 Support E-RTU                    R6A10AAE
+
+Pensando Distributed Services Platform Enterprise Pro 4-year Subscription 24x7 Support E-RTU                    R6F69AAE
+
+Pensando Distributed Services Platform Enterprise Pro 5-year Subscription 24x7 Support E-RTU                    R6A11AAE
+
+HPE Networking                                                                                                  647594-B21
+                                                                                                                811546-B21
+1 Gigabit Ethernet adapters                                                                                     615732-B21
+                                                                                                                652497-B21
+HPE Ethernet 1Gb 4-port BASE-T BCM5719 Adapter
+HPE Ethernet 1Gb 4-port BASE-T I350-T4V2 Adapter                                                                656596-B21
+HPE Ethernet 1Gb 2-port BASE-T BCM5720 Adapter                                                                  652503-B21
+HPE Ethernet 1Gb 2-port BASE-T I350-T2V2 Adapter                                                                813661-B21
+                                                                                                                867707-B21
+10 Gigabit Ethernet adapters                                                                                    817738-B21
+
+HPE Ethernet 10Gb 2-port BASE-T 57810S Adapter                                                                  727055-B21
+HPE Ethernet 10Gb 2-port SFP+ 57810S Adapter                                                                    P08446-B21
+HPE Ethernet 10Gb 2-port BASE-T BCM57416 Adapter
+HPE Ethernet 10Gb 2-port BASE-T QL41401-A2G Adapter
+HPE Ethernet 10Gb 2-port BASE-T X550-AT2 Adapter
+
+10 Gigabit Ethernet adapters
+
+HPE Ethernet 10Gb 2-port SFP+ X710-DA2 Adapter
+HPE Ethernet 10Gb 2-port SFP+ QL41401-A2G Adapter
+
+                                                                                                                Page 29
+QuickSpecs                                                                     HPE ProLiant DL325 Gen10 Server
+
+Core Options
+
+25 Gigabit Ethernet adapters
+
+HPE Ethernet 10/25Gb 2-port SFP28 BCM57414 Adapter                                                      817718-B21
+
+HPE Ethernet 10/25Gb 2-port SFP28 MCX4121A-ACUT Adapter                                                 817753-B21
+
+HPE Ethernet 10/25Gb 2-port SFP28 QL41401-A2G Adapter                                                   867328-B21
+
+100 Gigabit Ethernet adapters
+
+HPE Ethernet 100Gb 1-port QSFP28 MCX515A-CCAT Adapter                                                   874253-B21
+
+FlexibleLOM adapters
+
+HPE Ethernet 1Gb 4-port FLR-T BCM5719 Adapter                                                           629135-B22
+
+HPE Ethernet 1Gb 4-port FLR-T I350-T4V2 Adapter                                                         665240-B21
+
+HPE FlexFabric 10Gb 2-port FLR-T 57810S Adapter                                                         700759-B21
+
+HPE FlexFabric 10Gb 2-port FLR-SFP+ 57810S Adapter                                                      700751-B21
+
+HPE Ethernet 10Gb 2-port FLR-T BCM57416 Adapter                                                         817721-B21
+
+HPE FlexFabric 10Gb 4-port FLR-T 57840S Adapter                                                         764302-B21
+
+FlexibleLOM adapters
+
+HPE Ethernet 10/25Gb 2-port FLR-SFP28 BCM57414 Adapter                                                  817709-B21
+
+HPE Ethernet 10/25Gb 2-port FLR-SFP28 MCX4121A-ACFT Adapter                                             817749-B21
+
+Notes:                                                                                                                     .
+
+- The DL325 Gen10 chassis ships with 4x 1 Gb embedded. (if equipped). It is not equipped on new boards
+
+for 7xx2 series processors.
+
+- Only one FlexibleLOM can be added to the server. These options are upgradeable and can be changed
+
+from the original configuration after the server is shipped.
+
+- Direct Attach Cable (DAC) for copper environments or fiber transceivers and cables for fiber-optic
+
+environments must be purchased separately. Please see the related NIC QuickSpecs for Technical
+
+Specifications and additional information:
+
+http://www.hpe.com/us/en/product-catalog/servers/server-adapters.hits-12.html
+
+HPE Ethernet 10Gb 2-port FLR-T X550-AT2 Adapter                                                         817745-B21
+
+HPE Ethernet 10Gb 2-port FLR-SFP+ X710-DA2 Adapter                                                      727054-B21
+
+HPE Ethernet 10/25Gb 2-port FLR-SFP28 QL41401-A2G Converged Network Adapter                             867334-B21
+
+Notes:
+
+- The DL325 Gen10 chassis ships with 4x 1 Gb embedded. (if equipped). It is not equipped on new boards for 7xx2 series
+
+processors.
+
+- Only one FlexibleLOM can be added to the server. These options are upgradeable and can be changed from the original
+
+configuration after the server is shipped.
+
+- Direct Attach Cable (DAC) for copper environments or fiber transceivers and cables for fiber-optic environments must be
+
+purchased separately. Please see the related NIC QuickSpecs for Technical Specifications and additional information:
+
+- 622FLR-SFP28, CN1300R & CN1200R adapters with FCoE used in conjunction with all Red Hat 7.x version OS's are not
+
+supported at this time http://www.hpe.com/us/en/product-catalog/servers/server-adapters.hits-12.html.
+
+HPE InfiniBand                                                                                          879482-B21
+                                                                                                        872725-B21
+HPE InfiniBand FDR/Ethernet 40/50Gb 2-port 547FLR-QSFP Adapter                                          872726-B21
+HPE InfiniBand EDR 100Gb 1-port 841QSFP28 Adapter                                                       825111-B21
+HPE InfiniBand EDR/Ethernet 100Gb 2-port 841QSFP28 Adapter                                              P06250-B21
+HPE InfiniBand EDR/Ethernet 100Gb 2-port 840QSFP28 Adapter                                              P06251-B21
+HPE InfiniBand HDR100/Ethernet 100Gb 1-port QSFP56 PCIe3 x16 MCX653105A-ECAT Adapter
+HPE InfiniBand HDR100/Ethernet 100Gb 2-port QSFP56 PCIe3 x16 MCX653106A-ECAT Adapter
+
+                                                                                                        Page 30
+QuickSpecs                                                                              HPE ProLiant DL325 Gen10 Server
+
+Core Options
+
+Infiniband Information
+
+PN            Card                      Qty             Processor      DL325Gen10 Configuration
+P06250-B21                              Supported       Supported
+              HPE InfiniBand            2 (Slot1&3)     All            Passive   Slot 1 Slot 3  Active           Slot 1         Slot 3
+P06251-B21    HDR100/Ethernet 100Gb                                    Cable     35C 35C        Cable            35C            30C
+              1-port 940QSFP56 Adapter  2 (Slot1&3)     All
+              HPE InfiniBand                                           Passive   Slot 1 Slot 3  Active           Slot 1         Slot 3
+              HDR100/Ethernet 100Gb                                    Cable     35C 35C        Cable            35C            25C
+              2-port 940QSFP56 Adapter
+
+HPE Power Supplies
+
+HPE Flexible Slot (Flex Slot) Power Supplies share a common electrical and physical design that allows for hot plug, tool-less
+
+installation into HPE ProLiant Gen10 Performance Servers. Flex Slot power supplies are certified for high-efficiency operation and
+
+offer multiple power output options, allowing users to "right-size" a power supply for specific server configurations. This flexibility
+
+helps to reduce power waste, lower overall energy costs, and avoid "trapped" power capacity in the data center.
+
+Notes:
+
+- Prior to making a power supply selection it is highly recommended that the HPE Power Advisor is run to determine the
+
+right size power supply for your server configuration. The HPE Power Advisor is located at:
+
+http://www.hpe.com/info/hppoweradvisor.
+
+- All power supplies in a server should match. Mixing Power Supplies is not supported.
+
+- Option kits contain the specified power supply and a PDU IEC cable.
+
+- 1600W power supplies only support high line voltage.
+
+- HPE ProLiant servers ship with an IEC-IEC power cord used for rack mounting with Power Distribution Units (PDUs). Visit
+
+HPE power cords for a full list of optional HPE power cords.
+
+HPE 500W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit                                                865408-B21
+
+Notes:
+
+- Flex Slot Platinum power supplies support power efficiency of up to 94% and include a standard C-14
+
+power inlet connector.
+
+- HPE DL325 Gen10 RPS Enablement Kit (P04983-B21) is mandatory to use this power supply.
+
+HPE 800W Flex Slot Titanium Hot Plug Low Halogen Power Supply Kit                                                865438-B21
+
+Notes:
+
+- Flex Slot Titanium power supplies support power efficiency of up to 96% and include a standard C-14
+
+power inlet connector.
+
+- HPE DL325 Gen10 RPS Enablement Kit (P04983-B21) is mandatory to use this power supply.
+
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit                                                865414-B21
+
+Notes:
+
+- Flex Slot Platinum power supplies support power efficiency of up to 94% and include a standard C-14
+
+power inlet connector.
+
+- HPE DL325 Gen10 RPS Enablement Kit (P04983-B21) is mandatory to use this power supply.
+
+HPE 800W Flex Slot -48VDC Hot Plug Low Halogen Power Supply Kit                                                  865434-B21
+
+Notes:
+
+- Flex Slot -48VDC power supplies support power efficiency of up to 94%.
+
+- HPE DL325 Gen10 RPS Enablement Kit (P04983-B21) is mandatory to use this power supply.
+
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit                                               830272-B21
+
+Notes:
+
+- Flex Slot Platinum Plus power supplies support power efficiency of up to 94% and include a C-14 power
+
+inlet connector that can support HPE Power Discovery Services (blue connector).
+
+- HPE DL325 Gen10 RPS Enablement Kit (P04983-B21) is mandatory to use this power supply.
+
+                                                                                                                         Page 31
+QuickSpecs                                                      HPE ProLiant DL325 Gen10 Server
+
+Core Options
+
+HPE DL325 Gen10 Redundant Power Supply Enablement Kit                                             P04983-B21
+Notes: This enablement kit is required to use the Flex Slot power supplies                        865428-B21
+HPE 800W Flex Slot Universal Hot Plug Low Halogen Power Supply Kit
+Notes:
+- Flex Slot universal power supplies support power efficiency of up to 94% and support both
+
+    277VAC/380VDC power inputs.
+- HPE DL325 Gen10 RPS Enablement Kit (P04983-B21) is mandatory to use this power supply.
+
+GPU Information
+
+Part    Card                 Qty        Processor  HPE ProLiant DL325 Gen10 Server Configuration
+                             Supported  Supported
+Number                                             4LFF 8SFF 8+2 SFF 8SFFSAS/SATA 8SFF             SFF
+                             1 (Slot1)  All                                                        NVMe
+                                                   SAS/SATA +2NVMe                           NVMe  25C
+
+R0W29C HPE NVIDIA Tesla                            30C 30C 30C  25C                          30C
+             T4 16GB Module
+
+HPE Computation and Graphics Accelerators                                                          R0W29C
+
+NVIDIA T4 16GB Computational Accelerator for HPE
+Notes: HPE DL325 Gen10 GPU Enablement Kit (P10779-B21) is mandatory to use this accelerator
+
+                                                                                                   Page 32
+QuickSpecs                                                                            HPE ProLiant DL325 Gen10 Server
+
+Additional Options
+
+Some options may not be integrated at the factory. To ensure only valid configurations are ordered, Hewlett Packard Enterprise
+recommends the use of an HPE approved configurator. Contact your local sales representative for additional information.
+
+Embedded Management
+
+HPE iLO Advanced                                                                                                 E6U59ABE
+                                                                                                               512485-B21
+HPE iLO Advanced Electronic License with 1yr Support on iLO Licensed Features                                  512486-B21
+HPE iLO Advanced 1-server License with 1yr Support on iLO Licensed Features                                    512487-B21
+HPE iLO Advanced Flexible Quantity License with 1yr Support on iLO Licensed Features
+HPE iLO Advanced AKA Tracking License with 1yr Support on iLO Licensed Features                                  E6U64ABE
+HPE iLO Advanced Electronic License with 3yr Support on iLO Licensed Features                                       BD505A
+HPE iLO Advanced 1-server License with 3yr Support on iLO Licensed Features                                         BD506A
+HPE iLO Advanced Flexible Quantity License with 3yr Support on iLO Licensed Features                                BD507A
+HPE iLO Advanced AKA Tracking License with 3yr Support on iLO Licensed Features
+HPE iLO Common Password FIO Setting                                                                            P08040-B21
+
+HPE Converged Infrastructure Management Software                                                                  E5Y34A
+                                                                                                               E5Y35AAE
+HPE OneView including 3yr 24x7 Support Physical 1-server LTU
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU                                                    P8B24A
+HPE OneView w/o iLO including 3yr 24x7 Support 1-server LTU                                                       P8B25A
+HPE OneView w/o iLO including 3yr 24x7 Support Track 1-server LTU                                              P8B26AAE
+HPE OneView w/o iLO including 3yr 24x7 Support Flexible Quantity E-LTU
+Notes: Licenses ship without media. The HPE OneView Media Kit can be ordered separately, or can be
+downloaded.
+
+HPE PCIe Workload Accelerator Options                                                                          878038-B21
+                                                                                                               P26934-B21
+HPE 750GB NVMe Gen3 x4 High Performance Low Latency Write Intensive AIC HHHL P4800X SSD                        P26936-B21
+HPE 1.6TB NVMe Gen4 x8 High Performance Mixed Use AIC HHHL PM1735 SSD
+HPE 3.2TB NVMe Gen4 x8 High Performance Mixed Use AIC HHHL PM1735 SSD
+
+HPE Security                                                                                                   867998-B21
+                                                                                                               875519-B21
+HPE 1U Gen10 Bezel Kit                                                                                         864279-B21
+
+HPE Bezel Lock Kit                                                                                             866473-B21
+
+HPE Trusted Platform Module 2.0 Gen10 Option
+
+Notes:
+- HPE Trusted Platform Module 2.0 option works with Gen10 servers with UEFI Mode not Legacy Mode. It
+
+    is not compatible with HPE ProLiant Gen8 servers or earlier generation variants.
+- HPE server systems can have a TPM module (of any type) installed only once. It cannot be replaced with
+
+    any other TPM module.
+- There is a FIO setting to allow this TPM module to operate in a TPM 1.2 mode (872108-B21).
+
+HPE 1U Gen10 Chassis Intrusion Detection Kit
+
+Notes: This provides a physical connection from the chassis board and hood and detects any physical
+intrusion into the chassis, providing security during the entire supply chain process of shipping, receiving,
+distribution, and operation.
+
+                                                                                                               Page 33
+QuickSpecs          HPE ProLiant DL325 Gen10 Server
+
+Additional Options
+
+HPE Smart Array Controllers
+
+The Gen10 controller naming framework has been updated to simplify identification as depicted below. For a more detailed
+breakout of the available Gen10 Smart Array controllers visit the HPE Smart Array Gen10 Controllers Data Sheet.
+
+Smart Array Controllers                                                                                869083-B21
+
+HPE 96W Smart Storage Battery (up to 20 Devices) with 145mm Cable Kit                                  869081-B21
+Notes: All performance RAID controllers are supported by the HPE Smart Storage Battery (P01366-B21),
+which supports multiple devices and is sold separately.                                                804405-B21
+HPE Smart Array P816i-a SR Gen10 (16 Int Lanes/4GB Cache/SmartCache) 12G SAS Modular LH Controller     830824-B21
+Notes:
+- Does not occupy a PCIe expansion slot and includes SmartCache license.                               804398-B21
+- The P816i-a cable ships in the 8SFF chassis only.                                                    804394-B21
+HPE Smart Array P408i-a SR Gen10 (8 Internal Lanes/2GB Cache) 12G SAS Modular LH Controller            869079-B21
+Notes: Does not occupy a PCIe expansion slot.
+HPE Smart Array P408e-p SR Gen10 (8 External Lanes/4GB Cache) 12G SAS PCIe Plug-in Controller          P05042-B21
+HPE Smart Array P408i-p SR Gen10 (8 Internal Lanes/2GB Cache) 12G SAS PCIe Plug-in Controller          866452-B21
+                                                                                                       866448-B21
+Essential RAID Controllers                                                                             P02377-B21
+                                                                                                       P09409-B21
+HPE Smart Array E208e-p SR Gen10 (8 External Lanes/No Cache) 12G SAS PCIe Plug-in Controller
+HPE Smart Array E208i-p SR Gen10 (8 Internal Lanes/No Cache) 12G SAS PCIe Plug-in Controller                D7S26A
+HPE Smart Array E208i-a SR Gen10 (8 Internal Lanes/No Cache) 12G SAS Modular LH Controller                  D7S27A
+Notes: Does not occupy a PCIe expansion slot.                                                            D7S27AAE
+
+HPE Cable Options
+
+HPE DL325 Gen10 10SFF Smart Array SAS Cable Kit
+HPE 1U Gen10 4LFF Smart Array SAS Cable Kit
+HPE 1U Gen10 8SFF Smart Array SAS Cable Kit
+HPE Smart Storage Hybrid Capacitor with 145mm Cable Kit
+HPE DL325 Gen10 4LFF Smart Array S100i SATA FIO Cable Kit
+Notes: HPE DL325 Gen10 4LFF Smart Array S100i SATA FIO Cable Kit must be selected in order to support
+HPE Smart Array S100i SR Gen10 SW RAID on 4LFF CTO chassis
+
+Optional Software
+
+HPE Smart Array SR SmartCache (Single Key/Single Server) LTU
+HPE Smart Array SR SmartCache (Single Key/Multiple Servers) LTU
+HPE Smart Array SR SmartCache (Single Key/Multiple Servers) E-LTU
+Notes: SmartCache is offered on HPE Smart Array performance RAID controllers and comes standard (no
+licensing is required) if the HPE Smart Array P816i-a SR Gen10 Controller is installed in the server.
+
+                                                                                                                          Page 34
+QuickSpecs                                                                                  HPE ProLiant DL325 Gen10 Server
+
+Additional Options
+
+Optional Upgrades                                                                                         P01366-B21
+
+HPE 96W Smart Storage Lithium-ion Battery with 145mm Cable Kit
+Notes: Provides backup power for multiple HPE Smart Array controllers or other devices. Is required with
+performance RAID controllers.
+
+HPE Tape Backup
+
+For the complete range of tape drives, autoloaders, libraries and media see:
+https://www.hpe.com/us/en/storage/storeever-tape-storage.html.
+For hardware and software compatibility of Hewlett Packard Enterprise tape backup products
+http://www.hpe.com/storage/BURAcompatibility.
+
+HPE Disk-Based Backup                                                                                             C8S07B
+                                                                                                                  Q2042A
+HPE RDX External Docking Station                                                                                  Q2044A
+HPE RDX 500GB Removable Disk Cartridge                                                                            Q2046A
+HPE RDX 1TB Removable Disk Cartridge                                                                              Q2048A
+HPE RDX 2TB Removable Disk Cartridge
+HPE RDX 4TB Removable Disk Cartridge
+
+HPE Storage Options
+
+Emulex Fibre Channel HBAs
+
+HPE SN1200E 16Gb Single Port Fibre Channel Host Bus Adapter                                                       Q0L13A
+
+HPE SN1200E 16Gb Dual Port Fibre Channel Host Bus Adapter                                                         Q0L14A
+
+HPE SN1600E 32Gb Single Port Fibre Channel Host Bus Adapter                                                       Q0L11A
+
+HPE SN1600E 32Gb Dual Port Fibre Channel Host Bus Adapter                                                         Q0L12A
+
+QLogic Fibre Channel HBAs
+
+HPE SN1100Q 16Gb Single Port Fibre Channel Host Bus Adapter                                                       P9D93A
+
+HPE SN1100Q 16Gb Dual Port Fibre Channel Host Bus Adapter                                                         P9D94A
+
+HPE SN1600Q 32Gb Single Port Fibre Channel Host Bus Adapter                                                       P9M75A
+
+HPE SN1600Q 32Gb Dual Port Fibre Channel Host Bus Adapter                                                         P9M76A
+
+Converged Network Adapters
+
+HPE CN1200R 10GBASE-T Converged Network Adapter                                                                   Q0F26A
+
+HPE CN1300R 10/25Gb Dual Port Converged Network Adapter                                                           Q0F09A
+
+Notes:
+- For the complete listing of Fibre Channel Converged Network Adapters please see:
+
+    https://www.hpe.com/us/en/product-catalog/servers/adapters/pip.models.hpe-storefabric-converged-network-
+    adapters.4118472.html
+- 622FLR-SFP28, CN1300R & CN1200R adapters with FCoE used in conjunction with all Red Hat 7.x version OS's are not
+    supported at this time.
+
+HPE Racks
+
+    · Please see the HPE Advanced Series Racks QuickSpecs for information on additional racks options and rack
+         specifications.
+
+    · Please see the HPE Enterprise Series Racks QuickSpecs for information on additional racks options and rack
+         specifications.
+
+    · Please see the HPE Standard Series Racks QuickSpecs for information on additional racks options and rack
+         specifications.
+
+                                                                                                                  Page 35
+QuickSpecs                                                     HPE ProLiant DL325 Gen10 Server
+
+Additional Options
+
+HPE Power Distribution Units (PDUs)
+
+    · Please see the HPE Basic Power Distribution Units (PDU) QuickSpecs for information on these products and their
+         specifications.
+
+    · Please see the HPE Metered Power Distribution Units (PDU) QuickSpecs for information on these products and
+         their specifications.
+
+    · Please see the HPE Intelligent Power Distribution Unit (PDU) QuickSpecs for information on these products and
+         their specifications.
+
+    · Please see the HPE Metered and Switched Power Distribution Units (PDU) QuickSpecs for information on these
+         products and their specifications.
+
+HPE Uninterruptible Power Systems (UPS)
+
+To learn more, please visit the HPE Uninterruptible Power Systems (UPS) web page.
+Please see the HPE DirectFlow Three Phase Uninterruptible Power System QuickSpecs for information on these products
+and their specifications.
+Please see the HPE Line Interactive Single Phase UPS QuickSpecs for information on these products and their specifications.
+
+HPE Rack Options
+
+Please see the HPE KVM Switches web page for information on these products and their specifications.
+
+Rail Kits
+
+Ball bearing and Easy Install rail kits contain telescoping rails which allow for in-rack serviceability.
+To assist in the installation of the server into the rack an optional installation tool is available by contacting your local services
+representative (695539-001).
+CTO servers do not ship with rail kits ,they need to be ordered seperately
+Notes: Hewlett Packard Enterprise recommends that a minimum of two people are required for all Rack Server installations.
+Please refer to your installation instructions for proper tools and number of people to use for any installation.
+
+HPE 1U Small Form Factor Easy Install Rail Kit                 734807-B21
+
+Notes: HPE 1U Cable Management Arm for Rail Kit (734811-B21).
+
+HPE 1U Cable Management Arm for Rail Kit                       734811-B21
+
+HPE USB and SD Options                                         700139-B21
+                                                               P21868-B21
+HPE Enterprise Mainstream Flash Media Kits for Memory Cards
+
+HPE 32GB microSD Flash Memory Card
+HPE 32GB microSD RAID 1 USB Boot Drive
+
+HPE Support Services                                           HV6H3E
+                                                               HV6H8E
+Tech Care                                                      HV6H1E
+                                                               HV6H6E
+HPE 5 Year Tech Care Essential DL325 Gen10 Service
+HPE 5 Year Tech Care Essential wDMR DL325 Gen10 Service        HB4G8E
+HPE 3 Year Tech Care Essential DL325 Gen10 Service             HB4G9E
+HPE 3 Year Tech Care Essential wDMR DL325 Gen10 Service        HB4H0E
+
+Foundation Care
+
+HPE 3 Year Foundation Care 24x7 DL325 Gen10 Service
+HPE 3 Year Foundation Care 24x7 with DMR DL325 Gen10 Service
+HPE 3 Year Foundation Care 24x7 with CDMR DL325 Gen10 Service
+
+                                                               Page 36
+QuickSpecs          HPE ProLiant DL325 Gen10 Server
+
+Additional Options
+
+Installation & Startup Services                                                                                     U4506E
+                                                                                                                    U4507E
+HPE Install ProLiant DL3xx Service
+HPE Installation and Startup DL3xx Service
+Notes: For a full listing of support services available for this server, please visit http://www.hpe.com/services.
+
+                                                                                                                    Page 37
+QuickSpecs  HPE ProLiant DL325 Gen10 Server
+
+Memory
+
+General Memory Population Rules and Guidelines:
+
+     · Install DIMMs only if the corresponding processor is installed.
+     · If only one processor is installed in a two-processor system, only half of the DIMM slots are available.
+     · To maximize performance, it is recommended to balance the total memory capacity between all installed processors.
+     · When two processors are installed, balance the DIMMs across the two processors.
+     · White DIMM slots denote the first slot to be populated in a channel.
+     · Mixing of DIMM types (UDIMM, RDIMM, and LRDIMM) is not supported.
+     · The maximum memory speed is a function of the memory type, memory configuration, and processor model.
+     · The maximum memory capacity is a function of the number of DIMM slots on the platform, the largest DIMM capacity
+
+         qualified on the platform, the number and model of installed processors qualified on the platform.
+     · For details on the HPE Server Memory Options Population Rules, visit: http://www.hpe.com/docs/amd-population-rules
+     · To realize the performance memory capabilities listed in this document, HPE DDR4 SmartMemory is required.
+
+         For additional information, please see the: HPE DDR4 Smart Memory QuickSpecs
+     · For details on the HPE Server Memory speed, visit: http://www.hpe.com/docs/amd-speed-tables
+Notes:
+- The maximum memory speed is a function of the memory type, memory configuration, and processor model.
+- Model 7251 1 DIMM per channel is 2400 MT/s.
+For details on the HPE Server Memory speed, visit: http://www.hpe.com/docs/amd-speed-tables
+
+DDR4 memory options part number decoder
+
+Notes:
+- Capacity references are rounded to the common gigabyte (GB) values.
+
+         o 8GB = 8,192 MB
+         o 16GB = 16,384 MB
+         o 32GB = 32,768 MB
+         o 64GB = 65,536 MB
+For more information on memory, please see the Memory Quickspecs: HPE DDR4 SmartMemory
+
+                                                                                                                                                                          Page 38
+QuickSpecs                                                                 HPE ProLiant DL325 Gen10 Server
+                                   4LFF drives
+Storage     8SFF + Optional 2SFF (SAS/SATA or NVMe) Shown
+
+            Page 39
+QuickSpecs                HPE ProLiant DL325 Gen10 Server
+
+Technical Specifications
+
+System Unit
+
+Dimensions
+
+    · 4.29 x 43.46 x 61.49 cm
+         1.69 x 17.11 x 24.21 in
+
+Weight (approximate)
+
+    · Minimum: 8 SFF chassis with 8 HDD blanks, 2x Drive Bay blanks, 1x processor including standard heatsink, 2x DIMMs,
+         1x power supply (plus blank), 1x Smart Array, 1x Riser installed, cables for the above)
+              - 10 kg
+                   22.05 lb
+
+    · Maximum: 10 SFF hard drives, 1x processors, 2x power supplies, 1x Smart Array, 2x Risers installed, 16x DIMMs, 2x
+         power supply, cables for the above)
+              - 15.60 kg
+                   35.27 lb
+
+Input Requirements(per power supply)
+
+Rated Line Voltage
+    · 100 to 120 VAC
+    · 200 to 240 VAC
+
+BTU Rating
+
+Maximum
+
+    · For 800W Power Supply: 3207 BTU/hr (at 100 VAC), 3071 BTU/hr (at 200 VAC), 3112 BTU/hr (at 240 VAC) for China
+         Only
+
+    · For 500W Power Supply: 1979 BTU/hr (at 100 VAC), 1911 BTU/hr (at 200 VAC), 1965 BTU/hr (at 240 VAC) for China
+         Only
+
+Power Supply Output (per power supply)
+
+Rated Steady-State Power
+
+    · For 1600W Power Supply: 1600W (at 240 VAC), 1600W (at 240 VAC)
+    · For 800W Power Supply: 800W (at 100 VAC), 800W (at 240 VAC), 800W (at 240 VAC) input for China only
+    · For 500W Power Supply: 500W (at 100 VAC), 500W (at 240 VAC), 500W (at 240 VAC) input for China only
+
+Maximum Peak Power
+
+    · For 1600W Power Supply: 1600W (at 200 to 240 1VAC), 1600W (at 240 VAC) input for China only
+    · For 800W Power Supply: 800W (at 100 to 127 VAC), 800W (at 200 to 240 1VAC), 800W (at 240 VAC) input for China
+
+         only
+    · For 500W Power Supply: 500W (at 100 to 127 VAC), 500W (at 200 to 240 VAC), 500W (at 240 VAC) input for China
+
+         only
+
+                          Page 40
+QuickSpecs                HPE ProLiant DL325 Gen10 Server
+
+Technical Specifications
+
+System Inlet Temperature
+
+    · Standard Operating Temperature
+
+         10° to 35°C (50° to 95°F) at sea level with an altitude derating of 1.0°C per every 305 m (1.8°F per every 1000 ft) above
+         sea level to a maximum of 3050 m (10,000 ft), no direct sustained sunlight. Maximum rate of change is 20°C/hr
+         (36°F/hr). The upper limit and rate of change may be limited by the type and number of options installed.
+
+         System performance during standard operating support may be reduced if operating with a fan fault or above 30°C
+         (86°F).
+
+    · Extended Ambient Operating Temperature
+
+         For approved hardware configurations, the supported system inlet range is extended to be: 5° to 10°C (41° to 50°F) and
+         35° to 40°C (95° to 104°F) at sea level with an altitude derating of 1.0°C per every 175 m (1.8°F per every 574 ft) above
+         900 m (2953 ft) to a maximum of 3050 m (10,000 ft). The approved hardware configurations for this system are listed
+         at the URL:http://www.hpe.com/servers/ashrae
+
+         For approved hardware configurations, the supported system inlet range is extended to be: 40° to 45°C (104° to 113°F)
+         at sea level with an altitude derating of 1.0°C per every 125 m (1.8°F per every 410 ft) above 900 m (2953 ft) to a
+         maximum of 3050 m (10,000 ft). The approved hardware configurations for this system are listed at the
+         URL:http://www.hpe.com/servers/ashrae
+
+         System performance may be reduced if operating in the extended ambient operating range or with a fan fault.
+
+    · Non-operating
+
+         -30° to 60°C (-22° to 140°F). Maximum rate of change is 20°C/hr (36°F/hr).
+
+Relative Humidity(non-condensing)
+
+    · Operating
+
+         8% to 90% - Relative humidity (Rh), 28°C maximum wet bulb temperature, non-condensing.
+    · Non-operating
+
+         5 to 95% relative humidity (Rh), 38.7°C (101.7°F) maximum wet bulb temperature, non-condensing..
+
+RTC Accuracy
+
+    · 50 PPM
+
+Altitude
+
+    · Operating
+
+         3050 m (10,000 ft). This value may be limited by the type and number of options installed. Maximum allowable altitude
+         change rate is 457 m/min (1500 ft/min).
+
+    · Non-operating
+
+         9144 m (30,000 ft). Maximum allowable altitude change rate is 457 m/min (1500 ft/min).
+
+                          Page 41
+QuickSpecs                HPE ProLiant DL325 Gen10 Server
+
+Technical Specifications
+
+Acoustic Noise
+
+Listed are the declared A-Weighted sound power levels (LWAd) and declared average bystander position A-Weighted sound
+pressure levels (LpAm) when the product is operating in a 23°C ambient environment. Noise emissions were measured in
+accordance with ISO 7779 (ECMA 74) and declared in accordance with ISO 9296 (ECMA 109). The listed sound levels apply to
+standard shipping configurations. Additional options may result in increased sound levels. Please have your HPE representative
+provide information from the HPE EMESC website for further technical details regarding the configurations listed below.
+
+Idle       4.8 B Entry
+LWAd       4.8 B Base
+           4.8 B Perf
+LpAm       32 dBA Entry
+           34 dBA Base
+Operating
+LWAd       35 dBA Perf
+
+LpAm       5.2 B Entry
+           5.2 B Base
+           5.2 B Perf
+           37 dBA Entry
+           38 dBA Base
+           37 dBA Perf
+
+Notes:
+- Acoustics levels presented here are generated by the test configuration only. Acoustics levels will vary depending on
+
+    system configuration. Values are subject to change without notification and are for reference only.
+- Product conformance to cited product specifications is based on sample (type) testing, evaluation, or assessment. This
+
+    product or family of products is eligible to bear the appropriate compliance logos and statements.
+- The Listed sound levels apply to standard shipping configurations. Additional options may result in increased sound levels.
+
+Emissions Classification (EMC) - Regulatory Information
+
+To view the regulatory information for your product, view the Safety and Compliance Information for Server, Storage, Power,
+Networking, and Rack Products, available at the Hewlett Packard Enterprise Support Center:
+http://www.hpe.com/support/Safety-Compliance-EnterpriseProducts
+
+HPE Smart Array
+
+For latest information on HPE Smart Array Gen10 Controllers for HPE ProLiant DL, ML and Apollo Servers please refer to
+their QuickSpecs. (E208i-a,E208i-p,E208e-p,P408i-a,P408i-p,P408e-p,P816i-a)
+
+Environment-friendly Products and Approach - End-of-life Management and Recycling
+
+Hewlett Packard Enterprise offers end-of-life product return, trade-in, and recycling programs, in many geographic areas, for
+our products. Products returned to Hewlett Packard Enterprise will be recycled, recovered or disposed of in a responsible manner.
+
+The EU WEEE directive (2002/95/EC) requires manufacturers to provide treatment information for each product type for use by
+treatment facilities. This information (product disassembly instructions) is posted on the Hewlett Packard Enterprise web site.
+These instructions may be used by recyclers and other WEEE treatment facilities as well as Hewlett Packard Enterprise OEM
+customers who integrate and re-sell Hewlett Packard Enterprise equipment.
+
+                          Page 42
+QuickSpecs                           HPE ProLiant DL325 Gen10 Server
+
+Summary of Changes
+
+Date         Version History Action  Description of Change
+15-Nov-2021                          Service and Support section was updated.
+06-Apr-2021  Version 26  Changed     Obsolete SKUs were removed.
+01-Feb-2021                          Service and Support and Additional Options sections were updated.
+02-Nov-2020  Version 25  Changed     Obsolete SKUs were removed.
+05-Oct-2020                          Core Options section was updated.
+03-Aug-2020  Version 24  Changed     Obsolete SKUs were removed.
+                                     Standard Features and Pre-configured Models sections were updated.
+01-Jun-2020  Version 23  Changed     Obsolete SKUs were removed.
+06-Apr-2020                          Core Options section was updated.
+17-Feb-2020  Version 22  Changed     Obsolete SKUs were removed.
+02-Dec-2019                          Standard Features, Configuration Information, Core Options and Additional
+04-Nov-2019  Version 21  Changed     Options sections were updated.
+07-Oct-2019                          Obsolete SKUs were removed.
+03-Sep-2019  Version 20  Changed     Pre-configured Models and Core Options sections were updated.
+26-Aug-2019  Version 19  Changed     Standard Features, Configuration Information and Core Options sections were
+05-Aug-2019                          updated.
+01-Jul-2019  Version 18  Changed     Overview, Standard Features, Configuration Information, and Pre-configured
+03-Jun-2019                          Models sections were updated.
+             Version 17  Changed     Configuration Information, Core Options and Additional Options sections were
+15-Apr-2019                          updated.
+02-Apr-2019  Version 16  Changed     Configuration Information section was updated.
+04-Feb-2019  Version 15  Changed     Overview, Standard Features, Pre-configured Models, Configuration Information,
+10-Dec-2018                          Core Options and Additional Options sections were updated.
+03-Dec-2018  Version 14  Changed     Overview, Standard Features, Pre-configured Models, Core Options and Technical
+01-Oct-2018                          Specifications sections were updated.
+             Version 13  Changed     Overview,Standard Features,Pre-configured Models, Core Options and Memory
+13-Aug-2018                          sections were updated.
+06-Aug-2018  Version 12  Changed     Configuration Information and Core Options sections were updated.
+02-Jul-2018  Version 11  Changed     SKUs description were updated
+             Version 10  Changed     Overview, Standard Features, Optional Features, Service and Support,
+                                     Configuration Information, Core Options, Additional Options and Memory sections
+             Version 9   Changed     were updated.
+             Version 8   Changed     The U.S. version of QuickSpecs is no longer being updated, please reference the
+                                     Worldwide QuickSpecs for latest information
+             Version 7   Changed     SKUs were updated.
+             Version 6   Changed     Overview, Standard Features, Core Options and Aditional Options sections were
+             Version 5   Changed     updated.
+                                     Optional Features section was updated.
+             Version 4   Changed     SKU 829335-B21 was deleted from Core Options section
+                                     Overview and Standard Features sections were updated
+             Version 3   Added       SKUs were Added and deleted in Core Options
+             Version 2   Changed     Standard Features, Pre-configured Models, Configuration Information, Additional
+                                     Options, Memory and Core Options sections were updated.
+             Version 1   New         SKU descriptions were updated.
+                                     HPE Support Services section was added to the QuickSpecs.
+                                     Configuration Information - Factory Integrated Models, Core Options, and
+                                     Additional Options were revised.
+                                     New QuickSpecs.
+
+                                     Page 43
+QuickSpecs                                                                                   HPE ProLiant DL325 Gen10 Server
+
+Copyright                          © Copyright 2021 Hewlett Packard Enterprise Development LP. The information contained herein is subject
+                                   to change without notice. The only warranties for Hewlett Packard Enterprise products and services are set
+Make the right purchase decision.  forth in the express warranty statements accompanying such products and services. Nothing herein should
+Contact our presales specialists.  be construed as constituting an additional warranty. Hewlett Packard Enterprise shall not be liable for
+                                   technical or editorial errors or omissions contained herein.
+Chat  Email Call                   AMD® and EPYC® are registered trademarks of Advanced Micro Devices Corporation in the U.S. and other
+                                   countries.
+      Get updates                  Microsoft®, Windows®, and Windows Server® are U.S. registered trademarks of the Microsoft group of
+                                   companies.
+                                   For hard drives, 1GB = 1 billion bytes. Actual formatted capacity is less
+
+                                   a00045498enw - 16225 - Worldwide - V26 - 15-November-2021
+
+                                   Page 44
+
