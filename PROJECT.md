@@ -2998,3 +2998,43 @@ has PNs, this would be its PCIe-slot sibling), rails/bezel/iLO sales-hint part n
 (G10+'s generation of the device G11 calls NS204i-u — currently just two unsourced entries in the generic `CARDLIST`). All
 three would need the CURRENT V44/V42 PDF downloaded fresh and read with `pdftotext -layout` (raw mode badly mangles this
 particular wide table in both docs) — asking the user before doing that, same as before the Gen11 PDFs were fetched.
+
+## DL360 G10+ / DL380 G10+ stand-up cards (second half, 2026-09-22, build .3) — user approved the fresh PDF download
+
+Downloaded the current V44 (DL360, a50002559enw) and V42 (DL380, a50002553enw) QuickSpecs from hpe.com with permission —
+both matched the already-cached raw-mode text exactly (same revision), confirming no re-audit of the other axes was needed.
+The scratchpad's earlier cached PDFs for these two turned out to be the wrong documents (a stale 2021 V7 doc and an
+unrelated NEBS supplement) — this pass used freshly downloaded ones. `pdftotext -raw`, `-layout` and even the hpe.com
+in-browser viewer's own search all garble this specific wide Ethernet/FC-HBA table in both docs identically (columns
+visually correct, text-extraction order scrambled) — **`pdftotext -table` ("optimized for tables") is what actually works**
+for this shape, worth remembering for the next model that hits the same wall.
+
+**Stand-up cards** (`cards`, same mechanism as the Gen11 pass): two separate arrays (`DL360G10P_CARDS`/`DL380G10P_CARDS`,
+not one shared list — the OCP-card axis already taught this lesson once). Ethernet 1Gb through 200Gb, InfiniBand, Omni-Path,
+storage-offload and Fibre Channel HBAs, all with real part numbers. Real per-model differences confirmed, not assumed: DL360
+gets 2 extra Emulex SN1600E parts (Q0L11A/Q0L12A) DL380 does not offer; DL380 gets a Slingshot NIC (R4K46A, Cray-only) DL360
+does not. 35 cards on DL360, 34 on DL380.
+
+**Found a real, unsourced part number already sitting in the tool** (predates this session): `flr` on both models listed
+"InfiniBand HDR/Eth 200Gb 1p (P31323-B21)". Checked against both fresh docs — **P31323-B21 never appears anywhere in
+DL360's own document**, so removed there entirely. DL380's own doc references it twice, but only as a column header in a
+restrictions table — it never gives the part its own product-name line anywhere in the document. Kept for DL380, reworded
+to say plainly that the doc names the part number without ever naming the product, rather than presenting a guessed name as
+fact. This same string also sits in 4 other G10+ models' `flr` overrides (DL325/DL345/DL365/DL385) and in the shared
+`OCP_CARDS` fallback — **not touched**, since those models' docs were not re-verified this session; flagged for whoever
+next audits them.
+
+**Slip stripping bug found and fixed**: `SLIP_PN` only matched suffix-less HPE part numbers starting `R` or `S` (R2E08A,
+S2A69A). The new Fibre Channel HBA codes include `Q`-prefixed (Q0L11A-Q0L14A) and `P`-prefixed (P9D93A/P9D94A) parts of the
+identical shape, which the regex let straight through onto the engineer-facing slip. Widened the leading-letter class from
+`[RS]` to `[A-Z]` (letter + digit + 3 characters + trailing `A`, still exactly 6 characters, still word-bounded) — checked
+this doesn't introduce any new false match anywhere in the test suite.
+
+QA: 768 ok / 0 FAIL (11 new tests: both card-picker lists with counts and per-model differences confirmed, the generic
+starter list is unaffected on a model without its own `cards` override, the corrected/flagged InfiniBand P31323-B21 handling
+on each model, the widened slip-stripping regex). Build 2026.09.22.3.
+
+**Still open for these two, lower priority now that CPU/memory/battery/fans/cards are all sourced:** rails/bezel/iLO hint
+part numbers (the G11-style sales hints under those fields — not yet built for any G10+ model) and the NS204i-p/NS204i-r
+boot device (G10+'s generation of what G11 calls NS204i-u — still just two unsourced placeholder entries in the shared
+generic `CARDLIST`, not a real per-model catalogue entry).

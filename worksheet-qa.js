@@ -3655,8 +3655,8 @@ function runRound23(){
 
   setModel23('DL360 G10+');
   f23=flrOpts23();
-  (f23.length===15 && f23.some(function(o){return /^InfiniBand HDR\/Eth 200Gb 1p/.test(o);}) && f23.some(function(o){return /^InfiniBand HDR\/Eth 200Gb 2p \(P31348-B21\)/.test(o);}))
-    ?pass23('DL360 G10+: real 15-card OCP list, including BOTH InfiniBand ports (1p and 2p)')
+  (f23.length===14 && !f23.some(function(o){return /P31323-B21/.test(o);}) && f23.some(function(o){return /^InfiniBand HDR\/Eth 200Gb 2p.*P31348-B21/.test(o);}))
+    ?pass23('DL360 G10+: real 14-card OCP list — corrected 2026-09-22, the "1p" InfiniBand card (P31323-B21) never appears anywhere in DL360\'s own doc and was dropped; the confirmed 2p card stays')
     :fail23('DL360 G10+ flr panel wrong: '+f23.join(' | '));
 
   // the shared OCP_CARDS fallback (used by G11/G12, and any future
@@ -4457,4 +4457,51 @@ function runRound25(){
     ?pass25('DL380 G10+ 2 processors: 6 fans, explainer now names the Standard Fan Kit P37042-B21')
     :fail25('DL380 G10+ 2P fan hint wrong: '+d.getElementById('fanq').value+' / '+d.getElementById('why-fan').textContent);
   setv26('cpuq','');reset27();
+
+  // ===== DL360 / DL380 G10+ stand-up cards (2026-09-22, fresh PDFs downloaded with permission) =====
+  const cardOpts29=function(){
+    d.getElementById('add-card').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    const rows=d.querySelectorAll('#cards .line'),nm=rows[rows.length-1].querySelector('[data-k=name]');
+    nm.value='';fire(nm,'input');fire(nm,'focus');
+    const out=[...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(e){return e.textContent;});
+    rows[rows.length-1].remove();return out;};
+  reset27(); setModel25('DL360 G10+');
+  { const o=cardOpts29();
+    (o.length===35 && o.some(function(x){return /SN1600E/.test(x);}) && !o.some(function(x){return /Slingshot/.test(x);}))
+      ?pass25('DL360 G10+ card picker: 35 stand-up options (Ethernet/InfiniBand/Omni-Path/FC), incl. its 2 Emulex SN1600E parts, no Slingshot')
+      :fail25('DL360 G10+ card list wrong ('+o.length+'): SN1600E='+o.some(function(x){return /SN1600E/.test(x);})+' Slingshot='+o.some(function(x){return /Slingshot/.test(x);}));
+    ['E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','MCX623105AS-VDAT 200Gb 1p QSFP56 (P10180-B21)','InfiniBand NDR200 200Gb 1p OSFP MCX75310AAS-HEAT (P45642-B22)','SN1610Q 32Gb FC 1p (R2E08A)','Secure Network Adapter 10/25Gb 2p (S2A69A)'].every(function(x){return o.indexOf(x)>-1;})
+      ?pass25('DL360 G10+ card picker carries the doc\'s real part numbers'):fail25('DL360 G10+ card PNs missing'); }
+  reset27(); setModel25('DL380 G10+');
+  { const o=cardOpts29();
+    (o.length===34 && !o.some(function(x){return /SN1600E/.test(x);}) && o.some(function(x){return /Slingshot SA210S/.test(x);}))
+      ?pass25('DL380 G10+ card picker: 34 stand-up options — no SN1600E (DL360-only), has the Slingshot NIC (DL380-only)')
+      :fail25('DL380 G10+ card list wrong ('+o.length+')'); }
+  reset27(); setModel25('DL325 G10+');
+  { const o=cardOpts29();
+    (o.length===47 && o.indexOf('366T 4x1GbE')>-1 && !o.some(function(x){return /\(R2E08A\)|MCX75310AAS/.test(x);}))
+      ?pass25('models without their own card list keep the generic 47-entry starter list (unaffected by the G10+ Ethernet/FC additions)'):fail25('DL325 G10+ card list changed ('+o.length+'): '+o.slice(0,3).join(' | ')); }
+  // slip strips the part numbers off these cards too (hyphenated and suffix-less SKUs, incl. HPE's Q0Lxx/OSFP style codes)
+  reset27(); setModel25('DL360 G10+');
+  d.getElementById('add-card').click();
+  { const rows=d.querySelectorAll('#cards .line'),nm=rows[rows.length-1].querySelector('[data-k=name]'),q=rows[rows.length-1].querySelector('[data-k=q]');
+    nm.value='SN1200E 16Gb FC 1p (Q0L13A)';fire(nm,'input');q.value='1';fire(q,'input');
+    const sl=d.getElementById('slip').textContent;
+    (/1x SN1200E 16Gb FC 1p(?!\s*\()/.test(sl) && !/Q0L13A/.test(sl))?pass25('slip: FC card keeps its name, drops the Q0L13A-style part number'):fail25('slip FC card wrong: '+sl.slice(0,240)); }
+  reset27();
+
+  // real correctness fix: the OCP-form "InfiniBand HDR/Eth 200Gb 1p" part number (P31323-B21) had
+  // ZERO support in DL360's own doc (it does not appear anywhere in it) but was sitting in its flr
+  // list — removed there; DL380's own doc references the part number (in a restrictions table) but
+  // never names the product, so it stays there with an honest caveat instead of a guessed name.
+  setModel25('DL360 G10+');
+  { const flr=d.getElementById('flr');flr.disabled=false;flr.value='';fire(flr,'input');fire(flr,'focus');
+    const o=[...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(e){return e.textContent;});
+    !o.some(function(x){return /P31323-B21/.test(x);})?pass25('DL360 G10+ OCP list: the unsourced P31323-B21 entry is gone (never appears in its own doc)'):fail25('DL360 G10+ still offers unsourced P31323-B21');
+    o.some(function(x){return /InfiniBand HDR\/Eth 200Gb 2p.*P31348-B21/.test(x);})?pass25('DL360 G10+ OCP list: the confirmed InfiniBand 2p card (P31348-B21) is still offered, with its real restrictions'):fail25('DL360 G10+ P31348 entry wrong'); }
+  setModel25('DL380 G10+');
+  { const flr=d.getElementById('flr');flr.disabled=false;flr.value='';fire(flr,'input');fire(flr,'focus');
+    const o=[...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(e){return e.textContent;});
+    o.some(function(x){return /never gives its full product name \(P31323-B21\)/.test(x);})?pass25('DL380 G10+ OCP list: P31323-B21 kept but flagged — the doc references the part number without ever naming the product'):fail25('DL380 G10+ P31323 handling wrong: '+o.filter(function(x){return /InfiniBand/.test(x);}).join(' | ')); }
+  reset27();
 }

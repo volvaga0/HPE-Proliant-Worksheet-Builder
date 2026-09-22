@@ -1048,6 +1048,50 @@ var DL380G11_CAGES=[
  {n:'8SFF midtray, x1 Tri-Mode (P48815-B21)',pos:'M'},
  {n:'8SFF midtray, x4 Tri-Mode (P48816-B21)',pos:'M'}];
 
+/* DL360 / DL380 Gen10 Plus stand-up (PCIe) card catalogue, from the current QuickSpecs (V44 / V42,
+   downloaded 2026-09-22) — the two docs' Ethernet/InfiniBand/Omni-Path lists match except DL380 also
+   offers the Slingshot NIC; the Fibre Channel HBA lists genuinely differ (DL360 gets 2 extra Emulex
+   SN1600E parts DL380 does not) — kept as two separate arrays rather than one shared list, after the
+   G10/G10+ OCP-card pass already found "one shared list" was the wrong assumption once before. GPUs
+   are left out on purpose (out of scope for this shop) — the field still takes any typed card. One
+   part number is deliberately left out: the doc's own ambient-temperature restrictions table
+   references an "InfiniBand HDR/Eth 200Gb 1-port OCP3" card by part number (P31323-B21, DL380's own
+   table only) but never gives it a full product-name line — noted in the flr entry instead of guessed
+   here. */
+var DL360G10P_CARDS=[
+ 'BCM5719 1Gb 4p (P51178-B21)','I350-T4 1Gb 4p (P21106-B21)',
+ 'BCM57416 10Gb 2p BASE-T (P26253-B21)','BCM57412 10Gb 2p SFP+ (P26259-B21)','X710-DA2 10Gb 2p SFP+ (P28787-B21)',
+ 'BCM57504 10/25Gb 4p SFP28 (P26264-B21)','BCM57414 10/25Gb 2p SFP28 (P26262-B21)',
+ 'E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','E810-XXVDA4 10/25Gb 4p SFP28 (P08458-B21)',
+ 'MCX631102AS-ADAT 10/25Gb 2p SFP28 (P42044-B21)','MCX512F-ACHT 10/25Gb 2p SFP28 (P13188-B21)',
+ 'X2522-25G-PLUS 10/25Gb 2p SFP28 (P21109-B21)','Secure Network Adapter 10/25Gb 2p (S2A69A)',
+ 'E810-CQDA2 100Gb 2p QSFP28 (P21112-B21)','MCX623106AS-CDAT 100Gb 2p QSFP56 (P25960-B21)',
+ 'NV60100M 100Gb 2p storage offload (R8M41A)','MCX623105AS-VDAT 200Gb 1p QSFP56 (P10180-B21)',
+ 'InfiniBand NDR200 200Gb 1p OSFP MCX75310AAS-HEAT (P45642-B22)',
+ 'InfiniBand HDR 200Gb 1p QSFP56 MCX653105A-HDAT (P23664-B21)','InfiniBand HDR 200Gb 2p QSFP56 MCX653106A-HDAT (P31324-B21)',
+ 'InfiniBand HDR100 100Gb 1p QSFP56 MCX653105A-ECAT (P23665-B21)','InfiniBand HDR100 100Gb 2p QSFP56 MCX653106A-ECAT (P23666-B21)',
+ 'Omni-Path 100Gb 1p QSFP28 OP101 (829335-B21)',
+ 'SN1200E 16Gb FC 1p (Q0L13A)','SN1200E 16Gb FC 2p (Q0L14A)','SN1600E 32Gb FC 1p (Q0L11A)','SN1600E 32Gb FC 2p (Q0L12A)',
+ 'SN1610E 32Gb FC 1p (R2J62A)','SN1610E 32Gb FC 2p (R2J63A)','SN1700E 64Gb FC 1p (R7N77A)','SN1700E 64Gb FC 2p (R7N78A)',
+ 'SN1100Q 16Gb FC 1p (P9D93A)','SN1100Q 16Gb FC 2p (P9D94A)','SN1610Q 32Gb FC 1p (R2E08A)','SN1610Q 32Gb FC 2p (R2E09A)'];
+var DL380G10P_CARDS=[
+ 'BCM5719 1Gb 4p (P51178-B21)','I350-T4 1Gb 4p (P21106-B21)',
+ 'BCM57416 10Gb 2p BASE-T (P26253-B21)','BCM57412 10Gb 2p SFP+ (P26259-B21)','X710-DA2 10Gb 2p SFP+ (P28787-B21)',
+ 'BCM57504 10/25Gb 4p SFP28 (P26264-B21)','BCM57414 10/25Gb 2p SFP28 (P26262-B21)',
+ 'E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','E810-XXVDA4 10/25Gb 4p SFP28 (P08458-B21)',
+ 'MCX631102AS-ADAT 10/25Gb 2p SFP28 (P42044-B21)','MCX512F-ACHT 10/25Gb 2p SFP28 (P13188-B21)',
+ 'X2522-25G-PLUS 10/25Gb 2p SFP28 (P21109-B21)','Secure Network Adapter 10/25Gb 2p (S2A69A)',
+ 'E810-CQDA2 100Gb 2p QSFP28 (P21112-B21)','MCX623106AS-CDAT 100Gb 2p QSFP56 (P25960-B21)',
+ 'NV60100M 100Gb 2p storage offload (R8M41A)','MCX623105AS-VDAT 200Gb 1p QSFP56 (P10180-B21)',
+ 'Slingshot SA210S 200Gb 1p PCIe — Cray/Slingshot solutions only (R4K46A)',
+ 'InfiniBand NDR200 200Gb 1p OSFP MCX75310AAS-HEAT (P45642-B22)',
+ 'InfiniBand HDR 200Gb 1p QSFP56 MCX653105A-HDAT (P23664-B21)','InfiniBand HDR 200Gb 2p QSFP56 MCX653106A-HDAT (P31324-B21)',
+ 'InfiniBand HDR100 100Gb 1p QSFP56 MCX653105A-ECAT (P23665-B21)','InfiniBand HDR100 100Gb 2p QSFP56 MCX653106A-ECAT (P23666-B21)',
+ 'Omni-Path 100Gb 1p QSFP28 OP101 (829335-B21)',
+ 'SN1200E 16Gb FC 1p (Q0L13A)','SN1200E 16Gb FC 2p (Q0L14A)',
+ 'SN1610E 32Gb FC 1p (R2J62A)','SN1610E 32Gb FC 2p (R2J63A)','SN1700E 64Gb FC 1p (R7N77A)','SN1700E 64Gb FC 2p (R7N78A)',
+ 'SN1100Q 16Gb FC 1p (P9D93A)','SN1100Q 16Gb FC 2p (P9D94A)','SN1610Q 32Gb FC 1p (R2E08A)','SN1610Q 32Gb FC 2p (R2E09A)'];
+
 var MODELS=[
  {m:'DL20', g:'G9', p:['e3'],    s:1, d:4, bays:['4SFF','2LFF'],
    rules:{verified:true,psuMax:2,fans:{one:3},pcie:{one:2},riserMax:1,
@@ -1360,12 +1404,12 @@ var MODELS=[
  {m:'DL360', g:'G10+', p:['sp3'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
    rules:{fanWtext:'205W or higher',verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P26479-B21',riserMax:2,
      psuMax:2,fans:{one:5,two:7,perf:7},fanKit2P:{n:'Standard Fan Kit',pn:'P37861-B21'},pcie:{one:2,two:3},rear:[],
-     fanW:205,fanPart:'P26477-B21',fanNVMe:true,fanRear:true,fanGPU:true,dimmKits:true,
+     fanW:205,fanPart:'P26477-B21',fanNVMe:true,fanRear:true,fanGPU:true,dimmKits:true,cards:DL360G10P_CARDS,
      cpuAllow:['S4309Y','S4310','S4314','S4316','G5315Y','G5317','G5318N','G5318S','G5318Y','G5320','G6312U','G6314U','G6326','G6330','G6330N','G6334','G6336Y','G6338','G6338N','G6342','G6346','G6348','G6354','P8351N','P8352M','P8352S','P8352V','P8352Y','P8358','P8358P','P8360Y','P8362','P8368','P8380'],
      bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P408i-a LH — needed for an accelerator in Slot 2/3 (869081-B21)','P816i-a (804338-B21)','P816i-a LH — needed for an accelerator in Slot 2/3 (869083-B21)','E208i-a (804326-B21)','E208i-a LH — needed for an accelerator in Slot 2/3 (869079-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
-     flr:['BCM5719 1Gb 4p (P51181-B21)','I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57412 10Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16, needs High Performance Fan Kit (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','E810-XXVDA2 10/25Gb 2p — not for factory diagnostics (P10106-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','MCX631432AS 10/25Gb 2p — needs High Performance Fan Kit (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 + High Performance Fan Kit (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p — needs OCP x16 Enablement Kit + High Performance Fan Kit (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     flr:['BCM5719 1Gb 4p (P51181-B21)','I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57412 10Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16, needs High Performance Fan Kit (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','E810-XXVDA2 10/25Gb 2p — not for factory diagnostics (P10106-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','MCX631432AS 10/25Gb 2p — needs High Performance Fan Kit (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 + High Performance Fan Kit (P22767-B21)','InfiniBand HDR/Eth 200Gb 2p — needs OCP x16 Enablement Kit + High Performance Fan Kit, not with 256GB DIMMs (P31348-B21)'],
      notes:['Several higher-bandwidth OCP cards need the High Performance Fan Kit (P26477-B21) and/or the OCP x16 Enablement Kit (P36661-B21) — see the per-card labels.',
        '800W/1600W Platinum use the Gen10 Plus codes (P38995/P38997-B21), not the G10 865414/830272 codes. Every embedded controller comes both plain and LH (low-profile heatsink), plus the full Tri-Mode -a family (MR216i-a/MR416i-a/SR416i-a), the PCIe -p siblings and SR932i-p.',
        'Heatsink threshold is 150W (P26479-B21). Fans: one processor ships 5, standard or performance; the 2-fan Standard Fan Kit P37861-B21 makes 7 for a second processor at 195W or below, and the High Performance Fan Kit P26477-B21 (7 fans, replacing all of them) is required at 205W or above.',
@@ -1377,7 +1421,8 @@ var MODELS=[
        'Each processor feeds 2 x8 front NVMe connectors, supporting up to 4 drives — the socket must be populated for them to work.',
        '8SFF backplanes: plain SAS/SATA-only (P26427-B21, cannot connect to Tri-Mode controllers), Tri-Mode U.3 (x1 P26431-B21 or x4 P26429-B21) or pure NVMe U.2 (P26433-B21).',
        'CPU pool: the 31 SKUs the current doc orders, plus 3 the doc still specs but has pulled from its own ordering list (8351N, 8352S, 6314U — kept for refurb stock). Platinum 8352V and 8351N are single-socket despite not being "U" parts.',
-       'Memory: DDR4-3200 except where capped by the processor — Silver SKUs and Gold 5318N/6330N/6338N run at 2667 (this doc\'s text extraction shows "2677" for 6338N; DDR4 has no such speed, read as 2667), Platinum 8352V and Gold 5315Y/5317/5318S/5318Y/5320/6330 at 2933. DIMMs in even quantities. SmartMemory kit part numbers shown under the memory field; the 16GB and 32GB sizes also have a single-rank variant (P06029-B21, P40007-B21) — the dual-rank part is what shows there.']}},
+       'Memory: DDR4-3200 except where capped by the processor — Silver SKUs and Gold 5318N/6330N/6338N run at 2667 (this doc\'s text extraction shows "2677" for 6338N; DDR4 has no such speed, read as 2667), Platinum 8352V and Gold 5315Y/5317/5318S/5318Y/5320/6330 at 2933. DIMMs in even quantities. SmartMemory kit part numbers shown under the memory field; the 16GB and 32GB sizes also have a single-rank variant (P06029-B21, P40007-B21) — the dual-rank part is what shows there.',
+       'Stand-up cards (Ethernet up to 200Gb, InfiniBand, Omni-Path, 8 Fibre Channel HBAs incl. 2 Emulex SN1600E parts DL380 does not offer) carry part numbers in the picker. 100Gb+ and InfiniBand cards need the High Performance Fan Kit and are not supported with 256GB DIMMs; most sit only in x16 slots (1/2/4/5/7, not 3 or 6). No Slingshot NIC on this model (DL380 has one).']}},
  {m:'DL365', g:'G10+', p:['rome','milan'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
    rules:{fanWtext:'above 155W',verified:true,hsW:156,hsWtext:'above 155W',fanW:156,hsPart:'P19368-B21',fanPart:'P26477-B21',
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,rear:[],fanNVMe:true,fanRear:true,fanGPU:true,
@@ -1395,14 +1440,14 @@ var MODELS=[
        '8SFF backplanes: plain SAS/SATA-only (P38579-B21), Tri-Mode U.3 (P26429-B21) or pure NVMe U.2 (P26433-B21). 4LFF is SAS/SATA-only.']}},
  {m:'DL380', g:'G10+', p:['sp3'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{fanWtext:'above 205W',verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P27095-B21',riserMax:3,
-     psuMax:2,fans:{one:4,two:6,perf:6},fanKit2P:{n:'Standard Fan Kit',pn:'P37042-B21'},pcie:{one:3,two:8},fanBays:['12LFF','24SFF'],
+     psuMax:2,fans:{one:4,two:6,perf:6},fanKit2P:{n:'Standard Fan Kit',pn:'P37042-B21'},cards:DL380G10P_CARDS,pcie:{one:3,two:8},fanBays:['12LFF','24SFF'],
      rear:['2SFF rear','2SFF NVMe rear','4LFF midtray','8SFF midtray'],
      cpuAllow:['S4309Y','S4310','S4314','S4316','G5315Y','G5317','G5318N','G5318S','G5318Y','G5320','G6312U','G6314U','G6326','G6330','G6330N','G6334','G6336Y','G6338','G6338N','G6342','G6346','G6348','G6354','P8351N','P8352M','P8352S','P8352V','P8352Y','P8358','P8358P','P8360Y','P8362','P8368','P8380'],
      bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
      dimmKits:true,fanW:206,fanPart:'P14608-B21',fanNVMe:true,fanRear:true,fanGPU:true,
      psu:['800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 (P17023-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
-     flr:['BCM5719 1Gb 4p (P51181-B21)','I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p — discontinued in the current doc, still real (P10103-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','QL41232HQCU 10/25Gb 2p — discontinued in the current doc, still real (P10118-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     flr:['BCM5719 1Gb 4p (P51181-B21)','I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p — discontinued in the current doc, still real (P10103-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','QL41232HQCU 10/25Gb 2p — discontinued in the current doc, still real (P10118-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p OCP3 — same restrictions as the 2p card; the doc\'s own restrictions table references this part number but never gives its full product name (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p — needs OCP x16 Enablement Kit + Max Performance Fan Kit, not with 256GB DIMMs (P31348-B21)'],
      notes:['Some OCP cards need the OCP x16 Enablement Kit (P36661-B21) and/or the Max Performance fan kit (P14608-B21) — see the per-card labels.',
        'No 500W tier — 800W and up, using the Gen10 Plus 800W/1600W Platinum codes (P38995/P38997-B21). Controllers are the plain (non-LH) modular variants only, plus the full Tri-Mode -a family (MR216i-a/MR416i-a/SR416i-a), the PCIe -p siblings and SR932i-p.',
        'Rear and mid-tray drives combine: 8SFF midtray + up to 6SFF rear on 24SFF (38SFF total); 8LFF/12LFF take a 4LFF or 8SFF midtray + up to 4LFF or 6SFF rear.',
@@ -1416,7 +1461,8 @@ var MODELS=[
        '8SFF backplanes: plain SAS/SATA (P26930-B21), Tri-Mode U.3 (x1 P27194-B21 or x4 P26931-B21) or pure NVMe U.2 (P26932-B21). SAS/SATA/NVMe drives can be mixed within one U.3 Tri-Mode cage.',
        'Fans: one processor ships 4, standard or performance; the 2-fan Standard Fan Kit P37042-B21 makes 6 for a second processor, unless the Max Performance Fan Kit P14608-B21 (6 fans, replacing them all) is already fitted.',
        'CPU pool: the 31 SKUs the current doc orders, plus 3 the doc still specs but has pulled from its own ordering list (8351N, 8352S, 6314U — kept for refurb stock). Platinum 8352V and 8351N are single-socket despite not being "U" parts.',
-       'Memory: DDR4-3200 except where capped by the processor — Silver SKUs and Gold 5318N/6330N/6338N run at 2667 (this doc\'s text extraction shows "2677" for 6338N; DDR4 has no such speed, read as 2667), Platinum 8352V and Gold 5315Y/5317/5318S/5318Y/5320/6330 at 2933. DIMMs in even quantities. SmartMemory kit part numbers shown under the memory field; the 16GB and 32GB sizes also have a single-rank variant (P06029-B21, P40007-B21) — the dual-rank part is what shows there.']}},
+       'Memory: DDR4-3200 except where capped by the processor — Silver SKUs and Gold 5318N/6330N/6338N run at 2667 (this doc\'s text extraction shows "2677" for 6338N; DDR4 has no such speed, read as 2667), Platinum 8352V and Gold 5315Y/5317/5318S/5318Y/5320/6330 at 2933. DIMMs in even quantities. SmartMemory kit part numbers shown under the memory field; the 16GB and 32GB sizes also have a single-rank variant (P06029-B21, P40007-B21) — the dual-rank part is what shows there.',
+       'Stand-up cards (Ethernet to 200Gb, InfiniBand, Omni-Path, a Slingshot NIC for Cray, 6 FC HBAs) carry part numbers in the picker. 100Gb+/InfiniBand need the Max Performance Fan Kit, exclude 256GB DIMMs, and mostly sit only in x16 slots (1/2/4/5/7). The FlexibleLOM/OCP list flags a 1-port InfiniBand part (P31323-B21) the doc references but never names.']}},
  {m:'DL385', g:'G10+', p:['rome'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{fanWtext:'above 180W',verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
      hsPart:'P14610-B21',fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],fanPart:'P14608-B21',riserMax:3,
@@ -3832,7 +3878,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.22.2'; // 2nd build shipped today
+var BUILD_VERSION='2026.09.22.3'; // 3rd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -5597,9 +5643,10 @@ document.getElementById('plan-go').addEventListener('click',function(){
    number are trimmed — a label without one (e.g. "no Smart Array controller —
    Intel VROC software RAID") is spec information and stays whole. Text typed
    by hand that has nothing left after stripping (e.g. only a part number) is
-   kept as typed. The pattern also covers HPE's suffix-less SKUs (R2E08A Fibre
-   Channel HBAs, S2A69A) — letter, digit, three characters, trailing A. */
-var SLIP_PN='(?:\\b[0-9P][0-9A-Z]{5}-(?=[0-9A-Z]*[0-9])[0-9A-Z]{3}\\b|\\b[RS][0-9][A-Z0-9]{3}A\\b)';
+   kept as typed. The pattern also covers HPE's suffix-less SKUs (R2E08A/Q0L13A/
+   P9D93A Fibre Channel HBAs, S2A69A) — any leading letter, digit, three
+   characters, trailing A. */
+var SLIP_PN='(?:\\b[0-9P][0-9A-Z]{5}-(?=[0-9A-Z]*[0-9])[0-9A-Z]{3}\\b|\\b[A-Z][0-9][A-Z0-9]{3}A\\b)';
 function slipName(s){
   var o=String(s==null?'':s);
   if(!new RegExp(SLIP_PN).test(o))return o.trim();

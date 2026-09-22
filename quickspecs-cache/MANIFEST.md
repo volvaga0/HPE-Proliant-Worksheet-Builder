@@ -93,3 +93,5 @@ One row per cached file in this directory. See `README.md` for how to use/add to
 | DL180-G10-v35.txt | DL180 | G10 | a00021862enw | Version 35 -- 18-Aug-2025 (latest, EOL-pruned). No additions vs mirror. | hpe.com/psnow/doc/a00021862enw | 2026-09-21 |
 | ML30-G10-v24.txt | ML30 | G10 | a00053821enw | Version 24 -- 18-Mar-2024 (latest). No hardware changes vs mirror. | hpe.com/psnow/doc/a00053821enw | 2026-09-21 |
 | ML110-G10-v15.txt | ML110 | G10 | a00021851enus | Version 15 -- 3-Jun-2019 (latest; identical era to the cached official copy). No changes. | hpe.com/psnow/doc/a00021851enus | 2026-09-21 |
+| DL360-G10+-v44.pdf (downloaded, not committed) | DL360 | G10+ | a50002559enw | Version 44 -- 28-Jul-2025 (confirmed current) | hpe.com/psnow/doc/a50002559enw | 2026-09-22 |
+| DL380-G10+-v42.pdf (downloaded, not committed) | DL380 | G10+ | a50002553enw | Version 42 -- 28-Jul-2025 (confirmed current) | hpe.com/psnow/doc/a50002553enw | 2026-09-22 |
