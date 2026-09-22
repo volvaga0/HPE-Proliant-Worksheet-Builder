@@ -869,6 +869,16 @@ button.quiet{color:var(--ink-soft)}
                    set it explicitly so the G10+/G11 default (205/206) is not inherited.
      fanNVMe/fanRear/fanGPU   condition requires performance fans
      fanBays       bay configs shipping performance fans as standard
+     fanNoChoice   true = same idea as hsNoChoice, for fans — this model's air-cooled
+                   chassis has ONE fan kit and the QuickSpecs call it the High
+                   Performance Fan Kit itself, so Std/Perf is not a real choice
+                   (DL560 G11). Defaults the pill to Perf Fans but does not fight
+                   a manual pick, since the quantity is the same either way; pair
+                   with fanW:0 (the kit isn't wattage-triggered, it's fixed).
+     fansByBay     per-bay override of `fans` (e.g. DL380 G11's EDSFF chassis ships
+                   6 standard fans regardless of processor count)
+     fanKit2P      {n,pn} — the standard fan kit that adds the second processor's
+                   extra fans, named in the fan explainer (e.g. DL380 G11 P49146-B21)
      rear          the rear / mid-tray drive options this exact chassis offers
                    (array of strings). Feeds the Rear/midtray datalist and a
                    hard check — anything else typed there is blocked. Omit and
@@ -1577,7 +1587,7 @@ var MODELS=[
        'Two 8SFF front cage families: plain SAS/SATA-only (bundled, up to 3) or Tri-Mode U.3 (x1 P55082-B21 or x4 P55083-B21, up to 3; needs the SFF Backplane Power Cable Kit P57845-B21 plus an OROC/PCIe cable kit).',
        'Mixing x1 and x4 Tri-Mode cages is allowed, but then the mid-tray cage cannot be fitted. The 48SFF CTO chassis (6x 8SFF) runs SAS/SATA/NVMe with Tri-Mode controllers; 8LFF/12LFF/4LFF are SAS/SATA-only.']}},
  {m:'DL560',g:'G11', p:['sp4'], s:4, d:64, bays:['8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:151,hsWtext:'above 150W',psuMax:4,fans:{two:6,perf:6},pcie:{one:3,two:6},riserMax:2,rear:[],
+   rules:{verified:true,hsW:151,hsWtext:'above 150W',psuMax:4,fans:{one:6,two:6,perf:6},fanNoChoice:true,fanW:0,pcie:{one:3,two:6},riserMax:2,rear:[],
      fanNVMe:true,fanRear:true,fanGPU:true,
      cpuAllow:['P8490H','P8468H','P8460H','P8450H','P8444H','G6448H','G6434H','G6418H','G6416H'],
      notes:['Front drive boxes only, all 2.5-inch — no rear or mid-tray drive cage.',
@@ -1585,7 +1595,7 @@ var MODELS=[
        'A 4-processor build requires the Liquid Cooling FIO Heat Sink Kit (P54791-B21) — 4P air cooling is not offered.',
        '4th Gen only (no 5th Gen). The CPU list is limited to the nine 4-socket-rated "H" SKUs: P8490H/P8468H/P8460H/P8450H/P8444H/G6448H/G6434H/G6418H/G6416H.',
        '2 to 4 power supplies (min 2), redundancy 1+1 / 2+2 / 3+1.',
-       'Air-cooled CTO ships 6 high-performance fans; liquid-cooled CTO ships 5.',
+       'Fans: there is no standard tier — the air-cooled chassis ships 6 fans and the kit itself is called the High Performance Fan Kit, whatever the processor count. The liquid-cooled chassis ships 5 fans instead (a cooling-method choice, not modeled by the Fans field here). No part number for either fan kit is given in this doc.',
        '64 DIMM slots (16 per processor). 6 PCIe Gen5 slots (3 primary + 3 secondary) plus 2 OCP. Both riser cages take an x8/x16/x8 (P54779-B21) or x16/x16/x16 (P54780-B21) kit.',
        'A double-wide GPU only fits primary slot 2 or secondary slot 5.',
        'Ships with NO riser at all ("None riser included" in the CTO base config) — at least one must be selected.',
@@ -3801,7 +3811,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.21.10'; // 10th build shipped today
+var BUILD_VERSION='2026.09.22.1'; // 1st build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -5279,7 +5289,20 @@ function evaluate(){
      "205W or higher") — same idea as hsWtext for heatsinks */
   var fanThr=R.fanW?(R.fanWtext||R.fanW+'W or higher'):'';
   if(R.fanW&&cpu&&cpu[3]>=R.fanW)fanReasons.push(cpu[0]+' is '+cpu[3]+'W — '+fanThr+' requires the high performance fan kit'+fanPart+'.');
-  applyRec('fan',fanReasons.length?'Perf Fans':null,fanReasons,checks,'FANS',true);
+  if(R.fanNoChoice){
+    /* the air-cooled chassis has one fan kit, and QuickSpecs itself calls it the High Performance Fan
+       Kit — there is no lower tier to compare it to (DL560 G11). Same soft, advisory treatment as
+       hsNoChoice: default to it, but don't fight a manual pick since the qty (fansEff.perf) is the
+       same either way. */
+    var fnPerf=document.querySelector('input[name="fan"][value="Perf Fans"]');
+    if(fnPerf&&!manualOverride.fan)fnPerf.checked=true;
+    var whyF0=document.getElementById('why-fan');
+    whyF0.className='why on';
+    whyF0.textContent='Comes with the server — the air-cooled chassis has one fan kit, and it is itself called the High Performance Fan Kit.';
+    if(m)checks.push(['info','FANS',m.m+' '+m.g+' has one fan kit for air cooling — there is no standard-vs-performance choice to make.']);
+  }else{
+    applyRec('fan',fanReasons.length?'Perf Fans':null,fanReasons,checks,'FANS',true);
+  }
 
   /* fan kit + quantity by socket count, plus the "standard is fine" explainer */
   if(m&&!R.fans&&!fanTouched&&!fanReasons.length&&document.getElementById('fanq').value)
@@ -5294,7 +5317,7 @@ function evaluate(){
   }else{fqEl.removeAttribute('max');}
   if(m&&R.fans){
     var whyF=document.getElementById('why-fan');
-    if(!fanReasons.length&&!manualOverride.fan){
+    if(!R.fanNoChoice&&!fanReasons.length&&!manualOverride.fan){
       var stdEl=document.querySelector('input[name="fan"][value="Std Fans"]');
       if(stdEl&&!stdEl.checked)stdEl.checked=true;
       var extra=[];

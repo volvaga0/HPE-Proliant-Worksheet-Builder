@@ -2917,3 +2917,34 @@ EDSFF, 24SFF ships 6 high-performance (`fanBays` added), two processors need 6. 
 depend on the bay "not CPU count" — wrong). Lesson recorded in memory: a QuickSpecs "CTO ships N" line is the base server, not the count for a
 built one — check the server's user guide for fan/DIMM population, and when the user pushes back on a check, treat their hardware knowledge as
 the prior. 739 ok / 0 FAIL. Not audited for this: DL560 G11 / other 2U models' fan counts.
+
+## DL560 G11 fan audit (2026-09-22, build .1; user asked to audit after the DL380 fan-count fix)
+
+**Source:** the cached DL560 Gen11 QuickSpecs (DA-17093, `quickspecs-cache/DL560-G11.txt`). Its "System Fans" section names
+only "High Performance Fan Kit" — no standard tier exists at all: "On 8SFF Air-cooled CTO server model ships with 6 high
+performance fan kit. On 8SFF Liquid-cooled CTO server model ships with 5 performance fan kit." A CTO-config table repeats the
+same 6 / 5 split. Neither figure is tied to processor count (1-4) or CPU TDP — unlike DL380, this doc never scales the fan
+count by socket count. No orderable part number is given for either fan kit anywhere in the doc (checked exhaustively, unlike
+DL380/DL360's P48820/P49146).
+
+**Bug found (pre-existing, this pass): `fans:{two:6,perf:6}` had no `one:` key**, so a single-processor pick left the Fans
+field unfilled (no auto quantity, no explainer) despite the doc's count being fixed regardless of socket count. Also, because
+the model didn't override `fanW`, it inherited the G11 default (`fanW:206`) — CPUs at or above 206W (6 of the 9 confirmed
+SKUs) were getting an extra, unsourced "requires the high performance fan kit" reason tied to wattage, which happens to be
+true by coincidence but is not why this chassis has one kit. And the "Std Fans" pill/explainer ("Standard fans are adequate…")
+doesn't apply to a chassis whose only air-cooled kit is itself called High Performance.
+
+**Fix — new `fanNoChoice` key** (same idea as the existing `hsNoChoice`, for fans): defaults the Fans pill to "Perf Fans" and
+shows an info check ("has one fan kit for air cooling — there is no standard-vs-performance choice to make") instead of the
+Standard-fans explainer, but does not fight a manual pick (the quantity is 6 either way, so there's nothing to actually get
+wrong). Set alongside `fanW:0` so the wattage-based reason no longer fires — this model's fan count is fixed, not
+CPU-TDP-triggered. `fans:{one:6,two:6,perf:6}` — 6 fans regardless of 1-4 processors. Rewrote the fan note to say so plainly and
+flag that no part number exists for it in this doc. The liquid-cooled 5-fan variant is a cooling-method choice (DLC), which
+the user has scoped out of this project for every model, so it stays a note only, not a selectable mode.
+
+QA: 746 ok / 0 FAIL (7 new tests: fixed TDP CPUs low/high, 1P and 4P quantity, manual-Standard-pick doesn't block). Every
+other Gen9-Gen12 2U/4-socket model's `fans` was checked in the previous pass and already has the right two-processor count —
+this was the one gap. **Not fixed, flagged only:** the doc mentions an EDSFF chassis (up to 16 at 2P / 24 at 4P) not in the
+bay list; the 5-fan liquid-cooled variant and its DLC heat sink kit (P54791-B21) aren't modeled as a selectable cooling mode
+(out of scope per the user); no heatsink kit part number is set for this model either (`hsPart` unset) — the doc does list
+one (P48818-B21 for 2P, P48905-B21 for 4P) but that's a separate axis from this fan-only audit.

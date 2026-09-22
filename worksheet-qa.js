@@ -4366,4 +4366,32 @@ function runRound25(){
   const f1=d.getElementById('fanq').value; setv26('cpuq','2');
   (f1==='5' && d.getElementById('fanq').value==='7')?pass25('DL360 G11 fans unchanged: 5 with one processor, 7 with two'):fail25('DL360 G11 fans changed: '+f1+'/'+d.getElementById('fanq').value);
   reset27();
+
+  // ===== DL560 G11 fans (user-reported audit request 2026-09-22, after the DL380 fan-count bug) =====
+  // Its own QuickSpecs: air-cooled ships 6 fans and calls the kit itself the "High Performance Fan
+  // Kit" — there is no separate standard tier, and the count does not depend on CPU count or TDP.
+  reset27(); setModel25('DL560 G11'); pickCpuExact25('G6416H'); setv26('cpuq','2');
+  (fanState27()==='Perf Fans' && d.getElementById('fanq').value==='6')
+    ?pass25('DL560 G11: defaults to Perf Fans x6 for a low-TDP (165W) CPU — the kit is fixed, not wattage-triggered')
+    :fail25('DL560 G11 low-TDP fans wrong: '+fanState27()+' x'+d.getElementById('fanq').value);
+  /FANS.*has one fan kit for air cooling.*no standard-vs-performance choice/.test(chk26())
+    ?pass25('DL560 G11: an info check explains there is no standard/performance fan choice')
+    :fail25('DL560 G11 fanNoChoice info missing: '+chk26().slice(0,240));
+  !/is \d+W — .*requires the high performance fan kit/.test(chk26())
+    ?pass25('DL560 G11: no wattage-threshold fan reason shown (fanW:0 — the kit is not CPU-TDP-triggered)')
+    :fail25('DL560 G11 wrongly shows a wattage-based fan reason: '+chk26().slice(0,240));
+  reset27(); setModel25('DL560 G11'); pickCpuExact25('P8490H'); setv26('cpuq','2');
+  (fanState27()==='Perf Fans' && d.getElementById('fanq').value==='6')
+    ?pass25('DL560 G11: still Perf Fans x6 for a high-TDP (350W) CPU — same fixed kit, not a separate wattage-driven reason')
+    :fail25('DL560 G11 high-TDP fans wrong: '+fanState27()+' x'+d.getElementById('fanq').value);
+  reset27(); setModel25('DL560 G11'); pickCpuExact25('G6416H'); setv26('cpuq','1');
+  (d.getElementById('fanq').value==='6')?pass25('DL560 G11: 1 processor still fills 6 fans (the doc ties the count to cooling method, not CPU count)'):fail25('DL560 G11 1P fans wrong: '+d.getElementById('fanq').value);
+  setv26('cpuq','4');
+  (d.getElementById('fanq').value==='6')?pass25('DL560 G11: 4 processors also fills 6 fans'):fail25('DL560 G11 4P fans wrong: '+d.getElementById('fanq').value);
+  reset27(); setModel25('DL560 G11'); pickCpuExact25('G6416H'); setv26('cpuq','2');
+  d.getElementById('fn1').checked=true; fire(d.getElementById('fn1'),'change');
+  (d.getElementById('fanq').value==='6' && !/FAN QTY/.test(chk26()))
+    ?pass25('DL560 G11: manually picking "Standard" does not fight the user or wrongly block — quantity is 6 either way (no real std/perf split exists)')
+    :fail25('DL560 G11 manual Std pick handling wrong: qty='+d.getElementById('fanq').value+' checks='+chk26().slice(0,240));
+  reset27();
 }
