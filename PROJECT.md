@@ -2948,3 +2948,53 @@ this was the one gap. **Not fixed, flagged only:** the doc mentions an EDSFF cha
 bay list; the 5-fan liquid-cooled variant and its DLC heat sink kit (P54791-B21) aren't modeled as a selectable cooling mode
 (out of scope per the user); no heatsink kit part number is set for this model either (`hsPart` unset) — the doc does list
 one (P48818-B21 for 2P, P48905-B21 for 4P) but that's a separate axis from this fan-only audit.
+
+## DL360 G10+ / DL380 G10+ brought up to G10/G11 info depth (2026-09-22, build .2; user: "do the dl360/380 models for the g10+ have as much info as the g10 and g11 lines? if not then start on those")
+
+**Answer: no, they didn't** — psu/ctrl/flr/riser were already sourced with part numbers, but cpuAllow, per-CPU memory speed caps,
+DIMM kit part numbers and a battery list (all things G11 has, and G10 has for at least the AMD siblings) were missing. Used the
+already-cached CURRENT docs confirmed during the 2026-09-21 stale-source audit (`DL360-G10+-v44.txt`, `DL380-G10+-v42.txt` — both
+already the latest hpe.com version, no new download needed for this part).
+
+**CPU pool.** `cpuAllow` (34 SKUs each, shared array — both docs list the identical 3rd Gen Xeon Scalable pool): the 31 SKUs
+the CURRENT doc actually orders (9 Platinum + 18 Gold + 4 Silver), plus 3 more the doc still specs in its feature table but has
+quietly dropped from the orderable Step-2a list — Platinum 8351N, Platinum 8352S, Gold 6314U (all three still have real part
+numbers in the older cached mirror: P37602/P37613/P37610-B21 — kept for refurb stock, the same "union of snapshots" reasoning
+used for the Gen11 CPU pools). Excluded: DL110 G10+'s two NEBS/telecom-only SKUs (5320T, 6338T). **Found a real correctness bug**:
+Platinum 8351N is single-socket-only despite not being a "U"-suffix part (both docs' own note: "8351N is single socket capable
+even though not being a 'U' processor") — added to `SINGLE_SOCKET_EXTRA`, which the generic 2-CPU check already reads.
+
+**Memory.** Per-CPU DDR4 speed cap now enforced (`CPU_MEM_MAX`, same mechanism as sp4/sp5, previously flat-listed as
+"documented gap, too fine-grained" back on 2026-09-15 — that reasoning is now superseded by the sp4/sp5 precedent): Silver
+SKUs and Gold 5318N/6330N/6338N cap at 2667; Platinum 8352V and Gold 5315Y/5317/5318S/5318Y/5320/6330 cap at 2933; everything
+else runs the platform ceiling, 3200. Sourced from DL360 G10+'s clean per-SKU ordering notes (DL380's own text extraction of
+the same wide feature table is badly column-mangled by `pdftotext -raw` — tried `-layout` on the cached PDFs in scratchpad too,
+but those turned out to be a stale 2021 V7 doc and an unrelated NEBS supplement, not useful); applied to both models since
+memory speed is a CPU silicon property, not a chassis one. **Doc typo not copied:** DL360's Gold 6338N note reads "2677 MT/s" —
+DDR4 has no such speed, read as 2667. `dimmKits:true` on both models now shows the real SmartMemory kit part number under the
+memory field (`DIMM_KITS.sp3`, new): 8GB P07525, 16GB P06031, 32GB P06033, 64GB P06035, 128GB P06037, 256GB P06039 (all -B21).
+16GB and 32GB each also have a single-rank alternative (P06029, P40007) — noted, the dual-rank part is what shows.
+
+**Battery.** `bat:[]` on both (previously falling back to the generic list): 96W battery P01366-B21, hybrid capacitor
+P02377-B21, no battery. No 16W-capacitor or standalone-battery variant in these docs (those were DL380 G11-only additions).
+
+**Fans — found a real bug matching the DL560 G11 class.** `DL360 G10+`'s `fans:{two:7,perf:7}` was missing a `one:` key
+entirely, so a single-processor pick got NO fan quantity auto-filled at all. Its own doc is explicit: base server ships 5
+fans, the 2-fan Standard Fan Kit **P37861-B21** ("complements base server default (5) to system max. of 7... supports
+processors with a TDP equal or lower than 195W") brings a 2-CPU build to 7, and the High-Performance Fan Kit P26477-B21 (7
+fans, replacing them all) is required at 205W+ — matching the fanW:205 threshold already set. Fixed to
+`fans:{one:5,two:7,perf:7}`, added `fanKit2P:{n:'Standard Fan Kit',pn:'P37861-B21'}` (same new mechanism from the DL380 G11 fan
+fix) so the explainer names the part. `DL380 G10+` already had all three fan-count keys correct; added the matching
+`fanKit2P` (its own 2-fan add-on is **P37042-B21**, confirmed in its own doc) and `fanPart:'P14608-B21'` (was set on the
+heatsink notes text but never on the rule key).
+
+QA: 760 ok / 0 FAIL (14 new tests: cpuAllow pool + exclusions, 8351N single-socket, per-CPU speed narrowing incl. the uncapped
+control case, MEMORY SPEED hard stop, DIMM kit hint, battery list both models, the fan-quantity fix both models).
+
+**Not done — needs a fresh document fetch (the current stand-up-card section's raw-mode text is too column-mangled to
+transcribe reliably, and the only cached PDFs for these two models turned out to be a stale 2021 doc and an unrelated NEBS
+supplement):** the stand-up NIC/Fibre-Channel-HBA card list with part numbers (`cards`, the G11-style axis — flr/OCP already
+has PNs, this would be its PCIe-slot sibling), rails/bezel/iLO sales-hint part numbers, and the NS204i-p/NS204i-r boot device
+(G10+'s generation of the device G11 calls NS204i-u — currently just two unsourced entries in the generic `CARDLIST`). All
+three would need the CURRENT V44/V42 PDF downloaded fresh and read with `pdftotext -layout` (raw mode badly mangles this
+particular wide table in both docs) — asking the user before doing that, same as before the Gen11 PDFs were fetched.

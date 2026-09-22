@@ -4394,4 +4394,67 @@ function runRound25(){
     ?pass25('DL560 G11: manually picking "Standard" does not fight the user or wrongly block — quantity is 6 either way (no real std/perf split exists)')
     :fail25('DL560 G11 manual Std pick handling wrong: qty='+d.getElementById('fanq').value+' checks='+chk26().slice(0,240));
   reset27();
+
+  // ===== DL360 G10+ / DL380 G10+: bring up to the same info level as G10/G11 (2026-09-22) =====
+  // Sources: DL360-G10+-v44.txt / DL380-G10+-v42.txt (both confirmed current, 2026-09-21 stale-source audit).
+  const cpuOpts28=function(){const ci=d.getElementById('cpu-input');ci.disabled=false;ci.value='';fire(ci,'input');
+    return [...d.querySelectorAll('#cpu-panel .combo-item .ci-main')].map(function(e){return e.textContent;});};
+
+  ['DL360 G10+','DL380 G10+'].forEach(function(label){
+    setModel25(label);
+    const opts=cpuOpts28();
+    (opts.length===34 && opts.some(function(o){return /8351N/.test(o);}) && opts.some(function(o){return /8352S/.test(o);}) && opts.some(function(o){return /6314U/.test(o);}) && !opts.some(function(o){return /5320T|6338T/.test(o);}))
+      ?pass25(label+': cpuAllow enforces the 34-SKU sp3 pool — the 31 the current doc orders, plus 8351N/8352S/6314U kept from the older doc (refurb stock), excluding the DL110-only NEBS parts')
+      :fail25(label+' cpuAllow wrong: '+opts.length+' options');
+  });
+
+  // 8351N: single-socket despite not being a "U" part (both docs' own note)
+  setModel25('DL360 G10+');pickCpuExact25('P8351N');setv26('cpuq','2');
+  /single-socket-only processor/.test(chk26())?pass25('DL360 G10+: Platinum 8351N is blocked at 2 processors (single-socket despite no "U" suffix)'):fail25('8351N single-socket not blocked: '+chk26().slice(0,200));
+  setv26('cpuq','');
+
+  // per-CPU memory speed cap now modeled for sp3 (previously a flat 2667/2933/3200 with no per-SKU narrowing)
+  setModel25('DL360 G10+');pickCpuExact25('S4309Y');
+  { const sp=[...d.querySelectorAll('#dimm-speed-btns button')].map(function(b){return Number(b.getAttribute('data-sp'));});
+    (sp.length===1 && sp[0]===2667)?pass25('DL360 G10+ (Silver S4309Y): memory speed narrowed to 2667 only'):fail25('S4309Y speed panel wrong: '+sp.join(',')); }
+  setv26('dimmq','2');setv26('dimm','16GB 3200 MT/s');
+  /MEMORY SPEED.*S4309Y runs memory at up to 2667/.test(chk26())?pass25('DL360 G10+: 3200 MT/s DIMM on a 2667-capped CPU is a hard stop'):fail25('sp3 speed cap not enforced: '+chk26().slice(0,240));
+  setv26('dimm','');setv26('dimmq','');
+  setModel25('DL360 G10+');pickCpuExact25('P8352V');
+  { const sp=[...d.querySelectorAll('#dimm-speed-btns button')].map(function(b){return Number(b.getAttribute('data-sp'));});
+    (sp.length===2 && sp.indexOf(3200)<0)?pass25('DL360 G10+ (Platinum 8352V, 2933 cap): offers 2667/2933, not the platform 3200 ceiling'):fail25('8352V speed panel wrong: '+sp.join(',')); }
+  setModel25('DL360 G10+');pickCpuExact25('P8380');
+  { const sp=[...d.querySelectorAll('#dimm-speed-btns button')].map(function(b){return Number(b.getAttribute('data-sp'));});
+    (sp.indexOf(3200)>-1)?pass25('DL360 G10+ (Platinum 8380, uncapped): still offers the full 3200'):fail25('8380 speed panel wrong: '+sp.join(',')); }
+
+  // DIMM kit part numbers now shown (dimmKits), same mechanism as G11
+  setModel25('DL360 G10+');pickCpuExact25('S4309Y');setv26('dimmq','2');setv26('dimm','16GB 2667 MT/s');
+  /P06031-B21/.test(d.getElementById('dimm-kit').textContent)?pass25('DL360 G10+ DIMM kit hint shows the 16GB dual-rank part number P06031-B21'):fail25('DL360 G10+ dimm-kit hint missing: '+d.getElementById('dimm-kit').textContent);
+  setv26('dimm','');setv26('dimmq','');
+
+  // battery list with part numbers (bat rule), same mechanism as G11
+  ['DL360 G10+','DL380 G10+'].forEach(function(label){
+    setModel25(label);
+    const o=opts26('bat');
+    (o.length===3 && o.some(function(x){return /P01366-B21/.test(x);}) && o.some(function(x){return /P02377-B21/.test(x);}) && o.indexOf('No battery')>-1)
+      ?pass25(label+': battery picker is the sourced 3-option list with part numbers')
+      :fail25(label+' battery list wrong: '+o.join(' | '));
+  });
+
+  // fan quantity bug: DL360 G10+ was missing a `one:` key entirely (1-processor picks got no fan qty)
+  setModel25('DL360 G10+');pickCpuExact25('S4309Y');setv26('cpuq','1');
+  (fanState25()==='Std Fans' && d.getElementById('fanq').value==='5')
+    ?pass25('DL360 G10+ 1 processor: 5 standard fans (previously unfilled — the rule had no `one:` key)')
+    :fail25('DL360 G10+ 1P fans wrong: '+fanState25()+' x'+d.getElementById('fanq').value);
+  setv26('cpuq','2');
+  (d.getElementById('fanq').value==='7' && /Standard Fan Kit \(P37861-B21/.test(d.getElementById('why-fan').textContent))
+    ?pass25('DL360 G10+ 2 processors: 7 fans, explainer names the Standard Fan Kit P37861-B21')
+    :fail25('DL360 G10+ 2P fan hint wrong: '+d.getElementById('fanq').value+' / '+d.getElementById('why-fan').textContent);
+  setModel25('DL380 G10+');pickCpuExact25('S4309Y');setv26('cpuq','1');
+  (d.getElementById('fanq').value==='4')?pass25('DL380 G10+ 1 processor: 4 standard fans (unaffected, key already present)'):fail25('DL380 G10+ 1P fans wrong: '+d.getElementById('fanq').value);
+  setv26('cpuq','2');
+  (d.getElementById('fanq').value==='6' && /Standard Fan Kit \(P37042-B21/.test(d.getElementById('why-fan').textContent))
+    ?pass25('DL380 G10+ 2 processors: 6 fans, explainer now names the Standard Fan Kit P37042-B21')
+    :fail25('DL380 G10+ 2P fan hint wrong: '+d.getElementById('fanq').value+' / '+d.getElementById('why-fan').textContent);
+  setv26('cpuq','');reset27();
 }

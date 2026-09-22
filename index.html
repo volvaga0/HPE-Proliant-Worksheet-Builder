@@ -1359,22 +1359,25 @@ var MODELS=[
        '8SFF backplanes: plain SAS/SATA (P38652-B21), Tri-Mode U.3 (x1 P27194-B21 or x4 P26931-B21) or pure NVMe U.2 (P26932-B21). The 12LFF Tri-Mode kit (P57819-B21) is treated as SAS/SATA-only — LFF has no NVMe.']}},
  {m:'DL360', g:'G10+', p:['sp3'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
    rules:{fanWtext:'205W or higher',verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P26479-B21',riserMax:2,
-     psuMax:2,fans:{two:7,perf:7},pcie:{one:2,two:3},rear:[],
-     fanW:205,fanPart:'P26477-B21',fanNVMe:true,fanRear:true,fanGPU:true,
+     psuMax:2,fans:{one:5,two:7,perf:7},fanKit2P:{n:'Standard Fan Kit',pn:'P37861-B21'},pcie:{one:2,two:3},rear:[],
+     fanW:205,fanPart:'P26477-B21',fanNVMe:true,fanRear:true,fanGPU:true,dimmKits:true,
+     cpuAllow:['S4309Y','S4310','S4314','S4316','G5315Y','G5317','G5318N','G5318S','G5318Y','G5320','G6312U','G6314U','G6326','G6330','G6330N','G6334','G6336Y','G6338','G6338N','G6342','G6346','G6348','G6354','P8351N','P8352M','P8352S','P8352V','P8352Y','P8358','P8358P','P8360Y','P8362','P8368','P8380'],
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P408i-a LH — needed for an accelerator in Slot 2/3 (869081-B21)','P816i-a (804338-B21)','P816i-a LH — needed for an accelerator in Slot 2/3 (869083-B21)','E208i-a (804326-B21)','E208i-a LH — needed for an accelerator in Slot 2/3 (869079-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
      flr:['BCM5719 1Gb 4p (P51181-B21)','I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57412 10Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16, needs High Performance Fan Kit (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','E810-XXVDA2 10/25Gb 2p — not for factory diagnostics (P10106-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','MCX631432AS 10/25Gb 2p — needs High Performance Fan Kit (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 + High Performance Fan Kit (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p — needs OCP x16 Enablement Kit + High Performance Fan Kit (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
      notes:['Several higher-bandwidth OCP cards need the High Performance Fan Kit (P26477-B21) and/or the OCP x16 Enablement Kit (P36661-B21) — see the per-card labels.',
        '800W/1600W Platinum use the Gen10 Plus codes (P38995/P38997-B21), not the G10 865414/830272 codes. Every embedded controller comes both plain and LH (low-profile heatsink), plus the full Tri-Mode -a family (MR216i-a/MR416i-a/SR416i-a), the PCIe -p siblings and SR932i-p.',
-       'Heatsink threshold is 150W (P26479-B21); the fan kit threshold is 205W (P26477-B21).',
-       'Dual processor configurations require 7 fans, standard or high performance.',
+       'Heatsink threshold is 150W (P26479-B21). Fans: one processor ships 5, standard or performance; the 2-fan Standard Fan Kit P37861-B21 makes 7 for a second processor at 195W or below, and the High Performance Fan Kit P26477-B21 (7 fans, replacing all of them) is required at 205W or above.',
        'All NVMe drives require the high performance fan kit, as do SAS4 drives.',
        'NVMe is not supported on the 4LFF model.',
        '100GbE or faster NICs, accelerators and 24G SAS drives all require high performance fans.',
        'An accelerator in slot 2 or 3 needs the LH (low profile heatsink) storage controller.',
        'Processors up to 140W, or 230W and above, require the DIMM blanks kit P07818-B21.',
        'Each processor feeds 2 x8 front NVMe connectors, supporting up to 4 drives — the socket must be populated for them to work.',
-       '8SFF backplanes: plain SAS/SATA-only (P26427-B21, cannot connect to Tri-Mode controllers), Tri-Mode U.3 (x1 P26431-B21 or x4 P26429-B21) or pure NVMe U.2 (P26433-B21).']}},
+       '8SFF backplanes: plain SAS/SATA-only (P26427-B21, cannot connect to Tri-Mode controllers), Tri-Mode U.3 (x1 P26431-B21 or x4 P26429-B21) or pure NVMe U.2 (P26433-B21).',
+       'CPU pool: the 31 SKUs the current doc orders, plus 3 the doc still specs but has pulled from its own ordering list (8351N, 8352S, 6314U — kept for refurb stock). Platinum 8352V and 8351N are single-socket despite not being "U" parts.',
+       'Memory: DDR4-3200 except where capped by the processor — Silver SKUs and Gold 5318N/6330N/6338N run at 2667 (this doc\'s text extraction shows "2677" for 6338N; DDR4 has no such speed, read as 2667), Platinum 8352V and Gold 5315Y/5317/5318S/5318Y/5320/6330 at 2933. DIMMs in even quantities. SmartMemory kit part numbers shown under the memory field; the 16GB and 32GB sizes also have a single-rank variant (P06029-B21, P40007-B21) — the dual-rank part is what shows there.']}},
  {m:'DL365', g:'G10+', p:['rome','milan'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
    rules:{fanWtext:'above 155W',verified:true,hsW:156,hsWtext:'above 155W',fanW:156,hsPart:'P19368-B21',fanPart:'P26477-B21',
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,rear:[],fanNVMe:true,fanRear:true,fanGPU:true,
@@ -1392,9 +1395,11 @@ var MODELS=[
        '8SFF backplanes: plain SAS/SATA-only (P38579-B21), Tri-Mode U.3 (P26429-B21) or pure NVMe U.2 (P26433-B21). 4LFF is SAS/SATA-only.']}},
  {m:'DL380', g:'G10+', p:['sp3'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{fanWtext:'above 205W',verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P27095-B21',riserMax:3,
-     psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},fanBays:['12LFF','24SFF'],
+     psuMax:2,fans:{one:4,two:6,perf:6},fanKit2P:{n:'Standard Fan Kit',pn:'P37042-B21'},pcie:{one:3,two:8},fanBays:['12LFF','24SFF'],
      rear:['2SFF rear','2SFF NVMe rear','4LFF midtray','8SFF midtray'],
-     fanW:206,fanNVMe:true,fanRear:true,fanGPU:true,
+     cpuAllow:['S4309Y','S4310','S4314','S4316','G5315Y','G5317','G5318N','G5318S','G5318Y','G5320','G6312U','G6314U','G6326','G6330','G6330N','G6334','G6336Y','G6338','G6338N','G6342','G6346','G6348','G6354','P8351N','P8352M','P8352S','P8352V','P8352Y','P8358','P8358P','P8360Y','P8362','P8368','P8380'],
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
+     dimmKits:true,fanW:206,fanPart:'P14608-B21',fanNVMe:true,fanRear:true,fanGPU:true,
      psu:['800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 (P17023-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
      flr:['BCM5719 1Gb 4p (P51181-B21)','I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p — discontinued in the current doc, still real (P10103-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','QL41232HQCU 10/25Gb 2p — discontinued in the current doc, still real (P10118-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
@@ -1408,7 +1413,10 @@ var MODELS=[
        '"U" SKUs (63xxU) are single-socket only.',
        'Mixing two different processor models is not allowed.',
        'Some cards are not supported on the 12LFF config or with midtray drive cages.',
-       '8SFF backplanes: plain SAS/SATA (P26930-B21), Tri-Mode U.3 (x1 P27194-B21 or x4 P26931-B21) or pure NVMe U.2 (P26932-B21). SAS/SATA/NVMe drives can be mixed within one U.3 Tri-Mode cage.']}},
+       '8SFF backplanes: plain SAS/SATA (P26930-B21), Tri-Mode U.3 (x1 P27194-B21 or x4 P26931-B21) or pure NVMe U.2 (P26932-B21). SAS/SATA/NVMe drives can be mixed within one U.3 Tri-Mode cage.',
+       'Fans: one processor ships 4, standard or performance; the 2-fan Standard Fan Kit P37042-B21 makes 6 for a second processor, unless the Max Performance Fan Kit P14608-B21 (6 fans, replacing them all) is already fitted.',
+       'CPU pool: the 31 SKUs the current doc orders, plus 3 the doc still specs but has pulled from its own ordering list (8351N, 8352S, 6314U — kept for refurb stock). Platinum 8352V and 8351N are single-socket despite not being "U" parts.',
+       'Memory: DDR4-3200 except where capped by the processor — Silver SKUs and Gold 5318N/6330N/6338N run at 2667 (this doc\'s text extraction shows "2677" for 6338N; DDR4 has no such speed, read as 2667), Platinum 8352V and Gold 5315Y/5317/5318S/5318Y/5320/6330 at 2933. DIMMs in even quantities. SmartMemory kit part numbers shown under the memory field; the 16GB and 32GB sizes also have a single-rank variant (P06029-B21, P40007-B21) — the dual-rank part is what shows there.']}},
  {m:'DL385', g:'G10+', p:['rome'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{fanWtext:'above 180W',verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
      hsPart:'P14610-B21',fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],fanPart:'P14608-B21',riserMax:3,
@@ -2344,7 +2352,7 @@ var CPUS=[
 /* single-socket-only exceptions that don't follow Intel's "U"-suffix
    convention (see the check in evaluate()) — sourced per-SKU, not
    guessed from the name. */
-var SINGLE_SOCKET_EXTRA=['P8581V','G6421N','G5411N'];
+var SINGLE_SOCKET_EXTRA=['P8581V','G6421N','G5411N','P8351N'];
 
 /* DDR generation + real discrete speed grades + real capacities per CPU
    platform code, sourced from HPE QuickSpecs (2026-09-14 — see
@@ -2411,9 +2419,9 @@ var MEM_SPEEDS={
     MT/s, but several Gold SKUs (5320, 5318Y, 5317, N-suffix 6338N/
     6330N) and every Silver SKU are capped at 2933 or 2667 MT/s
     ("lower DDR4 speed may be used in segment optimized processors").
-    All three real values are listed, per-exact-SKU enforcement left
-    as the same documented gap as sp5 (too fine-grained given nothing
-    else in this tool models below the platform level). */
+    All three real values are listed here; 2026-09-22 added per-exact-SKU
+    enforcement too (CPU_MEM_MAX), same mechanism as sp4/sp5 — narrows
+    the speed buttons and hard-stops a higher pick for DL360/DL380 G10+. */
  sp3:[2667,2933,3200],
  /* rome/milan (2026-09-15, checked directly against DL325/DL325+v2
     G10+ QuickSpecs): every individual EPYC 7002/7003 SKU listed runs
@@ -2443,6 +2451,13 @@ var MEM_CAPS={
    — a 5600 MT/s kit in a 4400 MT/s CPU runs at 4400, so the worksheet must not claim 5600 there.
    Applies to sp4 and sp5. CPUs missing here (the 4-socket 8450H/8460H/8468H) are simply not capped. */
 var CPU_MEM_MAX={
+ /* 3rd Gen Xeon Scalable (sp3, DDR4) — from the DL360 Gen10 Plus QuickSpecs (v44) per-SKU ordering
+    notes, clean there but garbled in DL380 Gen10 Plus's own text extraction of the same wide feature
+    table, so applied to both (memory speed is a CPU silicon property, not a chassis one). No entry =
+    the platform ceiling, 3200. One text-extraction artifact NOT copied: the DL360 doc's Gold 6338N
+    note reads "2677 MT/s" — DDR4 has no such speed, read as 2667. */
+ 'S4309Y':2667,'S4310':2667,'S4314':2667,'S4316':2667,'G5318N':2667,'G6330N':2667,'G6338N':2667,
+ 'P8352V':2933,'G5315Y':2933,'G5317':2933,'G5318S':2933,'G5318Y':2933,'G5320':2933,'G6330':2933,
  /* 4000 */ 'B3408U':4000,'G5418N':4000,'S4410Y':4000,'S4416+':4000,
  /* 4400 */ 'B3508U':4400,'G5411N':4400,'G5412U':4400,'G5415+':4400,'G5416S':4400,'G5418Y':4400,'G5420+':4400,'G6421N':4400,'G6430':4400,'S4509Y':4400,'S4510':4400,'S4514Y':4400,'S4516Y+':4400,
  /* 4800 */ 'G5512U':4800,'G5515+':4800,'G5520+':4800,'G6414U':4800,'G6416H':4800,'G6418H':4800,'G6426Y':4800,'G6434':4800,'G6434H':4800,'G6438N':4800,'G6438Y+':4800,'G6442Y':4800,'G6444Y':4800,'G6448H':4800,'G6448Y':4800,'G6454S':4800,'G6458Q':4800,'G6530':4800,'G6534':4800,'P8444H':4800,'P8452Y':4800,'P8458P':4800,'P8460Y+':4800,'P8462Y+':4800,'P8468':4800,'P8468V':4800,'P8470':4800,'P8470N':4800,'P8470Q':4800,'P8480+':4800,'P8490H':4800,'P8558U':4800,'P8581V':4800,'P8592V':4800,'P9462':4800,
@@ -2456,6 +2471,12 @@ var CPU_MEM_MAX={
    the 128GB 5600 factory twin as P66976-F21 (its -B21 and the DL380 doc say P69976). Only models with
    the dimmKits rule show these. */
 var DIMM_KITS={
+ /* sp3 (DDR4-3200), from the DL380 Gen10 Plus QuickSpecs. 16GB and 32GB each also have a
+    single-rank variant (P06029-B21, P40007-B21) — the dual-rank part shown here is the one
+    HPE's docs list first / recommend; the sales note mentions the alternate exists. */
+ sp3:{8:['P07525-B21','8GB Single Rank x8 DDR4-3200'],16:['P06031-B21','16GB Dual Rank x8 DDR4-3200'],
+      32:['P06033-B21','32GB Dual Rank x4 DDR4-3200'],64:['P06035-B21','64GB Dual Rank x4 DDR4-3200'],
+      128:['P06037-B21','128GB Quad Rank x4 DDR4-3200'],256:['P06039-B21','256GB Octal Rank x4 3DS DDR4-3200']},
  sp4:{16:['P43322-B21','16GB Single Rank x8 DDR5-4800'],32:['P43328-B21','32GB Dual Rank x8 DDR5-4800'],
       64:['P43331-B21','64GB Dual Rank x4 DDR5-4800'],96:['P66675-B21','96GB Dual Rank x4 DDR5-4800'],
       128:['P69974-B21','128GB Dual Rank x4 DDR5-4800'],256:['P90050-B21','256GB Quad Rank x4 3DS DDR5-4800']},
@@ -3811,7 +3832,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.22.1'; // 1st build shipped today
+var BUILD_VERSION='2026.09.22.2'; // 2nd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
