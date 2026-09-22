@@ -3038,3 +3038,57 @@ on each model, the widened slip-stripping regex). Build 2026.09.22.3.
 part numbers (the G11-style sales hints under those fields — not yet built for any G10+ model) and the NS204i-p/NS204i-r
 boot device (G10+'s generation of what G11 calls NS204i-u — still just two unsourced placeholder entries in the shared
 generic `CARDLIST`, not a real per-model catalogue entry).
+
+## Per-riser-position rear cages (G10 + G10+), G10+ boot device, G10 cpuAllow/battery (2026-09-22, build .4)
+
+User: "do the Per-riser-position rear-cage modeling for g10 and g10+, then the g10+ era boot device, then the g10 cpuallow
+and battery list." Downloaded the current DL360 Gen10 (V74, a00008159enw) and DL380 Gen10 (V77, a00008180enw) QuickSpecs
+from hpe.com with permission — confirmed by their own revision-history tables, not just the filename. Along the way,
+answered the user's separate question about the download mechanism: this session's browser pane auto-saves to Downloads
+without a manual "Save" dialog (unlike a real desktop browser); every download this pass was verified against the PDF's own
+`%%EOF` marker and its embedded version/date text, not trusted from the filename alone.
+
+**Per-riser-position rear cages.** New mechanism additions to `rearCageChecks()` (previously built only for DL380 G11):
+a generic check that a cage in the secondary/tertiary position needs the 2nd processor, and a `conflictsWith` field for a
+documented cage-vs-cage exclusion that isn't a same-position clash (two different positions the doc still says can't be
+used together).
+- **DL380 G10** (`DL380G10_CAGES`, new — first use of this mechanism on a classic-G10 chassis): simpler than G11 — the
+  2SFF SAS/SATA kit 826688-B21 is ONE part number good for either the primary or secondary riser (not two distinct
+  per-position parts), max 2 total on the SFF chassis (confirmed: "2 SFF in the rear is only supported with a 24 SFF model
+  or 12 LFF model... max 2 supported SFF model"). LFF instead takes the 3LFF kit 826685-B21 in the secondary position only.
+  4LFF midtray 826686-B21. **Found and fixed a real mislabel**: the flat list's "2SFF NVMe rear" entry (826687-B21)
+  implied NVMe drives could go in that rear slot — the doc says the opposite ("drive cage can be used in the rear of the
+  chassis, but will not support NVMe drives rear" — NVMe is front-only on this cage). Renamed to "2SFF SAS/SATA rear".
+- **DL380 G10+** (`DL380G10P_CAGES`, replacing the flat list): three real per-position 2LFF kits (primary P14579-B21,
+  secondary P25903-B21, tertiary P14580-B21) plus the one-part-two-positions 2SFF kit P26920-B21 (primary or secondary,
+  qty 2 = both) and two front/tertiary 2SFF kits (P26922/P26923-B21). The secondary and tertiary 2LFF kits cannot combine
+  even though they occupy different positions — a documented exclusion, now the first real use of `conflictsWith`.
+  rearMax: 3×2SFF (6SFF) on SFF, 2×2LFF (4LFF) on LFF.
+- **DL360 G10 / DL360 G10+**: left as flat lists (enriched with real PNs only) — both are genuinely single-position
+  chassis (DL360 G10: one rear-drive location behind the primary riser; DL360 G10+: no rear drive bays at all, confirmed
+  in its own doc) — per-position modeling doesn't apply and forcing it on would be inventing structure the docs don't have.
+
+**G10+ boot device.** `NS204i-p` (P12965-B21, PCIe x8 stand-up card, needs the High Performance Fan Kit — new fan-reason
+check added, `cardNames` matched against `/NS204i-p/i`) is on both `DL360G10P_CARDS` and `DL380G10P_CARDS`. DL360 G10+ also
+gets a riser-integrated alternative, `NS204i-r` (P26463-B21, new entry in `RISERS['DL360 G10+']`) — replaces the default
+primary riser, adds 2x M.2 22110 (media not included), and needs the same fan kit; DL380 G10+ has no such riser variant.
+
+**G10 cpuAllow.** Discovered the hard way (several pre-existing regression tests failed) that the current V74/V77 docs have
+pruned the CPU pool down to 29/35 SKUs each, while the shared CPU pool and multiple long-standing tests assume a much
+wider set is still valid. Rather than narrow to the pruned current-doc list (which would have wrongly blocked real,
+previously-working CPUs — the exact risk the DL560/DL380 G10 cpuAllow decision warned about back on 2026-09-17), built the
+union with a wider pre-pruning snapshot already cached for this project: **DL360 G10 = 106 SKUs**, **DL380 G10 = 111 SKUs**
+(both fully diffed against their source text programmatically, not hand-checked, after two manual-transcription slips —
+G5215L and G5222 — were caught this way and fixed). DL380 gets several SKUs DL360 doesn't (8156, 8160M, 8260M, 8276M,
+8280M, the Financial Sector Gold 6137/876562-B21, 5215L/5215M) — real per-model differences, not copied across.
+
+**G10 battery.** `bat:[]` on both, same 96W-battery/hybrid-capacitor/none pattern as every other generation (P01366-B21 /
+P02377-B21) — this part hasn't changed across Gen9–Gen11.
+
+QA: 789 ok / 0 FAIL (21 new tests: rear-cage per-position checks on all 4 models including the new conflictsWith/needs-CPU2
+mechanics, cpuAllow counts with per-model exclusions, battery lists, both boot-device paths, slip stripping). Build
+2026.09.22.4.
+
+**Not done / lower priority now:** DL360 G10's 10SFF Premium chassis fan/riser specifics beyond what's already modeled;
+rails/bezel/iLO PN hints for G10 (only built for G11 so far); the DL380 G10+ EDSFF-bundle rules and intrusion kit still
+flagged from the earlier stand-up-card pass.

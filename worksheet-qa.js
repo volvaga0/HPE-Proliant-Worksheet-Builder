@@ -4467,15 +4467,15 @@ function runRound25(){
     rows[rows.length-1].remove();return out;};
   reset27(); setModel25('DL360 G10+');
   { const o=cardOpts29();
-    (o.length===35 && o.some(function(x){return /SN1600E/.test(x);}) && !o.some(function(x){return /Slingshot/.test(x);}))
-      ?pass25('DL360 G10+ card picker: 35 stand-up options (Ethernet/InfiniBand/Omni-Path/FC), incl. its 2 Emulex SN1600E parts, no Slingshot')
+    (o.length===36 && o.some(function(x){return /SN1600E/.test(x);}) && !o.some(function(x){return /Slingshot/.test(x);}) && o.some(function(x){return /NS204i-p/.test(x);}))
+      ?pass25('DL360 G10+ card picker: 36 stand-up options (Ethernet/InfiniBand/Omni-Path/FC + NS204i-p), incl. its 2 Emulex SN1600E parts, no Slingshot')
       :fail25('DL360 G10+ card list wrong ('+o.length+'): SN1600E='+o.some(function(x){return /SN1600E/.test(x);})+' Slingshot='+o.some(function(x){return /Slingshot/.test(x);}));
     ['E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','MCX623105AS-VDAT 200Gb 1p QSFP56 (P10180-B21)','InfiniBand NDR200 200Gb 1p OSFP MCX75310AAS-HEAT (P45642-B22)','SN1610Q 32Gb FC 1p (R2E08A)','Secure Network Adapter 10/25Gb 2p (S2A69A)'].every(function(x){return o.indexOf(x)>-1;})
       ?pass25('DL360 G10+ card picker carries the doc\'s real part numbers'):fail25('DL360 G10+ card PNs missing'); }
   reset27(); setModel25('DL380 G10+');
   { const o=cardOpts29();
-    (o.length===34 && !o.some(function(x){return /SN1600E/.test(x);}) && o.some(function(x){return /Slingshot SA210S/.test(x);}))
-      ?pass25('DL380 G10+ card picker: 34 stand-up options — no SN1600E (DL360-only), has the Slingshot NIC (DL380-only)')
+    (o.length===35 && !o.some(function(x){return /SN1600E/.test(x);}) && o.some(function(x){return /Slingshot SA210S/.test(x);}) && o.some(function(x){return /NS204i-p/.test(x);}))
+      ?pass25('DL380 G10+ card picker: 35 stand-up options — no SN1600E (DL360-only), has the Slingshot NIC (DL380-only) and NS204i-p')
       :fail25('DL380 G10+ card list wrong ('+o.length+')'); }
   reset27(); setModel25('DL325 G10+');
   { const o=cardOpts29();
@@ -4503,5 +4503,97 @@ function runRound25(){
   { const flr=d.getElementById('flr');flr.disabled=false;flr.value='';fire(flr,'input');fire(flr,'focus');
     const o=[...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(e){return e.textContent;});
     o.some(function(x){return /never gives its full product name \(P31323-B21\)/.test(x);})?pass25('DL380 G10+ OCP list: P31323-B21 kept but flagged — the doc references the part number without ever naming the product'):fail25('DL380 G10+ P31323 handling wrong: '+o.filter(function(x){return /InfiniBand/.test(x);}).join(' | ')); }
+  reset27();
+
+  // ===== DL360/DL380 G10 + G10+: per-riser-position rear cages, G10 cpuAllow/battery, G10+ boot device (2026-09-22) =====
+  // Sources: current DL360 Gen10 QuickSpecs (V74, a00008159enw) and DL380 Gen10 QuickSpecs (V77, a00008180enw),
+  // both downloaded fresh with permission this pass; DL360/DL380 G10+'s own docs (already on hand).
+  reset27();
+
+  // --- G10 cpuAllow: the current docs prune most SKUs, so this is the union with the wider pre-pruning
+  // snapshots already cached for this project (same "latest != best" pattern as the other axes) ---
+  setModel25('DL360 G10');
+  { const o=cpuList26();
+    (o.length===106 && o.some(function(x){return /6140\b/.test(x);}) && o.some(function(x){return /5215L/.test(x);}) && o.some(function(x){return /8180M/.test(x);}) && !o.some(function(x){return x.indexOf('P8156')>-1;}))
+      ?pass25('DL360 G10: cpuAllow enforces the 106-SKU 1st+2nd-Gen pool the current + wider doc snapshot confirm together (incl. 6140/5215L/8180M) — excludes Platinum 8156, which is real for DL380 but not this model')
+      :fail25('DL360 G10 cpuAllow wrong: '+o.length+' options'); }
+  setModel25('DL380 G10');
+  { const o=cpuList26();
+    (o.length===111 && o.some(function(x){return /6137\b/.test(x);}) && o.some(function(x){return /8260M/.test(x);}) && o.some(function(x){return x.indexOf('P8156')>-1;}) && !o.some(function(x){return /8160M/.test(x);}))
+      ?pass25('DL380 G10: cpuAllow enforces the 111-SKU pool, incl. the Financial Sector Gold 6137 (876562-B21) and 8260M/8156 — excludes the 8160M "1.5TB memory" part, which is DL360-only')
+      :fail25('DL380 G10 cpuAllow wrong: '+o.length+' options'); }
+
+  // --- G10 battery list ---
+  ['DL360 G10','DL380 G10'].forEach(function(label){
+    setModel25(label);
+    const o=opts26('bat');
+    (o.length===3 && o.some(function(x){return /P01366-B21/.test(x);}) && o.some(function(x){return /P02377-B21/.test(x);}))
+      ?pass25(label+': battery picker is the sourced 3-option list with part numbers')
+      :fail25(label+' battery list wrong: '+o.join(' | '));
+  });
+
+  // --- DL360 G10 rear list: single position, real part numbers, no per-position modeling (1U, one location) ---
+  setModel25('DL360 G10');
+  { const o=[...d.querySelectorAll('#rearopts option')].map(function(x){return x.value;});
+    (o.length===2 && o.indexOf('1SFF rear (867972-B21)')>-1 && o.indexOf('2x M.2 (dual uFF) rear (867978-B21)')>-1)
+      ?pass25('DL360 G10: rear list carries real part numbers (867972/867978-B21), still one flat location')
+      :fail25('DL360 G10 rear list wrong: '+o.join(' | ')); }
+
+  // --- DL380 G10 per-riser-position rear cages (new rearCages mechanism, first use on a classic-G10 chassis) ---
+  reset27(); setModel25('DL380 G10'); setv26('bays','24SFF');
+  addRear27('2SFF rear, primary riser (826688-B21)'); addRear27('2SFF rear, secondary riser (826688-B21)');
+  (!/REAR CONFLICT|REAR NOT SUPPORTED/.test(chk26()))?pass25('DL380 G10 24SFF: 2SFF cages in primary + secondary accepted together'):fail25('DL380 G10 P+S wrongly blocked: '+chk26().slice(0,240));
+  addRear27('2SFF rear, primary riser (826688-B21)');
+  /at most 2 2SFF rear cages/.test(chk26())?pass25('DL380 G10: a 3rd 2SFF rear cage is blocked — the doc caps it at 2 total'):fail25('DL380 G10 3rd 2SFF not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G10'); setv26('bays','12LFF');
+  addRear27('3LFF rear, secondary riser (826685-B21)');
+  (!/REAR NOT SUPPORTED/.test(chk26()))?pass25('DL380 G10 12LFF: the 3LFF rear cage (secondary position) is accepted'):fail25('DL380 G10 3LFF on LFF wrongly blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G10'); setv26('bays','8SFF');
+  addRear27('3LFF rear, secondary riser (826685-B21)');
+  /REAR NOT SUPPORTED.*8LFF and 12LFF chassis/.test(chk26())?pass25('DL380 G10: the 3LFF rear cage is blocked on an SFF chassis (LFF only)'):fail25('DL380 G10 3LFF on SFF not blocked: '+chk26().slice(0,240));
+  reset27(); setModel25('DL380 G10'); setv26('bays','8SFF');
+  addRear27('2SFF SAS/SATA rear (826687-B21)');
+  (!/REAR NOT SUPPORTED|REAR CONFLICT/.test(chk26()))?pass25('DL380 G10: the front NVMe/Premium cage relocated to the rear (826687-B21, SAS/SATA there) is accepted as a plain line')
+    :fail25('DL380 G10 826687 rear line wrongly blocked: '+chk26().slice(0,240));
+
+  // --- DL380 G10+ per-riser-position rear cages ---
+  reset27(); setModel25('DL380 G10+'); setv26('bays','24SFF');
+  addRear27('2SFF rear, primary riser (P26920-B21)'); addRear27('2SFF rear, secondary riser (P26920-B21)'); addRear27('2SFF NVMe rear, tertiary riser (P26922-B21)');
+  (!/REAR CONFLICT|REAR NOT SUPPORTED/.test(chk26()))?pass25('DL380 G10+ 24SFF: 2SFF cages in primary, secondary and tertiary (3, 6SFF total) accepted together'):fail25('DL380 G10+ P+S+T wrongly blocked: '+chk26().slice(0,300));
+  addRear27('2SFF rear, tertiary riser (P26923-B21)');
+  /Two rear cages are in the tertiary riser position/.test(chk26())?pass25('DL380 G10+: a second tertiary-position cage (P26923) conflicts with the one already there (P26922)'):fail25('DL380 G10+ 2nd tertiary not blocked: '+chk26().slice(0,300));
+  reset27(); setModel25('DL380 G10+'); setv26('bays','12LFF');
+  addRear27('2LFF rear, secondary riser (P25903-B21)'); addRear27('2LFF rear, tertiary riser (P14580-B21)');
+  /"2LFF rear, secondary riser" and "2LFF rear, tertiary riser" cannot be selected together/.test(chk26())
+    ?pass25('DL380 G10+: the secondary and tertiary 2LFF cages cannot combine — a documented cage-vs-cage exclusion, not a same-position clash')
+    :fail25('DL380 G10+ 2LFF conflictsWith not caught: '+chk26().slice(0,300));
+  reset27(); setModel25('DL380 G10+'); setv26('bays','12LFF'); setv26('cpuq','1');
+  addRear27('2LFF rear, secondary riser (P25903-B21)');
+  /needs the second processor/.test(chk26())?pass25('DL380 G10+: a rear cage in the secondary position is flagged as needing the 2nd processor'):fail25('DL380 G10+ secondary-needs-CPU2 not flagged: '+chk26().slice(0,300));
+  setv26('cpuq','2');
+  !/needs the second processor/.test(chk26())?pass25('...and clears once the 2nd processor is set'):fail25('DL380 G10+ CPU2 flag did not clear');
+  reset27(); setModel25('DL380 G10+'); setv26('bays','8LFF');
+  addRear27('2LFF rear, primary riser (P14579-B21)');
+  (!/REAR NOT SUPPORTED/.test(chk26()))?pass25('DL380 G10+ 8LFF: the 2LFF primary rear cage is accepted'):fail25('DL380 G10+ 2LFF primary wrongly blocked: '+chk26().slice(0,240));
+  addRear27('2LFF rear, primary riser (P14579-B21)');
+  /Two rear cages are in the primary riser position/.test(chk26())?pass25('DL380 G10+: a second 2LFF cage claiming the same (primary) position is blocked — max one per position, so 2LFF rear tops out at 2 total (primary+secondary or primary+tertiary)'):fail25('DL380 G10+ duplicate-primary 2LFF not blocked: '+chk26().slice(0,240));
+
+  // --- slip strips positions' part numbers, keeps the position wording ---
+  reset27(); setModel25('DL380 G10+'); setv26('bays','24SFF'); addRear27('2SFF rear, primary riser (P26920-B21)');
+  { const sl=slip27();
+    (/24SFF \+ 2SFF rear, primary riser/.test(sl) && !/P26920/.test(sl))?pass25('DL380 G10+ slip: rear cage keeps its position, drops the part number'):fail25('DL380 G10+ slip rear wrong: '+sl.slice(0,200)); }
+
+  // --- G10+ boot device: NS204i-p (stand-up card, both models) and NS204i-r (DL360-only riser) ---
+  reset27(); setModel25('DL360 G10+'); pickCpuExact25('S4210'); setv26('cpuq','1');
+  addCard27('NS204i-p NVMe PCIe3 x2 lanes boot device — needs High Performance Fan Kit (P12965-B21)','1');
+  (fanState27()==='Perf Fans')?pass25('DL360 G10+: the NS204i-p boot device carries its fan-kit requirement in the card label and forces performance fans'):fail25('DL360 G10+ NS204i-p fan rule wrong: '+fanState27());
+  reset27(); setModel25('DL380 G10+');
+  { const o=cardOpts29();
+    o.some(function(x){return /NS204i-p.*P12965-B21/.test(x);})?pass25('DL380 G10+ also offers the NS204i-p boot device (shared with DL360)'):fail25('DL380 G10+ NS204i-p missing'); }
+  reset27(); setModel25('DL360 G10+');
+  { const RIS26=grab25('RISERS')||{};
+    (RIS26['DL360 G10+']||[]).some(function(k){return /NS204i-r.*P26463-B21/.test(k.n)&&k.pos==='primary';})
+      ?pass25('DL360 G10+ riser kits include the NS204i-r primary riser (P26463-B21) — a riser-integrated boot device alternative')
+      :fail25('DL360 G10+ NS204i-r riser missing'); }
   reset27();
 }

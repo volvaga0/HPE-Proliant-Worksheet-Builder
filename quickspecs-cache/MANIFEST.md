@@ -95,3 +95,6 @@ One row per cached file in this directory. See `README.md` for how to use/add to
 | ML110-G10-v15.txt | ML110 | G10 | a00021851enus | Version 15 -- 3-Jun-2019 (latest; identical era to the cached official copy). No changes. | hpe.com/psnow/doc/a00021851enus | 2026-09-21 |
 | DL360-G10+-v44.pdf (downloaded, not committed) | DL360 | G10+ | a50002559enw | Version 44 -- 28-Jul-2025 (confirmed current) | hpe.com/psnow/doc/a50002559enw | 2026-09-22 |
 | DL380-G10+-v42.pdf (downloaded, not committed) | DL380 | G10+ | a50002553enw | Version 42 -- 28-Jul-2025 (confirmed current) | hpe.com/psnow/doc/a50002553enw | 2026-09-22 |
+| DL360-G10-v74.txt | DL360 | G10 | a00008159enw | Version 74 -- 18-May-2026 (current, downloaded 2026-09-22; heavily pruned CPU list vs the cached mirror -- see cpuAllow union in PROJECT.md) | hpe.com/psnow/doc/a00008159enw | 2026-09-22 |
+| DL380-G10-v77.txt | DL380 | G10 | a00008180enw | Version 77 -- 16-Jun-2025 (current, downloaded 2026-09-22; same pruning pattern as DL360, PSU/riser/FlexibleLOM data unchanged from the earlier live-HTML check) | hpe.com/psnow/doc/a00008180enw | 2026-09-22 |
+| DL360-G10+-v44.pdf / DL380-G10+-v42.pdf (downloaded, not committed) -- see 2026-09-22 builds .3/.4 in PROJECT.md for the -table extraction used on both |

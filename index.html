@@ -1048,6 +1048,35 @@ var DL380G11_CAGES=[
  {n:'8SFF midtray, x1 Tri-Mode (P48815-B21)',pos:'M'},
  {n:'8SFF midtray, x4 Tri-Mode (P48816-B21)',pos:'M'}];
 
+/* DL380 Gen10 (classic) rear cages, from the current QuickSpecs (V77, downloaded 2026-09-22). A
+   simpler shape than G11's: the 2SFF kit is ONE part number good for either riser position (not two
+   distinct per-position kits), and LFF has only a secondary/tertiary-blocking 3LFF option, no 2LFF
+   cage at all. rearMax needs no LFF entry — the one-cage-per-position check already caps it at 2
+   (one 3LFF in secondary + the front cage is not a "rear" line at all). */
+var DL380G10_CAGES=[
+ {n:'2SFF rear, primary riser (826688-B21)',pos:'P'},
+ {n:'2SFF rear, secondary riser (826688-B21)',pos:'S'},
+ {n:'3LFF rear, secondary riser (826685-B21)',pos:'S',cls:['LFF'],only:'the 8LFF and 12LFF chassis'},
+ {n:'4LFF midtray (826686-B21)',pos:'M'}];
+
+/* DL380 Gen10 Plus rear cages, from the current QuickSpecs (V42, downloaded 2026-09-22). The 2SFF
+   SAS/SATA kit (P26920-B21) is one part for either the primary or secondary position (qty 1 = whichever
+   isn't already a plain riser, qty 2 = both); the 2LFF kits are three distinct per-position parts, same
+   shape as G11's. Two 2LFF cages cannot combine even though they sit in different positions — a
+   documented cage-vs-cage exclusion (`conflictsWith`), not a riser-kit or same-position clash, so it
+   needs its own check rather than the generic per-position one. */
+var DL380G10P_CAGES=[
+ {n:'2SFF rear, primary riser (P26920-B21)',pos:'P'},
+ {n:'2SFF rear, secondary riser (P26920-B21)',pos:'S'},
+ {n:'2LFF rear, primary riser (P14579-B21)',pos:'P',cls:['LFF'],only:'the 8LFF and 12LFF chassis'},
+ {n:'2LFF rear, secondary riser (P25903-B21)',pos:'S',cls:['LFF'],only:'the 8LFF and 12LFF chassis',conflictsWith:'2LFF rear, tertiary riser (P14580-B21)'},
+ {n:'2LFF rear, tertiary riser (P14580-B21)',pos:'T',cls:['LFF'],only:'the 8LFF and 12LFF chassis',noRiser:['secondary'],conflictsWith:'2LFF rear, secondary riser (P25903-B21)'},
+ {n:'2SFF NVMe rear, tertiary riser (P26922-B21)',pos:'T'},
+ {n:'2SFF rear, tertiary riser (P26923-B21)',pos:'T'},
+ {n:'4LFF midtray (P26919-B21)',pos:'M'},
+ {n:'8SFF midtray, x1 Tri-Mode (P27193-B21)',pos:'M'},
+ {n:'8SFF midtray, x4 Tri-Mode (P39769-B21)',pos:'M'}];
+
 /* DL360 / DL380 Gen10 Plus stand-up (PCIe) card catalogue, from the current QuickSpecs (V44 / V42,
    downloaded 2026-09-22) — the two docs' Ethernet/InfiniBand/Omni-Path lists match except DL380 also
    offers the Slingshot NIC; the Fibre Channel HBA lists genuinely differ (DL360 gets 2 extra Emulex
@@ -1073,7 +1102,8 @@ var DL360G10P_CARDS=[
  'Omni-Path 100Gb 1p QSFP28 OP101 (829335-B21)',
  'SN1200E 16Gb FC 1p (Q0L13A)','SN1200E 16Gb FC 2p (Q0L14A)','SN1600E 32Gb FC 1p (Q0L11A)','SN1600E 32Gb FC 2p (Q0L12A)',
  'SN1610E 32Gb FC 1p (R2J62A)','SN1610E 32Gb FC 2p (R2J63A)','SN1700E 64Gb FC 1p (R7N77A)','SN1700E 64Gb FC 2p (R7N78A)',
- 'SN1100Q 16Gb FC 1p (P9D93A)','SN1100Q 16Gb FC 2p (P9D94A)','SN1610Q 32Gb FC 1p (R2E08A)','SN1610Q 32Gb FC 2p (R2E09A)'];
+ 'SN1100Q 16Gb FC 1p (P9D93A)','SN1100Q 16Gb FC 2p (P9D94A)','SN1610Q 32Gb FC 1p (R2E08A)','SN1610Q 32Gb FC 2p (R2E09A)',
+ 'NS204i-p NVMe PCIe3 x2 lanes boot device — needs High Performance Fan Kit (P12965-B21)'];
 var DL380G10P_CARDS=[
  'BCM5719 1Gb 4p (P51178-B21)','I350-T4 1Gb 4p (P21106-B21)',
  'BCM57416 10Gb 2p BASE-T (P26253-B21)','BCM57412 10Gb 2p SFP+ (P26259-B21)','X710-DA2 10Gb 2p SFP+ (P28787-B21)',
@@ -1090,7 +1120,8 @@ var DL380G10P_CARDS=[
  'Omni-Path 100Gb 1p QSFP28 OP101 (829335-B21)',
  'SN1200E 16Gb FC 1p (Q0L13A)','SN1200E 16Gb FC 2p (Q0L14A)',
  'SN1610E 32Gb FC 1p (R2J62A)','SN1610E 32Gb FC 2p (R2J63A)','SN1700E 64Gb FC 1p (R7N77A)','SN1700E 64Gb FC 2p (R7N78A)',
- 'SN1100Q 16Gb FC 1p (P9D93A)','SN1100Q 16Gb FC 2p (P9D94A)','SN1610Q 32Gb FC 1p (R2E08A)','SN1610Q 32Gb FC 2p (R2E09A)'];
+ 'SN1100Q 16Gb FC 1p (P9D93A)','SN1100Q 16Gb FC 2p (P9D94A)','SN1610Q 32Gb FC 1p (R2E08A)','SN1610Q 32Gb FC 2p (R2E09A)',
+ 'NS204i-p NVMe PCIe3 x2 lanes boot device — needs High Performance Fan Kit (P12965-B21)'];
 
 var MODELS=[
  {m:'DL20', g:'G9', p:['e3'],    s:1, d:4, bays:['4SFF','2LFF'],
@@ -1243,7 +1274,9 @@ var MODELS=[
  {m:'DL360',g:'G10', p:['sp1','sp2'],  s:2, d:24, bays:['4LFF','8SFF','10SFF'],
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',hsPart:'871246-B21',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
-     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear','2x M.2 (dual uFF) rear'],
+     psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:['1SFF rear (867972-B21)','2x M.2 (dual uFF) rear (867978-B21)'],
+     cpuAllow:['B3104','B3106','B3204','B3206R','G5115','G5117','G5118','G5120','G5122','G5215','G5215L','G5217','G5218','G5218B','G5218N','G5218R','G5220','G5220R','G5220S','G5222','G6126','G6128','G6130','G6132','G6134','G6134M','G6136','G6138','G6140','G6142','G6143','G6144','G6146','G6148','G6150','G6152','G6154','G6208U','G6209U','G6210U','G6212U','G6222V','G6226','G6226R','G6230','G6230N','G6230R','G6234','G6238','G6238L','G6238R','G6240','G6240L','G6240R','G6240Y','G6242','G6242R','G6244','G6246','G6246R','G6248','G6248R','G6250','G6250L','G6252','G6252N','G6254','G6256','G6258R','G6262V','P8153','P8158','P8160','P8160M','P8164','P8165','P8168','P8170','P8176','P8180','P8180M','P8253','P8256','P8260','P8260L','P8260Y','P8268','P8270','P8276','P8276L','P8280','P8280L','S4108','S4110','S4112','S4114','S4116','S4208','S4210','S4210R','S4214','S4214R','S4214Y','S4215','S4215R','S4216'],
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P408i-a LH — low-profile heatsink variant, needed for GPU builds (869081-B21)','P816i-a (804338-B21)','P816i-a LH — low-profile heatsink variant, needed for GPU builds (869083-B21)','E208i-a (804326-B21)','E208i-a LH — low-profile heatsink variant, needed for GPU builds (869079-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
      flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','537FLR-SFP+ 2x10Gb (P08440-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)','547FLR-QSFP InfiniBand FDR/Eth 40/50Gb (879482-B21)'],
@@ -1258,12 +1291,16 @@ var MODELS=[
        'Mixing two different processor models is not allowed.',
        'P816i-a, P408i-a and E208i-a each come as a plain kit and an LH (low-height, low profile heatsink) variant. For a GPGPU build order the LH controller so the GPU fits.',
        'Fans are not tied to CPU wattage on this generation — only to NVMe, rear drives and GPUs. The performance heatsink alone covers cooling up to its rated TDP.',
-       'The 10 NVMe upgrade kit (867974-B21) fits an 8SFF chassis only, needs 2 processors and the High Performance Fan Kit (871244-B21). The base 8SFF ships plain SAS/SATA; a small separate 2SFF NVMe/Premium cage kit sits in the media-bay position, not the main 8 bays.']}},
+       'The 10 NVMe upgrade kit (867974-B21) fits an 8SFF chassis only, needs 2 processors and the High Performance Fan Kit (871244-B21). The base 8SFF ships plain SAS/SATA; a small separate 2SFF NVMe/Premium cage kit sits in the media-bay position, not the main 8 bays.',
+       'CPU pool is 1st and 2nd Gen Xeon Scalable, 105 confirmed SKUs (the current doc has pruned most to 29 — a wider snapshot before that pruning still lists the rest with real part numbers, kept for refurb stock). Rear drive option is one location only, behind the primary riser — no per-riser-position modeling on this 1U chassis.']}},
  {m:'DL380',g:'G10', p:['sp1','sp2'],  s:2, d:24, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',hsPart:'826706-B21',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},
-     rear:['2SFF rear','2SFF NVMe rear','3LFF rear','4LFF midtray'],
+     rear:DL380G10_CAGES.map(function(c){return c.n;}).concat(['2SFF SAS/SATA rear (826687-B21)']),rearCages:DL380G10_CAGES,
+     rearMax:{SFF:{'2SFF':2}},
+     cpuAllow:['B3104','B3106','B3204','B3206R','G5115','G5117','G5118','G5120','G5122','G5215','G5215L','G5215M','G5217','G5218','G5218B','G5218N','G5218R','G5220','G5220R','G5220S','G5222','G6126','G6128','G6130','G6132','G6134','G6134M','G6136','G6137','G6138','G6140','G6142','G6143','G6144','G6146','G6148','G6150','G6152','G6154','G6208U','G6209U','G6210U','G6212U','G6222V','G6226','G6226R','G6230','G6230N','G6230R','G6234','G6238','G6238L','G6238R','G6240','G6240L','G6240R','G6240Y','G6242','G6242R','G6244','G6246','G6246R','G6248','G6248R','G6250','G6250L','G6252','G6252N','G6254','G6256','G6258R','G6262V','P8153','P8156','P8158','P8160','P8164','P8165','P8168','P8170','P8176','P8180','P8180M','P8253','P8256','P8260','P8260L','P8260M','P8260Y','P8268','P8270','P8276','P8276L','P8276M','P8280','P8280L','P8280M','S4108','S4110','S4112','S4114','S4116','S4208','S4210','S4210R','S4214','S4214R','S4214Y','S4215','S4215R','S4216'],
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','1600W Flex Slot -48VDC (P17023-B21)','1800-2200W Flex Slot Titanium, EU Lot 9 compliant (P44712-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','P824i-p (870658-B21 — needs Cable Kit P00614-B21)'],
      flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','535FLR-T 2x10GbT (817721-B21)','537FLR-SFP+ 2x10Gb (P08440-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)','Pensando DSP Adaptive LOM Module — needs Pensando DSP 10/25G 2p SFP28 Card P26966-B21, no GPU (P26969-B21)','547FLR-QSFP InfiniBand FDR/Eth 40/50Gb (879482-B21)'],
@@ -1271,11 +1308,13 @@ var MODELS=[
      rear2SFF:['24SFF','12LFF'],fanPart:'867810-B21',memPerSocket:768,riserMax:3,
      notes:['High performance fan kit 867810-B21 is required for NVMe, for GPUs, and when boxes 1, 2 and 3 are all populated.',
        '2SFF rear is only supported on a 24SFF or 12LFF chassis.',
+       'Rear cages: the 2SFF SAS/SATA riser kit 826688-B21 sits in the primary or secondary position (max 2, one per position); on the LFF chassis the 3LFF rear kit 826685-B21 takes the secondary position instead (LFF only, max one). 826687-B21 is the front NVMe/Premium cage that can also be moved to the rear — SAS/SATA only there, it does not carry NVMe to the rear despite supporting it up front.',
        'NVMe drives require a specific riser.',
        'Mixing two different processor models is not allowed.',
        'No LH (low-height) controller variants on this chassis. P824i-p (870658-B21) needs Cable Kit P00614-B21.',
        'Premium bay kit gives 6 SAS/SATA + 2 NVMe, or 8 SAS/SATA, per box.',
-       'Fans are not tied to CPU wattage on this generation — only to NVMe, GPUs, rear drives and dense bay counts. The performance heatsink alone covers cooling up to its rated TDP.']}},
+       'Fans are not tied to CPU wattage on this generation — only to NVMe, GPUs, rear drives and dense bay counts. The performance heatsink alone covers cooling up to its rated TDP.',
+       'CPU pool is 1st and 2nd Gen Xeon Scalable, 111 confirmed SKUs (the current doc has pruned most to 35 — older snapshots list the rest with real part numbers, kept for refurb stock; includes the Financial Sector Gold 6137, 876562-B21). The 8160M "1.5TB memory" part is DL360-only, not offered here.']}},
  {m:'DL385',g:'G10', p:['naples','rome'], s:2, d:32, bays:['8SFF','16SFF','24SFF','12LFF'],
    rules:{fanWtext:'above 180W',verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,
      psuMax:2,fans:{one:4,two:6,perf:6},pcie:{one:3,two:8},riserMax:3,fanBays:['12LFF','24SFF'],
@@ -1422,7 +1461,8 @@ var MODELS=[
        '8SFF backplanes: plain SAS/SATA-only (P26427-B21, cannot connect to Tri-Mode controllers), Tri-Mode U.3 (x1 P26431-B21 or x4 P26429-B21) or pure NVMe U.2 (P26433-B21).',
        'CPU pool: the 31 SKUs the current doc orders, plus 3 the doc still specs but has pulled from its own ordering list (8351N, 8352S, 6314U — kept for refurb stock). Platinum 8352V and 8351N are single-socket despite not being "U" parts.',
        'Memory: DDR4-3200 except where capped by the processor — Silver SKUs and Gold 5318N/6330N/6338N run at 2667 (this doc\'s text extraction shows "2677" for 6338N; DDR4 has no such speed, read as 2667), Platinum 8352V and Gold 5315Y/5317/5318S/5318Y/5320/6330 at 2933. DIMMs in even quantities. SmartMemory kit part numbers shown under the memory field; the 16GB and 32GB sizes also have a single-rank variant (P06029-B21, P40007-B21) — the dual-rank part is what shows there.',
-       'Stand-up cards (Ethernet up to 200Gb, InfiniBand, Omni-Path, 8 Fibre Channel HBAs incl. 2 Emulex SN1600E parts DL380 does not offer) carry part numbers in the picker. 100Gb+ and InfiniBand cards need the High Performance Fan Kit and are not supported with 256GB DIMMs; most sit only in x16 slots (1/2/4/5/7, not 3 or 6). No Slingshot NIC on this model (DL380 has one).']}},
+       'Stand-up cards (Ethernet up to 200Gb, InfiniBand, Omni-Path, 8 Fibre Channel HBAs incl. 2 Emulex SN1600E parts DL380 does not offer) carry part numbers in the picker. 100Gb+ and InfiniBand cards need the High Performance Fan Kit and are not supported with 256GB DIMMs; most sit only in x16 slots (1/2/4/5/7, not 3 or 6). No Slingshot NIC on this model (DL380 has one).',
+       'Boot device: the NS204i-p PCIe card (P12965-B21) needs the High Performance Fan Kit. Unique to this model — a riser-integrated alternative, the NS204i-r (2x M.2, media not included), replaces the default primary riser and drops Slot 2 from x16 to x8 (P26463-B21).']}},
  {m:'DL365', g:'G10+', p:['rome','milan'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
    rules:{fanWtext:'above 155W',verified:true,hsW:156,hsWtext:'above 155W',fanW:156,hsPart:'P19368-B21',fanPart:'P26477-B21',
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,rear:[],fanNVMe:true,fanRear:true,fanGPU:true,
@@ -1441,7 +1481,8 @@ var MODELS=[
  {m:'DL380', g:'G10+', p:['sp3'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{fanWtext:'above 205W',verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P27095-B21',riserMax:3,
      psuMax:2,fans:{one:4,two:6,perf:6},fanKit2P:{n:'Standard Fan Kit',pn:'P37042-B21'},cards:DL380G10P_CARDS,pcie:{one:3,two:8},fanBays:['12LFF','24SFF'],
-     rear:['2SFF rear','2SFF NVMe rear','4LFF midtray','8SFF midtray'],
+     rear:DL380G10P_CAGES.map(function(c){return c.n;}),rearCages:DL380G10P_CAGES,
+     rearMax:{SFF:{'2SFF':3},LFF:{'2LFF':2}},
      cpuAllow:['S4309Y','S4310','S4314','S4316','G5315Y','G5317','G5318N','G5318S','G5318Y','G5320','G6312U','G6314U','G6326','G6330','G6330N','G6334','G6336Y','G6338','G6338N','G6342','G6346','G6348','G6354','P8351N','P8352M','P8352S','P8352V','P8352Y','P8358','P8358P','P8360Y','P8362','P8368','P8380'],
      bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
      dimmKits:true,fanW:206,fanPart:'P14608-B21',fanNVMe:true,fanRear:true,fanGPU:true,
@@ -1450,7 +1491,8 @@ var MODELS=[
      flr:['BCM5719 1Gb 4p (P51181-B21)','I350-T4 1Gb 4p (P08449-B21)','BCM57416 10Gb 2p (P10097-B21)','QL41132HQRJ 10Gb 2p — discontinued in the current doc, still real (P10103-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','MCX562A 10/25Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P10112-B21)','QL41232HQCU 10/25Gb 2p — discontinued in the current doc, still real (P10118-B21)','E810-CQDA2 100Gb 2p — needs OCP x16 Enablement Kit P36661-B21 for x16 (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p OCP3 — same restrictions as the 2p card; the doc\'s own restrictions table references this part number but never gives its full product name (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p — needs OCP x16 Enablement Kit + Max Performance Fan Kit, not with 256GB DIMMs (P31348-B21)'],
      notes:['Some OCP cards need the OCP x16 Enablement Kit (P36661-B21) and/or the Max Performance fan kit (P14608-B21) — see the per-card labels.',
        'No 500W tier — 800W and up, using the Gen10 Plus 800W/1600W Platinum codes (P38995/P38997-B21). Controllers are the plain (non-LH) modular variants only, plus the full Tri-Mode -a family (MR216i-a/MR416i-a/SR416i-a), the PCIe -p siblings and SR932i-p.',
-       'Rear and mid-tray drives combine: 8SFF midtray + up to 6SFF rear on 24SFF (38SFF total); 8LFF/12LFF take a 4LFF or 8SFF midtray + up to 4LFF or 6SFF rear.',
+       'Rear cages, one per riser position: the 2SFF SAS/SATA kit P26920-B21 sits in primary or secondary (qty 2 = both, needs the 2nd processor as secondary); a 2SFF Tri-Mode or SAS/SATA cage (P26922/P26923-B21) sits in tertiary — up to 3 x 2SFF (6SFF total) on the SFF chassis. LFF takes 2LFF cages instead: primary P14579-B21, secondary P25903-B21, or tertiary P14580-B21 (secondary and tertiary cannot combine, and tertiary blocks any secondary riser) — up to 4LFF total.',
+       'Mid-tray (one only): 4LFF P26919-B21, or 8SFF Tri-Mode x1 P27193-B21 / x4 P39769-B21.',
        'Heatsink threshold is 150W (P27095-B21).',
        'Maximum performance fan kit is required for rear drives, processors above 205W, Optane persistent memory, high performance NVMe, and certain backplanes.',
        'Processors do not ship with heatsinks — they must be ordered separately.',
@@ -3721,6 +3763,7 @@ var RISERS={
     G11's PCIe5.0), matches pcie:{one:2,two:3}. 2026-09-17. */
  'DL360 G10+':[
   {n:'Default Primary Riser (Slot 1 FH + Slot 2 LP)',d:'Slot 1 full-height x16, Slot 2 low-profile x16, PCIe4.0 · Proc 1 · ships standard',s:2,fh:1,lp:1,pos:'primary',def:true},
+  {n:'x16/x8 PCIe M.2 NS204i-r Riser — Primary (P26463-B21)',d:'Replaces the default primary: Slot 1 FH x16, Slot 2 LP x8 (down from x16) · adds 2x M.2 22110 for the NS204i-r boot device (media not included) · needs the High Performance Fan Kit (P26477-B21)',s:2,fh:1,lp:1,pos:'primary'},
   {n:'Low Profile Riser Kit — Secondary (P26471-B21)',d:'Adds Slot 3, low-profile x16 PCIe4.0 · Proc 2 required · Slot 2 stays usable (3 slots total: 1 FH + 2 LP)',s:1,fh:0,lp:1,pos:'secondary',cpu2:true},
   {n:'Full Height Riser Kit — Secondary (P26467-B21)',d:'Adds Slot 3, full-height x16 PCIe4.0 · Proc 2 required · DISABLES Slot 2 on the primary riser, so the real total stays 2 slots (Slot 1 + Slot 3, both FH) despite this kit adding one',s:1,fh:1,lp:0,pos:'secondary',cpu2:true}
  ],
@@ -3878,7 +3921,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.22.3'; // 3rd build shipped today
+var BUILD_VERSION='2026.09.22.4'; // 4th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4785,6 +4828,10 @@ function rearCageChecks(m,R,bays,vals,riserLines,cpuq,checks){
     if((c.noRiser||[]).indexOf('tertiary')>-1&&terRiser)
       checks.push(['stop','REAR / RISER CONFLICT','"'+nice+'" sits over the tertiary riser position — a tertiary riser kit cannot be fitted with it. Remove the tertiary riser line.']);
     if(c.needSec)needSecN++;
+    if((c.pos==='S'||c.pos==='T'||c.pos==='ST')&&cpuq<2)
+      checks.push(['verify','REAR CAGE','"'+nice+'" sits in the '+(c.pos==='ST'?'secondary/tertiary':REAR_POS_NAME[c.pos])+' — that riser position needs the second processor.']);
+    if(c.conflictsWith&&vals.some(function(v2){return normRear(v2)===normRear(c.conflictsWith);}))
+      checks.push(['stop','REAR CONFLICT','"'+nice+'" and "'+slipName(c.conflictsWith)+'" cannot be selected together — remove one.']);
     if(/^2LFF/i.test(c.n))
       checks.push(['info','REAR CAGE','"'+nice+'" uses up every PCIe slot of the riser position it sits in.']);
   });
@@ -5351,6 +5398,7 @@ function evaluate(){
   if(R.fanGPU&&hasGPU)fanReasons.push('GPUs and accelerators require high performance fans'+fanPart+'.');
   if(R.fanDimmGB&&dsize>=R.fanDimmGB)fanReasons.push(dsize+'GB memory modules require high performance fans'+fanPart+'.');
   if(R.hiNic&&hiNicNames.length)fanReasons.push('A 100Gb-or-faster adapter ('+slipName(hiNicNames[0])+') requires the high performance fan kit'+fanPart+'.');
+  if(cardNames.some(function(n){return /NS204i-p/i.test(n);}))fanReasons.push('The NS204i-p boot device requires the high performance fan kit'+fanPart+'.');
   (R.fanBays||[]).forEach(function(b){if(bays.indexOf(b)>-1)fanReasons.push(b+' ships with high performance fans as standard.');});
   /* fanWtext is the threshold as the model's own QuickSpecs words it ("above 205W",
      "205W or higher") — same idea as hsWtext for heatsinks */
