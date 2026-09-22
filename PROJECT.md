@@ -3138,3 +3138,25 @@ implemented generically (so every other model without a real expander SKU alread
 *sorting* change itself was only applied to DL360/DL380 G11's `ctrl` arrays; other models with an OCP+PCI split (e.g.
 DL325 G10+, DL385 G10+) haven't been resorted the same way, since the user's wording ("for G11") didn't clearly ask for
 those too.
+
+## CPU picker: full name/cores/clock/TDP readout after selection (2026-09-23, build .2)
+
+User (with a screenshot of the open CPU dropdown): once a processor is picked, the closed combo field only has room
+for the bare code ("G6430") — completely wasting the extra name/core-count/clock/TDP the open dropdown's own sub-text
+shows. Asked for that detail to stay visible at a glance after picking, without adding it to the spec slip.
+
+Added a `<span class="cap-note" id="cpu-detail">` right under the `#cpu-combo` field, populated inside `evaluate()`
+(which already computes `cpu=cpuByCode(v('cpu'))` on every `run()` pass) from the exact same `CPUS` fields the
+dropdown's own `sub` text uses — `cpu[1]+' · '+cpu[3]+'W'`, e.g. "Xeon Gold 6430 · 32C 2.1GHz · 270W" — so the two can
+never disagree. It's fed straight from the `cpu` var already in scope, not a separate lookup, and reuses the plain
+`.cap-note` styling already used for `psu-note`/`mem-note`/etc. rather than inventing a new visual treatment.
+Display-only by construction: `buildSlip()` only ever pushes `v('cpu')` (the bare code) onto the slip, and the new
+readout isn't wired into `buildSlip()` at all, so it can't leak into it.
+
+QA: 804 ok / 0 FAIL (4 new tests: the readout shows the full name/cores/clock/TDP after picking G6430; it never
+appears in the spec slip; switching to a different CPU updates it, including a descriptive suffix like G6458Q's
+"liquid-cooled Speed Select" note; it clears on Clear/reset). Verified live in the browser too — served the file
+through a throwaway `python -m http.server` via a new `.claude/launch.json` (`file://` loads render as a static
+snapshot in the browser pane, so clicks/JS don't apply to what's on screen; a real HTTP origin is needed to drive the
+UI for real) — picked DL380 G11 → G6430 and confirmed the readout renders under the field exactly as intended, and the
+slip still only shows "1x G6430". Build 2026.09.23.2.
