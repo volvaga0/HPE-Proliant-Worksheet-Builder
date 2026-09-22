@@ -3092,3 +3092,49 @@ mechanics, cpuAllow counts with per-model exclusions, battery lists, both boot-d
 **Not done / lower priority now:** DL360 G10's 10SFF Premium chassis fan/riser specifics beyond what's already modeled;
 rails/bezel/iLO PN hints for G10 (only built for G11 so far); the DL380 G10+ EDSFF-bundle rules and intrusion kit still
 flagged from the earlier stand-up-card pass.
+
+## SAS expander section: a real 2nd-controller picker + OCP-first controller sorting (2026-09-23, build .1)
+
+User: G11 doesn't use SAS expander cards, it uses multiple controllers instead — the "SAS expander / extra HBA" field
+already had a "second controller" option, but it was a plain, non-selectable string with no way to say WHICH controller.
+Also asked for controller lists to sort OCP slots before PCI card variants.
+
+**Second controller.** `expandersFor(m)` now lists the model's own real controller options (the same source as the
+primary `#ctrl` field — `m.rules.ctrl` if the model has one, else the generic `CTRLS` list filtered to its generation) as
+`"2nd controller: <name + part number>"`, pickable exactly like the primary controller field, wherever no real
+expander-card SKU exists for that model (most of G11/G12, and plenty of older chassis too — see `EXPANDER_PARTS`). A
+model with a genuine expander card (DL380/DL385 G9/G10, DL560 G9/G10, DL580 G10, ML350 G10, ML110 G10, DL380/DL385
+G10+) still gets that listed first, unchanged — the 2nd-controller options are additional choices there, not a
+replacement. The field's label/hint/placeholder now switch dynamically (`#expander-label`/`#expander-hint`, mirroring
+the existing FlexibleLOM/OCP label-switch pattern): "SAS expander / extra HBA" where a real card exists, "2nd
+controller / extra HBA" with an explicit "no SAS Expander Card exists for X" hint where it doesn't. The EXPANDER config
+check and suggestion note pick up the same wording split. Removed the now-redundant `EXPANDER_HBAS` array (P408e-p/
+E208e-p/H241 as separate hardcoded fallbacks) — those same parts already surface through the model's own controller
+list with the correct generation filtering, so the extra layer was duplicate logic.
+
+**Controller sorting.** DL360/DL380 G11's `ctrl:[]` arrays now list the `— OCP (mezzanine) —` group before
+`— PCI (plug-in card) —` (previously PCI first) — an OCP mezzanine slot is what a trader reaches for first on these
+chassis, so the picker should offer it first too.
+
+**A real bug found while wiring this up, not from the docs this time but from the codebase's own structure:**
+`expandersFor()` lives at the file's global scope (a plain data helper, called from both inside and outside the app's
+main IIFE), but `rulesFor()` — which I first reached for to read `R.ctrl` — is declared *inside* that IIFE and isn't
+visible from outside it. Calling it from `expandersFor()` threw `ReferenceError: rulesFor is not defined` on every
+single model pick, which silently broke the ENTIRE tool (every check, every field, the whole `run()` pipeline never
+completed) — caught immediately by the QA harness dropping from 800 potential passes to 507, with the rest cascading to
+"No rules triggered yet." Fixed by reading `m.rules.ctrl` directly instead (safe: `GEN_DEFAULTS` never sets a `ctrl` key
+for any generation, so `m.rules.ctrl` and `rulesFor(m).ctrl` are always identical) rather than moving the function or
+widening the IIFE's scope. Worth remembering: this file has two scope tiers (global helpers vs. the IIFE-private app
+logic) — a global-scope helper can never call an IIFE-private one, and the failure mode when it does is silent to a
+person just glancing at the page (the UI renders fine until you actually pick a model) but catastrophic to every check
+in the harness at once.
+
+QA: 800 ok / 0 FAIL (11 new tests: the 2nd-controller list contents and ordering on both G11 models, the real
+expander-card path staying unchanged on DL380 G9, picking a 2nd-controller option and its slip line, the wording split
+on both EXPANDER check paths, OCP-first sorting on both G11 controller lists). Build 2026.09.23.1.
+
+**Not done / could extend later:** the 2nd-controller picker and OCP-first sorting were only requested for G11 and
+implemented generically (so every other model without a real expander SKU already benefits) — but the OCP-first
+*sorting* change itself was only applied to DL360/DL380 G11's `ctrl` arrays; other models with an OCP+PCI split (e.g.
+DL325 G10+, DL385 G10+) haven't been resorted the same way, since the user's wording ("for G11") didn't clearly ask for
+those too.

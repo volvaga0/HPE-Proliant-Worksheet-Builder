@@ -652,7 +652,7 @@ button.quiet{color:var(--ink-soft)}
       </div>
 
       <div class="row">
-        <div class="q"><span class="t">SAS expander / extra HBA</span><span class="note">Needed when the bay count exceeds the controller's ports.</span></div>
+        <div class="q"><span class="t" id="expander-label">SAS expander / extra HBA</span><span class="note" id="expander-hint">Needed when the bay count exceeds the controller's ports.</span></div>
         <div class="a">
           <input type="text" id="expander" list="expanders" placeholder="e.g. 12G SAS Expander Card" autocomplete="off">
           <span class="cap-note" id="expander-note"></span>
@@ -1601,7 +1601,7 @@ var MODELS=[
        'Ships with 1 slot in each position by default (Slot 3 primary, Slot 6 secondary) — the 4/6 PCIe Enablement Kits upgrade one or both to 3 slots.',
        'Neither PCIe Enablement Kit is selectable once the 4LFF rear cage is fitted — use the LFF Rear Cage riser variants instead.']}},
  {m:'DL360',g:'G11', p:['sp4','sp5'], s:2, d:32, bays:['4LFF','8SFF','10SFF','20EDSFF'],
-   rules:{hsNVMe:true,liquidReqW:301,hsEDSFF:true,hsDimmGB:256,edsffNoCtrl:true,bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21; stand-alone P68039-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-XXVDA4 10/25Gb 4p (P41614-B21)','E810-CQDA2 100Gb 2p (P22767-B21)','BCM57608 100Gb 2p (P73114-B21)'],ctrl:['— PCI (plug-in card) —','SR932i-p — 32 lanes, 8GB wide cache, needs a x16 riser slot and the Storage Controller Enablement Cable Kit P48918-B21 (P47184-B21)','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','E208e-p — external HBA, 8 lanes, no cache (804398-B21)','— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache (P58335-B21)'],psu:['500W Flex Slot Platinum — 4LFF chassis only, one processor of 125W or less, 8 DIMMs at most (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium, high-line only (865438-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum, high-line only (P38997-B21)','1600W Flex Slot -48VDC — needs a DC Power Cable Kit or the Lug Kit P36877-B21, one per supply (P17023-B21)','1800-2200W Flex Slot Titanium (P44712-B21)'],cpuAllow:['B3408U','B3508U','G5411N','G5415+','G5416S','G5418N','G5418Y','G5420+','G5515+','G5520+','G6414U','G6416H','G6418H','G6421N','G6426Y','G6430','G6434','G6438N','G6438Y+','G6442Y','G6444Y','G6448H','G6448Y','G6454S','G6458Q','G6526Y','G6530','G6534','G6538N','G6538Y+','G6542Y','G6544Y','G6548N','G6548Y+','G6554S','G6558Q','P8444H','P8452Y','P8458P','P8460Y+','P8462Y+','P8468','P8468V','P8470','P8470N','P8470Q','P8480+','P8490H','P8558','P8558P','P8558U','P8562Y+','P8568Y+','P8570','P8580','P8581V','P8592+','P8592V','P8593Q','P9462','S4410Y','S4416+','S4509Y','S4510','S4514Y','S4516Y+'],dimm256note:'256GB DIMMs on the DL360 Gen11: 1 DIMM per channel only (8 per processor); 2 DIMMs per channel (16 per processor) needs an HPE approval request before ordering, and 32 x 256GB is only allowed with DLC or with air cooling at CPU 250W or less, 8 SAS/SATA front drives at most, performance fans, inlet 25°C or below and NICs under 100Gb.',dimmKits:true,memPerSocket:4096,fanWtext:'above 185W',verified:true,hsW:186,hsWtext:'186W–270W',fanW:186,fanPart:'P48908-B21',hsPart:'P48905-B21',riserMax:2,
+   rules:{hsNVMe:true,liquidReqW:301,hsEDSFF:true,hsDimmGB:256,edsffNoCtrl:true,bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21; stand-alone P68039-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-XXVDA4 10/25Gb 4p (P41614-B21)','E810-CQDA2 100Gb 2p (P22767-B21)','BCM57608 100Gb 2p (P73114-B21)'],ctrl:['— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache (P58335-B21)','— PCI (plug-in card) —','SR932i-p — 32 lanes, 8GB wide cache, needs a x16 riser slot and the Storage Controller Enablement Cable Kit P48918-B21 (P47184-B21)','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','E208e-p — external HBA, 8 lanes, no cache (804398-B21)'],psu:['500W Flex Slot Platinum — 4LFF chassis only, one processor of 125W or less, 8 DIMMs at most (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium, high-line only (865438-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum, high-line only (P38997-B21)','1600W Flex Slot -48VDC — needs a DC Power Cable Kit or the Lug Kit P36877-B21, one per supply (P17023-B21)','1800-2200W Flex Slot Titanium (P44712-B21)'],cpuAllow:['B3408U','B3508U','G5411N','G5415+','G5416S','G5418N','G5418Y','G5420+','G5515+','G5520+','G6414U','G6416H','G6418H','G6421N','G6426Y','G6430','G6434','G6438N','G6438Y+','G6442Y','G6444Y','G6448H','G6448Y','G6454S','G6458Q','G6526Y','G6530','G6534','G6538N','G6538Y+','G6542Y','G6544Y','G6548N','G6548Y+','G6554S','G6558Q','P8444H','P8452Y','P8458P','P8460Y+','P8462Y+','P8468','P8468V','P8470','P8470N','P8470Q','P8480+','P8490H','P8558','P8558P','P8558U','P8562Y+','P8568Y+','P8570','P8580','P8581V','P8592+','P8592V','P8593Q','P9462','S4410Y','S4416+','S4509Y','S4510','S4514Y','S4516Y+'],dimm256note:'256GB DIMMs on the DL360 Gen11: 1 DIMM per channel only (8 per processor); 2 DIMMs per channel (16 per processor) needs an HPE approval request before ordering, and 32 x 256GB is only allowed with DLC or with air cooling at CPU 250W or less, 8 SAS/SATA front drives at most, performance fans, inlet 25°C or below and NICs under 100Gb.',dimmKits:true,memPerSocket:4096,fanWtext:'above 185W',verified:true,hsW:186,hsWtext:'186W–270W',fanW:186,fanPart:'P48908-B21',hsPart:'P48905-B21',riserMax:2,
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},rear:[],
      cards:G11_NIC_CARDS.concat(G11_FC_CARDS,ns204Cards('P48920-B21','P54702-B21','hot-plug at rear')),
      ns204:{rearSlot:true,noRiser:'P48901-B21',hs:true},hiNic:true,hsHiNic:true,hiNic256:'all',nic4p:true,
@@ -1638,7 +1638,7 @@ var MODELS=[
        '"F" processors and 400W parts may need the liquid-cooling or high-performance tier — check the cooling matrix.',
        'Every front SFF cage kit (8SFF x1/x4, 2SFF, 4SFF) is Tri-Mode U.3 — no plain SAS/SATA-only SFF cage. 4LFF has no NVMe/Tri-Mode option.']}},
  {m:'DL380',g:'G11', p:['sp4','sp5'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF','12EDSFF','36EDSFF'],
-   rules:{cpuNotEDSFF:['P8581V','P8558U'],edsffNoCtrl:true,bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21; stand-alone P68039-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','16W Smart Hybrid Capacitor with 145mm cable (P65038-B21)','No battery'],flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-XXVDA4 10/25Gb 4p (P41614-B21)','E810-CQDA2 100Gb 2p (P22767-B21)','BCM57608 100Gb 2p (P73114-B21)'],ctrl:['— PCI (plug-in card) —','SR932i-p — 32 lanes, 8GB wide cache, needs a x16 riser slot and the Storage Controller Enablement Cable Kit P48918-B21 (P47184-B21)','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','E208e-p — external HBA, 8 lanes, no cache (804398-B21)','— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache (P58335-B21)'],psu:['800W Flex Slot Platinum (P38995-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum, high-line only (P38997-B21)','1600W Flex Slot -48VDC — needs a DC Power Cable Kit or the Lug Kit P36877-B21, one per supply (P17023-B21)','1800-2200W Flex Slot Titanium (P44712-B21)'],cpuAllow:['B3408U','B3508U','G5411N','G5415+','G5416S','G5418N','G5418Y','G5420+','G5515+','G5520+','G6414U','G6416H','G6418H','G6421N','G6426Y','G6430','G6434','G6438N','G6438Y+','G6442Y','G6444Y','G6448H','G6448Y','G6454S','G6458Q','G6526Y','G6530','G6534','G6538N','G6538Y+','G6542Y','G6544Y','G6548N','G6548Y+','G6554S','G6558Q','P8444H','P8452Y','P8458P','P8460Y+','P8462Y+','P8468','P8468V','P8470','P8470N','P8470Q','P8480+','P8490H','P8558','P8558P','P8558U','P8562Y+','P8568Y+','P8570','P8580','P8581V','P8592+','P8592V','P8593Q','P9462','S4410Y','S4416+','S4509Y','S4510','S4514Y','S4516Y+'],dimm256MaxCages:2,fanDimmGB:128,dimmMaxByBay:{'24SFF':16},dimmKits:true,memPerSocket:4096,fanWtext:'above 205W',verified:true,hsW:151,hsWtext:'above 150W, up to 350W',hsPart:'P48818-B21',fanW:206,riserMax:3,
+   rules:{cpuNotEDSFF:['P8581V','P8558U'],edsffNoCtrl:true,bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21; stand-alone P68039-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','16W Smart Hybrid Capacitor with 145mm cable (P65038-B21)','No battery'],flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-XXVDA4 10/25Gb 4p (P41614-B21)','E810-CQDA2 100Gb 2p (P22767-B21)','BCM57608 100Gb 2p (P73114-B21)'],ctrl:['— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache (P58335-B21)','— PCI (plug-in card) —','SR932i-p — 32 lanes, 8GB wide cache, needs a x16 riser slot and the Storage Controller Enablement Cable Kit P48918-B21 (P47184-B21)','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','E208e-p — external HBA, 8 lanes, no cache (804398-B21)'],psu:['800W Flex Slot Platinum (P38995-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum, high-line only (P38997-B21)','1600W Flex Slot -48VDC — needs a DC Power Cable Kit or the Lug Kit P36877-B21, one per supply (P17023-B21)','1800-2200W Flex Slot Titanium (P44712-B21)'],cpuAllow:['B3408U','B3508U','G5411N','G5415+','G5416S','G5418N','G5418Y','G5420+','G5515+','G5520+','G6414U','G6416H','G6418H','G6421N','G6426Y','G6430','G6434','G6438N','G6438Y+','G6442Y','G6444Y','G6448H','G6448Y','G6454S','G6458Q','G6526Y','G6530','G6534','G6538N','G6538Y+','G6542Y','G6544Y','G6548N','G6548Y+','G6554S','G6558Q','P8444H','P8452Y','P8458P','P8460Y+','P8462Y+','P8468','P8468V','P8470','P8470N','P8470Q','P8480+','P8490H','P8558','P8558P','P8558U','P8562Y+','P8568Y+','P8570','P8580','P8581V','P8592+','P8592V','P8593Q','P9462','S4410Y','S4416+','S4509Y','S4510','S4514Y','S4516Y+'],dimm256MaxCages:2,fanDimmGB:128,dimmMaxByBay:{'24SFF':16},dimmKits:true,memPerSocket:4096,fanWtext:'above 205W',verified:true,hsW:151,hsWtext:'above 150W, up to 350W',hsPart:'P48818-B21',fanW:206,riserMax:3,
      psuMax:2,fans:{one:4,two:6,perf:6},fansByBay:{'12EDSFF':{one:6,two:6,perf:6},'36EDSFF':{one:6,two:6,perf:6}},fanKit2P:{n:'Standard Fan Kit',pn:'P49146-B21'},pcie:{one:3,two:8},fanBays:['24SFF'],
      rear:DL380G11_CAGES.map(function(c){return c.n;}),rearCages:DL380G11_CAGES,
      rearMax:{SFF:{'2SFF':3,'2LFF':0},LFF:{'2SFF':1,'2LFF':2},EDSFF:{'2SFF':1,'2LFF':0}},
@@ -2793,19 +2793,34 @@ var EXPANDER_PARTS={
    2026-09-14 expander research pass, not previously represented at
    all here (silently fell through to "no expander SKU exists,"
    which was wrong for this one tower). */
-/* the three "external HBA" fallbacks are controllers reused as a way to
-   add ports without an expander card — gated by the same CTRL_GENS
-   scope already sourced for the controller picker, so e.g. H241 (G9
-   only) never shows on a G10+ build and E208e-p (the one part that
-   survives to G11) isn't wrongly excluded there. */
-var EXPANDER_HBAS=[['P408e-p','P408e-p external HBA'],['E208e-p','E208e-p external HBA'],['H241','H241 external HBA']];
+/* 2026-09-23: most generations never had a real SAS Expander Card SKU at
+   all (see the comment above EXPANDER_PARTS) — G11/G12 dropped the product
+   line entirely, and HPE's fix there is simply a second (or higher-port)
+   storage controller. This used to offer a plain, non-selectable
+   'Second controller instead of expander' string with no way to say WHICH
+   controller — now it lists the model's own real controller options
+   (same source as the primary #ctrl field: R.ctrl if the model has one,
+   else the generic CTRLS list filtered to its generation), each named
+   "2nd controller: <real name + part number>" and pickable like any other
+   field. A model with a genuine expander-card SKU still gets that listed
+   first — the second-controller options are additional choices, not a
+   replacement for real expander hardware where one exists. Group-header
+   rows ("— OCP (mezzanine) —" etc.) are skipped; slipName() already
+   strips the trailing " — detail (PN)" the same way it does for #ctrl. */
 function expandersFor(m){
   var out=[];
   if(m&&EXPANDER_PARTS[m.m+' '+m.g])out.push(EXPANDER_PARTS[m.m+' '+m.g]);
-  out.push('Second controller instead of expander');
-  EXPANDER_HBAS.forEach(function(h){
-    if(m&&(CTRL_GENS[h[0]]||[]).indexOf(m.g)>-1)out.push(h[1]);
-  });
+  if(m){
+    /* expandersFor() lives at global scope (a plain data helper, called from
+       both inside and outside the app IIFE); rulesFor() is IIFE-private, so
+       read the override straight off m.rules instead of through it — safe
+       because GEN_DEFAULTS never sets a `ctrl` key for any generation, so
+       m.rules.ctrl and rulesFor(m).ctrl are always identical. */
+    ((m.rules&&m.rules.ctrl)||ctrlsFor(m)).forEach(function(c){
+      if(c.charAt(0)==='—')return;
+      out.push('2nd controller: '+c);
+    });
+  }
   out.push('None needed');
   return out;
 }
@@ -2815,7 +2830,7 @@ function expandersFor(m){
 var EXPANDERS=[].concat(
   Object.keys(EXPANDER_PARTS).map(function(k){return EXPANDER_PARTS[k];})
     .filter(function(v,i,a){return a.indexOf(v)===i;}),
-  ['Second controller instead of expander','P408e-p external HBA','E208e-p external HBA','H241 external HBA','None needed']
+  ['None needed']
 );
 var BATS=['96w bat','12w bat','No battery'];
 /* Just the wattages — the slip only needs "2x 800W". The efficiency tier /
@@ -3921,7 +3936,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.22.4'; // 4th build shipped today
+var BUILD_VERSION='2026.09.23.1'; // 1st build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4536,6 +4551,16 @@ function refreshDependents(){
   document.getElementById('flr-label').textContent=flrLbl;
   document.getElementById('flr-legend').textContent=flrLbl;
   document.getElementById('flr').placeholder=flrK==='ocp'?'e.g. BCM57414 10/25Gb 2p':flrK==='none'?'no slot on this chassis':'e.g. 366FLR 4x1GbE';
+  /* the field is always "expander OR 2nd controller" — but a model with no real
+     expander-card SKU (most of G11/G12, and plenty else — see EXPANDER_PARTS)
+     gets that said up front instead of leaving the trader to discover it by
+     picking through the list. */
+  var hasExp=!!(m&&EXPANDER_PARTS[m.m+' '+m.g]);
+  document.getElementById('expander-label').textContent=(m&&!hasExp)?'2nd controller / extra HBA':'SAS expander / extra HBA';
+  document.getElementById('expander-hint').textContent=(m&&!hasExp)
+    ?'No SAS Expander Card exists for '+m.m+' '+m.g+' — pick a real second controller instead.'
+    :'Needed when the bay count exceeds the controller’s ports.';
+  document.getElementById('expander').placeholder=(m&&!hasExp)?'e.g. MR416i-p (a second controller)':'e.g. 12G SAS Expander Card';
   var moboK=motherboardKind(m);
   document.getElementById('mobo-note').textContent=
     moboK==='always-nc'?'No embedded network controller on any '+(m.m+' '+m.g)+' board — always effectively "NC" whichever you pick here. Networking comes entirely from the FlexibleLOM/OCP field.'
@@ -5244,10 +5269,11 @@ function evaluate(){
      check and the amber note under the expander field further down, so the
      two can never disagree. */
   var expNeed=expanderNeed(capBays,ctrlV,hasNVMe,noDrives);
+  var expWord=(m&&EXPANDER_PARTS[m.m+' '+m.g])?'a SAS expander or a second controller':'a second controller — no SAS Expander Card exists for '+(m?m.m+' '+m.g:'this model');
   if(expNeed)
     checks.push(['verify','EXPANDER',expNeed.ports!=null
-      ?(capBays+' bays is more than '+ctrlV+'\'s '+expNeed.ports+' ports — it needs a SAS expander or a second controller.')
-      :(capBays+' bays usually needs a SAS expander or a second controller — a single 8-port controller only addresses 8 drives directly.')]);
+      ?(capBays+' bays is more than '+ctrlV+'\'s '+expNeed.ports+' ports — it needs '+expWord+'.')
+      :(capBays+' bays usually needs '+expWord+' — a single 8-port controller only addresses 8 drives directly.')]);
 
   /* battery suggestion — a hint, not an auto-fill or a block: some traders
      deliberately ship a cached controller without one. */

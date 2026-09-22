@@ -1692,14 +1692,14 @@ function runRound7(){
   setModel7('DL380 G9');
   let expOpts7=expOpts();
   (expOpts7.some(o=>/727250-B21/.test(o)) && !expOpts7.some(o=>/870549-B21/.test(o)) && !expOpts7.some(o=>/876907/.test(o)) &&
-   expOpts7.includes('H241 external HBA') && !expOpts7.includes('E208e-p external HBA') && !expOpts7.includes('P408e-p external HBA'))
-    ?pass7('DL380 G9: Gen9 expander part (727250-B21) + H241 HBA only — no fabricated 876907, no Gen10+/G11 HBAs')
+   expOpts7.some(o=>o==='2nd controller: H241') && !expOpts7.some(o=>/2nd controller: E208e-p|2nd controller: P408e-p/.test(o)))
+    ?pass7('DL380 G9: Gen9 expander part (727250-B21) + H241 as a 2nd-controller option only — no fabricated 876907, no Gen10+/G11 controllers')
     :fail7('DL380 G9 expander list wrong: '+expOpts7.join(', '));
   setModel7('DL380 G10');
   expOpts7=expOpts();
   (expOpts7.some(o=>/870549-B21/.test(o)) && !expOpts7.some(o=>/727250-B21/.test(o)) && !expOpts7.some(o=>/876907/.test(o)) &&
-   expOpts7.includes('P408e-p external HBA') && !expOpts7.includes('H241 external HBA'))
-    ?pass7('DL380 G10: Gen10 DL38X part (870549-B21), not the Gen9 one or the fabricated 876907')
+   expOpts7.some(o=>/2nd controller: P408e-p/.test(o)) && !expOpts7.some(o=>o==='2nd controller: H241'))
+    ?pass7('DL380 G10: Gen10 DL38X part (870549-B21), not the Gen9 one or the fabricated 876907; P408e-p offered as a 2nd controller, H241 (Gen9-only) is not')
     :fail7('DL380 G10 expander list wrong: '+expOpts7.join(', '));
   setModel7('ML350 G10');
   expOpts7=expOpts();
@@ -1713,8 +1713,8 @@ function runRound7(){
     :fail7('DL560 G10 expander list wrong: '+expOpts7.join(', '));
   setModel7('DL360 G10');
   expOpts7=expOpts();
-  (!expOpts7.some(o=>/SAS Expander Card/.test(o)) && expOpts7.includes('Second controller instead of expander') && expOpts7.includes('None needed'))
-    ?pass7('DL360 G10 never had an expander-card SKU at all — no card offered, just the generic fallbacks')
+  (!expOpts7.some(o=>/SAS Expander Card/.test(o)) && expOpts7.some(o=>/2nd controller: P408i-a/.test(o)) && expOpts7.includes('None needed'))
+    ?pass7('DL360 G10 never had an expander-card SKU at all — no card offered, just its own real controllers as 2nd-controller options')
     :fail7('DL360 G10 should offer no expander card: '+expOpts7.join(', '));
   setModel7('DL380 G10+');
   expOpts7=expOpts();
@@ -1723,8 +1723,8 @@ function runRound7(){
     :fail7('DL380 G10+ expander list wrong: '+expOpts7.join(', '));
   setModel7('DL380 G11');
   expOpts7=expOpts();
-  (!expOpts7.some(o=>/SAS Expander Card/.test(o)) && expOpts7.includes('E208e-p external HBA') && !expOpts7.includes('H241 external HBA') && !expOpts7.includes('P408e-p external HBA'))
-    ?pass7('DL380 G11: no expander card exists for this generation at all (confirmed dropped) — E208e-p HBA is the one survivor')
+  (!expOpts7.some(o=>/SAS Expander Card/.test(o)) && expOpts7.some(o=>/2nd controller: E208e-p/.test(o)) && !expOpts7.some(o=>/2nd controller: H241|2nd controller: P408e-p/.test(o)) && expOpts7.some(o=>/2nd controller: MR416i-o/.test(o)))
+    ?pass7('DL380 G11: no expander card exists for this generation at all (confirmed dropped) — its own real controller list (incl. E208e-p and the OCP MR-o parts) is offered as 2nd-controller options instead, H241/P408e-p (wrong generation) are not')
     :fail7('DL380 G11 expander list wrong: '+expOpts7.join(', '));
 
   // --- a mismatched expander value typed/pasted/restored is still caught,
@@ -4595,5 +4595,77 @@ function runRound25(){
     (RIS26['DL360 G10+']||[]).some(function(k){return /NS204i-r.*P26463-B21/.test(k.n)&&k.pos==='primary';})
       ?pass25('DL360 G10+ riser kits include the NS204i-r primary riser (P26463-B21) — a riser-integrated boot device alternative')
       :fail25('DL360 G10+ NS204i-r riser missing'); }
+  reset27();
+
+  // ===== SAS expander section: real 2nd-controller picker + OCP-first controller sorting (2026-09-23) =====
+  // User: G11 doesn't use SAS expander cards, it uses a second controller — the field offered a plain
+  // "Second controller instead of expander" string with no way to say WHICH one. expandersFor() now lists
+  // the model's own real controller options (same source as #ctrl) as "2nd controller: <name+PN>" whenever
+  // no real expander-card SKU exists (most of G11/G12 and plenty else) — a genuine expander SKU is still
+  // listed first where one exists. Controller lists are also reordered OCP-first, then PCI.
+  reset27();
+  const expOpts30=function(){
+    const exp=d.getElementById('expander');exp.value='';fire(exp,'input');fire(exp,'focus');
+    return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(e){return e.textContent;});};
+  setModel25('DL380 G11');
+  { const o=expOpts30();
+    (!o.some(function(x){return /SAS Expander Card/.test(x);}) &&
+     o.some(function(x){return x==='2nd controller: MR416i-o — x16 lanes, 8GB cache (P47781-B21)';}) &&
+     o.some(function(x){return /2nd controller: E208e-p/.test(x);}) &&
+     o[0].indexOf('2nd controller: MR416i-o')===0 && o.indexOf('None needed')>-1)
+      ?pass25('DL380 G11 expander field: no SAS Expander Card (none exists for G11) — its own real controller list is offered as 2nd-controller options, OCP entries first')
+      :fail25('DL380 G11 expander opts wrong: '+o.join(' | ')); }
+  { const el=d.getElementById('expander-label');
+    (el.textContent==='2nd controller / extra HBA' && /No SAS Expander Card exists for DL380 G11/.test(d.getElementById('expander-hint').textContent))
+      ?pass25('DL380 G11: the field label/hint switch to "2nd controller" wording (no real expander SKU)')
+      :fail25('DL380 G11 expander label/hint wrong: "'+el.textContent+'" / "'+d.getElementById('expander-hint').textContent+'"'); }
+  setModel25('DL360 G11');
+  { const o=expOpts30();
+    (!o.some(function(x){return /SAS Expander Card/.test(x);}) && o.some(function(x){return /2nd controller: SR932i-p/.test(x);}))
+      ?pass25('DL360 G11 expander field: also a real controller-picker (no expander SKU exists on this chassis either)')
+      :fail25('DL360 G11 expander opts wrong: '+o.join(' | ')); }
+  setModel25('DL380 G9');
+  { const el=d.getElementById('expander-label');
+    (el.textContent==='SAS expander / extra HBA' && !/2nd controller/.test(d.getElementById('expander-hint').textContent))
+      ?pass25('DL380 G9: label stays "SAS expander" — this chassis genuinely has a real expander-card SKU (727250-B21)')
+      :fail25('DL380 G9 expander label wrongly switched: "'+el.textContent+'"'); }
+  { const o=expOpts30();
+    (o[0].indexOf('727250-B21')>-1 && o.some(function(x){return /2nd controller:/.test(x);}))
+      ?pass25('DL380 G9: the real expander card is still listed first, with 2nd-controller options as additional choices')
+      :fail25('DL380 G9 expander opts wrong: '+o.join(' | ')); }
+
+  // --- picking a 2nd-controller option and the slip / config-check wording ---
+  reset27(); setModel25('DL380 G11'); setv26('bays','24SFF');
+  { const exp=d.getElementById('expander');exp.value='';fire(exp,'input');fire(exp,'focus');
+    const pick=[...d.querySelectorAll('#ac-panel .combo-item')].find(function(e){return e.textContent.indexOf('2nd controller: MR416i-p')===0;});
+    pick.dispatchEvent(new w.MouseEvent('click',{bubbles:true})); }
+  (d.getElementById('expander').value.indexOf('2nd controller: MR416i-p')===0)
+    ?pass25('DL380 G11: picking a 2nd-controller option fills the field with the real name + part number')
+    :fail25('DL380 G11 2nd-controller pick did not fill the field: '+d.getElementById('expander').value);
+  { const sl=slip27();
+    (/2nd controller: MR416i-p(?!\s*—)/.test(sl) && !/P47777-B21/.test(sl))
+      ?pass25('slip: the 2nd-controller pick keeps its name, drops the part number and the "— detail" tail')
+      :fail25('slip 2nd-controller line wrong: '+sl.slice(0,240)); }
+  setv26('expander','');
+  setv26('cpuq','1'); setv26('dimmq','16'); setv26('dimm','16GB 4800 MT/s');
+  /needs a second controller — no SAS Expander Card exists for DL380 G11/.test(chk26())
+    ?pass25('DL380 G11: the EXPANDER config check names "a second controller" and says plainly that no SAS Expander Card exists — not a generic "SAS expander or a second controller"')
+    :fail25('DL380 G11 EXPANDER check wording wrong: '+chk26().slice(0,300));
+  setv26('dimm',''); setv26('dimmq',''); setv26('cpuq','');
+  reset27(); setModel25('DL380 G9'); setv26('bays','24SFF');
+  /needs a SAS expander or a second controller/.test(chk26())
+    ?pass25('DL380 G9: the EXPANDER check keeps the original "SAS expander or a second controller" wording — a real expander card exists here')
+    :fail25('DL380 G9 EXPANDER check wording wrong: '+chk26().slice(0,300));
+  setv26('bays','');
+
+  // --- controller sorting: OCP mezzanine group before PCI plug-in group ---
+  reset27();
+  ['DL360 G11','DL380 G11'].forEach(function(label){
+    setModel25(label);
+    const o=opts26('ctrl');
+    (o[0].indexOf('MR416i-o')===0 && o.indexOf('MR408i-o — x8 lanes, 4GB cache (P58335-B21)')<o.indexOf('SR932i-p — 32 lanes, 8GB wide cache, needs a x16 riser slot and the Storage Controller Enablement Cable Kit P48918-B21 (P47184-B21)'))
+      ?pass25(label+': controller list is sorted OCP entries first, then PCI — matches how the trader actually shops (OCP mezzanine slot first)')
+      :fail25(label+' controller order wrong: '+o.slice(0,5).join(' | '));
+  });
   reset27();
 }
