@@ -4668,4 +4668,29 @@ function runRound25(){
       :fail25(label+' controller order wrong: '+o.slice(0,5).join(' | '));
   });
   reset27();
+
+  // ===== CPU detail readout (2026-09-23) =====
+  // User: the closed combo only shows the bare code ("G6430") once picked, wasting
+  // the extra name/core-count/clock/TDP the open dropdown's sub-text has. Added a
+  // persistent #cpu-detail note fed by the same CPUS fields, display-only.
+  function pickCpu25(code){
+    const ci=d.getElementById('cpu-input');ci.value='';fire(ci,'input');
+    const o=[...d.querySelectorAll('#cpu-panel .combo-item')].find(function(x){return x.querySelector('.ci-main').textContent===code;});
+    if(o)o.dispatchEvent(new w.MouseEvent('mousedown',{bubbles:true}));
+  }
+  reset27(); setModel25('DL380 G11'); pickCpu25('G6430');
+  (d.getElementById('cpu-detail').textContent==='Xeon Gold 6430 · 32C 2.1GHz · 270W')
+    ?pass25('DL380 G11: picking G6430 shows its full name/core-count/clock/TDP under the combo, not just the bare code')
+    :fail25('cpu-detail wrong after picking G6430: "'+d.getElementById('cpu-detail').textContent+'"');
+  (!/32C 2\.1GHz/.test(slip27()))
+    ?pass25('cpu-detail readout never reaches the spec slip (display-only)')
+    :fail25('cpu-detail text leaked into the slip: '+slip27().slice(0,200));
+  pickCpu25('G6458Q');
+  (d.getElementById('cpu-detail').textContent.indexOf('liquid-cooled Speed Select')>-1)
+    ?pass25('DL380 G11: switching CPU updates the readout, keeping the full descriptive suffix (G6458Q liquid-cooled Speed Select note)')
+    :fail25('cpu-detail did not update for G6458Q: "'+d.getElementById('cpu-detail').textContent+'"');
+  reset27();
+  (d.getElementById('cpu-detail').textContent==='')
+    ?pass25('cpu-detail clears on Clear/reset')
+    :fail25('cpu-detail did not clear on reset: "'+d.getElementById('cpu-detail').textContent+'"');
 }

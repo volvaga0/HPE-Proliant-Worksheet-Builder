@@ -584,6 +584,7 @@ button.quiet{color:var(--ink-soft)}
             <input type="hidden" id="cpu">
             <div class="combo-panel" id="cpu-panel" hidden></div>
           </div>
+          <span class="cap-note" id="cpu-detail"></span>
         </div>
       </div>
 
@@ -3936,7 +3937,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.23.1'; // 1st build shipped today
+var BUILD_VERSION='2026.09.23.2'; // 2nd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4886,6 +4887,12 @@ function rearCageChecks(m,R,bays,vals,riserLines,cpuq,checks){
 function evaluate(){
   var checks=[];
   var m=currentModel(),R=rulesFor(m),cpu=cpuByCode(v('cpu'));
+  /* the closed combo field only has room for the CPU code (see cpuCombo's
+     displayValue) — this readout keeps the full name/core-count/clock/TDP
+     visible once picked instead of only while the dropdown is open. Same
+     fields the combo's own sub-text uses, so the two never disagree.
+     Display-only — never fed into buildSlip(), so it never reaches the slip. */
+  document.getElementById('cpu-detail').textContent=cpu?cpu[1]+' · '+cpu[3]+'W':'';
   var bays=v('bays').toUpperCase(),rear=rearJoined(),bp=r('bp');
   var rearLineVals=readLines(rearLinesEl).map(function(x){return x.v||'';}).filter(Boolean);
   var noDrives=document.getElementById('nodrives').checked;
