@@ -4693,4 +4693,177 @@ function runRound25(){
   (d.getElementById('cpu-detail').textContent==='')
     ?pass25('cpu-detail clears on Clear/reset')
     :fail25('cpu-detail did not clear on reset: "'+d.getElementById('cpu-detail').textContent+'"');
+
+  // ===== "Paste the client's request" — a thorough shorthand pass (2026-09-23, build .3) =====
+  // User: try as many shorthand build write-ups as possible so a trader can paste a client's
+  // actual request and instantly see what issues arise, without re-typing it by hand.
+  const paste28=function(s){d.getElementById('paste-text').value=s;d.getElementById('paste-fill').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));return d.getElementById('paste-result').textContent;};
+
+  // --- Unicode "×" normalises to "x" everywhere a multiplier is read ---
+  reset27();paste28('DL360 G10, dual 6248, 8×32GB, 2×800W');
+  (d.getElementById('model').value==='DL360 G10' && d.getElementById('cpuq').value==='2' &&
+   d.getElementById('dimmq').value==='8' && d.getElementById('dimm').value==='32GB' &&
+   d.getElementById('psuq').value==='2' && d.getElementById('psu').value==='800W')
+    ?pass25('Unicode "×" (not the ASCII "x"/"*") is normalised up front — "8×32GB, 2×800W" parses exactly like "8x32GB, 2x800W"')
+    :fail25('"×" normalisation failed: model='+d.getElementById('model').value+' cpuq='+d.getElementById('cpuq').value+' dimmq='+d.getElementById('dimmq').value+' dimm='+d.getElementById('dimm').value+' psuq='+d.getElementById('psuq').value+' psu='+d.getElementById('psu').value);
+
+  // --- bare model number (no "DL"/"ML"), only trusted right against a gen mention ---
+  reset27();paste28('5x 380g10, dual 6248');
+  (d.getElementById('model').value==='DL380 G10' && d.getElementById('modelq').value==='5')
+    ?pass25('bare "380g10" (no "DL") resolves to DL380 G10, and the leading "5x" still sets the build count')
+    :fail25('bare model number failed: model="'+d.getElementById('model').value+'" modelq="'+d.getElementById('modelq').value+'"');
+  reset27();paste28('a build with 2x 600GB drives and a 380W power draw, nothing else');
+  (d.getElementById('model').value==='')
+    ?pass25('a bare number with no adjacent gen mention ("380W") never gets misread as a model')
+    :fail25('bare-number false positive: model="'+d.getElementById('model').value+'"');
+
+  // --- "10.5" community slang for Gen10 Plus, and the DL380a-vs-DL380A case-bug fix ---
+  reset27();paste28('dl380 g10.5, dual 6314U');
+  (d.getElementById('model').value==='DL380 G10+')
+    ?pass25('"dl380 g10.5" (slang for Gen10 Plus) resolves to DL380 G10+')
+    :fail25('"g10.5" not resolved: model="'+d.getElementById('model').value+'"');
+  reset27();paste28('DL380a Gen12');
+  (d.getElementById('model').value==='DL380a G12')
+    ?pass25('BUG FIX: "DL380a Gen12" now resolves — it used to uppercase the model’s own lowercase "a" suffix (DL380A vs the real DL380a) and silently never match')
+    :fail25('DL380a case bug still present: model="'+d.getElementById('model').value+'"');
+
+  // --- CPU quantity shorthand: reversed "x2", bare "N CPU", word-numbers, "both sockets" ---
+  reset27();paste28('DL360 G10, 6248 x2');
+  d.getElementById('cpuq').value==='2'?pass25('reversed "6248 x2" (qty AFTER the code) sets 2 processors'):fail25('reversed CPU qty missed: '+d.getElementById('cpuq').value);
+  reset27();paste28('DL360 G10, 2 CPU, 6248');
+  d.getElementById('cpuq').value==='2'?pass25('bare "2 CPU" (no "x") sets 2 processors'):fail25('"2 CPU" missed: '+d.getElementById('cpuq').value);
+  reset27();setModel25('DL580 G9');paste28('DL580 G9, four E7-8890v4');
+  d.getElementById('cpuq').value==='4'?pass25('word-number "four" sets 4 processors on a 4-socket board'):fail25('"four" cpu qty missed: '+d.getElementById('cpuq').value);
+  reset27();paste28('DL360 G10, both sockets populated, 6248');
+  d.getElementById('cpuq').value==='2'?pass25('"both sockets populated" resolves to the model’s own socket count (2 for DL360 G10)'):fail25('"both sockets" missed: '+d.getElementById('cpuq').value);
+
+  // --- architecture name + clock speed narrow a core-count guess, even to a unique FOUND ---
+  reset27();paste28('DL380 G11, Sapphire Rapids Gold, 24 core, 2.6GHz, 1 cpu');
+  (d.getElementById('cpu').value==='G6442Y')
+    ?pass25('"Sapphire Rapids Gold, 24 core, 2.6GHz" narrows to the one unique match (G6442Y) and picks it — as certain as a bare code')
+    :fail25('architecture+clock narrowing failed: cpu="'+d.getElementById('cpu').value+'"');
+  reset27();paste28('DL380 G11, 32 core, 1 cpu');
+  { const pr=d.getElementById('paste-result').textContent;
+    (d.getElementById('cpu').value==='' && /32-core/.test(pr) && /CHECK/.test(pr))
+      ?pass25('"32 core" alone (no architecture/clock) stays a CHECK — several 32-core parts exist on this platform')
+      :fail25('ambiguous core-only guess wrong: cpu="'+d.getElementById('cpu').value+'" result="'+pr.slice(0,200)+'"'); }
+
+  // --- memory: speed capture, and a bare total wired into the real #memtarget suggester ---
+  reset27();paste28('DL380 G11, 8x32GB 2933MHz');
+  (d.getElementById('dimmq').value==='8' && d.getElementById('dimm').value==='32GB 2933 MT/s')
+    ?pass25('"8x32GB 2933MHz" captures the speed too, not just size/qty')
+    :fail25('memory speed capture failed: dimmq='+d.getElementById('dimmq').value+' dimm="'+d.getElementById('dimm').value+'"');
+  reset27();paste28('DL360 G10, dual 6248, 4x32gb, 2x800 psu');   // pre-existing shorthand case — must still come out with NO stray leftover speed
+  d.getElementById('dimm').value==='32GB'?pass25('a paste with no speed mentioned gives a clean "32GB" (no stray leftover speed from elsewhere)'):fail25('dimm value picked up an unwanted speed: "'+d.getElementById('dimm').value+'"');
+  reset27();setModel25('DL380 G11');paste28('DL380 G11, 384GB total memory, 1 cpu');
+  { const ms=d.getElementById('mem-suggestions');
+    (d.getElementById('memtarget').value==='384GB' && !ms.hidden && ms.querySelectorAll('button').length>0)
+      ?pass25('a bare "384GB total memory" mention feeds the real #memtarget suggester (live suggestions appear), not just a dead-end note')
+      :fail25('memtarget wiring failed: memtarget="'+d.getElementById('memtarget').value+'" suggestions hidden='+ms.hidden); }
+  reset27();paste28('DL380 G11, 1.5TB memory total');
+  d.getElementById('memtarget').value==='1.5TB'?pass25('a TB total ("1.5TB memory total") also reaches #memtarget'):fail25('TB total missed: memtarget="'+d.getElementById('memtarget').value+'"');
+
+  // --- PSU: tier-name note, "1+1"/"1+0" redundancy phrasing, reversed "Nw psu xN" ---
+  reset27();paste28('DL380 G10, 800w Titanium psu');
+  /Titanium/.test(d.getElementById('paste-result').textContent)
+    ?pass25('a PSU efficiency tier ("Titanium") gets flagged to confirm against the real per-model list, not guessed at')
+    :fail25('PSU tier note missing: '+d.getElementById('paste-result').textContent.slice(0,200));
+  reset27();paste28('DL360 G10, 800w 1+1');
+  (d.getElementById('psuq').value==='2'&&d.getElementById('psu').value==='800W')
+    ?pass25('"800w 1+1" (redundant pair) sets 2x 800W')
+    :fail25('"1+1" PSU phrasing missed: q='+d.getElementById('psuq').value+' w='+d.getElementById('psu').value);
+  reset27();paste28('DL360 G10, 800w 1+0');
+  d.getElementById('psuq').value==='1'?pass25('"800w 1+0" (single, non-redundant) sets qty 1'):fail25('"1+0" PSU phrasing missed: q='+d.getElementById('psuq').value);
+  reset27();paste28('DL360 G10, 800w psu x2');
+  d.getElementById('psuq').value==='2'?pass25('reversed "800w psu x2" (word between the number and the multiplier) still sets qty 2'):fail25('"800w psu x2" missed: q='+d.getElementById('psuq').value);
+
+  // --- storage controller: exact model-code matches -> primary + 2nd controller, and the
+  // 2nd-controller code is kept OUT of the generic card scan (no duplicate "card" row) ---
+  reset27();setModel25('DL380 G11');paste28('DL380 G11, MR416i-o primary, MR216i-p second controller');
+  (d.getElementById('ctrl').value.indexOf('MR416i-o')===0 && d.getElementById('expander').value==='2nd controller: MR216i-p — x16 lanes, no cache (P47785-B21)')
+    ?pass25('two distinct real controller codes -> primary #ctrl + the 2nd-controller slot, both FOUND (exact codes from this model’s own list)')
+    :fail25('primary+secondary controller match wrong: ctrl="'+d.getElementById('ctrl').value+'" expander="'+d.getElementById('expander').value+'"');
+  { const cn=[...d.querySelectorAll('#cards [data-k=name]')].map(function(x){return x.value;});
+    !cn.some(function(n){return /MR416i-o|MR216i-p/.test(n);})
+      ?pass25('...and neither controller code also lands as a generic, unplaced "card" row')
+      :fail25('controller codes leaked into the generic card scan: '+cn.join(', ')); }
+  reset27();setModel25('DL380 G11');paste28('DL380 G11, dual MR416i-p controllers');
+  (d.getElementById('ctrl').value.indexOf('MR416i-p')===0 && d.getElementById('expander').value.indexOf('2nd controller: MR416i-p')===0)
+    ?pass25('"dual MR416i-p controllers" (one code, "dual" cue) sets the SAME real controller as both primary and 2nd controller')
+    :fail25('dual-same-controller phrasing wrong: ctrl="'+d.getElementById('ctrl').value+'" expander="'+d.getElementById('expander').value+'"');
+  reset27();setModel25('DL380 G11');paste28('DL380 G11, MR416i-o, add a second controller');
+  /pick it from the 2nd controller field/.test(d.getElementById('paste-result').textContent)
+    ?pass25('"add a second controller" with no second code named points the trader at the 2nd-controller field instead of guessing which part')
+    :fail25('unnamed-second-controller guess missing: '+d.getElementById('paste-result').textContent.slice(0,300));
+
+  // --- FlexibleLOM/OCP: exact model-code match (an OCP mezzanine code, not the old "NNNFLR" shape) ---
+  reset27();setModel25('DL380 G11');paste28('DL380 G11, BCM57414 OCP nic');
+  (d.querySelector('#fl1').checked && d.getElementById('flr').value.indexOf('BCM57414')===0)
+    ?pass25('an exact OCP code (BCM57414) straight out of DL380 G11’s own real flr list is recognised — not just the older "NNNFLR" shorthand')
+    :fail25('OCP exact-code match failed: fl1='+d.querySelector('#fl1').checked+' flr="'+d.getElementById('flr').value+'"');
+
+  // --- NS204i-u (the 3rd variant, alongside the already-supported -p/-r) ---
+  reset27();setModel25('DL380 G11');paste28('DL380 G11, NS204i-u boot device');
+  [...d.querySelectorAll('#cards [data-k=name]')].some(function(x){return /NS204i-u boot/.test(x.value);})
+    ?pass25('"NS204i-u" is recognised alongside the existing -p/-r boot-device shorthand')
+    :fail25('NS204i-u not recognised: '+[...d.querySelectorAll('#cards [data-k=name]')].map(function(x){return x.value;}).join(', '));
+
+  // --- battery: wattage-aware match against THIS model's own real list, model-specific ---
+  reset27();setModel25('DL380 G11');paste28('DL380 G11, 16w battery');
+  d.getElementById('bat').value.indexOf('16W Smart Hybrid Capacitor')===0
+    ?pass25('DL380 G11: "16w battery" matches its own real 16W option (it has one)')
+    :fail25('DL380 G11 16W battery match failed: "'+d.getElementById('bat').value+'"');
+  reset27();setModel25('DL360 G11');paste28('DL360 G11, 16w battery');
+  d.getElementById('bat').value==='96w bat'
+    ?pass25('DL360 G11: "16w battery" falls back to the generic 96W guess (it has no 16W option — no false match)')
+    :fail25('DL360 G11 wrongly matched a 16W battery it doesn’t have: "'+d.getElementById('bat').value+'"');
+
+  // --- bays: EDSFF (a real gap — used to only match LFF/SFF), midtray keyword kept
+  // (not overwritten with a blind " rear"), and MULTIPLE extra bay lines, not just one ---
+  reset27();setModel25('DL380 G11');paste28('DL380 G11, 24EDSFF');
+  d.getElementById('bays').value==='24EDSFF'?pass25('"24EDSFF" is now recognised as a front bay config (EDSFF was never matched before)'):fail25('EDSFF bays missed: "'+d.getElementById('bays').value+'"');
+  reset27();setModel25('DL380 G10');paste28('DL380 G10, 8LFF, 2SFF midtray');
+  { const rl=[...d.querySelectorAll('#rear-lines [data-k=v]')].map(function(x){return x.value;});
+    rl.some(function(x){return /midtray/i.test(x);})
+      ?pass25('"2SFF midtray" keeps the word "midtray" on the line (used to always say "rear" regardless)')
+      :fail25('midtray keyword lost: '+rl.join(' | ')); }
+  reset27();setModel25('DL380 G10+');paste28('DL380 G10+, 8LFF, 2SFF rear, 2SFF midtray');
+  { const rl=[...d.querySelectorAll('#rear-lines [data-k=v]')].map(function(x){return x.value;});
+    (rl.length===2 && rl.some(function(x){return /rear/i.test(x)&&!/midtray/i.test(x);}) && rl.some(function(x){return /midtray/i.test(x);}))
+      ?pass25('THREE bay mentions (front + rear + midtray) now produce two separate rear lines, not just the one the old code capped at')
+      :fail25('multi-rear-line parsing wrong: '+rl.join(' | ')); }
+
+  // --- diskless / no-drives phrasing ---
+  reset27();setModel25('DL380 G10');paste28('DL380 G10, diskless');
+  d.getElementById('nodrives').checked?pass25('"diskless" checks the "no drives" box'):fail25('"diskless" did not check nodrives');
+  reset27();setModel25('DL380 G10');paste28('DL380 G10, ships with no drives');
+  d.getElementById('nodrives').checked?pass25('"ships with no drives" also checks it'):fail25('"ships with no drives" missed');
+
+  // --- drives: bare capacity with zero descriptor (TB always, non-DIMM GB), RPM spelled
+  // out in full, full-word RAID class, and U.2 -> NVMe ---
+  reset27();setModel25('DL380 G10');paste28('DL380 G10, 4x 2TB');
+  { const caps=[...d.querySelectorAll('#drives [data-k=cap]')].map(function(x){return x.value;});
+    (caps.indexOf('2TB')>-1 && /had no interface\/speed\/class/.test(d.getElementById('paste-result').textContent))
+      ?pass25('a bare "4x 2TB" (zero descriptor) still adds the drive line, flagged to confirm the interface — TB is never mistaken for memory')
+      :fail25('bare-TB drive fallback failed: caps='+caps.join(',')+' result='+d.getElementById('paste-result').textContent.slice(0,200)); }
+  reset27();setModel25('DL380 G10');paste28('DL380 G10, 8x 600GB');
+  { const caps=[...d.querySelectorAll('#drives [data-k=cap]')].map(function(x){return x.value;});
+    caps.indexOf('600GB')>-1?pass25('a bare "8x 600GB" (not a real DIMM size) also adds a drive line'):fail25('bare non-DIMM-GB drive fallback failed: '+caps.join(',')); }
+  reset27();setModel25('DL380 G10');paste28('DL380 G10, dual 6248, 4x 32GB');
+  { const caps=[...d.querySelectorAll('#drives [data-k=cap]')].map(function(x){return x.value;});
+    (caps.indexOf('32GB')===-1 && d.getElementById('dimm').value==='32GB')
+      ?pass25('...but a bare "4x 32GB" (a real DIMM size, no drive-ish words at all) still reads as MEMORY, not a drive — unchanged, deliberately conservative')
+      :fail25('32GB wrongly split between drive/memory: drive caps='+caps.join(',')+' dimm="'+d.getElementById('dimm').value+'"'); }
+  reset27();setModel25('DL380 G10');paste28('DL380 G10, 4x 1.2TB 10000rpm SAS');
+  { const found=d.getElementById('paste-result').textContent;
+    /10K/.test(found)?pass25('RPM spelled out in full ("10000rpm") displays as "10K", same as the abbreviated form')
+      :fail25('spelled-out RPM not recognised: '+found.slice(0,200)); }
+  reset27();setModel25('DL380 G10');paste28('DL380 G10, 4x 900GB Read Intensive SAS');
+  /\bRI\b/.test(d.getElementById('paste-result').textContent)
+    ?pass25('full-word drive class ("Read Intensive") maps to the "RI" code, same as typing it directly')
+    :fail25('full-word drive class not recognised: '+d.getElementById('paste-result').textContent.slice(0,200));
+  reset27();setModel25('DL380 G11');paste28('DL380 G11, 4x 3.84TB U.2 NVMe');
+  { const ints=[...d.querySelectorAll('#drives [data-k=int]')].map(function(x){return x.value;});
+    ints.indexOf('NVMe')>-1?pass25('"U.2" is read as an NVMe interface signal'):fail25('U.2 not mapped to NVMe: '+ints.join(',')); }
+  reset27();
 }

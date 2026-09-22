@@ -3937,7 +3937,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.23.2'; // 2nd build shipped today
+var BUILD_VERSION='2026.09.23.3'; // 3rd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -5875,32 +5875,72 @@ function sync(){
   refreshDependents();run();}
 
 /* ---------------- paste-to-fill ---------------- */
+/* real HPE model numbers, minus the brand letters and any trailing
+   accelerator "a" suffix, straight off MODELS — never goes stale as models
+   are added or removed. "10" is deliberately excluded: it's ML10's number
+   AND a generation digit, so a bare "10 g10" would be hopelessly
+   ambiguous — ML10 stays reachable only by typing "ML10" out in full. */
+function bareModelNums(){
+  var s={};
+  MODELS.forEach(function(x){var n=x.m.replace(/^(DL|ML)/,'').replace(/a$/,'');if(n!=='10')s[n]=true;});
+  return Object.keys(s);
+}
 function findModelAndGen(text){
   /* accepts "DL380 Gen10", "dl380 g10", "dl380g10", "DL380-G10+", "ml350 gen 10 plus" */
   var fm=text.match(/\b(DL|ML)[\s-]?(\d{2,4})(a)?/i);
-  if(!fm)return null;
-  var fam=(fm[1]+fm[2]+(fm[3]||'')).toUpperCase();
-  var tail=text.slice(fm.index+fm[0].length,fm.index+fm[0].length+30).toLowerCase();
-  var g=tail.match(/^[\s,\-]*(?:gen|g)\s*(9|10|11|12)\s*(plus|\+|p\b)?\s*(?:\(?v\s*2\)?)?/);
+  var brand,num,aSuf,idx,len;
+  if(fm){
+    /* DL380a's "a" stays lowercase — MODELS spells it that way, and the
+       later exact-string compare against MODELS is case-sensitive, so
+       uppercasing it here (as the rest of the match is) used to make
+       "DL380a Gen12" un-recognisable no matter how it was typed. */
+    brand=fm[1].toUpperCase();num=fm[2];aSuf=(fm[3]||'').toLowerCase();idx=fm.index;len=fm[0].length;
+  }else{
+    /* no "DL"/"ML" written at all — trust this ONLY when a real, known
+       model number sits immediately against a generation mention
+       ("380g10", "360 gen10"); a bare number on its own is far too common
+       in a build spec (drive/memory/PSU figures) to ever guess from alone. */
+    var nums=bareModelNums().sort(function(a,b){return b.length-a.length;});
+    if(!nums.length)return null;
+    var bm=text.match(new RegExp('\\b(?:'+nums.join('|')+')(a)?(?=\\s*[\\s,-]*(?:gen|g)[\\s-]*(?:9|10\\.5|10|11|12)\\b)','i'));
+    if(!bm)return null;
+    aSuf=(bm[1]||'').toLowerCase();
+    num=bm[1]?bm[0].slice(0,-1):bm[0];
+    var hasDL=MODELS.some(function(x){return x.m==='DL'+num;}),hasML=MODELS.some(function(x){return x.m==='ML'+num;});
+    brand=(hasDL&&hasML)?(isTower()?'ML':'DL'):(hasML?'ML':'DL');   // only "110" collides (DL110/ML110)
+    idx=bm.index;len=bm[0].length;
+  }
+  var fam=(brand+num).toUpperCase()+aSuf;
+  var tail=text.slice(idx+len,idx+len+30).toLowerCase();
+  /* "10.5" is community slang for Gen10 Plus (sits between 10 and 11);
+     "gen-10" (hyphen between the word and the digit) is also accepted.
+     "10.5" must be tried before the plain "10" alternative, and a \b after
+     the whole digit group stops "10" wrongly matching the front of some
+     unrelated "10xx" number that slipped past the model check above. */
+  var g=tail.match(/^[\s,\-]*(?:gen|g)[\s-]*(9|10\.5|10|11|12)\b\s*(plus|\+|p\b)?\s*(?:\(?v\s*2\)?)?/);
   if(!g)return null;
-  var gen='G'+g[1];
-  if(g[2])gen+='+';
+  var gen=(g[1]==='10.5')?'G10+':('G'+g[1]);
+  if(g[1]!=='10.5'&&g[2])gen+='+';
   if(/v\s*2/.test(tail)){ if(gen.indexOf('+')<0)gen+='+'; gen+=' v2'; }  /* the "v2" boards are all Gen10 Plus */
   /* a "5x"/"5 x" immediately before the model mention is a BUILD count —
      "5x DL360 G10" means 5 identical builds, not anything else this text
      might otherwise contain a number for. Only the 8 chars right before
      the model match count, so an unrelated "2x 800w ... DL360 G10" PSU
      mention earlier in the text doesn't get misread as the build count. */
-  var head=text.slice(Math.max(0,fm.index-8),fm.index);
-  var q=head.match(/(\d{1,3})\s*[x×]\s*$/i);
+  var head=text.slice(Math.max(0,idx-8),idx);
+  var q=head.match(/(\d{1,3})\s*x\s*$/i);   // × was normalised to "x" up front, see parseClientText()
   return {value:fam+' '+gen,qty:q?+q[1]:null};
 }
-/* shorthand grabbers — tolerant of "2x800", "800w x2", "dual 800w", "800w psu" */
+/* shorthand grabbers — tolerant of "2x800", "800w x2", "800w psu x2",
+   "dual 800w", "800w psu", "800w 1+1" (redundant pair) / "800w 1+0" (single) */
 function grabPSU(t){
   t=' '+String(t).toLowerCase().replace(/watts?/g,'w')+' ';
   var m,PW=[230,290,300,350,500,550,800,900,1000,1200,1400,1500,1600,1800,2000,2200,2600];
   if(m=t.match(/(\d)\s*[x*]\s*(\d{3,4})\s*(?:w\b|(?=\W*(?:psu|ps|power)))/)) return {q:+m[1],w:+m[2]};
   if(m=t.match(/(\d{3,4})\s*w\s*[x*]\s*(\d)\b/))                  return {q:+m[2],w:+m[1]};
+  if(m=t.match(/(\d{3,4})\s*w\s*(?:psu|ps|power\s*suppl\w*)\s*[x*]\s*(\d)\b/)) return {q:+m[2],w:+m[1]};
+  if(m=t.match(/\b(\d{3,4})\s*w\b[^.]{0,10}?1\s*\+\s*1\b/))    return {q:2,w:+m[1]};
+  if(m=t.match(/\b(\d{3,4})\s*w\b[^.]{0,10}?1\s*\+\s*0\b/))    return {q:1,w:+m[1]};
   if(m=t.match(/\b(?:dual|redundant|two|2)\s+(\d{3,4})\s*w\b/))   return {q:2,w:+m[1]};
   if(m=t.match(/\b(?:single|one|1)\s+(\d{3,4})\s*w\b/))           return {q:1,w:+m[1]};
   if(m=t.match(/(\d{3,4})\s*w\b(?=[^.]{0,22}\b(?:psu|ps|power|suppl|atx|flex\s*slot|hot\s*plug))/)) return {q:0,w:+m[1]};
@@ -5913,40 +5953,124 @@ function escRe(s){return String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
    shape as memory when it ISN'T sitting next to drive-ish words (SAS/SATA/
    SSD/HDD/NVMe/an RPM speed like "15K"). Returns the raw matched text too,
    so the caller can blank out just that substring instead of every NxNNgb
-   shape in the pasted text (which would also eat real drive lines). */
+   shape in the pasted text (which would also eat real drive lines). Also
+   picks up a trailing speed ("8x32GB 2933MHz"/"8x 32GB, 2933 MT/s") when
+   it's spelled out with an explicit unit — a bare "@2933" with no unit is
+   left alone, too ambiguous to guess at. */
+/* real DIMM sizes only (straight off MEM_CAPS' full value union) — restricting
+   the size figure to this set is what lets a bare "8x 600GB" (600 isn't a real
+   DIMM size) fall through to the drive parser below instead of grabMem
+   wrongly claiming it as memory just because it fits the "NxNNgb" shape. */
+var DIMM_SIZE_ALT='(128|256|16|32|64|96|8)';   // CAPTURING — every pattern below relies on where this group falls among the others
 function grabMem(t){
   var tt=' '+String(t).toLowerCase()+' ';
   var noDrive='(?![^,;\\n]{0,24}(?:sas|sata|ssd|hdd|nvme|lff|sff|rpm|\\d{1,2}(?:\\.\\d)?\\s*k\\b))';
+  var spd='(?:\\s*[@,]?\\s*(\\d{4})\\s*(?:mt/s|mts|mhz)\\b)?';
   var m;
-  if(m=tt.match(new RegExp('\\d{1,2}\\s*[x*]\\s*\\d{1,3}\\s*gb\\b'+noDrive))){
-    var a=m[0].match(/(\d{1,2})\s*[x*]\s*(\d{1,3})\s*gb/i);return {q:+a[1],size:+a[2],raw:m[0]};
-  }
-  if(m=tt.match(new RegExp('\\d{1,3}\\s*gb\\s*[x*]\\s*\\d{1,2}\\b'+noDrive))){
-    var b=m[0].match(/(\d{1,3})\s*gb\s*[x*]\s*(\d{1,2})/i);return {q:+b[2],size:+b[1],raw:m[0]};
-  }
-  if(m=tt.match(/\b(?:dual|two|2)\s+(\d{1,3})\s*gb\b(?!\s*(?:6g|12g|24g))/)) return {q:2,size:+m[1],raw:m[0]};
+  if(m=tt.match(new RegExp('(\\d{1,2})\\s*[x*]\\s*'+DIMM_SIZE_ALT+'\\s*gb'+spd+noDrive,'i')))
+    return {q:+m[1],size:+m[2],speed:m[3]?+m[3]:null,raw:m[0]};   // 1=qty 2=size 3=speed
+  if(m=tt.match(new RegExp(DIMM_SIZE_ALT+'\\s*gb\\s*[x*]\\s*(\\d{1,2})\\b'+spd+noDrive,'i')))
+    return {q:+m[2],size:+m[1],speed:m[3]?+m[3]:null,raw:m[0]};   // 1=size 2=qty 3=speed
+  if(m=tt.match(new RegExp('\\b(?:dual|two|2)\\s+'+DIMM_SIZE_ALT+'\\s*gb\\b(?!\\s*(?:6g|12g|24g))','i')))
+    return {q:2,size:+m[1],speed:null,raw:m[0]};   // 1=size
   return null;
 }
-function grabCpuQty(t){
-  var m,proc='(?:\\d{1,2}\\s*c(?:ore)?s?\\b|xeon|epyc|gold|silver|platinum|bronze|amd|intel|cpu|processors?\\b|proc\\b|e[0-9]?-?\\d{3,4}[a-z0-9]*\\b|\\d{4}(?!\\s*w)[a-z]?\\b)';
-  if(m=t.match(new RegExp('(\\d)\\s*[x*]\\s*'+proc,'i'))) return +m[1];
+/* an explicit total ("384GB total", "1.5TB memory", bare "384GB" with no
+   qty×size breakdown) — feeds the real #memtarget suggester instead of
+   just a dead-end note, so the trader gets the same size/qty suggestions
+   they'd get typing it in by hand. TB is unambiguous (DIMMs are never
+   quoted in TB); GB only counts as a TOTAL when grabMem() above found no
+   qty×size shape to attach it to. */
+function grabMemTotal(t){
+  var m=t.match(/\b(\d+(?:\.\d+)?)\s*TB\b/i);
+  if(m)return m[1]+'TB';
+  m=t.match(/\b(\d{2,5})\s*GB\b(?!\s*(?:6g|12g|24g))/i);
+  return m?m[1]+'GB':null;
+}
+function grabCpuQty(t,m){
+  var wordNum={three:3,four:4};
+  var mm,proc='(?:\\d{1,2}\\s*c(?:ore)?s?\\b|xeon|epyc|gold|silver|platinum|bronze|amd|intel|cpu|processors?\\b|proc\\b|e[0-9]?-?\\d{3,4}[a-z0-9]*\\b|\\d{4}(?!\\s*w)[a-z]?\\b)';
+  if(mm=t.match(new RegExp('(\\d)\\s*[x*]\\s*'+proc,'i'))) return +mm[1];
+  if(mm=t.match(new RegExp(proc+'\\s*[x*]\\s*(\\d)\\b','i'))) return +mm[1];       // reversed: "6248 x2"
   if(new RegExp('\\b(?:dual|two)[\\s-]+'+proc,'i').test(t)) return 2;
   if(/\bdual[\s-]?socket\b/i.test(t)||/\b2\s*[ps]\b/i.test(t)) return 2;
   if(new RegExp('\\b(?:single|one)[\\s-]+'+proc,'i').test(t)) return 1;
   if(/\bsingle[\s-]?socket\b/i.test(t)||/\b1\s*[ps]\b/i.test(t)) return 1;
+  if(mm=t.match(new RegExp('\\b(three|four)[\\s-]+'+proc,'i'))) return wordNum[mm[1].toLowerCase()];
+  if(/\bboth\s+(?:sockets?|cpus?|processors?)\b/i.test(t)) return m?m.s:2;      // needs the model to know "both" means how many
+  if(mm=t.match(/\b(\d)\s*(?:cpu|cpus|processors?|procs?|sockets?)\b/i)) return +mm[1];  // "2 CPU" — no x needed, the word itself is unambiguous
   return 0;
+}
+/* CPU architecture-name / "Nth Gen Xeon Scalable" shorthand -> the internal
+   platform code(s) CPUS/PLATFORM_LABELS use, so a paste that names the
+   silicon instead of (or as well as) a code/core-count can still narrow
+   the CPU picker. */
+var ARCH_ALIASES=[
+ [/\bsapphire\s*rapids\b/i,['sp4']],[/\bemerald\s*rapids\b/i,['sp5']],
+ [/\bice\s*lake\b/i,['sp3']],[/\bcascade\s*lake\b/i,['sp2']],[/\bskylake\b/i,['sp1']],
+ [/\bnaples\b/i,['naples']],[/\brome\b/i,['rome']],[/\bmilan\b/i,['milan']],
+ [/\bgenoa\b/i,['genoa']],[/\bturin\b/i,['turin']],
+ [/\bbroadwell\b/i,['e5v4','e5v4x4','e7v4']],[/\bhaswell\b/i,['e5v3','e5v3x4','e7v3']]
+];
+var GEN_ORDINAL={'1st':'sp1','2nd':'sp2','3rd':'sp3','4th':'sp4','5th':'sp5'};
+function detectArchPlatforms(text){
+  var out=[];
+  ARCH_ALIASES.forEach(function(a){if(a[0].test(text))out=out.concat(a[1]);});
+  var om=text.match(/\b(1st|2nd|3rd|4th|5th)\s*gen(?:eration)?\b(?:\s*xeon)?(?:\s*scalable)?/i);
+  if(om&&GEN_ORDINAL[om[1].toLowerCase()])out.push(GEN_ORDINAL[om[1].toLowerCase()]);
+  return out.filter(function(v,i,a){return a.indexOf(v)===i;});
+}
+/* a clock speed narrows a core-count guess to (often) one exact part.
+   GHz only — nobody quotes a CPU clock in MHz, and MHz is how DIMM speed
+   gets written, so treating "2933MHz" as a clock would misfire on memory. */
+function detectClockGHz(text){
+  var m=text.match(/\b(\d(?:\.\d{1,2})?)\s*ghz\b/i);
+  return m?Math.round(parseFloat(m[1])*100)/100:null;
+}
+function cpuClockGHz(c){
+  var m=c[1].match(/(\d+(?:\.\d+)?)\s*ghz/i);
+  return m?Math.round(parseFloat(m[1])*100)/100:null;
+}
+/* scans a real per-model options list (ctrl/flr — "CODE description (PN)"
+   strings, "— group header —" rows skipped) for entries whose leading
+   code is literally named in the pasted text. An exact code match is as
+   certain as the client having typed it themselves, so callers treat a
+   hit as FOUND, not a guess — unlike the family-only fallback patterns
+   below (e.g. "P408" alone) which can't tell the exact suffix apart.
+   Returns hits in the order they appear in the text (first-mentioned
+   first), which is what lets two distinct codes in one paste map to
+   "primary" then "2nd controller". */
+function scanCodeList(text,list){
+  var hits=[];
+  (list||[]).forEach(function(entry){
+    if(!entry||entry.charAt(0)==='—')return;
+    var code=(entry.match(/^\S+/)||[])[0];
+    if(!code||code.length<3)return;
+    var re=new RegExp('(?:^|[^A-Za-z0-9])'+escRe(code)+'(?=[^A-Za-z0-9]|$)','i');
+    var mm=re.exec(text);
+    if(mm)hits.push({code:code,entry:entry,idx:mm.index});
+  });
+  hits.sort(function(a,b){return a.idx-b.idx;});
+  return hits;
 }
 
 function parseClientText(text){
   var found=[],guess=[],skip=[];
   if(!text.trim())return {found:found,guess:guess,skip:skip,any:false};
-  var mg=findModelAndGen(text),m=null;
+  /* normalise a few pasted-from-Word/Excel oddities up front so every
+     grabber below can just look for a plain ASCII "x" — a multiplication
+     sign or an en/em dash otherwise silently fails every "NxNN"-shaped
+     regex in this function (they were never taught the Unicode form). */
+  text=String(text).replace(/[×✕]/g,'x').replace(/[\u2012-\u2015\u2212]/g,'-');
+  var claimedCardCodes=[];   // codes already assigned to a specific field (ctrl/expander/flr) below — kept out of the generic card scan further down so the same mention doesn't ALSO show up as a plain, unplaced "card"
+  var mg=findModelAndGen(text),m=null,R={};
   if(mg&&MODELS.some(function(x){return (x.m+' '+x.g)===mg.value;})){
     var pickedM=MODELS.filter(function(x){return (x.m+' '+x.g)===mg.value;})[0];
     document.getElementById(pickedM.tower?'ct-t':'ct-r').checked=true;
     document.getElementById('tower-rows').hidden=!pickedM.tower;
     document.getElementById('tower-locked').style.display=pickedM.tower?'none':'';
     modelCombo.setValue(mg.value,mg.value);refreshDependents();m=currentModel();
+    R=rulesFor(m);
     found.push('System: '+mg.value);
     if(mg.qty){document.getElementById('modelq').value=mg.qty;found.push('Builds: '+mg.qty+'x');}
     else if(!v('modelq'))document.getElementById('modelq').value='1';
@@ -5964,7 +6088,7 @@ function parseClientText(text){
     else pat=new RegExp('\\b'+c[0].replace(/^[A-Za-z]+/,'').replace('+','\\+')+'[A-Za-z]?\\b','i');
     if(pat.test(text)&&(!valid||valid.indexOf(c[2])>-1))cpuFound=c;
   }
-  var q=grabCpuQty(text);
+  var q=grabCpuQty(text,m);
   if(q){
     if(m&&q>m.s){guess.push('Client asked for '+q+' processors but '+m.m+' '+m.g+' has '+m.s+' socket'+(m.s>1?'s':'')+' — capped at '+m.s+'.');q=m.s;}
     setCpuq(q);found.push('Processor qty: '+q);
@@ -5974,12 +6098,30 @@ function parseClientText(text){
     if(!v('cpuq'))setCpuq(1);
     found.push('Processor: '+cpuFound[0]);
   }else{
+    /* no exact code — fall back to whatever combination of core count,
+       architecture name ("Sapphire Rapids", "4th Gen Xeon Scalable") and
+       clock speed the paste gives us, narrowed against this model's own
+       allowed pool (same platform + cpuAllow restriction the picker
+       itself enforces, so the reported count matches what the dropdown
+       actually shows). A unique match is as certain as a code match. */
     var coreMatch=text.match(/(\d+)\s*[-]?\s*c(?:ore)?\b/i);
-    if(coreMatch&&m){
-      var matches=CPUS.filter(function(c){return m.p.indexOf(c[2])>-1&&c[4]===Number(coreMatch[1]);});
-      cpuCombo.filterTo(coreMatch[1]+'C');
-      guess.push('Processor: '+coreMatch[1]+'-core asked for — '+matches.length+
-        ' part'+(matches.length===1?'':'s')+' on this platform match, list filtered. Pick one.');
+    var archPf=detectArchPlatforms(text),clockGHz=detectClockGHz(text);
+    if(m&&(coreMatch||archPf.length||clockGHz!=null)){
+      var pool=CPUS.filter(function(c){return m.p.indexOf(c[2])>-1&&(!R.cpuAllow||R.cpuAllow.indexOf(c[0])>-1);});
+      if(coreMatch)pool=pool.filter(function(c){return c[4]===Number(coreMatch[1]);});
+      if(archPf.length)pool=pool.filter(function(c){return archPf.indexOf(c[2])>-1;});
+      if(clockGHz!=null)pool=pool.filter(function(c){return cpuClockGHz(c)===clockGHz;});
+      var askedBits=[coreMatch?coreMatch[1]+'-core':'',archPf.length?archPf.map(function(p){return PLATFORM_LABELS[p]||p;}).join('/'):'',clockGHz!=null?clockGHz+'GHz':''].filter(Boolean).join(' ');
+      if(pool.length===1){
+        cpuCombo.setValue(pool[0][0],pool[0][0]);
+        if(!v('cpuq'))setCpuq(1);
+        found.push('Processor: '+pool[0][0]+' (only match for '+askedBits+')');
+      }else if(pool.length>1){
+        if(coreMatch)cpuCombo.filterTo(coreMatch[1]+'C');
+        guess.push('Processor: '+askedBits+' asked for — '+pool.length+' parts on this platform match, list filtered. Pick one.');
+      }else{
+        skip.push('Processor: '+askedBits+' asked for, but nothing on '+m.m+' '+m.g+'\u2019s seeded list matches all of that — check the request or pick manually.');
+      }
     }else{
       skip.push('No processor identified — pick manually.');
     }
@@ -5990,41 +6132,123 @@ function parseClientText(text){
      shape in the text, which would also eat real drive lines like "2x 600GB". */
   var textNoMem=mem?text.replace(new RegExp(escRe(mem.raw),'i'),' '):text;
   if(mem){
+    /* a direct overwrite, not setDimmValue() — that helper deliberately
+       KEEPS the current speed when passed null (right for the separate
+       size/speed tap-buttons, wrong here: a paste with no speed mentioned
+       should give a clean "SIZEGB", not silently inherit whatever speed
+       happened to already be sitting in the field from before). */
+    document.getElementById('dimm').value=mem.size+'GB'+(mem.speed?(' '+mem.speed+' MT/s'):'');
+    document.getElementById('dimm').dispatchEvent(new Event('input',{bubbles:true}));
     document.getElementById('dimmq').value=mem.q;
-    document.getElementById('dimm').value=mem.size+'GB';
-    found.push('Memory: '+mem.q+'x '+mem.size+'GB');
+    found.push('Memory: '+mem.q+'x '+mem.size+'GB'+(mem.speed?' '+mem.speed+' MT/s':''));
   }else{
-    var tot=text.match(/\b(\d+)\s*gb\b(?!\s*(?:6g|12g|24g))/i);
-    if(tot)guess.push('Memory: '+tot[1]+'GB total asked for — module size and count not given, split it manually.');
+    var totRaw=grabMemTotal(text);
+    if(totRaw){
+      document.getElementById('memtarget').value=totRaw;
+      document.getElementById('memtarget').dispatchEvent(new Event('input',{bubbles:true}));
+      guess.push('Memory: '+totRaw+' total asked for — module size/count not given; see the suggested even splits below (or split it manually).');
+    }
   }
 
-  var ctrlPats=[[/p ?816/i,'P816i-a'],[/p ?408/i,'P408i-a'],[/p ?440/i,'P440ar'],[/p ?204/i,'P204i-c'],
-    [/e ?208/i,'E208i-a'],[/h ?240/i,'H240'],[/h ?241/i,'H241'],[/mr ?416/i,'MR416i-p'],
-    [/mr ?216/i,'MR216i-p'],[/b ?140/i,'B140i'],[/s ?100/i,'S100i']];
-  for(var j=0;j<ctrlPats.length;j++){
-    if(ctrlPats[j][0].test(text)){
-      document.getElementById('ctrl').value=ctrlPats[j][1];
-      guess.push('Controller: assumed '+ctrlPats[j][1]+' — confirm the exact suffix with the client.');
-      break;}
+  /* storage controller(s) — an EXACT code straight out of this model's own
+     real list (same source the #ctrl field itself offers) is as certain
+     as the client having typed it, so it's FOUND, not a guess. Two
+     distinct codes (or one plus an explicit "2nd controller"/"add
+     controller"/"dual X" cue) fill BOTH the primary field and the
+     2nd-controller slot the SAS-expander field doubles as (see the
+     2026-09-23 rework — a model with no real expander SKU offers its own
+     controllers there instead of a plain "Second controller" placeholder). */
+  var ctrlList=m?(R.ctrl||ctrlsFor(m)):[],ctrlHits=scanCodeList(text,ctrlList),ctrlHandled=false,expanderHandled=false;
+  if(ctrlHits.length){
+    document.getElementById('ctrl').value=ctrlHits[0].entry;
+    found.push('Controller: '+ctrlHits[0].code);
+    claimedCardCodes.push(ctrlHits[0].code);
+    ctrlHandled=true;
+    if(ctrlHits.length>1){
+      document.getElementById('expander').value='2nd controller: '+ctrlHits[1].entry;
+      found.push('2nd controller: '+ctrlHits[1].code);
+      claimedCardCodes.push(ctrlHits[1].code);
+      expanderHandled=true;
+      if(ctrlHits.length>2)guess.push((ctrlHits.length-2)+' more controller code(s) mentioned but only two controller slots exist here — check manually: '+ctrlHits.slice(2).map(function(h){return h.code;}).join(', '));
+    }else{
+      var beforeCtrl=text.slice(Math.max(0,ctrlHits[0].idx-12),ctrlHits[0].idx);
+      if(/\b(?:dual|two)\s*$/i.test(beforeCtrl)){
+        document.getElementById('expander').value='2nd controller: '+ctrlHits[0].entry;
+        guess.push('Two of the same controller implied ("'+ctrlHits[0].code+'" plus a second/dual mention) — set as both primary and 2nd controller, confirm that\u2019s really the intent.');
+        expanderHandled=true;
+      }else if(/\b(?:add|second|2nd)\s+controllers?\b/i.test(text)){
+        guess.push('Client asked for a second controller but didn’t name which one — pick it from the 2nd controller field (lists this model’s real options).');
+      }
+    }
+  }else if(m&&/\b(?:add|second|2nd)\s+controllers?\b/i.test(text)){
+    guess.push('Client asked for a second controller but didn\u2019t name which one — pick it from the 2nd controller field (lists this model\u2019s real options).');
   }
-  /* "+ bat" / "with battery" suffix on a controller mention — most Smart Array
-     kits ship the 96W Smart Storage Battery, but older/low-end ones use the 12W
-     one, so this is a guess to confirm, not an auto-applied fact. */
-  if(/\bbatt?(?:ery)?\b/i.test(text)){
-    document.getElementById('bat').value='96w bat';
-    guess.push('Battery mentioned — assumed the 96W Smart Storage Battery, check the suffix against the controller generation (some older kits use the 12W battery).');
+  if(!ctrlHandled){
+    var ctrlPats=[[/p ?816/i,'P816i-a'],[/p ?408/i,'P408i-a'],[/p ?440/i,'P440ar'],[/p ?204/i,'P204i-c'],
+      [/e ?208/i,'E208i-a'],[/h ?240/i,'H240'],[/h ?241/i,'H241'],[/mr ?416/i,'MR416i-p'],
+      [/mr ?216/i,'MR216i-p'],[/b ?140/i,'B140i'],[/s ?100/i,'S100i']];
+    for(var j=0;j<ctrlPats.length;j++){
+      if(ctrlPats[j][0].test(text)){
+        document.getElementById('ctrl').value=ctrlPats[j][1];
+        guess.push('Controller: assumed '+ctrlPats[j][1]+' — confirm the exact suffix with the client.');
+        break;}
+    }
+  }
+  /* "+ bat" / "with battery"/"capacitor" suffix on a controller mention —
+     a wattage right there against this model's OWN battery list (e.g.
+     "16w cap") gets matched to the real entry; otherwise fall back to the
+     generic 96W-battery guess most Smart Array kits ship (older/low-end
+     ones use 12W or 16W instead). */
+  if(/\bbatt?(?:ery)?\b/i.test(text)||/\bcap(?:acitor)?\b/i.test(text)){
+    var batW=text.match(/\b(12|16|96)\s*w\b/i),batList=m?(R.bat||BATS):null,batHit=null;
+    if(batW&&batList)batHit=batList.filter(function(b){return new RegExp('\\b'+batW[1]+'W\\b','i').test(b);})[0];
+    if(batHit){
+      document.getElementById('bat').value=batHit;
+      guess.push('Battery/capacitor mentioned ('+batW[1]+'W) — matched to '+m.m+' '+m.g+'\u2019s own '+batW[1]+'W option, confirm it\u2019s the right one.');
+    }else{
+      document.getElementById('bat').value='96w bat';
+      guess.push('Battery mentioned — assumed the 96W Smart Storage Battery, check the suffix against the controller generation (some older kits use the 12W or 16W battery).');
+    }
   }
   var psu=grabPSU(text);
   if(psu&&psu.w){
-    var pRules=rulesFor(m),pq=psu.q;
-    if(m&&pRules.psuMax&&pq>pRules.psuMax){guess.push('Client asked for '+pq+' PSUs but '+m.m+' '+m.g+' has '+pRules.psuMax+' bays — capped at '+pRules.psuMax+'.');pq=pRules.psuMax;}
+    var pq=psu.q;
+    if(m&&R.psuMax&&pq>R.psuMax){guess.push('Client asked for '+pq+' PSUs but '+m.m+' '+m.g+' has '+R.psuMax+' bays — capped at '+R.psuMax+'.');pq=R.psuMax;}
     document.getElementById('psu').value=psu.w+'W';
     if(pq){document.getElementById('psuq').value=pq;found.push('Power: '+pq+'x '+psu.w+'W');}
     else{found.push('Power: '+psu.w+'W');guess.push('PSU quantity not stated — set it (1 non-redundant / 2 for 1+1).');}
+    var tierM=text.match(/\b(titanium|platinum|gold|-48v(?:dc)?)\b/i);
+    if(tierM)guess.push('PSU tier "'+tierM[1]+'" mentioned — pick the exact matching part from the list (not guessed here, tiers aren\u2019t offered at every wattage on every model).');
   }
-  var bayM=text.match(/(\d{1,2})\s*(lff|sff)\b/gi);
-  if(bayM&&bayM[0]){document.getElementById('bays').value=bayM[0].toUpperCase().replace(/\s+/g,'');found.push('Bays: '+bayM[0]);}
-  if(bayM&&bayM[1]){rearLinesEl.innerHTML='';rearLinesEl.appendChild(rearRow({v:bayM[1].toUpperCase().replace(/\s+/g,'')+' rear'}));found.push('Rear bays: '+bayM[1]);}
+  /* bay config — front bays are the FIRST NN(LFF/SFF/EDSFF) mention; every
+     one after that is a separate rear/mid-tray line (a build can genuinely
+     carry more than one, e.g. "8LFF front, 2SFF rear, 2SFF midtray").
+     EDSFF wasn't matched here at all before (Gen11's "12EDSFF"/"24EDSFF"
+     bay configs are a real gap this closes). A bay-count sitting right
+     next to the word "midtray"/"mid-tray"/"midbay" keeps that word on the
+     line — evaluate()'s own midtray check looks for exactly that
+     substring, so dropping it (the old code always said "rear") would
+     silently misfile it as a plain rear cage instead. */
+  var bayHits=[],bmRe=/(\d{1,2})\s*(lff|sff|edsff)\b/gi,bmx;
+  while((bmx=bmRe.exec(text)))bayHits.push(bmx);
+  if(bayHits.length){
+    document.getElementById('bays').value=bayHits[0][0].toUpperCase().replace(/\s+/g,'');
+    found.push('Bays: '+bayHits[0][0]);
+  }
+  if(bayHits.length>1){
+    rearLinesEl.innerHTML='';
+    bayHits.slice(1).forEach(function(b){
+      var around=text.slice(Math.max(0,b.index-12),b.index+b[0].length+12);
+      var isMid=/mid[\s-]?tray|midbay/i.test(around);
+      rearLinesEl.appendChild(rearRow({v:b[0].toUpperCase().replace(/\s+/g,'')+(isMid?' midtray':' rear')}));
+      found.push((isMid?'Mid-tray: ':'Rear bays: ')+b[0]);
+    });
+  }
+  if(/\b(diskless|no\s+drives?|ships?\s+(?:with\s+)?no\s+drives?|without\s+(?:any\s+)?drives?)\b/i.test(text)){
+    document.getElementById('nodrives').checked=true;
+    document.getElementById('nodrives').dispatchEvent(new Event('change',{bubbles:true}));
+    found.push('Drives: none (diskless)');
+  }
   if(/\bnvme\b/i.test(text)){document.getElementById('bp2').checked=true;found.push('Backplane: NVMe');}
   if(/\btpm\b/i.test(text)&&!/\b(no|without|w\/o|n\/a)\s+tpm\b/i.test(text)){
     var tpm12=/\btpm\s*1\.2\b/i.test(text);
@@ -6033,7 +6257,7 @@ function parseClientText(text){
   }
   if(/\brails?\b/i.test(text)){document.getElementById('rl1').checked=true;found.push('Rails: Yes');}
   if(/\bbezel\b/i.test(text)){document.getElementById('bz1').checked=true;found.push('Bezel: Yes');}
-  if(/\bexpander\b/i.test(text)){
+  if(/\bexpander\b/i.test(text)&&!expanderHandled){
     /* the system model (if identified above) already tells us the exact
        chassis+generation part — most chassis, and all of G11/G12, never
        had an expander-card SKU at all, so there's nothing to assume for
@@ -6052,16 +6276,33 @@ function parseClientText(text){
   var raidM=text.match(/raid\s*(0|1|5|6|10|50|60)\b/i);
   if(raidM){document.getElementById('plan-raid').value='RAID '+raidM[1];found.push('RAID '+raidM[1]);}
 
-  /* FlexibleLOM / OCP */
+  /* FlexibleLOM / OCP — same exact-code-first idea as the controller
+     block above: this model's OWN real flr list (when it has one) is
+     tried before the generic FLRS/"NNNFLR" fallback, so an OCP mezzanine
+     code like "BCM57414" (never shaped like "NNNFLR") gets recognised
+     too, not just the older FlexibleLOM-era shorthand. */
   if(/\b(no|without|w\/o|n\/a)\s+(flr|flexiblelom|ocp)\b/i.test(text)){
     document.getElementById('fl0').checked=true;
     document.getElementById('flr').disabled=true;document.getElementById('flr').value='';
     found.push('FlexibleLOM / OCP: none fitted');
   }else{
-    var flrM=text.match(/\b(\d{3})\s*flr\b/i);
-    if(flrM){
-      var flrHit=FLRS.filter(function(f){return f.indexOf(flrM[1]+'FLR')===0;})[0];
-      if(flrHit){document.getElementById('fl1').checked=true;document.getElementById('flr').value=flrHit;found.push('FlexibleLOM: '+flrHit);}
+    var flrHandled=false,flrListM=m?R.flr:null;
+    if(flrListM&&flrListM.length){
+      var flrHits=scanCodeList(text,flrListM);
+      if(flrHits.length){
+        document.getElementById('fl1').checked=true;
+        document.getElementById('flr').value=flrHits[0].entry;
+        found.push('FlexibleLOM/OCP: '+flrHits[0].code);
+        claimedCardCodes.push(flrHits[0].code);
+        flrHandled=true;
+      }
+    }
+    if(!flrHandled){
+      var flrM=text.match(/\b(\d{3})\s*flr\b/i);
+      if(flrM){
+        var flrHit=FLRS.filter(function(f){return f.indexOf(flrM[1]+'FLR')===0;})[0];
+        if(flrHit){document.getElementById('fl1').checked=true;document.getElementById('flr').value=flrHit;found.push('FlexibleLOM: '+flrHit);claimedCardCodes.push(flrM[1]+'FLR');}
+      }
     }
   }
 
@@ -6080,7 +6321,7 @@ function parseClientText(text){
     [/\btesla\s*(p4|p40|p100|v100|t4)\b/i,function(x){return 'Tesla '+x[1].toUpperCase();}],
     [/\b(SN1100Q|SN1600Q|SN1610Q|SN1700Q|SN1100E|SN1600E)\b/i,function(x){return x[1].toUpperCase()+' FC';}],
     [/\b(P408e-p|E208e-p|H241)\b(?!\s*(?:int|\bi\b))/i,function(x){return x[1]+' external HBA';}],
-    [/\bNS204i-?(p|r)\b/i,function(x){return 'NS204i-'+x[1].toLowerCase()+' boot';}]
+    [/\bNS204i-?(p|r|u)\b/i,function(x){return 'NS204i-'+x[1].toLowerCase()+' boot';}]
   ];
   var cardHitsRaw=[];  // {label, idx} — idx lets us look just before it for a qty
   cardPats.forEach(function(p){var mm=text.match(p[0]);if(mm)cardHitsRaw.push({label:p[1](mm),idx:mm.index});});
@@ -6097,6 +6338,11 @@ function parseClientText(text){
       cardHitsRaw.push({label:entry.label,idx:cm.index});
     }
   }
+  /* drop anything already assigned to a specific field above (the primary
+     or 2nd controller, or the FlexibleLOM/OCP field) — the same mention
+     shouldn't ALSO show up as a generic, unplaced "card". */
+  if(claimedCardCodes.length)
+    cardHitsRaw=cardHitsRaw.filter(function(h){return !claimedCardCodes.some(function(cc){return h.label.toLowerCase().indexOf(cc.toLowerCase())>-1;});});
   if(cardHitsRaw.length){
     if(cards.children.length===1&&!readLines(cards)[0].name)cards.innerHTML='';
     cardHitsRaw.forEach(function(h){
@@ -6108,26 +6354,44 @@ function parseClientText(text){
   }
 
   /* drives — capacity + whatever speed/RAID-class/interface/RPM words sit
-     around it, in any order ("2x 600GB 15K SAS", "4x 1.2TB 10K SAS"). A
-     lazy tail stops at the next comma/newline/drive so back-to-back lines
-     without punctuation between them still split correctly. */
+     around it, in any order ("2x 600GB 15K SAS", "4x 1.2TB 10K SAS", "2x
+     900GB Read Intensive", "4x 3.84TB U.2 NVMe", "8x 10000rpm" spelled
+     out in full). A lazy tail stops at the next comma/newline/drive so
+     back-to-back lines without punctuation between them still split
+     correctly. A capacity with NO descriptor at all still gets added
+     (interface left blank, flagged to confirm) as long as it's shaped
+     like a drive rather than a DIMM — TB is never a real DIMM size, and a
+     bare GB figure only counts here when it ISN'T one of the actual DIMM
+     sizes (16/32/64/128/256GB etc., already grabMem()'s territory); a
+     plausible DIMM size with nothing drive-ish nearby stays untouched,
+     same as before — genuinely ambiguous, better left to a human. */
+  var DIMM_SIZES=[8,16,32,64,96,128,256];   // the real DIMM sizes grabMem() itself now enforces (DIMM_SIZE_ALT) — kept in sync so a size grabMem wouldn't touch never gets silently skipped here either
   var driveRe=/(\d+)\s*[x*]\s*([\d.]+\s*(?:GB|TB))\b([\s\S]{0,30}?)(?=,|;|\n|\s*\d+\s*[x*]\s*[\d.]+\s*(?:GB|TB)\b|$)/gi;
   var dm,added=false;
   while((dm=driveRe.exec(textNoMem))){
     var tail=dm[3]||'';
-    var spdM=tail.match(/\b(6G|12G|24G|PCIe)\b/i),clsM=tail.match(/\b(RI|MU|WI|VRO)\b/i),
-      rpmM=tail.match(/\b(\d{1,2}(?:\.\d)?)\s*K\b/i),
-      intM=tail.match(/\b(SATA\s*SSD|SAS\s*SSD|SATA|SAS|NVMe|SSD|HDD)\b/i);
-    if(!spdM&&!clsM&&!rpmM&&!intM)continue;   // nothing drive-ish in the tail — could be anything else, skip
+    var spdM=tail.match(/\b(6G|12G|24G|PCIe)\b/i),
+      clsM=tail.match(/\b(RI|MU|WI|VRO)\b/i)||tail.match(/\b(read[\s-]?intensive|mixed[\s-]?use|write[\s-]?intensive|value\s*read\s*optimi[sz]ed)\b/i),
+      rpmM=tail.match(/\b(\d{1,2}(?:\.\d)?)\s*K\b/i)||tail.match(/\b(\d{4,5})\s*rpm\b/i),
+      intM=tail.match(/\b(SATA\s*SSD|SAS\s*SSD|SATA|SAS|NVMe|SSD|HDD|U\.?[23])\b/i);
+    var capUnit=dm[2].match(/GB|TB/i)[0],capNum=parseFloat(dm[2]);
+    var bare=!spdM&&!clsM&&!rpmM&&!intM;
+    if(bare&&!(/tb/i.test(capUnit)||DIMM_SIZES.indexOf(capNum)===-1))continue;
+    var clsRaw=clsM?clsM[1].toUpperCase():'',
+      clsVal=/READ/.test(clsRaw)?'RI':/MIXED/.test(clsRaw)?'MU':/WRITE/.test(clsRaw)?'WI':/VALUE/.test(clsRaw)?'VRO':clsRaw;
+    var rpmRaw=rpmM?rpmM[1]:'',rpmDisp=rpmRaw&&/^\d{4,5}$/.test(rpmRaw)?(Number(rpmRaw)/1000)+'K':(rpmRaw?rpmRaw+'K':'');
     var intRaw=intM?intM[1].toUpperCase().replace(/\s+/g,' '):'',intVal='';
     if(intRaw==='SATA SSD'||intRaw==='SAS SSD')intVal=intRaw;
     else if(intRaw==='SATA'||intRaw==='SAS')intVal=intRaw;
-    else if(intRaw==='NVME')intVal='NVMe';
-    var row={q:dm[1],cap:dm[2].replace(/\s+/g,''),spd:spdM?spdM[1].toUpperCase():'',cls:clsM?clsM[1].toUpperCase():'',int:intVal};
+    else if(intRaw==='NVME'||/^U\.?[23]$/i.test(intRaw))intVal='NVMe';
+    var row={q:dm[1],cap:dm[2].replace(/\s+/g,''),spd:spdM?spdM[1].toUpperCase():'',cls:clsVal,int:intVal};
     if(!added&&drives.children.length===1&&!readLines(drives)[0].cap)drives.innerHTML='';
     drives.appendChild(driveRow(row));added=true;
-    var descBits=[row.spd,rpmM?rpmM[1]+'K':'',row.cls,row.int||intRaw].filter(Boolean).join(' ');
-    found.push('Drive: '+dm[1]+'x '+row.cap+(descBits?' '+descBits:''));
+    var descBits=[row.spd,rpmDisp,row.cls,row.int||intRaw].filter(Boolean).join(' ');
+    if(bare){
+      found.push('Drive: '+dm[1]+'x '+row.cap);
+      guess.push('Drive: '+dm[1]+'x '+row.cap+' had no interface/speed/class mentioned — confirm SAS/SATA/NVMe and tier manually.');
+    }else found.push('Drive: '+dm[1]+'x '+row.cap+(descBits?' '+descBits:''));
     if(intRaw==='SSD'||intRaw==='HDD')guess.push('Drive said "'+intRaw+'" — specify SATA SSD / SAS SSD (or the SAS/SATA interface) manually.');
   }
   if(!drives.children.length)drives.appendChild(driveRow());

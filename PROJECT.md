@@ -3160,3 +3160,129 @@ through a throwaway `python -m http.server` via a new `.claude/launch.json` (`fi
 snapshot in the browser pane, so clicks/JS don't apply to what's on screen; a real HTTP origin is needed to drive the
 UI for real) — picked DL380 G11 → G6430 and confirmed the readout renders under the field exactly as intended, and the
 slip still only shows "1x G6430". Build 2026.09.23.2.
+
+## "Paste the client's request": a thorough shorthand pass (2026-09-23, build .3)
+
+User: with all the model-specific data now built up (rear cages, real controller/FLR-OCP lists, riser kits, boot
+devices…), take another pass at the free-text box and try as many shorthand ways a trader would actually write a
+build as possible — the more that gets parsed, the more a pasted client request can be run straight through the tool
+and show what issues arise, without the trader re-typing it by hand. Asked for real time spent thinking through
+G10/G10+/G11 shorthand, not just a couple of quick additions.
+
+**What changed, by field:**
+
+- **Normalisation.** The Unicode multiplication sign "×" (and "✕") — extremely common in anything pasted out of
+  Word/Excel, since autocorrect turns a typed "x" into it — is now replaced with a plain "x" right at the top of
+  `parseClientText()`, before any grabber runs. Every single "NxNN"-shaped regex in the file (CPU qty, memory, PSU,
+  drives, cards) was silently blind to it before; none of them needed touching individually, just the one line up
+  front. En/em dashes are normalised to a plain hyphen the same way.
+- **System model.** A bare model number with no "DL"/"ML" at all ("380g10", "360 gen10") is now accepted — but ONLY
+  when a real, known model number (built from `MODELS` itself via `bareModelNums()`, never hand-maintained) sits
+  immediately against a generation mention; a bare number floating anywhere else in a build spec (a drive/memory/PSU
+  figure) is never touched. The one real brand collision ("110" — DL110 and ML110 both exist) falls back to
+  whichever chassis toggle (Rack/Tower) is currently selected. "10" itself is deliberately excluded from this
+  fallback — it's ML10's number AND a generation digit, hopelessly ambiguous as a bare token, so ML10 stays reachable
+  only by typing "ML10" in full. Also added: "gen-10" (hyphen between the word and the digit), and "10.5" — informal
+  community slang for Gen10 Plus (it sits between 10 and 11) — resolving to G10+.
+  **A real, pre-existing bug found and fixed along the way:** "DL380a Gen12" (the one model with a lowercase "a"
+  suffix) could never resolve, in ANY casing, typed by hand or pasted. `findModelAndGen()` uppercased its ENTIRE
+  match including the "a", producing "DL380A", which never string-equals the real `MODELS` entry `DL380a` (lowercase)
+  in the exact-match compare a few lines later. Fixed by keeping that one suffix letter lowercase while still
+  uppercasing the rest.
+- **Processor quantity.** Added: the reversed order ("6248 x2", qty AFTER the code); a bare "2 CPU"/"2 CPUs"/"2
+  processors"/"2 sockets" with no "x" needed at all (the word itself is unambiguous); "three"/"four" as words (for
+  the real 4-socket DL560/DL580 boards); "both sockets populated"/"both CPUs" resolving to the model's own socket
+  count once a model's identified (else 2).
+- **Processor identification.** When no bare code matches, the existing core-count fallback is now joined by two more
+  narrowing axes: an architecture/silicon name ("Sapphire Rapids", "Cascade Lake", "Genoa", "Turin", "4th Gen Xeon
+  Scalable" …) mapped to the internal platform code(s) `PLATFORM_LABELS` already uses, and an exact clock speed
+  ("2.1GHz" — GHz only, deliberately never MHz, since MHz is how memory speed gets written and treating a "2933MHz"
+  DIMM mention as a CPU clock would misfire badly). All given axes narrow the SAME pool (also cpuAllow-checked, so the
+  reported count matches what the dropdown itself would show); a pool of exactly one is picked and reported as FOUND,
+  not a guess — it's exactly as certain as the client having typed the bare code, just arrived at a different way.
+  Real example that lands on a unique part: "Sapphire Rapids Gold, 24 core, 2.6GHz" → G6442Y on DL380/DL360 G11, and
+  nothing else. (Core+clock alone isn't always unique — e.g. 32C/2.1GHz matches BOTH G6430 and G6448Y on the same
+  platform, different TDP — that stays a properly-counted CHECK, not a wrong guess. TDP-based narrowing was
+  deliberately left out: CPU wattage and PSU wattage read identically as "NNNw" in free text, and disambiguating them
+  reliably wasn't worth the collision risk.)
+- **Memory.** `grabMem()` now also captures an explicit speed sitting next to the size ("8x32GB 2933MHz", "8x 32GB,
+  2933 MT/s") — a bare "@2933" with no unit is deliberately left alone as too ambiguous. Separately, **the size
+  figure itself is now restricted to the real DIMM sizes this tool actually offers** (8/16/32/64/96/128/256GB, the
+  full union of `MEM_CAPS` — a genuine pre-existing latent bug: the old regex accepted ANY 1–3 digit "GB" figure in
+  the "NxNNgb" shape, so a bare "8x 600GB" with no other hint would have been silently misread as 8×600GB of RAM
+  instead of 8 drives, it just happened that every existing test always had a drive keyword nearby to avoid ever
+  tripping over it). A bare total with no qty×size breakdown ("384GB total", "1.5TB memory") now feeds the REAL
+  `#memtarget` field and fires its own input handler, so the trader gets the same live even-split suggestions they'd
+  get typing it in by hand — not just a dead-end "split it manually" note like before.
+- **PSU.** Added: "1+1" (redundant pair → qty 2) / "1+0" (single, non-redundant → qty 1); the reversed "800w psu x2"
+  (a word between the number and the multiplier); an efficiency-tier word (Titanium/Platinum/Gold/-48VDC) now raises a
+  CHECK to pick the exact matching real part from the model's own list — deliberately never guessed at directly,
+  since not every tier exists at every wattage on every model and this project's whole premise is "no guessing" on
+  real part numbers.
+- **Storage controller(s) — the part of this request named directly.** An EXACT code straight out of the model's own
+  real controller list (the same source `#ctrl` itself offers — `R.ctrl` or the generic `ctrlsFor(m)` fallback) is now
+  recognised via a new generic `scanCodeList()` helper, and it's as certain as the client having typed it: FOUND, not
+  a guess. Two distinct real codes in one paste fill BOTH the primary `#ctrl` field and the 2nd-controller slot the
+  SAS-expander field doubles as (see the previous build's "real 2nd-controller picker" work) — first mentioned goes
+  primary, second goes secondary. A single code with "dual"/"two" sitting directly against it ("dual MR416i-p")
+  fills BOTH slots with that same part, flagged to confirm. A generic, unattached "add a second controller"/"second
+  controller" mention with no part named at all (the exact case the user described: G11 "doesn't use expander cards,
+  it uses multiple controllers... needs an 'add controller' line... without a way to select what controller") now
+  gets a plain CHECK pointing at the 2nd-controller field instead of silently doing nothing OR guessing wrong. The
+  older family-only fallback patterns (`P408`, `MR416`, etc., without knowing the exact suffix) are unchanged and
+  still run when a model has no matching exact-list hit. Codes claimed here are tracked (`claimedCardCodes`) and kept
+  out of the generic add-in-card scan later in the function, so the same mention can't ALSO show up as a second,
+  unplaced "card" row.
+- **FlexibleLOM/OCP.** Same `scanCodeList()` idea, tried before the older "NNNFLR" shorthand: an exact OCP mezzanine
+  code straight out of the model's own real `flr` list (e.g. "BCM57414", never shaped like "NNNFLR" so the old code
+  could never have matched it) is now recognised too. Also claims its code so it can't double up as a card.
+- **NS204i-u** added alongside the already-supported -p/-r boot-device shorthand (this tool built NS204i-u kit
+  support for G11 in an earlier pass; the paste parser had never been told about the third variant).
+- **Battery.** A wattage mentioned right next to "battery"/"capacitor" (e.g. "16w cap") is now matched against the
+  MODEL'S OWN real battery list when one exists and actually offers that wattage, using the real part string instead
+  of the generic 96W guess. Falls back to the old generic 96W-battery guess whenever there's no wattage, no model, or
+  no match (most Smart Array kits do ship the 96W one; the guess text now also mentions 16W as a possibility, not
+  just 12W).
+- **Bay config.** Recognises `NNEDSFF` now, not just LFF/SFF — a real, plain gap before this (Gen11's 12EDSFF/24EDSFF/
+  36EDSFF front configs were never matched at all). Every bay-shaped mention AFTER the first (front bays) becomes its
+  own separate rear/mid-tray line — a build can genuinely carry more than one ("8LFF front, 2SFF rear, 2SFF
+  midtray"), and the old code only ever took the second mention, silently dropping a third. A mention sitting next to
+  the word "midtray"/"mid-tray"/"midbay" now keeps that word on the line instead of always writing "... rear" — a
+  real, if narrow, correctness bug: `evaluate()`'s own midtray-vs-rear logic (`fanW`/heatsink midtray rule) looks for
+  exactly that substring, so the old blind " rear" suffix would have silently misfiled a client's stated mid-tray
+  drive as a plain rear cage.
+- **Diskless.** "diskless"/"no drives"/"ships with no drives"/"without drives" now checks the "No drives" box.
+- **Drives.** A bare capacity with ZERO other descriptor (no speed/class/RPM/interface word anywhere nearby) now
+  still adds a drive line — as long as it's shaped like a drive rather than a DIMM. TB is unambiguous (never a real
+  DIMM size); a GB figure only counts here when it's genuinely NOT one of the real DIMM sizes above (a bare "4x 32GB"
+  with nothing drive-ish at all stays read as memory, unchanged, deliberately conservative — still genuinely
+  ambiguous and better left to a human). The bare-added line is flagged with an explicit CHECK to confirm the
+  interface. Also added: RPM spelled out in full ("10000rpm" displays as "10K", same as the abbreviated form); the
+  full words "Read Intensive"/"Mixed Use"/"Write Intensive"/"Value Read Optimized" mapped to their RI/MU/WI/VRO
+  codes (spec-sheet language, not just the 2-letter shorthand); "U.2"/"U.3" read as an NVMe interface signal.
+
+**A live, deliberately messy end-to-end check** (not just the QA suite) pasted a build naming a real controller, an
+unnamed "add a second controller", an architecture+core+clock CPU spec, a memory speed, a PSU tier, and an EDSFF bay
+count that doesn't actually exist on that chassis, all in one string. Every field the paste could reasonably fill got
+filled — and every resulting real-world contradiction (wrong memory speed for that CPU, EDSFF needing NVMe not
+SAS/SATA, EDSFF having no internal controller at all so the named controller can't be used, the bay count
+outrunning the controller's ports) surfaced immediately as its own config check, entirely from EXISTING check logic
+this pass never touched. That's the actual point of the feature working end to end: paste a client's ask, see every
+real problem with it at a glance, without retyping anything by hand.
+
+QA: 842 ok / 0 FAIL (38 new tests — one per shorthand behaviour above, plus the DL380a case-bug fix and a couple of
+deliberate false-positive guards: a stray "380W" never becomes a phantom model, a bare "4x 32GB" still reads as
+memory not a drive). Two real bugs were caught and fixed only by writing the tests, not by inspection: the "second
+controller" phrase check originally used one OR'd condition that let a generic "add a second controller" (no part
+named) wrongly fall into the "dual — same part twice" branch when exactly one real code was ALSO mentioned elsewhere
+in the text; and the memory-size restriction above. Verified live in the browser too (see above) — including
+discovering that this tool's own "Clear sheet" button calls `window.confirm()`, which silently auto-declines under
+browser-pane automation with no human to click it (the QA harness already knew this — `w.confirm=()=>true` — a
+plain page reload plus `localStorage.clear()` is the manual-testing equivalent).
+
+**Not done / known pre-existing rough edge, not introduced by this pass:** mentioning "ilo" anywhere (e.g. for the
+iLO license — "ilo advanced") also still trips the generic CARDLIST scan's "iLO dedicated NIC (already onboard)"
+entry, adding a spurious, harmless card-confirmation note. This already happened before this pass (the generic
+per-code CARDLIST scan is unchanged); left alone rather than special-cased, since the same class of ambiguity exists
+for other short, common words in that same generic list and fixing it properly wants a broader look at that scan,
+not a one-off patch. Build 2026.09.23.3.
