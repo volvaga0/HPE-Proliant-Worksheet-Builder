@@ -4237,8 +4237,8 @@ function runRound25(){
     /ILO.*no separate Advanced Premium licence/.test(chk26())?pass25(label+': iLO Advanced Premium is flagged — the QuickSpecs list iLO Advanced only'):fail25(label+' Premium not flagged: '+chk26().slice(0,240));
     d.getElementById('il0').checked=true; fire(d.getElementById('il0'),'change');
   });
-  setModel25('DL385 G10');
-  (d.getElementById('rail-note').textContent==='' && d.getElementById('bezel-note').textContent==='' && d.getElementById('ilo-note').textContent==='')?pass25('models without sourced rail / bezel / iLO data (DL385 G10) show no hint'):fail25('DL385 G10 shows a hint');
+  setModel25('DL380 G9');
+  (d.getElementById('rail-note').textContent==='' && d.getElementById('bezel-note').textContent==='' && d.getElementById('ilo-note').textContent==='')?pass25('models without sourced rail / bezel / iLO data (DL380 G9) show no hint'):fail25('DL380 G9 shows a hint');
   reset27(); setModel25('DL380 G11'); d.getElementById('rl1').checked=true; d.getElementById('bz1').checked=true; d.getElementById('il1').checked=true;
   fire(d.getElementById('il1'),'change');
   !/P52341|P22020|P50400|875519|512485|BD505A/.test(slip27())?pass25('slip: rail / bezel / iLO part numbers never appear'):fail25('slip carries a rail/bezel/iLO PN: '+slip27().slice(0,300));
@@ -4260,9 +4260,9 @@ function runRound25(){
   reset27(); setModel25('DL360 G11');
   { const o=cardOpts27();
     (o.length===31 && !o.some(function(x){return /S2A69A/.test(x);}))?pass25('DL360 G11 card picker: 31 options — the same catalogue minus the DL380-only crypto card'):fail25('DL360 card list wrong ('+o.length+')'); }
-  reset27(); setModel25('DL385 G10');
+  reset27(); setModel25('DL380 G9');
   { const o=cardOpts27();
-    (o.indexOf('366T 4x1GbE')>-1 && !o.some(function(x){return /P08443-B21/.test(x);}))?pass25('models without their own card list keep the generic starter list'):fail25('DL385 G10 card list changed: '+o.slice(0,3).join(' | ')); }
+    (o.indexOf('366T 4x1GbE')>-1 && !o.some(function(x){return /P08443-B21/.test(x);}))?pass25('models without their own card list keep the generic starter list'):fail25('DL380 G9 card list changed: '+o.slice(0,3).join(' | ')); }
   // slip strips the part numbers off the cards (hyphenated and suffix-less SKUs)
   reset27(); setModel25('DL380 G11');
   addCard27('SN1610Q 32Gb FC 1p (R2E08A)','1'); addCard27('E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','2');
@@ -4477,10 +4477,10 @@ function runRound25(){
     (o.length===35 && !o.some(function(x){return /SN1600E/.test(x);}) && o.some(function(x){return /Slingshot SA210S/.test(x);}) && o.some(function(x){return /NS204i-p/.test(x);}))
       ?pass25('DL380 G10+ card picker: 35 stand-up options — no SN1600E (DL360-only), has the Slingshot NIC (DL380-only) and NS204i-p')
       :fail25('DL380 G10+ card list wrong ('+o.length+')'); }
-  reset27(); setModel25('DL385 G10');
+  reset27(); setModel25('DL380 G9');
   { const o=cardOpts29();
     (o.length===47 && o.indexOf('366T 4x1GbE')>-1 && !o.some(function(x){return /\(R2E08A\)|MCX75310AAS/.test(x);}))
-      ?pass25('models without their own card list keep the generic 47-entry starter list (unaffected by the G10+ Ethernet/FC additions)'):fail25('DL385 G10 card list changed ('+o.length+'): '+o.slice(0,3).join(' | ')); }
+      ?pass25('models without their own card list keep the generic 47-entry starter list (unaffected by the G10+ Ethernet/FC additions)'):fail25('DL380 G9 card list changed ('+o.length+'): '+o.slice(0,3).join(' | ')); }
   // slip strips the part numbers off these cards too (hyphenated and suffix-less SKUs, incl. HPE's Q0Lxx/OSFP style codes)
   reset27(); setModel25('DL360 G10+');
   d.getElementById('add-card').click();
@@ -5121,6 +5121,24 @@ function runRound25(){
   { const c=R29('DL385 G10+ v2').cards; (c.length===42 && c.some(function(x){return /\(P25527-B21\)/.test(x);}) && c.some(function(x){return /\(P24437-B21\)/.test(x);}) && !c.some(function(x){return /nvidia/i.test(x);}))?pass25('DL385 G10+ v2 cards: 38 doc-listed + 2 NVMe adapters + NS204i-p + M.2 kit, incl. the non-PLUS X2522-25G'):fail25('DL385 v2 cards: '+c.length); }
   reset27(); setModel25('DL345 G10+'); setv26('bays','12LFF');
   (/P22019-B21/.test(rl29()) && /867809-B21/.test(bz29()))?pass25('DL345 G10+ 12LFF: DL38X LFF rail + 2U bezel'):fail25('DL345 hints: '+rl29());
+
+
+  // ===== G10 AMD: DL325 / DL385 Gen10 (build 2026.09.23.11) =====
+  reset27(); setModel25('DL385 G10'); pickCpuExact25('EPYC 7502'); setv26('cpuq','2');
+  { const sp=speeds26(); (sp.join(',')==='2933')?pass25('DL385 G10 + Rome: 2933 MT/s only (Gen10 board — was offering 3200)'):fail25('DL385 G10 Rome speeds: '+sp.join(',')); }
+  setv26('dimmq','16'); setv26('dimm','32GB 2933 MT/s');
+  (/P19043-B21/.test(kit29()) && !/P07646|P06033/.test(kit29()))?pass25('DL385 G10 + Rome 32GB: the Gen10 AMD 2933 kit P19043-B21'):fail25('DL385 G10 Rome kit: '+kit29());
+  setv26('dimm','32GB 3200 MT/s');
+  /MEMORY SPEED/.test(chk26())?pass25('DL385 G10: a typed 3200 MT/s is stopped (the board runs Rome at 2933)'):fail25('3200 on DL385 G10 not stopped');
+  pickCpuExact25('EPYC 7601'); setv26('dimm','64GB 2666 MT/s');
+  { const sp=speeds26(); (sp.join(',')==='2666' && /P05592-B21/.test(kit29()) && /838085-B21/.test(kit29()))?pass25('DL385 G10 + Naples: 2666 only; 64GB = P05592-B21 (LRDIMM alternate 838085-B21)'):fail25('Naples: '+sp.join(',')+' / '+kit29()); }
+  (/733660-B21/.test(rl29())||/733662-B21/.test(rl29()))&&/867809-B21/.test(bz29())&&/867824-B21/.test(bz29())?pass25('DL385 G10: 2U rails, bezel, intrusion kit'):fail25('DL385 G10 hints: '+rl29()+' / '+bz29());
+  { const c=R29('DL385 G10').cards; (c.length===21 && c.some(function(x){return /\(P06154-B21\)/.test(x);}))?pass25('DL385 G10 cards: 20 from its current doc + M.2 kit'):fail25('DL385 G10 cards: '+c.length); }
+  reset27(); setModel25('DL325 G10'); pickCpuExact25('EPYC 7402P');
+  { const sp=speeds26(); sp.join(',')==='2933'?pass25('DL325 G10 + Rome: 2933 only'):fail25('DL325 G10 speeds: '+sp.join(',')); }
+  (/734807-B21/.test(rl29()) && /866473-B21/.test(bz29()) && R29('DL325 G10').cards.length===39)?pass25('DL325 G10: 1U rail + CMA, intrusion kit, 39 cards (38 doc-listed + M.2 kit)'):fail25('DL325 G10 hints/cards');
+  reset27(); setModel25('DL385 G10+'); pickCpuExact25('EPYC 7502');
+  speeds26().indexOf(3200)>-1?pass25('DL385 G10+ (Gen10 Plus board) still runs Rome at 3200 — the 2933 cap is per model'):fail25('G10+ Rome lost 3200');
 
   reset27();
 }

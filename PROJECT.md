@@ -3501,3 +3501,25 @@ V27, DL325 v2 V32, DL345 V34, DL365 V30, DL385 v2 V30). Same names-from-own-doc 
 QA: 958 ok / 0 FAIL (11 new; 2 older tests updated to the doc-corrected OCP list / a still-generic example model).
 Browser-verified (DL385 G10+ v2 via paste). Every G10/G10+ model except DL325/DL385 G10 (AMD Naples/Rome) is now at
 full depth.
+
+## G10 AMD: DL325 / DL385 Gen10 full rundown — closes G10/G10+ (2026-09-23, build .11)
+
+Sources: DL325 G10 V12 (2019) PDF `-table` + V15/V26 texts; DL385 G10 V29 text (the cached DL385 G10 PDF is a broken
+5KB download). DL325 V26 is badly shifted (it pairs the 16GB kit with 865434-B21, a PSU) — values from V12/V15 only.
+
+- **Real error fixed: Rome on the Gen10 board runs memory at 2933, not 3200.** Both docs: "memory speeds up to 2933
+  MT/s", every 7xx2 row says 2933, and "2933 MT/s DIMMs are only supported with EPYC 7xx2; 2666 MT/s DIMMs only with
+  7xx1" (2933 kits run 2933 at 1DPC / 2666 at 2DPC). The tool offered 3200 (the shared `rome` platform speed from the
+  Gen10 Plus boards). New per-model `memSpeeds` (`platSpeeds()` feeds both the speed buttons and the MEMORY SPEED
+  stop): DL325/DL385 G10 = naples [2666], rome [2933]; Gen10 Plus Rome models keep 3200.
+- **Gen10 AMD memory kits are a third family** (names identical to the Intel ones, PNs differ — so memory PNs must come
+  from each model's own clean rows, never the name map): Naples 2666 838079/838089 (alt 838081)/838083/P05592 (alt LR
+  838085)/838087; Rome 2933 P19040/P19042 (alt P19041)/P19043/P19045 (alt LR P19044)/P19047 — a consistent aligned run
+  in V15. Per-model `dimmKits` objects, `memCaps` 8-128.
+- Cards (DL325 38 from V12 + V26 names, DL385 20 from V29; QL41401-A2G SFP+ = P08446 and the HDR 200Gb 1p = P06154,
+  both matching the doc's own rows), M.2 kit, battery, rails (DL385: easy-install and ball-bearing, SFF/LFF, with
+  CMAs), bezel, intrusion, iLO, DL385 fan kit 867810-B21.
+
+QA: 967 ok / 0 FAIL (9 new; 3 older "model without its own data" tests re-pointed to DL380 G9). Browser-verified.
+**Every G10 and G10+ model (Intel and AMD) is now at full depth.** Remaining: G9 (low priority), G12 (not for now),
+-001 spares (not in QuickSpecs).
