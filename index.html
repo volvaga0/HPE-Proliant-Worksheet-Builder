@@ -231,7 +231,7 @@ fieldset{border:0;margin:0;padding:0}
 legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .pills{display:flex;flex-wrap:wrap;gap:5px}
 .pills input{position:absolute;opacity:0;width:1px;height:1px}
-.pills [hidden]{display:none!important}   /* per-model pills (TPM) that do not apply to the selected system */
+.pills [hidden],.pills[hidden],.row[hidden]{display:none!important}   /* per-model pills (TPM) that do not apply to the selected system */
 .pills label{font-size:14px;line-height:1;padding:8px 11px;border:1px solid var(--field-edge);
   background:var(--field);border-radius:7px;cursor:pointer;user-select:none}
 .pills label:hover{border-color:var(--rule-strong)}
@@ -732,11 +732,12 @@ button.quiet{color:var(--ink-soft)}
       </div>
 
       <div class="row">
-        <div class="q"><span class="t">iLO license</span><span class="note">Standard ships free on every board — Advanced/Advanced Premium is a paid activation key.</span></div>
+        <div class="q"><span class="t">iLO license</span><span class="note" id="ilo-hint">Standard ships free on every board — Advanced/Advanced Premium is a paid activation key.</span></div>
         <div class="a"><fieldset class="pills"><legend>iLO license</legend>
           <input type="radio" id="il0" name="ilo" value="iLO Standard (included)" checked><label for="il0">Standard</label>
           <input type="radio" id="il1" name="ilo" value="iLO Advanced license"><label for="il1">Advanced</label>
           <input type="radio" id="il2" name="ilo" value="iLO Advanced Premium license"><label for="il2">Advanced Premium</label>
+          <input type="radio" id="il3" name="ilo" value="iLO Essentials license" hidden disabled><label for="il3" hidden>Essentials</label>
         </fieldset>
         <span class="cap-note" id="ilo-note"></span></div>
       </div>
@@ -755,7 +756,7 @@ button.quiet{color:var(--ink-soft)}
         <span class="cap-note" id="psu-note"></span></div>
       </div>
       <div class="row">
-        <div class="q"><span class="t">Rails</span></div>
+        <div class="q"><span class="t" id="rail-label">Rails</span></div>
         <div class="a"><div class="inline">
           <fieldset class="pills"><legend>Rails</legend>
             <input type="radio" id="rl1" name="rail" value="Rail kit"><label for="rl1">Yes</label>
@@ -765,14 +766,14 @@ button.quiet{color:var(--ink-soft)}
         </div>
         <span class="cap-note" id="rail-note"></span></div>
       </div>
-      <div class="row">
+      <div class="row" id="bezel-row">
         <div class="q"><span class="t">Bezel</span></div>
         <div class="a"><div class="inline">
           <fieldset class="pills"><legend>Bezel</legend>
             <input type="radio" id="bz1" name="bezel" value="Bezel"><label for="bz1">Yes</label>
             <input type="radio" id="bz0" name="bezel" value="No bezel" checked><label for="bz0">No</label>
           </fieldset>
-          <fieldset class="pills"><legend>Bezel key</legend>
+          <fieldset class="pills" id="bkey-set"><legend>Bezel key</legend>
             <input type="radio" id="bk1" name="bkey" value="+ key"><label for="bk1">With key</label>
             <input type="radio" id="bk0" name="bkey" value=""><label for="bk0">No key</label>
           </fieldset>
@@ -791,7 +792,7 @@ button.quiet{color:var(--ink-soft)}
           <input type="radio" id="t1y" name="feet" value="Feet"><label for="t1y">Yes</label>
           <input type="radio" id="t1n" name="feet" value=""><label for="t1n">No</label>
         </fieldset></div></div>
-      <div class="row"><div class="q"><span class="t">Door</span></div>
+      <div class="row"><div class="q"><span class="t">Door</span><span class="note" id="door-note"></span></div>
         <div class="a"><fieldset class="pills"><legend>Door</legend>
           <input type="radio" id="t2y" name="door" value="Door"><label for="t2y">Yes</label>
           <input type="radio" id="t2n" name="door" value=""><label for="t2n">No</label>
@@ -3452,6 +3453,95 @@ function tpmKind(m){
   if(/^G11|^G12/.test(m.g)||TPM_EMBEDDED_ONLY.indexOf(key)>-1)return 'embedded';
   return 'module-switchable';
 }
+/* Pill sets that switch per model (2026-09-23, same idea as the TPM / media bay pills): each helper returns
+   [label, shown] per radio; applyPillSet relabels, hides the ones that don't exist on the model and moves a
+   hidden pick to the first shown pill. */
+function applyPillSet(ids,p){
+  ids.forEach(function(id,i){
+    var inp=document.getElementById(id),lab=document.querySelector('label[for="'+id+'"]');
+    if(p[i][0])lab.textContent=p[i][0];inp.hidden=lab.hidden=!p[i][1];inp.disabled=!p[i][1];
+  });
+  var cur=document.querySelector('input[name="'+document.getElementById(ids[0]).name+'"]:checked');
+  if(cur&&cur.hidden){cur.checked=false;var first=ids.filter(function(id,i){return p[i][1];})[0];if(first)document.getElementById(first).checked=true;}
+}
+/* iLO: every cached QuickSpecs scanned. Gen9 = iLO 4 (no Advanced Premium Security Edition in any Gen9 doc; the
+   100-series and entry towers list iLO Essentials), Gen10/Gen10 Plus = iLO 5, Gen11 = iLO 6, Gen12 = iLO 7
+   (Advanced Premium Security Edition is named for iLO 6 and iLO 7 too). ML10 Gen9 has no iLO — Intel AMT. */
+var ILO_NONE=['ML10 G9'];
+var ILO_ESSENTIALS=['DL20 G9','DL60 G9','DL80 G9','DL120 G9','DL160 G9','DL180 G9','ML30 G9','ML110 G9','ML150 G9'];
+function iloVer(m){return ({G9:'4',G10:'5','G10+':'5',G11:'6',G12:'7'})[m.g.replace(/ v2$/,'')]||'';}
+function iloPills(m){
+  if(!m)return [['Standard',1],['Advanced',1],['Advanced Premium',1],['Essentials',0]];
+  var key=m.m+' '+m.g;
+  if(ILO_NONE.indexOf(key)>-1)return [['No iLO (Intel AMT)',1],['',0],['',0],['',0]];
+  var n='iLO '+iloVer(m)+' ';
+  return [[n+'Standard (included)',1],[n+'Advanced',1],[n+'Advanced Premium Security',m.g!=='G9'],[n+'Essentials',ILO_ESSENTIALS.indexOf(key)>-1]];
+}
+function iloSlipText(m,val){
+  var i=['iLO Standard (included)','iLO Advanced license','iLO Advanced Premium license','iLO Essentials license'].indexOf(val);
+  if(!m||i<0)return val;
+  var p=iloPills(m);if(!p[i][1])return val;
+  return i===0?p[0][0]:p[i][0]+' license';
+}
+function iloHintText(m){
+  if(!m)return 'Standard ships free on every board — Advanced/Advanced Premium is a paid activation key.';
+  if(ILO_NONE.indexOf(m.m+' '+m.g)>-1)return 'No iLO on the '+m.m+' '+m.g+' — remote management is Intel AMT (with a Xeon processor fitted).';
+  var n='iLO '+iloVer(m);
+  return n+' Standard ships free on the '+m.m+' '+m.g+' — '+(ILO_ESSENTIALS.indexOf(m.m+' '+m.g)>-1?'Essentials and Advanced are paid licences.':m.g==='G9'?'Advanced is a paid licence (iLO 4 has no Advanced Premium Security tier).':'Advanced and Advanced Premium Security are paid licences.');
+}
+/* motherboard: what "Standard" / "NC" actually mean, from motherboardKind() */
+function moboPills(m){
+  var k=motherboardKind(m);
+  if(k==='always-nc')return [['No embedded NIC (every board)',1],['NC',0]];
+  if(k==='always-lom')return [['Standard (embedded NIC)',1],['NC',0]];
+  return [['Standard (embedded NIC)',1],['NC (no embedded NIC)',1]];
+}
+function moboSlipText(m,val){
+  if(!m)return val;
+  var k=motherboardKind(m);
+  if(k==='always-nc')return 'Motherboard: no embedded NIC';
+  return val==='NC motherboard'?'NC motherboard (no embedded NIC)':'Standard motherboard (embedded NIC)';
+}
+/* backplane: only the options that exist, from backplaneKind() */
+function bpPills(m){
+  var k=backplaneKind(m);
+  if(k==='sas-only')return [['SAS / SATA only',1],['NVMe',0],['Premium',0]];
+  if(k==='nvme-only')return [['SAS / SATA',0],['NVMe only',1],['Premium',0]];
+  return [['SAS / SATA',1],['NVMe',1],['Premium',1]];
+}
+/* towers: the front bezel / door (the rack "Bezel" row is hidden on a tower) and the tower-to-rack kit that the
+   "Rails" field means there. Wording from each tower's own QuickSpecs. */
+var TOWER_DOOR={
+ 'ML30 G9':'The ML30 Gen9 tower chassis comes with its feet and bezel.',
+ 'ML350 G9':'The Security Bezel Kit 660584-B21 is listed for the ML350 Gen9 rack model only.',
+ 'ML30 G10':'Front bezel with key lock is standard on the ML30 Gen10.',
+ 'ML110 G10':'The front bezel has a key lock (shown on the ML110 Gen10 front panel).',
+ 'ML350 G10':'The security bezel with key lock is standard on every ML350 Gen10 (tower and rack).',
+ 'ML30 G10+':'Front bezel with key lock is standard on the ML30 Gen10 Plus.',
+ 'ML30 G11':'Front bezel with key lock is standard on the ML30 Gen11.',
+ 'ML110 G11':'The security front bezel with key lock is standard on every ML110 Gen11.',
+ 'ML350 G11':'Front bezel key lock is standard on the ML350 Gen11 (tower and rack), plus a padlock slot.',
+ 'ML350 G12':'Front bezel key lock is standard on the ML350 Gen12 (tower and rack).'
+};
+var TOWER_RACK_KIT={
+ 'ML350 G9':'HP ML350 Gen9 Tower to Rack Conversion Kit 726567-B21 (5U rail kit)',
+ 'ML150 G9':'HP Tower to Rack Conversion Tray Universal Kit 417705-B21',
+ 'ML350 G12':'HPE ProLiant Compute ML Gen11/Gen12 Tower to Rack Conversion Kit P47394-B21 (standalone option, not factory-integrated)'
+};
+function towerMode(m){return m?!!m.tower:document.getElementById('ct-t').checked;}
+function applyChassisPills(m){
+  applyPillSet(['il0','il1','il2','il3'],iloPills(m));
+  document.getElementById('ilo-hint').textContent=iloHintText(m);
+  applyPillSet(['mb1','mb2'],moboPills(m));
+  applyPillSet(['bp1','bp2','bp3'],bpPills(m));
+  var t=towerMode(m);
+  document.getElementById('rail-label').textContent=t?'Tower-to-rack kit':'Rails';
+  document.querySelector('label[for="rl1"]').textContent=t?'Yes (rack-mounting)':'Yes';
+  document.querySelector('label[for="rl0"]').textContent=t?'No (stays a tower)':'No';
+  document.getElementById('bezel-row').hidden=t;
+  document.getElementById('door-note').textContent=(m&&TOWER_DOOR[m.m+' '+m.g])||'';
+}
+
 /* TPM options per model (2026-09-23, every cached QuickSpecs scanned): the pills are relabelled so "None" is never
    offered on a board that has a TPM built in, and a module board says "No TPM module" rather than a bare "None".
    PNs from the docs: Gen9 TPM 1.2 module 488069-B21 / TPM 2.0 kit 745823-B21 (UEFI mode only; DL80 Gen9 lists the
@@ -4423,7 +4513,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.23.15'; // 15th build shipped today
+var BUILD_VERSION='2026.09.23.16'; // 16th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -5059,11 +5149,12 @@ function refreshDependents(){
   document.getElementById('expander').placeholder=(m&&!hasExp)?'e.g. MR416i-p (a second controller)':'e.g. 12G SAS Expander Card';
   var moboK=motherboardKind(m);
   document.getElementById('mobo-note').textContent=
-    moboK==='always-nc'?'No embedded network controller on any '+(m.m+' '+m.g)+' board — always effectively "NC" whichever you pick here. Networking comes entirely from the FlexibleLOM/OCP field.'
+    moboK==='always-nc'?'No embedded network controller on any '+(m.m+' '+m.g)+' board — networking comes entirely from the '+flrLabel(m)+' field and add-in cards.'
     :moboK==='always-lom'?'Always ships with an embedded network controller on this chassis — there is no NC variant to pick.'
     :'NC boards ship without the network controller.';
   applyMediaPills(m);
   applyTpmPills(m);
+  applyChassisPills(m);
   var bpK=backplaneKind(m);
   document.getElementById('bp-note').textContent=
     bpK==='sas-only'?'No real NVMe or Premium backplane exists on '+(m?m.m+' '+m.g:'this chassis')+' — SAS/SATA only, on every bay config.'
@@ -5661,6 +5752,9 @@ function evaluate(){
     railNote.textContent='Rail kit: '+railKits.map(function(k){return 'HPE '+k.n+' '+k.pn+(k.bays&&!bays?' ('+k.bays.join(' / ')+')':'');}).join(' · ')+
       (R.rails.cmaIncluded?'. The kit includes the cable management arm.':R.rails.cma&&R.rails.cma.length?'. It does not include the cable management arm — optional, needs a rail kit: '+R.rails.cma.map(function(c){return c.n+' '+c.pn;}).join(' or ')+'.':'. No cable management arm is listed for this model.')+(R.rails.note?' '+R.rails.note:'');
   }
+  var bkSet=document.getElementById('bkey-set'),bzOn=r('bezel')==='Bezel';
+  if(!bzOn)[].forEach.call(bkSet.querySelectorAll('input'),function(i){i.checked=false;});
+  bkSet.hidden=!bzOn;
   var bezelNote=document.getElementById('bezel-note');bezelNote.textContent='';
   if(m&&R.bezelKit){
     bezelNote.textContent='Bezel: HPE '+R.bezelKit.n+' '+R.bezelKit.pn+'. The Bezel Lock Kit '+R.bezelKit.lock+' needs the bezel kit.';
@@ -5668,7 +5762,17 @@ function evaluate(){
       checks.push(['verify','BEZEL','A bezel key is ticked but there is no bezel — the Bezel Lock Kit ('+R.bezelKit.lock+') needs the bezel kit ('+R.bezelKit.pn+').']);
   }else if(m&&R.bezelNote){bezelNote.textContent=R.bezelNote;}
   if(m&&R.intrusion)bezelNote.textContent+=(bezelNote.textContent?' ':'')+'Chassis intrusion detection: HPE '+R.intrusion.n+' '+R.intrusion.pn+(R.intrusion.d?' — '+R.intrusion.d:'')+'.';
+  if(m&&m.tower){
+    if(!R.rails&&TOWER_RACK_KIT[m.m+' '+m.g])railNote.textContent='Tower-to-rack: '+TOWER_RACK_KIT[m.m+' '+m.g]+'.';
+    var doorNote=document.getElementById('door-note');
+    doorNote.textContent=(TOWER_DOOR[m.m+' '+m.g]||'')+(R.intrusion?(TOWER_DOOR[m.m+' '+m.g]?' ':'')+'Chassis intrusion detection: HPE '+R.intrusion.n+' '+R.intrusion.pn+'.':'');
+  }
   var iloNote=document.getElementById('ilo-note');iloNote.textContent='';
+  var iloIn=document.querySelector('input[name="ilo"]:checked');
+  if(m&&iloIn&&iloIn.hidden)
+    checks.push(['stop','ILO',ILO_NONE.indexOf(m.m+' '+m.g)>-1?m.m+' '+m.g+' has no iLO (remote management is Intel AMT) — no iLO licence applies.'
+      :iloIn.id==='il2'?'iLO '+iloVer(m)+' ('+m.m+' '+m.g+') has no Advanced Premium Security licence — select iLO Advanced.'
+      :'iLO Essentials is not listed for '+m.m+' '+m.g+' — select iLO Advanced.']);
   if(m&&R.iloLic){
     iloNote.textContent='iLO Advanced licence, 1 server: 1-year 512485-B21, 3-year BD505A (electronic licences E6U59ABE 1-year, E6U64ABE 3-year). Standard needs no licence.';
     if(R.iloNoPremium&&r('ilo')==='iLO Advanced Premium license')
@@ -6331,10 +6435,11 @@ function buildSlip(){
   else gaps.push(flrLabel(m));
   if(v('psu'))L.push(join(v('psuq')?v('psuq')+'x':'',slipName(v('psu')),'PS'));else gaps.push('power supplies');
   var tpmTxt=tpmSlipText(m,r('tpm'));if(tpmTxt)L.push(tpmTxt);
-  if(r('ilo'))L.push(r('ilo'));
-  if(r('mobo'))L.push(r('mobo'));
-  if(r('rail'))L.push(join(r('rail'),v('railt')));else gaps.push('rails');
-  if(r('bezel'))L.push(join(r('bezel'),r('bkey')));
+  if(r('ilo'))L.push(iloSlipText(m,r('ilo')));
+  if(r('mobo'))L.push(moboSlipText(m,r('mobo')));
+  var tw=isTower();
+  if(r('rail'))L.push(join(tw?(r('rail')==='Rail kit'?'Tower-to-rack kit':'No tower-to-rack kit'):r('rail'),v('railt')));else gaps.push(tw?'tower-to-rack kit':'rails');
+  if(r('bezel')&&!tw)L.push(join(r('bezel'),r('bkey')));
   if(isTower()){
     ['feet','door','key'].forEach(function(n){if(r(n))L.push(r(n));});
     if(v('towerx'))L.push(v('towerx'));
@@ -6866,7 +6971,8 @@ function parseClientText(text){
 
   /* iLO license */
   if(/\bilo\b/i.test(text)){
-    if(/\b(?:ilo\s*)?advanced\s*premium\b/i.test(text)){document.getElementById('il2').checked=true;found.push('iLO: Advanced Premium');}
+    if(/\bilo\s*essentials?\b/i.test(text)){document.getElementById('il3').checked=true;found.push('iLO: Essentials');}
+    else if(/\b(?:ilo\s*)?advanced\s*premium\b/i.test(text)){document.getElementById('il2').checked=true;found.push('iLO: Advanced Premium');}
     else if(/\badvanced\b|\bilo\s*adv\b/i.test(text)){document.getElementById('il1').checked=true;found.push('iLO: Advanced');}
     /* "3 yr iLO" / "iLO 3yr" / "3 year iLO licence" = the iLO Advanced licence with N years of support */
     else if(/\b\d\s*-?\s*(?:yrs?|years?)\s*(?:of\s*)?ilo\b|\bilo\b[^\n,;]{0,20}?\b\d\s*-?\s*(?:yrs?|years?)\b|\bilo\s*(?:licen[cs]e|lic)\b/i.test(text)){

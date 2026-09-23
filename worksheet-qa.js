@@ -999,7 +999,7 @@ setTimeout(()=>{
   !moboTest('DL380 G10','mb2').includes('has no NC motherboard variant')
     ?pass3('DL380 G10: "NC motherboard" not blocked — a genuine NC choice exists on this chassis'):fail3('DL380 G10 NC wrongly blocked');
   setModel3('DL380 G11');
-  d.getElementById('mobo-note').textContent.includes('always effectively "NC"')
+  d.getElementById('mobo-note').textContent.includes('networking comes entirely from')
     ?pass3('DL380 G11: #mobo-note explains the always-nc case'):fail3('DL380 G11 mobo-note: '+d.getElementById('mobo-note').textContent);
   setModel3('DL20 G11');
   d.getElementById('mobo-note').textContent.includes('no NC variant to pick')
@@ -1097,11 +1097,11 @@ setTimeout(()=>{
 
   // --- iLO license: defaults to Standard, selectable, reaches the slip ---
   setModel4('DL380 G10');pickCpu4('G6148');d.getElementById('cpuq').value='2';fire(d.getElementById('cpuq'),'input');
-  d.getElementById('slip').textContent.includes('iLO Standard (included)')
+  d.getElementById('slip').textContent.includes('iLO 5 Standard (included)')
     ?pass4('iLO defaults to Standard (included) on the slip')
     :fail4('iLO default missing from slip: '+d.getElementById('slip').textContent.slice(0,200));
   d.getElementById('il1').checked=true;fire(d.getElementById('il1'),'change');
-  d.getElementById('slip').textContent.includes('iLO Advanced license')
+  d.getElementById('slip').textContent.includes('iLO 5 Advanced license')
     ?pass4('iLO Advanced selectable and reaches the slip')
     :fail4('iLO Advanced missing from slip');
   d.getElementById('il0').checked=true;fire(d.getElementById('il0'),'change');
@@ -4224,7 +4224,7 @@ function runRound25(){
   { const bn=d.getElementById('bezel-note').textContent;
     (/P50400-B21/.test(bn) && /875519-B21/.test(bn))?pass25('DL380 G11 bezel hint: Gen11 2U Bezel Kit P50400-B21, lock kit 875519-B21'):fail25('DL380 bezel note wrong: '+bn); }
   d.getElementById('bz0').checked=true; d.getElementById('bk1').checked=true; fire(d.getElementById('bk1'),'change');
-  /BEZEL.*needs the bezel kit/.test(chk26())?pass25('a bezel key with no bezel is flagged (the lock kit needs the bezel kit)'):fail25('bezel key without bezel not flagged: '+chk26().slice(0,240));
+  (!d.getElementById('bk1').checked && d.getElementById('bkey-set').hidden)?pass25('a bezel key with no bezel is cleared and the key pills hidden (the lock kit needs the bezel kit)'):fail25('bezel key without bezel kept');
   d.getElementById('bz1').checked=true; fire(d.getElementById('bz1'),'change');
   !/A bezel key is ticked/.test(chk26())?pass25('...and clears once the bezel is on'):fail25('bezel flag did not clear');
   d.getElementById('bk0').checked=true; d.getElementById('bz0').checked=true;
@@ -5216,6 +5216,40 @@ function runRound25(){
   // DL365 G11: standard chassis
   reset27(); setModel25('DL365 G11'); pickCpuExact25('EPYC 9124'); setv26('cpuq','1');
   { const a=slots30(); a===1?pass25('DL365 G11 1P: 1 slot (standard chassis; GPU risers only on the GPU chassis)'):fail25('DL365 G11 1P slots: '+a); }
+
+  // ===== iLO / motherboard / backplane / rails / bezel per system (build 2026.09.23.16) =====
+  const pills31=function(n){return [].filter.call(d.querySelectorAll('input[name='+n+']'),function(i){return !i.hidden;}).map(function(i){return d.querySelector('label[for='+i.id+']').textContent+(i.checked?'*':'');}).join(' / ');};
+  reset27(); setModel25('DL380 G10');
+  (pills31('ilo')==='iLO 5 Standard (included)* / iLO 5 Advanced / iLO 5 Advanced Premium Security' && /iLO 5 Standard \(included\)/.test(slip27()))
+    ?pass25('G10: iLO pills name iLO 5; the slip says "iLO 5 Standard (included)"'):fail25('G10 iLO: '+pills31('ilo'));
+  (pills31('mobo')==='Standard (embedded NIC)* / NC (no embedded NIC)' && /Standard motherboard \(embedded NIC\)/.test(slip27()))
+    ?pass25('G10 choice board: "Standard (embedded NIC)" / "NC (no embedded NIC)", spelled out on the slip'):fail25('G10 mobo: '+pills31('mobo'));
+  d.getElementById('il2').checked=true; fire(d.getElementById('il2'),'change');
+  /iLO 5 Advanced Premium Security license/.test(slip27())?pass25('...Advanced Premium on the slip names iLO 5'):fail25('G10 premium slip');
+  reset27(); setModel25('DL160 G9');
+  (pills31('ilo')==='iLO 4 Standard (included)* / iLO 4 Advanced / iLO 4 Essentials' && pills31('bp')==='SAS / SATA only*')
+    ?pass25('DL160 G9: iLO 4 with Essentials, no Advanced Premium; backplane "SAS / SATA only"'):fail25('DL160 G9: '+pills31('ilo')+' | '+pills31('bp'));
+  reset27(); setModel25('ML10 G9');
+  (pills31('ilo')==='No iLO (Intel AMT)*' && /No iLO \(Intel AMT\)/.test(slip27()))?pass25('ML10 G9: "No iLO (Intel AMT)" — it has no iLO'):fail25('ML10 G9 iLO: '+pills31('ilo'));
+  reset27(); paste28('DL380 G9, 2x E5-2680 v4, ilo advanced premium');
+  /no Advanced Premium Security licence/.test(chk26())?pass25('pasted Advanced Premium on a Gen9 is stopped (iLO 4 has no such tier)'):fail25('G9 premium paste not flagged');
+  reset27(); paste28('DL160 G9, ilo essentials');
+  (d.getElementById('il3').checked && /iLO 4 Essentials license/.test(slip27()))?pass25('paste "ilo essentials" picks iLO 4 Essentials'):fail25('essentials paste');
+  reset27(); setModel25('DL380 G11');
+  (pills31('mobo')==='No embedded NIC (every board)*' && /Motherboard: no embedded NIC/.test(slip27()) && /iLO 6 Standard/.test(slip27()))
+    ?pass25('DL380 G11: single "No embedded NIC (every board)" pill, iLO 6 on the slip'):fail25('DL380 G11 mobo: '+pills31('mobo'));
+  reset27(); setModel25('ML110 G11');
+  (pills31('mobo')==='Standard (embedded NIC)*' && d.getElementById('bezel-row').hidden && d.getElementById('rail-label').textContent==='Tower-to-rack kit'
+    && /standard on every ML110 Gen11/.test(d.getElementById('door-note').textContent) && /P47226-B21/.test(d.getElementById('door-note').textContent) && !/No bezel/.test(slip27()))
+    ?pass25('ML110 G11 tower: no rack Bezel row / "No bezel" line, door note says the key-lock bezel is standard + intrusion kit, Rails reads as tower-to-rack'):fail25('ML110 G11 tower fields');
+  d.getElementById('rl1').checked=true; fire(d.getElementById('rl1'),'change');
+  /Tower-to-rack kit/.test(slip27())?pass25('...and the slip says "Tower-to-rack kit"'):fail25('tower rail slip');
+  reset27(); setModel25('ML350 G9');
+  /726567-B21/.test(d.getElementById('rail-note').textContent)?pass25('ML350 G9: tower-to-rack kit 726567-B21 in the note'):fail25('ML350 G9 rack kit note');
+  reset27(); setModel25('DL380 G10');
+  d.getElementById('bkey-set').hidden?pass25('bezel key pills are hidden until a bezel is picked'):fail25('bezel key visible without bezel');
+  d.getElementById('bz1').checked=true; fire(d.getElementById('bz1'),'change');
+  !d.getElementById('bkey-set').hidden?pass25('...and appear once Bezel = Yes'):fail25('bezel key not shown');
 
   reset27();
 }

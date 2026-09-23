@@ -3598,3 +3598,22 @@ docs (clean `-table` extractions where the text is shifted):
 **New engine features:** riser kit `sp:{proc:slots}` (only the slots whose processor is fitted count), model
 `pcieByCpu:{n:slots}` (cap by processor count), model `pcieBase:{one,two}` (board slots added to the risers' slots).
 QA: 991 ok / 0 FAIL (7 new). Browser-verified (BUILD x1; DL580 G10 1P with 4 cards → 3-slot stop).
+
+### 2026-09-23 — build .16: iLO / motherboard / backplane / rails / bezel options per system
+
+Same treatment as TPM and media bay: every pill now says what it means on the selected system, and options that
+don't exist are hidden (a hidden pick moves to the first real option; a pasted one is stopped).
+- **iLO** — pills and slip name the iLO generation (G9 = iLO 4, G10/G10+ = iLO 5, G11 = iLO 6, G12 = iLO 7).
+  Gen9 has no Advanced Premium Security tier (zero mentions in every Gen9 doc); the 9 Gen9 100-series / entry-tower
+  docs list **iLO Essentials** (new pill, paste "ilo essentials"). **ML10 G9 has no iLO** — Intel AMT — single
+  "No iLO (Intel AMT)" pill.
+- **Motherboard** — "Standard (embedded NIC)" / "NC (no embedded NIC)"; always-NC boards (G11/G12) show one
+  "No embedded NIC (every board)" pill, always-LOM boards one "Standard (embedded NIC)". The slip spells it out.
+- **Backplane** — SAS-only models show "SAS / SATA only"; NVMe-only (DL380a G12) "NVMe only".
+- **Towers** — the rack "Bezel" row is hidden (towers printed a misleading "No bezel"); the Door row carries the
+  bezel/key-lock wording from each tower's doc (standard on ML30 G10/G10+/G11, ML350 G10/G11/G12, ML110 G11;
+  ML350 G9 kit 660584-B21 rack model only) plus the intrusion kit. "Rails" reads "Tower-to-rack kit" with
+  "Yes (rack-mounting)" / "No (stays a tower)"; slip says "Tower-to-rack kit". Gen9/G12 conversion kits added to
+  the note (ML350 G9 726567-B21, ML150 G9 417705-B21, ML350 G12 P47394-B21).
+- **Rack bezel key** — the key pills only appear once Bezel = Yes.
+QA: 1004 ok / 0 FAIL (13 new; 4 older tests re-pointed to the new wording). Browser-verified (DL380 G10 iLO 5 pills, ML350 G10 tower rows).
