@@ -4237,8 +4237,8 @@ function runRound25(){
     /ILO.*no separate Advanced Premium licence/.test(chk26())?pass25(label+': iLO Advanced Premium is flagged — the QuickSpecs list iLO Advanced only'):fail25(label+' Premium not flagged: '+chk26().slice(0,240));
     d.getElementById('il0').checked=true; fire(d.getElementById('il0'),'change');
   });
-  setModel25('DL380 G10');
-  (d.getElementById('rail-note').textContent==='' && d.getElementById('bezel-note').textContent==='' && d.getElementById('ilo-note').textContent==='')?pass25('models without sourced rail / bezel / iLO data (DL380 G10) show no hint'):fail25('DL380 G10 shows a hint');
+  setModel25('DL385 G10');
+  (d.getElementById('rail-note').textContent==='' && d.getElementById('bezel-note').textContent==='' && d.getElementById('ilo-note').textContent==='')?pass25('models without sourced rail / bezel / iLO data (DL385 G10) show no hint'):fail25('DL385 G10 shows a hint');
   reset27(); setModel25('DL380 G11'); d.getElementById('rl1').checked=true; d.getElementById('bz1').checked=true; d.getElementById('il1').checked=true;
   fire(d.getElementById('il1'),'change');
   !/P52341|P22020|P50400|875519|512485|BD505A/.test(slip27())?pass25('slip: rail / bezel / iLO part numbers never appear'):fail25('slip carries a rail/bezel/iLO PN: '+slip27().slice(0,300));
@@ -4260,9 +4260,9 @@ function runRound25(){
   reset27(); setModel25('DL360 G11');
   { const o=cardOpts27();
     (o.length===31 && !o.some(function(x){return /S2A69A/.test(x);}))?pass25('DL360 G11 card picker: 31 options — the same catalogue minus the DL380-only crypto card'):fail25('DL360 card list wrong ('+o.length+')'); }
-  reset27(); setModel25('DL380 G10');
+  reset27(); setModel25('DL385 G10');
   { const o=cardOpts27();
-    (o.indexOf('366T 4x1GbE')>-1 && !o.some(function(x){return /P08443-B21/.test(x);}))?pass25('models without their own card list keep the generic starter list'):fail25('DL380 G10 card list changed: '+o.slice(0,3).join(' | ')); }
+    (o.indexOf('366T 4x1GbE')>-1 && !o.some(function(x){return /P08443-B21/.test(x);}))?pass25('models without their own card list keep the generic starter list'):fail25('DL385 G10 card list changed: '+o.slice(0,3).join(' | ')); }
   // slip strips the part numbers off the cards (hyphenated and suffix-less SKUs)
   reset27(); setModel25('DL380 G11');
   addCard27('SN1610Q 32Gb FC 1p (R2E08A)','1'); addCard27('E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','2');
@@ -4535,8 +4535,8 @@ function runRound25(){
   // --- DL360 G10 rear list: single position, real part numbers, no per-position modeling (1U, one location) ---
   setModel25('DL360 G10');
   { const o=[...d.querySelectorAll('#rearopts option')].map(function(x){return x.value;});
-    (o.length===2 && o.indexOf('1SFF rear (867972-B21)')>-1 && o.indexOf('2x M.2 (dual uFF) rear (867978-B21)')>-1)
-      ?pass25('DL360 G10: rear list carries real part numbers (867972/867978-B21), still one flat location')
+    (o.length===2 && o.indexOf('1SFF rear (867972-B21)')>-1 && o.indexOf('2x M.2 (dual uFF) rear — same rear backplane kit (867972-B21)')>-1 && !o.some(function(x){return /867978/.test(x);}))
+      ?pass25('DL360 G10: both rear options are the one rear backplane kit 867972-B21 (867978-B21 is the M.2 primary riser, not a rear option), still one flat location')
       :fail25('DL360 G10 rear list wrong: '+o.join(' | ')); }
 
   // --- DL380 G10 per-riser-position rear cages (new rearCages mechanism, first use on a classic-G10 chassis) ---
@@ -4865,5 +4865,68 @@ function runRound25(){
   reset27();setModel25('DL380 G11');paste28('DL380 G11, 4x 3.84TB U.2 NVMe');
   { const ints=[...d.querySelectorAll('#drives [data-k=int]')].map(function(x){return x.value;});
     ints.indexOf('NVMe')>-1?pass25('"U.2" is read as an NVMe interface signal'):fail25('U.2 not mapped to NVMe: '+ints.join(',')); }
+
+  // ===== Step 1 of the full-rundown plan: DL360/DL380 G10 + G10+ rails/bezel/intrusion/iLO, G10 memory kits +
+  // stand-up cards, DL380 G11 EDSFF bundle + intrusion kit (build 2026.09.23.4) =====
+  const M29=w.eval('MODELS'), R29=function(label){const m=M29.find(function(x){return x.m+' '+x.g===label;});return m?m.rules:{};};
+  const bz29=function(){return d.getElementById('bezel-note').textContent;}, rl29=function(){return d.getElementById('rail-note').textContent;};
+  const kit29=function(){return d.getElementById('dimm-kit').textContent;};
+  // --- G10 DDR4 kits follow the processor generation (doc: 1st Gen takes only the 2666 kits) ---
+  reset27(); setModel25('DL380 G10'); pickCpuExact25('G6148'); setv26('dimmq','12'); setv26('dimm','32GB 2666 MT/s');
+  (/815100-B21/.test(kit29()) && !/P00924/.test(kit29()) && !/F21/.test(kit29()))
+    ?pass25('DL380 G10 + 1st Gen Gold 6148: 32GB shows the DDR4-2666 kit 815100-B21 (no -F21 hint — the Gen10 docs list none)')
+    :fail25('sp1 kit hint wrong: "'+kit29()+'"');
+  pickCpuExact25('G6248'); setv26('dimm','32GB 2933 MT/s');
+  /P00924-B21/.test(kit29())?pass25('...and a 2nd Gen Gold 6248 shows the DDR4-2933 kit P00924-B21'):fail25('sp2 kit hint wrong: "'+kit29()+'"');
+  setv26('dimm','16GB 2933 MT/s');
+  (/P00922-B21/.test(kit29()) && /P00920-B21/.test(kit29()))
+    ?pass25('16GB 2933 shows the dual-rank kit P00922-B21 and names the single-rank alternate P00920-B21'):fail25('16GB alt kit missing: "'+kit29()+'"');
+  setv26('dimmq','3');
+  !/MEMORY QTY/.test(chk26())?pass25('G10: an odd DIMM count is not flagged — the even-quantity rule is a Gen10 Plus/Gen11 doc rule only'):fail25('G10 odd-DIMM wrongly flagged: '+chk26().slice(0,200));
+  !/P00924|P00922|815100/.test(slip27())?pass25('G10 memory kit part numbers stay off the slip'):fail25('kit PN leaked onto the slip');
+  reset27(); setModel25('DL380 G10+'); pickCpuExact25('G6330'); setv26('dimmq','3'); setv26('dimm','32GB 2933 MT/s');
+  /MEMORY QTY/.test(chk26())?pass25('G10+ keeps its even-DIMM-quantity check'):fail25('G10+ odd DIMM count no longer flagged');
+  !/F21/.test(kit29())?pass25('G10+ kit hint no longer suggests a -F21 twin (its docs list none)'):fail25('G10+ still shows -F21: '+kit29());
+  // --- rails / bezel / intrusion / iLO hints ---
+  [['DL360 G10','8SFF',/874543-B21/,/734811-B21/,/867998-B21/,/867984-B21/],['DL360 G10','4LFF',/789388-B21/,/734811-B21/,/867998-B21/,/867984-B21/],
+   ['DL380 G10','24SFF',/733660-B21/,/733664-B21/,/867809-B21/,/867824-B21/],['DL380 G10','12LFF',/733662-B21/,/733664-B21/,/867809-B21/,/867824-B21/],
+   ['DL360 G10+','10SFF',/P26485-B21/,/P26489-B21/,/867998-B21/,/P14604-B21/],['DL360 G10+','4LFF',/P26487-B21/,/P26489-B21/,/867998-B21/,/P14604-B21/],
+   ['DL380 G10+','24SFF',/P22018-B21/,/P22020-B21/,/867809-B21/,/P14604-B21/],['DL380 G10+','8LFF',/P22019-B21/,/P22020-B21/,/867809-B21/,/P14604-B21/]
+  ].forEach(function(t){
+    reset27(); setModel25(t[0]); setv26('bays',t[1]);
+    (t[2].test(rl29()) && t[3].test(rl29()) && t[4].test(bz29()) && /875519-B21/.test(bz29()) && t[5].test(bz29()) && /512485-B21/.test(d.getElementById('ilo-note').textContent))
+      ?pass25(t[0]+' '+t[1]+': rail kit, CMA, bezel + lock, intrusion kit and iLO licence hints all sourced')
+      :fail25(t[0]+' '+t[1]+' hints wrong: rails="'+rl29()+'" bezel="'+bz29()+'"');
+  });
+  (R29('DL380 G10').iloNoPremium!==true && R29('DL360 G10').iloNoPremium===true && R29('DL360 G10+').iloNoPremium===true && R29('DL380 G10+').iloNoPremium===true)
+    ?pass25('iLO Advanced Premium: only DL380 G10\'s doc names the Premium Security Edition — the other three are flagged Advanced-only')
+    :fail25('iloNoPremium flags wrong');
+  // --- G10 stand-up cards: pruned current list unioned with the pre-pruning snapshot ---
+  { const c360=R29('DL360 G10').cards||[], c380=R29('DL380 G10').cards||[];
+    const has=function(l,pn){return l.some(function(x){return x.indexOf('('+pn+')')>-1;});};
+    (has(c360,'811546-B21') && has(c360,'P08443-B21') && has(c360,'874253-B21') && has(c360,'R2E09A') && has(c360,'P12965-B21') && !has(c360,'P13188-B21') && !has(c360,'878783-B21'))
+      ?pass25('DL360 G10 cards: current E810s + the older 366T/842QSFP28/FC list + NS204i-p; no DL380-only MCX512F/M.2 AIC')
+      :fail25('DL360 G10 card list wrong ('+c360.length+')');
+    (has(c380,'P13188-B21') && has(c380,'P21109-B21') && has(c380,'878783-B21') && has(c380,'P06154-B21') && has(c380,'P12965-B21'))
+      ?pass25('DL380 G10 cards: MCX512F, X2522, the M.2 enablement AIC and the 200Gb HDR card with its aux-card note')
+      :fail25('DL380 G10 card list wrong ('+c380.length+')');
+    const all=c360.concat(c380), pns={};let clash='';
+    all.forEach(function(x){const m=x.match(/\(([A-Z0-9]{5,6}(?:-B2\d)?)\)$/);if(!m)return;const nm=x.replace(/\s*\([^()]*\)$/,'');if(pns[m[1]]&&pns[m[1]]!==nm)clash=m[1];pns[m[1]]=nm;});
+    !clash?pass25('G10 card lists: every part number maps to exactly one card name'):fail25('G10 card PN used for two names: '+clash); }
+  // --- DL360 G10 rear fix: 867978-B21 is the M.2 primary riser, not a rear kit ---
+  !R29('DL360 G10').rear.some(function(x){return /867978/.test(x);})?pass25('DL360 G10 rear list no longer carries the M.2 primary riser part number'):fail25('867978-B21 still in the rear list');
+  // --- DL380 G11 EDSFF bundle ---
+  reset27(); setModel25('DL380 G11'); pickCpuExact25('G6448Y'); setv26('cpuq','1'); setv26('bays','36EDSFF');
+  (/EDSFF BUNDLE/.test(chk26()) && /P56075-B21/.test(chk26()) && /P56076-B21/.test(chk26()) && /P52153-B21/.test(chk26()) && /second processor/.test(chk26()))
+    ?pass25('DL380 G11 EDSFF: bundle info (36/20EDSFF kits, 12EDSFF CPU1/2 cable kit) and a stop for a single processor')
+    :fail25('EDSFF bundle checks wrong: '+chk26().slice(0,300));
+  (fanState27()==='Perf Fans')?pass25('DL380 G11 EDSFF: the bundle forces the High-Performance Fan Kit'):fail25('EDSFF bundle did not force perf fans: '+fanState27());
+  setv26('cpuq','2'); addRiser27('2U x16/x16 Tertiary Riser Kit (P48804-B21)');
+  /tertiary riser cannot be fitted with the EDSFF bundle/.test(chk26())?pass25('DL380 G11 EDSFF: tertiary riser blocked'):fail25('EDSFF tertiary riser not blocked: '+chk26().slice(0,300));
+  setv26('dimmq','24'); setv26('dimm','256GB 4800 MT/s');
+  /at most 16 x 256GB/.test(chk26())?pass25('DL380 G11 EDSFF: more than 16 x 256GB DIMMs blocked'):fail25('EDSFF 256GB cap missing: '+chk26().slice(0,300));
+  reset27(); setModel25('DL380 G11'); setv26('bays','8SFF');
+  (!/EDSFF BUNDLE/.test(chk26()) && /P48922-B21/.test(bz29()))?pass25('DL380 G11 8SFF: no EDSFF bundle checks; bezel hint carries the intrusion cable kit P48922-B21'):fail25('DL380 G11 non-EDSFF wrong: bezel="'+bz29()+'"');
+
   reset27();
 }

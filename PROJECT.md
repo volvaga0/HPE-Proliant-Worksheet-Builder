@@ -3286,3 +3286,47 @@ entry, adding a spurious, harmless card-confirmation note. This already happened
 per-code CARDLIST scan is unchanged); left alone rather than special-cased, since the same class of ambiguity exists
 for other short, common words in that same generic list and fixing it properly wants a broader look at that scan,
 not a one-off patch. Build 2026.09.23.3.
+
+## Full-rundown step 1: close the DL360/DL380 gaps across G10, G10+ and G11 (2026-09-23, build .4)
+
+User asked where the project stands and what still needs the "DL360/DL380 treatment". The answer was a per-model
+matrix (only DL360/DL380 G11 had everything; G10/G10+ DL360/DL380 were close; most other models have only PSU/
+controller/FLR part numbers or chassis facts). Step 1 of the agreed order was to finish the DL360/DL380 family first.
+Sources: DL360 G10 V74 + V32 (Apr 2020) PDFs, DL380 G10 V77 PDF, DL360/DL380 G10+ V44/V42 PDFs (all `pdftotext -table`,
+which pairs name/part-number columns cleanly — `-layout`/`-raw` shift the PN column in several of these tables), DL380
+G11 V47 text (current) + V11 PDF (used only to pair bundle/cable-kit names with part numbers; PNs don't change).
+
+**G10 memory kits (`DIMM_KITS.sp1`/`sp2`, `dimmKits` on DL360/DL380 G10).** Both docs: a 1st Gen processor takes only
+the DDR4-2666 kits, and the 2666 kits are only supported with 1st Gen — so sp1 = 2666 kits, sp2 = 2933 kits. The
+current docs list only the 8-64GB 2933 RDIMMs; 128GB and every 2666 kit come from the older snapshots. A third tuple
+element names the alternate kit of the same size (single-rank / LRDIMM / 3DS). The Gen11 even-DIMM-quantity check no
+longer fires on sp1/sp2 (the Gen10 docs have no such rule; only "no RDIMM/LRDIMM mixing"). **Fix found on the way:**
+the kit hint said "swap -B21 for -F21" for every platform — no DDR4 doc (G10 or G10+) lists any -F21 part, so that
+suffix is now shown for sp4/sp5 only.
+
+**G10 stand-up cards (`G10_NIC_CARDS`/`G10_FC_CARDS`, `DL360G10_CARDS`/`DL380G10_CARDS`).** DL360 V74 has pruned the
+Ethernet list to 2 cards, so the list is the current doc unioned with DL360 V32. The DL380's older docs extract with
+shifted PN columns (confirmed: several adjacent PNs rotated by one line), so an older card is listed for the DL380
+only if its PN appears in the DL380's own older doc AND a clean table names that PN. DL380-only: MCX512F, X2522, the
+Universal SATA M.2 AIC enablement kit 878783-B21. Both: NS204i-p (P12965-B21, no fan requirement on Gen10 — unlike
+G10+), Pensando DSC-25, 200Gb HDR card with its mandatory aux card P06154-B23.
+
+**Rails / bezel / intrusion / iLO hints** for DL360/DL380 G10 and G10+ (new `intrusion` rule key, shown in the bezel
+hint). iLO: DL380 G10's doc names the Advanced Premium Security Edition (no PN), the other three list Advanced only
+(`iloNoPremium`).
+
+**Bug fixed: DL360 G10 rear option "2x M.2 (dual uFF) rear (867978-B21)".** 867978-B21 is the SATA M.2 2280 *primary
+riser* (2x M.2 on the riser, no slot lost). Both rear options (1SFF or dual uFF) are the one rear kit 867972-B21
+("1SFF Rear SAS/SATA/UFF Backplane Kit"). Relabelled; the note explains the two parts.
+
+**DL380 G11 EDSFF bundle (`edsffBundle`).** V47: the EDSFF cage is direct-attach only and needs a factory EDSFF bundle
+(36EDSFF P56075-B21 / 20EDSFF P56076-B21, 20 drives max), the 12EDSFF CPU1/2 Cable Kit P52153-B21 and 2x 12EDSFF NVMe
+kits (no PN given). Checks: info line with the kits; stop on 1 processor; stop on a tertiary riser; stop on >16 x 256GB
+DIMMs; forces the High-Performance Fan Kit. Intrusion Cable Kit P48922-B21 (required with Trusted Supply Chain) added.
+**Per-backplane cable kits: not buildable from QuickSpecs** — V47 only lists the cable kits, it never says which
+backplane needs which. The list (with PNs) is a model note pointing at the HPE cabling guide instead.
+
+QA: 867 ok / 0 FAIL (25 new tests; 2 older tests that used DL380 G10 as the "model with no own rail/card data" example now use DL385 G10). New tests cover: kits per CPU generation, alt kit, no odd-count flag on G10, G10+ still flagged,
+8 model/bay rail+bezel+intrusion+iLO combos, card lists incl. a one-PN-one-name uniqueness check, the rear fix, all
+EDSFF bundle checks). Still open for DL360/DL380: `-001` spares (not in QuickSpecs), DL360 G11 has no bezel PN in
+its doc. Next per the agreed order: the G10+ AMD family. Build 2026.09.23.4. ( now runs a small Node static server,  — python is not installed on this machine.)
