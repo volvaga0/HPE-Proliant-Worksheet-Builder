@@ -5140,5 +5140,15 @@ function runRound25(){
   reset27(); setModel25('DL385 G10+'); pickCpuExact25('EPYC 7502');
   speeds26().indexOf(3200)>-1?pass25('DL385 G10+ (Gen10 Plus board) still runs Rome at 3200 — the 2933 cap is per model'):fail25('G10+ Rome lost 3200');
 
+
+  // ===== QuickSpecs badge reads as a link (build 2026.09.23.12) =====
+  reset27(); setModel25('DL380 G10');
+  { const b=d.getElementById('badge-v');
+    (b.classList.contains('on') && !b.classList.contains('nolink') && b.querySelector('.bv-go') && /View QuickSpecs/.test(b.textContent) && /DL380 G10 QuickSpecs on hpe\.com/.test(b.getAttribute('aria-label')||''))
+      ?pass25('verified badge with a doc shows a visible "View QuickSpecs" link part and a model-specific label'):fail25('badge link cue missing'); }
+  { const css=[...d.querySelectorAll('style')].map(function(s){return s.textContent;}).join('');
+    (/\.badge\.v\.nolink \.bv-go\{display:none\}/.test(css) && /\.bv-long\{display:none\}/.test(css))
+      ?pass25('badge CSS: link part hidden when there is no doc; long words dropped on phones'):fail25('badge CSS rules missing'); }
+
   reset27();
 }

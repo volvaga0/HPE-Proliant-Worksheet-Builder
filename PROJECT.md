@@ -3523,3 +3523,12 @@ Sources: DL325 G10 V12 (2019) PDF `-table` + V15/V26 texts; DL385 G10 V29 text (
 QA: 967 ok / 0 FAIL (9 new; 3 older "model without its own data" tests re-pointed to DL380 G9). Browser-verified.
 **Every G10 and G10+ model (Intel and AMD) is now at full depth.** Remaining: G9 (low priority), G12 (not for now),
 -001 spares (not in QuickSpecs).
+
+## QuickSpecs badge made obviously clickable (2026-09-23, build .12; user request)
+
+The green "QUICKSPECS VERIFIED" badge already linked to the model's HPE QuickSpecs, but the only cue was an underline on
+hover (never seen on touch screens) and a tooltip. Now, when the model has a doc on file, the badge renders as a
+bordered chip: "✓ QUICKSPECS VERIFIED" plus a filled "View QuickSpecs ↗" part with an external-link icon, a hover/focus
+state and a press nudge; the tooltip and aria-label name the model ("Open the DL380 G10 QuickSpecs on hpe.com (opens in
+a new tab)"). Without a doc (`nolink`) it stays the plain badge. At ≤640px the long words drop ("✓ VERIFIED |
+QuickSpecs ↗") so it stays on one line. QA: 969 ok / 0 FAIL (2 new). Checked at desktop and 375px widths.

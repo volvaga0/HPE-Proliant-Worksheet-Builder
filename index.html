@@ -86,9 +86,19 @@ input.field-over{border-color:var(--stop);background:var(--stop-bg);color:var(--
 .badge{font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:2px 7px;border-radius:5px;display:none;text-decoration:none}
 .badge.on{display:inline-block}
 .badge.v{background:rgba(0,177,136,0.14);color:var(--success)}
-.badge.v:not(.nolink){cursor:pointer}
-.badge.v:not(.nolink):hover,.badge.v:not(.nolink):focus-visible{text-decoration:underline}
+/* the verified badge doubles as the link to the model's QuickSpecs — when it has one it reads as a button (bordered, with a
+   filled "View QuickSpecs" + external-link arrow), so the link is obvious without hovering (touch screens never hover) */
+.badge.v.on{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.bv-ico{width:12px;height:12px;flex:none;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.bv-go{display:inline-flex;align-items:center;gap:4px;margin-left:3px;padding:2px 7px;border-radius:4px;background:var(--success);color:var(--on-accent);letter-spacing:.02em}
+.bv-go .bv-ico{width:11px;height:11px}
+.badge.v:not(.nolink){cursor:pointer;border:1px solid rgba(0,177,136,0.55);padding:2px 3px 2px 7px;transition:background .15s,border-color .15s,transform .1s}
+.badge.v:not(.nolink):hover,.badge.v:not(.nolink):focus-visible{background:rgba(0,177,136,0.24);border-color:var(--success);outline:none}
+.badge.v:not(.nolink):hover .bv-go,.badge.v:not(.nolink):focus-visible .bv-go{filter:brightness(1.12)}
+.badge.v:not(.nolink):active{transform:translateY(1px)}
+.badge.v:not(.nolink):focus-visible{box-shadow:0 0 0 2px rgba(0,177,136,0.45)}
 .badge.v.nolink{cursor:default}
+.badge.v.nolink .bv-go{display:none}
 .badge.u{background:var(--check-bg);color:var(--check)}
 
 .paste{background:var(--paste-bg);border:1px solid var(--paste);border-radius:11px;padding:14px 15px 15px;
@@ -361,6 +371,7 @@ button.quiet{color:var(--ink-soft)}
 
 /* ---------- phones (iPhone defaults ~390px) ---------- */
 @media (max-width:640px){
+  .bv-long{display:none}   /* phone: "✓ VERIFIED | QuickSpecs ↗" keeps the link chip on one line */
   body{font-size:15px}
   .sheet{padding:14px 11px 0;gap:16px}
   .head{padding:15px 14px;border-radius:13px;gap:11px}
@@ -501,7 +512,7 @@ button.quiet{color:var(--ink-soft)}
 
   <section>
     <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>Base system</h2>
-      <span class="hint"><a class="badge v" id="badge-v" target="_blank" rel="noopener" title="Open this model's QuickSpecs on hpe.com">QUICKSPECS VERIFIED</a><span class="badge u" id="badge-u">GENERATION DEFAULTS — UNVERIFIED</span></span></div>
+      <span class="hint"><a class="badge v" id="badge-v" target="_blank" rel="noopener" title="Open this model's QuickSpecs on hpe.com"><svg class="bv-ico" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span class="bv-t"><span class="bv-long">QUICKSPECS </span>VERIFIED</span><span class="bv-go"><span class="bv-long">View </span>QuickSpecs<svg class="bv-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></a><span class="badge u" id="badge-u">GENERATION DEFAULTS — UNVERIFIED</span></span></div>
     <div class="rows">
 
       <div class="row">
@@ -4287,7 +4298,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.23.11'; // 11th build shipped today
+var BUILD_VERSION='2026.09.23.12'; // 12th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4985,8 +4996,9 @@ function refreshDependents(){
   var badgeV=document.getElementById('badge-v');
   badgeV.classList.toggle('on',!!(m&&R.verified));
   var qsDoc=m&&QS_DOCS[m.m+' '+m.g];
-  if(qsDoc){badgeV.href='https://www.hpe.com/psnow/doc/'+qsDoc;badgeV.classList.remove('nolink');}
-  else{badgeV.removeAttribute('href');badgeV.classList.add('nolink');}
+  if(qsDoc){badgeV.href='https://www.hpe.com/psnow/doc/'+qsDoc;badgeV.classList.remove('nolink');
+    badgeV.title='Open the '+m.m+' '+m.g+' QuickSpecs on hpe.com (opens in a new tab)';badgeV.setAttribute('aria-label','QuickSpecs verified — open the '+m.m+' '+m.g+' QuickSpecs on hpe.com');}
+  else{badgeV.removeAttribute('href');badgeV.classList.add('nolink');badgeV.title='Checked against this model\'s QuickSpecs (no hpe.com link on file)';badgeV.removeAttribute('aria-label');}
   document.getElementById('badge-u').classList.toggle('on',!!(m&&!R.verified));
 }
 
