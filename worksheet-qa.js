@@ -4971,5 +4971,34 @@ function runRound25(){
   reset27(); setModel25('DL560 G10'); setv26('bays','24SFF');
   (/733662-B21/.test(rl29()) && /720864-B21/.test(rl29()) && /720865-B21/.test(rl29()) && /No bezel/.test(bz29()))?pass25('DL560 G10: easy-install and ball-bearing rails with their CMAs; bezel note says no PN is listed'):fail25('DL560 hints wrong: '+rl29()+' / '+bz29());
 
+
+  // ===== G10+ Intel: DL20 / DL110 / ML30 Gen10 Plus full rundown (build 2026.09.23.6) =====
+  ['DL20 G10+','ML30 G10+'].forEach(function(label){
+    reset27(); setModel25(label);
+    const l=cpuList26();
+    (l.length===11 && ['E-2324G','E-2334','E-2374G','E-2378','E-2378G','E-2386G','Pentium G6405'].every(function(c){return l.indexOf(c)>-1;}))
+      ?pass25(label+': all 11 E-2300/Pentium processors from its doc (7 were missing)'):fail25(label+' CPU list: '+l.join(','));
+    pickCpuExact25('E-2378'); setv26('dimmq','4'); setv26('dimm','32GB 3200 MT/s');
+    /P43022-B21/.test(kit29())?pass25(label+': 32GB shows the UDIMM Standard Memory kit P43022-B21'):fail25(label+' kit: '+kit29());
+  });
+  reset27(); setModel25('ML30 G10+'); pickCpuExact25('E-2388G');
+  (hsState25()==='Perf Heatsinks' && /P45221-B21/.test(chk26()))?pass25('ML30 G10+ + 95W E-2388G: performance heatsink P45221-B21 recommended'):fail25('ML30 G10+ heatsink step missing: '+hsState25());
+  pickCpuExact25('E-2378'); hsState25()!=='Perf Heatsinks'?pass25('...but not for the 65W E-2378'):fail25('ML30 G10+ 65W wrongly on perf heatsinks');
+  (/874578-B21/.test(rl29()) && /includes the cable management arm/.test(rl29()) && /standard/.test(bz29()))?pass25('ML30 G10+: tower-to-rack kit 874578-B21 as the rail hint; bezel key-lock is standard'):fail25('ML30 G10+ hints: '+rl29()+' / '+bz29());
+  reset27(); setModel25('DL20 G10+'); pickCpuExact25('Pentium G6405'); addCard27('NS204i-p NVMe PCIe3 x2 lanes boot device, 2x 480GB M.2 RAID 1 (P12965-B21)');
+  /NS204i-p.*not supported with the Pentium G6405/.test(chk26())?pass25('DL20 G10+: NS204i-p with the Pentium G6405 is stopped (doc: not supported with Pentium)'):fail25('DL20 G10+ NS204i-p/Pentium not stopped: '+chk26().slice(0,200));
+  pickCpuExact25('E-2336');
+  !/NS204i-p.*not supported/.test(chk26())?pass25('...and allowed with a Xeon'):fail25('NS204i-p wrongly stopped with a Xeon');
+  setv26('ctrl','P408i-a LH (869081-B21)');
+  /BATTERY.*782961-B21/.test(chk26())?pass25('DL20 G10+ + P408i-a without a battery: 12W battery 782961-B21 required'):fail25('DL20 G10+ battery rule missing');
+  (/775612-B21/.test(rl29()) && /866473-B21/.test(bz29()))?pass25('DL20 G10+: short friction rail + bezel/intrusion hints'):fail25('DL20 G10+ hints wrong');
+  reset27(); setModel25('DL110 G10+');
+  { const sizes=[...d.querySelectorAll('#dimm-size-btns button')].map(function(b){return b.getAttribute('data-sz');}).join(',');
+    sizes==='8,16,32,64,128'?pass25('DL110 G10+: 8-128GB only (no 256GB kit in its QuickSpecs)'):fail25('DL110 sizes: '+sizes); }
+  pickCpuExact25('G6330'); setv26('dimmq','8'); setv26('dimm','128GB 2933 MT/s');
+  (/P06037-B21/.test(kit29()) && /1TB/.test(d.getElementById('mem-note').textContent))?pass25('DL110 G10+: 8 x 128GB = 1TB, kit P06037-B21, 1TB ceiling'):fail25('DL110 memory: '+kit29()+' / '+d.getElementById('mem-note').textContent);
+  (/P50427-B21/.test(rl29()) && /P50420-B21/.test(rl29()))?pass25('DL110 G10+: rail kit P50427-B21 names the required ear kit P50420-B21'):fail25('DL110 rails: '+rl29());
+  { const c=R29('DL110 G10+').cards; (c.length===11 && c.some(function(x){return /E810-2CQDA2.*not listed/.test(x);}))?pass25('DL110 G10+ cards: 8 sourced + 2 named-without-PN (not guessed) + NS204i-p'):fail25('DL110 cards: '+c.length); }
+
   reset27();
 }

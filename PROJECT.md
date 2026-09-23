@@ -3369,3 +3369,24 @@ kit PNs, Media Module adapters (in the notes — they use an on-board connector,
 QA: 886 ok / 0 FAIL (19 new). Verified in the browser (DL20 G10 end to end via the paste box). Still open on these:
 DL20 G10 riser count shows "not confirmed" (pre-existing); -001 spares. Next per the agreed order: G10+ Intel
 (DL20/DL110/ML30 G10+), then the other G11 Intel models, towers, G12; AMD and G9 last.
+
+## G10+ Intel: DL20 / DL110 / ML30 Gen10 Plus full rundown (2026-09-23, build .6)
+
+Sources: DL20 G10+ V7 and ML30 G10+ V9 PDFs (`-table`, clean), DL110 G10+ V18 text (current) + V1 PDF; current DL20 V24 /
+ML30 V22 texts checked for list changes (none) but NOT used for values — their processor tables are badly scrambled
+(V24 gives the Pentium G6405 6 cores). Same names-from-own-doc / PNs-from-clean-tables method as build .5, via a new
+`g10pCards(pns, extra)` helper over the DL360/DL380 G10+ card lists.
+
+- **xeone3 CPU pool (DL20/ML30 G10+) had 4 of the 11 processors both docs list** — added E-2324G, E-2334, E-2374G,
+  E-2378, E-2378G, E-2386G, Pentium G6405 (2666 memory), and `cpuAllow` on both. UDIMM kit PNs P43016/P43019/P43022-B21.
+- **DL20 G10+:** cards (9 NICs + 8 FC + NS204i-p + M.2 AIC); the NS204i-p is not supported with the Pentium (new
+  `ns204pNoCpu` stop); 12W battery 782961-B21 required with P408i-a/P408e-p (`batReq`); rail/bezel/intrusion/latch-ear.
+- **DL110 G10+:** doc lists 8-128GB only and 1TB max — the tool allowed 256GB and a 4TB ceiling (`memCaps`,
+  `memPerSocket:1024`). Stand-up cards: the V18 text prints no PNs for them at all; 8 resolved from clean tables, two
+  newer Intel cards (E810-XXVDA4T GNSS, E810-2CQDA2) are listed WITHOUT a part number rather than guessed. Rail kit
+  P50427-B21 needs the ear kit P50420-B21 (`rails.note`). iLO Advanced only.
+- **ML30 G10+:** the 95W E-2386G/E-2388G need the High Performance Heat Sink Kit P45221-B21 (`hsW:95`); battery needs
+  the holder kit 786710-B21; rack option = tower-to-rack kit 874578-B21 (CMA included); bezel key-lock is standard.
+
+QA: 901 ok / 0 FAIL (15 new). Verified in the browser (ML30 G10+ with E-2388G). Small pre-existing oddity noticed, not
+changed: tower slips say "No bezel" even where the doc says the bezel is standard.
