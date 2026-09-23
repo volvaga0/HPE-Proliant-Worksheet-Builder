@@ -1222,7 +1222,7 @@ var MODELS=[
        '4LFF only — no SFF option.',
        'SAS/SATA only — no NVMe option.']}},
  {m:'DL80', g:'G9', p:['e5v3','e5v4'], s:2, d:8, bays:['4LFF','8LFF','12LFF'],
-   rules:{hsNoChoice:true,verified:true,psuMax:2,fans:{one:3,two:4,perf:6},pcie:{one:3,two:5},riserMax:1,
+   rules:{hsNoChoice:true,verified:true,psuMax:2,fans:{one:3,two:4,perf:6},pcie:{one:4,two:6},pcieBase:{one:3,two:5},riserMax:1,
      notes:['1 bay standard: 550W FIO Power Supply (730941-B21), non-redundant. The 800W Gold (redundant) / 900W (non-redundant) AC Power Input Module (744689-B21) plus Redundant PSU Backplane Kit (745813-B21, up to 2 modules) enables a 2nd bay.',
        'Fans: 3 (1P) / 4 (2P) non-redundant, 5 (1P) / 6 (2P) redundant. Pre-configured 1P SKUs ship fewer (2 without a riser, 4 with one) — confirm the SKU before quoting a riser-less 1P build.',
        '5 PCIe slots sit directly on the board (3 on CPU1, 2 on CPU2) — the Primary / FlexibleLOM / single-slot x16 riser is optional, not required.',
@@ -1291,7 +1291,7 @@ var MODELS=[
        'Storage controllers (H240 / P440 / P840) can sit in the primary riser or Slot 7.',
        'NVMe comes from one 6-drive Express Bay Enablement Kit (774743-B21) — pure NVMe only, no mixed SAS/SATA+NVMe Premium cage.']}},
  {m:'DL580',g:'G9', p:['e7v3','e7v4'], s:4, d:96, bays:['5SFF','8SFF','10SFF'],
-   rules:{verified:true,psuMax:4,fans:{one:4,two:4,perf:4},pcie:{one:5,two:9},validCounts:[2,3,4],rear:[],riserMax:1,hsNoChoice:true,
+   rules:{verified:true,psuMax:4,fans:{one:4,two:4,perf:4},pcie:{one:5,two:9},pcieByCpu:{2:5,3:7,4:9},validCounts:[2,3,4],rear:[],riserMax:1,hsNoChoice:true,
      notes:['Takes Xeon E7-4800 / E7-8800 v3 / v4, minimum 2 processors (2, 3 or 4). Do not mix v3 and v4.',
        'Front 2.5-inch drive cage only — no rear or mid-tray drive cage. No drives ship standard.',
        '4 power supply bays, minimum 2 populated; up to 4 for N+N redundancy. Common Slot 1200W or 1500W Platinum Plus — the 1500W is high-line only.',
@@ -1497,7 +1497,7 @@ var MODELS=[
  {m:'DL580',g:'G10', p:['sp1','sp2'],  s:4, d:48, bays:['8SFF','16SFF','24SFF','32SFF','40SFF','48SFF'],
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
-     psuMax:4,fans:{one:12,two:12,perf:12},pcie:{one:6,two:16},riserMax:2,rear:[],
+     psuMax:4,fans:{one:12,two:12,perf:12},pcie:{one:3,two:16},pcieByCpu:{1:3,2:8,3:12,4:16},riserMax:2,rear:[],
      psu:['800W Flex Slot Platinum (865414-B21)','800W Flex Slot -48VDC (865434-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','1800-2200W Flex Slot Titanium, EU Lot 9 compliant (P44712-B21)'],
      ctrl:['P408i-p (830824-B21)','P408e-p (804405-B21)','P824i-p (870658-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
      flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)','544+FLR-QSFP InfiniBand FDR/Eth 10/40Gb (764285-B21)','547FLR-QSFP InfiniBand FDR/Eth 40/50Gb (879482-B21)'],
@@ -1509,7 +1509,8 @@ var MODELS=[
        '12 DIMM slots per processor (48 total), up to 6TB total memory.',
        'Up to 4 hot-plug redundant power supplies (800W / 1600W Flex Slot).',
        '12 hot-plug fans, N+1 redundancy, shipped standard.',
-       'Order one primary riser (required): 6-slot 872336-B21 or 7-slot 878214-B21. The secondary riser (8-slot 872338-B21 or 9-slot 872340-B21) bundles the tertiary and only installs after the primary — 16 PCIe slots in total with all four sockets populated. All slots are full-height.',
+       'Order one primary riser (required): 6-slot 872336-B21 or 7-slot 878214-B21. The secondary riser (8-slot 872338-B21 or 9-slot 872340-B21) bundles the tertiary and only installs after the primary. All slots are full-height.',
+       'Slots hang off all four processors: primary slots 5-7 are Proc 1 (the rest of the primary riser is Proc 3), secondary slots 12-16 are Proc 2 (the rest Proc 4). Usable slots: 3 with 1 processor, 8 with 2, up to 12 with 3 and 16 with all four (7-slot + 9-slot risers).',
        'Internal storage controllers and SAS expanders fit only the primary and tertiary risers — not the secondary.',
        'Memory: a 1st Gen (Skylake) processor takes only the DDR4-2666 kits; a 2nd Gen (Cascade Lake) processor takes the DDR4-2933 kits. SmartMemory kit part numbers show under the memory field.',
        'Stand-up cards carry part numbers in the picker (Ethernet, InfiniBand, Omni-Path, Fibre Channel, converged adapters). The Universal SATA M.2 kit (878783-B21) takes a PCIe slot. An OEM (unbranded) 4U bezel also exists: 869873-B21.'],
@@ -1848,13 +1849,13 @@ var MODELS=[
        'OCP: with one processor the CPU1 to OCP2 x8 Enablement Kit P51911-B21 is used; with two, a CPU2 to OCP2 x8 (P48830-B21) or x16 kit is required for an OCP NIC. The x16 OCP cards (E810-XXVDA4, E810-CQDA2, BCM57504, BCM57608) provide x16 lanes.']}},
  {m:'DL365',g:'G11', p:['genoa'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
    rules:{fanWtext:'above 240W (cTDP)',verified:true,hsW:241,hsWtext:'above 240W (cTDP)',fanW:241,
-     memPerSocket:3072,psuMax:2,fans:{one:7,two:7,perf:7},pcie:{one:2,two:3},riserMax:3,rear:[],
+     memPerSocket:3072,psuMax:2,fans:{one:7,two:7,perf:7},pcie:{one:1,two:2},riserMax:3,rear:[],
      fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['No rear or mid-tray drive cage on this chassis.',
        '24 DIMM slots (12 per Genoa socket, 1 DIMM per channel).',
        '7 fans, one per kit. Standard fan kit for processors at or below cTDP 240W; Performance fan kit above 240W.',
        'The Performance fan kit is also required for NVMe / SAS4 drives, a 10SFF SAS/SATA/NVMe backplane, or EDSFF / GPU CTO servers.',
-       'Primary riser (Slot 1, Proc 1) is always available; Secondary riser (Slot 2, Proc 2) needs the 2nd processor — 2 slots max on 1 CPU, 3 on 2 (the 3rd being GPU Riser 2 / Slot 5, Proc 1).',
+       'Primary riser (Slot 1, Proc 1) is always available; Secondary riser (Slot 2, FHHL or low-profile, Proc 2) needs the 2nd processor — 1 slot on 1 CPU, 2 on 2. The GPU-configured chassis adds front GPU Riser 1 (Slot 4, Proc 2) and GPU Riser 2 (Slot 5, Proc 1).',
        'GPU Riser 1 (Slot 4, shares the secondary bay) and GPU Riser 2 (Slot 5) have no confirmed standalone kit part number, so they are not in the riser picker — note them manually for a GPU build.',
        '"F" processors and 400W parts may need the liquid-cooling or high-performance tier — check the cooling matrix.',
        'Every front SFF cage kit (8SFF x1/x4, 2SFF, 4SFF) is Tri-Mode U.3 — no plain SAS/SATA-only SFF cage. 4LFF has no NVMe/Tri-Mode option.']}},
@@ -2137,7 +2138,7 @@ var MODELS=[
        '4 PCIe slots (1x PCIe 5.0 x16 + 3x PCIe 4.0 x8/x4) directly on the system board/PCH — no riser cage.',
        '4LFF (hot-plug or non-hot-plug) or 8SFF hot-plug.']}},
  {m:'ML110',g:'G11', p:['sp4','sp5'],   s:1, d:16, tower:true, bays:['4LFF','8LFF','8SFF','16SFF'],
-   rules:{hsNoChoice:true,fanW:0,verified:true,rear:[],psuMax:2,fans:{one:2},pcie:{one:4},riserMax:2,
+   rules:{hsNoChoice:true,fanW:0,verified:true,rear:[],psuMax:2,fans:{one:2},pcie:{one:4},pcieBase:{one:2},riserMax:2,
      iloLic:true,iloNoPremium:true,memRules:false,memCaps:[16,32,64,96],memPerSocket:1536,
      dimmKits:{sp4:{16:['P43322-B21','16GB Single Rank x8 DDR5-4800 RDIMM'],32:['P43328-B21','32GB Dual Rank x8 DDR5-4800 RDIMM'],64:['P43331-B21','64GB Dual Rank x4 DDR5-4800 RDIMM']},sp5:{16:['P64705-B21','16GB Single Rank x8 DDR5-5600 RDIMM'],32:['P64706-B21','32GB Dual Rank x8 DDR5-5600 RDIMM'],64:['P64707-B21','64GB Dual Rank x4 DDR5-5600 RDIMM'],96:['P64708-B21','96GB Dual Rank x4 DDR5-5600 RDIMM']}},
      cpuAllow:['B3408U','B3508U','G5411N','G5412U','G5415+','G5416S','G5418N','G5418Y','G5512U','G5515+','G6421N','G6426Y','S4410Y','S4416+','S4509Y','S4510','S4514Y','S4516Y+'],
@@ -3859,7 +3860,7 @@ var RISERS={
     full-length/full-height (4x x8 + 5x x16). No secondary/tertiary kits —
     slot count is gated by processor count, not by adding risers. */
  'DL580 G9':[
-  {n:'Primary I/O riser (9 slots, ships standard)',d:'slots 1-9 · full-length/full-height · slot 9 Proc 1, slots 5-8 Proc 2, slots 3-4 Proc 3, slots 1-2 Proc 4',s:9,fh:9,lp:0,pos:'primary',def:true}
+  {n:'Primary I/O riser (9 slots, ships standard)',d:'slots 1-9 · full-length/full-height · slot 9 Proc 1, slots 5-8 Proc 2, slots 3-4 Proc 3, slots 1-2 Proc 4',s:9,sp:{1:1,2:4,3:2,4:2},fh:9,lp:0,pos:'primary',def:true}
  ],
  /* DL20 Gen9 QuickSpecs (already cached). Single mandatory riser choice
     among 3 kit types, no stated default: PCIe Low Profile Riser FIO Kit
@@ -3904,9 +3905,9 @@ var RISERS={
     to justify raising the ceiling — noted instead, same as the DL360
     FH/LP tradeoff pattern. 2026-09-17. */
  'DL80 G9':[
-  {n:'Full Height Half Length Riser Kit (765515-B21)',d:'2 full-height slots, PCIe3.0 · optional, adds to the 5 motherboard-fixed slots (not fully captured by this tool\'s flat slot ceiling — see model notes)',s:2,fh:2,lp:0,pos:'primary'},
-  {n:'FlexibleLOM Riser Kit (765514-B21)',d:'1 low-profile slot + FlexibleLOM connector, PCIe3.0 · mandatory if a FlexibleLOM is fitted',s:1,fh:0,lp:1,pos:'primary'},
-  {n:'GPU Enablement Kit (765518-B21)',d:'1 full-height full-length slot, PCIe3.0 · mandatory if a GPU card is fitted',s:1,fh:1,lp:0,pos:'primary'}
+  {n:'Full Height Half Length Riser Kit (765515-B21)',d:'slots 1-2 full-height half-length, PCIe3.0 · takes the place of the low-profile slot 1, so a net +1 slot on the 5 board slots',s:1,fh:2,lp:-1,pos:'primary'},
+  {n:'FlexibleLOM Riser Kit (765514-B21)',d:'slot 4 low-profile + the FlexibleLOM connector, PCIe3.0 · takes the place of board slot 4 (no net slot) · mandatory if a FlexibleLOM is fitted',s:0,fh:0,lp:0,pos:'primary'},
+  {n:'GPU Enablement Kit (765518-B21)',d:'slot 1 full-height full-length, PCIe3.0 · takes the place of the low-profile slot 1 (no net slot) · mandatory if a GPU card is fitted',s:0,fh:1,lp:-1,pos:'primary'}
  ],
  /* DL120 Gen9 QuickSpecs (already cached). Shares the "DL60/120 Gen9"
     riser part-number family with DL60 G9 for the first 3 kits, plus its
@@ -3992,11 +3993,11 @@ var RISERS={
     primary + 9-slot secondary/tertiary). All slots full-height. Storage
     controllers / SAS expanders fit only the primary and tertiary risers. */
  'DL580 G10':[
-  {n:'Primary 6-slot Riser (872336-B21)',d:'slots 1-6 · full-height · slots 2-3 need Proc 3, 4-6 need Proc 1 · also routes 2 NVMe · ships standard',s:6,fh:6,lp:0,pos:'primary',def:true},
-  {n:'Primary 7-slot Riser (878214-B21)',d:'slots 1-7 · full-height · all on Proc 1',s:7,fh:7,lp:0,pos:'primary'},
+  {n:'Primary 6-slot Riser (872336-B21)',d:'slots 2-7 · full-height · slots 5-7 on Proc 1, slots 2-4 need Proc 3 · also routes 2 NVMe',s:6,sp:{1:3,3:3},fh:6,lp:0,pos:'primary',def:true},
+  {n:'Primary 7-slot Riser (878214-B21)',d:'slots 1-7 · full-height · slots 5-7 on Proc 1, slots 1-4 need Proc 3',s:7,sp:{1:3,3:4},fh:7,lp:0,pos:'primary'},
   {n:'Primary NVMe Slimline Riser (878360-B21)',d:'up to 16 NVMe · includes the 4-port NVMe mezzanine card · no add-in-card slots',s:0,pos:'primary'},
-  {n:'Secondary + Tertiary 8-slot Riser (872338-B21)',d:'slots 9-16 · full-height · slots 9/10/16 need Proc 4, 11-15 need Proc 2 · secondary ships with the tertiary',s:8,fh:8,lp:0,pos:'secondary',cpu2:true},
-  {n:'Secondary + Tertiary 9-slot Riser (872340-B21)',d:'slots 8-16 · full-height · needs Proc 2, and Proc 4 for the tertiary slots',s:9,fh:9,lp:0,pos:'secondary',cpu2:true}
+  {n:'Secondary + Tertiary 8-slot Riser (872338-B21)',d:'slots 9-16 · full-height · slots 12-16 on Proc 2, slots 9-11 need Proc 4 · secondary ships with the tertiary',s:8,sp:{2:5,4:3},fh:8,lp:0,pos:'secondary',cpu2:true},
+  {n:'Secondary + Tertiary 9-slot Riser (872340-B21)',d:'slots 8-16 · full-height · slots 12-16 on Proc 2, slots 8-11 need Proc 4',s:9,sp:{2:5,4:4},fh:9,lp:0,pos:'secondary',cpu2:true}
  ],
  /* DL385 Gen11 QuickSpecs "Riser Kits" (unicomengineering.com mirror,
     2026-09-11). Each entry is the TOTAL slot count for that position once
@@ -4422,7 +4423,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.23.14'; // 14th build shipped today
+var BUILD_VERSION='2026.09.23.15'; // 15th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -5434,7 +5435,9 @@ function evaluate(){
       riserLines.forEach(function(x){
         var k=riserKitByName(x.name);
         if(k){
-          if(typeof k.s==='number') riserSlots+=k.s;
+          /* sp = {procN:slots}: a riser whose slots hang off different processors (DL580) — only count the live ones */
+          if(k.sp&&cpuq>0) riserSlots+=Object.keys(k.sp).reduce(function(t,p){return t+(+p<=cpuq?k.sp[p]:0);},0);
+          else if(typeof k.s==='number') riserSlots+=k.s;
           if(typeof k.fh==='number'||typeof k.lp==='number'){
             fhSlots+=(k.fh||0); lpSlots+=(k.lp||0); profileKnown=true;
           }else if(k.s>0){ profileGap=true; }   // a card-bearing riser with no FH/LP split
@@ -5456,11 +5459,14 @@ function evaluate(){
       if(profileGap||unscored) profileKnown=false;   // don't report a partial FH/LP split
     }else if(curRiserKits.length){
       var def=curRiserKits.filter(function(k){return k.def;})[0];
-      if(def&&typeof def.s==='number') riserSlots=def.s;   // nothing added -> the standard primary
+      if(def&&def.sp&&cpuq>0) riserSlots=Object.keys(def.sp).reduce(function(t,p){return t+(+p<=cpuq?def.sp[p]:0);},0);
+      else if(def&&typeof def.s==='number') riserSlots=def.s;   // nothing added -> the standard primary
       if(def&&(typeof def.fh==='number'||typeof def.lp==='number')){
         fhSlots=def.fh||0; lpSlots=def.lp||0; profileKnown=true;
       }
     }
+    /* pcieBase = slots fixed on the system board, on top of whatever the riser(s) add (ML110 Gen11, DL80 Gen9) */
+    if(R.pcieBase){var pb=cpuq>=2&&R.pcieBase.two!=null?R.pcieBase.two:R.pcieBase.one;riserSlots=(riserSlots||0)+pb;}
     if(typeof R.riserMax==='number'&&riserLines.length>R.riserMax)
       checks.push(['stop',R.riserMax===0?'RISERS':'TOO MANY RISERS',
         R.riserMax===0
@@ -5503,7 +5509,8 @@ function evaluate(){
   var namedCards=readLines(cards).filter(function(c){return c.name&&cardUsesSlot(c.name);})
     .reduce(function(t,c){return t+(Number(c.q)||1);},0);
   var cardNoteEl=document.getElementById('card-note');cardNoteEl.className='cap-note';
-  var chassisMax=(m&&R.pcie)?(cpuq>=2?R.pcie.two:R.pcie.one):null;
+  /* pcieByCpu = usable slots by processor count where it isn't a simple 1-vs-2 split (DL580: slots hang off all 4 sockets) */
+  var chassisMax=(m&&R.pcieByCpu&&cpuq>0&&R.pcieByCpu[cpuq]!=null)?R.pcieByCpu[cpuq]:(m&&R.pcie)?(cpuq>=2?R.pcie.two:R.pcie.one):null;
   var slotCap=null, capSrc='';
   if(riserSlots!==null){ slotCap=chassisMax!=null?Math.min(riserSlots,chassisMax):riserSlots; capSrc=' (from the risers fitted)'; }
   else if(chassisMax!=null){ slotCap=chassisMax; capSrc=(cpuq<2&&R.pcie.two>R.pcie.one)?' (1 CPU — '+R.pcie.two+' with two)':' (chassis maximum)'; }
@@ -6342,7 +6349,8 @@ function buildSlip(){
   }
   if(v('plan-raid'))L.push(v('plan-raid'));
   if(v('notes'))L.push('','Notes: '+v('notes'));
-  if(v('modelq')&&Number(v('modelq'))>1)L.unshift('BUILD x'+v('modelq'));
+  /* always state the build count once a system is picked — a missing line read as ambiguous (user, 2026-09-23) */
+  if(m)L.unshift('BUILD x'+(Number(v('modelq'))>0?Number(v('modelq')):1));
   return {lines:L,gaps:gaps};
 }
 function syncSelectPlaceholders(){

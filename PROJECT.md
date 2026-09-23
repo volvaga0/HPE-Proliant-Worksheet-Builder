@@ -3572,3 +3572,29 @@ table (all 60 models) + `applyMediaPills(m)` (global, called where the old media
   drive" on a model switch. New checks: internal drive on an external-only model (flag), UMB on a model without one
   (flag), USB drive on a model whose doc doesn't list it (verify). Paste "usb/external/mobile dvd" → the USB pill.
 QA: 984 ok / 0 FAIL (7 new; 2 older tests re-worded). Browser-verified.
+
+## Build count always on the slip + riser / PCIe slot audit (2026-09-23, build .15; user request)
+
+**"BUILD x1"**: the slip only showed the build count when >1; it now always leads with "BUILD xN" once a model is
+picked (x1 by default).
+
+**Riser/slot audit.** An automated pass compared every model's `pcie` one/two and `riserMax` with what its `RISERS` kits
+add up to (per position, best kit, cpu2-aware). 52 of 60 were consistent. The flagged ones were checked against the
+docs (clean `-table` extractions where the text is shifted):
+- **DL580 G10 — real error.** The clean V16 table: 6-slot primary riser = slots 2-7 (5-7 Proc 1, 2-4 Proc 3); 7-slot =
+  slots 1-7 (5-7 Proc 1, 1-4 Proc 3 — the tool said "all on Proc 1"); 8-slot secondary = 9-16 (12-16 Proc 2, 9-11 Proc
+  4); 9-slot = 8-16 (12-16 Proc 2, 8-11 Proc 4). Usable slots are 3 / 8 / 12 / 16 by processor count — the tool
+  allowed 6 on one processor. The shifted V20 text had produced the wrong mapping.
+- **DL580 G9** — the 9-slot primary's slots hang off all four processors (1 / +4 / +2 / +2): 5 usable at 2P, 7 at 3P,
+  9 at 4P; the tool allowed 9 for any count.
+- **ML110 G11** — 2 slots on the board + up to 2 GPU-riser slots: the tool showed 4 with no risers and 1 with one.
+- **DL80 G9** — 5 board slots (3 on Proc 1); its risers take the slot-1 position (FHHL riser = net +1, GPU and
+  FlexibleLOM risers = no net slot). A fitted FHHL riser used to cap the build at 2 slots.
+- **DL365 G11** — standard chassis = slot 1 (Proc 1) + slot 2 (Proc 2): 1 / 2 (was 2 / 3, which half-counted the front
+  GPU risers of the GPU chassis). riserMax stays 3 (so a hand-typed GPU riser on the GPU chassis isn't blocked).
+- DL380 G10 / DL560 G10 flags were audit artefacts (a zero-slot rear cage / NVMe mezzanine "any" item). DL560 G10
+  re-checked against its clean table: matches. G12 models (DL580 G12, DL110 G12, DL380a G12) not reviewed — out of focus.
+
+**New engine features:** riser kit `sp:{proc:slots}` (only the slots whose processor is fitted count), model
+`pcieByCpu:{n:slots}` (cap by processor count), model `pcieBase:{one,two}` (board slots added to the risers' slots).
+QA: 991 ok / 0 FAIL (7 new). Browser-verified (BUILD x1; DL580 G10 1P with 4 cards → 3-slot stop).

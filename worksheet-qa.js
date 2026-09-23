@@ -5190,5 +5190,32 @@ function runRound25(){
   reset27(); setModel25('DL380 G10'); d.getElementById('md3').checked=true; fire(d.getElementById('md3'),'change'); setModel25('DL360 G10');
   d.getElementById('md0').checked?pass25('switching to a model without that option falls back to "No optical drive"'):fail25('hidden media pick kept');
 
+
+  // ===== Builds count on the slip; riser / PCIe slot audit fixes (build 2026.09.23.15) =====
+  reset27(); setModel25('DL380 G10');
+  /^BUILD x1/.test(slip27().trim())?pass25('slip always states the build count ("BUILD x1" when left at the default)'):fail25('BUILD x1 missing: '+slip27().slice(0,60));
+  setv26('modelq','10'); /^BUILD x10/.test(slip27().trim())?pass25('...and "BUILD x10" for 10'):fail25('BUILD x10 missing');
+  const slots30=function(){addCard27('SN1610Q 32Gb FC 1p (R2E08A)');const t=d.getElementById('riser-slot-note').textContent;const m2=t.match(/of (\d+) PCIe/);return m2?+m2[1]:null;};
+  // ML110 G11: 2 board slots + up to 2 riser slots
+  reset27(); setModel25('ML110 G11'); pickCpuExact25('G5416S');
+  { const a=slots30(); reset27(); setModel25('ML110 G11'); pickCpuExact25('G5416S'); addRiser27('GPU Riser Kit (P53487-B21) — Slot 2'); const b=slots30();
+    (a===2&&b===3)?pass25('ML110 G11: 2 board slots, 3 with the first GPU riser (was 4 with none / 1 with one)'):fail25('ML110 G11 slots: '+a+' / '+b); }
+  // DL80 G9: 5 board slots (3 on Proc 1); the FHHL riser nets +1
+  reset27(); setModel25('DL80 G9'); pickCpuExact25('E5-2620v4'); setv26('cpuq','1');
+  { const a=slots30(); reset27(); setModel25('DL80 G9'); pickCpuExact25('E5-2620v4'); setv26('cpuq','2'); addRiser27('Full Height Half Length Riser Kit (765515-B21)'); const b=slots30();
+    (a===3&&b===6)?pass25('DL80 G9: 3 slots on 1 CPU with no riser; 6 on 2 CPUs with the FHHL riser (was capped at 2)'):fail25('DL80 G9 slots: '+a+' / '+b); }
+  // DL580 G10: slots hang off all four processors (clean V16 table)
+  reset27(); setModel25('DL580 G10'); pickCpuExact25('P8260'); setv26('cpuq','1');
+  { const a=slots30(); reset27(); setModel25('DL580 G10'); pickCpuExact25('P8260'); setv26('cpuq','2'); addRiser27('Primary 7-slot Riser (878214-B21)'); addRiser27('Secondary + Tertiary 9-slot Riser (872340-B21)'); const b=slots30();
+    reset27(); setModel25('DL580 G10'); pickCpuExact25('P8260'); setv26('cpuq','4'); addRiser27('Primary 7-slot Riser (878214-B21)'); addRiser27('Secondary + Tertiary 9-slot Riser (872340-B21)'); const c=slots30();
+    (a===3&&b===8&&c===16)?pass25('DL580 G10: 3 usable slots on 1 CPU, 8 on 2, 16 on 4 (the 7-slot riser is NOT all on Proc 1)'):fail25('DL580 G10 slots: '+a+'/'+b+'/'+c); }
+  // DL580 G9: 5 slots at 2P, 9 at 4P
+  reset27(); setModel25('DL580 G9'); pickCpuExact25('E7-8880v4'); setv26('cpuq','2');
+  { const a=slots30(); reset27(); setModel25('DL580 G9'); pickCpuExact25('E7-8880v4'); setv26('cpuq','4'); const b=slots30();
+    (a===5&&b===9)?pass25('DL580 G9: 5 usable slots with 2 processors, 9 with 4 (was 9 for any)'):fail25('DL580 G9 slots: '+a+' / '+b); }
+  // DL365 G11: standard chassis
+  reset27(); setModel25('DL365 G11'); pickCpuExact25('EPYC 9124'); setv26('cpuq','1');
+  { const a=slots30(); a===1?pass25('DL365 G11 1P: 1 slot (standard chassis; GPU risers only on the GPU chassis)'):fail25('DL365 G11 1P slots: '+a); }
+
   reset27();
 }
