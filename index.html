@@ -992,7 +992,7 @@ var PLATFORM_LABELS={
    against the DL380 Gen11 QuickSpecs), so 16 slots/socket x 128GB =
    2048, not 4096. A 5th Gen build maxes at 4TB system-wide on a 2-socket
    board, not the 8TB the 4th-Gen/256GB combo reaches. */
-var MEM_PER_SOCKET={e5v3:768,e5v4:1536,e5v3x4:1536,e5v4x4:1536,e7v3:1536,e7v4:3072,e3:64,xeone:128,xeone3:128,
+var MEM_PER_SOCKET={e5v3:768,e5v4:1536,e5v3x4:1536,e5v4x4:1536,e7v3:1536,e7v4:3072,e3:64,xeone:64,xeone3:128,
  sp1:768,sp2:1024,sp3:4096,sp4:4096,sp5:2048,naples:2048,rome:2048,milan:4096,genoa:3072,turin:3072,xeon6:4096};
 
 var GEN_DEFAULTS={
@@ -1119,6 +1119,10 @@ var G10_FC_CARDS=[
  'CN1100R 10Gb 2p converged (QW990A)','CN1100R 10GBASE-T 2p converged (N3U52A)','CN1200E 10Gb converged (E7Y06A)',
  'CN1200E 10GBASE-T 2p converged (N3U51A)','CN1200R 10GBASE-T converged (Q0F26A)','CN1300R 10/25Gb 2p converged (Q0F09A)',
  'NS204i-p NVMe PCIe3 x2 lanes boot device, 2x 480GB M.2 RAID 1 (P12965-B21)'];
+/* pick a model's cards out of the G10 master lists by part number (keeps one label per PN, master order) */
+function g10Cards(pns,extra){
+  return G10_NIC_CARDS.concat(G10_FC_CARDS).filter(function(x){var m=x.match(/\(([A-Z0-9-]+)\)$/);return m&&pns.indexOf(m[1])>-1;}).concat(extra||[]);
+}
 var DL360G10_CARDS=G10_NIC_CARDS.concat(G10_FC_CARDS);
 var DL380G10_CARDS=G10_NIC_CARDS.concat(['MCX512F-ACHT 10/25Gb 2p SFP28 (P13188-B21)','X2522-25G-PLUS 10/25Gb 2p SFP28 (P21109-B21)'],G10_FC_CARDS,
  ['Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit (878783-B21)']);
@@ -1254,6 +1258,12 @@ var MODELS=[
 
  {m:'DL20', g:'G10', p:['xeone'],      s:1, d:4, bays:['2LFF','4SFF','6SFF'],
    rules:{verified:true,psuMax:2,pcie:{one:2,two:2},rear:[],
+     cpuAllow:['E-2124','E-2136','E-2224','E-2226G','E-2234','E-2236','E-2244G','E-2274G','E-2276G','Pentium G5420','i3-9100','E-2278G','E-2286G'],dimmKits:true,
+     cards:g10Cards(['867328-B21','817753-B21','817738-B21','727055-B21','813661-B21','652503-B21','656596-B21','867707-B21','811546-B21','652497-B21','647594-B21','615732-B21','Q0L13A','Q0L14A','Q0L11A','Q0L12A','P9D93A','P9D94A','P9M75A','P9M76A','QW990A','N3U52A','E7Y06A','N3U51A','Q0F26A','Q0F09A'],['Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit — takes a PCIe slot (878783-B21)']),
+     bat:['12W Smart Storage Lithium-ion Battery — required with P408i-a or P408e-p, one per server (782961-B21)','No battery'],
+     batReq:{ctrls:['P408i-a','P408e-p'],pn:'782961-B21',n:'12W Smart Storage Lithium-ion Battery'},
+     rails:{kits:[{pn:'775612-B21',n:'1U Short Friction Rail Kit'}],cma:[]},
+     bezelKit:{pn:'867998-B21',n:'1U Gen10 Bezel Kit',lock:'875519-B21'},intrusion:{pn:'866473-B21',n:'1U Gen10 Chassis Intrusion Detection Kit'},iloLic:true,
      psu:['290W Platinum FIO, EU Lot 9 compliant, current standard (P21649-B21)','290W FIO — OBSOLETE, unavailable since 16-Feb-2020 (P06731-B21)','500W Flex Slot Platinum — needs RPS Enablement FIO Kit P06722-B21 (865408-B21)','800W Flex Slot -48VDC — needs RPS Enablement FIO Kit P06722-B21 (865434-B21)'],
      ctrl:['S100i (embedded SW RAID, off by default, needs 784308-B21 to enable)','P408i-a LH (869081-B21)','E208i-a LH (869079-B21)','P408e-p (804405-B21)','E208e-p (804398-B21)'],
      flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)'],
@@ -1262,7 +1272,11 @@ var MODELS=[
        '4 DIMM slots. 2 PCIe expansion slots maximum.',
        'System fans are non-hot-plug and non-redundant — no fan-kit choice.',
        'No rear or mid-tray drive cage.',
-       'Front bays: 2LFF (hot-plug or non-hot-plug) or 4SFF (expandable to 6SFF with a +2SFF kit).']}},
+       'Front bays: 2LFF (hot-plug or non-hot-plug) or 4SFF (expandable to 6SFF with a +2SFF kit).',
+       'Processors: Xeon E-2200 (E-2224 to E-2286G), Core i3-9100 and Pentium G5420; the retired E-2100 parts (E-2124, E-2136) are kept for refurb stock. i3-9100 and G5420 run memory at 2400.',
+       'Memory: UDIMM only, 8GB (879505-B21) or 16GB (879507-B21) Standard Memory kits — 64GB maximum. No RDIMM or LRDIMM.',
+       'The bezel kit (867998-B21) and bezel lock (875519-B21) both need the DL20 Gen10 Latch Ear FIO Kit P06716-B21 — factory-installed only, it cannot be added after purchase.',
+       'Stand-up cards carry part numbers in the picker. The 12W Smart Storage Battery (782961-B21) is required with P408i-a or P408e-p (checked).']}},
  {m:'DL160',g:'G10', p:['sp1','sp2'],  s:2, d:16, bays:['4LFF','8SFF','10SFF'],
    rules:{hsNoChoice:true,verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
@@ -1270,10 +1284,19 @@ var MODELS=[
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','DL160/180 Gen10 Redundant PSU Enablement Kit — mandatory with any of the above (866442-B21)'],
      ctrl:['P408i-a LH — needs 4LFF/8SFF Cable Kit 866452/866448-B21 (869081-B21)','E208i-a LH — needs 4LFF/8SFF Cable Kit 866452/866448-B21 (869079-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
      flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)'],
+     cpuAllow:['B3104','B3106','B3204','B3206R','G5115','G5118','G5120','G5122','G5215','G5217','G5218','G5218R','G5220','G5220R','G5222','G6126','G6128','G6130','G6132','G6134','G6136','G6138','G6140','G6142','G6144','G6148','G6152','G6208U','G6209U','G6210U','G6226','G6226R','G6230','G6230R','G6234','G6238','G6240','G6242','G6244','G6248','G6252','P8164','P8253','P8256','S4108','S4110','S4112','S4114','S4116','S4208','S4210','S4210R','S4214','S4214R','S4215','S4215R','S4216'],
+     dimmKits:{sp1:{8:['815097-B21','8GB Single Rank x8 DDR4-2666 RDIMM'],16:['835955-B21','16GB Dual Rank x8 DDR4-2666 RDIMM','single-rank x4 815098-B21'],32:['815100-B21','32GB Dual Rank x4 DDR4-2666 RDIMM']},
+       sp2:{8:['P00918-B21','8GB Single Rank x8 DDR4-2933 RDIMM'],16:['P00922-B21','16GB Dual Rank x8 DDR4-2933 RDIMM','single-rank x4 P00920-B21'],32:['P00924-B21','32GB Dual Rank x4 DDR4-2933 RDIMM'],64:['P00930-B21','64GB Dual Rank x4 DDR4-2933 RDIMM']}},memCaps:[8,16,32,64],
+     cards:g10Cards(['817753-B21','817718-B21','867328-B21','817738-B21','727055-B21','813661-B21','652503-B21','656596-B21','867707-B21','811546-B21','647594-B21','652497-B21','615732-B21','829335-B21','Q0L13A','Q0L14A','Q0L11A','Q0L12A','P9D93A','P9D94A','P9M75A','P9M76A'],['Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit — needs the DL160 Gen10 SATA M.2 Cable Kit 866456-B21 (878783-B21)']),
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
+     rails:{kits:[{pn:'734807-B21',n:'1U Small Form Factor Easy Install Rail Kit'}],cma:[{pn:'734811-B21',n:'1U Cable Management Arm for Rail Kit'}]},
+     bezelKit:{pn:'867998-B21',n:'1U Gen10 Bezel Kit',lock:'875519-B21'},intrusion:{pn:'866473-B21',n:'1U Gen10 Chassis Intrusion Detection Kit'},iloLic:true,iloNoPremium:true,
      notes:['No fixed base PSU tier — every option is a Flex Slot supply and ALL need the shared DL160/DL180 Gen10 Redundant PSU Enablement Kit (866442-B21). Only LH (low-height) embedded controllers fit.',
        'A FlexibleLOM needs riser kit 875748-B21.',
        'No rear or mid-tray drive cage.',
-       'First processor (-L21) includes 3 fans; second processor (-B21) adds 3 more.',
+       'First processor (-L21) includes 3 fans; second processor (-B21) adds 3 more. The Redundant Fan Kit 866438-B21 adds one fan.',
+       'Memory: a 1st Gen (Skylake) processor takes only the DDR4-2666 kits; a 2nd Gen (Cascade Lake) processor takes the DDR4-2933 kits. SmartMemory kit part numbers show under the memory field. No LRDIMMs and no 128GB modules on this model.',
+       'Stand-up cards carry part numbers in the picker. Media Module adapters (a separate on-board connector, not a PCIe slot): 368T 1Gb 2p 866464-B21, 568SFP+ 10Gb 2p 866467-B21, 568T 10Gb 2p 866470-B21.',
        '4LFF/8SFF: 1 CPU gives 3 standard fans (4 with the redundant kit); 2 CPUs gives 6 (7 with the kit).',
        '"U" suffix processors (e.g. 6210U) are single-socket only.',
        'Mixing two different processor models is not supported.',
@@ -1285,9 +1308,18 @@ var MODELS=[
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','DL160/180 Gen10 Redundant PSU Enablement Kit — mandatory with any of the above (866442-B21)'],
      ctrl:['P816i-a — needs cable kit P36415/P37221-B21 (804338-B21)','P408i-a — needs cable kit (804331-B21)','E208i-a — needs cable kit (804326-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
      flr:['331FLR 4x1GbE (629135-B22)','366FLR 4x1GbE (665240-B21)','533FLR-T 2x10GbT (700759-B21)','534FLR-SFP+ 2x10Gb (700751-B21)','535FLR-T 2x10GbT (817721-B21)','536FLR-T 4x10GbT (764302-B21)','562FLR-SFP+ 2x10Gb (727054-B21)','562FLR-T 2x10GbT (817745-B21)','622FLR-SFP28 2x10/25Gb (867334-B21)','631FLR-SFP28 2x10/25Gb (817709-B21)','640FLR-SFP28 2x10/25Gb (817749-B21)'],
+     cpuAllow:['B3104','B3106','B3204','B3206R','G5115','G5118','G5120','G5122','G5215','G5217','G5218','G5218R','G5220','G5220R','G5222','G6126','G6128','G6130','G6132','G6134','G6136','G6138','G6140','G6142','G6144','G6148','G6152','G6208U','G6209U','G6210U','G6226','G6226R','G6230','G6230R','G6234','G6238','G6240','G6242','G6244','G6248','G6252','P8253','P8256','S4108','S4110','S4112','S4114','S4116','S4208','S4210','S4210R','S4214','S4214R','S4215','S4215R','S4216'],
+     dimmKits:{sp1:{8:['815097-B21','8GB Single Rank x8 DDR4-2666 RDIMM'],16:['835955-B21','16GB Dual Rank x8 DDR4-2666 RDIMM','single-rank x4 815098-B21'],32:['815100-B21','32GB Dual Rank x4 DDR4-2666 RDIMM'],64:['815101-B21','64GB Quad Rank x4 DDR4-2666 LRDIMM']},
+       sp2:{8:['P00918-B21','8GB Single Rank x8 DDR4-2933 RDIMM'],16:['P00922-B21','16GB Dual Rank x8 DDR4-2933 RDIMM','single-rank x4 P00920-B21'],32:['P00924-B21','32GB Dual Rank x4 DDR4-2933 RDIMM'],64:['P00930-B21','64GB Dual Rank x4 DDR4-2933 RDIMM','quad-rank LRDIMM P00926-B21']}},memCaps:[8,16,32,64],
+     cards:g10Cards(['817753-B21','817718-B21','867328-B21','817738-B21','727055-B21','813661-B21','652503-B21','656596-B21','867707-B21','811546-B21','647594-B21','652497-B21','615732-B21','Q0L13A','Q0L14A','Q0L11A','Q0L12A','P9D93A','P9D94A','P9M75A','P9M76A'],['Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit — needs the DL160 Gen10 SATA M.2 Cable Kit 866456-B21 (878783-B21)']),
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
+     rails:{kits:[{pn:'733660-B21',n:'2U Small Form Factor Easy Install Rail Kit (also fits the LFF chassis)'}],cma:[{pn:'733664-B21',n:'2U Cable Management Arm for Easy Install Rail Kit'}]},
+     bezelKit:{pn:'867809-B21',n:'Gen10 2U Bezel Kit',lock:'875519-B21'},intrusion:{pn:'867824-B21',n:'Gen10 Chassis Intrusion Detection Kit'},iloLic:true,iloNoPremium:true,
      notes:['Same PSU list and Redundant PSU Enablement Kit (866442-B21) as DL160 G10, plus a 1600W tier. Controllers are the plain (non-LH) modular variants, including the 16-lane P816i-a.',
        'Rear cage is a dual 2SFF rear drive option only, cabled to the S100i/E208i-a/P408i-a/P408i-p controller or a SAS Expander/P816i-a. No mid-tray on this chassis.',
-       'First processor (-L21) includes 3 fans; second processor (-B21) adds 2 more (5 total for 2P).',
+       'First processor (-L21) includes 3 fans; second processor (-B21) adds 2 more (5 total for 2P). The Redundant Fan Kit 866947-B21 adds one fan.',
+       'Memory: a 1st Gen (Skylake) processor takes only the DDR4-2666 kits; a 2nd Gen (Cascade Lake) processor takes the DDR4-2933 kits. SmartMemory kit part numbers show under the memory field. No 128GB modules on this model.',
+       'Stand-up cards carry part numbers in the picker. Media Module adapters (a separate on-board connector, not a PCIe slot): 368T 1Gb 2p 866464-B21, 568SFP+ 10Gb 2p 866467-B21, 568T 10Gb 2p 866470-B21.',
        'All models include the S100i Smart Array Controller (software RAID, 14 drives) — needs enabling.',
        'Mixing two different processor models is not supported.',
        'Field upgrade from 1st to 2nd generation Scalable processors is not supported.',
@@ -1394,7 +1426,14 @@ var MODELS=[
        'Riser positions: primary slots 1-3 (x8/x16/x8, ships standard), secondary slots 4-6 (x8/x16/x8, 870548-B21), tertiary slots 7-8 (x8/x8, 872253-B21). All full-height. Secondary and tertiary both need the 2nd processor.',
        'A double-wide GPU goes in primary slot 2 or secondary slot 5 only (x16/x16 GPU riser 826704-B21) — 2 GPUs maximum.',
        '4-processor builds need the CPU Mezzanine Board Kit: 872222-B21 for 1st Gen Scalable, P07991-B21 for 2nd Gen.',
-       '12 DIMM slots per processor (48 total).']}},
+       '12 DIMM slots per processor (48 total).',
+       'Memory: a 1st Gen (Skylake) processor takes only the DDR4-2666 kits; a 2nd Gen (Cascade Lake) processor takes the DDR4-2933 kits. SmartMemory kit part numbers show under the memory field.',
+       'Stand-up cards carry part numbers in the picker (Ethernet, InfiniBand, Omni-Path, Fibre Channel, converged adapters). The Universal SATA M.2 kit (878783-B21) takes a PCIe slot.'],
+     dimmKits:true,cards:g10Cards(['874253-B21','867328-B21','817718-B21','817753-B21','P11338-B21','P08446-B21','652503-B21','656596-B21','813661-B21','727055-B21','817738-B21','867707-B21','647594-B21','811546-B21','615732-B21','652497-B21','764284-B21','872726-B21','825110-B21','825111-B21','872725-B21','829335-B21','Q0L13A','Q0L14A','Q0L11A','Q0L12A','P9D93A','P9D94A','P9M75A','P9M76A','QW990A','N3U52A','E7Y06A','N3U51A','Q0F26A','Q0F09A'],['Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit (878783-B21)']),
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
+     rails:{kits:[{pn:'733662-B21',n:'2U Large Form Factor Easy Install Rail Kit'},{pn:'720864-B21',n:'2U Large Form Factor Ball Bearing Rail Kit'}],cma:[{pn:'733664-B21',n:'2U Cable Management Arm for Easy Install Rail Kit'},{pn:'720865-B21',n:'2U Cable Management Arm for Ball Bearing Rail Kit'}]},
+     bezelNote:'No bezel, bezel-lock or intrusion-kit part number is listed in the DL560 Gen10 QuickSpecs (bezel locking and intrusion detection are only named as options).',
+     iloLic:true,iloNoPremium:true}},
  {m:'DL580',g:'G10', p:['sp1','sp2'],  s:4, d:48, bays:['8SFF','16SFF','24SFF','32SFF','40SFF','48SFF'],
    rules:{verified:true,hsW:130,hsWtext:'130W or higher',
      hsSku:['P8256','P8156','G6128','G5222','G5122'],
@@ -1411,7 +1450,14 @@ var MODELS=[
        'Up to 4 hot-plug redundant power supplies (800W / 1600W Flex Slot).',
        '12 hot-plug fans, N+1 redundancy, shipped standard.',
        'Order one primary riser (required): 6-slot 872336-B21 or 7-slot 878214-B21. The secondary riser (8-slot 872338-B21 or 9-slot 872340-B21) bundles the tertiary and only installs after the primary — 16 PCIe slots in total with all four sockets populated. All slots are full-height.',
-       'Internal storage controllers and SAS expanders fit only the primary and tertiary risers — not the secondary.']}},
+       'Internal storage controllers and SAS expanders fit only the primary and tertiary risers — not the secondary.',
+       'Memory: a 1st Gen (Skylake) processor takes only the DDR4-2666 kits; a 2nd Gen (Cascade Lake) processor takes the DDR4-2933 kits. SmartMemory kit part numbers show under the memory field.',
+       'Stand-up cards carry part numbers in the picker (Ethernet, InfiniBand, Omni-Path, Fibre Channel, converged adapters). The Universal SATA M.2 kit (878783-B21) takes a PCIe slot. An OEM (unbranded) 4U bezel also exists: 869873-B21.'],
+     dimmKits:true,cards:g10Cards(['874253-B21','867328-B21','817718-B21','817753-B21','P11338-B21','P08446-B21','652503-B21','656596-B21','813661-B21','727055-B21','817738-B21','867707-B21','647594-B21','811546-B21','615732-B21','652497-B21','764284-B21','872726-B21','825110-B21','825111-B21','872725-B21','829335-B21','Q0L13A','Q0L14A','Q0L11A','Q0L12A','P9D93A','P9D94A','P9M75A','P9M76A','QW990A','N3U52A','E7Y06A','N3U51A','Q0F26A','Q0F09A'],['Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit (878783-B21)']),
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','No battery'],
+     rails:{kits:[{pn:'872151-B21',n:'DL580 Gen10 4U Rail Kit with Cable Management Arm'}],cmaIncluded:true},
+     bezelKit:{pn:'869872-B21',n:'Gen10 4U Bezel Kit',lock:'875519-B21'},intrusion:{pn:'867824-B21',n:'Gen10 Chassis Intrusion Detection Kit'},
+     iloLic:true,iloNoPremium:true}},
 
  {m:'DL20',  g:'G10+', p:['xeone3'], s:1, d:4, bays:['2LFF','4SFF','6SFF'],
    rules:{fanW:0,verified:true,psuMax:2,pcie:{one:2,two:2},riserMax:1,rear:[],
@@ -1869,7 +1915,7 @@ var MODELS=[
        '4 HPE Flexible Slot power supply bays: Slot 1 standard, Slots 2-4 optional.',
        'No standard/performance heatsink choice — E5-2600 v3/v4 parts share one heatsink and it ships in the processor kit.']}},
  {m:'ML30', g:'G10', p:['xeone'], s:1, d:4,  tower:true, bays:['4LFF','6LFF','8SFF'],
-   rules:{verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,rear:[],
+   rules:{cpuAllow:['E-2124','E-2136','E-2224','E-2226G','E-2234','E-2236','E-2244G','E-2274G','E-2276G','Pentium G5420','i3-9100'],dimmKits:true,verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,rear:[],
      psu:['350W Gold-level FIO (P21652-B21)','350W Bronze FIO — not EU Lot 9 / CE (820303-B21)','500W Flex Slot Platinum, needs RPS kit (865408-B21)','RPS Enablement Kit — 4U (P06305-B21)'],
      notes:['Front bays: 4LFF (expandable to 6LFF) or 8SFF.',
        'No rear drive bay — tower, front-only.',
@@ -2063,6 +2109,16 @@ var CPUS=[
  ['E-2236','Xeon E-2236 · 6C 3.4GHz','xeone',80,6],
  ['E-2276G','Xeon E-2276G · 6C 3.8GHz','xeone',80,6],
  ['E-2288G','Xeon E-2288G · 8C 3.7GHz','xeone',95,8],
+ /* DL20 Gen10 / ML30 Gen10 E-2200-family table (clock/cores/TDP from the DL20 Gen10 doc — the ML30 V24 text
+    has its TDP column shifted). Pentium/Core i3 codes keep their brand prefix so they don't read as Xeon Gold. */
+ ['E-2226G','Xeon E-2226G · 6C 3.4GHz','xeone',80,6],
+ ['E-2234','Xeon E-2234 · 4C 3.6GHz','xeone',71,4],
+ ['E-2244G','Xeon E-2244G · 4C 3.8GHz','xeone',71,4],
+ ['E-2274G','Xeon E-2274G · 4C 4.0GHz','xeone',83,4],
+ ['E-2278G','Xeon E-2278G · 8C 3.4GHz','xeone',80,8],
+ ['E-2286G','Xeon E-2286G · 6C 4.0GHz','xeone',95,6],
+ ['Pentium G5420','Pentium G5420 · 2C 3.8GHz','xeone',54,2],
+ ['i3-9100','Core i3-9100 · 4C 3.6GHz','xeone',65,4],
  ['E-2314','Xeon E-2314 · 4C 2.8GHz','xeone3',65,4],
  ['E-2336','Xeon E-2336 · 6C 2.9GHz','xeone3',65,6],
  ['E-2356G','Xeon E-2356G · 6C 3.2GHz','xeone3',80,6],
@@ -2579,7 +2635,7 @@ var MEM_SPEEDS={
  xeon6:[6400]
 };
 var MEM_CAPS={
- e3:[8,16],xeone:[8,16,32],xeone3:[8,16,32],
+ e3:[8,16],xeone:[8,16],xeone3:[8,16,32],
  e5v3:[8,16,32,64],e5v4:[8,16,32,64,128],e5v3x4:[8,16,32,64],e5v4x4:[8,16,32,64,128],
  e7v3:[8,16,32,64,128],e7v4:[8,16,32,64,128],
  sp1:[8,16,32,64,128],sp2:[8,16,32,64,128],sp3:[8,16,32,64,128,256],
@@ -2594,6 +2650,8 @@ var MEM_CAPS={
    — a 5600 MT/s kit in a 4400 MT/s CPU runs at 4400, so the worksheet must not claim 5600 there.
    Applies to sp4 and sp5. CPUs missing here (the 4-socket 8450H/8460H/8468H) are simply not capped. */
 var CPU_MEM_MAX={
+ /* Pentium G5420 and Core i3-9100 run memory at 2400 (DL20/ML30 Gen10 processor tables) */
+ 'Pentium G5420':2400,'i3-9100':2400,
  /* 3rd Gen Xeon Scalable (sp3, DDR4) — from the DL360 Gen10 Plus QuickSpecs (v44) per-SKU ordering
     notes, clean there but garbled in DL380 Gen10 Plus's own text extraction of the same wide feature
     table, so applied to both (memory speed is a CPU silicon property, not a chassis one). No entry =
@@ -2625,6 +2683,9 @@ var DIMM_KITS={
  sp2:{8:['P00918-B21','8GB Single Rank x8 DDR4-2933 RDIMM'],16:['P00922-B21','16GB Dual Rank x8 DDR4-2933 RDIMM','single-rank x4 P00920-B21'],
       32:['P00924-B21','32GB Dual Rank x4 DDR4-2933 RDIMM'],64:['P00930-B21','64GB Dual Rank x4 DDR4-2933 RDIMM','quad-rank LRDIMM P00926-B21'],
       128:['P11040-B21','128GB Quad Rank x4 DDR4-2933 LRDIMM','octal-rank 3DS LRDIMM P00928-B21']},
+ /* xeone (Xeon E-2100/E-2200, DDR4-2666 UDIMM) — DL20 Gen10 and ML30 Gen10 list exactly these two Standard Memory
+    kits (8GB and 16GB, 64GB maximum); no RDIMM/LRDIMM is supported. */
+ xeone:{8:['879505-B21','8GB Single Rank x8 DDR4-2666 Unbuffered Standard Memory Kit'],16:['879507-B21','16GB Dual Rank x8 DDR4-2666 Unbuffered Standard Memory Kit']},
  /* sp3 (DDR4-3200), from the DL380 Gen10 Plus QuickSpecs. 16GB and 32GB each also have a
     single-rank variant (P06029-B21, P40007-B21) — the dual-rank part shown here is the one
     HPE's docs list first / recommend; the sales note mentions the alternate exists. */
@@ -4002,7 +4063,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.23.4'; // 4th build shipped today
+var BUILD_VERSION='2026.09.23.5'; // 5th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4562,10 +4623,16 @@ function memSpeedsFor(m){
   var cpu=cpuByCode(v('cpu')),cap=cpu&&CPU_MEM_MAX[cpu[0]];
   return cap?spds.filter(function(s){return s<=cap;}):spds;
 }
+/* memCaps = the module sizes the model's own QuickSpecs list, narrowing the platform's sizes
+   (e.g. DL160/DL180 Gen10 list no 128GB kit although 1st/2nd Gen Scalable takes 128GB elsewhere) */
+function modelCaps(m,caps){
+  var mc=m&&m.rules&&m.rules.memCaps;
+  return mc?caps.filter(function(c){return mc.indexOf(c)>-1;}):caps;
+}
 function dimmsFor(m){
   var pls=memPlatforms(m);
   if(!pls.length)return DIMMS;
-  var caps=unionVals(pls.map(function(p){return MEM_CAPS[p];})),
+  var caps=modelCaps(m,unionVals(pls.map(function(p){return MEM_CAPS[p];}))),
       spds=memSpeedsFor(m),
       out=[];
   caps.forEach(function(c){spds.forEach(function(s){out.push(c+'GB '+s+' MT/s');});});
@@ -4573,7 +4640,7 @@ function dimmsFor(m){
 }
 function renderDimmBtns(){
   var m=currentModel(),pls=memPlatforms(m);
-  var caps=unionVals(pls.map(function(p){return MEM_CAPS[p];})),
+  var caps=modelCaps(m,unionVals(pls.map(function(p){return MEM_CAPS[p];}))),
       spds=memSpeedsFor(m);
   document.getElementById('dimm-size-btns').innerHTML=caps.map(function(c){
     return '<button type="button" data-sz="'+c+'">'+c+'GB</button>';}).join('');
@@ -5205,11 +5272,17 @@ function evaluate(){
   /* the orderable SmartMemory kit for the size picked (sales reference — never on the slip) */
   var kitNote=document.getElementById('dimm-kit');kitNote.textContent='';
   if(m&&R.dimmKits&&dsize){
-    var kitPl=cpu?[cpu[2]]:m.p.filter(function(p){return DIMM_KITS[p];}),kitParts=[];
+    var KT=typeof R.dimmKits==='object'?R.dimmKits:DIMM_KITS;
+    var kitPl=cpu?[cpu[2]]:m.p.filter(function(p){return KT[p];}),kitParts=[];
     kitPl.forEach(function(p){
-      var k=DIMM_KITS[p]&&DIMM_KITS[p][dsize];
-      if(k)kitParts.push((kitPl.length>1?({sp1:'1st Gen: ',sp2:'2nd Gen: ',sp4:'4th Gen: ',sp5:'5th Gen: '}[p]||''):'')+'HPE '+k[1]+' Smart Memory Kit '+k[0]+(k[2]?' (also '+k[2]+')':''));
+      var k=KT[p]&&KT[p][dsize];
+      if(k)kitParts.push((kitPl.length>1?({sp1:'1st Gen: ',sp2:'2nd Gen: ',sp4:'4th Gen: ',sp5:'5th Gen: '}[p]||''):'')+'HPE '+k[1]+(/Kit$/.test(k[1])?' ':' Smart Memory Kit ')+k[0]+(k[2]?' (also '+k[2]+')':''));
     });
+    /* a model-specific kit table that has no kit of this size for this processor generation = not orderable */
+    if(KT!==DIMM_KITS&&cpu&&KT[cpu[2]]&&!KT[cpu[2]][dsize])
+      checks.push(['verify','MEMORY KIT','The '+m.m+' '+m.g+' QuickSpecs list no '+dsize+'GB kit for '+({sp1:'1st Gen',sp2:'2nd Gen'}[cpu[2]]||cpu[2])+' processors — available sizes: '+Object.keys(KT[cpu[2]]).join(', ')+'GB.']);
+    if(R.memCaps&&R.memCaps.indexOf(dsize)<0)
+      checks.push(['stop','MEMORY SIZE',dsize+'GB modules are not offered for '+m.m+' '+m.g+' — its QuickSpecs list '+R.memCaps.join(', ')+'GB only.']);
     /* -F21 factory twins are a DDR5 (Gen11) doc convention — the DDR4 Gen10 docs don't list them */
     if(kitParts.length)kitNote.textContent=kitParts.join(' — ')+(kitPl.some(function(p){return p==='sp4'||p==='sp5';})?' (for a factory-integrated build swap -B21 for -F21).':'.');
   }
@@ -5219,7 +5292,7 @@ function evaluate(){
   if(m&&R.rails){
     var railKits=R.rails.kits.filter(function(k){return !k.bays||!bays||k.bays.indexOf(bays)>-1;});
     railNote.textContent='Rail kit: '+railKits.map(function(k){return 'HPE '+k.n+' '+k.pn+(k.bays&&!bays?' ('+k.bays.join(' / ')+')':'');}).join(' · ')+
-      '. It does not include the cable management arm — optional, needs a rail kit: '+R.rails.cma.map(function(c){return c.n+' '+c.pn;}).join(' or ')+'.';
+      (R.rails.cmaIncluded?'. The kit includes the cable management arm.':R.rails.cma&&R.rails.cma.length?'. It does not include the cable management arm — optional, needs a rail kit: '+R.rails.cma.map(function(c){return c.n+' '+c.pn;}).join(' or ')+'.':'. No cable management arm is listed for this model.')+(R.rails.note?' '+R.rails.note:'');
   }
   var bezelNote=document.getElementById('bezel-note');bezelNote.textContent='';
   if(m&&R.bezelKit){
@@ -5372,11 +5445,15 @@ function evaluate(){
   batNote.className='cap-note';batNote.textContent='';
   if(ctrlV&&CACHED_CTRLS[ctrlC]&&!batV){
     batNote.className='cap-note suggest';
-    batNote.textContent='Suggested: 96W battery — '+ctrlV+' has a write-back cache that normally needs one.';
+    batNote.textContent='Suggested: '+(R.bat&&!/^96W/.test(R.bat[0])?R.bat[0].replace(/ — [^(]*\(/,' ('):'96W battery')+' — '+ctrlV+' has a write-back cache that normally needs one.';
   }else if(ctrlV&&NOCACHE_CTRLS[ctrlC]&&batV&&batV.toLowerCase().indexOf('no battery')<0){
     batNote.className='cap-note suggest';
     batNote.textContent=ctrlV+' has no cache — a battery is not normally needed here. Confirm with the client if one was requested anyway.';
   }
+
+  /* batReq: the model's QuickSpecs make a battery mandatory with these controllers (DL20 Gen10) */
+  if(m&&R.batReq&&ctrlV&&R.batReq.ctrls.indexOf(ctrlC)>-1&&(!batV||/no battery/i.test(batV)))
+    checks.push(['verify','BATTERY','The '+m.m+' '+m.g+' QuickSpecs require the '+R.batReq.n+' ('+R.batReq.pn+') with '+ctrlC+' — one per server.']);
 
   /* controller-vs-generation hard check — CTRLS used to be one flat list
      shown for every model, so e.g. an OCP-mezzanine MR-card (Gen11 only)

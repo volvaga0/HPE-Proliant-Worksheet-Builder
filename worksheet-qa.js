@@ -4928,5 +4928,48 @@ function runRound25(){
   reset27(); setModel25('DL380 G11'); setv26('bays','8SFF');
   (!/EDSFF BUNDLE/.test(chk26()) && /P48922-B21/.test(bz29()))?pass25('DL380 G11 8SFF: no EDSFF bundle checks; bezel hint carries the intrusion cable kit P48922-B21'):fail25('DL380 G11 non-EDSFF wrong: bezel="'+bz29()+'"');
 
+
+  // ===== Step 3: remaining G10 Intel racks — DL560/DL580/DL160/DL180/DL20 G10 (+ ML30 G10 CPU pool) (build 2026.09.23.5) =====
+  const has30=function(l,pn){return (l||[]).some(function(x){return x.indexOf('('+pn+')')>-1;});};
+  // --- card lists: names from each model's own doc, part numbers from clean tables ---
+  (R29('DL560 G10').cards.length===37 && has30(R29('DL560 G10').cards,'Q0L13A') && has30(R29('DL560 G10').cards,'874253-B21') && !has30(R29('DL560 G10').cards,'P08443-B21'))
+    ?pass25('DL560 G10 cards: 36 doc-listed adapters + M.2 kit; SN1200E 16Gb 1p is Q0L13A (the doc text prints Q0L11A, a shifted row); no E810 (not in its doc)')
+    :fail25('DL560 G10 cards wrong ('+R29('DL560 G10').cards.length+')');
+  (R29('DL580 G10').cards.length===37 && has30(R29('DL580 G10').cards,'878783-B21'))?pass25('DL580 G10 cards: same 37 as DL560 incl. the M.2 kit 878783-B21 (its V20 text prints 874253-B21 there — shifted)'):fail25('DL580 G10 cards wrong');
+  (has30(R29('DL160 G10').cards,'829335-B21') && !has30(R29('DL180 G10').cards,'829335-B21') && R29('DL160 G10').cards.length===23 && R29('DL180 G10').cards.length===22)
+    ?pass25('DL160 G10 lists the OP101 Omni-Path card, DL180 G10 does not (23 vs 22 cards)'):fail25('DL160/DL180 card lists wrong');
+  (R29('DL20 G10').cards.length===27 && has30(R29('DL20 G10').cards,'Q0F09A') && !has30(R29('DL20 G10').cards,'764284-B21'))?pass25('DL20 G10 cards: 27, incl. CN1300R, no InfiniBand'):fail25('DL20 G10 cards wrong');
+  // --- DL160/DL180: per-model kit table + no 128GB ---
+  reset27(); setModel25('DL160 G10'); pickCpuExact25('G6148');
+  { const sizes=[...d.querySelectorAll('#dimm-size-btns button')].map(function(b){return b.getAttribute('data-sz');}).join(',');
+    sizes==='8,16,32,64'?pass25('DL160 G10 offers 8/16/32/64GB only (no 128GB kit in its QuickSpecs)'):fail25('DL160 sizes: '+sizes); }
+  setv26('dimmq','4'); setv26('dimm','64GB 2666 MT/s');
+  /no 64GB kit for 1st Gen/.test(chk26())?pass25('DL160 G10 + 1st Gen + 64GB: flagged — the doc lists no 64GB DDR4-2666 kit (no LRDIMMs on this model)'):fail25('DL160 1st-Gen 64GB not flagged: '+chk26().slice(0,200));
+  pickCpuExact25('G6248'); setv26('dimm','64GB 2933 MT/s');
+  (/P00930-B21/.test(kit29()) && !/P00926/.test(kit29()) && !/MEMORY KIT/.test(chk26()))?pass25('DL160 G10 + 2nd Gen 64GB: RDIMM P00930-B21 only, no LRDIMM alternate'):fail25('DL160 64GB 2933 wrong: '+kit29());
+  setv26('dimm','128GB 2933 MT/s');
+  /MEMORY SIZE/.test(chk26())?pass25('a typed 128GB on DL160 G10 is stopped'):fail25('128GB on DL160 not stopped');
+  reset27(); setModel25('DL180 G10'); pickCpuExact25('G6148'); setv26('dimmq','4'); setv26('dimm','64GB 2666 MT/s');
+  (/815101-B21/.test(kit29()) && !/MEMORY KIT/.test(chk26()))?pass25('DL180 G10 + 1st Gen 64GB: the LRDIMM 815101-B21 (DL180 does list it)'):fail25('DL180 64GB 2666 wrong: '+kit29());
+  { const l=cpuList26(); (l.length===56 && l.indexOf('G6248')>-1 && l.indexOf('P8164')<0 && l.indexOf('P8280')<0)?pass25('DL180 G10 cpuAllow: 56 SKUs from its own doc (no 8164, no 82xx beyond 8253/8256)'):fail25('DL180 CPU list: '+l.length); }
+  reset27(); setModel25('DL160 G10'); { const l=cpuList26(); (l.length===57 && l.indexOf('P8164')>-1)?pass25('DL160 G10 cpuAllow: 57 SKUs incl. Platinum 8164'):fail25('DL160 CPU list: '+l.length); }
+  // --- DL20 / ML30 G10: E-2200 pool, UDIMM 8/16GB, 64GB max ---
+  reset27(); setModel25('DL20 G10');
+  { const l=cpuList26(); (l.indexOf('E-2278G')>-1 && l.indexOf('Pentium G5420')>-1 && l.indexOf('i3-9100')>-1 && l.indexOf('E-2288G')<0 && l.length===13)
+      ?pass25('DL20 G10 CPUs: the E-2200 table + Pentium G5420/i3-9100 + retired E-2124/E-2136; E-2288G (in neither doc) gone'):fail25('DL20 CPU list: '+l.join(','));
+    const sizes=[...d.querySelectorAll('#dimm-size-btns button')].map(function(b){return b.getAttribute('data-sz');}).join(',');
+    sizes==='8,16'?pass25('DL20 G10 memory sizes: 8/16GB UDIMM only'):fail25('DL20 sizes: '+sizes); }
+  pickCpuExact25('E-2236'); setv26('dimmq','4'); setv26('dimm','16GB 2666 MT/s');
+  (/879507-B21/.test(kit29()) && /Standard Memory Kit 879507/.test(kit29()) && !/OVER MEMORY/.test(chk26()))?pass25('DL20 G10: 4 x 16GB (64GB) shows the UDIMM kit 879507-B21 and fits'):fail25('DL20 kit/limit wrong: '+kit29());
+  setv26('ctrl','P408i-a LH (869081-B21)');
+  (/BATTERY/.test(chk26()) && /782961-B21/.test(chk26()) && /12W/.test(d.getElementById('bat-note').textContent))?pass25('DL20 G10 + P408i-a without a battery: 12W battery 782961-B21 required (checked) and suggested'):fail25('DL20 battery rule missing: '+chk26().slice(0,200)+' / '+d.getElementById('bat-note').textContent);
+  (/775612-B21/.test(rl29()) && /No cable management arm/.test(rl29()) && /866473-B21/.test(bz29()) && /867998-B21/.test(bz29()))?pass25('DL20 G10: short friction rail 775612-B21 (no CMA), bezel + intrusion kit hints'):fail25('DL20 rail/bezel wrong: '+rl29()+' / '+bz29());
+  reset27(); setModel25('ML30 G10'); { const l=cpuList26(); (l.indexOf('E-2278G')<0 && l.indexOf('E-2244G')>-1 && l.length===11)?pass25('ML30 G10 CPUs: its own 11-SKU list — the DL20-only E-2278G/E-2286G do not leak onto it'):fail25('ML30 CPU list: '+l.join(',')); }
+  // --- DL560/DL580 rails / bezel ---
+  reset27(); setModel25('DL580 G10'); setv26('bays','24SFF');
+  (/872151-B21/.test(rl29()) && /includes the cable management arm/.test(rl29()) && /869872-B21/.test(bz29()) && /867824-B21/.test(bz29()))?pass25('DL580 G10: 4U rail kit 872151-B21 includes the CMA; 4U bezel 869872-B21 + intrusion kit'):fail25('DL580 hints wrong: '+rl29()+' / '+bz29());
+  reset27(); setModel25('DL560 G10'); setv26('bays','24SFF');
+  (/733662-B21/.test(rl29()) && /720864-B21/.test(rl29()) && /720865-B21/.test(rl29()) && /No bezel/.test(bz29()))?pass25('DL560 G10: easy-install and ball-bearing rails with their CMAs; bezel note says no PN is listed'):fail25('DL560 hints wrong: '+rl29()+' / '+bz29());
+
   reset27();
 }

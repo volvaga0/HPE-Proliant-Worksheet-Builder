@@ -3330,3 +3330,42 @@ QA: 867 ok / 0 FAIL (25 new tests; 2 older tests that used DL380 G10 as the "mod
 8 model/bay rail+bezel+intrusion+iLO combos, card lists incl. a one-PN-one-name uniqueness check, the rear fix, all
 EDSFF bundle checks). Still open for DL360/DL380: `-001` spares (not in QuickSpecs), DL360 G11 has no bezel PN in
 its doc. Next per the agreed order: the G10+ AMD family. Build 2026.09.23.4. (`.claude/launch.json` now runs a small Node static server, `.claude/serve.js` — python is not installed on this machine.)
+
+## Full-rundown step 3: remaining G10 Intel racks — DL560/DL580/DL160/DL180/DL20 G10 (2026-09-23, build .5)
+
+User moved AMD to the back of the queue ("99% of the servers we deal in are intel") and asked for step 3. Sources:
+DL560 G10 V19 text (final revision) + V1 PDF; DL580 G10 V20 text + V16 PDF; DL160/DL180 G10 mid-life mirrors (raw,
+single-space rows — cleanly aligned) + current V32/V35; DL20 G10 mirror + V25; ML30 G10 mirror + V24.
+
+**Method for card/option part numbers (reusable for every remaining model).** Several texts have shifted PN columns
+(DL560 V19, DL580 V20, DL20 V25, DL160 V32, DL180 V35 all print whole blocks of adapters one row off — e.g. DL560 prints
+"SN1200E 16Gb 1p Q0L11A", which is the SN1600E's PN). So: product NAMES come from the model's own doc (which cards it
+offers); PART NUMBERS come from a name→PN map built only from `pdftotext -table` extractions (13 PDFs, no adapter name
+maps to two PNs; PNs with two names are just old-marketing vs chip naming). Chip-name aliases (X550-AT2 = 562T
+817738-B21 etc.) were admitted from the DL160 mirror only after all 9 of its cross-checkable rows agreed exactly.
+New helper `g10Cards(pns, extra)` filters the step-1 G10 master lists by PN, so every model shares one label per PN.
+
+**Per model:** DL560/DL580 — 36 doc-listed adapters + Universal SATA M.2 kit 878783-B21, shared sp1/sp2 memory kits,
+batteries, rails (DL560: easy-install 733662 + CMA 733664 or ball-bearing 720864 + CMA 720865; DL580: 4U kit 872151-B21
+with the CMA included — new `rails.cmaIncluded`), DL580 4U bezel 869872-B21 (+ OEM 869873-B21), intrusion 867824-B21;
+DL560's docs give no bezel/intrusion PN (bezelNote says so). DL160/DL180 — `cpuAllow` from their own docs (57/56;
+DL160 adds Platinum 8164), 23/22 cards (only DL160 has OP101), per-model kit tables (`dimmKits` can now be an object
+keyed by platform) and new `memCaps` (module sizes the doc lists: 8-64GB, no 128GB; DL160 lists no LRDIMM at all, so
+1st Gen + 64GB on DL160 is flagged — no 2666 64GB kit exists for it), rails/CMA, bezel/lock, intrusion, redundant fan
+kit PNs, Media Module adapters (in the notes — they use an on-board connector, not a PCIe slot). DL20 — see below.
+
+**Real errors found and fixed.**
+- **xeone platform (DL20 G10 + ML30 G10):** the tool offered 32GB modules and a 128GB ceiling; both docs say 8GB/16GB
+  UDIMM only, 64GB max (4 x 16GB). `MEM_CAPS.xeone` → [8,16], `MEM_PER_SOCKET.xeone` → 64, kits 879505/879507-B21.
+- **xeone CPU pool:** had 6 SKUs, 3 of them (E-2124/E-2136 fine — the DL20 doc confirms E-2100 support, since retired —
+  but E-2288G) in neither model's doc, and was missing 8 real ones (E-2226G/2234/2244G/2274G/2278G/2286G, Pentium G5420,
+  Core i3-9100). Added the 8 (specs from DL20's aligned table; ML30 V24's TDP column is shifted), and gave both models
+  a `cpuAllow` (DL20 13, ML30 11 — E-2278G/E-2286G are DL20-only). Pentium/i3 codes keep their brand prefix so they
+  never read as a Xeon Gold code. Both run memory at 2400 (`CPU_MEM_MAX`).
+- **DL20 battery:** it takes the 12W Smart Storage Battery 782961-B21, required with P408i-a/P408e-p (new `batReq`
+  verify). The cached-controller suggestion said "96W battery" for every model — it now names the model's own first
+  battery when that isn't a 96W one.
+
+QA: 886 ok / 0 FAIL (19 new). Verified in the browser (DL20 G10 end to end via the paste box). Still open on these:
+DL20 G10 riser count shows "not confirmed" (pre-existing); -001 spares. Next per the agreed order: G10+ Intel
+(DL20/DL110/ML30 G10+), then the other G11 Intel models, towers, G12; AMD and G9 last.
