@@ -439,7 +439,7 @@ setTimeout(()=>{
   d.getElementById('tp0').checked=true;fire(d.getElementById('tp0'),'change');
   txt.includes('Standard motherboard')?pass3('Standard motherboard shown by default'):fail3('motherboard default missing');
   txt.includes('No bezel')?pass3('No bezel shown by default'):fail3('bezel default missing');
-  txt.includes('No media bay')?pass3('No media bay shown by default'):fail3('media bay default missing');
+  /No optical drive|No media bay/.test(txt)?pass3('media bay default stated on the slip ("No optical drive")'):fail3('media bay default missing');
   // rails = "No" must clear the "rails" gap, not keep nagging
   d.getElementById('rl0').checked=true;fire(d.getElementById('rl0'),'change');
   { const s=d.getElementById('slip').textContent, need=(s.split('Still needed')[1]||'');
@@ -1023,8 +1023,8 @@ setTimeout(()=>{
   d.getElementById('media-note').textContent.includes('No media bay slot')
     ?pass3('DL110 G11: #media-note shows "no media bay" text'):fail3('DL110 G11 media-note: '+d.getElementById('media-note').textContent);
   setModel3('DL380 G11');
-  d.getElementById('media-note').textContent===''
-    ?pass3('DL380 G11: #media-note is empty (has a real media bay)'):fail3('DL380 G11 media-note not empty: '+d.getElementById('media-note').textContent);
+  (/P50728-B21/.test(d.getElementById('media-note').textContent) && !/No media bay slot/.test(d.getElementById('media-note').textContent))
+    ?pass3('DL380 G11: #media-note lists its real options (Universal Media Bay P50728-B21), not "no media bay"'):fail3('DL380 G11 media-note not empty: '+d.getElementById('media-note').textContent);
 
   // --- no 3.5in NVMe backplane ---
   setModel3('DL380 G10');
@@ -5170,6 +5170,25 @@ function runRound25(){
   /P13771-B21/.test(d.getElementById('tpm-note').textContent)?pass25('G10+ rack: TPM 2.0 Gen10 Plus Kit P13771-B21'):fail25('G10+ TPM note');
   reset27(); setModel25('DL380 G10'); setModel25('DL380 G11');
   d.getElementById('tp2').checked?pass25('switching from a module board (No TPM) to a built-in board moves the pick to TPM 2.0 (built in)'):fail25('TPM pick not moved on model switch');
+
+
+  // ===== Media bay pills per system (build 2026.09.23.14) =====
+  const md30=function(){return ['md0','md1','md2','md3','md4'].filter(function(id){return !d.getElementById(id).hidden;}).map(function(id){return d.querySelector('label[for='+id+']').textContent+(d.getElementById(id).checked?'*':'');}).join(' / ');};
+  reset27(); setModel25('DL380 G10');
+  (md30()==='No optical drive* / DVD-ROM (internal) / DVD-RW (internal) / Universal media bay / USB DVD-RW (external)' && /826708-B21/.test(d.getElementById('media-note').textContent) && /No optical drive/.test(slip27()))
+    ?pass25('DL380 G10: all four real options + "No optical drive" (on the slip), UMB kit 826708-B21 in the note'):fail25('DL380 G10 media: '+md30());
+  reset27(); setModel25('DL360 G10');
+  (md30().indexOf('Universal media bay')<0 && /868000-B21/.test(d.getElementById('media-note').textContent))?pass25('DL360 G10: no Universal Media Bay pill; note gives the 8SFF blank kit 868000-B21'):fail25('DL360 G10 media: '+md30());
+  reset27(); setModel25('DL345 G10+');
+  md30()==='No optical drive* / USB DVD-RW (external)'?pass25('DL345 G10+: external USB DVD-RW only (its doc lists no internal drive)'):fail25('DL345 G10+ media: '+md30());
+  d.getElementById('md1').checked=true; fire(d.getElementById('md1'),'change');
+  /MEDIA BAY.*lists no internal optical drive/.test(chk26())?pass25('...and a pasted/restored internal DVD on it is flagged'):fail25('DL345 internal DVD not flagged');
+  reset27(); setModel25('DL110 G10+');
+  (md30()==='No media bay on this chassis*' && /No media bay on this chassis/.test(slip27()))?pass25('DL110 G10+: single "No media bay on this chassis" (added to the no-media list)'):fail25('DL110 G10+ media: '+md30());
+  reset27(); paste28('DL380 G10, 2x 6248, usb dvd');
+  d.getElementById('md4').checked?pass25('paste "usb dvd" picks the external USB DVD-RW'):fail25('usb dvd paste not recognised');
+  reset27(); setModel25('DL380 G10'); d.getElementById('md3').checked=true; fire(d.getElementById('md3'),'change'); setModel25('DL360 G10');
+  d.getElementById('md0').checked?pass25('switching to a model without that option falls back to "No optical drive"'):fail25('hidden media pick kept');
 
   reset27();
 }

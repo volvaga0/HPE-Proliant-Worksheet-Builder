@@ -3553,3 +3553,22 @@ the older "keep the None default off the slip" rule on purpose: an absent line w
 The generic "TPM 2.0 is embedded" info check was dropped (the note says it, and it would now fire on every G11/G12);
 the module check names the kit PN (+ 872108-B21 for 1.2 mode); new flags for 1.2 mode on DL560 G10 and 2.0 on DL80 G9.
 QA: 977 ok / 0 FAIL (8 new; 6 older TPM tests re-worded). Browser-verified.
+
+## Media bay options relabelled per system (2026-09-23, build .14; user request — "same way as TPM")
+
+Every cached QuickSpecs scanned for internal optical drives (9.5mm SATA DVD-ROM 726536-B21 / DVD-RW 726537-B21), the
+HPE Mobile USB DVD-RW 701498-B21, the model's Universal Media Bay kit and the enablement / blank / cable kit the internal
+drive needs (names resolved from the docs; noise PNs — a USB key, NICs, risers — dropped by hand). New `MEDIA_INFO`
+table (all 60 models) + `applyMediaPills(m)` (global, called where the old media-note was set):
+
+- Pills: "No optical drive" (default) / "DVD-ROM (internal)" / "DVD-RW (internal)" — only where the doc lists them /
+  "Universal media bay" — only where a UMB kit exists (DL360 G9, DL380 G9-G12, DL385 G10-G11, DL345 G11, DL340 G12,
+  DL560 G9-G11, DL580 G10/G12) / new 5th pill "USB DVD-RW (external)" (value 'USB DVD-RW (external)').
+- External-only: DL80 G9, DL580 G9, DL345 G10+ (its doc lists only the USB drive). No media bay at all: DL110 G10+
+  (added to MEDIA_BAY_NONE), DL110 G11/G12, DL380a G12 — a single "No media bay on this chassis".
+- The note gives the PNs and the enablement kit by chassis (e.g. DL360 G10 8SFF needs blank kit 868000-B21); on UMB
+  models the internal drive is described as fitted in the UMB kit.
+- Slip states the pick with the relabelled wording ("No optical drive" etc.). Hidden picks fall back to "No optical
+  drive" on a model switch. New checks: internal drive on an external-only model (flag), UMB on a model without one
+  (flag), USB drive on a model whose doc doesn't list it (verify). Paste "usb/external/mobile dvd" → the USB pill.
+QA: 984 ok / 0 FAIL (7 new; 2 older tests re-worded). Browser-verified.

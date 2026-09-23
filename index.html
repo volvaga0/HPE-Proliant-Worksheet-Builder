@@ -559,6 +559,7 @@ button.quiet{color:var(--ink-soft)}
           <input type="radio" id="md1" name="media" value="DVD-ROM"><label for="md1">DVD-ROM</label>
           <input type="radio" id="md2" name="media" value="DVD-RW"><label for="md2">DVD-RW</label>
           <input type="radio" id="md3" name="media" value="Universal media bay"><label for="md3">Universal bay</label>
+          <input type="radio" id="md4" name="media" value="USB DVD-RW (external)"><label for="md4">USB DVD-RW (external)</label>
         </fieldset></div>
       </div>
 
@@ -3354,6 +3355,82 @@ var MEDIA_BAY_NONE=['DL110 G11','DL380a G12','DL110 G12'];
 function hasMediaBay(m){
   return !m||MEDIA_BAY_NONE.indexOf(m.m+' '+m.g)<0;
 }
+/* Media bay per model (2026-09-23, every cached QuickSpecs scanned). i = internal 9.5mm SATA DVD-ROM 726536-B21 /
+   DVD-RW 726537-B21 listed; u = HPE Mobile USB DVD-RW 701498-B21 listed; umb = the model's Universal Media Bay kit;
+   kit = the enablement / blank / cable kit the doc ties the internal drive to (by chassis). A model missing from the
+   table falls back to the old generic pills. MEDIA_BAY_NONE models get a single "No media bay on this chassis". */
+var MEDIA_INFO={
+ 'DL20 G9':{i:1,kit:'ODD power cable kit 816284-B21'},'DL60 G9':{i:1},'DL80 G9':{u:1},'DL120 G9':{i:1},'DL160 G9':{i:1},
+ 'DL180 G9':{i:1,u:1,kit:'ODD Enablement Kit 725582-B21'},
+ 'DL360 G9':{i:1,u:1,umb:'SFF DVD-RW/USB 764632-B21, SFF DVD/USB 818213-B21, SFF USB/VGA 764634-B21 or 2SFF SAS/SATA 764630-B21'},
+ 'DL380 G9':{i:1,u:1,umb:'724865-B21'},'DL560 G9':{i:1,u:1,umb:'795090-B21 (2SFF version 793479-B21)'},'DL580 G9':{u:1},
+ 'ML10 G9':{i:1,kit:'Slim ODD Enablement Kit 836742-B21'},'ML30 G9':{i:1},'ML110 G9':{i:1},'ML150 G9':{i:1},
+ 'ML350 G9':{i:1,kit:'SFF Media Cage Kit 726545-B21 or LFF Media Cage Kit 726561-B21'},
+ 'DL20 G10':{i:1,u:1,kit:'SFF ODD Enablement Kit P06677-B21, or LFF ODD Cable Kit P06681-B21'},
+ 'DL160 G10':{i:1,u:1,kit:'1U Gen10 8SFF ODD Enablement Kit 873961-B21'},'DL180 G10':{i:1,u:1,kit:'DL180 Gen10 SFF Optical Drive Enablement Kit 866951-B21'},
+ 'DL325 G10':{i:1,u:1,kit:'8SFF: 1U Gen10 8SFF ODD Enablement Kit 873961-B21; 4LFF: ODD Cable Kit P05968-B21'},
+ 'DL360 G10':{i:1,u:1,kit:'8SFF: DisplayPort/USB/Optical Drive Blank Kit 868000-B21'},
+ 'DL380 G10':{i:1,u:1,umb:'826708-B21'},'DL385 G10':{i:1,u:1,umb:'882097-B21'},'DL560 G10':{i:1,u:1,umb:'872267-B21'},'DL580 G10':{i:1,u:1,umb:'872267-B21'},
+ 'ML30 G10':{i:1,u:1,kit:'Slimline ODD Enablement Kit P06309-B21'},'ML110 G10':{i:1},
+ 'ML350 G10':{i:1,u:1,kit:'Slimline ODD Bay and Support Cable Kit 874577-B21 (RDX/LTO: Media Drive Support Cable Kit 874570-B21)'},
+ 'DL20 G10+':{i:1,u:1,kit:'SFF ODD Enablement Kit P06677-B21, or LFF ODD Cable Kit P06681-B21'},
+ 'DL325 G10+':{i:1,u:1,kit:'8SFF: ODD SATA/M.2 Enablement Kit P20423-B21; LFF: ODD SATA/M.2 Cable Kit P15911-B21'},
+ 'DL325 G10+ v2':{i:1,u:1,kit:'SFF: ODD SATA M.2 Cable Kit P39144-B21; LFF: P39141-B21'},
+ 'DL345 G10+':{u:1},
+ 'DL360 G10+':{i:1,u:1,kit:'8SFF: DisplayPort/USB/Optical Drive Blank Kit P40003-B21; LFF: Optical Cable P26459-B21'},
+ 'DL365 G10+':{i:1,u:1,kit:'8SFF: DisplayPort/USB/Optical Drive Blank Kit P40003-B21'},
+ 'DL380 G10+':{i:1,u:1,umb:'P14609-B21 (field upgrade P14611-B21)'},'DL385 G10+':{i:1,u:1,umb:'P14609-B21 (field upgrade P14611-B21)'},
+ 'DL385 G10+ v2':{i:1,u:1,umb:'P14609-B21 (field upgrade P14611-B21)'},
+ 'ML30 G10+':{i:1,u:1,kit:'Slimline ODD Enablement Kit P06309-B21'},
+ 'DL20 G11':{i:1,u:1,kit:'4SFF: ODD Direct Attach P65417-B21 or ODD Controller P65418-B21 Enablement Kit; 2LFF: ODD Enablement Kit P71917-B21'},
+ 'DL320 G11':{i:1,u:1,kit:'8SFF: DisplayPort/USB/Optical Drive Blank Kit P48926-B21; LFF: Optical Cable Kit P54641-B21'},
+ 'DL325 G11':{i:1,u:1,kit:'8SFF: DisplayPort/USB/Optical Drive Blank Kit P56654-B21; 4LFF: P56655-B21'},
+ 'DL345 G11':{i:1,u:1,umb:'P57857-B21',kit:'LFF: ODD/DisplayPort Enablement Kit P52150-B21 + ODD Cable Kit P59602-B21'},
+ 'DL360 G11':{i:1,u:1,kit:'8SFF: DisplayPort/USB/Optical Drive Blank Kit P48926-B21 (LFF has DisplayPort/USB only, P48914-B21)'},
+ 'DL365 G11':{i:1,u:1,kit:'2SFF DisplayPort ODD Blank Kit P56899-B21'},
+ 'DL380 G11':{i:1,u:1,umb:'P50728-B21 (SFF, Box 1)'},
+ 'DL385 G11':{i:1,u:1,umb:'P57857-B21',kit:'LFF: ODD/DisplayPort Enablement Kit P57889-B21 + ODD Cable Kit P63519-B21'},
+ 'DL560 G11':{i:1,u:1,umb:'P60500-B21'},
+ 'ML30 G11':{i:1,u:1,kit:'Optical Disk Drive Slimline Enablement Kit P65102-B21'},'ML110 G11':{i:1,u:1,kit:'ODD Cable Kit P57364-B21'},'ML350 G11':{i:1,u:1},
+ 'DL320 G12':{i:1,u:1},'DL340 G12':{i:1,u:1,umb:'P74749-B21',kit:'LFF: ODD/DisplayPort Enablement Kit P74752-B21; ODD USB-to-SATA signal cable P72199-B21'},
+ 'DL360 G12':{i:1,u:1,kit:'8SFF: Front DisplayPort/USB/Optical Drive Enablement Kit P72225-B21 (SFF/EDSFF hybrid: P72227-B21)'},
+ 'DL380 G12':{i:1,u:1,umb:'P74749-B21',kit:'LFF: ODD/DisplayPort Enablement Kit P74752-B21; ODD USB-to-SATA signal cable P72199-B21'},
+ 'DL580 G12':{i:1,u:1,umb:'P80447-B21'},'ML350 G12':{i:1,u:1,kit:'ODD USB-to-SATA signal cable P72199-B21'}
+};
+MEDIA_BAY_NONE.push('DL110 G10+');
+function mediaPills(m){
+  if(m&&!hasMediaBay(m))return [['No media bay on this chassis',1],['',0],['',0],['',0],['',0]];
+  var x=m&&MEDIA_INFO[m.m+' '+m.g];
+  if(!x)return [['None',1],['DVD-ROM',1],['DVD-RW',1],['Universal bay',1],['USB DVD-RW (external)',0]];
+  return [['No optical drive',1],['DVD-ROM (internal)',!!x.i],['DVD-RW (internal)',!!x.i],['Universal media bay',!!x.umb],['USB DVD-RW (external)',!!x.u]];
+}
+function mediaSlipText(m,val){
+  if(!m)return val;
+  var p=mediaPills(m),ids={'No media bay':0,'DVD-ROM':1,'DVD-RW':2,'Universal media bay':3,'USB DVD-RW (external)':4},i=ids[val];
+  return i==null?val:p[i][0]||val;
+}
+function mediaNoteText(m){
+  if(!m)return '';
+  if(!hasMediaBay(m))return 'No media bay slot on this chassis.';
+  var x=MEDIA_INFO[m.m+' '+m.g];if(!x)return '';
+  var parts=[];
+  if(x.i)parts.push('Internal 9.5mm SATA DVD-ROM 726536-B21 or DVD-RW 726537-B21'+(x.kit?' — needs '+x.kit:x.umb?' — fitted in the Universal Media Bay Kit '+x.umb+', which also carries front USB/DisplayPort':'')+'.');
+  else if(x.kit)parts.push(x.kit+'.');
+  if(x.umb&&(x.kit||!x.i))parts.push('Universal Media Bay Kit '+x.umb+' (optical drive and/or USB/DisplayPort in one front bay).');
+  if(x.u)parts.push((x.i?'Or the':'No internal optical drive on this chassis — the')+' external HPE Mobile USB DVD-RW 701498-B21.');
+  return parts.join(' ');
+}
+function applyMediaPills(m){
+  var p=mediaPills(m);
+  ['md0','md1','md2','md3','md4'].forEach(function(id,i){
+    var inp=document.getElementById(id),lab=document.querySelector('label[for="'+id+'"]');
+    if(p[i][0])lab.textContent=p[i][0];inp.hidden=lab.hidden=!p[i][1];inp.disabled=!p[i][1];
+  });
+  var cur=document.querySelector('input[name="media"]:checked');
+  if(!cur||cur.hidden)document.getElementById('md0').checked=true;
+  document.getElementById('media-note').textContent=mediaNoteText(m);
+}
+
 /* TPM (2026-09-15, checked directly against every Gen10/10-Plus/11/12
    model's own QuickSpecs). Gen9/10/10-Plus mostly ship ONE physical
    TPM 2.0 module with an official FIO SKU (872108-B21) to run it in
@@ -4345,7 +4422,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.23.13'; // 13th build shipped today
+var BUILD_VERSION='2026.09.23.14'; // 14th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4984,7 +5061,7 @@ function refreshDependents(){
     moboK==='always-nc'?'No embedded network controller on any '+(m.m+' '+m.g)+' board — always effectively "NC" whichever you pick here. Networking comes entirely from the FlexibleLOM/OCP field.'
     :moboK==='always-lom'?'Always ships with an embedded network controller on this chassis — there is no NC variant to pick.'
     :'NC boards ship without the network controller.';
-  document.getElementById('media-note').textContent=(m&&!hasMediaBay(m))?'No media bay slot on this chassis.':'';
+  applyMediaPills(m);
   applyTpmPills(m);
   var bpK=backplaneKind(m);
   document.getElementById('bp-note').textContent=
@@ -5878,7 +5955,17 @@ function evaluate(){
      is a hard stop, same treatment as the FlexibleLOM/OCP mismatch. */
   var media=r('media');
   if(media&&media!=='No media bay'&&m&&!hasMediaBay(m))
-    checks.push(['stop','NOT SUPPORTED',m.m+' '+m.g+' has no media bay slot on this chassis — select "None".']);
+    checks.push(['stop','NOT SUPPORTED',m.m+' '+m.g+' has no media bay slot on this chassis — select "No media bay on this chassis".']);
+  else if(media&&m&&MEDIA_INFO[m.m+' '+m.g]){
+    /* a pick this model's QuickSpecs don't list (can still arrive by paste or a restored draft) */
+    var mx=MEDIA_INFO[m.m+' '+m.g];
+    if((media==='DVD-ROM'||media==='DVD-RW')&&!mx.i)
+      checks.push(['flag','MEDIA BAY',m.m+' '+m.g+' lists no internal optical drive'+(mx.u?' — use the external USB DVD-RW (701498-B21).':'.')]);
+    else if(media==='Universal media bay'&&!mx.umb)
+      checks.push(['flag','MEDIA BAY',m.m+' '+m.g+' has no Universal Media Bay kit'+(mx.i?' — the internal optical drive fits without one.':'.')]);
+    else if(media==='USB DVD-RW (external)'&&!mx.u)
+      checks.push(['verify','MEDIA BAY','The '+m.m+' '+m.g+' QuickSpecs do not list the external USB DVD-RW (701498-B21) — any USB port will usually take it, but confirm.']);
+  }
 
   var fanReasons=[];
   if(R.fanNVMe&&hasNVMe)fanReasons.push('NVMe drives require high performance fans'+fanPart+'.');
@@ -6220,7 +6307,7 @@ function buildSlip(){
   if(r('bp'))L.push(r('bp'));
   if(v('cpu'))L.push(join(v('cpuq')?v('cpuq')+'x':'',v('cpu')));else gaps.push('processor');
   if(v('dimm'))L.push(join(v('dimmq')?v('dimmq')+'x':'',v('dimm')));else gaps.push('memory');
-  if(r('media'))L.push(r('media'));
+  if(r('media'))L.push(mediaSlipText(m,r('media')));
   if(v('ctrl')){
     var c=slipName(v('ctrl'));
     if(v('bat')&&v('bat').toLowerCase().indexOf('no battery')<0)c+=' + '+slipName(v('bat'));
@@ -6732,7 +6819,8 @@ function parseClientText(text){
       guess.push('SAS expander mentioned, but '+(m?('HPE never made an expander-card SKU for the '+m.m+' '+m.g+' — use a second controller instead'):'the system model wasn\'t identified, so the exact part can\'t be assumed')+'.');
     }
   }
-  if(/dvd-?rw/i.test(text)){document.getElementById('md2').checked=true;found.push('Media bay: DVD-RW');}
+  if(/\b(?:usb|external|mobile)\s*(?:dvd|optical)/i.test(text)){document.getElementById('md4').checked=true;found.push('Media bay: USB DVD-RW (external)');}
+  else if(/dvd-?rw/i.test(text)){document.getElementById('md2').checked=true;found.push('Media bay: DVD-RW');}
   else if(/dvd-?rom/i.test(text)){document.getElementById('md1').checked=true;found.push('Media bay: DVD-ROM');}
   else if(/universal media/i.test(text)){document.getElementById('md3').checked=true;found.push('Media bay: Universal');}
   var raidM=text.match(/raid\s*(0|1|5|6|10|50|60)\b/i);
