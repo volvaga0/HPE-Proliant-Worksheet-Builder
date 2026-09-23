@@ -3329,4 +3329,4 @@ backplane needs which. The list (with PNs) is a model note pointing at the HPE c
 QA: 867 ok / 0 FAIL (25 new tests; 2 older tests that used DL380 G10 as the "model with no own rail/card data" example now use DL385 G10). New tests cover: kits per CPU generation, alt kit, no odd-count flag on G10, G10+ still flagged,
 8 model/bay rail+bezel+intrusion+iLO combos, card lists incl. a one-PN-one-name uniqueness check, the rear fix, all
 EDSFF bundle checks). Still open for DL360/DL380: `-001` spares (not in QuickSpecs), DL360 G11 has no bezel PN in
-its doc. Next per the agreed order: the G10+ AMD family. Build 2026.09.23.4. ( now runs a small Node static server,  — python is not installed on this machine.)
+its doc. Next per the agreed order: the G10+ AMD family. Build 2026.09.23.4. (`.claude/launch.json` now runs a small Node static server, `.claude/serve.js` — python is not installed on this machine.)
