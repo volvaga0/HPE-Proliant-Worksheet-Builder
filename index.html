@@ -2770,7 +2770,7 @@ var MEM_SPEEDS={
  e3:[2133,2400],xeone:[2400,2666],xeone3:[2666,3200],xeone4:[4400],
  e5v3:[1600,1866,2133],e5v4:[1866,2133,2400],e5v3x4:[1600,1866,2133],e5v4x4:[1866,2133,2400],
  e7v3:[1333,1600,1866],e7v4:[2400],
- sp1:[2400,2666],sp2:[2666,2933],
+ sp1:[2133,2400,2666],sp2:[2133,2400,2666,2933],
  /* sp3 (2026-09-15, checked directly against DL110/DL360/DL380 G10+
     QuickSpecs): real DDR4 speed is CPU-tier-dependent, same pattern
     as sp5 below — Platinum/most Gold run the full 8-channel 3200
@@ -2809,6 +2809,14 @@ var MEM_CAPS={
    — a 5600 MT/s kit in a 4400 MT/s CPU runs at 4400, so the worksheet must not claim 5600 there.
    Applies to sp4 and sp5. CPUs missing here (the 4-socket 8450H/8460H/8468H) are simply not capped. */
 var CPU_MEM_MAX={
+ /* 1st/2nd Gen Xeon Scalable (sp1/sp2, DDR4) — max memory speed per processor from the Gen10 processor tables
+    (DL360/DL380/DL560/DL580/ML110/ML350 Gen10, clean table extractions only: 117 SKUs, no disagreement; Gold 5117
+    from its own table rows). Bronze 2133, Silver 2400, 1st Gen Gold 5100 2400 (5122: 2666), 2nd Gen Gold 5200 2666
+    (5222: 2933), Gold 6100/Platinum 8100 2666, Gold 6200/Platinum 8200 2933. */
+ 'B3104':2133,'B3106':2133,'B3204':2133,'B3206R':2133,
+ 'S4108':2400,'S4110':2400,'S4112':2400,'S4114':2400,'S4116':2400,'G5115':2400,'G5118':2400,'G5120':2400,'G5117':2400,'S4208':2400,'S4210':2400,'S4210R':2400,'S4214':2400,'S4214Y':2400,'S4214R':2400,'S4215':2400,'S4215R':2400,'S4216':2400,
+ 'G5122':2666,'G6126':2666,'G6128':2666,'G6130':2666,'G6132':2666,'G6134':2666,'G6134M':2666,'G6136':2666,'G6137':2666,'G6138':2666,'G6140':2666,'G6140M':2666,'G6142':2666,'G6142M':2666,'G6143':2666,'G6148':2666,'G6150':2666,'G6152':2666,'G6144':2666,'G6146':2666,'G6154':2666,'P8156':2666,'P8153':2666,'P8158':2666,'P8160':2666,'P8160M':2666,'P8164':2666,'P8165':2666,'P8168':2666,'P8170':2666,'P8176':2666,'P8170M':2666,'P8176M':2666,'P8180':2666,'P8180M':2666,'G5215':2666,'G5215L':2666,'G5215M':2666,'G5217':2666,'G5218':2666,'G5218B':2666,'G5218N':2666,'G5218R':2666,'G5220':2666,'G5220R':2666,'G5220S':2666,
+ 'G5222':2933,'G6208U':2933,'G6209U':2933,'G6210U':2933,'G6212U':2933,'G6222V':2933,'G6226':2933,'G6226R':2933,'G6230':2933,'G6230N':2933,'G6230R':2933,'G6234':2933,'G6238':2933,'G6238L':2933,'G6238M':2933,'G6238R':2933,'G6240':2933,'G6240L':2933,'G6240M':2933,'G6240R':2933,'G6240Y':2933,'G6242':2933,'G6242R':2933,'G6244':2933,'G6246':2933,'G6246R':2933,'G6248':2933,'G6248R':2933,'G6250':2933,'G6250L':2933,'G6252':2933,'G6252N':2933,'G6254':2933,'G6256':2933,'G6258R':2933,'G6262V':2933,'P8253':2933,'P8256':2933,'P8260':2933,'P8260L':2933,'P8260M':2933,'P8260Y':2933,'P8268':2933,'P8270':2933,'P8276':2933,'P8276L':2933,'P8276M':2933,'P8280':2933,'P8280L':2933,'P8280M':2933,
  /* Pentium G5420 and Core i3-9100 run memory at 2400 (DL20/ML30 Gen10 processor tables) */
  'Pentium G5420':2400,'i3-9100':2400,
  /* Pentium G6405 runs memory at 2666 (DL20/ML30 Gen10 Plus processor tables) */
@@ -4230,7 +4238,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.23.8'; // 8th build shipped today
+var BUILD_VERSION='2026.09.23.9'; // 9th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -6308,12 +6316,14 @@ var DIMM_SIZE_ALT='(128|256|16|32|64|96|8)';   // CAPTURING — every pattern be
 function grabMem(t){
   var tt=' '+String(t).toLowerCase()+' ';
   var noDrive='(?![^,;\\n]{0,24}(?:sas|sata|ssd|hdd|nvme|lff|sff|rpm|\\d{1,2}(?:\\.\\d)?\\s*k\\b))';
-  var spd='(?:\\s*[@,]?\\s*(\\d{4})\\s*(?:mt/s|mts|mhz)\\b)?';
+  /* a speed with a unit ("2933MHz", "2933 MT/s"), or a BARE real DDR speed right after the size ("2x 16GB 2666" — how
+     traders actually write it). A bare number only counts if it is a real DDR4/DDR5 speed and isn't a wattage. */
+  var spd='(?:\\s*[@,]?\\s*((?:2133|2400|2666|2667|2933|3200|4000|4400|4800|5200|5600|6400)(?!\\s*w\\b)(?!\\d)|\\d{4}(?=\\s*(?:mt/s|mts|mhz)))\\s*(?:mt/s|mts|mhz)?\\b)?';
   var m;
   if(m=tt.match(new RegExp('(\\d{1,2})\\s*[x*]\\s*'+DIMM_SIZE_ALT+'\\s*gb'+spd+noDrive,'i')))
-    return {q:+m[1],size:+m[2],speed:m[3]?+m[3]:null,raw:m[0]};   // 1=qty 2=size 3=speed
+    return {q:+m[1],size:+m[2],speed:m[3]?(+m[3]===2667?2666:+m[3]):null,raw:m[0]};   // 1=qty 2=size 3=speed
   if(m=tt.match(new RegExp(DIMM_SIZE_ALT+'\\s*gb\\s*[x*]\\s*(\\d{1,2})\\b'+spd+noDrive,'i')))
-    return {q:+m[2],size:+m[1],speed:m[3]?+m[3]:null,raw:m[0]};   // 1=size 2=qty 3=speed
+    return {q:+m[2],size:+m[1],speed:m[3]?(+m[3]===2667?2666:+m[3]):null,raw:m[0]};   // 1=size 2=qty 3=speed
   if(m=tt.match(new RegExp('\\b(?:dual|two|2)\\s+'+DIMM_SIZE_ALT+'\\s*gb\\b(?!\\s*(?:6g|12g|24g))','i')))
     return {q:2,size:+m[1],speed:null,raw:m[0]};   // 1=size
   return null;
@@ -6652,7 +6662,13 @@ function parseClientText(text){
   /* iLO license */
   if(/\bilo\b/i.test(text)){
     if(/\b(?:ilo\s*)?advanced\s*premium\b/i.test(text)){document.getElementById('il2').checked=true;found.push('iLO: Advanced Premium');}
-    else if(/\badvanced\b/i.test(text)){document.getElementById('il1').checked=true;found.push('iLO: Advanced');}
+    else if(/\badvanced\b|\bilo\s*adv\b/i.test(text)){document.getElementById('il1').checked=true;found.push('iLO: Advanced');}
+    /* "3 yr iLO" / "iLO 3yr" / "3 year iLO licence" = the iLO Advanced licence with N years of support */
+    else if(/\b\d\s*-?\s*(?:yrs?|years?)\s*(?:of\s*)?ilo\b|\bilo\b[^\n,;]{0,20}?\b\d\s*-?\s*(?:yrs?|years?)\b|\bilo\s*(?:licen[cs]e|lic)\b/i.test(text)){
+      document.getElementById('il1').checked=true;
+      var yrs=(text.match(/\b(\d)\s*-?\s*(?:yrs?|years?)\b/i)||[])[1];
+      found.push('iLO: Advanced'+(yrs?' ('+yrs+'-year licence)':''));
+    }
   }
 
   /* add-in cards — obvious GPUs / FC HBAs / storage controllers by known model
@@ -6668,7 +6684,9 @@ function parseClientText(text){
   ];
   var cardHitsRaw=[];  // {label, idx} — idx lets us look just before it for a qty
   cardPats.forEach(function(p){var mm=text.match(p[0]);if(mm)cardHitsRaw.push({label:p[1](mm),idx:mm.index});});
-  var cardCodeList=CARDLIST.map(function(c){return {code:c.match(/^\S+/)[0],label:c};})
+  /* 'iLO dedicated NIC' / 'Serial port kit' are onboard-feature reminders, not orderable cards — an "iLO" in a paste is
+     almost always the licence (handled above), so they never come from the generic code scan */
+  var cardCodeList=CARDLIST.filter(function(c){return !/^(iLO|Serial)\b/i.test(c);}).map(function(c){return {code:c.match(/^\S+/)[0],label:c};})
     .filter(function(x){return x.code.length>=3&&!/^\d+[x*]$/i.test(x.code)&&!/^\d+(\.\d+)?(gb|tb)$/i.test(x.code);})
     .filter(function(x,i,a){return a.findIndex(function(y){return y.code.toLowerCase()===x.code.toLowerCase();})===i;});
   var codeAlt=cardCodeList.map(function(x){return escRe(x.code);}).sort(function(a,b){return b.length-a.length;}).join('|');
@@ -6749,7 +6767,10 @@ document.getElementById('paste-fill').addEventListener('click',function(){
   res.guess.forEach(function(x){rows.push('<div class="paste-line guess"><b>CHECK</b><span>'+esc(x)+'</span></div>');});
   res.skip.forEach(function(x){rows.push('<div class="paste-line skip"><b>SKIPPED</b><span>'+esc(x)+'</span></div>');});
   box.innerHTML=rows.join('')||'<div class="paste-line skip"><b>—</b><span>Nothing recognisable found.</span></div>';
-  box.classList.add('on');run();});
+  box.classList.add('on');
+  /* a pasted processor narrows the memory speed/size buttons the same way picking it by hand does */
+  renderDimmBtns();
+  run();});
 
 /* ---------------- persistence ---------------- */
 /* collectState()/applyState() are the one shape shared by the localStorage

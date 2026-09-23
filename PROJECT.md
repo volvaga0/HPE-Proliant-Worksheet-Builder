@@ -3453,3 +3453,26 @@ that run line up with their names exactly, putting CX4121B = 817753-B21 (the 640
 
 QA: 937 ok / 0 FAIL (13 new). Browser-verified (ML350 G10 2P). Still open on G10/G10+ Intel: towers' slips print
 "No bezel" even where the bezel is standard (pre-existing); -001 spares (not in QuickSpecs).
+
+## Paste fixes from a real client request + G10 per-CPU memory speeds (2026-09-23, build .9)
+
+User pasted a real past request (10x DL380 G10 12LFF, 1x 5218, "2x 16GB 2666", P816i-a + Bat, 366FLR, 2x 800w, Rails,
+"3 yr iLo") — most of it filled, but not the memory speed. Found three problems, all fixed:
+
+- **Bare memory speed dropped.** `grabMem` only took a speed with a unit ("2666MHz"/"2666 MT/s"); a bare number was
+  deliberately ignored as ambiguous. Now a bare figure right after the size counts when it is a real DDR speed
+  (2133/2400/2666/2667/2933/3200/4000/4400/4800/5200/5600/6400) and not a wattage ("32GB 2400W" is still not a speed);
+  2667 normalises to 2666. A 2400 after a PSU line is not grabbed.
+- **"3 yr iLo" became a phantom card.** The generic CARDLIST code scan matched the first word of the reminder entry
+  "iLO dedicated NIC (already onboard)", so any "ilo" in a paste added that card (the rough edge noted at build .3).
+  The iLO/Serial reminder entries are now excluded from the scan, and "N yr iLO" / "iLO 3yr" / "iLO licence" / "ilo adv"
+  set iLO Advanced (with "N-year licence" in the paste summary).
+- **G10 memory speeds were never capped per processor**, so a 2nd Gen Gold 5218 (2666 max) still offered 2933, and
+  a Silver 4210 (2400) took 2933 without a check. Added `CPU_MEM_MAX` for all 118 sp1/sp2 SKUs from the clean table
+  extractions of 7 Gen10 docs (117 SKUs, no disagreement; Gold 5117 from its own table rows). Tiers match Intel: Bronze
+  2133, Silver 2400, Gold 51xx 2400 (5122 2666), Gold 52xx 2666 (5222 2933), Gold 61xx/Plat 81xx 2666, Gold 62xx/Plat
+  82xx 2933. `MEM_SPEEDS` sp1/sp2 gained 2133/2400 so Bronze/Silver parts still have a speed to offer. The existing
+  MEMORY SPEED stop now fires for G10 too. Also: the paste handler now re-renders the speed/size buttons after filling
+  (it only called run(), so a pasted CPU didn't narrow them — a hand-picked one always did).
+
+QA: 947 ok / 0 FAIL (10 new). Verified in the browser with the user's exact paste.

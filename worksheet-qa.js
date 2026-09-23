@@ -5082,5 +5082,23 @@ function runRound25(){
   reset27(); setModel25('ML30 G10');
   (R29('ML30 G10').ctrl.length===5 && R29('ML30 G10').cards.length===9)?pass25('ML30 G10: controller list (S100i + 4 PCIe) and 9 stand-up NICs'):fail25('ML30 G10 lists');
 
+
+  // ===== Paste: bare memory speed, "3 yr iLO", no phantom iLO card; G10 per-CPU memory speed caps (build 2026.09.23.9) =====
+  reset27(); paste28('10x\nDL380 G10 12LFF\n1x 5218 2.3Ghz 16C\n2x 16GB 2666\n4x 3.84TB SAS\n8x 6TB SAS\nP816i-a + Bat\n366FLR 1Gb 4P\n2x 800w\nRails\n3 yr iLo');
+  (d.getElementById('dimm').value==='16GB 2666 MT/s' && d.getElementById('dimmq').value==='2')?pass25('user-reported paste: bare "2x 16GB 2666" keeps the 2666 MT/s speed'):fail25('bare speed lost: "'+d.getElementById('dimm').value+'"');
+  (d.getElementById('il1').checked && /3-year licence/.test(d.getElementById('paste-result').textContent))?pass25('"3 yr iLo" → iLO Advanced (3-year licence)'):fail25('"3 yr iLo" not read as the licence');
+  ![...d.querySelectorAll('#cards [data-k=name]')].some(function(x){return /iLO dedicated NIC/.test(x.value);})?pass25('"iLo" in a paste no longer adds a phantom "iLO dedicated NIC" card'):fail25('phantom iLO card still added');
+  { const sp=speeds26(); (sp.indexOf(2933)<0 && sp.indexOf(2666)>-1)?pass25('pasted Gold 5218 narrows the speed buttons to 2666 max (was still offering 2933)'):fail25('5218 speeds: '+sp.join(',')); }
+  reset27(); paste28('DL360 G10, 1x Silver 4210, 4x 16GB 2933');
+  /MEMORY SPEED.*4210 runs memory at up to 2400/.test(chk26())?pass25('Silver 4210 + 2933 memory: stopped — the 4210 runs DDR4 at 2400'):fail25('4210 speed cap missing: '+chk26().slice(0,200));
+  reset27(); paste28('DL380 G10+, 2x 6330, 8x 32GB, 2x 800W 2400');
+  d.getElementById('dimm').value==='32GB'?pass25('a "2400" after the PSU line is not taken as the memory speed'):fail25('stray 2400 grabbed: '+d.getElementById('dimm').value);
+  reset27(); paste28('DL380 G10, 2x 6248, 8x 32GB 2400W');
+  d.getElementById('dimm').value==='32GB'?pass25('"32GB 2400W" is not read as a 2400 MT/s speed'):fail25('wattage read as speed: '+d.getElementById('dimm').value);
+  reset27(); setModel25('DL380 G10'); pickCpuExact25('B3204');
+  speeds26().join(',')==='2133'?pass25('Bronze 3204: DDR4-2133 only'):fail25('Bronze speeds: '+speeds26().join(','));
+  pickCpuExact25('G5222'); speeds26().indexOf(2933)>-1?pass25('Gold 5222 (the 52xx exception) keeps 2933'):fail25('5222 lost 2933');
+  pickCpuExact25('G6130'); (speeds26().indexOf(2666)>-1 && speeds26().indexOf(2933)<0)?pass25('1st Gen Gold 6130: 2666 max'):fail25('6130 speeds: '+speeds26().join(','));
+
   reset27();
 }
