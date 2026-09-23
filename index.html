@@ -1575,7 +1575,7 @@ var MODELS=[
  {m:'DL360', g:'G10+', p:['sp3'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
    rules:{fanWtext:'205W or higher',verified:true,hsW:150,hsWtext:'150W or higher',hsPart:'P26479-B21',riserMax:2,
      psuMax:2,fans:{one:5,two:7,perf:7},fanKit2P:{n:'Standard Fan Kit',pn:'P37861-B21'},pcie:{one:2,two:3},rear:[],
-     fanW:205,fanPart:'P26477-B21',fanNVMe:true,fanRear:true,fanGPU:true,dimmKits:true,cards:DL360G10P_CARDS,
+     fanW:205,fanPart:'P26477-B21',fanNVMe:true,fanRear:true,fanGPU:true,dimmKits:true,cards:DL360G10P_CARDS,ns204pFan:true,
      iloLic:true,iloNoPremium:true,
      rails:{kits:[{pn:'P26485-B21',n:'DL300 Gen10 Plus 1U SFF Easy Install Rail Kit',bays:['8SFF','10SFF']},{pn:'P26487-B21',n:'DL300 Gen10 Plus 1U LFF Easy Install Rail Kit',bays:['4LFF']}],cma:[{pn:'P26489-B21',n:'DL300 Gen10 Plus 1U Cable Management Arm for Rail Kit'}]},
      bezelKit:{pn:'867998-B21',n:'1U Gen10 Bezel Kit',lock:'875519-B21'},intrusion:{pn:'P14604-B21',n:'Gen10 Plus Chassis Intrusion Detection Kit'},
@@ -1620,7 +1620,7 @@ var MODELS=[
      rearMax:{SFF:{'2SFF':3},LFF:{'2LFF':2}},
      cpuAllow:['S4309Y','S4310','S4314','S4316','G5315Y','G5317','G5318N','G5318S','G5318Y','G5320','G6312U','G6314U','G6326','G6330','G6330N','G6334','G6336Y','G6338','G6338N','G6342','G6346','G6348','G6354','P8351N','P8352M','P8352S','P8352V','P8352Y','P8358','P8358P','P8360Y','P8362','P8368','P8380'],
      bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
-     dimmKits:true,fanW:206,fanPart:'P14608-B21',fanNVMe:true,fanRear:true,fanGPU:true,
+     dimmKits:true,fanW:206,fanPart:'P14608-B21',fanNVMe:true,fanRear:true,fanGPU:true,ns204pFan:true,
      iloLic:true,iloNoPremium:true,
      rails:{kits:[{pn:'P22018-B21',n:'DL38X Gen10 Plus 2U SFF Easy Install Rail Kit',bays:['8SFF','16SFF','24SFF']},{pn:'P22019-B21',n:'DL38X Gen10 Plus 2U LFF Easy Install Rail Kit',bays:['8LFF','12LFF']}],cma:[{pn:'P22020-B21',n:'DL38X Gen10 Plus 2U Cable Management Arm for Rail Kit'}]},
      bezelKit:{pn:'867809-B21',n:'Gen10 2U Bezel Kit',lock:'875519-B21'},intrusion:{pn:'P14604-B21',n:'Gen10 Plus Chassis Intrusion Detection Kit'},
@@ -1991,15 +1991,28 @@ var MODELS=[
        'No standard/performance heatsink choice — E5-2600 v3/v4 parts share one heatsink and it ships in the processor kit.']}},
  {m:'ML30', g:'G10', p:['xeone'], s:1, d:4,  tower:true, bays:['4LFF','6LFF','8SFF'],
    rules:{cpuAllow:['E-2124','E-2136','E-2224','E-2226G','E-2234','E-2236','E-2244G','E-2274G','E-2276G','Pentium G5420','i3-9100'],dimmKits:true,verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,rear:[],
+     ctrl:['S100i (embedded SW RAID, off by default — needs FIO Enable Smart Array SW RAID 784308-B21)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable — needs the Gen9 Smart Storage Battery Holder Kit 786710-B21 (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
+     cards:g10Cards(['647594-B21','811546-B21','615732-B21','652497-B21','656596-B21','813661-B21','867707-B21','817738-B21','727055-B21']),iloLic:true,
+     rails:{kits:[{pn:'874578-B21',n:'ML Gen10 Tower to Rack Conversion Kit with Sliding Rail Rack Shelf'}],cmaIncluded:true},
      psu:['350W Gold-level FIO (P21652-B21)','350W Bronze FIO — not EU Lot 9 / CE (820303-B21)','500W Flex Slot Platinum, needs RPS kit (865408-B21)','RPS Enablement Kit — 4U (P06305-B21)'],
      notes:['Front bays: 4LFF (expandable to 6LFF) or 8SFF.',
        'No rear drive bay — tower, front-only.',
        'Xeon E-2100 / E-2200, single socket, 4 UDIMM slots (max 64GB).',
        '2 fixed fans (1 system + 1 PCI fan module, P06303-B21) — non-hot-plug, non-redundant, no fan-kit choice.',
        'Standard PSU is a single non-hot-plug 350W (Gold, P21652-B21); a 500W Flex Slot Platinum (865408-B21) with the RPS Enablement Kit (P06305-B21) adds redundancy — 2 bays.',
-       '4 PCIe slots on the system board (slot 1 x16 from the CPU, slots 2-4 x4 from the PCH) — no riser cages.']}},
+       '4 PCIe slots on the system board (slot 1 x16 from the CPU, slots 2-4 x4 from the PCH) — no riser cages.',
+       'Memory: UDIMM only, 8GB (879505-B21) or 16GB (879507-B21) — 64GB maximum.',
+       'Stand-up cards carry part numbers in the picker. 10Gb adapters need the Front PCI Fan and Baffle Kit P06303-B21. A battery also needs the Battery Holder Kit 786710-B21.']}},
  {m:'ML110',g:'G10', p:['sp1','sp2'], s:1, d:6,  tower:true, bays:['4LFF','8LFF','8SFF','16SFF'],
    rules:{hsNoChoice:true,verified:true,psuMax:2,pcie:{one:5,two:5},riserMax:0,rear:[],
+     cpuAllow:['B3104','B3106','B3204','B3206R','G5120','G5122','G5215','G5218N','G5222','S4108','S4110','S4112','S4208','S4210','S4210R','S4214','S4214R','S4215','S4216'],
+     dimmKits:{sp1:{8:['815097-B21','8GB Single Rank x8 DDR4-2666 RDIMM'],16:['815098-B21','16GB Single Rank x4 DDR4-2666 RDIMM'],32:['815100-B21','32GB Dual Rank x4 DDR4-2666 RDIMM']},
+               sp2:{8:['P00918-B21','8GB Single Rank x8 DDR4-2933 RDIMM'],16:['P00922-B21','16GB Dual Rank x8 DDR4-2933 RDIMM','single-rank x4 P00920-B21'],32:['P00924-B21','32GB Dual Rank x4 DDR4-2933 RDIMM']}},
+     memCaps:[8,16,32],memPerSocket:192,iloLic:true,
+     bat:['96W Smart Storage Lithium-ion battery with 260mm cable — needs the Gen9 Smart Storage Battery Holder Kit 786710-B21 (P01367-B21)','Smart Storage Hybrid Capacitor with 260mm cable (P02381-B21)','No battery'],
+     cards:g10Cards(['647594-B21','811546-B21','652497-B21','615732-B21','652503-B21','656596-B21','813661-B21','817738-B21','727055-B21'],['NS204i-p NVMe PCIe3 x2 lanes boot device, 2x 480GB M.2 RAID 1 (P12965-B21)','Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit — S100i SATA only (878783-B21)']),
+     rails:{kits:[{pn:'874578-B21',n:'ML Gen10 Tower to Rack Conversion Kit with Sliding Rail Rack Shelf'}],cmaIncluded:true},
      psu:['350W ATX Kit','550W ATX Kit — standard','500W Flex Slot Platinum, needs RPS kit (865408-B21)','800W Flex Slot Platinum, needs RPS kit (865414-B21)','800W Flex Slot Titanium, needs RPS kit (865438-B21)','RPS Enablement Kit (supports 2 supplies)'],
      ctrl:['S100i (embedded SW RAID, off by default)','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
      notes:['No embedded/modular "-a" RAID controller — only S100i (built-in software RAID) and the 4 PCIe plug-in cards. No P824i-p or P816i-a.',
@@ -2009,16 +2022,28 @@ var MODELS=[
        '1st or 2nd Gen Xeon Scalable (no field upgrade between them), single socket, up to ~110W. 6 DIMM slots (6 channels, 1 per channel).',
        '2 fixed fans (1 system + 1 PCIe fan module). The optional Redundant Fan Kit needs the 800W Flex Slot redundant PSU and is required for a 2nd HDD cage with 15K SAS, any SAS SSD, or the A3 extended environment.',
        'Standard PSU is a 350W or 550W ATX (non-redundant); 500W/800W Flex Slot hot-plug supplies need the RPS Enablement Kit — 2 bays.',
-       '5 PCIe 3.0 slots on the system board — no riser cages.']}},
+       '5 PCIe 3.0 slots on the system board — no riser cages.',
+       'Memory: 8GB, 16GB or 32GB RDIMM only (192GB maximum);  a 1st Gen (Skylake) processor takes only the DDR4-2666 kits; a 2nd Gen (Cascade Lake) processor takes the DDR4-2933 kits. SmartMemory kit part numbers show under the memory field.',
+       'Stand-up cards carry part numbers in the picker. A battery also needs the Battery Holder Kit 786710-B21.']}},
  {m:'ML350',g:'G10', p:['sp1','sp2'], s:2, d:24, tower:true, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:86,hsWtext:'above 85W',psuMax:2,pcie:{one:4,two:8},riserMax:0,rear:[],
+     cpuAllow:['B3104','B3106','B3204','B3206R','G5115','G5118','G5120','G5122','G5215','G5215L','G5215M','G5217','G5218','G5218B','G5218R','G5220','G5220R','G5222','G6126','G6128','G6130','G6132','G6134','G6134M','G6136','G6138','G6140','G6140M','G6142','G6142M','G6144','G6146','G6148','G6150','G6152','G6154','G6208U','G6209U','G6210U','G6212U','G6222V','G6226','G6226R','G6230','G6230R','G6234','G6238','G6238L','G6238M','G6238R','G6240','G6240L','G6240M','G6240R','G6242','G6242R','G6244','G6246','G6246R','G6248','G6248R','G6250','G6250L','G6252','G6252N','G6254','G6256','G6258R','G6262V','P8153','P8156','P8158','P8160','P8160M','P8164','P8168','P8170','P8170M','P8176','P8176M','P8180','P8180M','P8253','P8256','P8260','P8260L','P8260M','P8260Y','P8268','P8270','P8276','P8276L','P8276M','P8280','P8280L','P8280M','S4108','S4110','S4112','S4114','S4116','S4208','S4210','S4210R','S4214','S4214R','S4215','S4215R','S4216'],
+     fans:{one:2,two:6,perf:6},fanPart:'874572-B21',fanBays:[],fanBaysReq:['12LFF','24SFF'],fanTwoCpu:true,
+     dimmKits:{sp1:{8:['815097-B21','8GB Single Rank x8 DDR4-2666 RDIMM'],16:['835955-B21','16GB Dual Rank x8 DDR4-2666 RDIMM','single-rank x4 815098-B21'],32:['815100-B21','32GB Dual Rank x4 DDR4-2666 RDIMM'],64:['815101-B21','64GB Quad Rank x4 DDR4-2666 LRDIMM'],128:['815102-B21','128GB Octal Rank x4 DDR4-2666 3DS LRDIMM']},
+               sp2:{8:['P00918-B21','8GB Single Rank x8 DDR4-2933 RDIMM'],16:['P00922-B21','16GB Dual Rank x8 DDR4-2933 RDIMM','single-rank x4 P00920-B21'],32:['P00924-B21','32GB Dual Rank x4 DDR4-2933 RDIMM'],64:['P00930-B21','64GB Dual Rank x4 DDR4-2933 RDIMM','quad-rank LRDIMM P00926-B21'],128:['P00928-B21','128GB Octal Rank x4 DDR4-2933 3DS LRDIMM']}},
+     bat:['96W Smart Storage Lithium-ion battery with 260mm cable (P01367-B21)','Smart Storage Hybrid Capacitor with 260mm cable (P02381-B21)','No battery'],
+     cards:g10Cards(['647594-B21','811546-B21','615732-B21','652497-B21','656596-B21','813661-B21','652503-B21','867707-B21','817738-B21','727055-B21','P08446-B21','P11338-B21','817718-B21','817753-B21','867328-B21','874253-B21','829335-B21','764284-B21','825110-B21','825111-B21','Q0L13A','Q0L14A','Q0L11A','Q0L12A','R2J62A','R2J63A','P9D93A','P9D94A','P9M75A','P9M76A','R2E08A','R2E09A','QW990A','N3U52A','N3U51A','E7Y06A','Q0F26A','Q0F09A'],['Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit — S100i SATA only, needs the Redundant Fan Cage Kit 874572-B21 (878783-B21)']),
+     rails:{kits:[{pn:'874578-B21',n:'ML Gen10 Tower to Rack Conversion Kit with Sliding Rail Rack Shelf'}],cmaIncluded:true},iloLic:true,
+     bezelNote:'The security bezel is standard on every ML350 Gen10 — nothing to order.',
      psu:['500W Low Halogen FIO (837074-B21)','500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal 277VAC/380VDC (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)','Flex Slot RPS Cage Kit + PDB (874571-B21)'],
      ctrl:['P816i-a — needs AROC Cable Kit, Redundant Fan Cage Kit 874572-B21 (804338-B21)','P408i-a — needs AROC Cable Kit (804331-B21)','E208i-a — needs AROC Cable Kit (804326-B21)','P408i-p — needs Mini-SAS Cable Kit (830824-B21)','P408e-p (804405-B21)','E208i-p — needs Mini-SAS Cable Kit (804394-B21)','E208e-p (804398-B21)','P824i-p — SFF only, needs Cable Kit P00614-B21 + Redundant Fan Cage Kit 874572-B21 (870658-B21)'],
      notes:['The 500W non-hot-plug PSU (837074-B21) is non-redundant and available on pre-configured models only.',
        'Controllers are the plain (non-LH) modular "-a" variants: P816i-a/P408i-a/E208i-a. Every -a card and the P824i-p (870658-B21) needs its own AROC/cable kit, and P816i-a and P824i-p also need the Redundant Fan Cage Kit (874572-B21).',
        'Front bays: 4LFF (expandable to 8LFF, then 12LFF) or 8SFF (expandable to 16SFF, then 24SFF).',
        'No rear drive bay — tower, front-only.',
-       'A 2-processor build needs the Redundant Fan Cage kit (874572-B21) — one fan cage plus 4 extra fans.',
+       'Fans: 1 processor ships with 2 fans. The Redundant Fan Cage Kit 874572-B21 (a fan cage plus 4 fans, 6 in total) is required for a 2nd processor, 12LFF/24SFF (all three boxes full), NVMe, M.2, GPUs, 10K/15K drives, P816i-a/P824i-p and most 10Gb-and-faster NICs.',
+       'Memory: a 1st Gen (Skylake) processor takes only the DDR4-2666 kits; a 2nd Gen (Cascade Lake) processor takes the DDR4-2933 kits. SmartMemory kit part numbers show under the memory field.',
+       'Stand-up cards carry part numbers in the picker (Ethernet, InfiniBand, Omni-Path, Fibre Channel, converged adapters).',
        'A GPU over 75W needs the external power cable kit.',
        'Up to 8 SFF NVMe with both NVMe riser boards (874569-B21) fitted; only 4 with one board fitted.',
        '8 PCIe slots on the system board: slots 1-4 on CPU 1, slots 5-8 on CPU 2 (max 4 with one processor). No card riser cages.',
@@ -2272,6 +2297,7 @@ var CPUS=[
  ['G6140','Xeon Gold 6140 · 18C 2.3GHz','sp1',140,18],
  ['G6140M','Xeon Gold 6140M · 18C 2.3GHz','sp1',140,18], // added 2026-09-18, sourced from DL580 G10 current QuickSpecs v20 — M-suffix = medium memory tier (2TB per socket), not a 4-socket marker
  ['G6142','Xeon Gold 6142 · 16C 2.6GHz','sp1',150,16],
+ ['G6142M','Xeon Gold 6142M · 16C 2.6GHz','sp1',150,16], // ML350 Gen10 V8 (2018)
  ['G6143','Xeon Gold 6143 · 16C 2.8GHz','sp1',205,16], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
  ['G6148','Xeon Gold 6148 · 20C 2.4GHz','sp1',150,20],
  ['G6150','Xeon Gold 6150 · 18C 2.7GHz','sp1',165,18],
@@ -2289,6 +2315,8 @@ var CPUS=[
  ['P8168','Xeon Platinum 8168 · 24C 2.7GHz','sp1',205,24],
  ['P8170','Xeon Platinum 8170 · 26C 2.1GHz','sp1',165,26], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
  ['P8176','Xeon Platinum 8176 · 28C 2.1GHz','sp1',165,28],
+ ['P8170M','Xeon Platinum 8170M · 26C 2.1GHz','sp1',165,26], // ML350 Gen10 V8 (2018)
+ ['P8176M','Xeon Platinum 8176M · 28C 2.1GHz','sp1',165,28], // ML350 Gen10 V8 (2018)
  ['P8180','Xeon Platinum 8180 · 28C 2.5GHz','sp1',205,28],
  ['P8180M','Xeon Platinum 8180M · 28C 2.5GHz','sp1',205,28], // added 2026-09-18, sourced from DL360 G10 QuickSpecs
  ['B3204','Xeon Bronze 3204 · 6C 1.9GHz','sp2',85,6],
@@ -4202,7 +4230,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.23.7'; // 7th build shipped today
+var BUILD_VERSION='2026.09.23.8'; // 8th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -5742,8 +5770,11 @@ function evaluate(){
   if(R.fanGPU&&hasGPU)fanReasons.push('GPUs and accelerators require high performance fans'+fanPart+'.');
   if(R.fanDimmGB&&dsize>=R.fanDimmGB)fanReasons.push(dsize+'GB memory modules require high performance fans'+fanPart+'.');
   if(R.hiNic&&hiNicNames.length)fanReasons.push('A 100Gb-or-faster adapter ('+slipName(hiNicNames[0])+') requires the high performance fan kit'+fanPart+'.');
-  if(cardNames.some(function(n){return /NS204i-p/i.test(n);}))fanReasons.push('The NS204i-p boot device requires the high performance fan kit'+fanPart+'.');
+  if(R.ns204pFan&&cardNames.some(function(n){return /NS204i-p/i.test(n);}))fanReasons.push('The NS204i-p boot device requires the high performance fan kit'+fanPart+'.');
   (R.fanBays||[]).forEach(function(b){if(bays.indexOf(b)>-1)fanReasons.push(b+' ships with high performance fans as standard.');});
+  /* fanBaysReq: bay configs whose doc makes the fan kit REQUIRED (towers) rather than shipping it as standard */
+  (R.fanBaysReq||[]).forEach(function(b){if(bays.indexOf(b)>-1)fanReasons.push(b+' requires the fan kit'+fanPart+'.');});
+  if(R.fanTwoCpu&&cpuq>=2)fanReasons.push('A second processor requires the fan kit'+fanPart+'.');
   if(R.edsffBundle&&/EDSFF/i.test(bays))fanReasons.push('The EDSFF bundle (required on the EDSFF chassis) needs the high performance fan kit'+fanPart+'.');
   /* fanWtext is the threshold as the model's own QuickSpecs words it ("above 205W",
      "205W or higher") — same idea as hsWtext for heatsinks */

@@ -5049,5 +5049,38 @@ function runRound25(){
   reset27(); setModel25('DL380 G11'); addCard27('Secure Network Adapter 10/25Gb 2p SFP28 NVMe-oF crypto (S2A69A)');
   !/GPUs and accelerators require/.test(chk26()+d.querySelector('.col-form').textContent)?pass25('DL380 G11: the S2A69A crypto NIC is not mistaken for a GPU (its label used to start with "NVIDIA")'):fail25('crypto NIC still triggers the GPU fan rule');
 
+
+  // ===== G10 towers: ML30 / ML110 / ML350 Gen10; NS204i-p fan rule scoped (build 2026.09.23.8) =====
+  // --- NS204i-p needs the fan kit on DL360/DL380 Gen10 Plus only ---
+  reset27(); setModel25('DL380 G10'); pickCpuExact25('G6248'); setv26('bays','8SFF');
+  addCard27('NS204i-p NVMe PCIe3 x2 lanes boot device, 2x 480GB M.2 RAID 1 (P12965-B21)');
+  fanState27()!=='Perf Fans'?pass25('DL380 G10 + NS204i-p: no fan-kit requirement (that rule is Gen10 Plus only)'):fail25('DL380 G10 NS204i-p wrongly forces perf fans');
+  reset27(); setModel25('DL360 G10+'); pickCpuExact25('G6330'); setv26('bays','8SFF');
+  addCard27('NS204i-p NVMe PCIe3 x2 lanes boot device — needs High Performance Fan Kit (P12965-B21)');
+  fanState27()==='Perf Fans'?pass25('DL360 G10+ + NS204i-p: still forces the High Performance Fan Kit'):fail25('DL360 G10+ NS204i-p fan rule lost');
+  // --- ML350 G10 fans: required kit, not "ships standard" ---
+  reset27(); setModel25('ML350 G10'); pickCpuExact25('G6248'); setv26('cpuq','1'); setv26('bays','8SFF');
+  fanState27()!=='Perf Fans'?pass25('ML350 G10 1P 8SFF: standard fans'):fail25('ML350 1P wrongly on the fan kit');
+  setv26('cpuq','2');
+  (fanState27()==='Perf Fans' && /second processor requires the fan kit.*874572-B21/.test(d.querySelector('.col-form').textContent))?pass25('ML350 G10 2P: Redundant Fan Cage Kit 874572-B21 required'):fail25('ML350 2P fan rule missing: '+fanState27());
+  setv26('cpuq','1'); setv26('bays','24SFF');
+  (/24SFF requires the fan kit/.test(d.querySelector('.col-form').textContent) && !/24SFF ships with high performance fans/.test(d.querySelector('.col-form').textContent))
+    ?pass25('ML350 G10 24SFF: "requires the fan kit", not the rack wording "ships with high performance fans"'):fail25('ML350 24SFF fan wording wrong');
+  { const l=cpuList26(); (l.length===109 && ['G6142M','P8170M','P8176M','P8280M','S4108'].every(function(c){return l.indexOf(c)>-1;}))?pass25('ML350 G10: 109 processors (1st Gen from the 2018 doc + 2nd Gen from 2020), incl. the 3 added M-suffix parts'):fail25('ML350 CPUs: '+l.length); }
+  pickCpuExact25('G6248'); setv26('dimmq','12'); setv26('dimm','128GB 2933 MT/s');
+  (/P00928-B21/.test(kit29()) && !/P11040/.test(kit29()))?pass25('ML350 G10 128GB 2nd Gen: its doc\'s 3DS kit P00928-B21'):fail25('ML350 128GB: '+kit29());
+  { const c=R29('ML350 G10').cards; (c.length===39 && c.some(function(x){return /\(874253-B21\)/.test(x);}) && c.some(function(x){return /\(P08446-B21\)/.test(x);}))?pass25('ML350 G10 cards: 38 doc-listed (shifted V23 column realigned) + M.2 kit'):fail25('ML350 cards: '+c.length); }
+  // --- ML110 G10 ---
+  reset27(); setModel25('ML110 G10');
+  { const l=cpuList26(); (l.length===19 && l.indexOf('G5218N')>-1 && l.indexOf('G6248')<0)?pass25('ML110 G10: its 19 low-TDP processors only'):fail25('ML110 CPUs: '+l.length); }
+  { const sizes=[...d.querySelectorAll('#dimm-size-btns button')].map(function(b){return b.getAttribute('data-sz');}).join(',');
+    sizes==='8,16,32'?pass25('ML110 G10: 8/16/32GB only'):fail25('ML110 sizes: '+sizes); }
+  pickCpuExact25('S4110'); setv26('dimmq','6'); setv26('dimm','32GB 2400 MT/s');
+  (/815100-B21/.test(kit29()) && /192GB/.test(d.getElementById('mem-note').textContent))?pass25('ML110 G10 1st Gen 32GB: 815100-B21, 192GB ceiling'):fail25('ML110 mem: '+kit29()+' / '+d.getElementById('mem-note').textContent);
+  (/P01367-B21/.test(R29('ML110 G10').bat.join()) && /874578-B21/.test(rl29()))?pass25('ML110 G10: 260mm battery P01367-B21, tower-to-rack kit'):fail25('ML110 bat/rails');
+  // --- ML30 G10 ---
+  reset27(); setModel25('ML30 G10');
+  (R29('ML30 G10').ctrl.length===5 && R29('ML30 G10').cards.length===9)?pass25('ML30 G10: controller list (S100i + 4 PCIe) and 9 stand-up NICs'):fail25('ML30 G10 lists');
+
   reset27();
 }

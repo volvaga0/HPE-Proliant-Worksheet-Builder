@@ -3425,3 +3425,31 @@ ML350 (57); ML30 G11 95W CPUs need heatsink P65108-B21.
 
 QA: 924 ok / 0 FAIL (22 new; 3 older tests re-pointed/relabelled). Verified in the browser (DL20 G11 via paste).
 Next: G12 (Intel, all 8 models), then towers' leftovers, AMD, G9.
+
+## G10 towers: ML30 / ML110 / ML350 Gen10 full rundown (2026-09-23, build .8)
+
+User re-scoped (2026-09-23): "hyper focus on g10 and g10+"; G11 lower, G12 not for now. The three G10 towers were the
+last Intel G10/G10+ models below full depth (only AMD G10/G10+ remain after this).
+
+Sources: ML30 G10 mirror (V16) + V15 PDF; ML110 G10 official 2019 copy + V36 (Sep 2024) PDF; ML350 G10 V23 (2020) text +
+V8 (2018) text + V1 (2017) PDF. `ml350g10.pdf` in an old scratchpad extracts as shifted-glyph garbage (font encoding) —
+not used. ML350's V23 text has its PN column shifted by several rows; names resolved through the clean map, and the two
+names it has no entry for (CX4121B, CX556A) were placed by aligning the shifted column in order — all 11 known PNs in
+that run line up with their names exactly, putting CX4121B = 817753-B21 (the 640SFP28) and CX556A = 874253-B21 (the
+842QSFP28), i.e. both are chip-name aliases of cards already in the list.
+
+- **ML350 G10:** 109-SKU `cpuAllow` (1st Gen from V8 + 2nd Gen from V23; added Gold 6142M, Platinum 8170M/8176M to
+  CPUS — table and FIO-kit list agree), per-model DDR4 kits (128GB = the 3DS P00928/815102, not the shared P11040),
+  38 cards, 260mm battery, tower-to-rack kit, bezel standard. **Fans fixed:** it inherited the rack G10 rule "12LFF/24SFF
+  ship with high performance fans as standard" — on this tower the Redundant Fan Cage Kit 874572-B21 is REQUIRED for
+  2 processors, full 12LFF/24SFF, NVMe, M.2, GPUs, 10K/15K drives etc. New keys `fanBaysReq` and `fanTwoCpu`;
+  `fans:{one:2,two:6,perf:6}`.
+- **ML110 G10:** 19-SKU `cpuAllow`, 8/16/32GB only (192GB max over 6 slots), kits, 260mm battery + holder kit, cards incl.
+  NS204i-p and the M.2 AIC, tower-to-rack kit.
+- **ML30 G10:** controller list (it had none), battery + holder kit, 9 cards, tower-to-rack kit.
+- **Bug fixed (introduced earlier today):** "NS204i-p requires the high performance fan kit" was a blanket rule — true on
+  DL360/DL380 G10+ only. Now `ns204pFan` on those two; picking the NS204i-p on DL360/DL380 G10, DL20/DL110/ML30 G10+ or
+  ML110 G10 no longer forces performance fans.
+
+QA: 937 ok / 0 FAIL (13 new). Browser-verified (ML350 G10 2P). Still open on G10/G10+ Intel: towers' slips print
+"No bezel" even where the bezel is standard (pre-existing); -001 spares (not in QuickSpecs).
