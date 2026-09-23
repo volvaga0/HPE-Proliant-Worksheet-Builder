@@ -3390,3 +3390,38 @@ ML30 V22 texts checked for list changes (none) but NOT used for values — their
 
 QA: 901 ok / 0 FAIL (15 new). Verified in the browser (ML30 G10+ with E-2388G). Small pre-existing oddity noticed, not
 changed: tower slips say "No bezel" even where the doc says the bezel is standard.
+
+## G11 Intel: DL20 / DL110 / DL320 / DL560 / ML30 / ML110 / ML350 Gen11 full rundown (2026-09-23, build .7)
+
+Sources: the cached G11 mirrors (V5-V22, 2023-2025; raw single-line rows, cross-checked row-by-row against clean table
+extractions — they were aligned throughout), DL560 G11 V5 PDF, ML350 G11 V42 (Apr 2026) + V22 PDFs (`-table`).
+
+**Real errors fixed.**
+- **DL20 G11 / ML30 G11 were on the Gen10 Plus E-2300 DDR4 platform** (`xeone3`). Both docs: Xeon E-2400 / Pentium
+  G7400, DDR5 UDIMM 16GB/32GB (P64336/P64339-B21), every CPU runs memory at 4400, 128GB max. New platform `xeone4`
+  (label, MEM_DDR 5, speeds [4400], caps [16,32], 128GB/socket, kit table) + the 9 CPUs; `cpuAllow` on both.
+- **DL110 G11 had 16 DIMM slots; the doc says 8** (8 channels, 1DPC, 1TB = 8 x 128GB). Also added its 5 telco N-suffix
+  Gold CPUs (5423N/6403N/6423N/6433N/6443N — its processor table and option-kit list agree) and the doc rule that the
+  5423N bars the secondary riser (new `cpuNoSecRiser` stop).
+- **128GB/256GB kits differ by model.** Two real 128GB families (Dual Rank x4 P69974/P69976 vs Quad Rank x4 3DS
+  P43334/P64709) and two 256GB (Quad Rank P90050/P90554 vs Octal Rank P43337/P64710). DL360/DL380 keep the shared
+  table; the others now carry their own doc's kits (`dimmKits` object) and `memCaps` (DL110 16-128, DL320 16-128 incl.
+  96, ML110 16-96, DL560 16-256 (no 96), ML350 all). ML350's current V42 dropped the 3DS 128GB and all 256GB kits —
+  kept from V22 as alternates/refurb (same "don't trust a pruned current doc" rule).
+- **The DL360/DL380 Gen11 memory-population checks (even DIMM count, 96GB quantities, EE-LCC 96/128GB block) were
+  firing on any model with `dimmKits`.** New `memRules:false` for models whose doc doesn't state them (DL20/DL110/
+  DL320/ML30/ML110/ML350); DL560 keeps them — its doc says "DIMMs should be installed in quantities of even numbers".
+- **GPU false positive:** DL380 G11's S2A69A crypto NIC label started with "NVIDIA", which the GPU detector keys on —
+  renamed ("Secure Network Adapter ..."). No card label may contain "NVIDIA" (R8M41A was already "NV60100M ...").
+- **DL110 G10+:** its two newer Intel cards now have part numbers (E810-XXVDA4T P41636-B21, E810-2CQDA2 P41611-B21) —
+  sourced from DL110 G11's aligned doc; the G10+ V18 text shows the same PNs in its shifted column next to those names.
+
+**Added for all seven:** PSU + controller lists with PNs (none had them), OCP adapter lists (`g11Ocp`, replacing the
+shared OCP_CARDS fallback), stand-up cards (`g11Cards` over the G11 lists + new `G11_EXTRA_CARDS`), battery (Gen11
+towers/DL560 use the 260mm-cable P01367/P02381; ML350 needs cable kit P58199 for the 145mm ones), NS204i-u boot kits
+per model, rails (DL320 by chassis — Rail 1/2/9 with their CMAs; rail hint now falls back to "listed for …" when the
+chassis has no named kit, e.g. DL320 10SFF), bezel/intrusion, iLO Advanced-only; `cpuAllow` for DL320 (40), ML110 (18),
+ML350 (57); ML30 G11 95W CPUs need heatsink P65108-B21.
+
+QA: 924 ok / 0 FAIL (22 new; 3 older tests re-pointed/relabelled). Verified in the browser (DL20 G11 via paste).
+Next: G12 (Intel, all 8 models), then towers' leftovers, AMD, G9.

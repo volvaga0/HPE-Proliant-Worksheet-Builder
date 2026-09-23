@@ -3661,7 +3661,7 @@ function runRound23(){
 
   // the shared OCP_CARDS fallback (used by G11/G12, and any future
   // unrecognized model) has 2 real bugs fixed this pass
-  setModel23('DL320 G11'); // no flr:[] override (DL360/DL380 G11 have their own now), falls back to OCP_CARDS
+  setModel23('DL325 G11'); // no flr:[] override (most Intel G11 models have their own now), falls back to OCP_CARDS
   f23=flrOpts23();
   (f23.some(function(o){return /^BCM57416 10Gb 2p \(P10097-B21\)/.test(o);}) && f23.some(function(o){return /^BCM57412 10Gb 2p \(P26256-B21\)/.test(o);}) && f23.some(function(o){return /^QL41132HQCU 10Gb 2p/.test(o);}) && !f23.some(function(o){return /^QL41132HQCU 10\/25Gb/.test(o);}))
     ?pass23('shared OCP_CARDS: BCM57412/57416 part-number swap fixed, QL41132HQCU/HQRJ "10/25Gb" mislabel fixed to plain 10Gb')
@@ -4254,7 +4254,7 @@ function runRound25(){
   { const o=cardOpts27();
     (o.length===32 && o.every(function(x){return /\((?:[0-9P][0-9A-Z]{5}-[0-9A-Z]{3}|[RS][0-9][A-Z0-9]{3}A)\)$/.test(x)||/\(.*(?:[0-9P][0-9A-Z]{5}-[0-9A-Z]{3}).*\)$/.test(x);}))
       ?pass25('DL380 G11 card picker: 32 stand-up NIC / InfiniBand / FC / NS204i-u options, every one carrying its part number'):fail25('DL380 card list wrong ('+o.length+'): '+o.slice(0,4).join(' | '));
-    ['E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','BCM57608 100Gb 2p QSFP112 (P73111-B21)','SN1610Q 32Gb FC 1p (R2E08A)','SN1700E 64Gb FC 2p (R7N78A)','NVIDIA 10/25Gb 2p SFP28 NVMe-oF crypto (S2A69A)','I350-T4 1Gb 4p BASE-T (P21106-B21)'].every(function(x){return o.indexOf(x)>-1;})
+    ['E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','BCM57608 100Gb 2p QSFP112 (P73111-B21)','SN1610Q 32Gb FC 1p (R2E08A)','SN1700E 64Gb FC 2p (R7N78A)','Secure Network Adapter 10/25Gb 2p SFP28 NVMe-oF crypto (S2A69A)','I350-T4 1Gb 4p BASE-T (P21106-B21)'].every(function(x){return o.indexOf(x)>-1;})
       ?pass25('DL380 G11 card picker carries the doc\'s PNs (E810-XXVDA2 P08443-B21, BCM57608 P73111-B21, SN1610Q R2E08A, SN1700E R7N78A, the crypto card S2A69A, I350-T4 P21106-B21)'):fail25('DL380 card PNs missing');
     (!o.some(function(x){return /NVIDIA (?:A|L|H|T)\d|Tesla/.test(x);}))?pass25('no GPUs in the DL380 G11 stand-up list (out of scope)'):fail25('a GPU is in the list'); }
   reset27(); setModel25('DL360 G11');
@@ -4998,7 +4998,56 @@ function runRound25(){
   pickCpuExact25('G6330'); setv26('dimmq','8'); setv26('dimm','128GB 2933 MT/s');
   (/P06037-B21/.test(kit29()) && /1TB/.test(d.getElementById('mem-note').textContent))?pass25('DL110 G10+: 8 x 128GB = 1TB, kit P06037-B21, 1TB ceiling'):fail25('DL110 memory: '+kit29()+' / '+d.getElementById('mem-note').textContent);
   (/P50427-B21/.test(rl29()) && /P50420-B21/.test(rl29()))?pass25('DL110 G10+: rail kit P50427-B21 names the required ear kit P50420-B21'):fail25('DL110 rails: '+rl29());
-  { const c=R29('DL110 G10+').cards; (c.length===11 && c.some(function(x){return /E810-2CQDA2.*not listed/.test(x);}))?pass25('DL110 G10+ cards: 8 sourced + 2 named-without-PN (not guessed) + NS204i-p'):fail25('DL110 cards: '+c.length); }
+  { const c=R29('DL110 G10+').cards; (c.length===11 && c.some(function(x){return /E810-2CQDA2.*P41611-B21/.test(x);}))?pass25('DL110 G10+ cards: 10 with part numbers (the two newer Intel cards sourced from the DL110 Gen11 doc) + NS204i-p'):fail25('DL110 cards: '+c.length); }
+
+
+  // ===== G11 Intel: DL20 / DL110 / DL320 / DL560 / ML30 / ML110 / ML350 Gen11 (build 2026.09.23.7) =====
+  // --- xeone4: DL20/ML30 Gen11 are E-2400 + DDR5, not the E-2300/DDR4 pool they used to share with Gen10 Plus ---
+  ['DL20 G11','ML30 G11'].forEach(function(label){
+    reset27(); setModel25(label);
+    const l=cpuList26();
+    (l.length===9 && l.indexOf('E-2488')>-1 && l.indexOf('Pentium G7400')>-1 && l.indexOf('E-2388G')<0)
+      ?pass25(label+': the 9 E-2400/Pentium G7400 processors from its doc — no Gen10 Plus E-2300 parts'):fail25(label+' CPU list: '+l.join(','));
+    const sizes=[...d.querySelectorAll('#dimm-size-btns button')].map(function(b){return b.getAttribute('data-sz');}).join(',');
+    const speeds=speeds26().join(',');
+    (sizes==='16,32' && speeds==='4400')?pass25(label+': DDR5 UDIMM 16/32GB at 4400 MT/s only'):fail25(label+' memory: sizes '+sizes+' speeds '+speeds);
+    pickCpuExact25('E-2456'); setv26('dimmq','4'); setv26('dimm','32GB 4400 MT/s');
+    (/P64339-B21/.test(kit29()) && !/OVER MEMORY/.test(chk26()))?pass25(label+': 4 x 32GB (128GB) fits, kit P64339-B21'):fail25(label+' 32GB: '+kit29());
+  });
+  reset27(); setModel25('ML30 G11'); pickCpuExact25('E-2488');
+  (hsState25()==='Perf Heatsinks' && /P65108-B21/.test(chk26()))?pass25('ML30 G11 + 95W E-2488: High Performance Heat Sink Kit P65108-B21'):fail25('ML30 G11 heatsink: '+hsState25());
+  // --- DL110 G11: 8 DIMM slots (was 16), 1TB, telco N-suffix CPUs, 5423N blocks the secondary riser ---
+  reset27(); setModel25('DL110 G11');
+  (M29.find(function(m){return m.m+' '+m.g==='DL110 G11';}).d===8)?pass25('DL110 G11: 8 DIMM slots (1 per channel) — was wrongly 16'):fail25('DL110 G11 DIMM slots');
+  { const l=cpuList26(); (l.length===18 && ['G5423N','G6403N','G6423N','G6433N','G6443N'].every(function(c){return l.indexOf(c)>-1;}))?pass25('DL110 G11: 18 processors incl. the 5 telco N-suffix Golds'):fail25('DL110 G11 CPUs: '+l.join(',')); }
+  pickCpuExact25('G5423N'); addRiser27('x16 FHHL PCIe Secondary Riser Kit (P54288-B21)');
+  /secondary riser cannot be fitted/.test(chk26())?pass25('DL110 G11 + Gold 5423N + secondary riser: stopped (doc rule)'):fail25('DL110 5423N riser rule missing: '+chk26().slice(0,200));
+  { const sizes=[...d.querySelectorAll('#dimm-size-btns button')].map(function(b){return b.getAttribute('data-sz');}).join(',');
+    sizes==='16,32,64,128'?pass25('DL110 G11: 16-128GB only'):fail25('DL110 G11 sizes: '+sizes); }
+  setv26('dimmq','8'); setv26('dimm','128GB 4000 MT/s');
+  (/P43334-B21/.test(kit29()) && !/MEMORY QTY/.test(chk26()))?pass25('DL110 G11 128GB = Quad Rank 3DS P43334-B21; DL360/DL380-only population rules not applied'):fail25('DL110 G11 128GB: '+kit29());
+  (/775612-B21/.test(rl29()) && /P58197-B21/.test(rl29()))?pass25('DL110 G11 rails: 775612-B21 + ear kit P58197-B21'):fail25('DL110 G11 rails: '+rl29());
+  // --- DL320 G11: rails by chassis, per-model kits ---
+  reset27(); setModel25('DL320 G11'); setv26('bays','12LFF');
+  (/P52353-B21/.test(rl29()) && !/P52349-B21/.test(rl29()))?pass25('DL320 G11 12LFF: Easy Install Rail 9 P52353-B21 only'):fail25('DL320 12LFF rails: '+rl29());
+  setv26('bays','10SFF');
+  (/P52349-B21/.test(rl29()) && /listed for/.test(rl29()))?pass25('DL320 G11 10SFF (no kit named for it): all rail kits shown with the chassis each is listed for'):fail25('DL320 10SFF rails: '+rl29());
+  pickCpuExact25('G6548Y+'); setv26('dimmq','8'); setv26('dimm','128GB 5200 MT/s');
+  /P64709-B21/.test(kit29())?pass25('DL320 G11 + 5th Gen 128GB: its own doc\'s 3DS kit P64709-B21 (not the DL380\'s P69976)'):fail25('DL320 128GB 5th Gen: '+kit29());
+  setv26('dimm','256GB 5200 MT/s');
+  /MEMORY SIZE/.test(chk26())?pass25('DL320 G11: 256GB stopped (not in its QuickSpecs)'):fail25('DL320 256GB not stopped');
+  (/P55417-B21/.test(bz29()) && /P50450-B21/.test(bz29()))?pass25('DL320 G11: 1U common bezel P50450-B21 + its own intrusion kit P55417-B21'):fail25('DL320 bezel: '+bz29());
+  // --- PSU / controller / OCP lists now per model ---
+  { const r=R29('ML110 G11'); (r.psu.length===4 && r.ctrl.some(function(x){return /P47781-B21/.test(x);}) && !r.ctrl.some(function(x){return /SR932i/.test(x);}) && r.flr.length===9)
+      ?pass25('ML110 G11: 4 PSUs, OCP + PCI controllers (no SR932i-p), 9 OCP adapters — all with part numbers'):fail25('ML110 G11 lists wrong'); }
+  { const r=R29('DL560 G11'); (/P01367-B21/.test(r.bat.join()) && r.cards.filter(function(x){return /NS204i-u/.test(x);}).length===2)
+      ?pass25('DL560 G11: 260mm-cable battery P01367-B21; NS204i-u front and rear enablement kits'):fail25('DL560 G11 bat/NS204'); }
+  reset27(); setModel25('ML350 G11'); pickCpuExact25('P8480+'); setv26('dimmq','16'); setv26('dimm','128GB 4800 MT/s');
+  (/P69974-B21/.test(kit29()) && /P43334-B21/.test(kit29()))?pass25('ML350 G11 128GB: Dual Rank P69974-B21 with the 3DS alternative P43334-B21'):fail25('ML350 128GB: '+kit29());
+  (/P47394-B21/.test(rl29()) && /P47226-B21/.test(bz29()))?pass25('ML350 G11: tower-to-rack kit P47394-B21, intrusion kit P47226-B21'):fail25('ML350 hints');
+  // --- GPU detector no longer fires on the crypto NIC ---
+  reset27(); setModel25('DL380 G11'); addCard27('Secure Network Adapter 10/25Gb 2p SFP28 NVMe-oF crypto (S2A69A)');
+  !/GPUs and accelerators require/.test(chk26()+d.querySelector('.col-form').textContent)?pass25('DL380 G11: the S2A69A crypto NIC is not mistaken for a GPU (its label used to start with "NVIDIA")'):fail25('crypto NIC still triggers the GPU fan rule');
 
   reset27();
 }
