@@ -3643,8 +3643,8 @@ function runRound23(){
 
   setModel23('DL325 G10+'); // v1
   f23=flrOpts23();
-  (f23.length===10 && !f23.some(function(o){return /^BCM5719|E810|InfiniBand/.test(o);}))
-    ?pass23('DL325 G10+ v1: no BCM5719, no E810, no OCP3 InfiniBand at all — confirmed absent, all 3 gained at v2')
+  (f23.length===12 && !f23.some(function(o){return /^BCM5719|E810/.test(o);}) && f23.some(function(o){return /P31348-B21/.test(o);}))
+    ?pass23('DL325 G10+ v1: no BCM5719, no E810 (both gained at v2); its current V27 doc does list the two OCP3 InfiniBand HDR cards')
     :fail23('DL325 G10+ v1 flr panel wrong: '+f23.join(' | '));
 
   setModel23('DL325 G10+ v2');
@@ -4477,10 +4477,10 @@ function runRound25(){
     (o.length===35 && !o.some(function(x){return /SN1600E/.test(x);}) && o.some(function(x){return /Slingshot SA210S/.test(x);}) && o.some(function(x){return /NS204i-p/.test(x);}))
       ?pass25('DL380 G10+ card picker: 35 stand-up options — no SN1600E (DL360-only), has the Slingshot NIC (DL380-only) and NS204i-p')
       :fail25('DL380 G10+ card list wrong ('+o.length+')'); }
-  reset27(); setModel25('DL325 G10+');
+  reset27(); setModel25('DL385 G10');
   { const o=cardOpts29();
     (o.length===47 && o.indexOf('366T 4x1GbE')>-1 && !o.some(function(x){return /\(R2E08A\)|MCX75310AAS/.test(x);}))
-      ?pass25('models without their own card list keep the generic 47-entry starter list (unaffected by the G10+ Ethernet/FC additions)'):fail25('DL325 G10+ card list changed ('+o.length+'): '+o.slice(0,3).join(' | ')); }
+      ?pass25('models without their own card list keep the generic 47-entry starter list (unaffected by the G10+ Ethernet/FC additions)'):fail25('DL385 G10 card list changed ('+o.length+'): '+o.slice(0,3).join(' | ')); }
   // slip strips the part numbers off these cards too (hyphenated and suffix-less SKUs, incl. HPE's Q0Lxx/OSFP style codes)
   reset27(); setModel25('DL360 G10+');
   d.getElementById('add-card').click();
@@ -5099,6 +5099,28 @@ function runRound25(){
   speeds26().join(',')==='2133'?pass25('Bronze 3204: DDR4-2133 only'):fail25('Bronze speeds: '+speeds26().join(','));
   pickCpuExact25('G5222'); speeds26().indexOf(2933)>-1?pass25('Gold 5222 (the 52xx exception) keeps 2933'):fail25('5222 lost 2933');
   pickCpuExact25('G6130'); (speeds26().indexOf(2666)>-1 && speeds26().indexOf(2933)<0)?pass25('1st Gen Gold 6130: 2666 max'):fail25('6130 speeds: '+speeds26().join(','));
+
+
+  // ===== G10+ AMD: DL325 (v1/v2) / DL345 / DL365 / DL385 (v1/v2) Gen10 Plus (build 2026.09.23.10) =====
+  reset27(); setModel25('DL385 G10+ v2'); pickCpuExact25('EPYC 7543'); setv26('cpuq','2'); setv26('dimmq','16'); setv26('dimm','32GB 3200 MT/s');
+  (/P07646-B21/.test(kit29()) && /P38454-B21/.test(kit29()) && !/P06033/.test(kit29()))?pass25('DL385 G10+ v2 (Milan) 32GB: the AMD kit P07646-B21 (+ single-rank P38454-B21), not the Intel sp3 kit'):fail25('AMD kit: '+kit29());
+  setv26('dimmq','3');
+  !/MEMORY QTY/.test(chk26())?pass25('AMD G10+: Intel-only memory population checks not applied'):fail25('Intel memory rules leaking onto AMD');
+  reset27(); setModel25('DL345 G10+');
+  { const sizes=[...d.querySelectorAll('#dimm-size-btns button')].map(function(b){return b.getAttribute('data-sz');}).join(',');
+    sizes==='8,16,32,64,128,256'?pass25('Rome/Milan now offer the 8GB kit (P07638-B21) every AMD G10+ doc lists'):fail25('AMD sizes: '+sizes);
+    setv26('dimmq','2'); setv26('dimm','8GB 3200 MT/s');
+    (/P07638-B21/.test(kit29()) && (kit29().match(/P07638/g)||[]).length===1)?pass25('...8GB kit shown once even before a Rome/Milan CPU is picked'):fail25('8GB kit: '+kit29()); }
+  reset27(); setModel25('DL325 G10+');
+  { const sizes=[...d.querySelectorAll('#dimm-size-btns button')].map(function(b){return b.getAttribute('data-sz');}).join(',');
+    sizes==='8,16,32,64,128'?pass25('DL325 G10+ v1: no 256GB kit in its doc'):fail25('DL325 v1 sizes: '+sizes); }
+  (/P18544-B21/.test(rl29()) && /P18546-B21/.test(rl29()) && /P18547-B21/.test(bz29()) && /P14604-B21/.test(bz29()))?pass25('DL325 G10+ v1: 1075mm rail + CMA, DL325 bezel, intrusion kit'):fail25('DL325 v1 hints: '+rl29()+' / '+bz29());
+  (/782961-B21/.test(R29('DL325 G10+').bat.join()) && /782961-B21/.test(R29('DL325 G10+ v2').bat.join()))?pass25('DL325 G10+ v1/v2: 12W battery 782961-B21'):fail25('DL325 battery');
+  { const f=R29('DL365 G10+').flr; (f.some(function(x){return /P31323-B21/.test(x);}) && f.some(function(x){return /P31348-B21/.test(x);}))?pass25('DL365 G10+: OCP3 InfiniBand HDR 1p/2p added (old note wrongly said none)'):fail25('DL365 OCP IB missing'); }
+  { const f=R29('DL385 G10+').flr; (f.some(function(x){return /P10106-B21/.test(x);}) && f.some(function(x){return /P42041-B21/.test(x);}))?pass25('DL385 G10+ v1: E810 + MCX631432AS OCP cards from the current V30 doc'):fail25('DL385 v1 OCP'); }
+  { const c=R29('DL385 G10+ v2').cards; (c.length===42 && c.some(function(x){return /\(P25527-B21\)/.test(x);}) && c.some(function(x){return /\(P24437-B21\)/.test(x);}) && !c.some(function(x){return /nvidia/i.test(x);}))?pass25('DL385 G10+ v2 cards: 38 doc-listed + 2 NVMe adapters + NS204i-p + M.2 kit, incl. the non-PLUS X2522-25G'):fail25('DL385 v2 cards: '+c.length); }
+  reset27(); setModel25('DL345 G10+'); setv26('bays','12LFF');
+  (/P22019-B21/.test(rl29()) && /867809-B21/.test(bz29()))?pass25('DL345 G10+ 12LFF: DL38X LFF rail + 2U bezel'):fail25('DL345 hints: '+rl29());
 
   reset27();
 }

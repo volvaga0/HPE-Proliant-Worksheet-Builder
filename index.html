@@ -1034,6 +1034,11 @@ var G11_EXTRA_CARDS=[
  'Secure Network Adapter 10/25Gb 2p SFP28 NVMe-oF crypto (S2A69A)',
  'InfiniBand NDR 400Gb 1p OSFP MCX75310AAS-NEAT (P45641-B21)','InfiniBand NDR200 200Gb 1p OSFP MCX75310AAS-HEAT (P45642-B21)',
  'PCIe Gen5 Retimer Card (P48833-B21)'];
+/* Gen10 Plus AMD-only stand-up cards (PNs from clean table extractions of the DL325/DL345/DL365/DL385 Gen10 Plus docs) */
+var G10P_AMD_CARDS=[
+ 'QL41132HLRJ 10Gb 2p BASE-T (P08437-B21)','QL41132HLCU 10Gb 2p SFP+ (P21933-B21)','QL41134HLCU 10Gb 4p SFP+ (P10094-B21)',
+ 'MCX4121A-XCHT 10Gb 2p SFP+ (P21930-B21)','QL41232HLCU 10/25Gb 2p SFP28 (P22702-B21)','X2522-25G 10/25Gb 2p SFP28 (P24437-B21)',
+ 'MCX516A-CCHT 100Gb 2p QSFP28 (P21927-B21)'];
 var G11_OCP=[
  'I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)',
  'BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)',
@@ -1187,6 +1192,7 @@ function g11Pick(list,pns,extra){
 }
 function g11Cards(pns,extra){return g11Pick(G11_NIC_CARDS.concat(G11_EXTRA_CARDS,G11_FC_CARDS,DL360G10P_CARDS,DL380G10P_CARDS),pns,extra);}
 function g11Ocp(pns){return g11Pick(G11_OCP,pns);}
+function amdCards(pns,extra){return g11Pick(DL360G10P_CARDS.concat(DL380G10P_CARDS,G10P_AMD_CARDS,G10_NIC_CARDS,G10_FC_CARDS,G11_EXTRA_CARDS),pns,extra);}
 
 var MODELS=[
  {m:'DL20', g:'G9', p:['e3'],    s:1, d:4, bays:['4SFF','2LFF'],
@@ -1526,13 +1532,17 @@ var MODELS=[
        '12x NVIDIA T4 GPUs are only supported when processor TDP is 165W or under.',
        'With 2x T4 GPUs and a 136–165W processor, Enhanced Processor Performance Profile must stay disabled or the processor throttles.']}},
  {m:'DL325', g:'G10+', p:['rome'],   s:1, d:16, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{fanW:0,verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
+   rules:{
+     dimmKits:true,memRules:false,iloLic:true,intrusion:{pn:'P14604-B21',n:'Gen10 Plus Chassis Intrusion Detection Kit'},memCaps:[8,16,32,64,128],cards:amdCards(['P21106-B21','P08437-B21','P21933-B21','P21930-B21','P10094-B21','P13188-B21','P21109-B21','P22702-B21','P21927-B21','P23664-B21','P31324-B21','P23665-B21','P23666-B21','P26966-B21','P26253-B21','P26259-B21','P42044-B21','P26262-B21','P31246-B21','P25960-B21','P10180-B21','P21112-B21','R8M41A','Q0L13A','Q0L14A','Q0L11A','Q0L12A','P9D93A','P9D94A','R2E08A','R2E09A','R2J62A','R2J63A','R7N77A','R7N78A','P9M75A','P9M76A'],['Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit — takes a PCIe slot (878783-B21)']),bat:['12W Smart Storage Lithium-ion Battery (782961-B21)','No battery'],
+     rails:{kits:[{pn:'P18544-B21',n:'DL325 Gen10 Plus 1075mm Easy Install Rail Kit'},{pn:'P18545-B21',n:'DL325 Gen10 Plus 1200mm Easy Install Outer Rail Kit'}],cma:[{pn:'P18546-B21',n:'DL325 Gen10 Plus Cable Management Arm'}]},
+     bezelKit:{pn:'P18547-B21',n:'DL325 Gen10 Plus Bezel Kit',lock:'875519-B21'},
+     fanW:0,verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
      psuMax:2,fans:{one:6,two:6,perf:8},fanBays:['24SFF','12LFF'],pcie:{one:3,two:3},riserMax:2,rear:[],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
      ctrl:['— Type-a (embedded slimline, LH only) —','P408i-a LH (869081-B21)','P816i-a LH (869083-B21)','E208i-a LH (869079-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
      cpuAllow:['EPYC 7232P','EPYC 7262','EPYC 7272','EPYC 7282','EPYC 7302P','EPYC 7352','EPYC 7402P','EPYC 7452','EPYC 7502P','EPYC 7532','EPYC 7542','EPYC 7552','EPYC 7642','EPYC 7662','EPYC 7702P','EPYC 7742','EPYC 7F32','EPYC 7F52','EPYC 7F72'],
-     flr:['I350-T4 1Gb 4p (P08449-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','MCX562A 10/25Gb 2p — needs OCP Upgrade Cable Kit P16976-B21 for x16 (P10112-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','BCM57414 10/25Gb 2p (P10115-B21)'],
-     notes:['No BCM5719, E810 or OCP3-form InfiniBand cards on this v1 board (only PCIe-standup InfiniBand, P23664/P23665-B21) — the v2 board adds them.',
+     flr:['I350-T4 1Gb 4p (P08449-B21)','X710-DA2 10Gb 2p (P28778-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','MCX562A 10/25Gb 2p — needs OCP Upgrade Cable Kit P16976-B21 for x16 (P10112-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','BCM57414 10/25Gb 2p (P10115-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     notes:['No BCM5719 or E810 OCP cards on this v1 board (the v2 board adds them). The current doc adds the OCP3 InfiniBand HDR 200Gb cards (1-port P31323-B21, 2-port P31348-B21).',
        'Early v1 (Rome-only) board: 800W/1600W Platinum use the older 865414-B21/830272-B21 codes (v2 uses P38995/P38997-B21). Embedded controllers are LH-only, and there is no Tri-Mode -a/-p family (MR216i-a/MR416i-a/SR416i-a/MR216i-p/MR416i-p/SR932i-p) — that starts on the v2 board.',
        'Front bays: 4LFF (expandable to 8LFF, then 12LFF) or 8SFF NVMe U.3 (expandable to 16SFF, then 24SFF). Mixing LFF and SFF is not supported.',
        'No rear or mid-tray drive cage on this 1U single-socket chassis.',
@@ -1541,7 +1551,11 @@ var MODELS=[
        'Takes EPYC 7002 (Rome) only; EPYC 7003 needs the Gen10 Plus v2 board.',
        '8SFF backplanes: plain SAS/SATA Smart Carrier (P15511-B21), Tri-Mode U.3 (P15730-B21) or pure NVMe U.2 (P17209-B21). 4LFF is SAS/SATA-only.']}},
  {m:'DL325', g:'G10+ v2', p:['milan','rome'], s:1, d:16, bays:['4LFF','8SFF','10SFF'],
-   rules:{fanWtext:'280W or higher',fanW:280,verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
+   rules:{
+     dimmKits:true,memRules:false,iloLic:true,intrusion:{pn:'P14604-B21',n:'Gen10 Plus Chassis Intrusion Detection Kit'},iloNoPremium:true,cards:amdCards(['P26966-B21','P21106-B21','P51178-B21','P08437-B21','P21933-B21','P10094-B21','P26253-B21','P26259-B21','P28787-B21','P13188-B21','P42044-B21','P21109-B21','P22702-B21','P26262-B21','P08443-B21','P08458-B21','S2A69A','P21112-B21','829335-B21','P31246-B21','P25960-B21','P10180-B21','R8M41A','P23664-B21','P31324-B21','P23665-B21','P23666-B21','Q0L13A','Q0L14A','R2J62A','R2J63A','R7N77A','R7N78A','P9D93A','P9D94A','R2E08A','R2E09A'],['NS204i-p NVMe PCIe3 x2 lanes boot device, 2x 480GB M.2 RAID 1 (P12965-B21)','Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit — takes a PCIe slot (878783-B21)']),bat:['12W Smart Storage Lithium-ion Battery (782961-B21)','No battery'],
+     rails:{kits:[{pn:'P26485-B21',n:'DL300 Gen10 Plus 1U SFF Easy Install Rail Kit'}],cma:[{pn:'P26489-B21',n:'DL300 Gen10 Plus 1U Cable Management Arm for Rail Kit'}]},
+     bezelKit:{pn:'P18547-B21',n:'DL325 Gen10 Plus Bezel Kit',lock:'875519-B21'},
+     fanWtext:'280W or higher',fanW:280,verified:true,hsW:151,hsWtext:'above 150W',fanRear:true,fanGPU:true,
      hsPart:'P41197-B21',fanPart:'P38506-B21',psuMax:2,fans:{one:8,perf:8},pcie:{one:3,two:3},riserMax:2,rear:[],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)'],
      ctrl:['— Type-a (embedded slimline, LH only) —','P408i-a LH (869081-B21)','P816i-a LH (869083-B21)','E208i-a LH (869079-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
@@ -1555,7 +1569,11 @@ var MODELS=[
        'Maximum Performance Fan Kit (P38506-B21) is needed for a GPU and for certain NVMe backplanes.',
        '8SFF backplanes: plain SAS/SATA Basic Carrier (P38473-B21), Tri-Mode U.3 (P38476-B21) or pure NVMe U.2 (P38479-B21). 4LFF has a SAS/SATA-only Low Profile variant (P38470-B21).']}},
  {m:'DL345', g:'G10+', p:['rome','milan'], s:1, d:16, bays:['8LFF','12LFF','8SFF','24SFF'],
-   rules:{fanWtext:'280W or higher',fanW:280,verified:true,hsW:180,hsWtext:'180W or higher',hsPart:'P38655-B21',fanRear:true,fanGPU:true,
+   rules:{
+     dimmKits:true,memRules:false,iloLic:true,intrusion:{pn:'P14604-B21',n:'Gen10 Plus Chassis Intrusion Detection Kit'},fanPart:'P14608-B21',cards:amdCards(['P26966-B21','P21106-B21','P51178-B21','P08437-B21','P21933-B21','P10094-B21','P26253-B21','P26259-B21','P28787-B21','P13188-B21','P42044-B21','P21109-B21','P22702-B21','P26262-B21','S2A69A','P21112-B21','P31246-B21','R8M41A','P25960-B21','P10180-B21','P31324-B21','P23664-B21','P23665-B21','P23666-B21','Q0L13A','Q0L14A','R2J62A','R2J63A','R7N77A','R7N78A','P9D93A','P9D94A','R2E08A','R2E09A'],['NS204i-p NVMe PCIe3 x2 lanes boot device, 2x 480GB M.2 RAID 1 (P12965-B21)','Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit — takes a PCIe slot (878783-B21)']),
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable — needs the DL345 Gen10 Plus Battery Cable Kit P38630-B21 (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
+     rails:{kits:[{pn:'P22018-B21',n:'DL38X Gen10 Plus 2U SFF Easy Install Rail Kit',bays:['8SFF','16SFF','24SFF']},{pn:'P22019-B21',n:'DL38X Gen10 Plus 2U LFF Easy Install Rail Kit',bays:['8LFF','12LFF']}],cma:[{pn:'P22020-B21',n:'DL38X Gen10 Plus 2U Cable Management Arm for Rail Kit'}]},bezelKit:{pn:'867809-B21',n:'Gen10 2U Bezel Kit',lock:'875519-B21'},
+     fanWtext:'280W or higher',fanW:280,verified:true,hsW:180,hsWtext:'180W or higher',hsPart:'P38655-B21',fanRear:true,fanGPU:true,
      psuMax:2,fans:{one:6,two:6,perf:6},fanBays:['12LFF','24SFF'],pcie:{one:4,two:4},riserMax:2,
      rear:['2SFF rear','2SFF NVMe rear'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 (P17023-B21)'],
@@ -1599,13 +1617,17 @@ var MODELS=[
        'Stand-up cards (Ethernet up to 200Gb, InfiniBand, Omni-Path, 8 Fibre Channel HBAs incl. 2 Emulex SN1600E parts DL380 does not offer) carry part numbers in the picker. 100Gb+ and InfiniBand cards need the High Performance Fan Kit and are not supported with 256GB DIMMs; most sit only in x16 slots (1/2/4/5/7, not 3 or 6). No Slingshot NIC on this model (DL380 has one).',
        'Boot device: the NS204i-p PCIe card (P12965-B21) needs the High Performance Fan Kit. Unique to this model — a riser-integrated alternative, the NS204i-r (2x M.2, media not included), replaces the default primary riser and drops Slot 2 from x16 to x8 (P26463-B21).']}},
  {m:'DL365', g:'G10+', p:['rome','milan'], s:2, d:32, bays:['4LFF','8SFF','10SFF'],
-   rules:{fanWtext:'above 155W',verified:true,hsW:156,hsWtext:'above 155W',fanW:156,hsPart:'P19368-B21',fanPart:'P26477-B21',
+   rules:{
+     dimmKits:true,memRules:false,iloLic:true,intrusion:{pn:'P14604-B21',n:'Gen10 Plus Chassis Intrusion Detection Kit'},cards:amdCards(['P26966-B21','P21106-B21','P51178-B21','P08437-B21','P21933-B21','P10094-B21','P26253-B21','P26259-B21','P28787-B21','P13188-B21','P42044-B21','P21109-B21','P22702-B21','P26262-B21','P08443-B21','P08458-B21','R8M41A','P21112-B21','P31246-B21','P25960-B21','P10180-B21','P23664-B21','P31324-B21','P23665-B21','P23666-B21','P45642-B22','Q0L13A','Q0L14A','Q0L12A','R7N77A','R7N78A','P9D93A','P9D94A','R2E08A','R2E09A','R2J62A','R2J63A'],['NS204i-p NVMe PCIe3 x2 lanes boot device, 2x 480GB M.2 RAID 1 (P12965-B21)','Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit — takes a PCIe slot (878783-B21)']),bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
+     rails:{kits:[{pn:'P26485-B21',n:'DL300 Gen10 Plus 1U SFF Easy Install Rail Kit'}],cma:[{pn:'P26489-B21',n:'DL300 Gen10 Plus 1U Cable Management Arm for Rail Kit'}]},
+     bezelKit:{pn:'867998-B21',n:'1U Gen10 Bezel Kit',lock:'875519-B21'},
+     fanWtext:'above 155W',verified:true,hsW:156,hsWtext:'above 155W',fanW:156,hsPart:'P19368-B21',fanPart:'P26477-B21',
      psuMax:2,fans:{one:5,two:7,perf:7},pcie:{one:2,two:3},riserMax:2,rear:[],fanNVMe:true,fanRear:true,fanGPU:true,
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 (P17023-B21)'],
      ctrl:['— Type-a (embedded slimline, LH only) —','P408i-a LH (869081-B21)','P816i-a LH (869083-B21)','E208i-a LH (869079-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
      cpuAllow:['EPYC 7203','EPYC 7262','EPYC 72F3','EPYC 7302','EPYC 7303','EPYC 7313','EPYC 7343','EPYC 7373X','EPYC 73F3','EPYC 7413','EPYC 7443','EPYC 7452','EPYC 7453','EPYC 7473X','EPYC 74F3','EPYC 7502','EPYC 7513','EPYC 7543','EPYC 7573X','EPYC 75F3','EPYC 7643','EPYC 7663','EPYC 7702','EPYC 7713','EPYC 7763','EPYC 7773X'],
-     flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','BCM57414 10/25Gb 2p (P10115-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','MCX562A 10/25Gb 2p — needs cable P14318-001 to reach x16 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-CQDA2 100Gb 2p (P22767-B21)'],
-     notes:['Both E810 OCP cards are available. No OCP3-form InfiniBand card — InfiniBand is PCIe-standup only.',
+     flr:['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','BCM57414 10/25Gb 2p (P10115-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','MCX562A 10/25Gb 2p — needs cable P14318-001 to reach x16 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-CQDA2 100Gb 2p (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     notes:['Both E810 OCP cards are available, plus the OCP3 InfiniBand HDR 200Gb cards (1-port P31323-B21, 2-port P31348-B21).',
        'Gen10 Plus PSU codes, plus the 1600W -48VDC tier (P17023-B21, needs the Power Cable Lug Kit P36877-B21). Embedded controllers are LH-only; the full Tri-Mode -a/-p family is available.',
        'No rear or mid-tray drive cage on this chassis.',
        'Processors above 155W need the High Performance Heat Sink (P19368-B21) and the High Performance Fan Kit (P26477-B21).',
@@ -1644,14 +1666,17 @@ var MODELS=[
        'Memory: DDR4-3200 except where capped by the processor — Silver SKUs and Gold 5318N/6330N/6338N run at 2667 (this doc\'s text extraction shows "2677" for 6338N; DDR4 has no such speed, read as 2667), Platinum 8352V and Gold 5315Y/5317/5318S/5318Y/5320/6330 at 2933. DIMMs in even quantities. SmartMemory kit part numbers shown under the memory field; the 16GB and 32GB sizes also have a single-rank variant (P06029-B21, P40007-B21) — the dual-rank part is what shows there.',
        'Stand-up cards (Ethernet to 200Gb, InfiniBand, Omni-Path, a Slingshot NIC for Cray, 6 FC HBAs) carry part numbers in the picker. 100Gb+/InfiniBand need the Max Performance Fan Kit, exclude 256GB DIMMs, and mostly sit only in x16 slots (1/2/4/5/7). The FlexibleLOM/OCP list flags a 1-port InfiniBand part (P31323-B21) the doc references but never names.']}},
  {m:'DL385', g:'G10+', p:['rome'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{fanWtext:'above 180W',verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
+   rules:{
+     dimmKits:true,memRules:false,iloLic:true,intrusion:{pn:'P14604-B21',n:'Gen10 Plus Chassis Intrusion Detection Kit'},cards:amdCards(['Q0L13A','Q0L14A','Q0L11A','Q0L12A','R2J62A','R2J63A','R7N77A','R7N78A','P9D93A','P9D94A','P9M75A','P9M76A','R2E08A','R2E09A','P26966-B21','P21106-B21','P08437-B21','P21933-B21','P10094-B21','P26253-B21','P26259-B21','P28787-B21','P13188-B21','P42044-B21','P21109-B21','P22702-B21','P26262-B21','P08443-B21','P08458-B21','R8M41A','P21112-B21','P21927-B21','P31246-B21','P10180-B21','P25960-B21','P31324-B21','P23664-B21','P23665-B21','P23666-B21'],['DL385 Gen10 Plus 12Gb NVMe 1-port Adapter (P25526-B21)','DL385 Gen10 Plus 12Gb NVMe 2-port Adapter (P25527-B21)','NS204i-p NVMe PCIe3 x2 lanes boot device, 2x 480GB M.2 RAID 1 (P12965-B21)','Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit — takes a PCIe slot (878783-B21)']),bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','No battery'],
+     rails:{kits:[{pn:'P22018-B21',n:'DL38X Gen10 Plus 2U SFF Easy Install Rail Kit',bays:['8SFF','16SFF','24SFF']},{pn:'P22019-B21',n:'DL38X Gen10 Plus 2U LFF Easy Install Rail Kit',bays:['8LFF','12LFF']}],cma:[{pn:'P22020-B21',n:'DL38X Gen10 Plus 2U Cable Management Arm for Rail Kit'}]},bezelKit:{pn:'867809-B21',n:'Gen10 2U Bezel Kit',lock:'875519-B21'},
+     fanWtext:'above 180W',verified:true,hsW:181,hsWtext:'above 180W',fanW:181,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
      hsPart:'P14610-B21',fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],fanPart:'P14608-B21',riserMax:3,
      rear:['2SFF rear','4LFF rear','8SFF midtray'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (865414-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (830272-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)'],
      cpuAllow:['EPYC 7252','EPYC 7262','EPYC 7272','EPYC 7282','EPYC 7302','EPYC 7352','EPYC 7402','EPYC 7452','EPYC 7502','EPYC 7532','EPYC 7542','EPYC 7552','EPYC 7642','EPYC 7662','EPYC 7702','EPYC 7742','EPYC 7F32','EPYC 7F52','EPYC 7F72'],
-     flr:['I350-T4 1Gb 4p (P08449-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','BCM57414 10/25Gb 2p (P10115-B21)','MCX562A 10/25Gb 2p — needs cable P14318-001 to reach x16, needs OCP Upgrade Cable Kit P14603-B21 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
-     notes:['No BCM5719, MCX631432AS or E810 OCP cards on this v1 board (the v2 board adds the two E810 cards). Both InfiniBand OCP3 ports are available.',
+     flr:['I350-T4 1Gb 4p (P08449-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','BCM57414 10/25Gb 2p (P10115-B21)','MCX562A 10/25Gb 2p — needs cable P14318-001 to reach x16, needs OCP Upgrade Cable Kit P14603-B21 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-CQDA2 100Gb 2p (P22767-B21)'],
+     notes:['No BCM5719 OCP card on this v1 board. The current doc (V30) adds the MCX631432AS and both E810 OCP cards. Both InfiniBand OCP3 ports are available.',
        'Early v1 (Rome-only) board: 800W/1600W Platinum use the older 865414-B21/830272-B21 codes and there is no Tri-Mode -a/-p family. Embedded controllers are the plain (non-LH) modular variants.',
        'Front bays: 8LFF (expandable to 12LFF) or 8SFF (expandable to 16SFF, then 24SFF).',
        'Rear and mid-tray drives combine: 24SFF takes an 8SFF midtray + 6SFF rear (38SFF total); 8LFF/12LFF take a rear 2SFF or 4LFF box, which uses primary + secondary riser space.',
@@ -1663,13 +1688,16 @@ var MODELS=[
        'The 7F52 (240W) is only supported under 25°C ambient with LFF/SFF + midtray configurations.',
        '8SFF is one flexible NVMe/SAS Smart Carrier family (P14578-B21 front, P14601-B21 mid-tray) that mixes SAS/SATA/NVMe drives — effectively Premium-only. LFF bays get a SAS/SATA-only Smart Carrier (P14507-B21).']}},
  {m:'DL385', g:'G10+ v2', p:['milan','rome'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{fanWtext:'above 155W',verified:true,hsW:156,hsWtext:'above 155W',fanW:156,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
+   rules:{
+     dimmKits:true,memRules:false,iloLic:true,intrusion:{pn:'P14604-B21',n:'Gen10 Plus Chassis Intrusion Detection Kit'},cards:amdCards(['Q0L13A','Q0L14A','Q0L12A','R2J62A','R2J63A','R7N77A','R7N78A','P9D93A','P9D94A','R2E08A','R2E09A','P26966-B21','P21106-B21','P51178-B21','P08437-B21','P21933-B21','P10094-B21','P26253-B21','P26259-B21','P28787-B21','P13188-B21','P42044-B21','P21109-B21','P24437-B21','P22702-B21','P26262-B21','P08443-B21','P08458-B21','P21112-B21','829335-B21','P31246-B21','P25960-B21','P10180-B21','P23664-B21','P31324-B21','P23665-B21','P23666-B21','P45642-B22'],['DL385 Gen10 Plus 12Gb NVMe 1-port Adapter (P25526-B21)','DL385 Gen10 Plus 12Gb NVMe 2-port Adapter (P25527-B21)','NS204i-p NVMe PCIe3 x2 lanes boot device, 2x 480GB M.2 RAID 1 (P12965-B21)','Universal SATA 6G AIC HHHL M.2 SSD Enablement Kit — takes a PCIe slot (878783-B21)']),bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','No battery'],
+     rails:{kits:[{pn:'P22018-B21',n:'DL38X Gen10 Plus 2U SFF Easy Install Rail Kit',bays:['8SFF','16SFF','24SFF']},{pn:'P22019-B21',n:'DL38X Gen10 Plus 2U LFF Easy Install Rail Kit',bays:['8LFF','12LFF']}],cma:[{pn:'P22020-B21',n:'DL38X Gen10 Plus 2U Cable Management Arm for Rail Kit'}]},bezelKit:{pn:'867809-B21',n:'Gen10 2U Bezel Kit',lock:'875519-B21'},
+     fanWtext:'above 155W',verified:true,hsW:156,hsWtext:'above 155W',fanW:156,fanRear:true,fanGPU:true,psuMax:2,pcie:{one:3,two:8},
      hsPart:'P14610-B21',fanPart:'P14608-B21',fans:{one:4,two:6,perf:6},fanBays:['12LFF','24SFF'],riserMax:3,
      rear:['4SFF rear','4LFF rear','8SFF midtray'],
      psu:['500W Flex Slot Platinum (865408-B21)','800W Flex Slot Platinum (P38995-B21)','800W Flex Slot Titanium — high-line only (865438-B21)','800W Flex Slot -48VDC (865434-B21)','800W Flex Slot Universal (865428-B21)','1600W Flex Slot Platinum, high-line (P38997-B21)','1600W Flex Slot -48VDC — needs Power Cable Lug Kit P36877-B21 or Power Cable Kit P22173-B21 (P17023-B21)'],
      ctrl:['— Type-a (embedded slimline) —','P408i-a (804331-B21)','P816i-a (804338-B21)','E208i-a (804326-B21)','MR216i-a (P26325-B21)','MR416i-a (P26279-B21)','SR416i-a (P12688-B21)','— PCI (plug-in card) —','P408i-p (830824-B21)','P408e-p (804405-B21)','E208i-p (804394-B21)','E208e-p (804398-B21)','MR216i-p (P26324-B21)','MR416i-p (P06367-B21)','SR932i-p (P04220-B21)'],
      cpuAllow:['EPYC 7203','EPYC 7252','EPYC 72F3','EPYC 7302','EPYC 7303','EPYC 7313','EPYC 7343','EPYC 7373X','EPYC 73F3','EPYC 7402','EPYC 7413','EPYC 7443','EPYC 7453','EPYC 7473X','EPYC 74F3','EPYC 7513','EPYC 7543','EPYC 7573X','EPYC 75F3','EPYC 7643','EPYC 7663','EPYC 7713','EPYC 7763','EPYC 7773X'],
-     flr:['I350-T4 1Gb 4p (P08449-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','BCM57414 10/25Gb 2p (P10115-B21)','MCX562A 10/25Gb 2p — needs OCP Upgrade Cable Kit P14603-B21 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-CQDA2 100Gb 2p — needs OCP Upgrade Cable Kit P14603-B21 (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)'],
+     flr:['I350-T4 1Gb 4p (P08449-B21)','QL41132HQCU 10Gb 2p (P08452-B21)','QL41132HQRJ 10Gb 2p (P10103-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','X710-DA2 10Gb 2p (P28778-B21)','BCM57414 10/25Gb 2p (P10115-B21)','MCX562A 10/25Gb 2p — needs OCP Upgrade Cable Kit P14603-B21 (P10112-B21)','QL41232HQCU 10/25Gb 2p (P10118-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-CQDA2 100Gb 2p — needs OCP Upgrade Cable Kit P14603-B21 (P22767-B21)','InfiniBand HDR/Eth 200Gb 1p (P31323-B21)','InfiniBand HDR/Eth 200Gb 2p (P31348-B21)','BCM5719 1Gb 4p (P51181-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)'],
      notes:['Takes EPYC 7003 (Milan) plus a few EPYC 7002 parts (Rome 7252, 7302, 7402).',
        'Adds both E810 OCP cards over the v1 board (still no BCM5719 or MCX631432AS).',
        'Gen10 Plus PSU codes, plus the 1600W -48VDC tier (P17023-B21), which needs either the Power Cable Lug Kit (P36877-B21) or the Power Cable Kit (P22173-B21) — only one. Embedded controllers stay plain (non-LH), plus the full Tri-Mode -a/-p family.',
@@ -2798,7 +2826,7 @@ var MEM_CAPS={
  e5v3:[8,16,32,64],e5v4:[8,16,32,64,128],e5v3x4:[8,16,32,64],e5v4x4:[8,16,32,64,128],
  e7v3:[8,16,32,64,128],e7v4:[8,16,32,64,128],
  sp1:[8,16,32,64,128],sp2:[8,16,32,64,128],sp3:[8,16,32,64,128,256],
- naples:[8,16,32,64,128],rome:[16,32,64,128,256],milan:[16,32,64,128,256],
+ naples:[8,16,32,64,128],rome:[8,16,32,64,128,256],milan:[8,16,32,64,128,256],
  sp4:[16,32,64,96,128,256],sp5:[16,32,64,96,128,256],genoa:[16,32,64,96,128],turin:[16,32,64,96,128],
  xeon6:[16,32,64,96,128,256]
 };
@@ -2861,6 +2889,10 @@ var DIMM_KITS={
  /* xeone4 (Xeon E-2400 / Pentium G7400, DDR5 UDIMM) — DL20 Gen11 and ML30 Gen11 list 16GB and 32GB DDR5-4800 Standard
     Memory kits (128GB max); every listed processor runs them at 4400 MT/s, so that is the only speed offered. */
  xeone4:{16:['P64336-B21','16GB Single Rank x8 DDR5-4800 Unbuffered Standard Memory Kit'],32:['P64339-B21','32GB Dual Rank x8 DDR5-4800 Unbuffered Standard Memory Kit']},
+ /* EPYC Rome / Milan (Gen10 Plus AMD) — the AMD DDR4-3200 SmartMemory kits every DL325/DL345/DL365/DL385 Gen10 Plus doc
+    lists (different part numbers from the Intel sp3 kits). DL325 Gen10 Plus v1 stops at 128GB (memCaps). */
+ rome:{8:['P07638-B21','8GB Single Rank x8 DDR4-3200 RDIMM'],16:['P07642-B21','16GB Dual Rank x8 DDR4-3200 RDIMM','single-rank x4 P07640-B21'],32:['P07646-B21','32GB Dual Rank x4 DDR4-3200 RDIMM','single-rank x4 P38454-B21'],
+       64:['P07650-B21','64GB Dual Rank x4 DDR4-3200 RDIMM'],128:['P07652-B21','128GB Quad Rank x4 DDR4-3200 LRDIMM'],256:['P07654-B21','256GB Octal Rank x4 DDR4-3200 3DS LRDIMM']},
  /* sp3 (DDR4-3200), from the DL380 Gen10 Plus QuickSpecs. 16GB and 32GB each also have a
     single-rank variant (P06029-B21, P40007-B21) — the dual-rank part shown here is the one
     HPE's docs list first / recommend; the sales note mentions the alternate exists. */
@@ -2876,6 +2908,7 @@ var DIMM_KITS={
 };
 /* 96GB modules are only allowed in certain quantities (both docs): 4800 kit = 8 or 16 per processor;
    5600 kit = 1P: 1, 6, 8, 12, 16 — 2P: 2, 12, 16, 24, 32. Keyed by platform then processor count. */
+DIMM_KITS.milan=DIMM_KITS.rome;
 var DIMM96_QTY={sp4:{1:[8,16],2:[16,32]},sp5:{1:[1,6,8,12,16],2:[2,12,16,24,32]}};
 /* Processors that cannot take 96GB or (non-3DS) 128GB modules, from the DL360/DL380 Gen11 processor
    and memory notes: the 5th Gen EE LCC-die parts (Silver 4509Y / 4510, Bronze 3508U) and the 4th Gen
@@ -3088,7 +3121,8 @@ var EXPANDER_PARTS={
  'DL580 G10':'12G SAS Expander Card (873444-B21)',
  'DL380 G10+':'12G SAS Expander Card (P23388-B21)',
  'DL385 G10+':'12G SAS Expander Card (P23388-B21)',
- 'DL385 G10+ v2':'12G SAS Expander Card (P23388-B21)'
+ 'DL385 G10+ v2':'12G SAS Expander Card (P23388-B21)',
+ 'DL345 G10+':'DL345 Gen10 Plus 12G SAS Expander Card (P39270-B21)'   // its own part, from the DL345 Gen10 Plus QuickSpecs
 };
 /* ML110 G10 (P11359-B21) added 2026-09-17, found while sourcing its
    storage controller part numbers — a real gap in the original
@@ -4238,7 +4272,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.23.9'; // 9th build shipped today
+var BUILD_VERSION='2026.09.23.10'; // 10th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -5451,6 +5485,7 @@ function evaluate(){
     var kitPl=cpu?[cpu[2]]:m.p.filter(function(p){return KT[p];}),kitParts=[];
     kitPl.forEach(function(p){
       var k=KT[p]&&KT[p][dsize];
+      if(k&&kitParts.some(function(t){return t.indexOf(k[0])>-1;}))return;   // Rome and Milan share one AMD kit table
       if(k)kitParts.push((kitPl.length>1?({sp1:'1st Gen: ',sp2:'2nd Gen: ',sp4:'4th Gen: ',sp5:'5th Gen: '}[p]||''):'')+'HPE '+k[1]+(/Kit$/.test(k[1])?' ':' Smart Memory Kit ')+k[0]+(k[2]?' (also '+k[2]+')':''));
     });
     /* a model-specific kit table that has no kit of this size for this processor generation = not orderable */
@@ -5665,7 +5700,7 @@ function evaluate(){
      G11/G12, never had an expander-card SKU at all — see EXPANDER_PARTS. */
   var expV=v('expander');
   if(m&&expV){
-    var knownExpParts=['727250-B21','769635-B21','804228-B21','870549-B21','874576-B21','873444-B21','P23388-B21'];
+    var knownExpParts=['727250-B21','769635-B21','804228-B21','870549-B21','874576-B21','873444-B21','P23388-B21','P39270-B21'];
     var typedExpPart=null;
     knownExpParts.some(function(p){if(expV.indexOf(p)>-1){typedExpPart=p;return true;}return false;});
     if(typedExpPart){

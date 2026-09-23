@@ -3476,3 +3476,28 @@ User pasted a real past request (10x DL380 G10 12LFF, 1x 5218, "2x 16GB 2666", P
   (it only called run(), so a pasted CPU didn't narrow them — a hand-picked one always did).
 
 QA: 947 ok / 0 FAIL (10 new). Verified in the browser with the user's exact paste.
+
+## G10+ AMD: DL325 (v1/v2) / DL345 / DL365 / DL385 (v1/v2) Gen10 Plus full rundown (2026-09-23, build .10)
+
+Sources: table-mode PDFs (DL325 v1 V1, DL325 v2, DL345, DL365 V13, DL385 v1 V30, DL385 v2) + the current texts (DL325 v1
+V27, DL325 v2 V32, DL345 V34, DL365 V30, DL385 v2 V30). Same names-from-own-doc / PNs-from-clean-tables method.
+
+- **AMD memory kits:** every AMD G10+ doc lists HPE's AMD DDR4-3200 kits — P07638 (8GB) / P07642 (16GB, alt P07640) /
+  P07646 (32GB, alt P38454) / P07650 (64GB) / P07652 (128GB LRDIMM) / P07654 (256GB 3DS) — different PNs from the Intel
+  sp3 kits. New `DIMM_KITS.rome` (= `.milan`); the kit hint de-dupes when a model takes both platforms. `MEM_CAPS` rome/
+  milan gained 8GB (every doc lists P07638). DL325 G10+ v1 stops at 128GB (`memCaps`). `memRules:false` on all six.
+- **Cards** (new `amdCards()` + `G10P_AMD_CARDS`: Marvell QL41132HLRJ/HLCU, QL41134HLCU, QL41232HLCU, MCX4121A-XCHT,
+  MCX516A-CCHT, the non-PLUS X2522-25G), NS204i-p + M.2 AIC; DL385 v1/v2 also the two DL385 NVMe adapters (P25526/7).
+- **OCP lists corrected against the current docs** — the earlier pass used older mirrors: DL325 v1 gains both OCP3
+  InfiniBand HDR cards (V27: P31323/P31348 — confirmed by in-order alignment with the 4 known PNs in that block; two rows
+  there end in table text, which the line matcher skipped), DL365 gains both (its note wrongly said "no OCP3
+  InfiniBand" — V13 and the mirror list both, V30 still names the 2p), DL385 v1 gains MCX631432AS + both E810 (V30),
+  DL385 v2 gains BCM5719 + MCX631432AS. P31323-B21 is a real, sourced PN on these AMD models (the earlier doubt about it
+  applied to DL360 G10+ only).
+- Batteries (DL325 v1/v2 = 12W 782961-B21; DL345 needs cable kit P38630-B21), rails (DL325 v1 1075mm/1200mm + CMA;
+  DL325 v2 / DL365 1U SFF; DL345 / DL385 DL38X 2U), bezels (DL325 own P18547; 2U 867809; DL365 1U 867998), intrusion
+  P14604-B21, iLO (DL325 v2 Advanced-only). DL345 G10+'s own SAS expander P39270-B21 added to `EXPANDER_PARTS`.
+
+QA: 958 ok / 0 FAIL (11 new; 2 older tests updated to the doc-corrected OCP list / a still-generic example model).
+Browser-verified (DL385 G10+ v2 via paste). Every G10/G10+ model except DL325/DL385 G10 (AMD Naples/Rome) is now at
+full depth.
