@@ -231,6 +231,7 @@ fieldset{border:0;margin:0;padding:0}
 legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .pills{display:flex;flex-wrap:wrap;gap:5px}
 .pills input{position:absolute;opacity:0;width:1px;height:1px}
+.pills [hidden]{display:none!important}   /* per-model pills (TPM) that do not apply to the selected system */
 .pills label{font-size:14px;line-height:1;padding:8px 11px;border:1px solid var(--field-edge);
   background:var(--field);border-radius:7px;cursor:pointer;user-select:none}
 .pills label:hover{border-color:var(--rule-strong)}
@@ -3373,6 +3374,52 @@ function tpmKind(m){
   if(/^G11|^G12/.test(m.g)||TPM_EMBEDDED_ONLY.indexOf(key)>-1)return 'embedded';
   return 'module-switchable';
 }
+/* TPM options per model (2026-09-23, every cached QuickSpecs scanned): the pills are relabelled so "None" is never
+   offered on a board that has a TPM built in, and a module board says "No TPM module" rather than a bare "None".
+   PNs from the docs: Gen9 TPM 1.2 module 488069-B21 / TPM 2.0 kit 745823-B21 (UEFI mode only; DL80 Gen9 lists the
+   1.2 module only); Gen10 TPM 2.0 Option 864279-B21; Gen10 Plus TPM 2.0 Kit P13771-B21; 1.2 mode on a Gen10/Gen10
+   Plus module = FIO setting 872108-B21 (DL560 Gen10 lists no 1.2-mode setting). A TPM can be installed only once. */
+var TPM_G9_NO20=['DL80 G9'];
+var TPM_NO_12MODE=['DL560 G10'];
+function tpmModulePart(m){return m.g==='G10'?'864279-B21':'P13771-B21';}
+/* what each pill means on this model: [label, shown] for tp0 ('' value), tp1 ('TPM 1.2'), tp2 ('TPM 2.0') */
+function tpmPills(m){
+  var k=tpmKind(m),key=m?m.m+' '+m.g:'';
+  if(k==='module-g9')return [['No TPM module',1],['TPM 1.2 module',1],['TPM 2.0 module',TPM_G9_NO20.indexOf(key)<0]];
+  if(k==='module-switchable')return [['No TPM module',1],['TPM 2.0 module, 1.2 mode',TPM_NO_12MODE.indexOf(key)<0],['TPM 2.0 module',1]];
+  if(k==='embedded')return [['None',0],['TPM 1.2',0],['TPM 2.0 (built in)',1]];
+  if(k==='both-standing')return [['None',0],['TPM 1.2 mode',1],['TPM 2.0 (built in)',1]];
+  return [['None',1],['TPM 1.2',1],['TPM 2.0',1]];
+}
+/* the slip wording for the current pick — always says what is (or is not) fitted once a model is chosen */
+function tpmSlipText(m,val){
+  if(!m)return val||'';
+  var p=tpmPills(m);
+  return val==='TPM 1.2'?p[1][0]:val==='TPM 2.0'?p[2][0]:p[0][1]?p[0][0]:'';
+}
+function tpmNoteText(m){
+  if(!m)return 'Gen10 and newer take the TPM 2.0 module only — 1.2 is a Gen9 part.';
+  var k=tpmKind(m),key=m.m+' '+m.g;
+  if(k==='module-g9')return 'Optional plug-in module, fitted once (it cannot be swapped later): TPM 1.2 488069-B21'+(TPM_G9_NO20.indexOf(key)<0?' or TPM 2.0 745823-B21 (UEFI mode only, not Legacy).':' — '+key+' lists no TPM 2.0 option.');
+  if(k==='module-switchable')return 'Optional plug-in module: HPE TPM 2.0 '+(m.g==='G10'?'Gen10 Option':'Gen10 Plus Kit')+' '+tpmModulePart(m)+'.'+(TPM_NO_12MODE.indexOf(key)<0?' To run it as TPM 1.2, add the TPM 1.2 FIO Setting 872108-B21 (same module).':'');
+  if(k==='embedded')return 'TPM 2.0 is built into the motherboard on '+key+' — nothing to order, and there is no TPM 1.2 mode.';
+  if(k==='both-standing')return 'TPM 2.0 is built into the motherboard; '+key+' also lists a TPM 1.2 mode.';
+  return '';
+}
+function applyTpmPills(m){
+  var p=tpmPills(m);
+  ['tp0','tp1','tp2'].forEach(function(id,i){
+    var inp=document.getElementById(id),lab=document.querySelector('label[for="'+id+'"]');
+    lab.textContent=p[i][0];inp.hidden=lab.hidden=!p[i][1];inp.disabled=!p[i][1];
+    /* 'TPM 2.0' reads before its 1.2-mode variant on boards that offer both */
+    var k=tpmKind(m);lab.style.order=(k==='module-switchable'||k==='both-standing')?{tp0:0,tp1:2,tp2:1}[id]:'';
+  });
+  /* a hidden pick (e.g. "None" after switching to a built-in-TPM model) moves to the built-in TPM 2.0 */
+  var cur=document.querySelector('input[name="tpm"]:checked');
+  if(!cur||cur.hidden)document.getElementById(p[0][1]?'tp0':'tp2').checked=true;
+  document.getElementById('tpm-note').textContent=tpmNoteText(m);
+}
+
 /* Backplane type (2026-09-15, checked across two full QuickSpecs research
    passes — G10/G10+/G11/G12). The existing generic rule below ("an LFF
    bay config never gets NVMe/Premium — only SFF does") already matches
@@ -4298,7 +4345,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.23.12'; // 12th build shipped today
+var BUILD_VERSION='2026.09.23.13'; // 13th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -4938,12 +4985,7 @@ function refreshDependents(){
     :moboK==='always-lom'?'Always ships with an embedded network controller on this chassis — there is no NC variant to pick.'
     :'NC boards ship without the network controller.';
   document.getElementById('media-note').textContent=(m&&!hasMediaBay(m))?'No media bay slot on this chassis.':'';
-  var tpmK2=tpmKind(m);
-  document.getElementById('tpm-note').textContent=!m?'Gen10 and newer take the TPM 2.0 module only — 1.2 is a Gen9 part.'
-    :tpmK2==='module-g9'?'TPM 1.2 or 2.0, both a separately-orderable physical module.'
-    :tpmK2==='both-standing'?'TPM 1.2 and TPM 2.0 are both standing options on '+m.m+' '+m.g+' — a confirmed exception to the usual Gen11+ embedded-only rule.'
-    :tpmK2==='embedded'?'TPM 2.0 ships embedded on the motherboard — no separate module to order, and no TPM 1.2 mode.'
-    :'One physical TPM 2.0 module covers both 1.2 and 2.0 — order the '+m.g.replace(/ v2$/,'')+' TPM 2.0 kit.';
+  applyTpmPills(m);
   var bpK=backplaneKind(m);
   document.getElementById('bp-note').textContent=
     bpK==='sas-only'?'No real NVMe or Premium backplane exists on '+(m?m.m+' '+m.g:'this chassis')+' — SAS/SATA only, on every bay config.'
@@ -5813,10 +5855,12 @@ function evaluate(){
   var tpm=r('tpm'),tpmK=tpmKind(m);
   if(tpm==='TPM 1.2'&&tpmK==='embedded')
     checks.push(['flag','TPM',m.m+' '+m.g+' has embedded TPM 2.0 only — there is no TPM 1.2 mode on this chassis. Select TPM 2.0.']);
-  else if(tpm==='TPM 2.0'&&tpmK==='embedded')
-    checks.push(['info','TPM','TPM 2.0 ships embedded on the motherboard at '+m.m+' '+m.g+' — no separate module or part number to order.']);
+  else if(tpm==='TPM 1.2'&&tpmK==='module-switchable'&&TPM_NO_12MODE.indexOf(m.m+' '+m.g)>-1)
+    checks.push(['flag','TPM',m.m+' '+m.g+' lists no TPM 1.2 mode setting — select the TPM 2.0 module.']);
+  else if(tpm==='TPM 2.0'&&tpmK==='module-g9'&&TPM_G9_NO20.indexOf(m.m+' '+m.g)>-1)
+    checks.push(['flag','TPM',m.m+' '+m.g+' lists only the TPM 1.2 module (488069-B21) — no TPM 2.0 option.']);
   else if(tpm&&tpmK==='module-switchable')
-    checks.push(['info','TPM','One physical TPM 2.0 module covers both modes on '+m.m+' '+m.g+' — order the '+m.g.replace(/ v2$/,'')+' TPM 2.0 kit; TPM 1.2 is a firmware switch on that same module, not separate hardware.']);
+    checks.push(['info','TPM','Order the TPM 2.0 module '+tpmModulePart(m)+(tpm==='TPM 1.2'?' plus the TPM 1.2 FIO Setting 872108-B21 — 1.2 is a setting on that same module, not separate hardware.':'.')]);
 
   /* Motherboard Standard vs NC — see motherboardKind()'s comment. The
      hard case: DL20/ML30/ML110 G11 ship with a real embedded NIC always
@@ -6192,7 +6236,7 @@ function buildSlip(){
   else if(v('flr'))L.push(slipName(v('flr')));
   else gaps.push(flrLabel(m));
   if(v('psu'))L.push(join(v('psuq')?v('psuq')+'x':'',slipName(v('psu')),'PS'));else gaps.push('power supplies');
-  if(r('tpm'))L.push(r('tpm'));
+  var tpmTxt=tpmSlipText(m,r('tpm'));if(tpmTxt)L.push(tpmTxt);
   if(r('ilo'))L.push(r('ilo'));
   if(r('mobo'))L.push(r('mobo'));
   if(r('rail'))L.push(join(r('rail'),v('railt')));else gaps.push('rails');

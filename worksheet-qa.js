@@ -432,7 +432,8 @@ setTimeout(()=>{
   // --- Standard items shown instead of omitted ---
   txt=d.getElementById('slip').textContent;
   txt.includes('SAS/SATA')?pass3('SAS/SATA backplane shown by default'):fail3('SAS/SATA default missing from slip');
-  !/\bTPM\b/.test(txt)?pass3('TPM "None" default kept off the slip'):fail3('TPM default clutters the slip: '+txt.slice(0,160));
+  d.getElementById('tp0').checked=true;fire(d.getElementById('tp0'),'change');
+  /No TPM module/.test(d.getElementById('slip').textContent)?pass3('TPM default on a module board is stated on the slip as "No TPM module" (2026-09-23 — a bare None raised questions)'):fail3('TPM default not stated on the slip: '+txt.slice(0,160));
   d.getElementById('tp2').checked=true;fire(d.getElementById('tp2'),'change');
   d.getElementById('slip').textContent.includes('TPM 2.0')?pass3('TPM 2.0 selection reaches the slip'):fail3('TPM 2.0 not on slip');
   d.getElementById('tp0').checked=true;fire(d.getElementById('tp0'),'change');
@@ -964,22 +965,22 @@ setTimeout(()=>{
     ?pass3('DL380 G10: TPM 1.2 NOT flagged (real FIO 1.2-mode switch on the discrete TPM 2.0 module)'):fail3('DL380 G10 TPM 1.2 wrongly flagged');
   tpmTest('DL20 G10+','tp1').includes('embedded TPM 2.0 only')
     ?pass3('DL20 G10+: TPM 1.2 flagged — embedded, non-swappable TPM 2.0, no 1.2 mode'):fail3('DL20 G10+ TPM 1.2 not flagged');
-  tpmTest('DL380 G11','tp2').includes('embedded on the motherboard')
-    ?pass3('DL380 G11: TPM 2.0 gets the embedded/no-part-number info note'):fail3('DL380 G11 TPM 2.0 info missing');
-  tpmTest('DL380 G10','tp2').includes('One physical TPM 2.0 module covers both modes')
-    ?pass3('DL380 G10: TPM 2.0 gets the discrete-module info note'):fail3('DL380 G10 TPM 2.0 info missing');
+  (setModel3('DL380 G11'),d.getElementById('tp2').checked && d.getElementById('tp0').hidden && d.getElementById('tp1').hidden)
+    ?pass3('DL380 G11: only "TPM 2.0 (built in)" is offered, pre-selected (no misleading None)'):fail3('DL380 G11 TPM pills wrong');
+  tpmTest('DL380 G10','tp2').includes('Order the TPM 2.0 module 864279-B21')
+    ?pass3('DL380 G10: TPM 2.0 module check names the Gen10 kit 864279-B21'):fail3('DL380 G10 TPM 2.0 info missing');
   setModel3('DL380 G11');
   d.getElementById('tpm-note').textContent.includes('no TPM 1.2 mode')
     ?pass3('DL380 G11: #tpm-note explains embedded-only, no 1.2 mode'):fail3('DL380 G11 tpm-note: '+d.getElementById('tpm-note').textContent);
   setModel3('DL560 G11');
-  d.getElementById('tpm-note').textContent.includes('confirmed exception')
-    ?pass3('DL560 G11: #tpm-note explains its both-standing-options exception'):fail3('DL560 G11 tpm-note: '+d.getElementById('tpm-note').textContent);
+  d.getElementById('tpm-note').textContent.includes('also lists a TPM 1.2 mode')
+    ?pass3('DL560 G11: #tpm-note explains built-in TPM 2.0 plus a listed 1.2 mode'):fail3('DL560 G11 tpm-note: '+d.getElementById('tpm-note').textContent);
   setModel3('DL380 G10');
-  d.getElementById('tpm-note').textContent.includes('covers both 1.2 and 2.0')
-    ?pass3('DL380 G10: #tpm-note explains the switchable-module case'):fail3('DL380 G10 tpm-note: '+d.getElementById('tpm-note').textContent);
+  d.getElementById('tpm-note').textContent.includes('872108-B21')
+    ?pass3('DL380 G10: #tpm-note gives the module kit and the 1.2-mode FIO setting'):fail3('DL380 G10 tpm-note: '+d.getElementById('tpm-note').textContent);
   setModel3('DL20 G10+');
-  d.getElementById('tpm-note').textContent.includes('no separate module')
-    ?pass3('DL20 G10+: #tpm-note explains embedded-only at G10+'):fail3('DL20 G10+ tpm-note: '+d.getElementById('tpm-note').textContent);
+  d.getElementById('tpm-note').textContent.includes('nothing to order')
+    ?pass3('DL20 G10+: #tpm-note explains the built-in TPM at G10+'):fail3('DL20 G10+ tpm-note: '+d.getElementById('tpm-note').textContent);
 
   // --- Motherboard Standard vs NC: always-nc / always-lom / choice (2026-09-15) ---
   const moboTest=(model,moboId)=>{
@@ -5149,6 +5150,26 @@ function runRound25(){
   { const css=[...d.querySelectorAll('style')].map(function(s){return s.textContent;}).join('');
     (/\.badge\.v\.nolink \.bv-go\{display:none\}/.test(css) && /\.bv-long\{display:none\}/.test(css))
       ?pass25('badge CSS: link part hidden when there is no doc; long words dropped on phones'):fail25('badge CSS rules missing'); }
+
+
+  // ===== TPM pills relabelled per model — no bare "None" (build 2026.09.23.13) =====
+  const tpmState30=function(){return ['tp0','tp1','tp2'].filter(function(id){return !d.getElementById(id).hidden;}).map(function(id){return d.querySelector('label[for='+id+']').textContent+(d.getElementById(id).checked?'*':'');}).join(' / ');};
+  reset27(); setModel25('DL380 G11');
+  (tpmState30()==='TPM 2.0 (built in)*' && /TPM 2\.0 \(built in\)/.test(slip27()))?pass25('G11: only "TPM 2.0 (built in)", pre-selected, and on the slip'):fail25('G11 TPM: '+tpmState30()+' / '+slip27().slice(0,200));
+  reset27(); setModel25('DL380 G10');
+  (tpmState30()==='No TPM module* / TPM 2.0 module, 1.2 mode / TPM 2.0 module' && /No TPM module/.test(slip27()))?pass25('G10: "No TPM module" (default, stated on the slip) / TPM 2.0 module / 1.2 mode'):fail25('G10 TPM: '+tpmState30());
+  d.getElementById('tp1').checked=true; fire(d.getElementById('tp1'),'change');
+  (/TPM 2\.0 module, 1\.2 mode/.test(slip27()) && /872108-B21/.test(chk26()))?pass25('G10 1.2 mode: slip says "TPM 2.0 module, 1.2 mode"; check names the FIO setting 872108-B21'):fail25('G10 1.2 mode slip/check');
+  reset27(); setModel25('DL80 G9');
+  tpmState30()==='No TPM module* / TPM 1.2 module'?pass25('DL80 G9: TPM 1.2 module only (its doc lists no 2.0 kit)'):fail25('DL80 G9 TPM: '+tpmState30());
+  reset27(); setModel25('DL380 G9');
+  /745823-B21/.test(d.getElementById('tpm-note').textContent)&&/UEFI/.test(d.getElementById('tpm-note').textContent)?pass25('G9 note: 488069-B21 / 745823-B21, TPM 2.0 UEFI-only'):fail25('G9 TPM note');
+  reset27(); setModel25('DL560 G10');
+  tpmState30()==='No TPM module* / TPM 2.0 module'?pass25('DL560 G10: no 1.2-mode option (its doc lists no 872108-B21)'):fail25('DL560 G10 TPM: '+tpmState30());
+  reset27(); setModel25('DL360 G10+');
+  /P13771-B21/.test(d.getElementById('tpm-note').textContent)?pass25('G10+ rack: TPM 2.0 Gen10 Plus Kit P13771-B21'):fail25('G10+ TPM note');
+  reset27(); setModel25('DL380 G10'); setModel25('DL380 G11');
+  d.getElementById('tp2').checked?pass25('switching from a module board (No TPM) to a built-in board moves the pick to TPM 2.0 (built in)'):fail25('TPM pick not moved on model switch');
 
   reset27();
 }

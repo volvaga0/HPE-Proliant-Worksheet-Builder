@@ -3532,3 +3532,24 @@ bordered chip: "✓ QUICKSPECS VERIFIED" plus a filled "View QuickSpecs ↗" par
 state and a press nudge; the tooltip and aria-label name the model ("Open the DL380 G10 QuickSpecs on hpe.com (opens in
 a new tab)"). Without a doc (`nolink`) it stays the plain badge. At ≤640px the long words drop ("✓ VERIFIED |
 QuickSpecs ↗") so it stays on one line. QA: 969 ok / 0 FAIL (2 new). Checked at desktop and 375px widths.
+
+## TPM options relabelled per system — no bare "None" (2026-09-23, build .13; user request)
+
+User: the TPM field defaulted to "None" even on systems that ship with a TPM, which raised questions. Every cached
+QuickSpecs was scanned for its TPM wording and part numbers; the three pills (values '', 'TPM 1.2', 'TPM 2.0' unchanged,
+so drafts/links/paste keep working) are now relabelled, shown/hidden and defaulted per model by `applyTpmPills(m)`
+(global, called where the old tpm-note text was set):
+
+| Kind (tpmKind) | Pills (default *) | Note (sales, with PNs) |
+|---|---|---|
+| module-g9 (Gen9) | No TPM module* / TPM 1.2 module / TPM 2.0 module | 488069-B21 (1.2) / 745823-B21 (2.0, UEFI mode only); fitted once. DL80 G9 lists no 2.0 kit (`TPM_G9_NO20`) |
+| module-switchable (Gen10, Gen10 Plus racks) | No TPM module* / TPM 2.0 module / TPM 2.0 module, 1.2 mode | Gen10 Option 864279-B21 or Gen10 Plus Kit P13771-B21; 1.2 mode = FIO setting 872108-B21. DL560 G10 lists no 1.2 setting (`TPM_NO_12MODE`) |
+| embedded (G11, G12, DL20/DL110/ML30 G10+) | TPM 2.0 (built in)* — only option | nothing to order, no 1.2 mode |
+| both-standing (DL560 G11) | TPM 2.0 (built in)* / TPM 1.2 mode | built in; doc also lists 1.2 mode |
+
+Switching to a built-in board moves a "None" pick to "TPM 2.0 (built in)". **The slip now always states the TPM once a
+model is picked** ("No TPM module", "TPM 2.0 module", "TPM 2.0 module, 1.2 mode", "TPM 2.0 (built in)") — this reverses
+the older "keep the None default off the slip" rule on purpose: an absent line was exactly what raised the questions.
+The generic "TPM 2.0 is embedded" info check was dropped (the note says it, and it would now fire on every G11/G12);
+the module check names the kit PN (+ 872108-B21 for 1.2 mode); new flags for 1.2 mode on DL560 G10 and 2.0 on DL80 G9.
+QA: 977 ok / 0 FAIL (8 new; 6 older TPM tests re-worded). Browser-verified.
