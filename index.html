@@ -1950,7 +1950,7 @@ var MODELS=[
    /* full rundown 2026-09-24 from the DL320 Gen12 QuickSpecs V20 (8 Sep 2026, a50004283enw), downloaded from hpe.com */
    rules:{fanWtext:'above 185W',fanW:186,verified:true,hsW:186,hsWtext:'above 185W',hsPart:'P71956-B21',fanPart:'P71958-B21 x7',fans:{one:7,perf:7},psuMax:2,riserMax:2,pcie:{one:2},rear:[],
      dimmKits:true,memPerSocket:4096,xeon6Mem:{p2dpc:5200,counts:[1,2,4,6,8,16]},lcAboveW:270,lcText:'the Closed-loop Liquid Cooling FIO Heat Sink Kit P76605-B21 and 7x Closed-loop LC FIO Fan Kit P76603-B21',
-     fanNVMe:true,fanGPU:true,fanDimmGB:96,fanNic25:true,
+     fanNVMe:true,fanGPU:true,fanDimmGB:96,fanNicGb:25,
      ctrl:['— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache (P58335-B21)',
        '— PCI (plug-in card) —','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','MR932i-p — x32 lanes, PCIe Gen5, SAS SSD / NVMe only (P75697-B21)',
        'E208e-p SR Gen10 — external SAS 12G HBA, 8 lanes, no cache (804398-B21)'],
@@ -2284,17 +2284,40 @@ var MODELS=[
        '3 riser positions: Primary (4x8 default = 4 slots, or optional 2x16 FIO upgrade), Secondary (needs Proc 2, same 4x8/2x16 choice) and Tertiary (needs Proc 2, 2x8 low-profile, occupies 2 CPU2 MCIO connectors) — same as ML350 G12. Up to 10 slots with 2 processors.',
        'Four 5th Gen CPUs need DLC liquid cooling this tower does not support and are not realistically orderable here: 8593Q, 8562Y+, 6544Y, 6558Q. They are still selectable in the picker — do not quote them.',
        '8SFF ships Tri-Mode U.3 by default (x1 P47217-B21, x4 upgrade P47218-B21) — no plain SAS/SATA-only 8SFF cage. 4LFF ships a fixed Basic SAS/SATA-only cage (P47216-B21), no NVMe option.']}},
- {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{fanPart:'P47219-B21 + Second CPU Fan Kit P47902-B21',fanWtext:'300W or higher',fanW:300,verified:true,hsW:225,hsWtext:'225W or higher',fans:{one:3,two:3,perf:8},psuMax:2,riserMax:3,pcie:{one:4,two:10},
-     rear:['2x M.2 (dual uFF) rear'],
-     cpuAllow:['6505P','6507P','6515P','6517P','6520P','6527P','6530P','6730P','6736P','6737P','6740P','6747P','6760P','6767P','6787P'],
-     notes:['The CPU list is the 15 standard P-core Xeon 6 SKUs only — no E-core SKUs, no single-socket "1P" variants, no 6745P, no Socket Scalable SKUs.',
-       'No rear/mid-tray drive cage — only a rear NS204i-u boot-device enablement kit; all storage is the 3 stacked front boxes (4LFF/8SFF/12EDSFF, mixable).',
-       'Fixed 3-fan baseline for any config; a 2nd processor or certain other options additionally require the Redundant Fan Kit (P47219-B21) AND the Second CPU Fan Kit (P47902-B21) together, which raises the fan count to up to 8.',
-       'A GPU also requires the Redundant Fan Kit (P47219-B21) and the Second CPU Fan Kit (P47902-B21).',
-       '3 riser positions: Primary (CPU1, standard) is 4x8 or optional 2x16; Secondary (CPU2, needs the 2nd processor) is the same 4x8/2x16 choice; Tertiary (CPU2, 2x8, occupies 2 CPU2 MCIO connectors). Max with 2 processors: 4 + 4 + 2 = 10 slots.',
-       'The bay list is approximate: each of the 3 boxes is independently 4LFF, 8SFF, 8 NVMe x4 or 12EDSFF, so mixed builds are not all listed. A mixed or NVMe/EDSFF build gets a confirm-against-QuickSpecs prompt rather than a hard block.',
-       '"8SFF" covers two backplane families: Tri-Mode x1 (P72318-B21, mixed SAS/SATA/NVMe, the default) or pure NVMe x4 (P72316-B21). "4LFF" is a single plain SAS/SATA-only cage (P72357-B21).']}}
+ {m:'ML350',g:'G12', p:['xeon6'], s:2, d:32, tower:true, bays:['4LFF','8LFF','12LFF','8SFF','16SFF','24SFF','12EDSFF'],
+   /* full rundown 2026-09-24 from the ML350 Gen12 QuickSpecs V17 (8 Sep 2026, a50006995enw), downloaded from hpe.com */
+   rules:{fanPart:'Redundant Fan Kit P47219-B21 + Second CPU Fan Kit P47902-B21',fanWtext:'300W or higher',fanW:300,verified:true,hsW:225,hsWtext:'225W or higher',hsPart:'P72359-B21',
+     fans:{one:3,two:4,perf:8},psuMax:2,riserMax:3,pcie:{one:4,two:10},rear:[],
+     dimmKits:true,memPerSocket:4096,memCaps:[32,64,96,128,256],xeon6Mem:{p2dpc:5200},
+     fanDimmGB:256,fanGPU:true,fanNicGb:200,fanBaysReq:['12EDSFF'],
+     ctrl:['— OCP (mezzanine, OCP A slot only) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache, up to 8 drives (P58335-B21)',
+       '— PCI (plug-in card) —','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','MR408i-p — x8 lanes, 4GB cache, up to 8 drives (P74775-B21)',
+       'MR932i-p — x32 lanes, PCIe Gen5, NVMe only on the ML350 (P75697-B21)','E208e-p SR Gen12 — external SAS 12G HBA, x8 lanes, no cache (P95072-B21)','E208e-p SR Gen10 — external SAS 12G HBA, 8 lanes, no cache (804398-B21)'],
+     bat:['96W Smart Storage Lithium-ion battery with 260mm cable (P01367-B21)','Smart Storage Hybrid Capacitor with 260mm cable (P02381-B21)','16W Smart Hybrid Capacitor with 260mm cable (P65042-B21)','No battery'],
+     batReq:{ctrls:['MR408i-o','MR408i-p','MR416i-o','MR416i-p'],pn:'96W P01367-B21, Hybrid Capacitor P02381-B21 or 16W P65042-B21 — the 260mm-cable kits',n:'Smart Storage battery or capacitor'},
+     ctrlNoHDD:['MR932i-p'],
+     psu:['800W Flex Slot Platinum (P38995-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum, high-line only (P38997-B21)','1600W Flex Slot -48VDC (P17023-B21)','1800-2200W Flex Slot Titanium, high-line only (P44712-B21)'],
+     flr:['BCM5719 1Gb 4p (P51181-B21)','E610-IT4 1Gb 4p (P79833-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57416 10Gb 2p (P10097-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)',
+       'MCX631432AS 10/25Gb 2p (P42041-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p — needs the OCP x16 cable kit (P26269-B21)','E810-CQDA2 100Gb 2p — needs the OCP x16 cable kit (P22767-B21)'],
+     cards:g11Cards(['P51178-B21','P26253-B21','P26259-B21','P26262-B21','P26264-B21','P08443-B21','P42044-B21','P08458-B21','S2A69A','P21112-B21','R8M41A','P65333-H21','R2E08A','R2E09A','R7N86A','R7N87A'],
+       ['InfiniBand NDR 400Gb 1p OSFP MCX75310AAS-NEAT (P45641-H23)',
+        'NS204i-u v2 480GB NVMe boot device (P78279-B21, front kit P74252-B21 or rear kit P72360-B21; needs the Second CPU Fan Kit P47902-B21)',
+        'NS204i-u v2 960GB NVMe boot device (P81160-B21, front kit P74252-B21 or rear kit P72360-B21; needs the Second CPU Fan Kit P47902-B21)',
+        'NS204i-u v2 960GB SED NVMe boot device (P81162-B21, front kit P74252-B21 or rear kit P72360-B21; needs the Second CPU Fan Kit P47902-B21)']),
+     rails:{kits:[{pn:'P47394-B21',n:'ML Gen11/Gen12 Tower to Rack Conversion Kit (1U rail tray; standalone option, not factory-integrated)'}],cmaIncluded:true},
+     intrusion:{pn:'P47226-B21',n:'ML Gen11/Gen12 Intrusion Cable Kit'},
+     iloLic:true,iloNoPremium:true,
+     cpuAllow:['6787P','6767P','6760P','6747P','6745P','6740P','6737P','6736P','6730P','6725P','6530P','6527P','6520P','6517P','6515P','6507P','6505P','6503P'],
+     notes:['The CPU list is 18 P-core SKUs (6500P/6700P series, incl. 6503P, 6725P and 6745P) — no E-core, no single-socket "1P" and no Socket Scalable SKUs. Both processors must be the same model; processors ship without heatsink or fans.',
+       'Heatsink: Standard P72358-B21 below 225W, Performance P72359-B21 at 225W and above (one per processor).',
+       'Fans: 3 as standard. The Second CPU Fan Kit P47902-B21 (the 4th fan) is required with a 2nd processor, the NS204i-u boot device or the tertiary riser. The Redundant Fan Kit P47219-B21 (always together with P47902-B21, up to 8 fans) is required at 300W and above and with EDSFF, 24G SAS Mixed Use SSDs, 256GB DIMMs, 200Gb+ Ethernet/InfiniBand or a GPU.',
+       'Memory: DDR5-6400 RDIMMs from 32GB up (no 16GB kit on this model), 32 slots (16 with one processor). 6400 MT/s at 1 DIMM per channel, 5200 at 2. 1, 2, 4, 8, 12 or 16 DIMMs per processor; 64GB and larger cannot be mixed with other sizes.',
+       'Front storage: up to 3 boxes, no default cage — 8SFF x1 Tri-Mode P72318-B21, 4LFF SAS/SATA P72357-B21 (mixable), 8SFF x4 NVMe P72316-B21 (2 with x4 cabling, 3 with x2), or one 12EDSFF P72320-B21 (needs both fan kits and the 25°C tracking SKU; NVMe x4 and EDSFF cannot mix).',
+       'Controllers: OCP controllers go in OCP A only; MR408i/MR416i need the 260mm-cable battery P01367-B21 or capacitor P02381-B21 / P65042-B21. MR932i-p is NVMe-only on this model. External: E208e-p SR Gen12 P95072-B21 or Gen10 804398-B21.',
+       'Risers: default 4x8 primary (Slots 1-4); 2x16 Primary FIO kit P48406-B21 replaces it; secondary 4x8 P48407-B21 or 2x16 P47238-B21 and the 2x8 low-profile tertiary P79317-B21 need the 2nd processor. x16 cards (E810-CQDA2, BCM57504, E810-XXVDA4, InfiniBand, most GPUs) need a 2x16 riser.',
+       'OCP: OCP B is the default NIC slot and needs an enablement kit (CPU1 x8 P72203-B21, CPU2 x8 P72205-B21, CPU2 x16 P72207-B21); OCP A is x8 from the board, x16 with P72201-B21. The configurator defaults the BCM5719 OCP.',
+       'Boot device: NS204i-u v2 with the front kit P74252-B21 (not with an internal LTO drive) or rear kit P72360-B21, plus the Second CPU Fan Kit.',
+       'Tower: Tower to Rack Conversion Kit P47394-B21 (standalone only, CMA included). Internal LTO tape needs the tertiary riser and an LTO cable kit (P77437-B21 / P77438-B21).']}}
 ];
 
 /* code, description, platform, TDP watts, cores */
@@ -4458,7 +4481,7 @@ var RISERS={
   {n:'2x16 Primary FIO Riser Kit (P48406-B21)',d:'Replaces the default 4x8 with 2 slots (Slot 2, 4) at PCIe5.0 x16, full-height full-length · Proc 1',s:2,fh:2,lp:0,pos:'primary'},
   {n:'4x8 Secondary Riser Kit (P48407-B21)',d:'4 slots (Slots 5-8), PCIe5.0 x8, full-height full-length · Proc 2 required',s:4,fh:4,lp:0,pos:'secondary',cpu2:true},
   {n:'2x16 Secondary Riser Kit (P47238-B21)',d:'2 slots (Slot 6, 8), PCIe5.0 x16, full-height full-length · Proc 2 required',s:2,fh:2,lp:0,pos:'secondary',cpu2:true},
-  {n:'2x8 Tertiary Riser Kit',d:'2 slots (Slots 9-10), PCIe5.0 x8, LOW-PROFILE half-length · Proc 2 required · occupies 2 CPU2 MCIO connectors',s:2,fh:0,lp:2,pos:'tertiary',cpu2:true}
+  {n:'2x8 Tertiary Riser Kit (P79317-B21)',d:'2 slots (Slots 9-10), PCIe5.0 x8, LOW-PROFILE half-length · Proc 2 required · occupies 2 CPU2 MCIO connectors · also needs the Second CPU Fan Kit P47902-B21',s:2,fh:0,lp:2,pos:'tertiary',cpu2:true}
  ],
  /* ML110 Gen11 QuickSpecs (already cached). 2 PCIe5.0 x16 slots (Slot 1,
     Slot 4) ship standard on the SYSTEM BOARD, not a riser cage — this
@@ -6244,8 +6267,11 @@ function evaluate(){
   if(R.fanDimmQty&&dq>=R.fanDimmQty)fanReasons.push(dq+' DIMMs ('+R.fanDimmQty+' or more) require high performance fans'+fanPart+'.');
   if(R.fanDimmGB&&dsize>=R.fanDimmGB)fanReasons.push(dsize+'GB memory modules require high performance fans'+fanPart+'.');
   if(R.hiNic&&hiNicNames.length)fanReasons.push('A 100Gb-or-faster adapter ('+slipName(hiNicNames[0])+') requires the high performance fan kit'+fanPart+'.');
-  if(R.fanNic25){var nic25=cardNames.concat([v('flr')]).filter(function(n){return n&&/\b(?:10\/)?(?:25|40|50|100|200|400)\s*Gb|InfiniBand/i.test(n);})[0];
-    if(nic25)fanReasons.push('A 25Gb-or-faster adapter ('+slipName(nic25)+') requires high performance fans'+fanPart+'.');}
+  /* fanNicGb: adapters (PCIe or OCP) at or above this speed need performance fans — the fastest Gb figure in the card name counts */
+  if(R.fanNicGb){var fastNic=cardNames.concat([v('flr')]).filter(function(n){
+      var sp=(String(n||'').match(/(\d+)\s*Gb/gi)||[]).map(function(x){return parseInt(x,10);});
+      return sp.length&&Math.max.apply(null,sp)>=R.fanNicGb;})[0];
+    if(fastNic)fanReasons.push('A '+R.fanNicGb+'Gb-or-faster adapter ('+slipName(fastNic)+') requires high performance fans'+fanPart+'.');}
   if(R.ns204&&R.ns204.fanRear&&cardNames.some(function(n){return /NS204i-u/i.test(n)&&/at rear/i.test(n);}))fanReasons.push('The rear-mounted NS204i-u boot device requires the high performance fan kit'+fanPart+'.');
   if(R.ns204pFan&&cardNames.some(function(n){return /NS204i-p/i.test(n);}))fanReasons.push('The NS204i-p boot device requires the high performance fan kit'+fanPart+'.');
   (R.fanBays||[]).forEach(function(b){if(bays.indexOf(b)>-1)fanReasons.push(b+' ships with high performance fans as standard.');});

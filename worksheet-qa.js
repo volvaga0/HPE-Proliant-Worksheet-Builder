@@ -2918,9 +2918,9 @@ function runRound13(){
     :fail13('DL580 G12 CPU list wrong: '+codes13.join(', '));
   setModel13('ML350 G12');
   codes13=cpuCodes13();
-  (codes13.length===15 && !codes13.some(c=>/E$/.test(c)))
+  (codes13.length===18 && !codes13.some(c=>/E$/.test(c)) && ['6745P','6725P','6503P'].every(c=>codes13.includes(c)))
     ?pass13('ML350 G12: CPU picker has zero E-core SKUs — confirmed absent from its own doc, unlike every other G12 rack model')
-    :fail13('ML350 G12 should be P-core-only, 15 SKUs: '+codes13.join(', '));
+    :fail13('ML350 G12 should be P-core-only, 18 SKUs (V17): '+codes13.join(', '));
   setModel13('DL320 G12');
   codes13=cpuCodes13();
   (codes13.length===32 && ['6511P','6521P','6731P','6741P','6761P','6781P','6503P','6725P','6732P','6745P'].every(c=>codes13.includes(c)) &&
@@ -5347,6 +5347,21 @@ function runRound25(){
   (/P55713-B21/.test(d.getElementById('bezel-note').textContent) && /P50400-B21/.test(d.getElementById('bezel-note').textContent) && /P69769-B21/.test(d.getElementById('rail-note').textContent))
     ?pass25('DL340 G12: bezel P50400-B21, intrusion P55713-B21, GPU-chassis rail P69769-B21 in the note'):fail25('DL340 bezel/rail notes');
   /3200W M-CRPS/.test(JSON.stringify(w.MODELS.filter(function(x){return x.m==='DL340'&&x.g==='G12';})[0].rules.psu))?pass25('DL340 G12 PSUs are M-CRPS up to 3200W'):fail25('DL340 PSU list');
+
+  // ===== ML350 G12 full rundown from QuickSpecs V17 (build 2026.09.24.1) =====
+  reset27(); setModel25('ML350 G12');
+  (d.getElementById('dimm-size-btns').textContent.indexOf('16GB')<0 && /32GB/.test(d.getElementById('dimm-size-btns').textContent))?pass25('ML350 G12: no 16GB module offered (V17 lists 32GB and up)'):fail25('ML350 sizes: '+d.getElementById('dimm-size-btns').textContent);
+  setv26('cpuq','2'); pickCpuExact25('6520P'); setv26('dimmq','32'); setv26('dimm','64GB 6400 MT/s');
+  /runs memory at up to 5200 MT\/s there, not 6400/.test(chk26())?pass25('ML350 G12: 2 DIMMs per channel runs 5200'):fail25('ML350 2DPC');
+  setv26('ctrl','MR408i-o — x8 lanes, 4GB cache, up to 8 drives (P58335-B21)');
+  /260mm-cable kits.*MR408i-o/.test(chk26())?pass25('ML350 G12: MR408i-o needs a 260mm-cable battery or capacitor'):fail25('ML350 battery');
+  /P01367-B21/.test(JSON.stringify(w.MODELS.filter(function(x){return x.m==='ML350'&&x.g==='G12';})[0].rules.bat))?pass25('ML350 G12 battery list is the 260mm kits (P01367-B21 …)'):fail25('ML350 bat list');
+  addCard27('InfiniBand NDR 400Gb 1p OSFP MCX75310AAS-NEAT (P45641-H23)');
+  /200Gb-or-faster adapter/.test(d.getElementById('why-fan').textContent+chk26())?pass25('ML350 G12: 200Gb+ adapters need the redundant fan kits'):fail25('ML350 200Gb fan: '+d.getElementById('why-fan').textContent);
+  reset27(); setModel25('ML350 G12'); pickCpuExact25('6505P'); setv26('flr','E810-XXVDA2 10/25Gb 2p (P10106-B21)');
+  !/Gb-or-faster adapter/.test(d.getElementById('why-fan').textContent)?pass25('...a 25Gb OCP card does not (threshold is 200Gb on the ML350)'):fail25('ML350 25Gb wrongly triggers fans');
+  (/P47394-B21/.test(d.getElementById('rail-note').textContent) && /P47226-B21/.test(d.getElementById('door-note').textContent))?pass25('ML350 G12: tower-to-rack kit P47394-B21, intrusion kit P47226-B21'):fail25('ML350 rail/door notes');
+  w.MODELS.filter(function(x){return x.m==='ML350'&&x.g==='G12';})[0].rules.rear.length===0?pass25('ML350 G12: unsourced "2x M.2 rear" option removed'):fail25('ML350 rear list');
 
   reset27();
 }

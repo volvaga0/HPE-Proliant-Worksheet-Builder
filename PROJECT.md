@@ -3683,3 +3683,15 @@ QA: 1040 ok / 0 FAIL. Browser-verified (DL320 G12: 32 CPUs, 2 PSU bays, M-CRPS l
   Enablement Kit P71433-B21), rails P52351-B21 + CMAs (GPU chassis: Ball Bearing Rail 6 P69769-B21), bezel P50400-B21,
   intrusion P55713-B21 (the kit this doc lists; its TSC note's P48922-B21 is copied from the DL345 doc).
 QA: 1047 ok / 0 FAIL. Browser-verified (DL340 G12: 1 socket, 16 DIMM slots, 33 CPUs).
+
+**Same build — ML350 G12 full rundown (QuickSpecs V17, 8 Sep 2026; cache had V2 from Mar 2025):**
+- CPU pool 15 → 18 (6745P, 6725P, 6503P); still P-core only. No 16GB DIMM on this model (memCaps 32-256GB); 5200 at 2DPC.
+- Fans: 3 standard; `two:4` (Second CPU Fan Kit P47902-B21 is the 4th fan with a 2nd CPU — was 3). Redundant Fan Kit
+  P47219-B21 + P47902-B21 at ≥300W, 256GB DIMMs, EDSFF (new 12EDSFF bay, fanBaysReq), GPU, **200Gb+** NICs — the
+  DL320-only `fanNic25` rule became a per-model threshold `fanNicGb` (DL320 25, ML350 200).
+- Heatsinks Standard P72358-B21 <225W / Performance P72359-B21 ≥225W; controllers (OCP A only for OROC; MR932i-p NVMe-only
+  here; both E208e-p external HBAs) with the **260mm-cable** batteries (P01367-B21 / P02381-B21 / P65042-B21 — not the 145mm
+  rack kits); Flex Slot PSUs; OCP 9 incl. E610-IT4; stand-up cards; NS204i-u v2 front P74252 / rear P72360 kits.
+- Tertiary riser now has its PN (P79317-B21). Removed the unsourced "2x M.2 (dual uFF) rear" option. Tower-to-rack
+  P47394-B21 now a rails entry (CMA included); intrusion P47226-B21.
+QA: 1055 ok / 0 FAIL. Browser-verified (ML350 G12: 18 CPUs, 32GB+ DIMMs, tower-to-rack/intrusion notes).
