@@ -3711,3 +3711,14 @@ QA: 1055 ok / 0 FAIL. Browser-verified (ML350 G12: 18 CPUs, 32GB+ DIMMs, tower-t
   P75284, rails P69770, bezel P74911, intrusion P55713. The iLO 6 chassis P74461-B21 (not upgradable to iLO 7) and its
   unsupported-option list are in the notes. GPUs themselves stay out of scope.
 QA: 1065 ok / 0 FAIL (psuMax sanity bound 4 → 8 for the DL380a). Browser-verified (DL580 G12: 7 CPUs, 2/4 CPUs, 4 PSUs, 64GB+; DL380a G12: 31 CPUs, 2P only, 8 PSUs).
+
+**Same build — DL380 G12 per-position rear cages (QuickSpecs V19):** the plain rear list ('2SFF rear', '4LFF rear',
+'6SFF rear', '4LFF midtray') became `DL380G12_CAGES`, one entry per (kit, riser position), like G10/G10+/G11:
+SFF/24SFF — 2SFF Primary/Secondary Riser Cage P74734-B21 (P or S, keeps one slot) + 2SFF stacking cage P74743-B21 (T,
+above the PSUs) = up to 6SFF; 8LFF/12LFF — 2LFF primary P74746 / secondary P76875 / rear-tertiary P75411 or the P74743
+stacking cage, up to 4LFF or 2LFF + 2SFF (new `rearMax.lffWithSff` rule); 4LFF mid-plane P74741-B21 LFF-only; EDSFF
+chassis (new 36EDSFF bay, 6 standard fans) 2SFF via P74743 only.
+- The rear picker now narrows to the chosen chassis for every per-position cage model (G10/G10+/G11/G12). First
+  attempt read `v('bays')` inside `rearRow(v)` — the parameter shadows the helper and "Add rear line" threw; caught in
+  the browser, fixed, and a QA test now drives the real picker.
+QA: 1076 ok / 0 FAIL (11 new). Browser-verified (rear picker per chassis on DL380 G12).

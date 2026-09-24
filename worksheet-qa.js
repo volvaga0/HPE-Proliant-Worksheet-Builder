@@ -5383,5 +5383,43 @@ function runRound25(){
   setv26('ctrl','MR416i-p — x16 lanes, 8GB cache, needs cable kit P76700-B21 (P47777-B21)');
   /96W Smart Storage battery or Smart Hybrid Capacitor.*MR416i-p/.test(chk26())?pass25('DL380a G12: MR416i-p needs a battery or capacitor'):fail25('DL380a battery');
 
+  // ===== DL380 G12 per-position rear cages (QuickSpecs V19, build 2026.09.24.1) =====
+  const G12C={p2sff:'2SFF rear, primary riser, keeps one PCIe slot (P74734-B21)',s2sff:'2SFF rear, secondary riser, keeps one PCIe slot (P74734-B21)',t2sff:'2SFF rear, tertiary position, stacked above the PSUs (P74743-B21)',
+    p2lff:'2LFF rear, primary riser (P74746-B21)',s2lff:'2LFF rear, secondary riser (P76875-B21)',t2lff:'2LFF rear, tertiary position (P75411-B21)',mid:'4LFF midtray, mid-plane cage (P74741-B21)'};
+  reset27(); setModel25('DL380 G12'); setv26('bays','24SFF'); setv26('cpuq','2'); pickCpuExact25('6520P');
+  addRear27(G12C.p2sff); addRear27(G12C.s2sff); addRear27(G12C.t2sff);
+  !/REAR CONFLICT|REAR NOT SUPPORTED/.test(chk26())?pass25('DL380 G12 24SFF: 6SFF rear (P74734 in primary + secondary, P74743 tertiary) is valid'):fail25('DL380 G12 24SFF 6SFF rear flagged: '+chk26().slice(0,200));
+  reset27(); setModel25('DL380 G12'); setv26('bays','24SFF'); addRear27(G12C.p2lff);
+  /is for the 8LFF and 12LFF chassis only/.test(chk26())?pass25('DL380 G12: a 2LFF rear cage is stopped on the 24SFF chassis'):fail25('2LFF on SFF not stopped');
+  reset27(); setModel25('DL380 G12'); setv26('bays','12LFF'); setv26('cpuq','2'); pickCpuExact25('6520P');
+  addRear27(G12C.p2lff); addRear27(G12C.s2lff);
+  !/REAR CONFLICT/.test(chk26())?pass25('DL380 G12 12LFF: 4LFF rear (2LFF primary + 2LFF secondary) is valid'):fail25('12LFF 4LFF rear flagged: '+chk26().slice(0,200));
+  addRear27(G12C.t2sff);
+  /up to 4LFF rear, or 2LFF \+ 2SFF/.test(chk26())?pass25('...adding a 2SFF rear on top (4LFF + 2SFF) is stopped'):fail25('LFF 4LFF+2SFF not stopped');
+  reset27(); setModel25('DL380 G12'); setv26('bays','12LFF'); setv26('cpuq','2'); pickCpuExact25('6520P'); addRear27(G12C.p2lff); addRear27(G12C.t2sff);
+  !/REAR CONFLICT/.test(chk26())?pass25('DL380 G12 12LFF: 2LFF + 2SFF rear is valid'):fail25('12LFF 2LFF+2SFF flagged: '+chk26().slice(0,200));
+  reset27(); setModel25('DL380 G12'); setv26('bays','12LFF'); addRear27(G12C.t2lff); addRear27(G12C.t2sff);
+  /Two rear cages are in the tertiary/.test(chk26())?pass25('DL380 G12: two cages in the tertiary position are stopped'):fail25('tertiary double not stopped');
+  reset27(); setModel25('DL380 G12'); setv26('bays','24SFF'); addRear27(G12C.mid);
+  /is for the 8LFF and 12LFF chassis only/.test(chk26())?pass25('DL380 G12: the 4LFF mid-plane cage is LFF-chassis only'):fail25('midplane on SFF not stopped');
+  reset27(); setModel25('DL380 G12'); setv26('bays','36EDSFF'); addRear27(G12C.t2sff); addRear27(G12C.p2sff);
+  /is for the SFF and 24SFF chassis only/.test(chk26())?pass25('DL380 G12 EDSFF: only the P74743 stacking cage fits (the riser cage is stopped)'):fail25('EDSFF riser cage not stopped');
+
+  // rear picker narrows to the chosen chassis for per-position cage models (and "Add rear line" works — a shadowed
+  // helper inside rearRow() once threw here)
+  const rearOpts26=function(){
+    d.getElementById('rear-lines').innerHTML=''; d.getElementById('add-rear').disabled=false;
+    d.getElementById('add-rear').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+    const inp=d.querySelector('#rear-lines [data-k=v]'); if(!inp)return null;
+    inp.dispatchEvent(new w.Event('focus'));
+    return [...d.querySelectorAll('#ac-panel .combo-item .ci-main')].map(function(el){return el.textContent;});
+  };
+  reset27(); setModel25('DL380 G12'); setv26('bays','24SFF');
+  { const o=rearOpts26(); (o&&o.length===3&&o.every(function(x){return /^2SFF/.test(x);}))?pass25('DL380 G12 24SFF: rear picker offers only the 3 SFF-chassis cages'):fail25('24SFF rear picker: '+JSON.stringify(o)); }
+  setv26('bays','12LFF');
+  { const o=rearOpts26(); (o&&o.length===5&&o.some(function(x){return /P74741-B21/.test(x);})&&!o.some(function(x){return /P74734-B21/.test(x);}))?pass25('DL380 G12 12LFF: rear picker offers the LFF cages, the stacking 2SFF and the mid-plane'):fail25('12LFF rear picker: '+JSON.stringify(o)); }
+  reset27(); setModel25('DL380 G11'); setv26('bays','8LFF');
+  { const o=rearOpts26(); (o&&!o.some(function(x){return /P48810-B21/.test(x);})&&o.some(function(x){return /P48823-B21/.test(x);}))?pass25('DL380 G11 8LFF: the SFF-only 2SFF riser cages drop out of the picker too'):fail25('G11 8LFF rear picker: '+JSON.stringify(o)); }
+
   reset27();
 }

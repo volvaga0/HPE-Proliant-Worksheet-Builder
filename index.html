@@ -1113,6 +1113,21 @@ var DL380G10P_CAGES=[
  {n:'8SFF midtray, x1 Tri-Mode (P27193-B21)',pos:'M'},
  {n:'8SFF midtray, x4 Tri-Mode (P39769-B21)',pos:'M'}];
 
+/* DL380 Gen12 rear / mid-plane cages, from the current QuickSpecs (V19, downloaded 2026-09-24). SFF and 24SFF chassis:
+   up to 6SFF rear — the 2SFF Primary/Secondary Riser Cage P74734-B21 (either riser position, keeps one PCIe slot there)
+   plus the 2SFF stacking cage P74743-B21 (tertiary position, above the PSUs). 8LFF / 12LFF: "up to 4LFF or 2SFF", or
+   "2LFF and/or 2SFF" — 2LFF primary P74746-B21 (in place of the primary riser), 2LFF secondary P76875-B21 (in place of
+   the secondary riser), 2LFF rear/tertiary P75411-B21, or the P74743 stacking cage; 4LFF mid-plane P74741-B21 (≤225W CPU,
+   1U heatsink). EDSFF chassis: 2SFF rear via P74743 only. */
+var DL380G12_CAGES=[
+ {n:'2SFF rear, primary riser, keeps one PCIe slot (P74734-B21)',pos:'P',cls:['SFF'],only:'the SFF and 24SFF chassis'},
+ {n:'2SFF rear, secondary riser, keeps one PCIe slot (P74734-B21)',pos:'S',cls:['SFF'],only:'the SFF and 24SFF chassis'},
+ {n:'2SFF rear, tertiary position, stacked above the PSUs (P74743-B21)',pos:'T',noRiser:['tertiary']},
+ {n:'2LFF rear, primary riser (P74746-B21)',pos:'P',cls:['LFF'],only:'the 8LFF and 12LFF chassis'},
+ {n:'2LFF rear, secondary riser (P76875-B21)',pos:'S',cls:['LFF'],only:'the 8LFF and 12LFF chassis',noRiser:['secondary']},
+ {n:'2LFF rear, tertiary position (P75411-B21)',pos:'T',cls:['LFF'],only:'the 8LFF and 12LFF chassis',noRiser:['tertiary']},
+ {n:'4LFF midtray, mid-plane cage (P74741-B21)',pos:'M',cls:['LFF'],only:'the 8LFF and 12LFF chassis'}];
+
 /* DL360 / DL380 Gen10 Plus stand-up (PCIe) card catalogue, from the current QuickSpecs (V44 / V42,
    downloaded 2026-09-22) — the two docs' Ethernet/InfiniBand/Omni-Path lists match except DL380 also
    offers the Slingshot NIC; the Fibre Channel HBA lists genuinely differ (DL360 gets 2 extra Emulex
@@ -2059,8 +2074,8 @@ var MODELS=[
        'Boot device: NS204i-u v2 (480GB P78279-B21, 960GB P81160-B21, 960GB SED P81162-B21), one per server, one enablement kit: internal P72595-B21, rear P72197-B21 (hot-plug, takes the Slot 2 space, not with the FH secondary riser), or front Box 5 P77198-B21 (hybrid chassis only).',
        'Rails: Easy Install Rail 3 Kit P52341-B21 on the 8SFF chassis; Easy Install Rail 5 Kit P52343-B21 on 4LFF and the 10SFF/20EDSFF hybrid. CMA 4 P70741-B21 needs a rail kit. No shelf-mount (L-bracket) rails.',
        'GPU: only the NVIDIA L4 (S0K89C), up to 3, low-profile single-wide 75W — needs High Performance fans.']}},
- {m:'DL380', g:'G12', p:['xeon6'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
-   rules:{verified:true,hsW:186,hsWtext:'above 185W',hsPart:'P74792-B21',fanPart:'P48820-B21',fans:{one:4,two:6,perf:6},fansByBay:{'12LFF':{one:6,two:6,perf:6}},fanKit2P:{n:'Standard Fan Kit',pn:'P49146-B21'},fanBays:['24SFF'],psuMax:2,riserMax:3,pcie:{one:3,two:8},
+ {m:'DL380', g:'G12', p:['xeon6'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF','36EDSFF'],
+   rules:{verified:true,hsW:186,hsWtext:'above 185W',hsPart:'P74792-B21',fanPart:'P48820-B21',fans:{one:4,two:6,perf:6},fansByBay:{'12LFF':{one:6,two:6,perf:6},'36EDSFF':{one:6,two:6,perf:6}},fanKit2P:{n:'Standard Fan Kit',pn:'P49146-B21'},fanBays:['24SFF'],psuMax:2,riserMax:3,pcie:{one:3,two:8},
      /* full rundown 2026-09-24 from the DL380 Gen12 QuickSpecs V19 (8 Sep 2026), read as clean HTML tables on hpe.com */
      dimmKits:true,memPerSocket:4096,xeon6Mem:true,midtrayMaxW:225,
      ctrl:['— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache (P58335-B21)',
@@ -2083,7 +2098,8 @@ var MODELS=[
      bezelKit:{pn:'P50400-B21',n:'Gen11 2U Bezel Kit',lock:'875519-B21'},
      intrusion:{pn:'P48922-B21',n:'DL3XX Gen11 Intrusion Cable Kit',d:'required with HPE Trusted Supply Chain (P36394-B21)'},
      iloLic:true,iloNoPremium:true,
-     rear:['2SFF rear','4LFF rear','6SFF rear','4LFF midtray'],
+     rear:DL380G12_CAGES.map(function(c){return c.n;}),rearCages:DL380G12_CAGES,
+     rearMax:{SFF:{'2SFF':3,'2LFF':0},LFF:{'2SFF':1,'2LFF':2,lffWithSff:1},EDSFF:{'2SFF':1,'2LFF':0}},
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6503P','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6714P','6724P','6725P','6728P','6730P','6732P','6736P','6737P','6738P','6740P','6745P','6747P','6748P','6760P','6762P','6767P','6768P','6787P','6788P'],
      notes:['The CPU list is the widest of any G12 model: all 7 E-core SKUs, 20 P-core SKUs (incl. 6503P, 6725P, 6732P, 6762P added in 2026) and the 7 Socket Scalable SKUs. No single-socket "1P" variants. Both processors must be the same model.',
        'Memory: DDR5-6400 RDIMMs (16/32/64/96/128GB, 256GB 3DS), 32 slots, up to 8TB. 6400 MT/s at 1 DIMM per channel; at 2 per channel (more than 8 per processor) P-core parts run 6000 (5200 before the May 2026 firmware) and E-core parts 5200. The 6710E, 6731E and 6746E run memory at 5600. 16GB: 1 DIMM per channel only, and not with E-core processors. HPE supports 1/2/4/8/12/16 DIMMs per P-core processor, 1/2/4/8/16 per E-core.',
@@ -2091,7 +2107,9 @@ var MODELS=[
        'Controllers: MR416i/MR408i need a Smart Storage battery or capacitor (one per server); MR932i-p has battery backup built in and takes SAS SSDs and NVMe only — no SATA drives, no HDDs. All take the Storage Controller Enablement Cable Kit P48918-B21. The Gen10 E208e-p (804398-B21) is not supported on Gen12 (UMCE-at-boot advisory) — use the E208e-p SR Gen12 P95072-B21.',
        'OCP: slot A embedded; slot B needs a CPU cable kit (CPU1 x8 P72203-B21, CPU2 x8 P72205-B21, CPU2 x16 P72207-B21); x16 on slot A needs P72201-B21. The multipurpose cage adds two front OCP slots (P74757-B21 / P74758-B21). With an OCP controller (OROC) fitted it takes OCP A and the NIC goes to OCP B.',
        'Boot device: NS204i-u v2 (480GB P78279-B21, 960GB P81160-B21, 960GB SED P81162-B21) — rear mount kit P74755-B21 (add the Rear Access FIO kit P77928-B21 to service it from the back) or front kit P74759-B21 in the multipurpose cage. It takes no PCIe slot.',
-       'Rear and mid-tray drives combine: 24SFF takes up to 6SFF rear; 8LFF takes a 2SFF front + 4LFF mid + 4LFF/2SFF rear; 12LFF takes a 4LFF mid + 4LFF/2SFF rear; the EDSFF variant takes a 2SFF rear. Mid-tray needs a CPU at or under 225W and excludes GPU/DLC.',
+       'Rear cages on SFF / 24SFF (one per riser position): up to 6SFF — the 2SFF Primary/Secondary Riser Cage P74734-B21 in the primary and/or secondary position (keeps one PCIe slot there) plus the 2SFF stacking cage P74743-B21 in the tertiary position above the PSUs. The EDSFF chassis (36EDSFF, or 12EDSFF + 16SFF) takes 2SFF rear via P74743 only.',
+       'Rear cages on 8LFF / 12LFF: up to 4LFF, or 2LFF + 2SFF — 2LFF primary P74746-B21 (replaces the primary riser), 2LFF secondary P76875-B21 (replaces the secondary riser), 2LFF rear/tertiary P75411-B21, or the P74743 2SFF stacking cage.',
+       'Mid-plane: 4LFF SAS/SATA LP cage P74741-B21, 8LFF and 12LFF only, with a processor at or under 225W and the 1U High Performance heatsink P74787-B21; not with DLC. The 8LFF chassis can also take a front 2SFF side-by-side cage (P74744-B21); the SFF chassis a front 2SFF cage in the Universal Media Bay (P75807-B21).',
        '8SFF cages are U.3 Tri-Mode only: x1 P75740-B21 or x4 P75741-B21 (SAS/SATA/NVMe through an MR Tri-Mode controller; x4 can also direct-attach NVMe). The Multipurpose Drive Cage Kit P76449-B21 (Box 2) is not a drive cage for SFF bays — it holds a front NS204i-u, front OCP NICs and/or a 4EDSFF cage (P76450-B21). LFF is SAS/SATA; the 4LFF LP mid-plane cage is P74741-B21.',
        'Fans: the SFF and 8-bay LFF chassis ship 4 standard fans, the 12-bay LFF and EDSFF chassis ship 6, and the 24-bay SFF chassis ships 6 high-performance. Two processors need 6 fans — add the 2-fan Standard Fan Kit P49146-B21 where 4 ship.',
        '36 EDSFF and 12 EDSFF+16SFF front cage variants also exist — not in the bay list.']}},
@@ -5459,7 +5477,10 @@ function rearRow(v){
   d.innerHTML='<input type="text" placeholder="Rear / midtray — tap for the list or type your own" data-k="v" autocomplete="off" value="'+(v.v||'').replace(/"/g,'&quot;')+'">'+
    '<button type="button" class="kill" title="Remove line">&times;</button>';
   d.querySelector('.kill').addEventListener('click',function(){d.remove();run();});
-  attachList(d.querySelector('[data-k=v]'),function(){var m=currentModel(),R=rulesFor(m);return (m&&R.rear&&R.rear.length)?R.rear:REAR;});
+  /* models with per-position cage tables: once a front chassis is picked, offer only the cages that fit it */
+  attachList(d.querySelector('[data-k=v]'),function(){var m=currentModel(),R=rulesFor(m);
+    if(m&&R.rearCages){var cl=chassisClass(document.getElementById('bays').value);return R.rearCages.filter(function(c){return !cl||!c.cls||c.cls.indexOf(cl)>-1;}).map(function(c){return c.n;});}
+    return (m&&R.rear&&R.rear.length)?R.rear:REAR;});
   return d;}
 document.getElementById('add-rear').addEventListener('click',function(){rearLinesEl.appendChild(rearRow());run();});
 /* the joined value every existing rule/slip/paste check reads — kept as a
@@ -5655,6 +5676,9 @@ function rearCageChecks(m,R,bays,vals,riserLines,cpuq,checks){
         :'The '+bays+' chassis takes at most '+mx['2LFF']+' 2LFF rear cages — '+tot['2LFF']+' entered.']);
     if(tot['2SFF']>mx['2SFF'])
       checks.push(['stop','REAR CONFLICT','The '+bays+' chassis takes at most '+mx['2SFF']+' 2SFF rear cage'+(mx['2SFF']>1?'s':'')+' — '+tot['2SFF']+' entered.']);
+    /* lffWithSff: with a 2SFF rear cage fitted, at most this many 2LFF cages (DL380 Gen12 LFF: up to 4LFF, or 2LFF + 2SFF) */
+    if(mx.lffWithSff!=null&&tot['2SFF']>0&&tot['2LFF']>mx.lffWithSff)
+      checks.push(['stop','REAR CONFLICT','The '+bays+' chassis takes up to 4LFF rear, or 2LFF + 2SFF — with a 2SFF rear cage only '+mx.lffWithSff+' 2LFF cage fits ('+tot['2LFF']+' entered).']);
   }
   if(needSecN){
     if(!p48802)
