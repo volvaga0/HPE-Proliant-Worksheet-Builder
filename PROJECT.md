@@ -3751,3 +3751,5 @@ kit names, every PN grep-checked against the model's two docs (none missing).
   2-socket E5-2600 boxes); 9 E5-1600 SKUs, 6 E3 v5/v6 and 3 Pentium SKUs added (specs from the Gen9 processor tables).
 - No Gen9 cpuAllow (same reasoning as DL360/DL380 G10: the docs' ordering lists are partial, a wrong block is worse than none).
 QA: 1111 ok / 0 FAIL (8 older tests re-pointed: DL110 G12 is now the 'no own lists' example). Browser-verified (DL380 G9 controllers with PNs, ML110 G9 60 CPUs incl. E5-1600).
+
+2026-09-24: ML150 G9 PSU picker list added (550W FIO 730941-B21, 900W redundant kit 820792-B21, input module 775595-B21 + backplane 814835-B21 — were only in the notes). Tower audit: G10-G12 towers match rack depth; no intrusion kit exists in any ML30/ML110 G10/ML350 G10 doc; ML10/ML30 G9 have fixed PSUs.
