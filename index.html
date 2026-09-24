@@ -1965,22 +1965,54 @@ var MODELS=[
        'Fixed 6-fan cage (DL3X5 Gen11 fan kit part numbers, reused) regardless of processor count.',
        'A 36-EDSFF front cage and a front-GPU CTO variant also exist — neither is in the bay list.',
        '8SFF is Tri-Mode-only (x1 P75740-B21 or x4 P75741-B21) or pure NVMe U.2 (P71465-B21) — no plain SAS/SATA-only cage. 12LFF is 3x 4LFF cages, each with a plain 4LFF Backplane Kit (P75760-B21).']}},
- {m:'DL360', g:'G12', p:['xeon6'], s:2, d:32, bays:['4LFF','10SFF'],
-   rules:{fanWtext:'above 185W',fanW:186,verified:true,hsW:186,hsWtext:'above 185W',fans:{one:5,two:7,perf:7},psuMax:2,riserMax:2,pcie:{one:2,two:3},
-     rear:['2x M.2 (dual uFF) rear'],
-     cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6730P','6736P','6737P','6740P','6747P','6760P','6767P','6787P'],
-     notes:['The CPU list is the 7 E-core SKUs plus the 15 standard P-core SKUs — no single-socket "1P" variants, no 6745P, no 4S/8S Socket Scalable SKUs.',
-       'No rear or mid-tray drive cage — "rear" is only the NS204i-u boot device or OCP/PCIe.',
-       'A 20x E3.S EDSFF front cage also exists — not in the bay list.',
-       'Above 270W (2P) needs Closed-loop liquid cooling instead of an air-cooled heat sink; up to 350W is DLC-only. Confirm the exact tier for high-wattage picks.',
-       '10SFF (really 8SFF+2SFF) is Tri-Mode/NVMe-mixed by default — no plain SAS/SATA-only SFF cage. 4LFF Low Profile is treated as SAS/SATA-only even though the doc names its backplane "12G x1 TriMode U.3" (no LFF NVMe drive is sold).']}},
+ {m:'DL360', g:'G12', p:['xeon6'], s:2, d:32, bays:['4LFF','8SFF','10SFF','20EDSFF'],
+   /* full rundown 2026-09-24 from the DL360 Gen12 QuickSpecs V19 (8 Sep 2026, a50006984enw), downloaded from hpe.com */
+   rules:{fanWtext:'above 185W',fanW:186,verified:true,hsW:186,hsWtext:'above 185W',hsPart:'P74787-B21',fanPart:'P48908-B21',fans:{one:5,two:7,perf:7},fanKit2P:{n:'2P Standard Fan Kit',pn:'P54697-B21'},psuMax:2,riserMax:2,pcie:{one:2,two:3},
+     rear:[],
+     dimmKits:true,memPerSocket:4096,xeon6Mem:true,
+     fanNVMe:true,fanGPU:true,fanDimmGB:256,hiNic:true,fanBaysReq:['20EDSFF'],
+     ns204:{rearSlot:true,noRiser:'P72598-B21',fanRear:true},
+     ctrl:['— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache, up to 8 drives (P58335-B21)',
+       '— PCI (plug-in card) —','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','MR408i-p — x8 lanes, 4GB cache (P74775-B21)',
+       'MR932i-p — x32 lanes, PCIe Gen5, full-height, SAS SSD / NVMe only (P75697-B21)','E208e-p SR Gen12 — external SAS 12G HBA, x8 lanes, no cache (P95072-B21)'],
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21; stand-alone P68039-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','16W Smart Hybrid Capacitor with 145mm cable (P65038-B21)','No battery'],
+     batReq:{ctrls:['MR408i-o'],pn:'96W P01366-B21, Hybrid Capacitor P02377-B21 or 16W P65038-B21',n:'Smart Storage battery or capacitor'},
+     ctrlNoHDD:['MR932i-p'],
+     psu:['800W Flex Slot Platinum (P38995-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum (P38997-B21)','1600W Flex Slot -48VDC — Lug Kit P36877-B21 (default) or 3.5m DC cable kit P22173-B21 (P17023-B21)','1800-2200W Flex Slot Titanium (P44712-B21)'],
+     flr:['BCM5719 1Gb 4p (P51181-B21)','E610-IT4 1Gb 4p (P79833-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)',
+       'E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-XXVDA4 10/25Gb 4p (P41614-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)','BCM57608 100Gb 2p (P73114-B21)','E810-CQDA2 100Gb 2p (P22767-B21)'],
+     cards:g11Cards(['P51178-B21','P26253-B21','P26259-B21','P87940-B21','P26262-B21','P26264-B21','P08443-B21','P08458-B21','P21109-B21','P42044-B21','P73111-B21','P25960-B21','P21112-B21',
+       'P45641-H24','P45642-H23','P65333-H21','R2E08A','R2E09A','R7N86A','R7N87A'],
+       ['InfiniBand XDR400 400Gb 2p QSFP112 PCIe6 CX8 Crypto (P79115-H21)','InfiniBand XDR 2x400Gb 1p OSFP PCIe6 CX8 Crypto (P79114-H21)',
+        'BlueField DPU B3220 200Gb 2p QSFP112 FHHL — needs B3220 Power Cable Kit P95271-B21 (P66386-H21)','BlueField DPU B3140H 400Gb 1p QSFP112 HHHL (P66387-H21)',
+        'SN1620E 32Gb FC 2p SecureHBA (S4S01A)','SN1720E 64Gb FC 2p SecureHBA (S4T09A)',
+        'NS204i-u v2 480GB NVMe boot device, internal (P78279-B21, Internal Enablement Kit P72595-B21)','NS204i-u v2 480GB NVMe boot device, at rear — takes Slot 2 (P78279-B21, Rear Enablement Kit P72197-B21)',
+        'NS204i-u v2 960GB NVMe boot device, internal (P81160-B21, Internal Enablement Kit P72595-B21)','NS204i-u v2 960GB NVMe boot device, at rear — takes Slot 2 (P81160-B21, Rear Enablement Kit P72197-B21)',
+        'NS204i-u v2 960GB SED NVMe boot device, internal (P81162-B21, Internal Enablement Kit P72595-B21)','NS204i-u v2 960GB SED NVMe boot device, at rear — takes Slot 2 (P81162-B21, Rear Enablement Kit P72197-B21)',
+        'NS204i-u v2 NVMe boot device, front Box 5 — 10SFF/20EDSFF hybrid only (P78279-B21 / P81160-B21 / P81162-B21, Front Enablement Kit P77198-B21)']),
+     rails:{kits:[{pn:'P52341-B21',n:'DL3XX Gen11 Easy Install Rail 3 Kit',bays:['8SFF']},{pn:'P52343-B21',n:'Easy Install Rail 5 Kit',bays:['4LFF','10SFF','20EDSFF']}],cma:[{pn:'P70741-B21',n:'Cable Management Arm 4 for Friction Rail Kit'}]},
+     bezelKit:{pn:'P50450-B21',n:'Gen11 1U Common Bezel Kit',lock:'875519-B21'},
+     intrusion:{pn:'P48922-B21',n:'DL3XX Gen11 Intrusion Cable Kit',d:'required with HPE Trusted Supply Chain (P36394-B21)'},
+     iloLic:true,iloNoPremium:true,
+     cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6503P','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6714P','6724P','6725P','6728P','6730P','6732P','6736P','6737P','6738P','6740P','6745P','6747P','6748P','6760P','6762P','6767P','6768P','6787P','6788P'],
+     notes:['Chassis (V19): 4LFF (P72174-B21, embedded 4LFF 12G x1 SAS/SATA backplane), 8SFF (P72175-B21, the "(8+2) SFF" chassis: 8SFF x1 Tri-Mode U.3 L-shaped backplane P75084-B21, plus an optional 2SFF x4 Tri-Mode side-by-side cage P75086-B21 that needs the 8SFF backplane), and the 10SFF/20EDSFF hybrid (P72176-B21: five front boxes, each a 2SFF x4 Tri-Mode U.3 stacking cage P72223-B21 or a 4 E3.S NVMe cage P72221-B21; mixing allowed).',
+       'The CPU list is the same 34 SKUs as the DL380 G12: 7 E-core, 20 P-core and the 7 Socket Scalable SKUs. Both processors must be the same model; processors ship without heatsinks or fans.',
+       'Cooling (V19 table): up to 185W — Standard heatsink P48904-B21 and the Standard Fan Kit P48907-B21 (5 fans; add the 2P Standard Fan Kit P54697-B21 for 7 with two processors). 186-350W — High Performance heatsink P74787-B21 and the High Performance Fan Kit P48908-B21 (7 fans); 251-350W is "limited configuration" (front backplane count drops with inlet temperature — 2x 350W: 25°C max 3 boxes on the hybrid, 1 on 8SFF/4LFF). Closed-loop liquid cooling is the factory-only P74800-B21.',
+       'High Performance fans are also required for SAS4 (24G), NVMe and EDSFF drives, a rear NS204i-u, a GPU, a 100Gb-or-faster NIC and 256GB DIMMs.',
+       'Memory: DDR5-6400 RDIMMs, 32 slots, 8TB. 1 DIMM per channel 6400; 2 per channel: P-core 6000 (5200 before the May 2026 firmware), E-core 5200. 16GB: 1 DIMM per channel only, not with E-core processors, and HPE is dropping the 16GB kit P69726-B21 from the configurator after April 2026. 32 x 256GB cannot reach 6400. DIMM blanks P07818-B21 fill empty slots on air-cooled builds.',
+       'PCIe: embedded primary riser = Slot 1 FH x16 + Slot 2 LP x16 (Proc 1). Secondary riser (needs Proc 2): x16 FH P72598-B21 (removes Slot 2\'s LP bracket, and rules out the rear NS204i-u) or x16 LP P48903-B21. Cards up to 9.5" long. 4-port BASE-T PCIe NICs (P51178-B21) cannot go in Slot 2.',
+       'OCP: Slot 14 (OCP A) x8 from CPU1 embedded; x16 on OCP A needs P72201-B21 (required for the x16 cards E810-CQDA2, BCM57504 and BCM57608 OCP). OCP B needs a cable kit: CPU1 x8 P72203-B21, CPU2 x8 P72205-B21 or CPU2 x16 P72207-B21. The hybrid chassis can add front OCP slots in Box 3 (P72596-B21, then P72597-B21 with Proc 2) — no bezel with those. No embedded NIC; the configurator defaults the BCM5719 OCP.',
+       'Controllers: at most 2 internal controllers (1 on the 4LFF chassis), and at most one on OCP. MR408i-o needs a Smart Storage battery or capacitor plus the Enablement Cable Kit P48918-B21. MR932i-p (x32, full-height) takes SAS SSDs and NVMe only. The Gen10 E208e-p (804398-B21) is not supported on Gen12 (UMCE-at-boot advisory) — the E208e-p SR Gen12 P95072-B21 replaces it.',
+       'Boot device: NS204i-u v2 (480GB P78279-B21, 960GB P81160-B21, 960GB SED P81162-B21), one per server, one enablement kit: internal P72595-B21, rear P72197-B21 (hot-plug, takes the Slot 2 space, not with the FH secondary riser), or front Box 5 P77198-B21 (hybrid chassis only).',
+       'Rails: Easy Install Rail 3 Kit P52341-B21 on the 8SFF chassis; Easy Install Rail 5 Kit P52343-B21 on 4LFF and the 10SFF/20EDSFF hybrid. CMA 4 P70741-B21 needs a rail kit. No shelf-mount (L-bracket) rails.',
+       'GPU: only the NVIDIA L4 (S0K89C), up to 3, low-profile single-wide 75W — needs High Performance fans.']}},
  {m:'DL380', g:'G12', p:['xeon6'], s:2, d:32, bays:['8LFF','12LFF','8SFF','16SFF','24SFF'],
    rules:{verified:true,hsW:186,hsWtext:'above 185W',hsPart:'P74792-B21',fanPart:'P48820-B21',fans:{one:4,two:6,perf:6},fansByBay:{'12LFF':{one:6,two:6,perf:6}},fanKit2P:{n:'Standard Fan Kit',pn:'P49146-B21'},fanBays:['24SFF'],psuMax:2,riserMax:3,pcie:{one:3,two:8},
      /* full rundown 2026-09-24 from the DL380 Gen12 QuickSpecs V19 (8 Sep 2026), read as clean HTML tables on hpe.com */
-     dimmKits:true,memPerSocket:4096,memSpeeds:{xeon6:[5600,6000,6400]},dpc2Speed:6000,dimm1dpc:[16],midtrayMaxW:225,
+     dimmKits:true,memPerSocket:4096,xeon6Mem:true,midtrayMaxW:225,
      ctrl:['— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache (P58335-B21)',
        '— PCI (plug-in card) —','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','MR408i-p — x8 lanes, 4GB cache (P74775-B21)',
-       'MR932i-p — x32 lanes, PCIe Gen5, battery backup built in, SAS/NVMe SSDs only (P75697-B21)','SAS 12G HBA — Gen12 x8 lanes, no cache (P95072-B21)'],
+       'MR932i-p — x32 lanes, PCIe Gen5, battery backup built in, SAS SSD / NVMe only (P75697-B21)','E208e-p SR Gen12 — external SAS 12G HBA, x8 lanes, no cache (P95072-B21)'],
      bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21; stand-alone P68039-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','16W Smart Hybrid Capacitor with 145mm cable (P65038-B21)','No battery'],
      batReq:{ctrls:['MR416i-o','MR416i-p','MR408i-o','MR408i-p'],pn:'96W P01366-B21, Hybrid Capacitor P02377-B21 or 16W P65038-B21',n:'Smart Storage battery or capacitor'},
      ctrlNoHDD:['MR932i-p'],
@@ -1990,7 +2022,7 @@ var MODELS=[
      cards:g11Cards(['P51178-B21','P26253-B21','P26259-B21','P87940-B21','P26262-B21','P26264-B21','P08443-B21','P08458-B21','P21109-B21','P42044-B21','P73111-B21','P25960-B21','P21112-B21',
        'P45641-H24','P45642-H23','P65333-H21','S4S01A','S4T09A','R2E08A','R2E09A','R7N86A','R7N87A'],
        ['InfiniBand XDR400 400Gb 2p QSFP112 PCIe6 CX8 Crypto (P79115-H21)','InfiniBand XDR 2x400Gb 1p OSFP PCIe6 CX8 Crypto (P79114-H21)',
-        'BlueField DPU B3220 200Gb 2p QSFP112 FHHL — needs B3220 Power Cable Kit P95271-B21 (P66386-H21)','BlueField DPU B3140H 400Gb 1p QSFP112 HHHL (P66387-H21)',
+        'BlueField DPU B3220 200Gb 2p QSFP112 FHHL — needs B3220 Power Cable Kit P95271-B21 and Cooling Upgrade Enablement Kit P81130-B21 (P66386-H21)','BlueField DPU B3140H 400Gb 1p QSFP112 HHHL (P66387-H21)',
         'SN1620E 32Gb FC 2p SecureHBA (S4S01A)','SN1720E 64Gb FC 2p SecureHBA (S4T09A)',
         'NS204i-u v2 480GB NVMe boot device (P78279-B21, rear mount kit P74755-B21 or front kit P74759-B21)','NS204i-u v2 960GB NVMe boot device (P81160-B21, rear mount kit P74755-B21 or front kit P74759-B21)',
         'NS204i-u v2 960GB SED NVMe boot device (P81162-B21, rear mount kit P74755-B21 or front kit P74759-B21)']),
@@ -2001,9 +2033,9 @@ var MODELS=[
      rear:['2SFF rear','4LFF rear','6SFF rear','4LFF midtray'],
      cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6503P','6505P','6507P','6515P','6517P','6520P','6527P','6530P','6714P','6724P','6725P','6728P','6730P','6732P','6736P','6737P','6738P','6740P','6745P','6747P','6748P','6760P','6762P','6767P','6768P','6787P','6788P'],
      notes:['The CPU list is the widest of any G12 model: all 7 E-core SKUs, 20 P-core SKUs (incl. 6503P, 6725P, 6732P, 6762P added in 2026) and the 7 Socket Scalable SKUs. No single-socket "1P" variants. Both processors must be the same model.',
-       'Memory: DDR5-6400 RDIMMs (16/32/64/96/128GB, 256GB 3DS), 32 slots, up to 8TB. 6400 MT/s at 1 DIMM per channel, 6000 at 2 (more than 8 DIMMs per processor); the 6710E, 6731E and 6746E run memory at 5600. 16GB modules are 1-DIMM-per-channel only (max 8 per processor).',
+       'Memory: DDR5-6400 RDIMMs (16/32/64/96/128GB, 256GB 3DS), 32 slots, up to 8TB. 6400 MT/s at 1 DIMM per channel; at 2 per channel (more than 8 per processor) P-core parts run 6000 (5200 before the May 2026 firmware) and E-core parts 5200. The 6710E, 6731E and 6746E run memory at 5600. 16GB: 1 DIMM per channel only, and not with E-core processors. HPE supports 1/2/4/8/12/16 DIMMs per P-core processor, 1/2/4/8/16 per E-core.',
        'Heatsinks: Standard P49145-B21 (one per kit) up to 185W; above that the 2U High Performance kit P74792-B21 (two per kit). The 4LFF mid-plane cage needs the 1U High Performance heatsink P74787-B21 (and a processor at or under 225W). The 2U Max Performance kit P74794-B21 is 2-processor only. HPE\'s configurator picks the tier; mixing heatsink types is not supported.',
-       'Controllers: MR416i/MR408i need a Smart Storage battery or capacitor (one per server); MR932i-p has battery backup built in and takes SAS/NVMe SSDs only — no HDDs. All take the Storage Controller Enablement Cable Kit P48918-B21.',
+       'Controllers: MR416i/MR408i need a Smart Storage battery or capacitor (one per server); MR932i-p has battery backup built in and takes SAS SSDs and NVMe only — no SATA drives, no HDDs. All take the Storage Controller Enablement Cable Kit P48918-B21. The Gen10 E208e-p (804398-B21) is not supported on Gen12 (UMCE-at-boot advisory) — use the E208e-p SR Gen12 P95072-B21.',
        'OCP: slot A embedded; slot B needs a CPU cable kit (CPU1 x8 P72203-B21, CPU2 x8 P72205-B21, CPU2 x16 P72207-B21); x16 on slot A needs P72201-B21. The multipurpose cage adds two front OCP slots (P74757-B21 / P74758-B21). With an OCP controller (OROC) fitted it takes OCP A and the NIC goes to OCP B.',
        'Boot device: NS204i-u v2 (480GB P78279-B21, 960GB P81160-B21, 960GB SED P81162-B21) — rear mount kit P74755-B21 (add the Rear Access FIO kit P77928-B21 to service it from the back) or front kit P74759-B21 in the multipurpose cage. It takes no PCIe slot.',
        'Rear and mid-tray drives combine: 24SFF takes up to 6SFF rear; 8LFF takes a 2SFF front + 4LFF mid + 4LFF/2SFF rear; 12LFF takes a 4LFF mid + 4LFF/2SFF rear; the EDSFF variant takes a 2SFF rear. Mid-tray needs a CPU at or under 225W and excludes GPU/DLC.',
@@ -2879,9 +2911,10 @@ var MEM_SPEEDS={
     a CPU-tier one — left as-is, single value, not a bug. */
  naples:[2666],rome:[3200],milan:[3200],
  sp4:[4000,4400,4800],sp5:[4000,4400,4800,5200,5600],genoa:[4800],turin:[6000],
- /* xeon6: the DL380 Gen12 (V19) processor table rates 6710E / 6731E / 6746E at 5600 and every other listed
-    Xeon 6 at 6400 (CPU_MEM_MAX caps the three). 6000 at 2 DIMMs per channel is a per-model memSpeeds addition. */
- xeon6:[5600,6400]
+ /* xeon6: HPE's Gen12 memory-speed table (DL360 Gen12 V19): 6400 at 1 DIMM per channel; at 2 DIMMs per channel E-core
+    parts run 5200 and P-core parts 6000 (5200 before the May 2026 firmware). The processor table rates 6710E / 6731E /
+    6746E at 5600 (CPU_MEM_MAX). The xeon6Mem rule applies the per-population limits. */
+ xeon6:[5200,5600,6000,6400]
 };
 var MEM_CAPS={
  e3:[8,16],xeone:[8,16],xeone3:[8,16,32],xeone4:[16,32],
@@ -2970,7 +3003,8 @@ var DIMM_KITS={
       64:['P64707-B21','64GB Dual Rank x4 DDR5-5600'],96:['P64708-B21','96GB Dual Rank x4 DDR5-5600'],
       128:['P69976-B21','128GB Dual Rank x4 DDR5-5600'],256:['P90554-B21','256GB Quad Rank x4 3DS DDR5-5600']},
  /* xeon6 (Gen12, DDR5-6400 RDIMM) — DL380 Gen12 QuickSpecs V19 (Sep 2026), clean HTML table; -F21 twins exist for
-    factory-integrated builds. 16GB is 1 DIMM-per-channel only (dimm1dpc rule). */
+    factory-integrated builds. 16GB is 1 DIMM-per-channel only with P-core and not supported with E-core parts (xeon6Mem rule).
+    The DL360 Gen12 V19 ordering row prints the 256GB kit as P73477-B21 — a typo; its own table and the DL380 doc say P73447-B21. */
  xeon6:{16:['P69726-B21','16GB Single Rank x8 DDR5-6400 RDIMM'],32:['P69727-B21','32GB Dual Rank x8 DDR5-6400 RDIMM'],
       64:['P69728-B21','64GB Dual Rank x4 DDR5-6400 RDIMM'],96:['P69729-B21','96GB Dual Rank x4 DDR5-6400 RDIMM'],
       128:['P69730-B21','128GB Dual Rank x4 DDR5-6400 RDIMM'],256:['P73447-B21','256GB Quad Rank x4 3DS DDR5-6400 RDIMM']}
@@ -3078,7 +3112,7 @@ var CTRL_GENS={
  'P408i-a':['G10','G10+','G10+ v2'],'P816i-a':['G10','G10+','G10+ v2'],'E208i-a':['G10','G10+','G10+ v2'],
  'P408i-p':['G10','G10+','G10+ v2'],'P408e-p':['G10','G10+','G10+ v2'],'P816i-p':['G10','G10+','G10+ v2'],
  'P824i-p':['G10','G10+','G10+ v2'],'E208i-p':['G10','G10+','G10+ v2'],
- 'E208e-p':['G10','G10+','G10+ v2','G11'],
+ 'E208e-p':['G10','G10+','G10+ v2','G11','G12'],
  'SR932i-p':['G10+','G10+ v2','G11'],
  'MR216i-p':['G10+','G10+ v2','G11','G12'],'MR416i-p':['G10+','G10+ v2','G11','G12'],
  'MR216i-a':['G10+'],'MR416i-a':['G10+'],'SR416i-a':['G10+'],
@@ -4290,7 +4324,7 @@ var RISERS={
     secondary kit is the literal Gen11 part number reused (P48903-B21),
     confirmed by this model's own doc. 2026-09-16. */
  'DL360 G12':[
-  {n:'Default Primary Riser (Slot 1 FH + Slot 2 LP)',d:'Slot 1 full-height x16, Slot 2 low-profile x16 · Proc 1 · ships standard',s:2,fh:1,lp:1,pos:'primary',def:true},
+  {n:'Default Primary Riser (Slot 1 FH + Slot 2 LP)',d:'Slot 1 full-height x16, Slot 2 low-profile x16 · Proc 1 · ships standard (embedded; field-replacement kit P75407-B21)',s:2,fh:1,lp:1,pos:'primary',def:true},
   {n:'x16 LP Riser Kit — Secondary (P48903-B21, shared with DL360 G11)',d:'Adds Slot 3, low-profile x16 · Proc 2 required · Slot 2 stays usable (3 slots total: 1 FH + 2 LP)',s:1,fh:0,lp:1,pos:'secondary',cpu2:true},
   {n:'x16 Full Height Riser Kit — Secondary (P72598-B21)',d:'Adds Slot 3, full-height x16 · Proc 2 required · DISABLES Slot 2 on the primary riser, so the real total stays 2 slots (Slot 1 + Slot 3, both FH) despite this kit adding one',s:1,fh:1,lp:0,pos:'secondary',cpu2:true}
  ],
@@ -5905,12 +5939,24 @@ function evaluate(){
         checks.push(['stop','MEMORY SPEED',cpu[0]+' runs memory at up to '+CPU_MEM_MAX[cpu[0]]+' MT/s — a '+dspeed+' MT/s module would run at '+CPU_MEM_MAX[cpu[0]]+' MT/s, so the sheet cannot promise '+dspeed+'. Use '+memSpeedsFor(m).join('/')+' MT/s.']);
       }
     }
-    /* dpc2Speed / dimm1dpc: 8 channels per processor, so more than 8 DIMMs per processor = 2 DIMMs per channel (DL380 Gen12) */
+    /* xeon6Mem: HPE's Gen12 memory table (DL360 Gen12 V19, "Memory Speed for Gen12 Servers"). 8 channels per processor, so
+       more than 8 DIMMs per processor = 2 DIMMs per channel. E-core (6700E): no 16GB, 2DPC up to 5200, 1/2/4/8/16 DIMMs
+       per processor. P-core (6500P/6700P): 16GB 1DPC only, 2DPC up to 6000 (5200 before May 2026 firmware),
+       1/2/4/8/12/16 DIMMs per processor. */
     var dpcCpus=Math.max(cpuq||1,1);
-    if(R.dpc2Speed&&dspeed>R.dpc2Speed&&dq>8*dpcCpus)
-      checks.push(['stop','MEMORY SPEED',dq+' DIMMs on '+dpcCpus+' processor'+(dpcCpus>1?'s':'')+' is 2 DIMMs per channel — '+m.m+' '+m.g+' runs memory at '+R.dpc2Speed+' MT/s there, not '+dspeed+'.']);
-    if(R.dimm1dpc&&dsize&&R.dimm1dpc.indexOf(dsize)>-1&&dq>8*dpcCpus)
-      checks.push(['stop','MEMORY',dsize+'GB modules are 1 DIMM per channel only on '+m.m+' '+m.g+' — at most '+(8*dpcCpus)+' with '+dpcCpus+' processor'+(dpcCpus>1?'s':'')+'.']);
+    if(R.xeon6Mem&&cpu&&cpu[2]==='xeon6'&&dq){
+      var eCore=/E$/.test(cpu[0]),perCpu=dq/dpcCpus,cpuWord=eCore?'Xeon 6 E-core ('+cpu[0]+')':'Xeon 6 P-core ('+cpu[0]+')';
+      if(eCore&&dsize===16)
+        checks.push(['stop','MEMORY','16GB modules are not supported with '+cpuWord+' processors on Gen12 — use 32GB or larger.']);
+      else if(dsize===16&&perCpu>8)
+        checks.push(['stop','MEMORY','16GB modules are 1 DIMM per channel only — at most '+(8*dpcCpus)+' with '+dpcCpus+' processor'+(dpcCpus>1?'s':'')+'.']);
+      var cap2=eCore?5200:6000;
+      if(perCpu>8&&dspeed>cap2)
+        checks.push(['stop','MEMORY SPEED',dq+' DIMMs on '+dpcCpus+' processor'+(dpcCpus>1?'s':'')+' is 2 DIMMs per channel — '+cpuWord+' runs memory at up to '+cap2+' MT/s there, not '+dspeed+(eCore?'.':' (5200 on firmware before May 2026).')]);
+      var okN=eCore?[1,2,4,8,16]:[1,2,4,8,12,16];
+      if(dq%dpcCpus||okN.indexOf(perCpu)<0)
+        checks.push(['verify','MEMORY QTY','HPE supports '+okN.join(', ')+' DIMMs per processor with '+cpuWord+' — '+dq+' on '+dpcCpus+' processor'+(dpcCpus>1?'s':'')+' is not one of them.']);
+    }
     if(dsize){
       var validCaps=unionVals(dPlats.map(function(p){return MEM_CAPS[p];}));
       if(validCaps.length&&validCaps.indexOf(dsize)<0)
@@ -5979,9 +6025,10 @@ function evaluate(){
   if(m&&R.ns204pNoCpu&&cpu&&R.ns204pNoCpu.indexOf(cpu[0])>-1&&readLines(cards).some(function(c){return /NS204i-p/i.test(c.name||'');}))
     checks.push(['stop','NS204i-p','The NS204i-p boot device is not supported with the '+cpu[0]+' on '+m.m+' '+m.g+' — pick a Xeon or drop the boot device.']);
 
-  /* ctrlNoHDD: controllers the doc limits to SSDs (DL380 Gen12 MR932i-p) — an HDD line = SAS/SATA interface with no SSD class */
-  if(m&&R.ctrlNoHDD&&ctrlV&&R.ctrlNoHDD.indexOf(ctrlC)>-1&&!noDrives&&readLines(drives).some(function(d){return d.cap&&/^(SAS|SATA)$/i.test(d.int||'')&&!d.cls;}))
-    checks.push(['verify','CONTROLLER',ctrlC+' supports SAS and NVMe SSDs only — no HDDs ('+m.m+' '+m.g+' QuickSpecs). Check the drive lines.']);
+  /* ctrlNoHDD: controllers limited to SAS SSDs and NVMe (Gen12 MR932i-p; the DL360 Gen12 V19 drive-support table rules out
+     SATA SSDs and every HDD) — flags any SATA line, and a SAS line with no SSD class (= an HDD) */
+  if(m&&R.ctrlNoHDD&&ctrlV&&R.ctrlNoHDD.indexOf(ctrlC)>-1&&!noDrives&&readLines(drives).some(function(d){return d.cap&&(/SATA/i.test(d.int||'')||(/^SAS$/i.test(d.int||'')&&!d.cls));}))
+    checks.push(['verify','CONTROLLER',ctrlC+' supports SAS SSDs and NVMe only — no SATA drives and no HDDs ('+m.m+' '+m.g+' QuickSpecs). Check the drive lines.']);
   /* batReq: the model's QuickSpecs make a battery mandatory with these controllers (DL20 Gen10) */
   if(m&&R.batReq&&ctrlV&&R.batReq.ctrls.indexOf(ctrlC)>-1&&(!batV||/no battery/i.test(batV)))
     checks.push(['verify','BATTERY','The '+m.m+' '+m.g+' QuickSpecs require the '+R.batReq.n+' ('+R.batReq.pn+') with '+ctrlC+' — one per server.']);
@@ -6136,6 +6183,7 @@ function evaluate(){
   if(R.fanGPU&&hasGPU)fanReasons.push('GPUs and accelerators require high performance fans'+fanPart+'.');
   if(R.fanDimmGB&&dsize>=R.fanDimmGB)fanReasons.push(dsize+'GB memory modules require high performance fans'+fanPart+'.');
   if(R.hiNic&&hiNicNames.length)fanReasons.push('A 100Gb-or-faster adapter ('+slipName(hiNicNames[0])+') requires the high performance fan kit'+fanPart+'.');
+  if(R.ns204&&R.ns204.fanRear&&cardNames.some(function(n){return /NS204i-u/i.test(n)&&/at rear/i.test(n);}))fanReasons.push('The rear-mounted NS204i-u boot device requires the high performance fan kit'+fanPart+'.');
   if(R.ns204pFan&&cardNames.some(function(n){return /NS204i-p/i.test(n);}))fanReasons.push('The NS204i-p boot device requires the high performance fan kit'+fanPart+'.');
   (R.fanBays||[]).forEach(function(b){if(bays.indexOf(b)>-1)fanReasons.push(b+' ships with high performance fans as standard.');});
   /* fanBaysReq: bay configs whose doc makes the fan kit REQUIRED (towers) rather than shipping it as standard */

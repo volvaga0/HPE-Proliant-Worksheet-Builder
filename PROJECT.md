@@ -3627,7 +3627,7 @@ Row excerpt saved as `quickspecs-cache/DL380-G12-v19-rows.txt`.
   6710E/6731E/6746E are rated 5600 (CPU_MEM_MAX), 6400 at 1 DIMM per channel / 6000 at 2 (new `dpc2Speed` rule),
   16GB modules are 1-DPC only (new `dimm1dpc` rule). Platform speed list xeon6 = 5600/6400 (6000 per-model).
 - **Controllers** — MR416i/216i/408i -o and -p, MR932i-p (new; x32, battery built in, SSDs only — new `ctrlNoHDD`
-  check), Gen12 SAS 12G HBA P95072-B21. Battery or capacitor required with MR416/MR408 (`batReq`).
+  check), external HBA E208e-p SR Gen12 P95072-B21. Battery or capacitor required with MR416/MR408 (`batReq`).
 - **OCP** (11, incl. new E610-IT4 P79833-B21) and **stand-up cards** (Ethernet, InfiniBand NDR/XDR, BlueField DPUs,
   FC incl. SN1620E/SN1720E SecureHBA), NS204i-u v2 boot devices with the rear/front enablement kits.
 - **PSU** 800/1000/1600/1800-2200W + -48VDC; **rails** P52341-B21 + CMA P70744-B21; **bezel** P50400-B21 + lock;
@@ -3636,3 +3636,23 @@ Row excerpt saved as `quickspecs-cache/DL380-G12-v19-rows.txt`.
 - Fixed a wrong note: the Multipurpose Drive Cage Kit P76449-B21 is not a "plain SAS/SATA" 8SFF cage — it holds the
   front NS204i-u / front OCP / 4EDSFF. Heatsink note rewritten from V19 (Standard ≤185W; 2U HP P74792-B21 above).
 QA: 1017 ok / 0 FAIL (13 new; 3 older tests re-pointed). Browser-verified (DL380 G12 memory kit/2DPC stop/battery).
+
+**Same build, continued — DL360 G12 full rundown + Gen12 memory table (both V19 PDFs downloaded from hpe.com):**
+- Every PN in the DL380 G12 entry re-checked against the DL380 V19 PDF: all 80 present. The PDF names P95072-B21 the
+  **E208e-p SR Gen12** external HBA (the HTML table had dropped the name) — relabelled; B3220 DPU also needs the
+  Cooling Upgrade Enablement Kit P81130-B21.
+- **Memory rules replaced** by one `xeon6Mem` rule from HPE's Gen12 memory table (DL360 V19): 1 DIMM/channel 6400;
+  2 DIMMs/channel P-core 6000 (5200 before the May 2026 firmware), E-core 5200; 16GB 1-DPC only and not with E-core
+  parts; supported counts per processor 1/2/4/8/12/16 (P-core), 1/2/4/8/16 (E-core). xeon6 speeds 5200/5600/6000/6400.
+  Applied to DL360 and DL380 G12 (the `dpc2Speed`/`dimm1dpc` keys from earlier today are gone).
+- **DL360 G12**: bays now 4LFF / 8SFF (the "8+2" chassis) / 10SFF + 20EDSFF hybrid (was 4LFF / 10SFF); CPU list 22 →
+  34 (the old note "no 6745P, no Socket Scalable" was wrong vs V19); cooling table (Std ≤185W 5/7 fans P48907 +
+  2P kit P54697; HP 186-350W P74787 + P48908 7 fans; 251W+ limited config); perf-fan triggers (NVMe/EDSFF/24G, rear
+  NS204i-u — new `ns204.fanRear`, GPU, 100Gb+ NIC, 256GB DIMMs); controllers (max 2, OCP max 1; MR408i-o battery
+  required), OCP 11, stand-up cards, NS204i-u v2 internal P72595 / rear P72197 (takes Slot 2, not with FH secondary
+  riser) / front P77198 (hybrid only); PSUs (+ DC cable P22173-B21); rails by chassis (Rail 3 P52341 8SFF, Rail 5
+  P52343 4LFF/hybrid) + CMA 4 P70741; bezel P50450-B21; intrusion; removed the unsourced "2x M.2 (dual uFF) rear" option.
+- MR932i-p check widened: SAS SSD / NVMe only — SATA SSDs flagged too (DL360 drive-support table). The Gen10 E208e-p
+  804398-B21 is not supported on Gen12 (UMCE advisory) — in the notes.
+- Doc typo not copied: DL360 V19 ordering row prints the 256GB kit as P73477-B21; its table and the DL380 say P73447-B21.
+QA: 1031 ok / 0 FAIL. Browser-verified (DL360 G12 bays/CPU pool, DL380 G12 memory checks).

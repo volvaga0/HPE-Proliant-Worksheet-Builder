@@ -2934,8 +2934,8 @@ function runRound13(){
     :fail13('DL340 G12 CPU list wrong ('+codes13.length+' codes): '+codes13.join(', '));
   setModel13('DL360 G12');
   codes13=cpuCodes13();
-  (codes13.length===22 && !codes13.includes('6511P') && !codes13.includes('6745P') && !codes13.includes('6714P'))
-    ?pass13('DL360 G12: 22-SKU pool — no single-socket "1P" variants, no 6745P, no Socket Scalable')
+  (codes13.length===34 && !codes13.includes('6511P') && codes13.includes('6745P') && codes13.includes('6714P'))
+    ?pass13('DL360 G12: 34-SKU pool per V19 (Sep 2026) — same as DL380 G12, incl. 6745P and the Socket Scalable SKUs; no single-socket "1P" variants')
     :fail13('DL360 G12 CPU list wrong ('+codes13.length+' codes): '+codes13.join(', '));
   setModel13('DL380 G12');
   codes13=cpuCodes13();
@@ -5253,7 +5253,7 @@ function runRound25(){
 
   // ===== DL380 G12 full rundown from QuickSpecs V19 (build 2026.09.24.1) =====
   reset27(); setModel25('DL380 G12');
-  (d.getElementById('dimm-speed-btns').textContent==='5600 MT/s6000 MT/s6400 MT/s')?pass25('DL380 G12 memory speeds: 5600 / 6000 / 6400'):fail25('DL380 G12 speeds: '+d.getElementById('dimm-speed-btns').textContent);
+  (d.getElementById('dimm-speed-btns').textContent==='5200 MT/s5600 MT/s6000 MT/s6400 MT/s')?pass25('DL380 G12 memory speeds: 5200 / 5600 / 6000 / 6400 (Gen12 table)'):fail25('DL380 G12 speeds: '+d.getElementById('dimm-speed-btns').textContent);
   ['6503P','6725P','6732P','6762P'].every(function(c){return pickCpuExact25(c);})?pass25('4 Xeon 6 SKUs added from V19 (6503P, 6725P, 6732P, 6762P) are pickable'):fail25('new Xeon 6 SKUs missing');
   setv26('cpuq','2'); pickCpuExact25('6710E'); setv26('dimmq','16'); setv26('dimm','64GB 6400 MT/s');
   /6710E runs memory at up to 5600/.test(chk26())?pass25('6710E caps memory at 5600'):fail25('6710E 5600 cap missing');
@@ -5265,18 +5265,52 @@ function runRound25(){
   setv26('dimm','16GB 6000 MT/s');
   /16GB modules are 1 DIMM per channel only/.test(chk26())?pass25('16GB modules are limited to 1 DIMM per channel'):fail25('16GB 1DPC not flagged');
   setv26('dimmq','16'); setv26('dimm','16GB 6400 MT/s');
-  !/1 DIMM per channel only/.test(chk26())?pass25('...16 x 16GB on 2 CPUs is fine'):fail25('16x16GB wrongly flagged');
+  !/16GB modules are 1 DIMM per channel only —/.test(chk26())?pass25('...16 x 16GB on 2 CPUs is fine'):fail25('16x16GB wrongly flagged');
   setv26('ctrl','MR416i-p — x16 lanes, 8GB cache (P47777-B21)');
   /Smart Storage battery or capacitor.*MR416i-p/.test(chk26())?pass25('MR416i-p without a battery is flagged (V19: required with MR416/MR408)'):fail25('G12 battery requirement missing');
   setv26('ctrl','MR932i-p — x32 lanes, PCIe Gen5, battery backup built in, SAS/NVMe SSDs only (P75697-B21)');
   !/BATTERY/.test(chk26())?pass25('MR932i-p needs no battery (backup built in)'):fail25('MR932i-p battery wrongly flagged');
   d.getElementById('add-drive').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
   { const row=d.querySelectorAll('#drives .line');const r=row[row.length-1];[['q','2'],['cap','2.4TB'],['int','SAS']].forEach(function(p){const e=r.querySelector('[data-k='+p[0]+']');e.value=p[1];fire(e,'input');}); }
-  /MR932i-p supports SAS and NVMe SSDs only/.test(chk26())?pass25('MR932i-p with an HDD line is flagged (SSDs only)'):fail25('MR932i-p HDD not flagged');
+  /MR932i-p supports SAS SSDs and NVMe only/.test(chk26())?pass25('MR932i-p with an HDD line is flagged (SSDs only)'):fail25('MR932i-p HDD not flagged');
   reset27(); setModel25('DL380 G12'); setv26('cpuq','1'); pickCpuExact25('6737P'); addRear27('4LFF midtray');
   /mid-plane drive cage needs a processor at or under 225W/.test(chk26())?pass25('4LFF mid-plane with a 270W CPU is stopped (225W limit)'):fail25('mid-tray TDP not flagged');
   (/P70744-B21/.test(d.getElementById('rail-note').textContent) && /P50400-B21/.test(d.getElementById('bezel-note').textContent) && /P48922-B21/.test(d.getElementById('bezel-note').textContent))
     ?pass25('DL380 G12 rails P52341-B21 + CMA P70744-B21, bezel P50400-B21, intrusion P48922-B21'):fail25('DL380 G12 rail/bezel notes');
+
+  // ===== Gen12 memory table (xeon6Mem) + DL360 G12 full rundown from QuickSpecs V19 (build 2026.09.24.1) =====
+  reset27(); setModel25('DL360 G12'); setv26('cpuq','2'); pickCpuExact25('6740E'); setv26('dimmq','16'); setv26('dimm','16GB 5600 MT/s');
+  /16GB modules are not supported with Xeon 6 E-core/.test(chk26())?pass25('Gen12: 16GB modules are stopped with an E-core processor'):fail25('E-core 16GB not flagged');
+  setv26('dimmq','32'); setv26('dimm','64GB 6400 MT/s');
+  /E-core \(6740E\) runs memory at up to 5200/.test(chk26())?pass25('Gen12 E-core at 2 DIMMs per channel: 5200'):fail25('E-core 2DPC 5200 not flagged');
+  setv26('dimm','64GB 5200 MT/s');
+  !/2 DIMMs per channel/.test(chk26())?pass25('...5200 at 2 DIMMs per channel is fine'):fail25('E-core 5200 wrongly flagged');
+  setv26('dimmq','24');
+  /HPE supports 1, 2, 4, 8, 16 DIMMs per processor with Xeon 6 E-core/.test(chk26())?pass25('E-core: 12 DIMMs per processor is not a supported population'):fail25('E-core 12/cpu not flagged');
+  pickCpuExact25('6737P');
+  !/MEMORY QTY/.test(chk26())?pass25('P-core: 12 DIMMs per processor is supported'):fail25('P-core 12/cpu wrongly flagged');
+  setv26('dimm','64GB 6400 MT/s');
+  /P-core \(6737P\) runs memory at up to 6000.*5200 on firmware before May 2026/.test(chk26())?pass25('P-core at 2 DIMMs per channel: 6000 (5200 before May 2026 firmware)'):fail25('P-core 2DPC not flagged');
+  reset27(); setModel25('DL360 G12');
+  (d.getElementById('bays-btns')?true:true) && ['4LFF','8SFF','10SFF','20EDSFF'].every(function(b){return w.MODELS.filter(function(x){return x.m==='DL360'&&x.g==='G12';})[0].bays.indexOf(b)>-1;})
+    ?pass25('DL360 G12 bays: 4LFF, 8SFF (8+2), 10SFF / 20EDSFF hybrid'):fail25('DL360 G12 bays');
+  setv26('bays','8SFF');
+  (/P52341-B21/.test(d.getElementById('rail-note').textContent) && !/P52343-B21/.test(d.getElementById('rail-note').textContent) && /P70741-B21/.test(d.getElementById('rail-note').textContent))
+    ?pass25('DL360 G12 8SFF: Rail 3 Kit P52341-B21 only, CMA 4 P70741-B21'):fail25('DL360 8SFF rail: '+d.getElementById('rail-note').textContent);
+  setv26('bays','4LFF');
+  /P52343-B21/.test(d.getElementById('rail-note').textContent)?pass25('DL360 G12 4LFF: Rail 5 Kit P52343-B21'):fail25('DL360 4LFF rail');
+  /P50450-B21/.test(d.getElementById('bezel-note').textContent)?pass25('DL360 G12 bezel: Gen11 1U Common Bezel Kit P50450-B21'):fail25('DL360 G12 bezel');
+  setv26('cpuq','2'); pickCpuExact25('6505P');
+  addCard27('NS204i-u v2 480GB NVMe boot device, at rear — takes Slot 2 (P78279-B21, Rear Enablement Kit P72197-B21)');
+  /rear-mounted NS204i-u boot device requires the high performance fan/.test(d.getElementById('why-fan').textContent+chk26())?pass25('DL360 G12 rear NS204i-u: performance fans required'):fail25('rear NS204 fan reason missing: '+d.getElementById('why-fan').textContent);
+  addRiser27('x16 Full Height Riser Kit — Secondary (P72598-B21)');
+  /rear NS204i-u kit cannot be fitted with the full-height secondary riser/.test(chk26())?pass25('...and it is stopped with the FH secondary riser P72598-B21'):fail25('rear NS204 + FH riser not stopped');
+  reset27(); setModel25('DL360 G12'); setv26('ctrl','MR932i-p — x32 lanes, PCIe Gen5, full-height, SAS SSD / NVMe only (P75697-B21)');
+  d.getElementById('add-drive').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  { const row=d.querySelectorAll('#drives .line');const r=row[row.length-1];[['q','2'],['cap','1.92TB'],['cls','RI'],['int','SATA SSD']].forEach(function(p){const e=r.querySelector('[data-k='+p[0]+']');e.value=p[1];fire(e,'input');}); }
+  /no SATA drives and no HDDs/.test(chk26())?pass25('MR932i-p with a SATA SSD line is flagged (SAS SSD / NVMe only)'):fail25('MR932i-p SATA SSD not flagged');
+  setv26('ctrl','MR408i-o — x8 lanes, 4GB cache, up to 8 drives (P58335-B21)');
+  /Smart Storage battery or capacitor.*MR408i-o/.test(chk26())?pass25('DL360 G12 MR408i-o without a battery is flagged'):fail25('DL360 MR408i-o battery');
 
   reset27();
 }
