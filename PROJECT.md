@@ -3753,3 +3753,7 @@ kit names, every PN grep-checked against the model's two docs (none missing).
 QA: 1111 ok / 0 FAIL (8 older tests re-pointed: DL110 G12 is now the 'no own lists' example). Browser-verified (DL380 G9 controllers with PNs, ML110 G9 60 CPUs incl. E5-1600).
 
 2026-09-24: ML150 G9 PSU picker list added (550W FIO 730941-B21, 900W redundant kit 820792-B21, input module 775595-B21 + backplane 814835-B21 — were only in the notes). Tower audit: G10-G12 towers match rack depth; no intrusion kit exists in any ML30/ML110 G10/ML350 G10 doc; ML10/ML30 G9 have fixed PSUs.
+
+### 2026-09-24 — Header logo shows the teal accent (build 2026.09.24.2)
+
+The Procurri logo was already the 2025 header SVG, but a CSS filter (brightness(0) invert(1)) flattened it to pure white. The SVG is now inline in the page: the grey wordmark paths use currentColor (white on the dark header, original #636466 on print) and the #00b5ad teal accent keeps its own colour. No external image request or onerror fallback any more.
