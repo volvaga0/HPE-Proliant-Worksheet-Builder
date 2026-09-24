@@ -3695,3 +3695,19 @@ QA: 1047 ok / 0 FAIL. Browser-verified (DL340 G12: 1 socket, 16 DIMM slots, 33 C
 - Tertiary riser now has its PN (P79317-B21). Removed the unsourced "2x M.2 (dual uFF) rear" option. Tower-to-rack
   P47394-B21 now a rails entry (CMA included); intrusion P47226-B21.
 QA: 1055 ok / 0 FAIL. Browser-verified (ML350 G12: 18 CPUs, 32GB+ DIMMs, tower-to-rack/intrusion notes).
+
+**Same build — DL580 G12 (QuickSpecs V11, 3 Aug 2026; cache had V1) and DL380a G12 (V20, 8 Sep 2026; cache had V6):**
+- **DL580 G12 — wrong before:** 4P riser 1/6 cable kit PN was P71004-B21 → **P81004-B21** (the V11 4P table also prints it
+  once as "P811004-B21" — typo); PCIe cap 4 → `pcieByCpu {2:6, 4:12}`; PSUs are **M-CRPS only** (1500/2400/3200W + 2200W
+  -48VDC), not "Flex Slot plus M-CRPS"; the old "6548P typo" note dropped (V11 prints 6748P). New `psuByCpu` rule
+  (2P: 1-2 supplies, 4P: 2 or 4). Memory is 64-256GB **-F21 factory kits only** (model-specific dimmKits; the kit note now
+  says so). Controllers, 260mm batteries + MR416 data-retention cable, OCP 10 + x16 enablement kits, cards incl. DPUs/FC,
+  NS204i-u front P79031 / rear P80440, rails P69770 + CMA P28726, bezel P74911-B21 (the DL380a 4U kit the doc lists),
+  intrusion P55713. Removed the unsourced "2x M.2 (dual uFF) rear" option.
+- **DL380a G12 — wrong before:** psuMax 2 → 8 (V20: 5 supplies for 2/4 double-wide GPUs, 8 for 8/10; M-CRPS 2400W /
+  3200W / 2800W 277VAC); CPU pool 20 → 31 (Socket Scalable, 6745P, 6732P, 6725P and the new 6776P AI-host part); bays add
+  8SFF / 4-16EDSFF. xeon6Mem now takes separate `countsE`/`countsP` (DL380a totals 4/8/16/32 E-core, 4/8/16/24/32 P-core).
+  Controllers in pairs (MR416i-p/-o with their cable kits, MR932i-p), battery rule, OCP 11, cards, NS204i-u front cage
+  P75284, rails P69770, bezel P74911, intrusion P55713. The iLO 6 chassis P74461-B21 (not upgradable to iLO 7) and its
+  unsupported-option list are in the notes. GPUs themselves stay out of scope.
+QA: 1065 ok / 0 FAIL (psuMax sanity bound 4 → 8 for the DL380a). Browser-verified (DL580 G12: 7 CPUs, 2/4 CPUs, 4 PSUs, 64GB+; DL380a G12: 31 CPUs, 2P only, 8 PSUs).

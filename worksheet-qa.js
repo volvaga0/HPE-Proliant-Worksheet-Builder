@@ -919,9 +919,9 @@ setTimeout(()=>{
     ?pass3('DL345 G11: both "4LFF rear" and "4LFF midtray" accepted individually (real combo chassis)'):fail3('DL345 G11 combo rear/midtray wrongly blocked');
   !rearTest('DL380 G12','4LFF midtray').includes('REAR NOT SUPPORTED')
     ?pass3('DL380 G12: "4LFF midtray" accepted (Gen11-pattern combo now sourced)'):fail3('DL380 G12 midtray wrongly blocked: '+rearTest('DL380 G12','4LFF midtray').slice(0,160));
-  !rearTest('DL580 G12','2x M.2 (dual uFF) rear').includes('REAR NOT SUPPORTED')
-    ?pass3('DL580 G12: NS204i-u M.2 rear boot device accepted'):fail3('DL580 G12 M.2 rear wrongly blocked');
-  rearTest('DL580 G12','4LFF rear').includes('REAR NOT SUPPORTED')
+  /has no rear or mid-tray drive bays|REAR NOT SUPPORTED/.test(rearTest('DL580 G12','2x M.2 (dual uFF) rear'))
+    ?pass3('DL580 G12: the old "2x M.2 rear" line is no longer a rear option (V11: the NS204i-u boot device is a card-line with its own front/rear kit)'):fail3('DL580 G12 M.2 rear still accepted as a rear drive option');
+  /has no rear or mid-tray drive bays|REAR NOT SUPPORTED/.test(rearTest('DL580 G12','4LFF rear'))
     ?pass3('DL580 G12: a real drive rear cage (not the M.2 boot device) is still blocked — all 4 boxes are front'):fail3('DL580 G12 4LFF rear wrongly accepted');
 
   // --- Backplane type: SAS-only / NVMe-only hard overrides (2026-09-15) ---
@@ -2359,7 +2359,7 @@ function runRound10(){
         if(!CPUS.some(c=>c[0]===code))note(key,k+' names "'+code+'", which is not in CPUS');
       });
     });
-    if(R.psuMax!=null&&(R.psuMax<1||R.psuMax>4))note(key,'psuMax '+R.psuMax+' looks wrong');
+    if(R.psuMax!=null&&(R.psuMax<1||R.psuMax>8))note(key,'psuMax '+R.psuMax+' looks wrong');   // 8 = DL380a Gen12 (M-CRPS, 8 supplies for 8/10 double-wide GPUs)
     if(R.hsW&&R.fanW&&R.fanW<R.hsW)note(key,'fanW '+R.fanW+' below hsW '+R.hsW);
     const rk=RISERS[key];
     if(rk){
@@ -2944,8 +2944,8 @@ function runRound13(){
     :fail13('DL380 G12 CPU list wrong ('+codes13.length+' codes): '+codes13.join(', '));
   setModel13('DL380a G12');
   codes13=cpuCodes13();
-  (codes13.length===20 && !codes13.includes('6731E') && !codes13.includes('6505P'))
-    ?pass13('DL380a G12: 20-SKU pool, missing 6731E and 6505P specifically (confirmed absent from its own doc)')
+  (codes13.length===31 && !codes13.includes('6731E') && !codes13.includes('6505P') && ['6714P','6745P','6776P','6725P'].every(c=>codes13.includes(c)))
+    ?pass13('DL380a G12: 31-SKU pool per V20 (adds Socket Scalable, 6745P, 6776P, 6725P), still no 6731E / 6505P')
     :fail13('DL380a G12 CPU list wrong ('+codes13.length+' codes): '+codes13.join(', '));
   // a mismatched value typed/pasted directly is still caught
   setModel13('DL580 G12');
@@ -5362,6 +5362,26 @@ function runRound25(){
   !/Gb-or-faster adapter/.test(d.getElementById('why-fan').textContent)?pass25('...a 25Gb OCP card does not (threshold is 200Gb on the ML350)'):fail25('ML350 25Gb wrongly triggers fans');
   (/P47394-B21/.test(d.getElementById('rail-note').textContent) && /P47226-B21/.test(d.getElementById('door-note').textContent))?pass25('ML350 G12: tower-to-rack kit P47394-B21, intrusion kit P47226-B21'):fail25('ML350 rail/door notes');
   w.MODELS.filter(function(x){return x.m==='ML350'&&x.g==='G12';})[0].rules.rear.length===0?pass25('ML350 G12: unsourced "2x M.2 rear" option removed'):fail25('ML350 rear list');
+
+  // ===== DL580 G12 (V11) + DL380a G12 (V20) full rundowns (build 2026.09.24.1) =====
+  reset27(); setModel25('DL580 G12'); setv26('cpuq','2'); pickCpuExact25('6748P'); setv26('psuq','4');
+  /with 2 processors takes 1 or 2 power supplies — not 4/.test(chk26())?pass25('DL580 G12: 2 processors take 1 or 2 PSUs (4 is stopped)'):fail25('DL580 psuByCpu 2P');
+  setv26('cpuq','4'); setv26('psuq','3');
+  /with 4 processors takes 2 or 4 power supplies — not 3/.test(chk26())?pass25('...4 processors take 2 or 4 (3 is stopped)'):fail25('DL580 psuByCpu 4P');
+  setv26('dimmq','16'); setv26('dimm','64GB 6400 MT/s');
+  /P69728-F21.*factory-integrated -F21 kits only/.test(d.getElementById('dimm-kit').textContent)?pass25('DL580 G12: memory kits are -F21 factory-integrated only (P69728-F21)'):fail25('DL580 kit: '+d.getElementById('dimm-kit').textContent);
+  (d.getElementById('dimm-size-btns').textContent.indexOf('32GB')<0)?pass25('DL580 G12: no 16GB/32GB module offered (64GB and up)'):fail25('DL580 sizes: '+d.getElementById('dimm-size-btns').textContent);
+  /M-CRPS/.test(JSON.stringify(w.MODELS.filter(function(x){return x.m==='DL580'&&x.g==='G12';})[0].rules.psu)) && !/Flex Slot/.test(JSON.stringify(w.MODELS.filter(function(x){return x.m==='DL580'&&x.g==='G12';})[0].rules.psu))
+    ?pass25('DL580 G12 PSUs are M-CRPS only'):fail25('DL580 PSU list');
+  /P81004-B21/.test(JSON.stringify(w.RISER_KITS?w.RISER_KITS['DL580 G12']:'')+d.body.textContent) || /P81004-B21/.test(JSON.stringify(w.MODELS.filter(function(x){return x.m==='DL580'&&x.g==='G12';})[0].rules.notes))
+    ?pass25('DL580 G12: Riser 1/6 cable kit is P81004-B21 (was P71004-B21)'):fail25('DL580 riser cable PN');
+  reset27(); setModel25('DL380a G12'); setv26('cpuq','2'); pickCpuExact25('6740E'); setv26('dimmq','24'); setv26('dimm','64GB 5200 MT/s');
+  /HPE supports 2, 4, 8, 16 DIMMs per processor with Xeon 6 E-core/.test(chk26())?pass25('DL380a G12: 24 DIMMs not allowed with E-core (4/8/16/32 total)'):fail25('DL380a E-core counts');
+  pickCpuExact25('6737P');
+  !/MEMORY QTY/.test(chk26())?pass25('...24 DIMMs is fine with P-core'):fail25('DL380a P-core 24 wrongly flagged');
+  (d.getElementById('psuq').getAttribute('max')==='8')?pass25('DL380a G12 takes up to 8 PSUs (was capped at 2)'):fail25('DL380a psuMax '+d.getElementById('psuq').getAttribute('max'));
+  setv26('ctrl','MR416i-p — x16 lanes, 8GB cache, needs cable kit P76700-B21 (P47777-B21)');
+  /96W Smart Storage battery or Smart Hybrid Capacitor.*MR416i-p/.test(chk26())?pass25('DL380a G12: MR416i-p needs a battery or capacitor'):fail25('DL380a battery');
 
   reset27();
 }
