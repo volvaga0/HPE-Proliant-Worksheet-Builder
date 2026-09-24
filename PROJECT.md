@@ -3670,3 +3670,16 @@ QA: 1031 ok / 0 FAIL. Browser-verified (DL360 G12 bays/CPU pool, DL380 G12 memor
 - Bays add 20EDSFF (hybrid). Rails by chassis: Rail 1 P52349 (8SFF), Rail 2 P52351 (4LFF/hybrid), Rail 9 P52353 (12LFF);
   CMA P26489 (not 12LFF). Bezel P50450-B21; intrusion P55417-B21.
 QA: 1040 ok / 0 FAIL. Browser-verified (DL320 G12: 32 CPUs, 2 PSU bays, M-CRPS list).
+
+**Same build — DL340 G12 full rundown (QuickSpecs V15, 8 Sep 2026; cache had V5 from Aug 2025):**
+- **Wrong before:** the model was `s:2` (two sockets) and the secondary riser "needed Proc 2" — V15 is single-socket
+  ("Select one of the below processors", 16 DIMM slots / 8 channels). Now `s:1`; secondary CEM riser P75014-B21 no longer
+  needs a 2nd CPU; Rear Captive (P75818-B21, 6XX1P only) and NEBS (P74368-B21) riser kits added.
+- CPU pool 29 → 33 (6503P, 6725P, 6732P and the 6774P AI-host part — HPE: general-compute use voids the warranty — added
+  to the shared list). Bays add 16SFF / 24SFF / 36EDSFF.
+- New rules: `hsBays` (24SFF / 36EDSFF / 12LFF take the performance heatsink P73668-B21 at any wattage — V15 table),
+  `fanDimmQty` (9+ DIMMs need performance fans). Memory 5200 at 2 DIMMs/channel (xeon6Mem {p2dpc:5200}).
+- M-CRPS PSUs (800W … 3200W P67248-B21), controllers + battery rule, OCP 9, stand-up cards, NS204i-u v2 (Boot Extension
+  Enablement Kit P71433-B21), rails P52351-B21 + CMAs (GPU chassis: Ball Bearing Rail 6 P69769-B21), bezel P50400-B21,
+  intrusion P55713-B21 (the kit this doc lists; its TSC note's P48922-B21 is copied from the DL345 doc).
+QA: 1047 ok / 0 FAIL. Browser-verified (DL340 G12: 1 socket, 16 DIMM slots, 33 CPUs).

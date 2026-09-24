@@ -1619,7 +1619,7 @@ function runRound7(){
   // isn't sourced yet, so ctrlsFor() deliberately returns the full
   // unfiltered CTRLS for it (see CTRL_GENS in index.html) — the one
   // generation guaranteed to show every group for this structural check. ---
-  setModel7('DL340 G12');   // a G12 model with no controller list of its own (DL380 G12 got one 2026-09-24)
+  setModel7('DL110 G12');   // a G12 model with no controller list of its own (no QuickSpecs found for it, so it will stay that way)
   const ctrl=d.getElementById('ctrl');
   ctrl.dispatchEvent(new w.Event('focus'));
   const groups=[...d.getElementById('ac-panel').querySelectorAll('.combo-group')].map(g=>g.textContent);
@@ -2682,8 +2682,8 @@ function runRound12(){
 
   setModel12('DL340 G12');
   opts12=riserOpts12();
-  (opts12.length===2 && opts12.some(o=>/P71430-B21/.test(o)) && opts12.some(o=>/P75014-B21/.test(o)))
-    ?pass12('DL340 G12: real 2-option riser list (Primary Slot 3 + Secondary Slot 6 kits), no factory default')
+  (opts12.length===4 && ['P71430-B21','P75014-B21','P75818-B21','P74368-B21'].every(pn=>opts12.some(o=>o.indexOf(pn)>-1)))
+    ?pass12('DL340 G12: 4-option riser list per V15 (Primary Slot 3, Secondary Slot 6, Rear Captive, NEBS), no factory default')
     :fail12('DL340 G12 riser panel wrong: '+opts12.join(' | '));
 
   // --- DL20/DL110 G11: single-socket entry rack, real per-model riser kits ---
@@ -2929,8 +2929,8 @@ function runRound13(){
     :fail13('DL320 G12 CPU list wrong: '+codes13.join(', '));
   setModel13('DL340 G12');
   codes13=cpuCodes13();
-  (codes13.length===29 && codes13.includes('6745P'))
-    ?pass13('DL340 G12: same 28-SKU pool as DL320 G12 plus 6745P (confirmed present in its doc, absent from DL320\'s)')
+  (codes13.length===33 && ['6745P','6774P','6503P','6725P','6732P','6511P'].every(c=>codes13.includes(c)))
+    ?pass13('DL340 G12: 33-SKU pool per V15 incl. 6774P and the single-socket 6XX1P parts')
     :fail13('DL340 G12 CPU list wrong ('+codes13.length+' codes): '+codes13.join(', '));
   setModel13('DL360 G12');
   codes13=cpuCodes13();
@@ -5331,6 +5331,22 @@ function runRound25(){
   (/P52353-B21/.test(d.getElementById('rail-note').textContent) && !/P52349-B21/.test(d.getElementById('rail-note').textContent))?pass25('DL320 G12 12LFF: Rail 9 Kit P52353-B21'):fail25('DL320 12LFF rail: '+d.getElementById('rail-note').textContent);
   setv26('ctrl','MR416i-p — x16 lanes, 8GB cache (P47777-B21)');
   /Li-ion battery or Smart Capacitor.*MR416i-p/.test(chk26())?pass25('DL320 G12: performance RAID controllers need a battery or capacitor'):fail25('DL320 battery');
+
+  // ===== DL340 G12 full rundown from QuickSpecs V15 (build 2026.09.24.1) =====
+  reset27(); setModel25('DL340 G12');
+  (w.MODELS.filter(function(x){return x.m==='DL340'&&x.g==='G12';})[0].s===1 && !d.querySelector('#cpuq-btns [data-v="2"]'))
+    ?pass25('DL340 G12 is single-socket (was wrongly 2-socket)'):fail25('DL340 socket count');
+  pickCpuExact25('6505P'); setv26('dimmq','10'); setv26('dimm','32GB 5200 MT/s');
+  /10 DIMMs \(9 or more\) require high performance fans/.test(d.getElementById('why-fan').textContent+chk26())?pass25('DL340 G12: 9+ DIMMs need performance fans'):fail25('DL340 DIMM-qty fan: '+d.getElementById('why-fan').textContent);
+  setv26('dimmq','16'); setv26('dimm','32GB 6400 MT/s');
+  /runs memory at up to 5200 MT\/s there, not 6400/.test(chk26())?pass25('DL340 G12: 16 DIMMs (2 per channel) runs 5200'):fail25('DL340 2DPC');
+  setv26('bays','24SFF');
+  /24SFF configuration takes the performance heatsink/.test(d.getElementById('why-hs').textContent+chk26())?pass25('DL340 G12 24SFF: performance heatsink at any wattage (V15 table)'):fail25('DL340 24SFF hs: '+d.getElementById('why-hs').textContent);
+  setv26('bays','8SFF');
+  !/configuration takes the performance heatsink/.test(d.getElementById('why-hs').textContent)?pass25('...8SFF with a 150W CPU stays on the standard heatsink'):fail25('DL340 8SFF hs wrongly perf');
+  (/P55713-B21/.test(d.getElementById('bezel-note').textContent) && /P50400-B21/.test(d.getElementById('bezel-note').textContent) && /P69769-B21/.test(d.getElementById('rail-note').textContent))
+    ?pass25('DL340 G12: bezel P50400-B21, intrusion P55713-B21, GPU-chassis rail P69769-B21 in the note'):fail25('DL340 bezel/rail notes');
+  /3200W M-CRPS/.test(JSON.stringify(w.MODELS.filter(function(x){return x.m==='DL340'&&x.g==='G12';})[0].rules.psu))?pass25('DL340 G12 PSUs are M-CRPS up to 3200W'):fail25('DL340 PSU list');
 
   reset27();
 }

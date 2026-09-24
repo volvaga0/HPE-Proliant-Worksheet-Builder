@@ -1982,15 +1982,42 @@ var MODELS=[
        'Controllers: MR216i-p/-o, MR932i-p, MR408i-o, MR416i-o/-p; the cached ones need the Li-ion battery P01366-B21 or Hybrid Capacitor P02377-B21 (not both). External HBA: E208e-p SR Gen10 804398-B21 (this doc lists it, unlike the DL360/DL380 Gen12). VROC: up to 8 direct-attach NVMe, no SATA.',
        'OCP: 1 rear OCP 3.0 x16 plus 1 optional (cable kit); the hybrid chassis can take 2 front OCP slots (Primary P77261-B21, Secondary P76982-B21) instead of the front boot device. No embedded NIC.',
        'Rails by chassis: Rail 1 P52349-B21 (8SFF), Rail 2 P52351-B21 (4LFF, hybrid), Rail 9 P52353-B21 (12LFF). CMA P26489-B21 (not 12LFF).']}},
- {m:'DL340', g:'G12', p:['xeon6'], s:2, d:16, bays:['8SFF','12LFF'],
-   rules:{verified:true,hsW:251,hsWtext:'above 250W on an 8SFF (≤2 cages) config',fans:{one:6,two:6,perf:6},psuMax:2,riserMax:2,pcie:{one:1,two:2},rear:[],
-     cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6505P','6507P','6511P','6515P','6517P','6520P','6521P','6527P','6530P','6730P','6731P','6736P','6737P','6740P','6741P','6745P','6747P','6760P','6761P','6767P','6781P','6787P'],
-     notes:['Single-socket. The CPU list is the same as DL320 G12 (7 E-core SKUs plus the single-socket "1P" variants) plus 6745P; no 4S/8S Socket Scalable SKUs.',
-       'No rear or mid-tray drive cage — the only "rear" option is a PCIe Rear Captive Riser Kit (cards, not drives).',
-       'Heat sink threshold depends on the config, not just wattage: 8SFF with ≤2 drive cages (or ≤4 EDSFF) ships Standard up to 250W, Performance above; a 3rd 8SFF cage, any LFF config, the front-GPU variant, or a NEBS build all need the Performance heat sink at ANY wattage.',
-       'Fixed 6-fan cage (DL3X5 Gen11 fan kit part numbers, reused) regardless of processor count.',
-       'A 36-EDSFF front cage and a front-GPU CTO variant also exist — neither is in the bay list.',
-       '8SFF is Tri-Mode-only (x1 P75740-B21 or x4 P75741-B21) or pure NVMe U.2 (P71465-B21) — no plain SAS/SATA-only cage. 12LFF is 3x 4LFF cages, each with a plain 4LFF Backplane Kit (P75760-B21).']}},
+ {m:'DL340', g:'G12', p:['xeon6'], s:1, d:16, bays:['8SFF','16SFF','24SFF','36EDSFF','12LFF'],
+   /* full rundown 2026-09-24 from the DL340 Gen12 QuickSpecs V15 (8 Sep 2026, a50004261enw), downloaded from hpe.com.
+      Was s:2 — wrong: V15 is single-socket ("Select one of the below processors", 16 DIMM slots on 8 channels). */
+   rules:{verified:true,hsW:251,hsWtext:'above 250W (8SFF with up to 2 cages)',hsPart:'P73668-B21',hsBays:['24SFF','36EDSFF','12LFF'],fanPart:'P58465-B21 x6',fans:{one:6,perf:6},psuMax:2,riserMax:3,pcie:{one:3},rear:[],
+     dimmKits:true,memPerSocket:4096,xeon6Mem:{p2dpc:5200},fanDimmQty:9,hiNic:true,fanGPU:true,
+     ctrl:['— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache, up to 8 drives (P58335-B21)',
+       '— PCI (plug-in card) —','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)','MR932i-p — x32 lanes, PCIe Gen5, onboard battery, SAS SSD / NVMe only (P75697-B21)',
+       'E208e-p SR Gen10 — external SAS 12G HBA, 8 lanes, no cache (804398-B21)'],
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
+     batReq:{ctrls:['MR408i-o','MR416i-o','MR416i-p'],pn:'96W P01366-B21 or Hybrid Capacitor P02377-B21',n:'Li-ion battery or Hybrid Capacitor'},
+     ctrlNoHDD:['MR932i-p'],
+     psu:['800W M-CRPS Platinum (P73190-B21)','1000W M-CRPS Titanium (P67240-B21)','1300W M-CRPS -48VDC — cord P79842-B21 or lug kit P79845-B21 (P82412-B21)','1500W M-CRPS Titanium (P67244-B21)',
+       '2200W M-CRPS -48VDC — cord P73874-B21 or lug kit P79839-B21 (P73210-B21)','2400W M-CRPS Titanium (P67252-B21)','3200W M-CRPS Titanium (P67248-B21)'],
+     flr:['BCM5719 1Gb 4p (P51181-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57416 10Gb 2p (P10097-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','E810-XXVDA4 10/25Gb 4p (P41614-B21)',
+       'BCM57414 10/25Gb 2p (P10115-B21)','BCM57504 10/25Gb 4p (P26269-B21)','E810-CQDA2 100Gb 2p (P22767-B21)','BCM57608 100Gb 2p (P73114-B21)'],
+     cards:g11Cards(['P51178-B21','P26259-B21','P26253-B21','P08443-B21','P08458-B21','P26262-B21','P26264-B21','S2A69A','P87940-B21','P21112-B21','P25960-B21','R4K46A','R8M41A',
+       'P45641-H24','P45642-H23','R2E08A','R2E09A','R7N86A','R7N87A'],
+       ['SN1620E 32Gb FC 2p SecureHBA (S4S01A)','SN1720E 64Gb FC 2p SecureHBA (S4T09A)',
+        'NS204i-u v2 480GB NVMe boot device (P78279-B21, Boot Extension Enablement Kit P71433-B21; front mount also P74759-B21 + Multipurpose Cage P76449-B21)',
+        'NS204i-u v2 960GB NVMe boot device (P81160-B21, Boot Extension Enablement Kit P71433-B21; front mount also P74759-B21 + Multipurpose Cage P76449-B21)',
+        'NS204i-u v2 960GB SED NVMe boot device (P81162-B21, Boot Extension Enablement Kit P71433-B21; front mount also P74759-B21 + Multipurpose Cage P76449-B21)']),
+     rails:{kits:[{pn:'P52351-B21',n:'DL3XX Gen11 Easy Install Rail 2 Kit'}],cma:[{pn:'P70744-B21',n:'DL3XX Gen12 2U Cable Management Arm for Rail Kit'},{pn:'P22020-B21',n:'DL38X Gen10 Plus 2U Cable Management Arm for Rail Kit'}],
+       note:'The front-GPU chassis takes the Ball Bearing Rail 6 Kit P69769-B21 and CMA 2 P69776-B21 instead.'},
+     bezelKit:{pn:'P50400-B21',n:'Gen11 2U Bezel Kit',lock:'875519-B21'},
+     intrusion:{pn:'P55713-B21',n:'DL385 Gen11 Intrusion Cable Kit (the kit this doc lists)'},
+     iloLic:true,iloNoPremium:true,
+     cpuAllow:['6710E','6731E','6740E','6746E','6756E','6766E','6780E','6503P','6507P','6517P','6725P','6527P','6730P','6732P','6736P','6737P','6745P','6747P','6767P','6774P','6787P','6505P','6515P','6520P','6530P','6740P','6760P','6511P','6521P','6731P','6741P','6761P','6781P'],
+     notes:['Single-socket (V15: "Select one of the below processors"; 16 DIMM slots, 8 channels). CPU list 33 SKUs: 7 E-core, 14 performance P-core (incl. 6503P, 6725P, 6732P, 6745P and the 6774P AI-host part — HPE: using the 6774P for general compute voids the warranty), 6 mainline and the 6 single-socket "Rich I/O" parts (6511P/6521P/6731P/6741P/6761P/6781P). No Socket Scalable SKUs.',
+       'Chassis: SFF (P71452-B21; 8SFF in Box 3 as standard, up to 3 cages = 24SFF, or up to 36 EDSFF; 8SFF cages are x1 Tri-Mode P75740-B21, x4 Tri-Mode P75741-B21 or x4 NVMe U.2 P71465-B21), 12LFF (P75727-B21; 4LFF Backplane Kit P75760-B21 per box) and front GPU (P75728-B21). Multipurpose Drive Cage Kit P76449-B21 holds 4EDSFF / front OCP / front NS204i-u.',
+       'Heatsink (V15 table): Standard P71475-B21 up to 250W only on SFF with up to 2 8SFF cages (or up to 4 4EDSFF kits); Performance P73668-B21 above 250W, and at any wattage on a 3-cage SFF (24SFF), more EDSFF, LFF, front-GPU or NEBS build.',
+       'Fans: 6 fan kits (one fan each), Standard P58464-B21 or Performance P58465-B21, never mixed. Performance is required with 9 or more DIMMs, a GPU / GPU chassis, NEBS, 100Gb+ NICs and InfiniBand.',
+       'Memory: DDR5-6400 RDIMMs, 16 slots, 4TB. 6400 MT/s at 1 DIMM per channel, 5200 at 2 (this doc).',
+       'Risers: primary x16 P71430-B21 (Slot 3), secondary CEM riser cage P75014-B21 (Slot 6), up to 2 Rear Captive Riser Kits P75818-B21 (SFF/LFF, single-socket 6XX1P processors only, not with the OCP B cable kit on SFF), or up to 2 NEBS risers P74368-B21 (not mixed with others). Rear view: 3 PCIe5 x16 slots plus OCP A / OCP B.',
+       'Power: M-CRPS (not Flex Slot), 1 or 2 supplies, no mixing, up to 3200W. The -48VDC supplies need their own cord or lug kit.',
+       'Controllers: MR216i, MR408i-o, MR416i-o/-p (the cached ones need the battery P01366-B21 or capacitor P02377-B21, not both), MR932i-p (onboard battery, SAS SSD / NVMe only), external E208e-p 804398-B21. VROC: NVMe only.',
+       'Boot device: NS204i-u v2 (480GB P78279-B21, 960GB P81160-B21, 960GB SED P81162-B21) needs the Boot Extension Enablement Kit P71433-B21; front mounting (SFF and GPU chassis) also needs P74759-B21 and the Multipurpose Drive Cage Kit P76449-B21.']}},
  {m:'DL360', g:'G12', p:['xeon6'], s:2, d:32, bays:['4LFF','8SFF','10SFF','20EDSFF'],
    /* full rundown 2026-09-24 from the DL360 Gen12 QuickSpecs V19 (8 Sep 2026, a50006984enw), downloaded from hpe.com */
    rules:{fanWtext:'above 185W',fanW:186,verified:true,hsW:186,hsWtext:'above 185W',hsPart:'P74787-B21',fanPart:'P48908-B21',fans:{one:5,two:7,perf:7},fanKit2P:{n:'2P Standard Fan Kit',pn:'P54697-B21'},psuMax:2,riserMax:2,pcie:{one:2,two:3},
@@ -2837,6 +2864,7 @@ var CPUS=[
  ['6762P','Xeon 6762P · 64C 2.9GHz','xeon6',350,64], // added 2026-09-24 (DL380 Gen12 V19)
  ['6767P','Xeon 6767P · 64C 2.4GHz','xeon6',350,64],
  ['6781P','Xeon 6781P · 80C 2.0GHz — single-socket only (1P), found on DL320/DL340 G12','xeon6',350,80], // added 2026-09-17
+ ['6774P','Xeon 6774P · 64C 2.5GHz — AI-host processor (HPE: general-compute use voids the warranty), found on DL340 G12','xeon6',350,64], // added 2026-09-24 (DL340 Gen12 V15)
  ['6787P','Xeon 6787P · 86C 2.0GHz','xeon6',350,86],
  /* Socket-Scalable — validated for 4S/8S NUMA configs (DL580), also sold
     for 2S boards */
@@ -4389,7 +4417,9 @@ var RISERS={
     ones). 2026-09-16. */
  'DL340 G12':[
   {n:'x16 PCIe Primary Riser Kit (P71430-B21)',d:'Slot 3, 1 slot full-height full-length x16 · Proc 1',s:1,fh:1,lp:0,pos:'primary'},
-  {n:'Secondary CEM Riser Cage Kit (P75014-B21)',d:'Slot 6, 1 slot full-height full-length x16 · Proc 2 required',s:1,fh:1,lp:0,pos:'secondary',cpu2:true}
+  {n:'Secondary CEM Riser Cage Kit (P75014-B21)',d:'Slot 6, 1 slot full-height full-length x16 · single-socket board — no 2nd CPU (not mixed with NEBS risers)',s:1,fh:1,lp:0,pos:'secondary'},
+  {n:'Rear Captive Riser Kit (P75818-B21)',d:'1 slot · max 2 · SFF/LFF chassis with a single-socket 6XX1P processor only · not with the OCP B cable kit on SFF',s:1,fh:1,lp:0,pos:'tertiary'},
+  {n:'NEBS-compliant Riser Kit (P74368-B21)',d:'max 2, not mixed with other risers · needs the Performance heatsink and 6 Performance fans',s:1,fh:1,lp:0,pos:'primary'}
  ],
  /* DL580 Gen12 QuickSpecs (already cached). Only ONE riser kit type exists
     for this whole chassis ("there is only one riser option") — every one
@@ -6211,6 +6241,7 @@ function evaluate(){
   if(has24G)fanReasons.push('24G SAS drives require high performance fans'+fanPart+'.');
   if(R.fanRear&&rear)fanReasons.push('Rear/midtray drives require high performance fans'+fanPart+'.');
   if(R.fanGPU&&hasGPU)fanReasons.push('GPUs and accelerators require high performance fans'+fanPart+'.');
+  if(R.fanDimmQty&&dq>=R.fanDimmQty)fanReasons.push(dq+' DIMMs ('+R.fanDimmQty+' or more) require high performance fans'+fanPart+'.');
   if(R.fanDimmGB&&dsize>=R.fanDimmGB)fanReasons.push(dsize+'GB memory modules require high performance fans'+fanPart+'.');
   if(R.hiNic&&hiNicNames.length)fanReasons.push('A 100Gb-or-faster adapter ('+slipName(hiNicNames[0])+') requires the high performance fan kit'+fanPart+'.');
   if(R.fanNic25){var nic25=cardNames.concat([v('flr')]).filter(function(n){return n&&/\b(?:10\/)?(?:25|40|50|100|200|400)\s*Gb|InfiniBand/i.test(n);})[0];
@@ -6301,6 +6332,8 @@ function evaluate(){
     }else if(midtray&&!(R.hsW&&cpu&&cpu[3]>=R.hsW)){
       checks.push(['verify','THERMAL','Midtray cooling requirements vary by generation — confirm the correct heatsink for this model in QuickSpecs.']);
     }
+    /* hsBays: chassis configs whose doc makes the performance heatsink mandatory at any TDP (DL340 Gen12: 24SFF, 36EDSFF, 12LFF) */
+    if(!recHs&&R.hsBays&&R.hsBays.indexOf(bays)>-1){recHs='Perf Heatsinks';hsReasons.push('The '+bays+' configuration takes the performance heatsink'+hsPart+' at any processor wattage.');}
     if(cpu&&!recHs){
       if((R.hsStdException||[]).indexOf(cpu[0])>-1){
         recHs='Std Heatsinks';hsReasons.push(cpu[0]+' is a listed exception and ships with the standard heatsink despite its TDP.');
