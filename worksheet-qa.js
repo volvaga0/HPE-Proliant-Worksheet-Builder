@@ -1619,7 +1619,7 @@ function runRound7(){
   // isn't sourced yet, so ctrlsFor() deliberately returns the full
   // unfiltered CTRLS for it (see CTRL_GENS in index.html) — the one
   // generation guaranteed to show every group for this structural check. ---
-  setModel7('DL380 G12');
+  setModel7('DL340 G12');   // a G12 model with no controller list of its own (DL380 G12 got one 2026-09-24)
   const ctrl=d.getElementById('ctrl');
   ctrl.dispatchEvent(new w.Event('focus'));
   const groups=[...d.getElementById('ac-panel').querySelectorAll('.combo-group')].map(g=>g.textContent);
@@ -2939,8 +2939,8 @@ function runRound13(){
     :fail13('DL360 G12 CPU list wrong ('+codes13.length+' codes): '+codes13.join(', '));
   setModel13('DL380 G12');
   codes13=cpuCodes13();
-  (codes13.length===30 && ['6714P','6724P','6728P','6738P','6748P','6768P','6788P'].every(c=>codes13.includes(c)) && codes13.includes('6745P'))
-    ?pass13('DL380 G12: widest G12 pool (30 SKUs) — all 7 Socket Scalable SKUs confirmed orderable, same part numbers as DL580 G12')
+  (codes13.length===34 && ['6503P','6725P','6732P','6762P'].every(c=>codes13.includes(c)) && ['6714P','6724P','6728P','6738P','6748P','6768P','6788P'].every(c=>codes13.includes(c)) && codes13.includes('6745P'))
+    ?pass13('DL380 G12: widest G12 pool (34 SKUs, V19) — all 7 Socket Scalable SKUs confirmed orderable, same part numbers as DL580 G12')
     :fail13('DL380 G12 CPU list wrong ('+codes13.length+' codes): '+codes13.join(', '));
   setModel13('DL380a G12');
   codes13=cpuCodes13();
@@ -5250,6 +5250,33 @@ function runRound25(){
   d.getElementById('bkey-set').hidden?pass25('bezel key pills are hidden until a bezel is picked'):fail25('bezel key visible without bezel');
   d.getElementById('bz1').checked=true; fire(d.getElementById('bz1'),'change');
   !d.getElementById('bkey-set').hidden?pass25('...and appear once Bezel = Yes'):fail25('bezel key not shown');
+
+  // ===== DL380 G12 full rundown from QuickSpecs V19 (build 2026.09.24.1) =====
+  reset27(); setModel25('DL380 G12');
+  (d.getElementById('dimm-speed-btns').textContent==='5600 MT/s6000 MT/s6400 MT/s')?pass25('DL380 G12 memory speeds: 5600 / 6000 / 6400'):fail25('DL380 G12 speeds: '+d.getElementById('dimm-speed-btns').textContent);
+  ['6503P','6725P','6732P','6762P'].every(function(c){return pickCpuExact25(c);})?pass25('4 Xeon 6 SKUs added from V19 (6503P, 6725P, 6732P, 6762P) are pickable'):fail25('new Xeon 6 SKUs missing');
+  setv26('cpuq','2'); pickCpuExact25('6710E'); setv26('dimmq','16'); setv26('dimm','64GB 6400 MT/s');
+  /6710E runs memory at up to 5600/.test(chk26())?pass25('6710E caps memory at 5600'):fail25('6710E 5600 cap missing');
+  /P69728-B21/.test(d.getElementById('dimm-kit').textContent)?pass25('64GB kit = P69728-B21 (DDR5-6400)'):fail25('xeon6 kit PN: '+d.getElementById('dimm-kit').textContent);
+  pickCpuExact25('6737P'); setv26('dimmq','24');
+  /2 DIMMs per channel.*6000/.test(chk26())?pass25('24 DIMMs on 2 CPUs at 6400 is stopped (2 DIMMs per channel = 6000)'):fail25('2DPC speed not flagged');
+  setv26('dimm','64GB 6000 MT/s');
+  !/2 DIMMs per channel/.test(chk26())?pass25('...6000 at 2 DIMMs per channel is fine'):fail25('6000 2DPC wrongly flagged');
+  setv26('dimm','16GB 6000 MT/s');
+  /16GB modules are 1 DIMM per channel only/.test(chk26())?pass25('16GB modules are limited to 1 DIMM per channel'):fail25('16GB 1DPC not flagged');
+  setv26('dimmq','16'); setv26('dimm','16GB 6400 MT/s');
+  !/1 DIMM per channel only/.test(chk26())?pass25('...16 x 16GB on 2 CPUs is fine'):fail25('16x16GB wrongly flagged');
+  setv26('ctrl','MR416i-p — x16 lanes, 8GB cache (P47777-B21)');
+  /Smart Storage battery or capacitor.*MR416i-p/.test(chk26())?pass25('MR416i-p without a battery is flagged (V19: required with MR416/MR408)'):fail25('G12 battery requirement missing');
+  setv26('ctrl','MR932i-p — x32 lanes, PCIe Gen5, battery backup built in, SAS/NVMe SSDs only (P75697-B21)');
+  !/BATTERY/.test(chk26())?pass25('MR932i-p needs no battery (backup built in)'):fail25('MR932i-p battery wrongly flagged');
+  d.getElementById('add-drive').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  { const row=d.querySelectorAll('#drives .line');const r=row[row.length-1];[['q','2'],['cap','2.4TB'],['int','SAS']].forEach(function(p){const e=r.querySelector('[data-k='+p[0]+']');e.value=p[1];fire(e,'input');}); }
+  /MR932i-p supports SAS and NVMe SSDs only/.test(chk26())?pass25('MR932i-p with an HDD line is flagged (SSDs only)'):fail25('MR932i-p HDD not flagged');
+  reset27(); setModel25('DL380 G12'); setv26('cpuq','1'); pickCpuExact25('6737P'); addRear27('4LFF midtray');
+  /mid-plane drive cage needs a processor at or under 225W/.test(chk26())?pass25('4LFF mid-plane with a 270W CPU is stopped (225W limit)'):fail25('mid-tray TDP not flagged');
+  (/P70744-B21/.test(d.getElementById('rail-note').textContent) && /P50400-B21/.test(d.getElementById('bezel-note').textContent) && /P48922-B21/.test(d.getElementById('bezel-note').textContent))
+    ?pass25('DL380 G12 rails P52341-B21 + CMA P70744-B21, bezel P50400-B21, intrusion P48922-B21'):fail25('DL380 G12 rail/bezel notes');
 
   reset27();
 }

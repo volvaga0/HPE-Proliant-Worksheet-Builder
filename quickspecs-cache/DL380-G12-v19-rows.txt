@@ -1,0 +1,169 @@
+HPE ProLiant Compute DL380 Gen12 QuickSpecs a00073551enw — Version 19, September 8, 2026
+Source: https://www.hpe.com/us/en/collaterals/collateral.a00073551enw.html (rendered as HTML tables; read 2026-09-24)
+Excerpt: the table rows (name | part number) and notes used by the worksheet tool. Drive SKUs, DLC, GPU and cable-kit
+rows omitted (out of scope / not used). Cells joined with " | " exactly as the page's tables hold them.
+
+== Processor table (DDR5 MT/s column) ==
+E-cores: 6710E 5600 | 6731E 5600 | 6740E 6400 | 6746E 5600 | 6756E 6400 | 6766E 6400 | 6780E 6400
+P-cores: 6503P 6507P 6517P 6527P 6725P 6730P 6732P 6736P 6737P 6745P 6747P 6762P 6767P 6787P 6505P 6515P 6520P 6530P 6740P 6760P 6714P 6724P 6728P 6738P 6748P 6768P 6788P — all 6400
+Notes: *Intel Xeon 6 Processors support maximum memory speed of 6400 MT/s @ 1 DIMMs per channel (DPC) and 6000 MT/s @ 2DPC.
+Memory: 32 DIMM Slots, 16 per processor, 8 channels per processor, 2 DIMMs per channel | Maximum capacity 8.0 TB 32 x 256 GB RDIMM 6000MT/s @ 2DPC
+Step 1 notes: Mixing of 2 different processor models is NOT allowed. 4LFF Midplane drive cage (P74741-B21) can be selected with 225W or below Processors only.
+
+== Processors (ordering) ==
+Intel Xeon 6710E 2.4GHz 64-core 205W | P71117-B21
+Intel Xeon 6731E 2.2GHz 96-core 250W | P71118-B21
+Intel Xeon 6740E 2.4GHz 96-core 250W | P71119-B21
+Intel Xeon 6746E 2.0GHz 112-core 250W | P71120-B21
+Intel Xeon 6756E 1.8GHz 128-core 225W | P71121-B21
+Intel Xeon 6766E 1.9GHz 144-core 250W | P71122-B21
+Intel Xeon 6780E 2.2GHz 144-core 330W | P71124-B21
+Intel Xeon 6503P 2.8GHz 8-core 135W | P94926-B21
+Intel Xeon 6507P 3.5GHz 8-core 150W | P74504-B21
+Intel Xeon 6517P 3.2GHz 16-core 190W | P74507-B21
+Intel Xeon 6527P 3.0GHz 24-core 255W | P74570-B21
+Intel Xeon 6725P 3.7GHz 16-core 235W | P87302-B21
+Intel Xeon 6730P 2.5GHz 32-core 250W | P74573-B21
+Intel Xeon 6732P 3.8GHz 32-core 350W | P74578-B21
+Intel Xeon 6736P 2.0GHz 36-core 205W | P74575-B21
+Intel Xeon 6737P 2.9GHz 32-core 270W | P74576-B21
+Intel Xeon 6745P 3.1GHz 32-core 300W | P81591-B21
+Intel Xeon 6747P 2.7GHz 48-core 330W | P73831-B21
+Intel Xeon 6762P 2.9GHz 64-core 350W | P90157-B21
+Intel Xeon 6767P 2.4GHz 64-core 350W | P73834-B21
+Intel Xeon 6787P 2.0GHz 86-core 350W | P73837-B21
+Intel Xeon 6505P 2.2GHz 12-core 150W | P74503-B21
+Intel Xeon 6515P 2.3GHz 16-core 150W | P74506-B21
+Intel Xeon 6520P 2.4GHz 24-core 210W | P74568-B21
+Intel Xeon 6530P 2.3GHz 32-core 225W | P74571-B21
+Intel Xeon 6740P 2.1GHz 48-core 270W | P73829-B21
+Intel Xeon 6760P 2.2GHz 64-core 330W | P73832-B21
+Intel Xeon 6714P 4.0GHz 8-core 165W | P74508-B21
+Intel Xeon 6724P 3.6GHz 16-core 210W | P74509-B21
+Intel Xeon 6728P 2.7GHz 24-core 210W | P74572-B21
+Intel Xeon 6738P 2.9GHz 32-core 270W | P74577-B21
+Intel Xeon 6748P 2.5GHz 48-core 300W | P74579-B21
+Intel Xeon 6768P 2.4GHz 64-core 330W | P73835-B21
+Intel Xeon 6788P 2.0GHz 86-core 350W | P73838-B21
+
+== Heatsinks ==
+HPE ProLiant DL380 2U Standard Heat Sink Kit | P49145-B21 — 2U, includes one heat sink, supports processors up to 185W
+HPE ProLiant Compute DL380 Gen12 2U High Performance Heat Sink Kit | P74792-B21 — 2U, includes two heat sinks
+HPE ProLiant Compute DL3XX Gen12 High Performance Heat Sink Kit | P74787-B21 — 1U, includes one heat sink
+HPE ProLiant Compute DL380 Gen12 2U Max Performance Heat Sink Kit | P74794-B21 — 2U, 2-processor configurations only, two heat sinks
+Notes: One Config Advanced automatically selects the heat sink. Mixing heat sink types is not supported.
+
+== Memory ==
+HPE 16GB (1x16GB) Single Rank x8 DDR5-6400 Registered Smart Memory Kit | P69726-B21 — 16 GB memory can only be supported with 1DPC configurations
+HPE 32GB (1x32GB) Dual Rank x8 DDR5-6400 Registered Smart Memory Kit | P69727-B21
+HPE 64GB (1x64GB) Dual Rank x4 DDR5-6400 Registered Smart Memory Kit | P69728-B21
+HPE 96GB (1x96GB) Dual Rank x4 DDR5-6400 Registered Smart Memory Kit | P69729-B21
+HPE 128GB (1x128GB) Dual Rank x4 DDR5-6400 Registered Smart Memory Kit | P69730-B21
+HPE 256GB (1x256GB) Quad Rank x4 DDR5-6400 Registered 3DS Smart Memory Kit | P73447-B21
+Notes: each -B21 SKU has a corresponding -F21 SKU for servers configured with integrated memory.
+
+== Risers ==
+HPE ProLiant DL380 2U x16/x16/x16 Primary Riser Kit | P48803-B21
+HPE ProLiant DL380 Gen11 2U x8/x16/x8 Secondary Riser Kit | P48802-B21
+HPE ProLiant DL380 2U x16/x16/x16 Secondary Riser Kit | P51083-B21
+HPE ProLiant Compute DL380 Gen12 2U x8/x16 Tertiary Riser Kit | P74737-B21
+HPE ProLiant Compute DL380 Gen12 2U 2x16 Tertiary Riser Kit | P76451-B21
+HPE ProLiant Compute DL380 Gen12 x8 Riser Enablement Cable Kit | P76471-B21 — enables the top slot on a 3x16 primary/secondary riser; Qty 2 with the x16 FIO bundle
+HPE ProLiant Compute DL380 Gen12 Primary Riser x16 FIO Bundle Kit | P78117-B21
+HPE ProLiant Compute DL380 Gen12 Secondary Riser x16 FIO Bundle Kit | P78120-B21
+Slot table: primary default slots 1-3 (x8/x16/x8, Proc 1, slot 3 half-length); secondary slots 4-6 (Proc 2); tertiary slots 7-8 (Proc 2)
+
+== Storage controllers ==
+HPE MR416i-p Gen11 x16 Lanes 8GB Cache PCI SPDM Plug-in Storage Controller | P47777-B21
+HPE MR416i-o Gen11 x16 Lanes 8GB Cache OCP SPDM Storage Controller | P47781-B21
+HPE MR216i-p Gen11 x16 Lanes without Cache PCI SPDM Plug-in Storage Controller | P47785-B21
+HPE MR216i-o Gen11 x16 Lanes without Cache OCP SPDM Storage Controller | P47789-B21
+HPE MR408i-o Gen11 x8 Lanes 4GB Cache OCP SPDM Storage Controller | P58335-B21
+HPE MR408i-p Gen11 x8 Lanes 4GB Cache PCI SPDM Plug-in Storage Controller | P74775-B21
+Gen12 x8 Lanes without Cache SAS 12G PCIe Plug-in Controller | P95072-B21
+HPE MR932i-p x32 Lanes PCIe Gen5 SPDM Plug-in Storage Controller | P75697-B21 — supports SAS and NVMe SSDs only, does not support HDDs
+Battery notes: Smart storage battery is required when an MR416 or MR408 internal storage controller is selected. Not required with the MR932i-p (battery backup integrated). Max 1 per server.
+HPE 96W Smart Storage Lithium-ion Battery with 145mm Cable Kit | P01366-B21 (stand-alone: P68039-B21)
+HPE Smart Storage Hybrid Capacitor with 145mm Cable Kit | P02377-B21
+HPE 16W Smart Hybrid Capacitor with 145mm Cable | P65038-B21
+HPE ProLiant Storage Controller Enablement Cable Kit | P48918-B21
+
+== Boot device ==
+HPE NS204i-u v2 480GB NVMe Hot Plug Boot Optimized Storage Device | P78279-B21
+HPE NS204i-u v2 960GB NVMe Hot Plug Boot Optimized Storage Device | P81160-B21
+HPE NS204i-u v2 960GB NVMe SED Hot Plug Boot Optimized Storage Device | P81162-B21
+HPE ProLiant Compute DL380 Gen12 NS204i-u Rear Mount Enablement Kit | P74755-B21 — includes the cable
+HPE ProLiant Compute DL380 Gen12 NS204i-u Rear Access FIO Enablement Kit | P77928-B21 — removes the rear metal cover so the device is serviceable from the back
+HPE ProLiant Compute Gen12 NS204i-u Front Enablement Kit | P74759-B21 — front installation in the multipurpose cage
+
+== Networking: stand-up ==
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T Adapter | P51178-B21
+Broadcom BCM57416 Ethernet 10Gb 2-port BASE-T Adapter | P26253-B21
+Broadcom BCM57412 Ethernet 10Gb 2-port SFP+ Adapter | P26259-B21
+AMD Solarflare X4522-PLUS 10/25GbE 2-port SFP56 Adapter | P87940-B21
+Broadcom BCM57414 Ethernet 10/25Gb 2-port SFP28 Adapter | P26262-B21
+Broadcom BCM57504 Ethernet 10/25Gb 4-port SFP28 Adapter | P26264-B21
+Intel E810-XXVDA2 Ethernet 10/25Gb 2-port SFP28 Adapter | P08443-B21
+Intel E810-XXVDA4 Ethernet 10/25Gb 4-port SFP28 Adapter | P08458-B21
+Xilinx X2522-25G-PLUS Ethernet 10/25Gb 2-port SFP28 Adapter | P21109-B21
+Mellanox MCX631102AS-ADAT Ethernet 10/25Gb 2-port SFP28 Adapter | P42044-B21
+Broadcom BCM57608 Ethernet 100Gb 2-port QSFP112 Adapter | P73111-B21
+Mellanox MCX623106AS-CDAT Ethernet 100Gb 2-port QSFP56 Adapter | P25960-B21
+Intel E810-CQDA2 Ethernet 100Gb 2-port QSFP28 Adapter | P21112-B21
+HPE ProLiant Compute DL360/DL380 Gen12 B3220 Power Cable Kit | P95271-B21
+HPE InfiniBand NDR/Ethernet 400Gb 1-port OSFP PCIe5 x16 MCX75310AAS-NEAT Generic Adapter | P45641-H24
+HPE InfiniBand NDR200/Ethernet 200Gb 1-port OSFP PCIe5 x16 MCX75310AAS-HEAT Generic Adapter | P45642-H23
+HPE InfiniBand NDR200/Ethernet 200GbE 2-port QSFP112 PCIe5 x16 MCX755106AC-HEAT Adapter | P65333-H21
+HPE InfiniBand XDR400/Ethernet 400GbE 2-port QSFP112 PCIe6 x16 HHHL CX8 Crypto Adapter | P79115-H21
+HPE InfiniBand XDR/Ethernet 2x400GbE 1-port OSFP PCIe6 x16 HHHL CX8 Crypto Adapter | P79114-H21
+HPE Data Processing Unit InfiniBand NDR200/Ethernet 200Gb 2-port QSFP112 FHHL B3220 Adapter | P66386-H21
+HPE Data Processing Unit InfiniBand NDR/Ethernet 400Gb 1-port QSFP112 HHHL B3140H Adapter | P66387-H21
+HPE SN1620E 32Gb 2p FC SecureHBA | S4S01A
+HPE SN1720E 64Gb 2p FC SecureHBA | S4T09A
+HPE SN1610Q 32Gb 1-port Fibre Channel Host Bus Adapter | R2E08A
+HPE SN1610Q 32Gb 2-port Fibre Channel Host Bus Adapter | R2E09A
+HPE SN1700Q 64Gb 1-port Fibre Channel Host Bus Adapter | R7N86A
+HPE SN1700Q 64Gb 2-port Fibre Channel Host Bus Adapter | R7N87A
+
+== Networking: OCP 3.0 ==
+Broadcom BCM5719 Ethernet 1Gb 4-port BASE-T OCP3 Adapter | P51181-B21
+Intel E610-IT4 Ethernet 1Gb 4-port BASE-T OCP3 Adapter | P79833-B21
+Broadcom BCM57416 Ethernet 10Gb 2-port BASE-T OCP3 Adapter | P10097-B21
+Broadcom BCM57412 Ethernet 10Gb 2-port SFP+ OCP3 Adapter | P26256-B21
+Broadcom BCM57414 Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter | P10115-B21
+Broadcom BCM57504 Ethernet 10/25Gb 4-port SFP28 OCP3 Adapter | P26269-B21
+Intel E810-XXVDA2 Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter | P10106-B21
+Intel E810-XXVDA4 Ethernet 10/25Gb 4-port SFP28 OCP3 Adapter | P41614-B21
+Mellanox MCX631432AS-ADAI Ethernet 10/25Gb 2-port SFP28 OCP3 Adapter | P42041-B21
+Broadcom BCM57608 Ethernet 100Gb 2-port QSFP112 OCP3 Adapter | P73114-B21
+Intel E810-CQDA2 Ethernet 100Gb 2-port QSFP28 OCP3 Adapter | P22767-B21
+HPE ProLiant Compute DL3XX/ML350 Gen12 CPU1 to Rear OCP SlotA x16 Cable Kit | P72201-B21
+HPE ProLiant Compute DL3XX/ML350 Gen12 CPU1 to Rear OCP SlotB x8 Cable Kit | P72203-B21
+HPE ProLiant Compute DL3XX/ML350 Gen12 CPU2 to Rear OCP SlotB x8 Cable Kit | P72205-B21
+HPE ProLiant Compute DL3XX/ML350 Gen12 CPU2 to Rear OCP SlotB x16 Cable Kit | P72207-B21
+HPE ProLiant Compute Gen12 Front Primary OCP Box2 Bay9 Enablement Kit | P74757-B21
+HPE ProLiant Compute Gen12 Front Secondary OCP Box2 Bay11 Enablement Kit | P74758-B21
+OCP slot table: OCP A = OROC (higher priority) when a storage controller is on OCP; OCP B = NIC
+
+== Power, fans, other ==
+HPE 800W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit | P38995-B21
+HPE 1000W Flex Slot Titanium Hot Plug Power Supply Kit | P03178-B21
+HPE 1600W Flex Slot Platinum Hot Plug Low Halogen Power Supply Kit | P38997-B21
+HPE 1800W-2200W Flex Slot Titanium Hot Plug Power Supply Kit | P44712-B21
+HPE 1600W Flex Slot -48VDC Hot Plug Power Supply Kit | P17023-B21
+HPE 1600W -48VDC Power Cable Lug Kit | P36877-B21 — used instead of the 1600W DC power cable kit
+Fan notes: Max Qty 1. High Performance Fan Kit and Standard Fan Kit cannot be selected together. SFF and 8LFF CTO models include 4 standard fans; 12LFF and EDSFF CTO models include 6 standard fans; 24SFF CTO models include 6 high-performance fans. CTO configurations automatically select the fans for higher-TDP processors and thermally demanding options (NVMe direct attach bundles, GPUs, high-speed NICs).
+HPE ProLiant DL380/DL560 Gen11 2U High Performance Fan Kit | P48820-B21 — includes 6 High Performance Fans
+HPE ProLiant DL380 Gen11 Standard Fan Kit | P49146-B21 — includes 2 Standard Fans
+HPE ProLiant Compute DL380 Gen12 Cooling Upgrade Enablement Kit | P81130-B21
+HPE Trusted Supply Chain for HPE ProLiant | P36394-B21 — requires the Intrusion Detection Kit P48922-B21 and iLO Advanced 3yr BD505A
+HPE Bezel Lock Kit | 875519-B21 — requires the Gen11 2U Bezel Kit P50400-B21
+HPE Gen11 2U Bezel Kit | P50400-B21
+HPE OEM Gen11 2U Bezel KIT | P55441-B21
+HPE ProLiant DL3XX Gen11 Intrusion Cable Kit | P48922-B21
+HPE ProLiant DL380 Rear Serial Cable Kit | P48824-B21
+HPE ProLiant Compute DL380 Gen12 System Insight Display Kit | P74748-B21
+HPE iLO Advanced 1-server License with 1yr Support on iLO Licensed Features | 512485-B21 (also BD505A 3yr, E6U59ABE / E6U64ABE electronic)
+HPE ProLiant DL3XX Gen11 Easy Install Rail 3 Kit | P52341-B21 — does not include the Cable Management Arm
+HPE ProLiant Compute DL3XX Gen12 2U Cable Management Arm for Rail Kit | P70744-B21
+Security: TPM 2.0 embedded, can be disabled in BIOS. Network: no embedded networking (OCP or stand-up required).

@@ -3617,3 +3617,22 @@ don't exist are hidden (a hidden pick moves to the first real option; a pasted o
   the note (ML350 G9 726567-B21, ML150 G9 417705-B21, ML350 G12 P47394-B21).
 - **Rack bezel key** — the key pills only appear once Bezel = Yes.
 QA: 1004 ok / 0 FAIL (13 new; 4 older tests re-pointed to the new wording). Browser-verified (DL380 G10 iLO 5 pills, ML350 G10 tower rows).
+
+### 2026-09-24 — build .1: DL380 G12 full rundown (QuickSpecs V19, 8 Sep 2026)
+
+Source: the current hpe.com doc (a00073551enw V19) read as clean HTML tables — the cached copy was V9 (Nov 2025).
+Row excerpt saved as `quickspecs-cache/DL380-G12-v19-rows.txt`.
+- **Processors** — 4 SKUs added to the shared Xeon 6 list (6503P, 6725P, 6732P, 6762P); cpuAllow now 34 SKUs.
+- **Memory** — DDR5-6400 kit PNs (16GB P69726 … 256GB 3DS P73447, new `DIMM_KITS.xeon6`); speeds 5600/6000/6400:
+  6710E/6731E/6746E are rated 5600 (CPU_MEM_MAX), 6400 at 1 DIMM per channel / 6000 at 2 (new `dpc2Speed` rule),
+  16GB modules are 1-DPC only (new `dimm1dpc` rule). Platform speed list xeon6 = 5600/6400 (6000 per-model).
+- **Controllers** — MR416i/216i/408i -o and -p, MR932i-p (new; x32, battery built in, SSDs only — new `ctrlNoHDD`
+  check), Gen12 SAS 12G HBA P95072-B21. Battery or capacitor required with MR416/MR408 (`batReq`).
+- **OCP** (11, incl. new E610-IT4 P79833-B21) and **stand-up cards** (Ethernet, InfiniBand NDR/XDR, BlueField DPUs,
+  FC incl. SN1620E/SN1720E SecureHBA), NS204i-u v2 boot devices with the rear/front enablement kits.
+- **PSU** 800/1000/1600/1800-2200W + -48VDC; **rails** P52341-B21 + CMA P70744-B21; **bezel** P50400-B21 + lock;
+  **intrusion** P48922-B21; iLO Advanced only.
+- **Mid-plane 4LFF cage** needs a processor ≤225W (new `midtrayMaxW` check).
+- Fixed a wrong note: the Multipurpose Drive Cage Kit P76449-B21 is not a "plain SAS/SATA" 8SFF cage — it holds the
+  front NS204i-u / front OCP / 4EDSFF. Heatsink note rewritten from V19 (Standard ≤185W; 2U HP P74792-B21 above).
+QA: 1017 ok / 0 FAIL (13 new; 3 older tests re-pointed). Browser-verified (DL380 G12 memory kit/2DPC stop/battery).
