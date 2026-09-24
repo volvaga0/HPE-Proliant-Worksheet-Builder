@@ -1221,6 +1221,23 @@ function g11Pick(list,pns,extra){
 }
 function g11Cards(pns,extra){return g11Pick(G11_NIC_CARDS.concat(G11_EXTRA_CARDS,G11_FC_CARDS,DL360G10P_CARDS,DL380G10P_CARDS),pns,extra);}
 function g11Ocp(pns){return g11Pick(G11_OCP,pns);}
+/* AMD Gen11 (DL325/DL345/DL365/DL385) stand-up NICs + FC and OCP adapters — identical across the four current docs except
+   X4522-PLUS (DL365/DL385 only) and the SN1620E/SN1720E SecureHBAs (DL365 only). InfiniBand was dropped from these docs. */
+var AMD_GENOA_KITS={16:['P50309-B21','16GB Single Rank x8 DDR5-4800 RDIMM'],32:['P50311-B21','32GB Dual Rank x8 DDR5-4800 RDIMM'],64:['P50312-B21','64GB Dual Rank x4 DDR5-4800 RDIMM'],
+  96:['P66676-B21','96GB Dual Rank x4 DDR5-4800 RDIMM'],128:['P69982-B21','128GB Dual Rank x4 DDR5-4800 RDIMM'],256:['P90552-B21','256GB Quad Rank x4 3DS DDR5-4800 RDIMM']};
+var AMD_GENOA_KITS_1P={16:AMD_GENOA_KITS[16],32:AMD_GENOA_KITS[32],64:AMD_GENOA_KITS[64],96:AMD_GENOA_KITS[96],128:AMD_GENOA_KITS[128]};   // DL325/DL345 docs list no 256GB 4800 kit
+var AMD_TURIN_KITS={16:['P64984-B21','16GB Single Rank x8 DDR5-6400 RDIMM'],32:['P64985-B21','32GB Dual Rank x8 DDR5-6400 RDIMM'],64:['P64986-B21','64GB Dual Rank x4 DDR5-6400 RDIMM'],
+  96:['P64987-B21','96GB Dual Rank x4 DDR5-6400 RDIMM'],128:['P64988-B21','128GB Dual Rank x4 DDR5-6400 RDIMM'],256:['P73446-B21','256GB Quad Rank x4 3DS DDR5-6400 RDIMM']};
+var AMDG11_NIC=['P21106-B21','P51178-B21','P26253-B21','P26259-B21','P26262-B21','P26264-B21','P08443-B21','P42044-B21','P08458-B21','S2A69A','P73111-B21','P25960-B21','P21112-B21','R8M41A','R4K46A',
+  'R2J62A','R2J63A','R2E08A','R2E09A','R7N77A','R7N78A','R7N86A','R7N87A'];
+var AMDG11_OCP=['I350-T4 1Gb 4p (P08449-B21)','BCM5719 1Gb 4p (P51181-B21)','BCM57412 10Gb 2p (P26256-B21)','BCM57416 10Gb 2p (P10097-B21)','BCM57414 10/25Gb 2p (P10115-B21)',
+  'BCM57504 10/25Gb 4p — needs the OCP x16 upgrade cable kit (P26269-B21)','E810-XXVDA2 10/25Gb 2p (P10106-B21)','MCX631432AS 10/25Gb 2p (P42041-B21)',
+  'BCM57608 100Gb 2p (P73114-B21)','E810-CQDA2 100Gb 2p — needs the OCP x16 upgrade cable kit (P22767-B21)'];
+var AMDG11_CTRL=['— OCP (mezzanine) —','MR416i-o — x16 lanes, 8GB cache (P47781-B21)','MR216i-o — x16 lanes, no cache (P47789-B21)','MR408i-o — x8 lanes, 4GB cache (P58335-B21)',
+  '— PCI (plug-in card) —','SR932i-p — 32 lanes, 8GB wide cache (P47184-B21)','MR416i-p — x16 lanes, 8GB cache (P47777-B21)','MR216i-p — x16 lanes, no cache (P47785-B21)',
+  'E208e-p SR Gen10 — external SAS 12G HBA, 8 lanes, no cache (804398-B21)'];
+var AMDG11_PSU=['800W Flex Slot Platinum (P38995-B21)','1000W Flex Slot Titanium (P03178-B21)','1600W Flex Slot Platinum, high-line only (P38997-B21)',
+  '1600W Flex Slot -48VDC — needs the Lug Kit P36877-B21 (P17023-B21)','1800-2200W Flex Slot Titanium (P44712-B21)'];
 function amdCards(pns,extra){return g11Pick(DL360G10P_CARDS.concat(DL380G10P_CARDS,G10P_AMD_CARDS,G10_NIC_CARDS,G10_FC_CARDS,G11_EXTRA_CARDS),pns,extra);}
 
 var MODELS=[
@@ -1807,11 +1824,24 @@ var MODELS=[
        '2 PCIe slots (1 per riser position, both PCIe 5.0 x16 FHHL) plus a separate OCP 3.0 x16 slot (not counted as a CEM PCIe slot).',
        'A separate GPU-Dense chassis variant (P61218-B21, either 4SFF NVMe or 8 EDSFF) is not in the bay list — note it manually if quoting one.',
        '8SFF (P52766-B21) is really 8+2 SFF and Tri-Mode-only (x1 P52743-B21 or x4 P52747-B21) — no plain SAS/SATA-only cage. 12LFF (P52767-B21) is SAS/SATA; the doc also lists a 12LFF Tri-Mode Cable Kit (P60892-B21) that conflicts with that, so treat 12LFF as SAS/SATA-only until confirmed.']}},
- {m:'DL325',g:'G11', p:['genoa'],  s:1, d:12, bays:['4LFF','8SFF'],
-   rules:{hsWtext:'above 240W',hsW:241,fanWtext:'above 240W',fanW:241,verified:true,liquidReqW:320,memPerSocket:3072,fanPart:'P58462-B21',psuMax:2,fans:{one:7,perf:7},pcie:{one:2,two:2},riserMax:2,rear:[],
+ {m:'DL325',g:'G11', p:['genoa','turin'],  s:1, d:12, bays:['4LFF','8SFF','20EDSFF'],
+   rules:{
+     /* full rundown 2026-09-24 from the DL325 Gen11 QuickSpecs V40 (3 Aug 2026) */
+     cpuAllow:['EPYC 9015','EPYC 9115','EPYC 9124','EPYC 9135','EPYC 9174F','EPYC 9175F','EPYC 9184X','EPYC 9224','EPYC 9254','EPYC 9255','EPYC 9274F','EPYC 9275F','EPYC 9334','EPYC 9335','EPYC 9354P','EPYC 9355P','EPYC 9365','EPYC 9374F','EPYC 9375F','EPYC 9384X','EPYC 9454P','EPYC 9455P','EPYC 9474F','EPYC 9475F','EPYC 9534','EPYC 9535','EPYC 9554P','EPYC 9555P','EPYC 9565','EPYC 9575F','EPYC 9634','EPYC 9645','EPYC 9654P','EPYC 9655P','EPYC 9684X','EPYC 9745','EPYC 9754','EPYC 9825','EPYC 9845'],
+     dimmKits:{genoa:AMD_GENOA_KITS_1P,turin:AMD_TURIN_KITS},
+     hsPart:'P58457-B21',fanDimmGB:96,fanNicGb:25,fanNVMe:true,
+     ctrl:AMDG11_CTRL,bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
+     batReq:{ctrls:['MR408i-o','MR416i-o','MR416i-p','SR932i-p'],pn:'96W P01366-B21 or Hybrid Capacitor P02377-B21',n:'Li-ion battery or Hybrid Capacitor'},
+     psu:['500W Flex Slot Platinum (865408-B21)'].concat(AMDG11_PSU),flr:AMDG11_OCP,
+     cards:g11Cards(AMDG11_NIC,['NS204i-u Gen11 NVMe boot device (P48183-B21) — needs the Low Profile secondary riser P55029-B21, cable kit P57013-B21 and Performance fans','NS204i-u v2 480GB NVMe boot device (P78279-B21, same kits)','NS204i-u v2 960GB NVMe boot device (P81160-B21, same kits)','NS204i-u v2 960GB SED NVMe boot device (P81162-B21, same kits)']),
+     rails:{kits:[{pn:'P52351-B21',n:'DL3XX Gen11 Easy Install Rail 2 Kit',bays:['8SFF']},{pn:'P52341-B21',n:'DL3XX Gen11 Easy Install Rail 3 Kit',bays:['4LFF','20EDSFF']}],cma:[{pn:'P26489-B21',n:'DL300 Gen10 Plus 1U Cable Management Arm'},{pn:'P70741-B21',n:'Cable Management Arm 4 for Friction Rail Kit'},{pn:'P70747-B21',n:'Cable Management Arm 6 for Friction Rail Kit'}],note:'The GPU chassis takes the Easy Install Rail 7 Kit P52339-B21.'},
+     bezelKit:{pn:'P50450-B21',n:'Gen11 1U Common Bezel Kit',lock:'875519-B21'},intrusion:{pn:'P48922-B21',n:'DL3XX Gen11 Intrusion Cable Kit',d:'required with HPE Trusted Supply Chain (P36394-B21)'},
+     iloLic:true,iloNoPremium:true,hsWtext:'above 240W',hsW:241,fanWtext:'above 240W',fanW:241,verified:true,liquidReqW:320,memPerSocket:3072,fanPart:'P58462-B21',psuMax:2,fans:{one:7,perf:7},pcie:{one:2,two:2},riserMax:2,rear:[],
      notes:['Front bays: 4LFF or 8SFF (media bay on the 8SFF/4LFF CTO only). An EDSFF/GPU variant exists but is not in the bay list — note it manually if quoting one.',
        'No rear or mid-tray drive cage on this 1U chassis — front bays only.',
-       '12 DIMM slots (1 DIMM per channel, single Genoa socket) — up to 3TB.',
+       'Processors: 39 SKUs — 18 EPYC 9004 (Genoa) and 21 EPYC 9005 (Turin), single-socket "P" parts where they exist. Heatsink: Standard P58456-B21 up to 240W, Performance P58457-B21 above 240W up to 300W, Closed-Loop Liquid Cooling P58463-B21 (+ LC fans P59668-B21) at 320W and up.',
+       'Memory: 12 slots (1 DIMM per channel), 1/2/4/6/8/10/12 DIMMs. Genoa runs DDR5-4800 kits (16-128GB), Turin DDR5-6400 kits (16-256GB). 96GB and larger need Performance or LC fans. No mixing x4/x8 or 3DS/non-3DS.',
+       'Fans: 7 (Standard P58461-B21, Performance P58462-B21, LC P59668-B21). Performance fans also needed for 25Gb+ NICs, the 8SFF x4 / 2SFF x4 backplanes and the NS204i-u / M.2 kit (P57014-B21).',
        '2 PCIe Gen5 slots: 1 FH/FL on the primary riser, 1 LP or HH/HL on the secondary riser.',
        'Processors at 320W or above require the Closed-Loop Liquid Cooling Heat Sink kit and 7 liquid-cooling fans (P59668-B21) — air cooling tops out below that.',
        'A GPU backplane needs the Performance Fan Kit (P58462-B21) or the liquid cooling fan kit.',
@@ -1825,8 +1855,20 @@ var MODELS=[
     researching the Gen11 CPU list. This entry was a fabricated skeleton
     (bare {m,g,p,s,d}, no rules, never verified) — removed rather than
     left in place offering a product that was never orderable. */
- {m:'DL345',g:'G11', p:['genoa'],  s:1, d:12, bays:['4LFF','8LFF','8SFF','24SFF'],
-   rules:{fanWtext:'260W or higher (241–259W: check the cooling matrix)',verified:true,hsW:260,hsWtext:'260W or higher (241–259W: check the cooling matrix)',fanW:260,
+ {m:'DL345',g:'G11', p:['genoa','turin'],  s:1, d:12, bays:['4LFF','8LFF','8SFF','24SFF','36EDSFF'],
+   rules:{
+     /* full rundown 2026-09-24 from the DL345 Gen11 QuickSpecs V40 (3 Aug 2026) */
+     cpuAllow:['EPYC 9015','EPYC 9115','EPYC 9124','EPYC 9135','EPYC 9174F','EPYC 9175F','EPYC 9184X','EPYC 9224','EPYC 9254','EPYC 9255','EPYC 9274F','EPYC 9275F','EPYC 9334','EPYC 9335','EPYC 9354P','EPYC 9355P','EPYC 9365','EPYC 9374F','EPYC 9375F','EPYC 9384X','EPYC 9454P','EPYC 9455P','EPYC 9474F','EPYC 9475F','EPYC 9534','EPYC 9535','EPYC 9554P','EPYC 9555P','EPYC 9565','EPYC 9575F','EPYC 9634','EPYC 9645','EPYC 9654P','EPYC 9655P','EPYC 9684X','EPYC 9745','EPYC 9754','EPYC 9825','EPYC 9845'],
+     dimmKits:{genoa:AMD_GENOA_KITS_1P,turin:AMD_TURIN_KITS},
+     hiNic:true,
+     ctrl:AMDG11_CTRL.concat(['MR932i-p — x32 lanes, PCIe Gen5, SAS SSD / NVMe only (P75697-B21)']),ctrlNoHDD:['MR932i-p'],
+     bat:['96W Smart Storage Lithium-ion battery with 145mm cable (P01366-B21)','Smart Storage Hybrid Capacitor with 145mm cable (P02377-B21)','No battery'],
+     batReq:{ctrls:['MR408i-o','MR416i-o','MR416i-p','SR932i-p'],pn:'96W P01366-B21 or Hybrid Capacitor P02377-B21',n:'Li-ion battery or Hybrid Capacitor'},
+     psu:['500W Flex Slot Platinum (865408-B21)'].concat(AMDG11_PSU),flr:AMDG11_OCP,
+     cards:g11Cards(AMDG11_NIC,['NS204i-u Gen11 NVMe boot device (P48183-B21, cable kit P57013-B21)','NS204i-u v2 480GB NVMe boot device (P78279-B21, cable kit P57013-B21)','NS204i-u v2 960GB NVMe boot device (P81160-B21, cable kit P57013-B21)','NS204i-u v2 960GB SED NVMe boot device (P81162-B21, cable kit P57013-B21)']),
+     rails:{kits:[{pn:'P52351-B21',n:'DL3XX Gen11 Easy Install Rail 2 Kit'}],cma:[{pn:'P22020-B21',n:'DL38X Gen10 Plus 2U Cable Management Arm'},{pn:'P70744-B21',n:'DL3XX Gen12 2U Cable Management Arm'}],note:'The GPU chassis takes the Ball Bearing Rail 8 Kit P52345-B21.'},
+     bezelKit:{pn:'P50400-B21',n:'Gen11 2U Bezel Kit',lock:'875519-B21'},intrusion:{pn:'P55713-B21',n:'DL385 Gen11 Intrusion Cable Kit'},
+     iloLic:true,iloNoPremium:true,fanWtext:'260W or higher (241–259W: check the cooling matrix)',verified:true,hsW:260,hsWtext:'260W or higher (241–259W: check the cooling matrix)',fanW:260,
      memPerSocket:3072,psuMax:2,fans:{one:6,two:6,perf:6},pcie:{one:6,two:6},riserMax:2,
      hsPart:'P58459-B21',fanPart:'P58465-B21',fanNVMe:true,fanRear:true,fanGPU:true,
      rear:['4LFF rear','4LFF midtray','2SFF rear','8SFF midtray'],
@@ -1863,8 +1905,17 @@ var MODELS=[
        'Controllers: SR932i-p (as a full-height card it must sit in Slot 1), MR416i/MR216i -p and -o, MR408i-o. All need the Storage Controller Enablement Cable Kit P48918-B21; controllers with a cache also need the Hybrid Capacitor P02377-B21 or the 96W battery P01366-B21. Max one internal controller per server; SR and MR cannot be mixed.',
        'Risers: the default riser gives Slot 1 (full-height) and Slot 2 (low-profile), both x16. A secondary riser needs the 2nd processor: the low-profile kit P48903-B21 adds Slot 3 (3 slots), the full-height kit P48901-B21 adds Slot 3 but disables Slot 2 (still 2 slots). The NS204i-u rear cable kit P54702-B21 also takes Slot 2. P75407-B21 is a field-upgrade primary riser that lets a 4-port SFP NIC use Slot 2.',
        'OCP: with one processor the CPU1 to OCP2 x8 Enablement Kit P51911-B21 is used; with two, a CPU2 to OCP2 x8 (P48830-B21) or x16 kit is required for an OCP NIC. The x16 OCP cards (E810-XXVDA4, E810-CQDA2, BCM57504, BCM57608) provide x16 lanes.']}},
- {m:'DL365',g:'G11', p:['genoa'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
-   rules:{fanWtext:'above 240W (cTDP)',verified:true,hsW:241,hsWtext:'above 240W (cTDP)',fanW:241,
+ {m:'DL365',g:'G11', p:['genoa','turin'], s:2, d:24, bays:['4LFF','8SFF','10SFF'],
+   rules:{
+     /* full rundown 2026-09-24 from the DL365 Gen11 QuickSpecs V45 (8 Sep 2026); rails / bezel / intrusion from V23 (V45 lists none) */
+     cpuAllow:['EPYC 9015','EPYC 9115','EPYC 9124','EPYC 9135','EPYC 9174F','EPYC 9175F','EPYC 9184X','EPYC 9224','EPYC 9254','EPYC 9255','EPYC 9274F','EPYC 9275F','EPYC 9334','EPYC 9335','EPYC 9354','EPYC 9355','EPYC 9365','EPYC 9374F','EPYC 9375F','EPYC 9384X','EPYC 9454','EPYC 9455','EPYC 9474F','EPYC 9475F','EPYC 9534','EPYC 9535','EPYC 9554','EPYC 9555','EPYC 9565','EPYC 9575F','EPYC 9634','EPYC 9645','EPYC 9654','EPYC 9655','EPYC 9684X','EPYC 9745','EPYC 9754','EPYC 9825','EPYC 9845'],
+     dimmKits:true,hsPart:'P58457-B21',fanPart:'P58462-B21',fanDimmGB:128,hsDimmGB:128,
+     ctrl:AMDG11_CTRL,bat:['96W Smart Storage Lithium-ion battery with 260mm cable (P01367-B21)','Smart Storage Hybrid Capacitor with 260mm cable (P02381-B21)','No battery'],
+     psu:AMDG11_PSU,flr:AMDG11_OCP,
+     cards:g11Cards(AMDG11_NIC.concat(['P87940-B21']),['SN1620E 32Gb FC 2p SecureHBA (S4S01A)','SN1720E 64Gb FC 2p SecureHBA (S4T09A)','NS204i-u Gen11 NVMe boot device (P48183-B21, cable kit P57013-B21)','NS204i-u v2 480GB NVMe boot device (P78279-B21, cable kit P57013-B21)','NS204i-u v2 960GB NVMe boot device (P81160-B21, cable kit P57013-B21)','NS204i-u v2 960GB SED NVMe boot device (P81162-B21, cable kit P57013-B21)']),
+     rails:{kits:[{pn:'P52351-B21',n:'DL3XX Gen11 Easy Install Rail 2 Kit',bays:['4LFF','8SFF','10SFF']}],cma:[{pn:'P26489-B21',n:'DL300 Gen10 Plus 1U Cable Management Arm'}],note:'EDSFF chassis: Easy Install Rail 3 Kit P52341-B21; GPU chassis: Rail 7 Kit P52339-B21 (from the V23 doc — the current V45 lists no rail kits).'},
+     bezelKit:{pn:'P50450-B21',n:'Gen11 1U Common Bezel Kit',lock:'875519-B21'},intrusion:{pn:'P48922-B21',n:'DL3XX Gen11 Intrusion Cable Kit'},
+     iloLic:true,iloNoPremium:true,fanWtext:'above 240W (cTDP)',verified:true,hsW:241,hsWtext:'above 240W (cTDP)',fanW:241,
      memPerSocket:3072,psuMax:2,fans:{one:7,two:7,perf:7},pcie:{one:1,two:2},riserMax:3,rear:[],
      fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['No rear or mid-tray drive cage on this chassis.',
@@ -1910,7 +1961,17 @@ var MODELS=[
        'Risers: primary x8/x16/x8 ships standard (Slot 3 half-length); x16/x16/x16 kits exist for primary and secondary but Slot 1 / Slot 4 need cable kit P56073-B21 / P56074-B21 to work. Secondary and tertiary need the 2nd processor; the tertiary riser\'s Slot 8 is PCIe 4.0 unless the FIO x8 kit P53632-B21 is fitted (then PCIe 5.0 x8) — the slip shows slot count only.',
        'OCP: a second OCP NIC needs the CPU2 to OCP2 x8 Enablement Kit P48830-B21; the x16 OCP cards (E810-CQDA2, BCM57504, BCM57608 100Gb) need an OCP x16 Enablement Kit (OCP1 P48827-B21, OCP2 P48828-B21).']}},
  {m:'DL385',g:'G11', p:['genoa','turin'], s:2, d:24, bays:['8SFF','16SFF','24SFF','8LFF','12LFF','48SFF'],
-   rules:{fanWtext:'240W or higher',verified:true,hsW:240,hsWtext:'240W–300W (above 300W needs the max-performance tier)',fanW:240,memPerSocket:3072,psuMax:2,pcie:{one:3,two:8},
+   rules:{
+     /* full rundown 2026-09-24 from the DL385 Gen11 QuickSpecs V48 (21 Sep 2026) */
+     cpuAllow:['EPYC 9015','EPYC 9115','EPYC 9124','EPYC 9135','EPYC 9174F','EPYC 9175F','EPYC 9184X','EPYC 9224','EPYC 9254','EPYC 9255','EPYC 9274F','EPYC 9275F','EPYC 9334','EPYC 9335','EPYC 9354','EPYC 9355','EPYC 9365','EPYC 9374F','EPYC 9375F','EPYC 9384X','EPYC 9454','EPYC 9455','EPYC 9474F','EPYC 9475F','EPYC 9534','EPYC 9535','EPYC 9554','EPYC 9555','EPYC 9565','EPYC 9575F','EPYC 9634','EPYC 9645','EPYC 9654','EPYC 9655','EPYC 9684X','EPYC 9745','EPYC 9754','EPYC 9825','EPYC 9845'],
+     dimmKits:true,hsPart:'P58459-B21',fanPart:'P58465-B21',fanDimmGB:256,
+     ctrl:AMDG11_CTRL.concat(['MR932i-p — x32 lanes, PCIe Gen5, SAS SSD / NVMe only (P75697-B21)']),ctrlNoHDD:['MR932i-p'],
+     bat:['96W Smart Storage Lithium-ion battery with 260mm cable (P01367-B21)','Smart Storage Hybrid Capacitor with 260mm cable (P02381-B21)','16W Smart Hybrid Capacitor with 260mm cable (P65042-B21)','No battery'],
+     psu:AMDG11_PSU,flr:AMDG11_OCP,
+     cards:g11Cards(AMDG11_NIC.concat(['P87940-B21']),['NS204i-u Gen11 NVMe boot device (P48183-B21) — secondary kit P57885-B21 or tertiary kit P57850-B21, cable kit P57013-B21','NS204i-u v2 480GB NVMe boot device — 9005 (Turin) processors only (P78279-B21, same kits)']),
+     rails:{kits:[{pn:'P52351-B21',n:'DL3XX Gen11 Easy Install Rail 2 Kit',bays:['8SFF','16SFF','24SFF','8LFF','12LFF']},{pn:'P52347-B21',n:'Ball Bearing Rail 10 Kit',bays:['48SFF']}],cma:[{pn:'P22020-B21',n:'DL38X Gen10 Plus 2U Cable Management Arm (SFF/LFF/EDSFF)'},{pn:'P54963-B21',n:'DL3XX Gen11 2U 2-row Cable Management Arm (48SFF)'}],note:'The GPU chassis takes the Ball Bearing Rail 8 Kit P52345-B21 and CMA P28726-B21.'},
+     bezelKit:{pn:'P50400-B21',n:'Gen11 2U Bezel Kit',lock:'875519-B21'},intrusion:{pn:'P55713-B21',n:'DL385 Gen11 Intrusion Cable Kit'},
+     iloLic:true,iloNoPremium:true,fanWtext:'240W or higher',verified:true,hsW:240,hsWtext:'240W–300W (above 300W needs the max-performance tier)',fanW:240,memPerSocket:3072,psuMax:2,pcie:{one:3,two:8},
      fans:{one:6,two:6,perf:6},riserMax:3,rear:['2SFF rear','4LFF midtray','4LFF rear'],
      fanNVMe:true,fanRear:true,fanGPU:true,
      notes:['Below 240W: standard heatsink and standard fan kit. 240W–300W: high performance heatsink and fans. Above 300W: max-performance heatsink and fans.',
@@ -1918,7 +1979,7 @@ var MODELS=[
        'Drive-count limits shrink at high CPU TDP unless ambient is kept to 25°C — e.g. 8LFF/12LFF/16SFF/24SFF all drop to 8 drives above 290W at normal ambient, but allow full population at 25°C ambient (some configs stay capped at 24).',
        'CPUs over 290W with all 24 DIMM slots at 256GB each need the Performance Air Baffle (P57886-B21) and the Performance 2U Heatsink Kit (P58459-B21).',
        'Mixing two different power supplies is not allowed.',
-       'Fixed 6-fan cage regardless of CPU count — standard or performance kit depending on TDP/config, never a different fan count.',
+       'Fans (V48, one fan per kit): 6 Standard fan kits P58464-B21 with one or two processors; Performance kits P58465-B21 — 4 with one processor, 6 with two. 256GB DIMMs and all InfiniBand options need 6 Performance fans. The Max Performance Fan Kit P94850-B21 is only for 600W GPUs.',
        'Primary riser (up to 3 slots, Proc 1) + secondary riser (up to 3 slots, Proc 2) + tertiary (2 slots, Proc 2) = up to 8 total with two processors.',
        'The 8LFF chassis can add a 4LFF mid-tray AND a separate 4LFF rear cage at once (up to 20 LFF total) — add both as separate rear/midtray lines.',
        '12 EDSFF / 36 EDSFF and the GPU CTO (8SFF or 8EDSFF backplane) chassis variants are not in the bay list — note them manually if quoting one.',
@@ -2898,15 +2959,19 @@ var CPUS=[
  ['EPYC 9335','EPYC 9335 · 32C 3.0GHz','turin',210,32],
  ['EPYC 9355','EPYC 9355 · 32C 3.55GHz','turin',280,32],
  ['EPYC 9375F','EPYC 9375F · 32C 3.85GHz','turin',320,32],
+ ['EPYC 9355P','EPYC 9355P · 32C 3.55GHz — single-socket (1P) part','turin',280,32], // added 2026-09-24 (DL325/DL345 Gen11)
  ['EPYC 9365','EPYC 9365 · 36C 3.4GHz','turin',300,36],
  ['EPYC 9455','EPYC 9455 · 48C 3.15GHz','turin',300,48],
+ ['EPYC 9455P','EPYC 9455P · 48C 3.15GHz — single-socket (1P) part','turin',300,48], // added 2026-09-24
  ['EPYC 9475F','EPYC 9475F · 48C 3.65GHz','turin',400,48],
  ['EPYC 9535','EPYC 9535 · 64C 2.4GHz','turin',300,64],
  ['EPYC 9555','EPYC 9555 · 64C 3.2GHz','turin',360,64],
+ ['EPYC 9555P','EPYC 9555P · 64C 3.2GHz — single-socket (1P) part','turin',360,64], // added 2026-09-24
  ['EPYC 9575F','EPYC 9575F · 64C 3.3GHz','turin',400,64],
  ['EPYC 9565','EPYC 9565 · 72C 3.15GHz','turin',400,72],
  ['EPYC 9645','EPYC 9645 · 96C 2.3GHz','turin',320,96],
  ['EPYC 9655','EPYC 9655 · 96C 2.6GHz','turin',400,96],
+ ['EPYC 9655P','EPYC 9655P · 96C 2.6GHz — single-socket (1P) part','turin',400,96], // added 2026-09-24
  ['EPYC 9745','EPYC 9745 · 128C 2.4GHz','turin',400,128],
  ['EPYC 9825','EPYC 9825 · 144C 2.2GHz','turin',390,144],
  ['EPYC 9845','EPYC 9845 · 160C 2.1GHz','turin',390,160],
@@ -3051,7 +3116,7 @@ var MEM_SPEEDS={
     anywhere (it has no per-channel/per-socket DIMM-count field), not
     a CPU-tier one — left as-is, single value, not a bug. */
  naples:[2666],rome:[3200],milan:[3200],
- sp4:[4000,4400,4800],sp5:[4000,4400,4800,5200,5600],genoa:[4800],turin:[6000],
+ sp4:[4000,4400,4800],sp5:[4000,4400,4800,5200,5600],genoa:[4800],turin:[6400],
  /* xeon6: HPE's Gen12 memory-speed table (DL360 Gen12 V19): 6400 at 1 DIMM per channel; at 2 DIMMs per channel E-core
     parts run 5200 and P-core parts 6000 (5200 before the May 2026 firmware). The processor table rates 6710E / 6731E /
     6746E at 5600 (CPU_MEM_MAX). The xeon6Mem rule applies the per-population limits. */
@@ -3063,7 +3128,7 @@ var MEM_CAPS={
  e7v3:[8,16,32,64,128],e7v4:[8,16,32,64,128],
  sp1:[8,16,32,64,128],sp2:[8,16,32,64,128],sp3:[8,16,32,64,128,256],
  naples:[8,16,32,64,128],rome:[8,16,32,64,128,256],milan:[8,16,32,64,128,256],
- sp4:[16,32,64,96,128,256],sp5:[16,32,64,96,128,256],genoa:[16,32,64,96,128],turin:[16,32,64,96,128],
+ sp4:[16,32,64,96,128,256],sp5:[16,32,64,96,128,256],genoa:[16,32,64,96,128,256],turin:[16,32,64,96,128,256],
  xeon6:[16,32,64,96,128,256]
 };
 
@@ -3143,6 +3208,9 @@ var DIMM_KITS={
  sp5:{16:['P64705-B21','16GB Single Rank x8 DDR5-5600'],32:['P64706-B21','32GB Dual Rank x8 DDR5-5600'],
       64:['P64707-B21','64GB Dual Rank x4 DDR5-5600'],96:['P64708-B21','96GB Dual Rank x4 DDR5-5600'],
       128:['P69976-B21','128GB Dual Rank x4 DDR5-5600'],256:['P90554-B21','256GB Quad Rank x4 3DS DDR5-5600']},
+ /* genoa (AMD EPYC 9004, DDR5-4800) and turin (EPYC 9005, DDR5-6400) — AMD Gen11 QuickSpecs (DL325/DL345/DL365/DL385, Aug-Sep
+    2026). The 256GB 4800 kit P90552-B21 is only in the 2-socket DL365/DL385 docs (those models use this table as-is). */
+ genoa:AMD_GENOA_KITS,turin:AMD_TURIN_KITS,   // tables defined next to the AMD Gen11 card lists (before MODELS)
  /* xeon6 (Gen12, DDR5-6400 RDIMM) — DL380 Gen12 QuickSpecs V19 (Sep 2026), clean HTML table; -F21 twins exist for
     factory-integrated builds. 16GB is 1 DIMM-per-channel only with P-core and not supported with E-core parts (xeon6Mem rule).
     The DL360 Gen12 V19 ordering row prints the 256GB kit as P73477-B21 — a typo; its own table and the DL380 doc say P73447-B21. */
@@ -4341,7 +4409,7 @@ var RISERS={
     either the plain kit or the low-profile one (LP required alongside
     the NS204i-u boot device). Single-socket chassis — no cpu2 flags. */
  'DL325 G11':[
-  {n:'Default Primary riser (Slot 1)',d:'1 slot · x16 · full-height/full-length · ships standard, no kit needed',s:1,fh:1,lp:0,pos:'primary',def:true},
+  {n:'Default Primary riser (Slot 1)',d:'1 slot · x16 · full-height/half-length · ships standard (full-length cards need the FHFL Add-on Cards Support Kit P64520-B21)',s:1,fh:1,lp:0,pos:'primary',def:true},
   {n:'1U x16 Riser Kit (P56915-B21) — Secondary',d:'1 slot · x16 · half-height/half-length',s:1,fh:1,lp:0,pos:'secondary'},
   {n:'1U x16 Low Profile Riser Kit (P55029-B21) — Secondary',d:'1 low-profile slot · required alongside the NS204i-u NVMe boot device',s:1,fh:0,lp:1,pos:'secondary'}
  ],

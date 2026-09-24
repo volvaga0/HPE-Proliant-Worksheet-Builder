@@ -1242,11 +1242,11 @@ setTimeout(()=>{
       ?pass4('DL385 G11: CPU picker groups Genoa and Turin separately')
       :fail4('DL385 G11 CPU groups: '+groups.join(' | '));
   }
-  (d.getElementById('dimm-note').textContent.includes('4800') && d.getElementById('dimm-note').textContent.includes('6000'))
-    ?pass4('DL385 G11 (no CPU picked yet): memory-speed note unions Genoa (4800) and Turin (6000) MT/s')
+  (d.getElementById('dimm-note').textContent.includes('4800') && d.getElementById('dimm-note').textContent.includes('6400'))
+    ?pass4('DL385 G11 (no CPU picked yet): memory-speed note unions Genoa (4800) and Turin (6400, per the Sep 2026 docs) MT/s')
     :fail4('DL385 G11 dimm-note before CPU pick: '+d.getElementById('dimm-note').textContent);
   pickCpu4('EPYC 9555'); // Turin, 360W
-  (d.getElementById('dimm-note').textContent.includes('6000') && !d.getElementById('dimm-note').textContent.includes('4800'))
+  (d.getElementById('dimm-note').textContent.includes('6400') && !d.getElementById('dimm-note').textContent.includes('4800'))
     ?pass4('DL385 G11 (Turin CPU picked): memory-speed note narrows to just Turin\'s 6000 MT/s, not Genoa\'s 4800')
     :fail4('DL385 G11 dimm-note after CPU pick: '+d.getElementById('dimm-note').textContent);
   setRear('4LFF rear');
@@ -3662,7 +3662,7 @@ function runRound23(){
 
   // the shared OCP_CARDS fallback (used by G11/G12, and any future
   // unrecognized model) has 2 real bugs fixed this pass
-  setModel23('DL325 G11'); // no flr:[] override (most Intel G11 models have their own now), falls back to OCP_CARDS
+  setModel23('DL110 G12'); // no flr:[] override (every other G11/G12 model has its own now), falls back to OCP_CARDS
   f23=flrOpts23();
   (f23.some(function(o){return /^BCM57416 10Gb 2p \(P10097-B21\)/.test(o);}) && f23.some(function(o){return /^BCM57412 10Gb 2p \(P26256-B21\)/.test(o);}) && f23.some(function(o){return /^QL41132HQCU 10Gb 2p/.test(o);}) && !f23.some(function(o){return /^QL41132HQCU 10\/25Gb/.test(o);}))
     ?pass23('shared OCP_CARDS: BCM57412/57416 part-number swap fixed, QL41132HQCU/HQRJ "10/25Gb" mislabel fixed to plain 10Gb')
@@ -5420,6 +5420,28 @@ function runRound25(){
   { const o=rearOpts26(); (o&&o.length===5&&o.some(function(x){return /P74741-B21/.test(x);})&&!o.some(function(x){return /P74734-B21/.test(x);}))?pass25('DL380 G12 12LFF: rear picker offers the LFF cages, the stacking 2SFF and the mid-plane'):fail25('12LFF rear picker: '+JSON.stringify(o)); }
   reset27(); setModel25('DL380 G11'); setv26('bays','8LFF');
   { const o=rearOpts26(); (o&&!o.some(function(x){return /P48810-B21/.test(x);})&&o.some(function(x){return /P48823-B21/.test(x);}))?pass25('DL380 G11 8LFF: the SFF-only 2SFF riser cages drop out of the picker too'):fail25('G11 8LFF rear picker: '+JSON.stringify(o)); }
+
+  // ===== AMD Gen11 full rundown (DL325 V40 / DL345 V40 / DL365 V45 / DL385 V48, build 2026.09.24.1) =====
+  ['DL325','DL345','DL365','DL385'].forEach(function(k){
+    const m=w.MODELS.filter(function(x){return x.m===k&&x.g==='G11';})[0];
+    (m.p.indexOf('turin')>-1&&m.rules.cpuAllow.length===39)?pass25(k+' G11: Genoa + Turin, 39-SKU processor list'):fail25(k+' G11 platforms/cpuAllow: '+m.p+' '+(m.rules.cpuAllow||[]).length);
+  });
+  reset27(); setModel25('DL325 G11'); pickCpuExact25('EPYC 9555P'); setv26('dimmq','12'); setv26('dimm','64GB 6400 MT/s');
+  (/P64986-B21/.test(d.getElementById('dimm-kit').textContent) && !/MEMORY SPEED/.test(chk26()))?pass25('DL325 G11 + EPYC 9555P (Turin, new 1P SKU): 64GB DDR5-6400 kit P64986-B21 at 6400 (was capped at 6000)'):fail25('DL325 Turin memory: '+d.getElementById('dimm-kit').textContent+' | '+chk26().slice(0,160));
+  setv26('dimm','96GB 6400 MT/s');
+  /96GB memory modules require high performance fans/.test(d.getElementById('why-fan').textContent+chk26())?pass25('DL325 G11: 96GB+ DIMMs need Performance fans'):fail25('DL325 96GB fan');
+  pickCpuExact25('EPYC 9554P'); setv26('dimm','256GB 4800 MT/s');
+  /QuickSpecs list no 256GB kit/.test(chk26())?pass25('DL325 G11 + Genoa: no 256GB DDR5-4800 kit in its doc — flagged'):fail25('DL325 Genoa 256GB not flagged');
+  setv26('dimm','64GB 4800 MT/s');
+  /P50312-B21/.test(d.getElementById('dimm-kit').textContent)?pass25('DL325 G11 + Genoa: 64GB DDR5-4800 kit P50312-B21'):fail25('DL325 Genoa kit: '+d.getElementById('dimm-kit').textContent);
+  setv26('ctrl','MR416i-p — x16 lanes, 8GB cache (P47777-B21)');
+  /Li-ion battery or Hybrid Capacitor.*MR416i-p/.test(chk26())?pass25('DL325 G11: MR416i-p needs the battery or capacitor'):fail25('DL325 battery');
+  reset27(); setModel25('DL385 G11'); setv26('cpuq','2'); pickCpuExact25('EPYC 9654'); setv26('dimmq','24'); setv26('dimm','256GB 4800 MT/s');
+  /P90552-B21/.test(d.getElementById('dimm-kit').textContent)?pass25('DL385 G11 + Genoa: 256GB DDR5-4800 kit P90552-B21'):fail25('DL385 genoa 256: '+d.getElementById('dimm-kit').textContent);
+  (/P50400-B21/.test(d.getElementById('bezel-note').textContent) && /P55713-B21/.test(d.getElementById('bezel-note').textContent))?pass25('DL385 G11: bezel P50400-B21, intrusion P55713-B21'):fail25('DL385 bezel note');
+  reset27(); setModel25('DL365 G11'); setv26('cpuq','2'); pickCpuExact25('EPYC 9334'); setv26('dimmq','24'); setv26('dimm','128GB 4800 MT/s');
+  /128GB memory modules require high performance fans/.test(d.getElementById('why-fan').textContent+chk26())?pass25('DL365 G11: 128GB DIMMs need the performance fans (and heatsink)'):fail25('DL365 128GB fan');
+  (/P52351-B21/.test(d.getElementById('rail-note').textContent) && /P50450-B21/.test(d.getElementById('bezel-note').textContent))?pass25('DL365 G11: rail P52351-B21 and bezel P50450-B21 (from its V23 doc — V45 lists none)'):fail25('DL365 rail/bezel');
 
   reset27();
 }

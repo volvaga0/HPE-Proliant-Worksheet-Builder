@@ -3722,3 +3722,18 @@ chassis (new 36EDSFF bay, 6 standard fans) 2SFF via P74743 only.
   attempt read `v('bays')` inside `rearRow(v)` — the parameter shadows the helper and "Add rear line" threw; caught in
   the browser, fixed, and a QA test now drives the real picker.
 QA: 1076 ok / 0 FAIL (11 new). Browser-verified (rear picker per chassis on DL380 G12).
+
+### 2026-09-24 — AMD Gen11 full rundown (DL325 V40 / DL345 V40 / DL365 V45 / DL385 V48, all Aug-Sep 2026)
+- **Wrong before:** DL325/DL345/DL365 G11 were Genoa-only — every current doc also offers EPYC 9005 (Turin); all four now
+  Genoa + Turin with a 39-SKU cpuAllow each (1P "P" parts on DL325/DL345, non-P on DL365/DL385). 4 Turin 1P SKUs added
+  to the shared list (9355P / 9455P / 9555P / 9655P). **Turin memory speed 6000 → 6400** (all four docs: 6400 at 1DPC).
+- Memory kits: Genoa DDR5-4800 (P50309 … 128GB P69982, 256GB P90552 on the 2P models only) and Turin DDR5-6400 (P64984 …
+  256GB P73446) — shared `AMD_GENOA_KITS` / `AMD_TURIN_KITS` (DIMM_KITS.genoa/turin point at them); DL325/DL345 use a
+  1P table without the 256GB 4800 kit. 256GB added to the genoa/turin size lists.
+- Shared AMD Gen11 lists (`AMDG11_NIC`, `_OCP`, `_CTRL`, `_PSU`), per-model extras (X4522-PLUS, SecureHBAs, MR932i-p).
+  Batteries (145mm on DL325/DL345 with a required-battery rule; 260mm on DL365/DL385), NS204i-u kits, rails/CMA by chassis,
+  bezel, intrusion, iLO. DL365's current V45 lists no rail/bezel/intrusion kits — those come from its V23 (noted).
+- Fan / heatsink rules from the docs: DL325 25Gb+ NICs and 96GB+ DIMMs → performance fans; DL345 100Gb+/IB; DL365
+  128GB+ → performance heatsink and fans; DL385 note corrected (4 performance fans with one processor, 6 with two).
+- Every PN in the four entries grep-checked against its own PDF (85 / 77 / 65 / 71 — none missing).
+QA: 1089 ok / 0 FAIL.

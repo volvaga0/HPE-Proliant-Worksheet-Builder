@@ -106,3 +106,7 @@ One row per cached file in this directory. See `README.md` for how to use/add to
 | ML350-G12-v17.txt | ML350 | G12 | a50006995enw | Version 17 -- 08-Sep-2026 (current; PDF via hpe.com downloadDoc, pdftotext -raw; every PN in the ML350 G12 entry grep-checked) — supersedes ML350-G12.txt (V2, Mar 2025) | hpe.com/psnow/doc/a50006995enw | 2026-09-24 |
 | DL580-G12-v11.txt | DL580 | G12 | a50009226enw | Version 11 -- 03-Aug-2026 (current; PDF via hpe.com downloadDoc, pdftotext -raw; every PN in the DL580 G12 entry grep-checked) — supersedes DL580-G12.txt (V1, Jun 2025) | hpe.com/psnow/doc/a50009226enw | 2026-09-24 |
 | DL380a-G12-v20.txt | DL380a | G12 | a00047453enw | Version 20 -- 08-Sep-2026 (current; PDF via hpe.com downloadDoc, pdftotext -raw; every PN in the DL380a G12 entry grep-checked) — supersedes DL380a-G12.txt (V6, May 2025) | hpe.com/psnow/doc/a00047453enw | 2026-09-24 |
+| DL325-G11-current.txt | DL325 | G11 | a50004297enw | Version 40 -- 03-Aug-2026 (current; hpe.com downloadDoc) | hpe.com/psnow/doc/a50004297enw | 2026-09-24 |
+| DL345-G11-current.txt | DL345 | G11 | a50004298enw | Version 40 -- 03-Aug-2026 (current; hpe.com downloadDoc) | hpe.com/psnow/doc/a50004298enw | 2026-09-24 |
+| DL365-G11-current.txt | DL365 | G11 | a50004299enw | Version 45 -- 08-Sep-2026 (current; lists no rails/bezel — those from DL365-G11.txt V23) | hpe.com/psnow/doc/a50004299enw | 2026-09-24 |
+| DL385-G11-current.txt | DL385 | G11 | a50004300enw | Version 48 -- 21-Sep-2026 (current; hpe.com downloadDoc) | hpe.com/psnow/doc/a50004300enw | 2026-09-24 |
