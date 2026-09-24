@@ -1,0 +1,2595 @@
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Overview
+Page 1
+HPE ProLiant DL380 Gen9 Server
+The HPE ProLiant DL380 Gen9 Server delivers the best performance and expandability in the Hewlett Packard Enterprise 2P rack
+portfolio. Reliability, serviceability and near continuous availability, backed by a comprehensive warranty, make it ideal for any
+environment. Deploy the data center standard.
+Front View - 8SFF Chassis with Optional Universal Media Bay shown
+1. Quick removal access panel 9. NIC status
+2. Universal Media bay. 2 USB 2.0 and VGA standard (8SFF bay optional) 10. UID button
+3. Optional Optical drive. Requires Universal Media bay 11. USB 3.0
+4. Optional 2 SFF HDD, blank shown. Requires Universal Media bay 12. Serial label pull tag
+5. Drive Bay 2. Blank shown, 8SFF or 6NVMe optional 13. Bay 3
+6. 8 SFF Drive Cage Bay 14. Bay 2
+7. Power On/Standby button and system power LED button 15. Bay 1
+8. Health LED
+RETIRED: This document has been officially retired, and the base products listed herein are now considered obsolete and
+are no longer available for sale. Consequently, the information contained within may no longer be current. This document
+is provided exclusively for reference and informational purposes.
+RETIRED: This document has been officially retired, and the base products listed herein are now considered obsolete and
+are no longer available for sale. Consequently, the information contained within may no longer be current. This document
+is provided exclusively for reference and informational purposes.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Overview
+Page 2
+Rear View
+1. PCI Slots (Slots 1-3 top to bottom, riser shipped standard) 9. Power supply Power LED
+2. PCI Slots (Slots 4-6top to bottom, requires second riser card, and
+second processor)
+10. HPE Flexible Slot Power Supply bay 2 (800w shown) 10
+3. Optional serial port 11. VGA connector
+4. Optional rear 2 SFF HDD (supported in 24 SFF or 12 LFF front
+end)
+12. Embedded 4x1GbE Network Adapter
+5. Power supply Power connection 13. Dedicated iLO connector
+6. Power supply Power LED 14. USB 3.0 connectors (2)
+7. HPE Flexible Slot Power Supply bay 1 (800w shown) 15. Unit ID LED
+8. Power supply Power connection 16. Optional FlexibleLOM ports (Shown: 4x1GbE)
+10 NOTE: Optional Battery Back up option.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Overview
+Page 3
+Internal View
+1. Fan cage shown with 6 standard Hot-plug fans (High
+Performance fans optional)
+8. Embedded 4x1Gbe NIC
+2. Optional HPE Smart Storage Battery 9. Primary PCIe riser, standard (Optional double wide
+GPU riser)
+3. MicroSD card slot3 10. Optional FlexibleLOM slot
+4. Internal USB 3.0 connector (2) 11. X4 SATA ports (1 and 2)
+5. Optional HPE Flexible Smart Array or Smart HBA (H240ar
+shown)
+12. 2 Processors, heatsink showing, with HPE Smart
+Socket Guide
+6. (Under) Hot Plug redundant HPE Flexible Slot Power supplies6 13. DDR4 DIMM slots. Shown fully populated in 24 slots
+(12 per processor)
+7. Connection for second (optional) riser (Required second CPU)
+3 NOTE: Optional Dual MicroSD.
+6 NOTE: Optional Micro UPS Battery Back up option.
+What's New
+·
+· NVMe 6.4TB to 1.6TB MU HHHL DSF Card
+· SAS 12G 3.84TB/1.92TB/960GB MU and 7.68TB/3.84TB/1.92TB/960GB RI -- SFF SC VS DSF SSD
+· SAS 12G 1.92TB and 960GB MU LFF SCC VS DSF SSD
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Standard Features
+Page 4
+NOTE: For more information regarding Intel Xeon processors, please see the following http://www.intel.com/xeon.
+Processor
+Up to two of the
+following depending
+on model
+Model CPU
+frequency
+Cores L3 Cache Power QPI DDR4 Hz
+E5-2699v3 2.3GHz 18 45MB 145W 9.6GT/s 2133
+E5-2698v3 2.3GHz 16 40MB 135W 9.6GT/s 2133
+E5-2697v3 2.6GHz 14 35MB 145W 9.6GT/s 2133
+E5-2695v3 2.3GHz 14 35MB 120W 9.6GT/s 2133
+E5-2690v3 2.6GHz 12 30MB 135W 9.6GT/s 2133
+E5-2687Wv3 3.1GHz 10 25MB 160W 9.6GT/s 2133
+E5-2683v3 2.0GHz 14 35MB 120W 9.6GT/s 2133
+E5-2680v3 2.5GHz 12 30MB 120W 9.6GT/s 2133
+E5-2670v3 2.3GHz 12 30MB 120W 9.6GT/s 2133
+E5-2667v3 3.2GHz 8 20MB 135W 9.6GT/s 2133
+E5-2660v3 2.6GHz 10 25MB 105W 9.6GT/s 2133
+E5-2650v3 2.3GHz 10 25MB 105W 9.6GT/s 2133
+E5-2650Lv3 1.8GHz 12 30MB 65W 9.6GT/s 2133
+E5-2643v3 3.4GHz 6 20MB 135W 9.6GT/s 2133
+E5-2640v3 2.6GHz 8 20MB 90W 8.0GT/s 1866
+E5-2637v3 3.5GHz 4 15MB 135W 9.6GT/s 2133
+E5-2630v3 2.4GHz 8 20MB 85W 8.0GT/s 1866
+E5-2630Lv3 1.8GHz 8 20MB 55W 8.0GT/s 1866
+E5-2623v3 3.0GHz 4 10MB 105W 8.0GT/s 1866
+E5-2620v3 2.4GHz 6 15MB 85W 8.0GT/s 1866
+E5-2609v3 1.9GHz 6 15MB 85W 6.4GT/s 1600
+E5-2603v3 1.6GHz 6 15MB 85W 6.4GT/s 1600
+E5-2699v4 2.2GHz 22 55MB 145W 9.6GT/s 2400
+E5-2698v4 2.2GHz 20 50MB 135W 9.6GT/s 2400
+E5-2697v4 2.3GHz 18 45MB 145W 9.6GT/s 2400
+E5-2697Av4 2.6GHz 16 40MB 145W 9.6GT/s 2400
+E5-2695v4 2.1GHz 18 45MB 120W 9.6GT/s 2400
+E5-2690v4 2.6GHz 14 35MB 135W 9.6GT/s 2400
+E5-2687Wv4 3.0GHz 12 30MB 160W 9.6GT/s 2400
+E5-2683v4 2.1GHz 16 40MB 120W 9.6GT/s 2400
+E5-2680v4 2.4GHz 14 35MB 120W 9.6GT/s 2400
+E5-2667v4 3.2GHz 8 25MB 135W 9.6GT/s 2400
+E5-2660v4 2.0GHz 14 35MB 105W 9.6GT/s 2400
+E5-2650v4 2.2GHz 12 30MB 105W 9.6GT/s 2400
+E5-2650Lv4 1.7GHz 14 35MB 65W 9.6GT/s 2400
+E5-2643v4 3.4GHz 6 20MB 135W 9.6GT/s 2400
+E5-2640v4 2.4GHz 10 25MB 90W 8.0GT/s 2133
+E5-2637v4 3.5GHz 4 15MB 135W 9.6GT/s 2400
+E5-2630v4 2.2GHz 10 25MB 85W 8.0GT/s 2133
+E5-2630Lv4 1.8GHz 10 25MB 55W 8.0GT/s 2133
+E5-2623v4 2.6GHz 4 10MB 85W 8.0GT/s 2133
+E5-2620v4 2.1GHz 8 20MB 85W 8.0GT/s 2133
+E5-2609v4 1.7GHz 8 20MB 85W 6.4GT/s 1866
+E5-2603v4 1.7GHz 6 15MB 85W 6.4GT/s 1866
+E5-2699Av4 2.4GHz 22 55MB 145W 9.6GT/s 2400
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Standard Features
+Page 5
+NOTE:All processors above 120W use a high efficiency Heatsink.Doublewide PCIe cards are only supported with this Heatsink.
+For processors with a standard Heatsink that require double wide PCIe cards, the Graphics Enablement kit option is also required
+(719082-B21).
+NOTE: Mixing of E5-2600v3 and E5-2600v4 processors is not supported.
+NOTE: Field upgrade from E5-2600v3 to E5-2600v4 is supported.
+NOTE: All processors support Hyper-Threading except E5-2609 v4/v3 and E5-2603 v4/v3.
+NOTE: Processors consuming up to 120w ship with standard heatsink.
+Processors consuming over 120w ship with a High Performance heatsink as standard except the Intel Xeon E5-2690v4.
+A High Performance heatsink can be added to help reduce power consumption (795235-B21).
+Chipset Intel® C610 Series Chipset
+Intel® E5-2600v3 Processor Family
+Intel® E5-2600v4 Processor Family
+NOTE: For more information regarding Intel® chipsets, please see the following
+URL: http://www.intel.com/products/server/chipsets/
+On System
+Management
+Chipset
+HPE iLO (Firmware HPE iLO4 2.0) 4GB NAND
+NOTE: Read and learn more in the iLO QuickSpecs.
+Memory
+One of the following
+depending on model
+Type:
+HPE SmartMemory
+DDR4 Registered (RDIMM), Load Reduced (LRDIMM) or Persistent Memory (NVDIMM)
+DIMM Slots Available 24 (12 DIMM slots per processor, 4 channels per processor, 3 DIMMs per
+channel)
+Maximum Capacity
+(LRDIMM)
+3TB (24 x 128GB LRDIMM @2400MHz)*
+Maximum Capacity
+(RDIMM)
+768GB (24 x 32GB RDIMM @2400MHz)
+Maximum Capacity
+(NVDIMM)
+128GB (16 x 8GB NVDIMM)*
+NVDIMM support only with the E5-2600v4 processors, and RDIMMs only
+· Note mixing of 2133 and 2400MHz memory is not supported
+· Note mixing of RDIMM and LRDIMM memory is not supported
+· Note the 128GB LRDIMM may not be mixed with other DIMM capacities/types
+Memory Protection Advanced ECC Advanced ECC uses single device data correction to detect and correct single and
+all multibit error that occurs within a single DRAM chip.
+Online Spare Memory online spare mode detects a rank that is degrading and switches
+operation to the spare rank.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Standard Features
+Page 6
+Expansion Slots
+Primary Riser
+(Standard)
+Expansion Slots # Technology Bus
+Width
+Connector
+Width
+Bus
+Number
+Form Factor Notes
+1 PCIe 3.0 X8 X16 7 Full-height,
+half-length
+slot
+Proc 1
+2 PCIe 3.0 X8 X16 10 Full-height,
+half-length
+slot
+Proc 1
+3 PCIe 3.0 X8 X8 13 Half
+length/full
+height
+Proc 1
+NOTE: Bus Width Indicates the number of physical electrical lanes running to the connector.
+NOTE: All slots support PCIe cards to 150W or more, but an additional Power Cable Kit is required.
+NOTE: Double wide PCIe cards are only supported in risers with the Processors leveraging the High Performance
+Heatsink. For Processors requiring double wide GPU support please order the GPU enablement kit (719082-B21).
+Slot 2 PCIe
+Riser
+(Optional 3-
+slot)
+719073-B21
+Expansion Slots # Technology Bus
+Width
+Connector
+Width
+Bus
+Number
+Form Factor Notes
+4 PCIe 3.0 X16 X16 16 Full-height,
+full-length
+slot
+Proc 2
+5 PCIe 3.0 X16 X16 20 Full-height,
+full-length
+slot
+Proc 2
+6 PCIe 3.0 X8 X8 23 Full-height,
+half-length
+slot
+Proc 2
+NOTE: Bus Width Indicates the number of physical electrical lanes running to the connector.
+NOTE: When populating the second optional riser slot, the second processor must be installed.
+NOTE: All slots support PCIe cards to 150W or more, but an additional Power Cable Kit is required.
+NOTE: Double wide PCIe cards are only supported in risers with the Processors leveraging the High Performance
+Heatsink. For Processors requiring double wide GPU support please order the GPU enablement kit (719082-B21).
+Slot 1 PCIe
+Riser
+(Optional 2-
+slot)
+719076-B21
+Expansion Slots # Technology Bus
+Width
+Connector
+Width
+Bus
+Number
+Form Factor Notes
+2 PCIe 3.0 X16 X16 0x05 Full-height,
+full-length
+slot
+Proc 1
+3 PCIe 3.0 X8 X8 0x08 Full-height,
+half-length
+slot
+Proc 1
+NOTE: Bus Width Indicates the number of physical electrical lanes running to the connector.
+NOTE: This will replace the standard primary riser and supports double wide cards.
+NOTE: All slots support PCIe cards to 150W or more, but an additional Power Cable Kit is required.
+NOTE: Double wide PCIe cards are only supported in risers with the Processors leveraging the High Performance
+Heatsink. For Processors requiring double wide GPU support please order the GPU enablement kit (719082-B21).
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Standard Features
+Page 7
+Storage
+Controller
+One of the
+following
+depending on
+model
+Entry Models HPE Dynamic Smart Array B140i Controller
+NOTE: The embedded B140i controller will operate in UEFI only mode. For legacy support an additional controller
+will be needed, and for CTO orders please also select the Legacy mode settings part, 758959-B22.
+NOTE: The B140i defaults to AHCI off the chipset. Smart array needs to be enables on the SATA only models if
+required.
+NOTE: The B140i will not operate in Legacy mode.
+Base Models HPE Dynamic Smart Array B140i Controller
+HPE Flexible Smart Array P440ar/2G FIO Controller
+HPE Flexible Smart Array P840/4G FIO Controller
+HPE Smart Array P840ar/2G Controller
+Performance Models HPE Dynamic Smart Array B140i Controller
+HPE Flexible Smart Array P440ar/2GB
+Internal
+Storage
+Devices
+One of the
+following
+depending on
+model
+Optical Drive Ships standard in Performance Models
+Optional: DVD-ROM, DVD-RW
+Hard Drives None ship standard
+Hard Drive Bays 8 SFF with optional Universal Media Bay, 8 SFF bay or 6 NVME drive options
+24 SFF plus optional 2 SFF drives rear
+12 LFF plus optional 3 LFF drives rear
+NOTE: The 3 LFF rear drives will consume space for the secondary riser.
+NOTE: The 12 LFF model also supports 2 SFF rear which allows for the second
+riser.
+NOTE: The 6 NVMe drive option can only be leveraged in the SFF model and
+replaces Bay 2.
+4 LFF drive bays total
+NOTE: The Universal Media Bay (724865-B21) not available with the LFF model
+or the 24SFF model, and can only be populated in Bay1.
+NOTE: The 8SFF can be upgraded with a drive cage to 16 or 24 SFF with field
+upgrades. For optimal upgrade Bay2 should be populated second, with Bay 3 the
+last to be populated for a field upgrade to 24 SFF.
+NOTE: The 4LFF model cannot be upgraded to 12LFF in the field.
+NOTE: All Pre-configured models come with an embedded 10-Port SATA
+controller. Optional HPE Flexible Smart Array and Smart SAS HBA Controllers
+can be added.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Standard Features
+Page 8
+Maximum
+Internal
+Storage
+CAPACITY CONFIGURATION
+Hot Plug SFF SAS 52.0TB 24+2 x 2TB (with optional rear SFF drive cage)
+Hot Plug SFF SATA 52.0TB 24+2 x 2TB (with optional SFF drive cage)
+Hot Plug LFF SAS 180.0TB 12+3 x 12TB (with optional rear LFF drive cage)
+Hot Plug LFF SATA 180.0TB 12+3 x 12TB (with optional rear LFF drive cage)
+Hot Plug SFF SAS SSD 397.8TB 24+2 x 15.3TB (with optional rear SFF drive cage)
+Hot Plug SFF SATA SSD 199.68TB 24+2 x 7.68TB (with optional rear SFF drive cage)
+Hot Plug LFF SATA SSD 57.6B 12+3 x 3.84TB (with optional rear LFF drive cage)
+Hot Plug LFF SAS SSD 28.8TB 12+3 x 1.92TB (with optional rear LFF drive cage
+Hot Plug SFF NVMe PCIe SSD 46.08TB NVMe
++ 36TB SFF
+6x7.68TB NVMe plus 36TB with 18 SFF (Bay 1, bay 3 and optional
+rear drive support)
+Power Supply HPE 500W Flex Slot Platinum Hot Plug Power Supply
+NOTE: Available in 94% efficiency.
+HPE 800W Flex Slot Platinum Hot Plug Power Supply
+NOTE: Available in 94% and 96% efficiency.
+NOTE: Also available in -48VDC and 227VAC/380VDC power inputs.
+HPE 1400W Flex Slot Platinum Plus Hot Plug Power Supply
+NOTE: Available in 94% efficiency.
+HPE Flexible Slot (Flex Slot) Power Supplies share a common electrical and physical design that allows for hot plug,
+tool-less installation into HPE ProLiant Gen9 Performance Servers. Flex Slot power supplies are certified for high-
+efficiency operation and offer multiple power output options, allowing users to "right-size" a power supply for specific
+server configurations. This flexibility helps to reduce power waste, lower overall energy costs, and avoid "trapped"
+power capacity in the data center.
+All pre-configured servers ship with a standard 6-foot IEC C-13/C-14 jumper cord (A0K02A). This jumper cord is
+also included with each standard AC power supply option kit. If a different power cord is required, please check
+the ProLiant Power Cables web page.
+To review the power requirements for your selected system, please use the HPE Power Advisor Tool located
+at http://www.hpe.com/info/hppoweradvisor.
+Power specifications and technical content for all HPE Server power supplies can be found at
+http://www.hpe.com/info/proliant/powersupply.
+System Fans
+One of the
+following
+depending on
+model
+Non-redundant Redundant
+2P model 6 fans
+NOTE: 1P models typically ship with 4 standard fans. The second processor option kit contains 2 additional fans.
+NOTE: The 12LFF and 24SFF models ship with 6 High Performance fans as standard.
+NOTE: High Performance Fan Kit is available to meet ambient temperature environments.
+NOTE: High Performance Fan Kit is required for Passive GPU support.
+NOTE: The 8SFF Bay1 kit (719067-B21) will ship with 6 High efficiency fans.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Standard Features
+Page 9
+Interfaces Serial Optional
+Video 2 (1 front, optional via Universal Media Bay, 724865-B21), 1 back not active
+simultaneously
+FlexibleLOM Network Ports 4 x 1Gb ports shipping standard with optional FlexibleLOM
+HPE iLO Remote Management
+Network Port
+1 Gb Dedicated
+Micro SD Slot 1 Micro SD
+NOTE: The Micro SD slot is not a hot-pluggable device. Customers should not attempt to plug an SD card into
+the SD slot while the server is powered.
+USB 3.0 Up to 5 total: 1 front, 2 rear, 2 internal (secure), 2 optional USB 2.0 front via
+Universal Media Bay
+SID (Systems Insight Display) Optional
+NOTE: Not shipping as standard. Available as a CTO option or as a field upgrade (768900-B21).
+Operating
+Systems and
+Virtualization
+Software
+Support
+for
+ProLiant
+Servers
+Microsoft Windows Server
+Canonical Ubuntu
+Red Hat Enterprise Linux (RHEL)
+SUSE Linux Enterprise Server (SLES)
+Oracle Solaris
+VMware
+Citrix XenServer
+ClearOS
+NOTE: ClearOS allows you to build a fully functional server that is just right for you at no upfront cost. It is
+available via CTO preload, Intelligent Provisioning or via download. For more information on ClearOS, please
+visit http://www.hpe.com/servers/clearos.
+NOTE: For more information on Hewlett Packard Enterprise Certified and Supported ProLiant Servers for OS and
+Virtualization Software and latest listing of software drivers available for your server, please visit our Support
+Matrix at: http://www.hpe.com/info/ossupport and our driver download page.
+Upgradeability Upgradeable to 2 processors (36 Cores)
+NOTE: Processor upgrade available from Intel® Xeon® Processors E5-2600v3. Please contact Hewlett Packard
+Enterprise Technology Sales (http://www.hpe.com/support), your local Hewlett Packard Enterprise Re-seller.
+Up to 24 DIMM slots available for higher Memory capacity
+FlexibleLOM connector for 1 Gigabit or 10 Gigabit networking options
+HPE Flexible Smart Array or Smart HBA Controllers
+Embedded 10-Port SATA, B140i as standard
+Optional 3 slot riser (x16, x16, x8), or 2 slot primary riser (x16, x8)
+NOTE: To take advantage of the additional 3 PCI slot upgrade, the second processor must be installed.
+Redundant Power Supply
+Optical Drive supported via Universal Media Bay
+NOTE: The Universal Media bay provides front VGA and 2xUSB 2.0, plus ability to add 2SFF and Optical.
+NOTE: Universal Media bay is only available with 8 or 8+8SFF mdoel & can be populated in Bay1 only.
+HPE Legacy Mode (FIO only, 758959-B22)
+NOTE: UEFI is the default mode for all models. Can change default to legacy via CTO.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Standard Features
+Page 10
+Industry
+Standard
+Compliance
+ACPI 2.0b Compliant
+PCIe 3.0 Compliant
+PXE Support
+WOL Support
+Microsoft® Logo certifications
+USB 3.0 Support
+USB 2.0 Support
+NOTE: This support is on the optional Universal Media Bay.
+Energy Star
+ASHRAE A3/A4
+NOTE: The DL380 Gen9 is now one of the first HPE ProLiant Gen9 Servers with Extended Ambient Support up
+to 45 C for data center infrastructures designed for better energy efficiency such as but not limited to fresh air
+cooling.
+For additional technical thermal details regarding ambient temperatures, humidity and features support please
+visit: http://www.hpe.com/servers/ashrae.
+UEFI (Unified Extensible Firmware Interface Forum)
+NOTE: UEFI is the default for the DL380 Gen9. Legacy mode can be selected in the field or as a CTO option
+(758959-B22).
+Graphics Integrated Matrox G200eH2 video standard with 16MB of Video RAM
+· 1280 x 1024 (32 bpp)
+· 1920 x 1200 (16 bpp)
+HPE iLO 4 On System Management Memory
+· 16 MB Flash
+· 256 MB DDR3 with ECC (112 MB after ECC and video)
+HPE Server
+UEFI/Legacy
+ROM
+Unified Extensible Firmware Interface (UEFI) is an industry standard that provides better manageability and more
+secured configuration than the legacy ROM while interacting with your server at boot time. HPE ProLiant Gen9
+platform defaults to UEFI and can be factory or field configured for Legacy BIOS Boot Mode.
+NOTE: The UEFI System Utilities function is analogous to the HPE ROM-Based Setup Utility (RBSU) of legacy
+BIOS. For more information, please visit http://www.hpe.com/servers/uefi.
+UEFI enables numerous new capabilities specific to HPE ProLiant servers such as:
+· Secure Boot
+· Operating system specific functionality
+· Support for > 2.2 TB (using GPT) boot drives
+· USB 3.0 Stack
+· Embedded UEFI Shell
+· Mass Configuration Deployment Tool using RESTful API for iLO 4
+· PXE boot support for IPv6 networks
+· Boot support for option cards that only support a UEFI option ROM
+· Network Stack configurations
+NOTE: For UEFI Boot Mode, boot environment and OS image installations should be configured properly to
+support UEFI.
+NOTE: UEFI FIO Setting (758959-B22) can be selected to configure the system in Legacy mode in the factory
+for your HPE ProLiant Gen9 Server.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Standard Features
+Page 11
+Form Factor
+One of the
+following
+depending on
+model
+2U Rack form factor
+8 SFF & 24SFF Drive Bay Version: 3.44 x 17.54 x 26.75 in (8.73 x 44.55 x 67.94 cm)
+4 LFF & 12LFF Drive Bay Version: 3.44 x 17.54 x 28.75 in (8.73 x 44.55 x 73.02 cm)
+NOTE: Dimensions without bezel.
+Embedded
+Management
+HPE Integrated
+Lights-Out
+(HPE iLO)
+Monitor your servers for ongoing management, service alerting, reporting and remote
+management with HPE iLO. Learn more at http://www.hpe.com/info/ilo.
+UEFI Configure and boot your servers securely with industry standard Unified Extensible
+Firmware Interface (UEFI). Learn more at http://www.hpe.com/servers/uefi.
+RESTful API RESTful API for iLO 4 is Redfish 1.0 conformance for simplified server management such
+as configuration and maintenance tasks based on modern industry standards. Learn more
+at http://www.hpe.com/info/restfulapi.
+Intelligent
+Provisioning
+Hassle free server and OS provisioning for 1 or few servers with Intelligent Provisioning.
+Learn more at http://www.hpe.com/servers/intelligentprovisioning.
+Embedded Remote
+Support
+The Hewlett Packard Enterprise embedded remote support, when used with Insight
+Online direct connect or HPE Insight Remote Support, allows HPE ProLiant servers to
+transmit hardware events directly to Hewlett Packard Enterprise or a Hewlett Packard
+Enterprise Authorized Partner for automated phone home support. Learn more
+at http://www.hpe.com/info/insightonline/explore.
+Server utilities Smart Update Optimize firmware and driver updates with Smart Update solutions including Smart Update
+Manager (SUM) and Service Pack for ProLiant (SPP). Learn more
+at http://www.hpe.com/servers/smartupdatemanager.
+HPE Systems Insight
+Manager (HPE SIM)
+HPE SIM allows you to monitor the health of your HPE ProLiant Servers and HPE Integrity
+Servers, and also provides you with basic support for non-HPE servers.
+HPE SIM also integrates with Smart Update Manager to provide quick and seamless
+firmware updates. Learn more at http://www.hpe.com/servers/hpsim.
+Scripting Tool Kit and
+Windows PowerShell
+Provision 1 to many servers using your own scripts to discover and deploy them with
+Scripting Tool Kit (STK) for Windows and Linux or Scripting Tools for Windows PowerShell.
+Learn more at http://www.hpe.com/servers/proliant/stk or
+http://www.hpe.com/servers/powershell.
+RESTful Interface Tool RESTful Interface tool is a scripting tool to provision using RESTful API for iLO 4 to
+discover and deploy servers at scale. Learn more at http://www.hpe.com/info/resttool.
+HPE iLO Mobile
+Application
+Enables the ability to access, deploy, and manage your server anytime from anywhere from
+select smartphones and mobile devices. For additional information please
+visit: http://www.hpe.com/info/ilo/mobileapp.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Standard Features
+Page 12
+HPE Insight Online HPE Insight Online, available at no additional cost as part of your Hewlett Packard
+Enterprise warranty or contractual support agreement with Hewlett Packard Enterprise, is
+a personalized dashboard for simplified tracking of IT operations and support information
+from anywhere, anytime. Learn more at
+http://www.hpe.com/info/insightonline/explore.
+Security Power-on password
+Serial interface control
+Administrator's password
+UEFI
+iLO 4 (Integrated Lights-Out 4) has 12 customizable user accounts and SSL encryption
+Integrated Lights-Out can be disabled via a Global Setting
+iLO Advanced supports directory services integration
+TPM 1.2
+Warranty This product is covered by a global limited warranty and supported by HPE Services and a worldwide network of
+HPE Authorized Channel Partners resellers. Hardware diagnostic support and repair is available for three years from
+date of purchase. Support for software and initial setup is available for 90 days from date of purchase. Enhancements
+to warranty services are available through HPE Pointnext operational services or customized service agreements.
+Hard drives have either a one year or three year warranty; refer to the specific hard drive QuickSpecs for details.
+NOTE: Server Warranty includes 3-Year Parts, 3-Year Labor, 3-Year Onsite support with next business day
+response. Warranty repairs may be accomplished through the use of Customer Self Repair (CSR) parts. These
+parts fall into two categories: 1) Mandatory CSR parts are designed for easy replacement. A travel and labor
+charge will result when customers decline to replace a Mandatory CSR part; 2) Optional CSR parts are also
+designed for easy replacement but may involve added complexity. Customers may choose to have Hewlett
+Packard Enterprise replace Optional CSR parts at no charge. Additional information regarding worldwide limited
+warranty and technical support is available at:
+http://h17007.www1.hpe.com/us/en/enterprise/servers/warranty/.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Optional Features
+Page 13
+Embedded Management
+iLO Advanced
+HPE iLO Advanced licenses offer smart remote functionality without compromise, for all HPE ProLiant servers. The license includes
+the full integrated remote console, virtual keyboard, video, and mouse (KVM), multi-user collaboration, console record and replay,
+and GUI-based and scripted virtual media and virtual folders. You can also activate the enhanced security and power management
+functionality. Learn more about HPE iLO Advanced at http://www.hpe.com/servers/iloadvanced.
+Server Management
+HPE Insight Control
+HPE Insight Control, lets you deploy, migrate, monitor, remote control, and optimize your IT infrastructure through a single, simple
+management console. For more information, see http://www.hpe.com/info/insightcontrol.
+HPE Insight Cluster Management Utility (CMU)
+HPE Insight Cluster Management Utility is a Hyper Scale management frameworkthat includes software for the centralized
+provisioning, management and monitoring of nodes and infrastructure. Learn more at http://www.hpe.com/info/cmu.
+Rack and Power Infrastructure
+HPE Rack and Power Infrastructure products and services create highly efficient and intelligent solutions for existing or new IT data
+centers. HPE Rack and Power infrastructure solutions - rack infrastructure, power protection and management, performance
+optimized data centers (PODs) - are the foundation you are looking for to help secure your long-term IT success. These products
+are designed to help you react to changes in the industry. They deliver efficient, easy-to-use capabilities to manage, monitor, deploy
+and provision infrastructure from entry to enterprise. As an industry leader, Hewlett Packard Enterprise is uniquely positioned to
+address the key concerns of power, cooling, cable management and system access.
+Learn more at HPE Rack and Power Infrastructure.
+High Performance Clusters
+HPE Cluster Platforms are specifically engineered, factory-integrated large-scale ProLiant clusters optimized for High Performance
+Computing, with a choice of servers, networks and software. Operating system options include specially priced offerings for Red Hat
+Enterprise Linux and SUSE Linux Enterprise Server, as well as Microsoft Windows HPEC Server. A Cluster Platform Configurator
+simplifies ordering. https://www.hpe.com/us/en/solutions/hpc-high-performance-computing/hpc-software.html.
+NOTE: High Performance Computing (HPC) interconnect technologies are available for this server as part of the HPE Cluster
+Platform portfolio. These high-speed InfiniBand and Gigabit interconnects are fully supported by Hewlett Packard
+Enterprise when integrated within a Hewlett Packard Enterprise cluster. Flexible, validated solutions can be defined with the help
+of configuration tools. https://www.hpe.com/info/hpc/solutions.
+HPC Interconnects
+NOTE: High Performance Computing (HPC) interconnect technologies are available for this server under the HPE Cluster
+Platform product portfolio. These high-speed interconnects are fully supported by Hewlett Packard Enterprise when they are
+part of these configure to order clusters. Solutions can be defined with a lot of flexibility with the help of configuration
+tools. https://www.hpe.com/info/hpc/solutions.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Optional Features
+Page 14
+Storage Software
+Whether you need to solve a specific data protection, archiving, or storage command and control challenge, or deliver on strategic
+consolidation, compliance, or continuity initiatives, look no further than Hewlett Packard Enterprise storage software. Our storage
+software helps you reduce costs, simplify storage infrastructure, protect vital assets and respond faster to business opportunities.
+Storage software that gets the job done:
+· Data Protection and Recovery Software
+Whether you're a large enterprise or a smaller business, Hewlett Packard Enterprise data protection and recovery software will
+cost-effectively protect you against disaster and ensure business continuity.
+· Data Archive and Migration Software
+Hewlett Packard Enterprise storage software enables you to comply with data retention and retrieval requirements, improve
+application performance, and reduce costs by efficiently migrating infrequently accessed or less valuable data to lower cost
+storage.
+· Storage Resource Management Software (SRM)
+Hewlett Packard Enterprise storage resource management software reduces operational costs and provides the command and
+control foundation you need to efficiently manage and visualize your physical and virtual environments.
+· Data Replication Software
+Hewlett Packard Enterprise offers array-based and host-based replication software for use in disaster recovery, testing,
+application development and reporting.
+· Storage Device Management Software
+Maximize your investment in Hewlett Packard Enterprise storage and networking with software that enables hardware-specific
+configuration, performance tuning and connectivity management.
+· HPE StoreVirtual VSA
+Enable highly available and clustered storage in your HPE ProLiant servers with virtualized storage: Add StoreVirtual VSA to
+multiple servers, manage it as a single pool of shared storage capacity, and scale it to match your evolving needs. To simplify
+deployment, HPE offers StoreVirtual Ready Nodes, pre-defined reference configurations for converged vSphere and Hyper-V
+virtualization solutions. You also have the option to install free 1TB-capacity StoreVirtual VSA software during server setup
+within Intelligent Provisioning. HPE ProLiant Gen9 servers include a 3-year limited license for this HPE software-defined storage
+at no extra cost. More information, instructional videos, and free management software are available
+at http://www.hpe.com/storage/storevirtual.
+NOTE: For more information about Storage Software including QuickSpecs, please see:
+htts://www.hpe.com/us/en/storage/software-defined.html.
+ClearOS
+HPE and ClearCenter will help you lower the cost of building on-premise solutions without sacrificing security and ease of use. HPE
+ProLiant servers with ClearOS give you a simple, secure, and affordable operating system with an intuitive web based graphical user
+interface that provides a cloud-like experience on- premise, and an Application Marketplace with over 100 apps and growing.
+Whether you're starting out or scaling, you decide what applications you need and pay as you grow.
+NOTE: For more information on ClearOS, please visit http://www.hpe.com/servers/clearos.
+One Config Simple (SCE)
+SCE is a guided self-service tool to help sales and non-technical people provide customers with initial configurations in 3 to 5 minutes.
+You may then send the configuration on for configuration help, or use in your existing ordering processes. If you require "custom"
+rack configuration or configuration for products not available in SCE, please contact Hewlett Packard Enterprise Customer Business
+Center or an Authorized Partner for assistance. http://ocs.ext.hpe.com/.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Service and Support
+Page 15
+HPE Support Services
+HPE Technology Services delivers confidence, reduces risk and helps customers realize agility and stability. Connect to Hewlett
+Packard Enterprise to help prevent problems and solve issues faster. HPE Support Services enable you to choose the right service
+level, length of coverage and response time as you purchase your new server, giving you full entitlement to the support for need for
+your IT and business.
+Connect your devices
+Unlock all of the benefits of your technology investment by connecting your products to Hewlett Packard Enterprise. Achieve up to
+77%1 reduction in down time, near 100%2 diagnostic accuracy and a single consolidated view of your environment. By connecting,
+you will receive 24x7monitoring, pre-failure alerts, automatic call logging, and automatic parts dispatch. HPE Proactive Care Service
+and HPE Datacenter Care Service customers will also benefit from proactive activities to help prevent issues and increase
+optimization. All of these benefits are already available to you with your server storage and networking products, securely connected
+to Hewlett Packard Enterprise support.
+1IDC
+2HPE CSC reports 2014 - 2015
+Recommended Support
+Standard: HPE Proactive Care* with 24x7 coverage, three year Support Service
+HPE Proactive Care gives customers an enhanced call experience. When your products are connected to Hewlett Packard Enterprise,
+Proactive Care helps prevent problems and maintains IT stability by utilizing personalized proactive reports with recommendations
+and advice. This service combines three years proactive reporting and advice with our 24x7 coverage, four hour hardware response
+time when there is a problem. This service also includes collaborative software support for Independent Software Vendors
+(ISVs), (Red Hat, VMWare, Microsoft, etc.) running on your HPE servers.
+https://www.hpe.com/h20195/v2/GetPDF.aspx/4AA3-8855ENW.pdf
+Optimized HPE Proactive Care* with 6 hour call-to-repair commitment, three year Support Service
+HPE Proactive Care gives customers an enhanced call experience. When your products are connected to Hewlett Packard Enterprise,
+Proactive Care helps prevent problems and maintains IT stability by utilizing personalized proactive reports with recommendations
+and advice. This service combines three years' proactive reporting and advice with our highest level of hardware support - Hewlett
+Packard Enterprise 24x7, six hour hardware call-to-repair. Hewlett Packard Enterprise is the only leading manufacturer who makes
+this level of coverage available as a standard service offering for your most valuable servers. This service also includes collaborative
+software support for Independent Software Vendors (ISVs), (Red Hat, VMWare, Microsoft, etc.) running on your HPE servers.
+https://www.hpe.com/h20195/v2/GetPDF.aspx/4AA3-8855ENW.pdf
+Parts and Materials
+Hewlett Packard Enterprise will provide HPE-supported replacement parts and materials necessary to maintain the covered
+hardware product in operating condition, including parts and materials for available and recommended engineering improvements.
+Parts and components that have reached their maximum supported lifetime and/or the maximum usage limitations as set forth in
+the manufacturer's operating manual, product quick-specs, or the technical product data sheet will not be provided, repaired, or
+replaced as part of these services.
+The defective media retention service feature option applies only to Disk or eligible SSD/Flash Drives replaced by Hewlett Packard
+Enterprise due to malfunction.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Service and Support
+Page 16
+Related Services
+HPE Server Hardware Installation
+Provides for the basic hardware installation of Hewlett Packard Enterprise branded servers, storage devices and networking options
+to assist you in bringing your new hardware into operation in a timely and professional manner.
+https://www.hpe.com/h20195/V2/GetPDF.aspx/5981-9356EN.pdf
+HPE Installation and Startup Service
+Provides for the installation and startup of Hewlett Packard Enterprise technology including BladeSystems, C-Class enclosure, HPE
+ProLiant c-Class and Integrity server blades, storage blades, SAN switch blades, HPE Virtual Connect modules (Ethernet and Fibre
+Channel), Ethernet network interconnects, and InfiniBand, as well as the installation of one supported operating system type
+(Windows® or Linux).
+HPE Technology Services Support Credits
+Offer flexible services and technical skills to meet your changing IT demands. With a menu of service that is tailored to suit your needs,
+you get additional resources and specialist skills to help you maintain peak performance of your IT. Offered as annual credits, you can
+plan your budgets while proactively responding to your dynamic business.
+HPE Education Services
+Keep your IT staff trained making sure they have the right skills to deliver on your business outcomes. Book on a class today and
+learn how to get the most from your technology investment. http://www.hpe.com/ww/learn
+HPE Support Center
+The HPE Support Center is a personalized online support portal with access to information, tools and experts to support Hewlett
+Packard Enterprise business products. Submit support cases online, chat with Hewlett Packard Enterprise experts, access support
+resources or collaborate with peers.
+Learn more http://www.hpe.com/support/hpesc
+The Hewlett Packard Enterprise Support Center Mobile App* allows you to resolve issues yourself or quickly connect to an agent for
+live support. Now, you can get access to personalized IT support anywhere, anytime.
+HPE Insight Remote Support and HPE Support Center are available at no additional cost with a Hewlett Packard Enterprise warranty,
+HPE Support Service or Hewlett Packard Enterprise contractual support agreement.
+*HPE Support Center Mobile App is subject to local availability.
+For more information: http://www.hpe.com/services
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Pre-configured Models
+Page 17
+For the Standard Features shipped in the "Factory Integrated Models", please see the "Configuration Information - Factory
+Integrated Models" section.
+1. Pre-configured models ship with the configurations below. Options can be selected from the Core or Additional options section
+of this QuickSpecs.
+2. Hewlett Packard Enterprise does not allow factory integration of options into pre-configured models. Any additional options
+purchased will be shipped separately.
+3. If you desire a custom configuration please see "Configuration Information - Factory Integrated Models" section of this
+QuickSpecs.
+NOTE: All Pre-configured Models come populated with some hard drive blanks installed. Should the customer need additional
+hard drive blanks, they can order more using HPE LFF Hard Drive Blank Kit (666986-B21).
+NOTE: All pre-configured servers ship with a standard 6-foot IEC C-13/C-14 jumper cord (A0K02A). This jumper cord is also
+included with each standard AC power supply option kit. If a different power cord is required, please check the ProLiant Power
+Cables web page.
+CAUTION: Hewlett Packard Enterprise recommends that a minimum of two people are required for all Rack Server installations.
+Please refer to your installation instructions for proper tools and number of people to use for any installation.
+Base Models
+[SKU Number] 826682-B21
+Model Name HPE ProLiant DL380 Gen9 E5-2620v4 1P 16GB-R P440ar 8SFF 500W PS Base Server
+Processor Intel® Xeon® E5-2620v4
+Number of
+Processors
+One
+Memory 16GB (1x16GB Registered DIMMs, 2400 MHz)
+NOTE: With the E5-2620v4 this memory DIMM will only operate at 2133MHz.
+Network Controller HPE Embedded 1Gb Ethernet 4-port 331i Adapter, plus optional HPE FlexibleLOM or stand up card
+Storage Controller HPE Flexible Smart Array P440ar/2GB
+Hard Drive None ship standard
+Internal Storage 8 SFF HDD Bays (upgradable to 24)
+Optical Drive Bay Optional Universal Media Bay (724865-B21)
+Optical Drive Optional DVD-ROM (726536-B21) or DVD-RW (726537-B21) via the Universal Media Bay (724865-B21)
+PCI-Express Slots 3 PCIe slots (+3 PCI slots available with upgrade option, second processor required)
+Power Supply (1) HPE 500W Flex Slot Platinum Power Supply
+Fans 4 hot plug fans, redundant
+Management iLO Management (standard), Intelligent Provisioning (standard), iLO Advanced (optional), Insight Control
+(optional), HPE OneView (optional)
+Form Factor Rack (2U), HPE Easy Install Rails with CMA
+Warranty Server Warranty includes 3-Year Parts, 3-Year Labor, 3-Year Onsite support with next business day
+response
+NOTE: UEFI is the standard default for all Pre-configured models.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Pre-configured Models
+Page 18
+Performance Models
+[SKU Number] 826684-B21
+Model Name HPE ProLiant DL380 Gen9 E5-2650v4 2P 32GB-R P440ar 8SFF 2x10Gb 2x800W Perf Server
+Processor Intel® Xeon® E5-2650v4
+Number of Processors Two
+Memory 32GB (2x16GB Registered DIMMs, 2400 MHz)
+Network Controller HPE Embedded 4x1Gb, plus 2x10Gb-T FlexibleLOM
+Storage Controller HPE Flexible Smart Array P440ar/2GB
+Hard Drive None ship standard
+Internal Storage 8 SFF HDD Bays (upgradable to 24)
+Optical Drive Bay Universal Media Bay (724865-B21)
+Optical Drive HPE Half-Height SATA DVD-RW Optical Drive
+PCI-Express Slots 6 PCIe 3.0 slots
+Power Supply (2) HPE 800W Flex Slot Platinum Power Supply
+Fans 6 hot plug fans, redundant
+Management iLO Management (standard), Intelligent Provisioning (standard), iLO Advanced (standard), HPE
+OneView (optional)
+Energy Star Meets Energy Star requirements
+Form Factor Rack (2U), HPE Easy Install Rails with CMA
+Warranty Server Warranty includes 3-Year Parts, 3-Year Labor, 3-Year Onsite support with next business day
+response
+NOTE: UEFI is the standard default for all Pre-configured models.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Configuration Information - Factory Integrated Models
+Page 19
+This section lists some of the steps required to configure a Factory Integrated Model. To ensure only valid configurations are
+ordered, Hewlett Packard Enterprise recommends the use of an HPE approved configurator. Contact your local sales representative
+for information on configurable product offerings and requirements.
+1. Factory Integrated Models must start with a CTO Server.
+2. FIO indicates that this option is only available as a factory installable option.
+3. All Factory Integrated Models will be populated with sufficient hard drive blanks based on the number of initial hard drives ordered
+with the server.
+4. Some options may not be integrated at the factory. Contact your local sales representative for additional information.
+Step 1: Base Configuration (choose one of the following configurable models)
+CTO Server HPE ProLiant DL380
+Gen9 8SFF Configure-
+to-order Server
+HPE ProLiant
+DL380 Gen9 NVMe
+6 Solid State Drive
+Express Bay
+Configure-to-order
+Server
+HPE ProLiant
+DL380 Gen9 24SFF
+Configure-to-order
+Server
+HPE ProLiant
+DL380 Gen9 4LFF
+Configure-to-order
+Server
+HPE ProLiant
+DL380 Gen9 12LFF
+Configure-to-order
+Server
+SKU Number 719064-B21 810393-B21 767032-B21 767033-B21 719061-B21
+Processor 2 (optional) x HPE Smart Socket Guide
+DIMM Slots 24 DIMM slots for RDIMM, LRDIMM DDR4 Memory
+Storage
+Controller
+HPE Dynamic Smart Array B140i, plus optional HPE Flexible Smart Array or Smart HBA controller
+PCIe 3 PCIe slots (+3 PCI slots available with upgrade option, second processor required)
+Drive Cage 8SFF Hot Plug (+8SFF
+and Universal Media
+Bay Optional)
+8SFF +6NVMe Hot
+Plug (+8SFF or
+Universal Media Bay
+Optional)
+24SFF Hot Plug 4LFF Hot Plug 12LFF Hot Plug
+Network
+Controller
+HPE Embedded 1Gb
+Ethernet 4-port 331i
+Adapter, plus optional
+HPE FlexibleLOM or
+stand up card
+HPE Embedded
+1Gb Ethernet 4-
+port 331i Adapter
+HPE Embedded 1Gb Ethernet 4-port 331i Adapter, plus optional
+HPE FlexibleLOM or stand up card
+Fans 4 hot plug fans,
+redundant
+6 hot plug high performance fans,
+redundant
+4 hot plug fans,
+redundant
+6 hot plug high
+performance fans,
+redundant
+Management iLO Management (standard), Intelligent Provisioning (standard)
+USB 1 front, 2 internal, 2
+rear
+1 front, 1 internal, 2
+rear
+1 front, 2 internal, 2
+rear
+No front USB support
+Ears HPE Quick Release Ears
+NOTE: With the NVMe model (810393-B21) there are limitations on GPU support.
+NOTE: The NVMe model (810393-B21) ships with the standard x8 Risers supporting 6xNVMe drives.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Configuration Information - Factory Integrated Models
+Page 20
+Step 2: Choose Required Options (only one of the following from each list unless otherwise noted)
+HPE Processors E5-2600v4 series Processors
+HP DL380 Gen9 Intel® Xeon® E5-2650Lv4 (1.7GHz/14-core/35MB/65W) FIO Processor Kit 817941-L21
+HP DL380 Gen9 Intel® Xeon® E5-2630Lv3 (1.8GHz/10-core/25MB/55W) FIO Processor Kit 817931-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2643v4 (3.4GHz/6-core/20MB/135W) FIO Processor Kit
+NOTE: Ships with a High Performance Heatsink.
+817939-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2637v4 (3.5GHz/4-core/15MB/135W) FIO Processor Kit
+NOTE: Ships with a High Performance Heatsink.
+817935-L21
+HP DL380 Gen9 Intel® Xeon® E5-2623v4 (2.6GHz/4-core/10MB/85W) FIO Processor Kit 817929-L21
+HP DL380 Gen9 Intel® Xeon® E5-2620v4 (2.1GHz/8-core/20MB/85W) FIO Processor Kit 817927-L21
+HP DL380 Gen9 Intel® Xeon® E5-2609v4 (1.7GHz/8-core/20MB/85W) FIO Processor Kit 817925-L21
+HP DL380 Gen9 Intel® Xeon® E5-2603v4 (1.7GHz/6-core/15MB/85W) FIO Processor Kit 817923-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2687Wv4 (3.0GHz/12-core/30MB/160W) FIO Processor
+Kit
+NOTE: Ships with a High Performance Heatsink.
+NOTE: This processor is not supported in a 12LFF or 24LFF CTO Server + Rear drive.
+817957-L21
+HP DL380 Gen9 Intel® Xeon® E5-2650Lv4 (1.7GHz/14-core/35MB/65W) FIO Processor Kit 817941-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2643v4 (3.4GHz/6-core/20MB/135W) FIO Processor Kit
+NOTE: Ships with a High Performance Heatsink.
+817939-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2699v4 (2.2GHz/22-core/55MB/145W) FIO Processor Kit
+NOTE: Ships with a High Performance Heatsink.
+817967-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2698v4 (2.2GHz/20-core/50MB/135W) FIO Processor Kit
+NOTE: Ships with a High Performance Heatsink.
+817965-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2697v4 (2.3GHz/18-core/45MB/145W) FIO Processor Kit
+NOTE: Ships with a High Performance Heatsink.
+817963-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2697Av4 (2.6GHz/16-core/40MB/145W) FIO Processor
+Kit
+NOTE: Ships with a High Performance Heatsink.
+817955-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2695v4 (2.1GHz/18-core/45MB/120W) FIO Processor Kit
+NOTE: Ships with a High Performance Heatsink.
+817961-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2690v4 (2.6GHz/14-core/35MB/135W) FIO Processor Kit
+NOTE: Ships with a High Performance Heatsink.
+817959-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2683v4 (2.1GHz/16-core/40MB/120W) FIO Processor Kit
+NOTE: Ships with a High Performance Heatsink.
+817953-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2680v4 (2.4GHz/14-core/35MB/120W) FIO Processor Kit
+NOTE: Ships with a High Performance Heatsink.
+817951-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2660v4 (2.0GHz/14-core/35MB/105W) FIO Processor Kit 817945-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2650v4 (2.2GHz/12-core/30MB/105W) FIO Processor Kit 817943-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2640v4 (2.4GHz/10-core/25MB/90W) FIO Processor Kit 817937-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2667v4 (3.2GHz/8-core/25MB/135W) FIO Processor Kit
+NOTE: Ships with a High Performance Heatsink.
+817947-L21
+HPE DL380 Gen9 Intel® Xeon® E5-2630v4 (2.2GHz/10-core/25MB/85W) FIO Processor Kit 817933-L21
+NOTE: If two processors are desired, select one xxxxxx-L21 and one corresponding xxxxxx-B21.
+NOTE: Up to two processors supported. Mixing different processor models is not supported.
+NOTE: DDR4 speed is the maximum memory speed of the processor. Actual memory speed may depend on
+the quantity and type of DIMMs installed.
+NOTE: v4 Processor requires PC4-2400T Memory Kits.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Configuration Information - Factory Integrated Models
+Page 21
+NOTE: For the Intel® C600 Chipset E5-2600 Series, the letter preceding the model number indicates the
+Product Line (E3, E5, E7); 2600x v#, 2 = number of CPUs in a Node, 6 is socket/segment designation, 00 =
+Processor SKU, x = L for low power SKUs and v# (not yet designated) = version number.
+HPE Memory NOTE: Select one or more memory from below
+NOTE: LRDIMM and RDIMM are all distinct memory technologies and cannot be mixed within a server. The
+majority of ProLiant Gen9 servers support LRDIMM and RDIMM.
+NOTE: HPE memory from previous generation servers are not qualified or warranted with this HPE ProLiant
+server. HP Smart Memory is required to realize the memory performance improvements and enhanced
+functionality listed in this document for Gen9
+NOTE: If only one processor is installed only half of the total DIMM slots are available. When populating with
+two processors all DIMM slots are available.
+NOTE: Kits described as LP include Low Power DIMMs. For more information on ProLiant Energy Efficient
+Features, see: http://www.hp.com/go/proliant-energy-efficient.
+NOTE: Depending on the memory configuration and processor model, the memory speed may run at
+2400MHz, 2133MHz, 1866MHz, 1600MHz, or 1333MHz. Please see Memory Population Table or Online
+Memory Configuration Tool at: http://www.hp.com/go/ddr4config.
+Registered DIMMs (RDIMMs) for E5-2600v4 Series
+NOTE: The following memory is supported by the E5-2600v4 series Processor only.
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2400 CAS-17-17-17 Registered Memory Kit 805347-B21
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2400 CAS-17-17-17 Registered Memory Kit 805349-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2400 CAS-17-17-17 Registered Smart Memory Kit P00423-B21
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2400 CAS-17-17-17 Registered Memory Kit 805351-B21
+NOTE: Depending on Processor selected this memory will run at 1866, 2133 or 2400MHz.
+NOTE: Mixing of 2133 and 2400MHz DIMMs is not supported.
+Load Reduced DIMMs (LRDIMMs) for E5-2600v4 Series
+NOTE: The following memory is supported by the E5-2600v4 series Processor only.
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2400 CAS-17-17-17 Load Reduced Memory Kit 805353-B21
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2400 CAS-17-17-17 Load Reduced Memory Kit 805358-B21
+HPE 128GB (1x128GB) Octal Rank x4 DDR4-2400 CAS-20-18-18 Load Reduced Memory Kit 809208-B21
+NOTE: Depending on Processor selected this memory will run at 1866, 2133 or 2400MHz.
+NOTE: These LRDIMMs do not support NVDIMMs.
+NOTE: Mixing of 2133 and 2400MHz DIMMs is not supported.
+NOTE: Mixing the 128GB LRDIMM with other capacities is not supported.
+Registered DIMMs (RDIMMs) for E5-2600v3 Series
+NOTE: The following memory is supported by the E5-2600v3 series Processors.
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2133 CAS-15-15-15 Registered Memory Kit 728629-B21
+NOTE: Depending on Processor selected this memory will run at 1600, 1866 or 2133MHz.
+NOTE: Mixing of 2133 and 2400MHz DIMMs is not supported.
+HPE Power
+Supplies
+NOTE: Mixing of power supplies in the same server is not supported. All power supplies must be of the same
+input voltage, output rating, and efficiency rating. If non-matching power supplies are installed, you may
+receive an error message and/or experience operational issues with your server.
+NOTE: Prior to selecting a power supply option, it is highly recommended that you review your server
+configuration in the HPE Power Advisor tool to determine the right size power supply for your server
+configuration. The HPE Power Advisor is located at: http://www.hp.com/go/hppoweradvisor.
+HPE Flex Slot Platinum Hot-Plug Power Supplies
+HP 500W Flex Slot Platinum Hot Plug Power Supply Kit 720478-B21
+HP 800W Flex Slot Platinum Hot Plug Power Supply Kit 720479-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Configuration Information - Factory Integrated Models
+Page 22
+HP 800W Flex Slot Titanium Hot Plug Power Supply Kit
+NOTE: Flex Slot Titanium power supplies support power efficiency of up to 96% and include
+a standard C-14 power inlet connector.
+720482-B21
+HP 800W Flex Slot Universal Hot Plug Power Supply Kit
+NOTE: Flex Slot universal power supplies support power efficiency of up to 94% and support
+both 277VAC/380VDC power inputs.
+720484-B21
+HP 800W Flex Slot -48VDC Hot Plug Power Supply Kit
+NOTE: Flex Slot -48VDC power supplies support power efficiency of up to 94%.
+720480-B21
+HP 1400W Flex Slot Platinum Plus Hot Plug Power Supply Kit 720620-B21
+HP 750W Flex Slot Hot Plug Battery Backup Module
+NOTE: Flex Slot Battery Backup provides 750W output and 500W in paralleled
+configuration.
+NOTE: Only 1 Battery Backup module per server, and a Flex Slot Power Supply needed in
+parallel.
+738024-B21
+NOTE: The above power supply options are all 80Plus Platinum-certified with an efficiency
+rating of up to 94%. Support for HPE Power Discovery Services is included with the 1400W
+Flex Slot option. Power specifications and technical content for all HPE Server power supplies
+can be found at: http://www.hp.com/go/proliant/powersupply
+Step 3: Choose Additional Factory Integratable Options (only one of the following from each list unless otherwise
+noted)
+HPE Storage
+Controllers
+NOTE: The embedded B140i controller will be used as the primary controller if no controller is selected from
+the list below. Embedded SATA controller can support up to 8 SATA hard drives. Cable Kit may be required.
+HPE Flexible Smart Array Controllers
+HP Smart Array P440ar/2GB FBWC 12Gb 2-ports Int FIO SAS Controller
+NOTE: Provides support for up to 8 internal SAS/SATA drives without using a PCIe slot.
+NOTE: Includes the HP Smart Storage Battery.
+749974-B21
+HPE Smart Array Controllers
+HP Smart Array P440/4GB FBWC 12Gb 1-port Int FIO SAS Controller
+NOTE: Provides support for up to 8 internal SAS/SATA drives without using a PCIe slot.
+NOTE: Includes the HP Smart Storage Battery.
+761872-B21
+HP Smart Array P840/4GB FBWC 12Gb 2-ports Int FIO SAS Controller
+NOTE: Includes the HP Smart Storage Battery.
+761874-B21
+HPE Smart Host Bus Adapters
+HP H240ar 12Gb 2-ports Int FIO Smart Host Bus Adapter
+NOTE: Provides support for up to 8 internal SAS/SATA drives without using a PCIe slot.
+749976-B21
+HPE Cable Options
+HP DL380 Gen9 12LFF Rear 2SFF or 3LFF P840/440 SAS Cable Kit 783007-B21
+HP DL380 Gen9 2SFF Front SAS x4 Cable Kit
+NOTE: Required for front mount 2SFF to H240/P440ar, H240 or embedded B140i SATA
+controller.
+783008-B21
+HP DL380 Gen9 8SFF SAS Cable Kit
+NOTE: Required for 8/16/24 SFF models for use with P840/440 controllers.
+783009-B21
+HP DL380 Gen9 2SFF x8 Front Cable Kit
+NOTE: Required for front/rear mount 2SFF to P440/840 PCIe controller.
+785989-B21
+HP DL380 Gen9 12LFF SAS Cable Kit
+NOTE: Required for 12LFF models with P440/840 PCIe controllers.
+785991-B21
+HP DL380 Gen9 8SFF H240 Cable Kit 786092-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Configuration Information - Factory Integrated Models
+Page 23
+NOTE: Required for 8/16/24 SFF models for use with H240/P440ar, H240 PCIe or embedded
+B140i SATA controller.
+HP DL380 Gen9 12LFF H240 SAS Cable Kit
+NOTE: Required for 12LFF models with H240/P440ar, H240 or embedded B140i SATA
+controller.
+786215-B21
+BIOS Mode HP Legacy FIO Mode Setting
+NOTE: If selected, then B140i will not be supported and can no longer be a primary controller,
+therefore SAS internal controller must be selected to be the primary controller.
+758959-B22
+Controller State HP FIO Enable B140i Setting
+NOTE: Must be selected when B140i is used as primary controller and RAID is desired.
+784308-B21
+HP Mfg FIO Enable HBA Mode Setting
+NOTE: When selected if H240ar/H240 are used as the primary controller then RAID is not
+allowed.
+792962-B21
+HPE Unique
+Options
+HP 2SFF Front SPEC Perf FIO Mount
+NOTE: May only be selected with 8SFF CTO Server and optical media cage kit and 2SFF Drive
+cage option. When this option is selected, a primary controlleris not required for the 8SFF
+CTO Server.
+787945-B21
+HPE Insight
+Software
+HP Insight Control including 1yr 24x7 Support ProLiant ML/DL/BL-bundle Single Server FIO
+License
+C6N36A
+HPE Converged
+Infrastructure
+Management
+Software
+HPE OneView Advanced (with iLO Advanced)
+HP OneView for ProLiant DL Server incl 3 yr 24x7 Supp FIO Bundle Physical 1 Svr Lic E5Y43A
+HPE OneView Advanced (without HPE iLO Advanced)
+HP OneView w/o iLO including 3yr 24x7 Support FIO 1 Server LTU P8B31A
+Step 4: Choose Additional Options for Factory Integration from Core and Additional Options sections below
+CAUTION: Hewlett Packard Enterprise recommends that a minimum of two people are
+required for all Rack Server installations. Please refer to your installation instructions for
+proper tools and number of people to use for any installation
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 24
+NOTE: Some options may not be integrated at the factory. To ensure only valid configurations are ordered, Hewlett Packard
+Enterprise recommends the use of an HPE approved configurator. Contact your local sales representative for additional
+information.
+HPE Unique
+Options
+HPE DL380 Gen9 NVMe 6 Solid State Drive Express Bay Enablement Kit 774741-B21
+NOTE: This option provides support for up to 6NVMe drives, and can only be populated in BAY2
+in SFF model only, can be used with Bay1 and Bay 3 populated.
+NOTE: The HPE DL380 Gen9 High Performance Fan Kit is required for NVMe support (719079-
+B21).
+NOTE: The PCIe card in this enablement kit can only be populated in slot2 (primary) or slot 5
+(secondary).
+NOTE: For true x16 support with this option a secondary riser (719073-B21) is needed (second
+processor required).
+NOTE: Kit includes Mylar film for Universal Media Bay (724865-B21) support to ensure optimal
+airflow.
+NOTE: For NVME CTO support, please use the NVME model (810393-B21), this kit is for field
+upgrades only.
+NOTE: There are limitations on GPU support with the NVMe bay installed.
+HPE DL380 Gen9 Universal Media Bay Kit 724865-B21
+NOTE: The HPE DL380 Gen9 Universal Media bay provides front VGA and 2xUSB 2.0; plus support
+for 2xSFF front drives (724864-B21) and ODD support (No included); and can only be located in
+Bay1 in either an 8SFF or 8+8SFF model.
+HPE DL380 Gen9 Graphics Enablement Kit 719082-B21
+NOTE: This kit includes alternative 2 heatsinks plus6 cables to enable GPU support. Other
+limitations apply, see Graphic section for more details.
+NOTE: We support up to 2 Double wide and 3 single wide Graphics cards, limitations apply.
+NOTE: Double Wide GPUs will occupy slots 2 and 5 and will leave only 2 slots left open.
+NOTE: There are limitations on GPU support with the NVMe bay installed.
+HPE DL380 Gen9 High Performance Fan Kit 719079-B21
+NOTE: This kit is required for specific Ambient temperature environments, more details
+here: http://www.hpe.com/servers/ashrae.
+NOTE: This kit is also required to support Passive GPUs.
+NOTE: This kit provides max cooling for your Server.
+HPE DL380 Gen9 2SFF Front/Rear SAS/SATA Kit 724864-B21
+NOTE: For 2SFF front the Universal Media Bay (724865-B21) is required.
+NOTE: 2SFF in the rear is only supported with a 24SFF (CTO model or field upgraded) or 12LFF
+(719061-B21) model.
+NOTE: Rear drives will not support higher than 160W CPUs and other special/unique CPUs.
+HPE DL380 Gen9 3LFF Rear SAS/SATA Kit 768856-B21
+NOTE: This is only supported in 12LFF models.
+NOTE: 3LFF rear drives will consume the 2nd riser expansion slot.
+NOTE: Rear drives will not support higher than 160W CPUs and other special/unique CPUs.
+HPE DL380 Gen9 Primary 2 Slot GPU Ready Riser Kit 719076-B21
+Slot1: 1x Gen3 x16 FH/FL, 1xGen3 x8 FH/HL.
+NOTE: This replaces the standard Primary riser in slot1.
+HPE DL380 Gen9 Secondary 3 Slot GPU Ready Riser Kit 719073-B21
+Slot2: 2xGen3 x16 FH/FL, 1xGen3 x8 FH/HL.
+HPE DL380 Gen9 8SFF Bay1 Cage/Backplane Kit 719067-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 25
+NOTE: To add an additional 8SFF drive cage in Bay1.
+NOTE: To get to 16SFF total please populate bay 2 with 768857-B21 (from an 8SFF starting
+point).
+NOTE: This ships with 6 High Efficiency Fans.
+NOTE: Selecting this option does not allow you to select the Universal Media Bay.
+HPE DL380 Gen9 Additional 8SFF Bay2 Cage/Backplane Kit 768857-B21
+NOTE: To add an additional 8SFF drive cage in Bay 2. This is the optimal solution to upgrade to
+16SFF total and allows the flexibility to add the Universal Media Bay (724865-B21) for 2 additional
+SFF or Optical.
+HPE DL380 Gen9 Systems Insight Display Kit 768900-B21
+NOTE: The Systems Insight Display no longer ships as standard but is available as a Factory
+Integrated or field upgrade option.
+HPE DL380 Gen9 Rear Serial Port and Enablement Kit 768896-B21
+HPE DL380 Gen9 P440ar/H240ar Riser 2 SAS Expander Kit 844115-B21
+NOTE: Cable kit required to support the SAS Expander (727250-B21) in the secondary riser
+(719073-B21) with the P840ar or P440ar.
+HPE 12Gb SAS Expander Card with Cables for DL380 Gen9 727250-B21
+NOTE: SAS expander to enable 24SFF field upgrade.
+NOTE: Primary population in slot2 or 3 of the Primary Riser.
+HPE
+Processors
+E5-2600v4 series Processors
+HPE DL380 Gen9 Intel Xeon E5-2643v4 (3.4GHz/6-core/20MB/135W) Processor Kit 817939-B21
+NOTE: Ships with a High Performance Heatsink.
+HPE DL380 Gen9 Intel Xeon E5-2620v4 (2.1GHz/8-core/20MB/85W) Processor Kit 817927-B21
+HPE DL380 Gen9 Intel Xeon E5-2690v4 (2.6GHz/14-core/35MB/135W) Processor Kit 817959-B21
+NOTE: Ships with a High Performance Heatsink.
+HPE DL380 Gen9 Intel Xeon E5-2680v4 (2.4GHz/14-core/35MB/120W) Processor Kit 817951-B21
+NOTE: Ships with a High Performance Heatsink.
+HPE DL380 Gen9 Intel Xeon E5-2660v4 (2.0GHz/14-core/35MB/105W) Processor Kit 817945-B21
+HPE DL380 Gen9 Intel Xeon E5-2650v4 (2.2GHz/12-core/30MB/105W) Processor Kit 817943-B21
+HPE DL380 Gen9 Intel Xeon E5-2640v4 (2.4GHz/10-core/25MB/90W) Processor Kit 817937-B21
+HPE DL380 Gen9 Intel Xeon E5-2667v4 (3.2GHz/8-core/25MB/135W) Processor Kit 817947-B21
+NOTE: Ships with a High Performance Heatsink.
+HPE DL380 Gen9 Intel Xeon E5-2630v4 (2.2GHz/10-core/25MB/85W) Processor Kit 817933-B21
+HPE DL380 Gen9 Intel Xeon E5-2650Lv4 (1.7GHz/14-core/35MB/65W) Processor Kit 817941-B21
+HPE DL380 Gen9 Intel Xeon E5-2630Lv4 (1.8GHz/10-core/25MB/55W) Processor Kit 817931-B21
+HPE DL380 Gen9 Intel Xeon E5-2609v4 (1.7GHz/8-core/20MB/85W) Processor Kit 817925-B21
+NOTE: This processor does not support Hyper-Threading.
+HPE DL380 Gen9 Intel Xeon E5-2603v4 (1.7GHz/6-core/15MB/85W) Processor Kit 817923-B21
+NOTE: This processor does not support Hyper-Threading.
+HPE DL380 Gen9 Intel Xeon E5-2637v4 (3.5GHz/4-core/15MB/135W) Processor Kit 817935-B21
+NOTE: Ships with a High Performance Heatsink.
+HPE DL380 Gen9 Intel Xeon E5-2623v4 (2.6GHz/4-core/10MB/85W) Processor Kit 817929-B21
+HPE DL380 Gen9 Intel Xeon E5-2687Wv4 (3.0GHz/12-core/30MB/160W) Processor Kit 817957-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 26
+NOTE: Ships with a High Performance Heatsink.
+HPE DL380 Gen9 Intel Xeon E5-2699v4 (2.2GHz/22-core/55MB/145W) Processor Kit 817967-B21
+NOTE: Ships with a High Performance Heatsink.
+HPE DL380 Gen9 Intel Xeon E5-2698v4 (2.2GHz/20-core/50MB/135W) Processor Kit 817965-B21
+NOTE: Ships with a High Performance Heatsink.
+HPE DL380 Gen9 Intel Xeon E5-2697v4 (2.3GHz/18-core/45MB/145W) Processor Kit 817963-B21
+NOTE: Ships with a High Performance Heatsink.
+HPE DL380 Gen9 Intel Xeon E5-2697Av4 (2.6GHz/16-core/40MB/145W) Processor Kit 817955-B21
+NOTE: Ships with a High Performance Heatsink.
+HPE DL380 Gen9 Intel Xeon E5-2683v4 (2.1GHz/16-core/40MB/120W) Processor Kit 817953-B21
+NOTE: Ships with a High Performance Heatsink.
+HPE DL380 Gen9 Intel Xeon E5-2699Av4 (2.4GHz/22-core/55MB/145W) Processor Kit 871026-B21
+NOTE: Up to 2 processors supported. Performance and Energy Star Model configurations include two processors.
+NOTE: HT indicates that the processor model supports Intel® Hyper-Threading Technology.
+NOTE: Turbo2: Intel® Turbo Boost Technology 2.0 provides more computing power when you need it with
+performance that adapts to spikes in your workload and delivers more performance upside than then previous
+generation turbo technology.
+NOTE: DDR4 speed is the maximum memory speed of the processor. Actual memory speed may depend on the
+quantity and type of DIMMs installed.
+NOTE: The xxxxxx-B21 is the 2nd processor and ships with 2 additional FANs for factory of field installation.
+NOTE: Double wide PCIe cards are only supported in risers with the Processors leveraging the High Performance
+Heatsink. For Processors requiring double wide GPU support please order the GPU enablement kit (719082-B21).
+NOTE: Mixing of E5-2600v3 and E5-2600v4 Processors is not supported.
+NOTE: Field upgrade from E5-2600v3 to E5-2600v4 is supported.
+NOTE: Processors consuming up to 120w ship with standard heatsink. Processors consuming over 120w ship
+with a High Performance heatsink as standard except the Intel Xeon E5-2690v4.
+A High Performance heatsink can be added to help reduce power consumption (795235-B21).
+HPE Memory Registered DIMMs (RDIMMs) for E5-2600v3 Series
+NOTE: The following memory is supported by the E5-2600v3 series Processors.
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2133 CAS-15-15-15 Registered Memory Kit 728629-B21
+NOTE: Depending on Processor selected this memory will run at 1600, 1866 or 2133MHz.
+NOTE: Mixing of 2133 and 2400MHz DIMMs is not supported.
+Registered DIMMs (RDIMMs) for E5-2600v4 Series
+NOTE: The following memory is supported by the E5-2600v4 series Processor only.
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2400 CAS-17-17-17 Registered Memory Kit 805347-B21
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2400 CAS-17-17-17 Registered Memory Kit 805349-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2400 CAS-17-17-17 Registered Smart Memory Kit P00423-B21
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2400 CAS-17-17-17 Registered Memory Kit 805351-B21
+NOTE: Depending on Processor selected this memory will run at 1866, 2133 or 2400MHz.
+NOTE: Mixing of DIMM types is not supported.
+NOTE: Mixing of 2133 and 2400MHz DIMMs is not supported.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 27
+Load Reduced DIMMs (LRDIMMs) for E5-2600v4 Series
+NOTE: The following memory is supported by the E5-2600v4 series Processor only.
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2400 CAS-17-17-17 Load Reduced Memory Kit 805353-B21
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2400 CAS-17-17-17 Load Reduced Memory Kit 805358-B21
+HPE 128GB (1x128GB) Octal Rank x4 DDR4-2400 CAS-20-18-18 Load Reduced Memory Kit 809208-B21
+NOTE: Depending on Processor selected this memory will run at 1866, 2133 or 2400MHz.
+NOTE: These LRDIMMs do not support NVDIMMs.
+NOTE: Mixing of DIMM types is not supported.
+NOTE: Mixing of 2133 and 2400MHz DIMMs is not supported.
+NOTE: Mixing the 128GB LRDIMM with other capacities is not supported.
+HPE Optical
+Drives
+HPE 9.5mm SATA DVD-ROM Optical Drive 726536-B21
+NOTE: The Universal Media Bay (724865-B21) is required for this option.
+HPE 9.5mm SATA DVD-RW Optical Drive 726537-B21
+NOTE: The Universal Media Bay (724865-B21) is required for this option.
+HPE Mobile USB DVD-RW Optical Drive 701498-B21
+NOTE: This is only supported on USB 3.0 ports.
+HPE Hard
+Drives
+12G SAS Hot Plug SFF (2.5-inch) Enterprise (ENT) Drives
+HPE 2.4TB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty 512e Digitally Signed Firmware HDD 881457-B21
+HPE 1.8TB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty 512e Digitally Signed Firmware HDD 872481-B21
+HPE 1.2TB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 872479-B21
+HPE 900GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 870759-B21
+HPE 600GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 870757-B21
+HPE 600GB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 872477-B21
+HPE 300GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 870753-B21
+HPE 300GB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 872475-B21
+HPE 900GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty 512e Digitally Signed Firmware HDD 870765-B21
+SAS Hot Plug SFF (2.5-inch) Midline (MDL) Drives
+HPE 2TB SAS 12G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e HDD 765466-B21
+HPE 1TB SAS 12G Midline 7.2K SFF (2.5in) SC 1yr Wty Digitally Signed Firmware HDD 832514-B21
+HPE 1TB SAS 12G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e Digitally Signed Firmware HDD 765464-B21
+12G SAS Hot Plug LFF (3.5-inch) Enterprise (ENT) Drives
+HPE 600GB SAS 12G Enterprise 15K LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware HDD P04695-B21
+HPE 300GB SAS 12G Enterprise 15K LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware HDD P04693-B21
+12G SAS Hot Plug LFF (3.5-inch) SC Midline Hard Drives - 1yr Warranty
+HPE 8TB SAS 12G Midline 7.2K LFF (3.5in) SC 1yr Wty 512e Digitally Signed Firmware HDD 819201-B21
+HPE 4TB SAS 12G Midline 7.2K LFF (3.5in) SC 1yr Wty Digitally Signed Firmware HDD 872487-B21
+HPE 4TB SAS 12G Midline 7.2K LFF (3.5in) SC 1yr Wty Digitally Signed Firmware HDD 872487-B21
+HPE 2TB SAS 12G Midline 7.2K LFF (3.5in) SC 1yr Wty Digitally Signed Firmware HDD 872485-B21
+HPE 2TB SAS 12G Midline 7.2K LFF (3.5in) SC 1yr Wty Digitally Signed Firmware HDD 872485-B21
+HPE 10TB SAS 12G Midline 7.2K LFF (3.5in) SC 1yr Wty Helium 512e Digitally Signed Firmware
+HDD
+857644-B21
+HPE 6TB SAS 12G Midline 7.2K LFF (3.5in) SC 1yr Wty Digitally Signed Firmware HDD 846514-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 28
+HPE 6TB SAS 12G Midline 7.2K LFF (3.5in) SC 1yr Wty 512e HDD 861754-B21
+HPE 1TB SAS 12G Midline 7.2K LFF (3.5in) SC 1yr Wty Digitally Signed Firmware HDD 846524-B21
+SATA Hot Plug SFF (2.5-inch) Midline (MDL) Drives
+HPE 2TB SATA 6G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e Digitally Signed Firmware HDD 765455-B21
+HPE 1TB SATA 6G Midline 7.2K SFF (2.5in) SC 1yr Wty Digitally Signed Firmware HDD 655710-B21
+SATA Hot Plug LFF (3.5-inch) Midline (MDL) Drives
+HPE 8TB SATA 6G Midline 7.2K LFF (3.5in) SC 1yr Wty 512e Digitally Signed Firmware HDD 819203-B21
+HPE 6TB SATA 6G Midline 7.2K LFF (3.5in) SC 1yr Wty 512e HDD 861750-B21
+HPE 4TB SATA 6G Midline 7.2K LFF (3.5in) SC 1yr Wty Digitally Signed Firmware HDD 872491-B21
+HPE 4TB SATA 6G Midline 7.2K LFF (3.5in) SC 1yr Wty Digitally Signed Firmware HDD 872491-B21
+HPE 1TB SATA 6G Midline 7.2K LFF (3.5in) SC 1yr Wty HDD 861691-B21
+HPE 12TB SATA 6G Midline 7.2K LFF (3.5in) SC 1yr Wty Helium 512e Digitally Signed Firmware
+HDD
+881785-B21
+HPE 10TB SATA 6G Midline 7.2K LFF (3.5in) SC 1yr Wty Helium 512e Digitally Signed Firmware
+HDD
+857648-B21
+HPE 2TB SATA 6G Midline 7.2K LFF (3.5in) SC 1yr Wty Digitally Signed Firmware HDD 872489-B21
+HPE 2TB SATA 6G Midline 7.2K LFF (3.5in) SC 1yr Wty Digitally Signed Firmware HDD 872489-B21
+SSD Selection
+To streamline the configuration process for HPE ProLiant Gen9 servers and to provide the best
+product availability, HPE recommends SSDs from the list located
+here: http://www.hpe.com/products/recommend.
+12G SAS Mixed Use Hot Plug SFF (2.5-inch) Solid State Drives
+HPE 6.4TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09096-B21
+HPE 3.2TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09094-B21
+HPE 1.6TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09092-B21
+HPE 800GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09090-B21
+HPE 400GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09088-B21
+HPE 6.4TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04539-B21
+HPE 3.2TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04537-B21
+HPE 1.6TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04533-B21
+HPE 800GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04527-B21
+HPE 400GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04525-B21
+12G SAS Mixed Use SFF (2.5in) SC VS DSF SSD
+HPE 3.84TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Value SAS Digitally Signed Firmware SSD P10460-B21
+HPE 1.92TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Value SAS Digitally Signed Firmware SSD P10454-B21
+HPE 960GB SAS 12G Mixed Use SC 3yr Wty Value SAS Digitally Signed Firmware SSD P10448-B21
+12G SAS Mixed Use LFF (3.5in) SCC VS DSF SSD
+HPE 1.92TB SAS 12G Mixed Use LFF (3.5in) SCC 3yr Wty Value SAS Digitally Signed
+Firmware SSD
+P10456-B21
+HPE 960GB SAS 12G Mixed Use LFF (3.5in) SCC 3yr Wty Value SAS Digitally Signed
+Firmware SSD
+P10450-B21
+12G SAS Hot Plug RI-3 SFF (2.5-inch) SC Solid State Drives
+HPE 7.68TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04523-B21
+HPE 3.84TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04521-B21
+HPE 1.92TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04519-B21
+HPE 960GB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04517-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 29
+HPE 15.3TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06592-B21
+HPE 7.68TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06590-B21
+HPE 3.84TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06588-B21
+HPE 1.92TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06586-B21
+HPE 960GB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06584-B21
+HPE 15.3TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 870148-B21
+HPE 7.68TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 870144-B21
+HPE 3.84TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 875330-B21
+12G SAS Read Intensive SFF SC VS DSF SSD
+HPE 7.68TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Value SAS Digitally Signed Firmware
+SSD
+P10446-B21
+HPE 3.84TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Value SAS Digitally Signed Firmware
+SSD
+P10444-B21
+HPE 1.92TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Value SAS Digitally Signed Firmware
+SSD
+P10442-B21
+HPE 960GB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Value SAS Digitally Signed Firmware SSD P10440-B21
+12G SAS Hot Plug MU-3 LFF (3.5-inch) SC Solid State Drives
+HPE 800GB SAS 12G Mixed Use LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware SSD P04529-B21
+12G SAS Hot Plug SFF (2.5-inch) Write Intensive Solid State Drives
+HPE 3.2TB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04547-B21
+HPE 1.6TB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04545-B21
+HPE 1.6TB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09102-B21
+HPE 800GB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09100-B21
+HPE 400GB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09098-B21
+HPE 800GB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04543-B21
+HPE 400GB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04541-B21
+6G SATA Hot Plug SFF (2.5-inch) SC Read Intensive Solid State Drives
+HPE 3.84TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04570-B21
+HPE 1.92TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06198-B21
+HPE 1.92TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04566-B21
+HPE 960GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06196-B21
+HPE 960GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04564-B21
+HPE 480GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06194-B21
+HPE 480GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04560-B21
+HPE 240GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 875503-B21
+HPE 240GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04556-B21
+HPE 7.68TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04482-B21
+HPE 3.84TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04480-B21
+HPE 1.92TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04478-B21
+HPE 960GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04476-B21
+HPE 480GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04474-B21
+HPE 3.84TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06200-B21
+Read Intensive - 6G SATA - M.2 - Solid State Drives
+HPE 480GB SATA 6G Read Intensive M.2 2280 3yr Wty Digitally Signed Firmware SSD 875498-B21
+HPE 960GB SATA 6G Read Intensive M.2 2280 3yr Wty Digitally Signed Firmware SSD 875500-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 30
+6G SATA Hot Plug SFF (2.5-inch) SC Mixed Use Solid State Drives
+HPE 1.92TB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09722-B21
+HPE 960GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09716-B21
+HPE 480GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09712-B21
+HPE 1.92TB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P07930-B21
+HPE 960GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P07926-B21
+HPE 480GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P07922-B21
+HPE 480GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872344-B21
+HPE 3.84TB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P00896-B21
+Mixed Use - 6G SATA - M.2 - Solid State Drives
+HPE 240GB SATA 6G Mixed Use M.2 2280 3yr Wty Digitally Signed Firmware SSD 875488-B21
+HPE 960GB SATA 6G Mixed Use M.2 2280 3yr Wty Digitally Signed Firmware SSD 875492-B21
+HPE 480GB SATA 6G Mixed Use M.2 2280 3yr Wty Digitally Signed Firmware SSD 875490-B21
+6G SATA Hot Plug LFF (3.5-inch) SCC Read Intensive Solid State Drives
+HPE 1.92TB SATA 6G Read Intensive LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware SSD P09693-B21
+HPE 960GB SATA 6G Read Intensive LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware SSD P09689-B21
+HPE 480GB SATA 6G Read Intensive LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware SSD P09687-B21
+6G SATA Hot Plug LFF (3.5-inch) SC Mixed Use Solid State Drives
+HPE 1.92TB SATA 6G Mixed Use LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware SSD P09724-B21
+HPE 960GB SATA 6G Mixed Use LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware SSD P09718-B21
+HPE 1.92TB SATA 6G Mixed Use LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware SSD P07932-B21
+HPE 960GB SATA 6G Mixed Use LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware SSD P07928-B21
+HPE 480GB SATA 6G Mixed Use LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware SSD P07924-B21
+HPE 480GB SATA 6G Mixed Use LFF (3.5in) SCC 3yr Wty Digitally Signed Firmware SSD 872346-B21
+HPE NVMe PCIe Read Intensive SFF (2.5 inch) Solid State Drives
+HPE 7.68TB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10218-B21
+HPE 3.84TB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10216-B21
+HPE 1.92TB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10214-B21
+HPE 2TB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 877986-B21
+HPE 375GB NVMe x4 Lanes Write Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 878014-B21
+NOTE: With NVMe support only 1xDouble Wide Graphics card is supported.
+HPE NVMe PCIe Mixed Use SFF (2.5 inch) Solid State Drives
+HPE 6.4TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10226-B21
+HPE 3.2TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10224-B21
+HPE 1.6TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10222-B21
+HPE 3.2TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 877998-B21
+HPE 1.6TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 877994-B21
+NOTE: With NVMe support only 1xDouble Wide Graphics card is supported.
+NOTE: The NVMe model (810393-B21) or the NVMe Express Bay Enablement kit (774741-
+B21) are required to support these drives.
+NOTE: HPE has qualified the NVMe drive portfolio using the Operating System inbox drivers, full
+detail on the HPE Solid State Drive QuickSpecs.
+NOTE: With NVMe support only 1xDouble Wide Graphics card is supported.
+HPE NVMe x8 Lanes Mixed Use HHHL
+HPE 6.4TB NVMe x8 Lanes Mixed Use HHHL 3yr Wty Digitally Signed Firmware Card P10268-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 31
+HPE 3.2TB NVMe x8 Lanes Mixed Use HHHL 3yr Wty Digitally Signed Firmware Card P10266-B21
+HPE 1.6TB NVMe x8 Lanes Mixed Use HHHL 3yr Wty Digitally Signed Firmware Card P10264-B21
+M.2 SSD
+HPE Universal SATA HHHL 3yr Wty M.2 Kit 878783-B21
+NOTE: M.2 drives go in PCIe slots and use B140i SATA controller only.
+NOTE: M.2 supports Software RAID only.
+NOTE: No HPE Flexible Smart Array supported.
+Hard Drive Blank Kits
+HPE Large Form Factor Hard Drive Blank Kit 666986-B21
+HPE Small Form Factor Hard Drive Blank Kit 666987-B21
+Hard Drive Kits
+HPE DL380 Gen9 NVMe 6 Solid State Drive Express Bay Enablement Kit 774741-B21
+NOTE: This option provides support for up to 6NVMe drives, and can only be populated in BAY2
+in SFF model only, can be used with Bay1 and Bay 3 populated.
+NOTE: The HPE DL380 Gen9 High Performance Fan Kit is required for NVMe support (719079-
+B21).
+NOTE: The PCIe card in this enablement kit can only be populated in slot2 (primary) or slot 5
+(secondary).
+NOTE: For true x16 support with this option a secondary riser (719073-B21) is needed (second
+processor required).
+NOTE: Kit includes Mylar film for Universal Media Bay (724865-B21) support to ensure optimal
+airflow.
+HPE DL380 Gen9 8SFF Bay1 Cage/Backplane Kit 719067-B21
+HPE DL380 Gen9 Additional 8SFF Bay2 Cage/Backplane Kit 768857-B21
+HPE DL380 Gen9 2SFF Front/Rear SAS/SATA Kit 724864-B21
+HPE DL380 Gen9 3LFF Rear SAS/SATA Kit 768856-B21
+NOTE: For a complete list of the drive, controller and cable options please check the compatibility
+matrix:
+https://www.hpe.com/us/en/pdfViewer.html?resource=%2Fcontent%2Fhpe%2Fcountry%2Fus%
+2Fen%2Fresources%2Fservers%2Freference-guide%2Ftransceiver-networking-server
+Media Bay Kits
+HPE DL380 Gen9 Universal Media Bay Kit 724865-B21
+NOTE: The Universal Media Bay offers front VGA and 2xUSB 2.0, plus ability to add optional Optical
+drive, and 2SFF.
+NOTE: This is only compatible with the 8SFF or 8+8 SFF configurations and can only be populated
+in Bay1.
+HPE
+Networking
+1 Gigabit Ethernet adapters
+HPE Ethernet 1Gb 4-port 331T Adapter 647594-B21
+HPE Ethernet 1Gb 4-port 366T Adapter 811546-B21
+HPE Ethernet 1Gb 2-port 332T Adapter 615732-B21
+HPE Ethernet 1Gb 2-port 361T Adapter 652497-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 32
+10 Gigabit Ethernet adapters
+HPE Ethernet 10Gb 2-port 530SFP Adapter 652503-B21
+HPE Ethernet 10Gb 2-port 530T Adapter 656596-B21
+HPE Ethernet 10Gb 2-port 562SFP+ Adapter 727055-B21
+HPE Ethernet 10Gb 2-port 546SFP+ Adapter 779793-B21
+HPE Ethernet 10Gb 2-port 560SFP+ Adapter 665249-B21
+HPE Ethernet 10Gb 2-port 561T Adapter 716591-B21
+NOTE: The DL380 Gen9 ships with 4x1Gb Embedded.
+NOTE: A minimum of two Gigabytes (2 GB) of server memory is required per each adapter.
+NOTE: Direct Attach Cable (DAC) for copper environments or fiber transceivers and cables for
+fiber-optic environments must be purchased separately. Please see the related NIC QuickSpecs for
+Technical Specifications and additional information: http://www.hpe.com/servers/ProLiantNICs.
+25 Gigabit Ethernet adapters
+HPE Ethernet 10/25Gb 2-port 640SFP28 Adapter 817753-B21
+FlexibleLOM Adapters
+HPE Ethernet 1Gb 4-port 331FLR Adapter 629135-B22
+HPE Ethernet 1Gb 4-port 366FLR Adapter 665240-B21
+HPE FlexFabric 10Gb 2-port 533FLR-T Adapter 700759-B21
+HPE FlexFabric 10Gb 2-port 534FLR-SFP+ Adapter 700751-B21
+HPE FlexFabric 10Gb 4-port 536FLR-T Adapter 764302-B21
+HPE Ethernet 10Gb 2-port 562FLR-SFP+ Adapter 727054-B21
+HPE Ethernet 10/25Gb 2-port 640FLR-SFP28 Adapter 817749-B21
+HPE Ethernet 10Gb 2-port 546FLR-SFP+ Adapter 779799-B21
+HPE FlexFabric 10Gb 2-port 556FLR-SFP+ Adapter 727060-B21
+HPE Ethernet 10Gb 2-port 560FLR-SFP+ Adapter 665243-B21
+HPE Ethernet 10Gb 2-port 561FLR-T Adapter 700699-B21
+NOTE: The DL380 Gen9 ships with 4x1Gb Embedded.
+NOTE: Only one FlexibleLOM can be added to the server. These options are upgradeable and can
+be changed from the original configuration after the server is shipped.
+NOTE: Direct Attach Cable (DAC) for copper environments or fiber transceivers and cables for
+fiber-optic environments must be purchased separately. Please see the related NIC QuickSpecs for
+Technical Specifications and additional information: http://www.hpe.com/servers/ProLiantNICs.
+HPE
+InfiniBand
+NOTE: The RHEL6.5 driver is not part of SPP, but may be downloaded
+here: http://h20565.www2.hpe.com/portal/site/hpsc/.
+HPE InfiniBand FDR/Ethernet 10Gb/40Gb 2-port 544+FLR-QSFP Adapter 764285-B21
+HPE InfiniBand FDR/Ethernet 10Gb/40Gb 2-port 544+QSFP Adapter 764284-B21
+HPE 100Gb 1-port OP101 QSFP28 x16 PCIe Gen3 with Intel Omni-Path Architecture Adapter 829335-B21
+HPE InfiniBand EDR/Ethernet 100Gb 1-port 840QSFP28 Adapter 825110-B21
+HPE InfiniBand EDR/Ethernet 100Gb 2-port 840QSFP28 Adapter 825111-B21
+HPE InfiniBand EDR 100Gb 1-port 841QSFP28 Adapter 872725-B21
+HPE InfiniBand EDR/Ethernet 100Gb 2-port 841QSFP28 Adapter 872726-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 33
+HPE I/O
+Expansion
+Options
+HPE DL380 Gen9 Primary 2 Slot GPU Ready Riser Kit 719076-B21
+NOTE: This is for slot 1 and supports double wide GPGPUs.
+NOTE: For Graphics cards please also order the DL380 Gen9 Graphics Enablement kit (719082-
+B21). Slot1: 1xGen3 x16 FH/FL, 1xGen3 x8 FH/HL.
+NOTE: Double wide PCIe cards are only supported in risers with the Processors leveraging the
+High Performance Heatsink. For Processors requiring double wide GPU support please order the
+GPU enablement kit (719082-B21).
+HPE DL380 Gen9 Secondary 3 Slot GPU Ready Riser Kit 719073-B21
+NOTE: This is for slot 2 and supports double wide GPGPUs.
+NOTE: For Graphics cards please also order the DL380 Gen9 Graphics Enablement kit (719082-
+B21). Slot2: 2xGen3 x16 FH/FL, 1xGen3 x8 FH/HL.
+NOTE: Double wide PCIe cards are only supported in risers with the Processors leveraging the
+High Performance Heatsink. For Processors requiring double wide GPU support please order the
+GPU enablement kit (719082-B21).
+HPE Power
+Supplies
+HPE Flex Slot Platinum Hot-plug Power supplies
+HPE 500W Flex Slot Platinum Hot Plug Power Supply Kit 720478-B21
+NOTE: Flex Slot Platinum power supplies support power efficiency of up to 94%.
+HPE 800W Flex Slot Platinum Hot Plug Power Supply Kit 720479-B21
+NOTE: Flex Slot Platinum power supplies support power efficiency of up to 94%.
+HPE 800W Flex Slot -48VDC Hot Plug Power Supply Kit 720480-B21
+NOTE: Flex Slot -48VDC power supplies support power efficiency of up to 94%.
+HPE 1400W Flex Slot Platinum Plus Hot Plug Power Supply Kit 720620-B21
+NOTE: Flex Slot Platinum Plus power supplies support power efficiency of up to 94%.
+HPE 800W Flex Slot Titanium Hot Plug Power Supply Kit 720482-B21
+NOTE: Flex Slot Titanium power supplies support power efficiency of up to 96%.
+NOTE: All power supplies must be of the same input voltage, output rating, and efficiency rating. If non-
+matching power supplies are installed, you may receive an error message and/or experience operational issues
+with your server.
+NOTE: Mixing different power supplies in the same server may limit or disable some power supply features
+including support for power redundancy. To ensure access to all available features, all power supplies within the
+same server should have the same output and efficiency ratings
+NOTE: Prior to selecting a power supply option, it is highly recommended that you review your server
+configuration in the HPE Power Advisor tool to determine the right size power supply for your server
+configuration. The HPE Power Advisor is located at: http://www.hpe.com/info/hppoweradvisor.
+NOTE: Support for HPE Power Discovery Services is included with the 1400W Flex Slot option. Power
+specifications and technical content for all HPE Server power supplies can be found
+at http://www.hpe.com/info/proliant/powersupply.
+NOTE: Maximum of 2 Flex Slot PS per platform.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 34
+HPE
+Computation
+and Graphics
+Accelerators
+HPE DL380 Gen9 Graphics Enablement Kit 719082-B21
+NOTE: This GPU enablement kit includes 2 Heatsinks and 8 cables to enable double wide GPUs to
+be supported.
+NOTE: For doublewide GPU support you are required to have at least 1x1400W Power Supply
+(720620-B21), per card for cards over 150W. Cards 150W or under can used 800W Power
+Supplies; however check the power usage via the HPE Power Advisor Tool located
+at http://www.hpe.com/info/hppoweradvisor.
+NOTE: There are limitations on the server model and processor supported when adding Graphics
+accelerators.
+NOTE: Passive cards will require the addition of the High Performance Fan Kit (719079-B21).
+NOTE: We support up to 2 Double wide and 3 single wide Graphics cards, limitations apply.
+NOTE: This kit support up to 2 double wide Graphics cards.
+NOTE: Double Wide GPUs will occupy slots 2 and 5 and will leave only 2 slots left open.
+NOTE: There are limitations on GPU support (1x double wide) with the NVMe bay installed.
+NOTE: All Accelerators are restricted to less than 1024GB for system host memory, with the
+exception of the Tesla P100, AMD and Intel cards.
+NOTE: This kit includes PCIe GPU Retention Brackets that need to be installed on the air baffle to
+support FL cards.
+NOTE: Not required for M2000.
+NVIDIA Tesla M10 Quad GPU Module Q0J62A
+NOTE: This is supported in all models, however with the following limitations: 4LFF supported to
+35C, 8SFF supported to 35C, 12LFF supported to 30C, 16SFF+Universal Media bay supported to
+35C, 16SFF+NVMe cage supported to 35C and 24SFF+2SFF supported to 35C.
+NOTE: The Primary GPU riser (719076-B21) is required to support this in slot1.
+NOTE: The secondary GPU riser (719073-B21) is required to support this in slot2 (2nd processor
+required).
+NOTE: For doublewide GPU support you are required to have at least 1x1400W Power Supply
+(720620-B21), per card.
+NOTE: Double-wide cards require the addition of the High Performance Fan Kit (719079-B21).
+NOTE: Only supported with E5-2600v4 processors.
+HPE NVIDIA Tesla P4 8GB Computational Accelerator Q0V79A
+NOTE: Maximum of 3 cards supported per server.
+NOTE: This is supported in all models.
+NOTE: The Primary GPU riser (719076-B21) is required to support this in slot1.
+NOTE: The secondary GPU riser (719073-B21) is required to support this in slot2 (2nd processor
+required).
+NOTE: 1x 1400W PS recommended, but this card will work with 1x800W PS (Per GPU). However
+check the power usage via the HPE Power Advisor Tool located
+at http://www.hpe.com/info/hppoweradvisor.
+NOTE: No GPU enablement kit is required for this option.
+NOTE: Only supported with E5-2600v4 processors.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 35
+HPE NVIDIA Tesla P40 24GB Computational Accelerator Q0V80A
+NOTE: There are server model limitations with this card: 4LFF supported to 35C, 8SFF supported
+to 35C, 12LFF supported to 25C , 16SFF+Universal Media bay supported to 30C, 16SFF+NVMe
+cage supported to 30C and 24SFF+2SFF supported to 30C.
+NOTE: For doublewide GPU support you are required to have at least 1x1400W Power Supply
+(720620-B21), per card.
+NOTE: The Primary GPU riser (719076-B21) is required to support this in slot1.
+NOTE: The secondary GPU riser (719073-B21) is required to support this in slot2 (2nd processor
+required).
+NOTE: There are limitations on the server model and processor supported when adding Graphics
+accelerators.
+NOTE: This card will require the addition of the High Performance Fan Kit (719079-B21).
+NOTE: This card is supported on the E5-2600v4 series processors only.
+HPE NVIDIA Tesla P100 PCIe 16GB Computational Accelerator Q0E21A
+NOTE: There are server model limitations with this card: 4LFF supported to 25C, 8SFF supported
+to 30C, 12LFF not supported, 16SFF+Universal Media bay supported to 30C, 16SFF+NVMe cage
+supported to 30C and 24SFF+2SFF supported to 20C.
+NOTE: For doublewide GPU support you are required to have at least 1x1400W Power Supply
+(720620-B21), per card.
+NOTE: The Primary GPU riser (719076-B21) is required to support this in slot1.
+NOTE: The secondary GPU riser (719073-B21) is required to support this in slot2 (2nd processor
+required).
+NOTE: There are limitations on the server model and processor supported when adding Graphics
+accelerators.
+NOTE: This card will require the addition of the High Performance Fan Kit (719079-B21).
+NOTE: This card is supported on the E5-2600v4 series processors only.
+HPE NVIDIA Quadro P2000 Graphics Accelerator Q0V77A
+NOTE: Only supported with E5-2600v4 processors.
+NOTE: This is supported in all models.
+NOTE: Support with this card limited to 35C for all chassis permatations.
+NOTE: The Primary GPU riser (719076-B21) is required to support this in slot1.
+NOTE: The secondary GPU riser (719073-B21) is required to support this in slot2 (2nd processor
+required).
+NOTE: 1x 1400W PS recommended, but this card will work with 1x800W PS (Per GPU). However
+check the power usage via the HPE Power Advisor Tool located at
+http://www.hpe.com/info/hppoweradvisor.
+HPE NVIDIA Quadro P4000 Graphics Accelerator Q0V78A
+NOTE: Only supported with E5-2600v4 processors.
+NOTE: This is supported in all models.
+NOTE: Support with this card limited to 35C for all chassis permatations.
+NOTE: The Primary GPU riser (719076-B21) is required to support this in slot1.
+NOTE: The secondary GPU riser (719073-B21) is required to support this in slot2 (2nd processor
+required).
+NOTE: 1x 1400W PS recommended, but this card will work with 1x800W PS (Per GPU). However
+check the power usage via the HPE Power Advisor Tool located at
+http://www.hpe.com/info/hppoweradvisor.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 36
+HPE NVIDIA Quadro P6000 Graphics Accelerator Q0V76A
+NOTE: There are server model limitations with this card: 4LFF supported to 25C, 8SFF supported
+to 30C, 12LFF not supported, 16SFF+Universal Media bay supported to 30C, 16SFF+NVMe cage
+supported to 20C and 24SFF+2SFF supported to 20C.
+NOTE: For doublewide GPU support you are required to have at least 1x1400W Power Supply
+(720620-B21), per card.
+NOTE: The Primary GPU riser (719076-B21) is required to support this in slot1.
+NOTE: The secondary GPU riser (719073-B21) is required to support this in slot2 (2nd processor
+required).
+NOTE: There are limitations on the server model and processor supported when adding Graphics
+accelerators.
+NOTE: This card will require the addition of the High Performance Fan Kit (719079-B21).
+NOTE: This card is supported on the E5-2600v4 series processors only.
+HPE NVIDIA Tesla V100 PCIe 16GB Computational Accelerator Q2N68A
+NOTE: For doublewide GPU support you are required to have at least 1x1400W Power Supply
+(720620-B21), per card.
+NOTE: The Primary GPU riser (719076-B21) is required to support this in slot1.
+NOTE: The secondary GPU riser (719073-B21) is required to support this in slot2 (2nd processor
+required).
+NOTE: There are limitations on the server model and processor supported when adding Graphics
+accelerators.
+NOTE: This card will require the addition of the High Performance Fan Kit (719079-B21).
+NOTE: This card is supported on the E5-2600v3 series processors only.
+NOTE: 12LFF support is restricted to 30C Server Ambient only.
+HPE AMD FirePro S7150x2 Accelerator Kit M3X68A
+NOTE: For doublewide GPU support you are required to have at least 1x1400W Power Supply
+(720620-B21), per card.
+NOTE: The Primary GPU riser (719076-B21) is required to support this in slot1.
+NOTE: The secondary GPU riser (719073-B21) is required to support this in slot2 (2nd processor
+required).
+NOTE: There are limitations on the server model and processor supported when adding Graphics
+accelerators.
+NOTE: This card will require the addition of the High Performance Fan Kit (719079-B21).
+NOTE: This card is supported on the E5-2600v4 series processors only.
+NOTE: This card only runs at PCIeGen2 speeds.
+NOTE: There are limitations operating this card with operative environment temperature
+limitations: 12LFF chassis to 300C
+NOTE: Each DL380 Gen9 server will accommodate up to three single-width or two double
+width PCIe cards for Computational Graphics support. Note that 11.25" is the max length for a
+card to also allow for cabling. This applies to primary slots 1 & 2 or secondary slots 4 & 5.
+NOTE: The NVIDIA Tesla, GRID and Quadro modules are supported only on 64-bit versions of
+Linux and Windows operating systems as well as on Virtual Machine client operating systems. The
+supported bare metal operating systems are RHEL6, SLES 11 and Windows Server 2012 R2.
+NOTE: There are limitations on fan types, setting, and server model support by card.
+NOTE: Mixing of GPUs is not supported.
+NOTE: All NVIDIA, Intel and AMD cards limit configurations to having less than 1TB memory
+installed.
+NOTE: Double Wide GPUs will occupy slots 2 and 5 and will leave only 2 slots left open.
+NOTE: There are limitations on GPU support with the NVMe bay installed.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Core Options
+Page 37
+HPE Cooling
+Options
+HPE DL380 Gen9 High Performance Fan Kit 719079-B21
+NOTE: High Performance Fan kit consists of 6 fans, these will need to replace all the standard Fans
+in the unit, and fill all 6-Fan cages.
+NOTE: The 12LFF and 24SFF models (including field upgrades to 24SFF) will already include 6
+High Performance Fan kits.
+NOTE: The High Performance Fan Kit is needed to support certain Passive GPGPU (Graphics cards)
+configurations; or ASHRAE operating environments.
+NOTE: For elevated ambient temperature support please see:
+http://www.hpe.com/servers/ashrae.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Additional Options
+Page 38
+NOTE: Some options may not be integrated at the factory. To ensure only valid configurations are ordered, Hewlett Packard
+Enterprise recommends the use of an HPE approved configurator. Contact your local sales representative for additional
+information.
+Embedded
+Management
+HPE iLO Advanced
+HPE iLO Advanced 1-server License with 1yr Support on iLO Licensed Features 512485-B21
+HPE iLO Advanced 1-server License with 3yr Support on iLO Licensed Features BD505A
+HPE iLO Advanced Electronic License with 1yr Support on iLO Licensed Features E6U59ABE
+HPE iLO Advanced Electronic License with 3yr Support on iLO Licensed Features E6U64ABE
+HPE Converged
+Infrastructure
+Management Software
+HPE OneView Advanced (with HPE iLO Advanced)
+HPE OneView including 3yr 24x7 Support Physical 1-server LTU E5Y34A
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU E5Y35AAE
+HPE OneView Advanced (without HPE iLO Advanced)
+HPE OneView w/o iLO including 3yr 24x7 Support 1-server LTU P8B24A
+HPE OneView w/o iLO including 3yr 24x7 Support Flexible Quantity E-LTU P8B26AAE
+HPE OneView Physical Media Kit LTU E5Y37A
+NOTE: Full licenses of HPE OneView Advanced also provide the right-to-use HPE
+Insight Control without additional charge.
+NOTE: Server provisioning (via 'HPE Insight Control server provisioning') is licensed as
+part of HPE OneView Advanced and provides multi-server OS and driver provisioning.
+Media kit #BD883A can be ordered for a physical copy of this software (USB flash drive).
+NOTE: Licenses ship without media. The HPE OneView Media Kit can be ordered
+separately, or can be downloaded at: http://www.hpe.com/info/hpeoneview.
+High Performance
+Clusters
+HPE Cluster Management Utility
+HPE Insight Cluster Management Utility 1yr 24x7 Flexible LTU QL803B
+HPE Insight Cluster Management Utility 3yr 24x7 Flexible LTU BD476A
+NOTE: These part numbers can be used to purchase one certificate for multiple licenses
+and support with a single activation key. Each license is for one node (server). Customer
+will receive a printed end user license agreement and license entitlement certificate via
+physical shipment. The license entitlement certificate must be redeemed online in order
+to obtain a license key. Customer also will receive a support agreement.
+HPE Insight Cluster Management Utility Media BD477A
+NOTE: For additional license kits please see the HPE Insight Cluster Management
+Utility QuickSpecs.
+HPE PCIe Workload
+Accelerator Options
+NVME PCIe Workload Accelerators
+HPE 1.6TB PCIe x8 Lanes Mixed Use HHHL 3yr Wty Digitally Signed Firmware Card 877825-B21
+HPE 6.4TB PCIe x8 Lanes Mixed Use HHHL 3yr Wty Digitally Signed Firmware Card 877829-B21
+HPE 3.2TB PCIe x8 Lanes Mixed Use HHHL 3yr Wty Digitally Signed Firmware Card 877827-B21
+HPE 750GB PCIe x4 Lanes Write Intensive HHHL 3yr Wty Digitally Signed Firmware
+Card
+878038-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Additional Options
+Page 39
+HPE Security HPE 2U Security Bezel Kit 666988-B21
+HPE Trusted Platform Module 2.0 Kit 745823-B21
+NOTE: If the TPM Module (488069-B21) is installed, then there is no support for TPM
+2.0.
+NOTE: This is supported on both the E5-2600v3 and E5-2600v4 processors.
+NOTE: HPE Trusted Platform Module 2.0 Option works with Gen9 servers with UEFI
+Mode not Legacy Mode. It is not compatible with HPE ProLiant Gen8 servers or earlier
+generation variants.
+NOTE: HPE Gen9 servers purchased earlier may need the latest firmware update to be
+compatible with the TPM 2.0 Option.
+NOTE: HPE server systems can have a TPM module (of any type) installed only once. It
+cannot be replaced with any other TPM module.
+HPE Trusted Platform Module Option 488069-B21
+NOTE: The HPE Trusted Platform Module Option (488069-B21) is the TPM 1.2
+version. Compatible server platforms include Gen8 and Gen9 servers.
+NOTE: HPE server systems can have a TPM module (of any type) installed only once. It
+cannot be replaced with any other TPM module.
+HPE Storage
+Controllers
+SAS Controllers
+HPE Flexible Smart Array Controllers
+HPE Smart Array P440ar/2GB FBWC 12Gb 2-ports Int SAS Controller 726736-B21
+NOTE: Provides support for up to 8 internal SAS/SATA drives without using a PCIe slot.
+NOTE: Includes the HPE Smart Storage Battery.
+HPE Smart Array P840ar/2GB FBWC 12Gb 2-port Internal SAS Controller 843199-B21
+NOTE: Provides support for up to 16 internal SAS/SATA drives without using a PCIe
+slot.
+NOTE: Includes the HPE Smart Storage Battery.
+HPE Smart Array Controllers
+HPE Smart Array P440/4GB FBWC 12Gb 1-port Int SAS Controller 726821-B21
+NOTE: Provides support for up to 8 internal SAS/SATA drives.
+HPE Smart Array P840/4GB FBWC 12Gb 2-ports Int SAS Controller 726897-B21
+HPE Smart Array P841/4GB FBWC 12Gb 4-ports Ext SAS Controller 726903-B21
+HPE Smart Array P441/4GB FBWC 12Gb 2-ports Ext SAS Controller 726825-B21
+HPE Smart Host Bus Adapters
+HPE H241 12Gb 2-ports Ext Smart Host Bus Adapter 726911-B21
+HPE H240ar 12Gb 2-ports Int Smart Host Bus Adapter 726757-B21
+NOTE: Provides support for up to 8 internal SAS/SATA drives without using a PCIe
+slot.
+HPE H240 12Gb 2-ports Int Smart Host Bus Adapter 726907-B21
+HPE Cable Options
+HPE DL380 Gen9 12LFF Rear 2SFF or 3LFF P840/440 SAS Cable Kit 783007-B21
+NOTE: 12LFF port 3 to 2SFF or 3LFF to P440/840 PCIe.
+HPE DL380 Gen9 2SFF Front SAS x4 Cable Kit 783008-B21
+NOTE: For front mount 2SFF to H240/P440ar, H240 or embedded B140i SATA.
+HPE DL380 Gen9 8SFF SAS Cable Kit 783009-B21
+NOTE: 8/16/24 SFF to P840/440 bay 3.
+HPE DL380 Gen9 2SFF x8 Front Cable Kit 785989-B21
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Additional Options
+Page 40
+NOTE: For front/rear mount 2SFF to P440/840 PCIe).
+HPE DL380 Gen9 12LFF SAS Cable Kit 785991-B21
+NOTE: For 12LFF to P440/840 PCIe cables- ports 1/2/3.
+HPE DL380 SFF Smart Array HBA H200/P400 Series SAS Cable Kit 786092-B21
+NOTE: 8/16/24SFF to 240/440ar, H240 PCIe or embedded B140i SATA.
+HPE DL380 Gen9 12LFF Smart HBA H240 SAS Cable Kit 786215-B21
+NOTE: For 12LFF ports 1&2 to H240/P440ar, H240 or embedded B140i SATA.
+NOTE: For details on cabling options, additional information available here:
+Cabling Matrix.
+Optional Software
+HPE Smart Array SR Secure Encryption (Data at Rest Encryption/per Server Entitlement)
+E-LTU
+Q2F26AAE
+HPE Smart Array SR SmartCache (Single Key/Single Server) LTU D7S26A
+HPE Smart Array SR SmartCache (Single Key/Multiple Servers) LTU D7S27A
+HPE Smart Array SR SmartCache (Single Key/Multiple Servers) E-LTU D7S27AAE
+NOTE: HPE SmartCache is supported when one of the supported Smart Array
+Controllers is installed in the server.
+NOTE: HPE SmartCache comes standard (no licensing is required) if the HPE Smart
+Array P840 Controller is installed in the server.
+HPE Tape Backup NOTE: For the complete range of tape drives, autoloaders, libraries and media
+see: http://www.hpe.com/storage/storeever. For hardware and software compatibility of Hewlett
+Packard Enterprise tape backup products http://www.hpe.com/storage/BURAcompatibility.
+Tape Drives
+HPE StoreEver LTO-7 Ultrium 15000 External Tape Drive BB874A
+HPE StoreEver LTO-6 Ultrium 6250 External Tape Drive EH970A
+HPE StoreEver LTO-5 Ultrium 3000 SAS External Tape Drive EH958B
+HPE Tape Storage Systems
+HPE StoreEver MSL6480
+HPE StoreEver MSL6480 Scaleable Expansion Module QU626A
+NOTE: Please see the HPE StoreEver MSL6480 Tape Library QuickSpecs
+for Technical Specifications and additional information.
+HPE StoreEver MSL6480 Scalable Base Module QU625A
+HPE StoreEver MSL2024 0-drive Tape Library AK379A
+HPE Disk Backup HPE RDX Removable Disk Backup System
+HPE RDX 4TB External Disk Backup System Q2R33A
+HPE RDX 3TB External Disk Backup System P9L72A
+HPE RDX 3TB Internal Disk Backup System P9L71A
+HPE RDX 2TB External Disk Backup System E7X53B
+HPE RDX 1TB External Disk Backup System B7B69B
+HPE RDX External Docking Station C8S07B
+HPE D3700 Enclosure QW967A
+HPE D3600 Enclosure QW968A
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Additional Options
+Page 41
+NOTE: For the complete range of RDX drives and media see: https://www.hpe.com/us/en/product-
+catalog/storage/disk-based-backup-systems.html. For hardware and software compatibility of
+Hewlett Packard Enterprise disk backup products see: http://www.hpe.com/storage/spock.
+HPE Storage
+Options
+NOTE: For the complete listing of Fibre Channel Converged Network Adapters please see:
+https://www.hpe.com/us/en/product-catalog/servers/adapters/pip.models.hpe-storefabric-
+converged-network-adapters.4118472.html
+Emulex Fibre Channel HBAs
+HPE 81E 8Gb 1-port PCIe Fibre Channel Host Bus Adapter AJ762B
+HPE 82E 8Gb 2-port PCIe Fibre Channel Host Bus Adapter AJ763B
+HPE StoreFabric SN1200E 16Gb Single Port Fibre Channel Host Bus Adapter Q0L13A
+HPE StoreFabric SN1200E 16Gb Dual Port Fibre Channel Host Bus Adapter Q0L14A
+HPE StoreFabric SN1600E 32Gb Single Port Fibre Channel Host Bus Adapter Q0L11A
+HPE StoreFabric SN1600E 32Gb Dual Port Fibre Channel Host Bus Adapter Q0L12A
+HPE StoreFabric SN1100E 16Gb Single Port Fibre Channel Host Bus Adapter C8R38A
+HPE StoreFabric SN1100E 16Gb Dual Port Fibre Channel Host Bus Adapter C8R39A
+HPE StoreFabric SN1100E 4-port 16Gb Fibre Channel Host Bus Adapter P9D99A
+QLogic Fibre Channel HBAs
+HPE 81Q 8Gb 1-port PCIe Fibre Channel Host Bus Adapter AK344A
+HPE 82Q 8Gb 2-port PCIe Fibre Channel Host Bus Adapter AJ764A
+HPE StoreFabric 84Q 4-port 8Gb Fibre Channel Host Bus Adapter P9D91A
+HPE StoreFabric SN1100Q 16Gb Single Port Fibre Channel Host Bus Adapter P9D93A
+HPE StoreFabric SN1100Q 16Gb Dual Port Fibre Channel Host Bus Adapter P9D94A
+HPE StoreFabric SN1000Q 16GB 1-port PCIe Fibre Channel Host Bus Adapter QW971A
+HPE StoreFabric SN1000Q 16GB 2-port PCIe Fibre Channel Host Bus Adapter QW972A
+HPE StoreFabric SN1600Q 32Gb Single Port Fibre Channel Host Bus Adapter P9M75A
+HPE StoreFabric SN1600Q 32Gb Dual Port Fibre Channel Host Bus Adapter P9M76A
+Converged Network Adapter
+HPE StoreFabric CN1100R Dual Port Converged Network Adapter QW990A
+HPE StoreFabric CN1100R 10GBASE-T Dual Port Converged Network Adapter N3U52A
+HPE StoreFabric CN1200E 10Gb Converged Network Adapter E7Y06A
+HPE StoreFabric CN1200E 10GBASE-T Dual Port Converged Network Adapter N3U51A
+HPE Power
+Distribution Units
+(PDUs)
+HPE Basic Power Distribution Units (PDU)
+NOTE: Please see the HPE Basic Power Distribution Units (PDU) QuickSpecs for
+information on additional options and product specifications.
+HPE Intelligent Power Distribution Unit (PDU)
+HPE Intelligent Modular 3Ph 17.3kVA/IEC 60309 60A 4-wire 48A/208V (12)
+C19/Horizontal NA/JP PDU
+AF535A
+HPE 5xC13 Intelligent PDU Extension Bar G2 Kit AF547A
+HPE 5xC13 Outlets Power and UID LEDs Pair Standard Extension Bar AF528A
+HPE Intelligent Power Distribution Unit (PDU)
+HPE Intelligent Modular 3Ph 17.3kVA/60309 60A 4-wire 48A/208V (6)
+C19/Horizontal NA/JP PDU
+AF523A
+HPE Intelligent Modular 3Ph 14.4kVA/CS8365C 40A/208V Outlets (6) C19/Horizontal
+NA/JP PDU
+AF533A
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Additional Options
+Page 42
+NOTE: Please see the HPE Intelligent Power Distribution Unit (PDU) QuickSpecs for
+information on additional options and product specifications.
+HPE Rack Mount
+Consoles, KVM
+Switches, and
+Keyboards
+HPE Location Discovery Services
+HPE DL380 Gen9 Location Discovery Services Ear Kit 768884-B21
+HPE Rack Mount Consoles
+HPE LCD8500 1U US Rackmount Console Kit AF630A
+HPE LCD8500 1U US TAA Rackmount Console Kit AF645A
+HPE KVM Switches
+HPE 0x1x8 G3 KVM Console Switch AF651A
+HPE 0x2x16 G3 KVM Console Switch AF652A
+HPE KVM Console USB Interface Adapter AF628A
+HPE KVM Console USB 2.0 Virtual Media CAC Interface Adapter AF629A
+HPE USB Remote Access Key for G3 KVM Console Switches AF650A
+HPE 1x1Ex8 KVM IP Console Switch G2 with Virtual Media CAC Software AF620A
+HPE 2x1Ex16 KVM IP Console Switch G2 with Virtual Media CAC Software AF621A
+HPE 4x1Ex32 KVM IP Console Switch G2 with Virtual Media CAC Software AF622A
+NOTE: To learn more, please visit the HPE KVM Switches web page.
+HPE USB Keyboard and Mouse
+HPE USB US Keyboard/Mouse Kit 631341-B21
+Rail Kits
+NOTE: Gen9 rail kits have changed significantly from prior generation rail kits. Please take a moment to
+review the installation documentation that comes with the server to help you with the installation of
+your Gen9 server.
+NOTE: Rail kits are optional for DL380 Gen9 and are no longer included standard with the server.
+Customers have the option to purchase their server without a rail kit.
+NOTE: Ball bearing and Easy Install rail kits contain telescoping rails which allow for in-rack
+serviceability.
+NOTE: To assist in the installation of the server into the rack an optional installation tool is available by
+contacting your local services representative (695539-001).
+CAUTION: Hewlett Packard Enterprise recommends that a minimum of two people are required for all
+Rack Server installations. Please refer to your installation instructions for proper tools and number of
+people to use for any installation.
+HPE 2U Small Form Factor Easy Install Rail Kit 733660-B21
+NOTE: Does not include CMA (733664-B21).
+HPE 2U Large Form Factor Easy Install Rail Kit 733662-B21
+NOTE: Does not include CMA (733664-B21).
+HPE 2U Cable Management Arm for Easy Install Rail Kit 733664-B21
+HPE 2U Small Form Factor Ball Bearing Rail Kit 720863-B21
+NOTE: Does not include CMA (720865-B21).
+HPE 2U Large Form Factor Ball Bearing Rail Kit 720864-B21
+NOTE: Does not include CMA (720865-B21).
+HPE 2U Cable Management Arm for Ball Bearing Rail Kit 720865-B21
+HPE Other Options
+HPE Rack LED Light Kit BW939A
+HPE Kit LCD 1.83m Latch Display Port Cable G7T29A
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Additional Options
+Page 43
+HPE Uninterruptible
+Power Systems (UPS)
+HPE Rack-mountable UPS
+HPE R7000 4U 50A High Voltage NA/JP Uninterruptible Power System AF462A
+R5000 Uninterruptible Power System (UPS)
+HPE R5000 3U L630 High Voltage NA/JP Uninterruptible Power System AF460A
+NOTE: Please see the HPE Line Interactive Single Phase UPS QuickSpecs for
+information on additional options and product specifications.
+HPE UPS Options
+HPE R/T3000 G4 Extended Runtime Module J2R10A
+HPE R/T2200 G4 Extended Runtime Module J2R09A
+HPE 2U Rack/Tower UPS Shipping Kit L4Q11A
+NOTE: To learn more, please visit the HPE Uninterruptible Power Systems (UPS)
+web page.
+HPE USB and SD
+Options
+HPE Enterprise Mainstream Flash Media Kits for Memory Cards
+HPE 32GB microSD Flash Memory Card 700139-B21
+HPE 8GB microSD Flash Memory Card 726116-B21
+HPE 8GB microSD Flash USB Drive 737953-B21
+HPE 8GB Dual microSD Flash USB Drive 741279-B21
+HPE Support Services Installation & Start-up Services
+HPE Install ProLiant DL38x(p) Service U4554E
+HPE Installation and Startup DL38x(p) Service U4555E
+Proactive Care
+HPE 3 year Proactive Care 24x7 DL380 Gen9 w/IC Service U5HW1E
+HPE 3 year Proactive Care 24x7 with DMR DL380 Gen9 w/IC Service U5HW2E
+HPE 3 year Proactive Care 24x7 with CDMR DL380 Gen9 w/IC Service U5HW3E
+HPE 3 year Proactive Care Call to Repair DL380 Gen9 w/IC Service U5HX0E
+HPE 3 year Proactive Care Call to Repair 24x7 with DMR DL380 Gen9 w/IC Service U5HX1E
+HPE 3 year Proactive Care Call to Repair with CDMR DL380 Gen9 w/IC Service U5HX2E
+HPE 3 year Proactive Care 24x7 DL380 Gen9 Service U7AE8E
+HPE 3 year Proactive Care 24x7 with DMR DL380 Gen9 Service U7AE9E
+HPE 3 year Proactive Care 24x7 with CDMR DL380 Gen9 Service U7AF0E
+HPE 3 year Proactive Care Call to Repair DL380 Gen9 Service U7AF4E
+HPE 3 year Proactive Care Call to Repair 24x7 with DMR DL380 Gen9 Service U7AF5E
+HPE 3 year Proactive Care Call to Repair with CDMR DL380 Gen9 Service U7AF6E
+NOTE: For a full listing of support services available for this server, please visit
+https://ssc.hpe.com/
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Memory
+Page 44
+Memory Population guidelines
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Memory
+Page 45
+General Memory Population Rules and Guidelines:
+. White DIMM slots denote the first slot of a channel. For 1 DPC (DIMM per channel) populate white slots only.
+. A minimum of one DIMM is required per server.
+. Install DIMMs only if the corresponding processor is installed.
+. If only one processor is installed in a two processor system, only half of the DIMM slots are available.
+. To maximize performance, it is recommended to balance the total memory capacity between all installed processors and to load
+the channels similarly whenever possible.
+. When two processors are installed, balance the DIMMs across the two processors.
+. Populate DIMMs from heaviest load (quad-rank) to lightest load (single-rank) within a channel. Heaviest load (DIMM with most
+ranks) within a channel goes furthest from the processor.
+. Do not mix RDIMMs or LRDIMMs.
+. LRDIMMs are supported up to 3 DIMMs per channel.
+. DIMMs of different speeds may be mixed in any order; the server will select a common optimal speed.
+. The maximum memory speed is a function of the memory type, memory configuration, and processor model.
+. The maximum memory capacity is a function of the memory type and number of installed processors.
+. HPE memory from previous generation servers is not compatible with the DL380 Gen9 Server. Certain HPE SmartMemory
+features such as memory authentication and enhanced performance may not be supported.
+. To realize the performance memory capabilities listed in this document, HPE SmartMemory is required.
+. For memory population rules and additional memory guidelines, please see the DL380 Gen9 user guide
+at http://www.hpe.com/support.
+. There are four (4) Memory channels per processor; eight (8) channels per 2 processor server.
+. There are three (3) DIMM slots for each memory channel; twenty four (24) total slots for 2 processor server.
+. Memory channels1 and 3 consists of the three (3) DIMMs that are furthest from the processor.
+. Memory channel 2 and 4 consists of the three (3) DIMMs that are closest to the processor.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Memory
+Page 46
+Intel Gen9 Supported Memory Bandwidth for HPE ProLiant Gen9 Intel® Xeon® E5-2600v3 Series Processor Family
+Memory Bandwidth and Capacity
+[DIMM Type] Registered DIMMs (RDIMMs) Load Reduced (LRDIMMs)
+HPE SKU P/N P00423-B21 728629-B21 726724-B21
+DIMM Rank Single Rank Dual Rank Dual Rank Dual Rank Quad Rank
+DIMM Capacity 8GB 16GB 16GB 32GB 64GB
+Voltage Std Voltage 1.2V Std Voltage 1.2V Std Voltage 1.2V Std Voltage 1.2V Std Voltage 1.2V
+DRAM Depth
+[bit]
+1G 1G 1G 1G 2G
+DRAM Width
+[bit]
+x4 x4 x8 x4 x4
+DRAM Density 4Gb 4Gb 8Gb 4Gb 8Gb
+CAS Latency 15-15-15 15-15-15 17-17-17 15-15-15 15-15-15
+DIMM Native
+Speed (MT/s)
+2133 2133 2400 2133 2133
+SLOTS THAT CAN BE POPULATED
+24 slot servers 24 24 24 24 24
+MAXIMUM CAPACITY (GB)
+192 384 384 768 1536
+POPULATED DIMM SPEED (MT/s)
+1 DIMM Per
+Channel
+2133 2133 2400 2133 2133
+2 DIMM Per
+Channel
+2133 2133 2400 2133 2133
+3 DIMM Per
+Channel
+1600 1600 1866 1600 1866
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Memory
+Page 47
+Intel Gen9 Supported Memory Bandwidth for HPE ProLiant Gen9 Intel® Xeon® E5-2600v4 Series Processor Family
+Memory Bandwidth and Capacity
+[DIMM Type] Registered DIMMs (RDIMMs) Load Reduced (LRDIMMs)
+HPE SKU P/N 805347-B21 805349-B21 836220-B21 805351-B21 805353-B21 805358-B21 809208-B21
+DIMM Rank Single Rank Single Rank Dual Rank Dual Rank Dual Rank Quad Rank Octal Rank
+DIMM Capacity 8GB 16GB 16GB 32GB 32GB 64GB 128GB
+Voltage Std Voltage
+1.2V
+Std Voltage
+1.2V
+Std Voltage
+1.2V
+Std Voltage
+1.2V
+Std Voltage
+1.2V
+Std Voltage
+1.2V
+Std Voltage
+1.2V
+DRAM Depth [bit] 1G 2G 1G 2G 2G 2G 2G
+DRAM Width [bit] x8 x4 x4 x4 x4 x4 x4
+DRAM Density 8Gb 8Gb 4Gb 8Gb 8Gb 8Gb 8Gb
+CAS Latency 17-17-17 17-17-17 17-17-17 17-17-17 17-17-17 17-17-17 20-18-18
+DIMM Native Speed
+(MT/s)
+2400 2400 2400 2400 2400 2400 2400
+SLOTS THAT CAN BE POPULATED
+24 slot servers 24 24 24 24 24 24 24
+MAXIMUM CAPACITY (GB)
+192 384 384 768 768 1536 3072
+POPULATED DIMM SPEED (MT/s)
+1 DIMM Per Channel 2400 2400 2400 2400 2400 2400 2400
+2 DIMM Per Channel 2133 2133 2400 2400 2400 2400 2400
+3 DIMM Per Channel 1866 1866 1866 1866 2400 2400 2400
+NOTE: Mixing the 128GB LRDIMM with other capacities is not supported.
+Memory
+Speed by
+Processor
+Model
+Processor Models Supported Memory Speeds
+E5-2609v3, E5-2603v3 1600MT/s
+E5-2630Lv3, E5-2640v3, E5-2630v3, E5-2623v3,
+E5-2620v3
+1866MT/s
+E5-2637v3, E5-2687Wv3, E5-2699v3, E5-2698v3,
+E5-2697v3, E5-2695v3, E5-2690v3, E5-2683v3,
+E5-2680v3, E5-2670v3, E5-2660v3, E5-2650Lv3,
+E5-2650v3, E5-2667v3, E5-2643v3
+2133MT/s
+E5-2609v4, E5-2603v4 1866MT/s
+E5-2630Lv4, E5-2623v4, E5-2620v4, E5-2640v4,
+E5-2630v4
+2133MT/s
+E5-2650Lv4, E5-2643v4, E5-2637v4, E5-2687Wv4,
+E5-2699v4, E5-2698v4, E5-2697v4, E5-2697Av4,
+E5-2695v4, E5-2690v4, E5-2683v4, E5-2680v4,
+E5-2660v4, E5-2650v4, E5-2667v4, E5-2699Av4
+2400MT/s
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Memory
+Page 48
+Standard and
+Maximum
+Memory
+Capacity (Pre-
+configured
+Models)
+Pre Configured Models Standard Memory Maximum Memory Plus
+Optional Memory
+Standard Memory
+Replaced with Optional
+Memory
+E5-2690v3, E5-2650v3 32GB (2x16GB) 736GB (22x32GB,
+2x16GB)
+1536GB (24x64GB)
+E5-2660v4 64GB (4x16GB) 704GB (20x32GB,
+4x16GB)
+3072GB (24x128GB)
+E5-2650v4 32GB (2x16GB) 736GB (22x32GB,
+2x16GB)
+3072GB (24x128GB)
+E5-2630v4, E5-2620v4 16GB (1x16GB) 752GB (23x32GB,
+1x16GB)
+3072GB (24x128GB)
+E5-2620v3 16GB (1x16GB) 752GB (23x32GB,
+1x16GB)
+1536GB (24x64GB)
+E5-2609v4 8GB (1x8GB) 744GB (23x32GB,
+1x8GB)
+3072GB (24x128GB)
+E5-2609v3 8GB (1x8GB) 744GB (23x32GB,
+1x8GB)
+1536GB (24x64GB)
+DDR4 memory options part number decoder
+NOTE: Capacity references are rounded to the common gigabyte (GB) values.
+· 4GB = 4,096MB
+· 8GB = 8,192MB
+· 16GB = 16,384MB
+· 32GB = 32,768MB
+· 64GB = 65,536MB
+· 128GB = 13,072MB
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Storage
+Page 49
+4 LFF hot-plug drive model
+1-4 4 x LFF SATA/SAS/SSD Hot Pluggable Hard Drive Bays
+12 LFF + 3 rear LFF hot-plug drive model
+1-12 12 x LFF SATA/SAS/SSD Hot Pluggable Hard Drive Bays 25-27 3 x LFF SATA/SAS/SSD Hot Pluggable Rear Hard Drive
+Bays
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Storage
+Page 50
+12 LFF + 2 rear SFF hot-plug drive model
+1-12 12 x LFF SATA/SAS/SDD Hot Pluggable Hard Drive Bays 25-26 2 x SFF SATA/SAS/SSD Hot Pluggable Rear Hard Drive
+Bays
+8 SFF (+2 SFF) hot-plug drive model with Universal Media Bay
+1-2 2 x SFF SATA/SAS/SSD Hot Pluggable Hard Drive Bays 1-8 8 x SFF SATA/SAS/SDD Hot Pluggable Hard drive bays
+16 SFF (+2 SFF) hot-plug drive model with Universal Media Bay
+1-2 2 x SFF SATA/SAS/SSD Hot Pluggable Hard Drive Bays 9-24 16 x SFF SATA/SAS/SDD Hot Pluggable Hard drive bays
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Storage
+Page 51
+24 SFF + rear 2 SFF hot-plug drive model
+1-24 24 x SFF SATA/SAS/SDD Hot Pluggable Hard drive bays 25-26 2 x SFF SATA/SAS/SSD Hot Pluggable Rear Hard Drive
+Bays
+NOTE: Drives behind the SAS expander will be labeled continuous, drives behind a controller will be numbered 1-8.
+NOTE: With a SAS Expander and rear drive support the 2SFF rear will be labeled 25 & 26, for 3LFF they will be numbered
+25-27.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Technical Specifications
+Page 52
+System Unit Dimensions SFF Drives: 3.44 x 17.54 x 26.75 in (8.73 x 44.55 x 67.94 cm)
+LFF Drives: 3.44 x 17.54 x 28.75 in (8.73 x 44.55 x 73.02 cm)
+Weight (approximate) Minimum:
+(Minimum - 8SFF
+chassis with 1xSFF HDD
+and 7 HDD blanks, 1x
+processor, 1x power
+supply (plus blank), 1x
+Flexible Smart Array, 1x
+Riser installed)
+32.6 lb (14.759 kg)
+Maximum:
+(Maximum - 12 LFF
+hard drives (No rear
+drives), 2x processors,
+2x power supplies, 1x
+Flexible Smart Array, 2x
+Risers installed)
+51.5 lb (23.6 kg)
+Input Requirements
+(per power supply)
+Rated Line Voltage 100 to 120 VAC
+200 to 240 VAC
+BTU Rating Maximum For 800W Power Supply: 3207 BTU/hr (at 100
+VAC), 3071 BTU/hr (at 200 VAC), 3112 BTU/hr (at
+240 VAC) for China Only
+For 500W Power Supply: 1979 BTU/hr (at 100
+VAC), 1911 BTU/hr (at 200 VAC), 1965 BTU/hr (at
+240 VAC) for China Only
+Power Supply Output
+(per power supply)
+Rated Steady-State
+Power
+For 1400W Power Supply: 1400W (at 240 VAC),
+1400W (at 240 VAC)
+For 800W Power Supply: 800W (at 100 VAC),
+800W (at 240 VAC), 800W (at 240 VAC) input for
+China only
+For 500W Power Supply: 500W (at 100 VAC),
+500W (at 240 VAC), 500W (at 240 VAC) input for
+China only
+Maximum Peak Power For 1400W Power Supply: 1400W (at 200 to 240
+1VAC), 1400W (at 240 VAC) input for China only
+For 800W Power Supply: 800W (at 100 to 127
+VAC), 800W (at 200 to 240 1VAC), 800W (at 240
+VAC) input for China only
+For 500W Power Supply: 500W (at 100 to 127
+VAC), 500W (at 200 to 240 VAC), 500W (at 240
+VAC) input for China only
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Technical Specifications
+Page 53
+System Inlet Temperature Standard Operating
+Support
+10° to 35°C (50° to 95°F) at sea level with an
+altitude derating of 1.0°C per every 305 m (1.8°F
+per every 1000 ft) above sea level to a maximum of
+3050 m (10,000 ft), no direct sustained sunlight.
+Maximum rate of change is 20°C/hr (36°F/hr). The
+upper limit and rate of change may be limited by the
+type and number of options installed. System
+performance during standard operating support
+may be reduced if operating with a fan fault or
+above 30°C (86°F).
+Extended Ambient
+Operating Support
+For approved hardware configurations, the
+supported system inlet range is extended to be: 5°
+to 10°C (41° to 50°F) and 35° to 40°C (95° to
+104°F) at sea level with an altitude derating of
+1.0°C per every 175 m (1.8°F per every 574 ft)
+above 900 m (2953 ft) to a maximum of 3050 m
+(10,000 ft). The approved hardware configurations
+for this system are listed at the URL:
+http://www.hpe.com/servers/ashrae
+For approved hardware configurations, the
+supported system inlet range is extended to be: 40°
+to 45°C (104° to 113°F) at sea level with an altitude
+derating of 1.0°C per every 125 m (1.8°F per every
+410 ft) above 900 m (2953 ft) to a maximum of
+3050 m (10,000 ft). The approved hardware
+configurations for this system are listed at the
+URL: http://www.hpe.com/servers/ashrae
+System performance may be reduced if operating
+in the extended ambient operating range or with a
+fan fault.
+Non-operating -30° to 60°C (-22° to 140°F). Maximum rate of
+change is 20°C/hr (36°F/hr).
+Relative Humidity Operating Minimum to be the higher (more moisture) of -12°C
+(10.4°F) dew point or 8% relative humidity.
+Maximum to be the lower (less moisture) of 24°C
+(75.2°F) dew point or 90% relative humidity.
+(non-condensing)
+Non-operating 5 to 95% relative humidity (Rh), 38.7°C (101.7°F)
+maximum wet bulb temperature, non-condensing.
+Altitude Operating 3050 m (10,000 ft). This value may be limited by
+the type and number of options installed. Maximum
+allowable altitude change rate is 457 m/min (1500
+ft/min).
+Non-operating 9144 m (30,000 ft). Maximum allowable altitude
+change rate is 457 m/min (1500 ft/min).
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Technical Specifications
+Page 54
+Acoustic Noise Listed are the declared A-Weighted sound power levels (LWAd) and declared
+average bystander position A-Weighted sound pressure levels (LpAm) when
+the product is operating in a 23°C ambient environment. Noise emissions were
+measured in accordance with ISO 7779 (ECMA 74) and declared in
+accordance with ISO 9296 (ECMA 109).
+Idle
+LWAd 4.0 B Entry LFF
+4.1 B Entry
+4.2 B Base
+5.7 B Base LFF
+4.3 B Perf
+LpAm 23 dBA Entry LFF
+24 dBA Entry
+24 dBA Base
+39 dBA Base LFF
+25 dBA Perf
+Operating
+LWAd 4.3 B Entry LFF
+4.6 B Entry
+4.8 B Base
+5.9 B Base LFF
+5.6 B Perf
+LpAm 25 dBA Entry LFF
+29 dBA Entry
+30 dBA Base
+31 dBA Base LFF
+39 dBA Perf
+NOTE: The Listed sound levels apply to standard shipping configurations
+(Entry LFF, Entry, Base, Base LFF and Performance models) additional
+options may result in increased sound levels. The Base LFF model leverages
+our High Efficiency Fans, other models are shipping with standard fan
+options.
+Emissions Classification
+(EMC)
+FCC Rating Class A
+Normative Standards CISPR 22; EN55022; EN55024; FCC CFR 47, Pt
+15; ICES-003; CNS13438; GB9254; K22;K24; EN
+61000-3-2; EN 61000-3-3; EN 60950-1; IEC
+60950-1
+NOTE: Product conformance to cited product specifications is based on
+sample (type) testing, evaluation, or assessment. This product or family of
+products is eligible to bear the appropriate compliance logos and
+statements.
+NOTE: The Listed sound levels apply to standard shipping configurations.
+Additional options may result in increased sound levels.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Technical Specifications
+Page 55
+HPE Dynamic Smart
+Array B140i
+Controller
+Number of PCI links Four
+PCI link rate 4Gb/s
+Storage protocol support SATA
+SAS/SATA peak data
+transfer rate
+6Gb/s
+Number of SAS/SATA links 10 links
+SAS/SATA connectivity 2x4 connectors; 2x1 connectors
+Expander support No
+Drives supported (max) Up to 10 Internal Drives
+RAID support 0, 1, 10, 5 SATA
+Software management HPE SSA, SMH, SIM
+Warranty Server warranty
+HPE Secure Encryption
+license
+Not Supported
+HPE SmartCache License Not Supported
+HPE Smart Storage
+Administrator
+Supported
+HPE Ethernet 1Gb
+4-port 331i Adapter
+Network Interface 10Base-T/100Base-TX/1000Base-TX
+Compatibility IEEE 802.3 10Base-T
+IEEE 802.3ab 1000Base-T
+IEEE 802.3u 100Base-TX
+Data Transfer Method PCI Express, two lanes (x2)
+Controller BCM5719
+Network Transfer Rate 10Base-T (Half-Duplex) 10 Mb/s per port, 40 Mb/s combined
+10Base-T (Full-Duplex) 20 Mb/s per port, 80 Mb/s combined
+100Base-TX (Half-
+Duplex) 100 Mb/s per port, 400 Mb/s combined
+100Base-TX (Full-Duplex) 200 Mb/s per port, 800 Mb/s combined
+1000Base-TX (Half and
+Full-Duplex) 1000 Mb/s per port, 4000 Mb/s combined
+1000Base-TX (Full-
+Duplex) 2000 Mb/s per port, 8000 Mb/s combined
+Connector Four RJ-45
+Cable Support 10 Base-T Categories 3, 4 or 5 UTP; up to 328 ft (100 m)
+10/100/1000 Base-TX Category 5 or higher UTP; up to 328 ft (100 m)
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Technical Specifications
+Page 56
+Environment-
+friendly Products
+and Approach
+End-of-life Management and
+Recycling
+Hewlett Packard Enterprise offers end-of-life product return, trade-in, and
+recycling programs, in many geographic areas, for our products. Products
+returned to Hewlett Packard Enterprise will be recycled, recovered or
+disposed of in a responsible manner.
+http://www.hpe.com/recycle
+The EU WEEE directive (2002/95/EC) requires manufacturers to provide
+treatment information for each product type for use by treatment facilities.
+This information (product disassembly instructions) is posted on the Hewlett
+Packard Enterprise web site. These instructions may be used by recyclers and
+other WEEE treatment facilities as well as Hewlett Packard Enterprise OEM
+customers who integrate and re-sell Hewlett Packard Enterprise equipment.
+http://www.hpe.com/recycle
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Summary of Changes
+Page 57
+Date Version History Action Description of Change
+15-Apr-2019 Version 46 Changed Core Options sections was updated.
+02-Apr-2019 Version 45 Changed Overview, Core Options and Additional Options sections were updated.
+04-Feb-2019 Version 44 Changed Additional Options section was updated.
+03-Dec-2018 Version 43 Changed Overview, Core Options and Storage sections were Updated
+01-Oct-2018 Version 42 Changed Overview, Configuration Information, Core Option and Additional Options
+sections were updated.
+SKU descriptions were updated.
+Obsolete SKUs were removed.
+13-Aug-2018 Version 41 Added Added new memory option.
+Changed Memory section was updated.
+6-Aug-2018 Version 40 Added Added new Solid State Drives offering to the HPE Drives section.
+Changed Core Options and Additional Options were revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+4-Jun-2018 Version 39 Added Added new Solid State Drives offering to the HPE Drives section.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+7-May-2018 Version 38 Changed Form factor for Base Models was revised.
+2-Apr-2018 Version 37 Changed SKU description from Core Options and Additional Options were revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+5-Mar-2018 Version 36 Removed Obsolete SKUs were removed from the QuickSpecs.
+4-Dec-2017 Version 35 Added Added new higher capacity LFF and SSD drives.
+Changed Maximum Internal Storage and Additional Options were revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+25-Sep-2017 Version 34 Added Added new Solid State Drives offering to the HPE Drives section.
+Added new PCIe Accelerators options.
+Added new InfiniBand option.
+Changed Core Options and Additional Options were revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+7-Aug-2017 Version 33 Added Added new Solid State Drives offering to the HPE Drives section.
+11-Jul-2017 Version 32 Added Added new NVIDIA Tesla GPUs.
+Changed HPE Power Supplies section was revised.
+5-Jun-2017 Version 31 Added Added new Solid State Drives offering to the HPE Drives section.
+Added new GPU option.
+8-May-2017 Version 30 Added Support for ClearOS was added under Operating Systems and Virtualization
+Software Support for ProLiant Servers and Optional Features sections.
+Added new HPE Computation and Graphics Accelerators options.
+Changed HPE Unique Options section was revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+3-Apr-2017 Version 29 Changed Smart Buy models section was revised for the NA version only.
+27-Mar-2017 Version 28 Added Added new Hard Drives and new HPE Networking option.
+Changed Base Configuration, HPE Unique Options, HPE Computation and Graphics
+Accelerators, and HPE Storage Options were revised.
+17-Feb-2017 Version 27 Changed HPE Memory section under Core Options was revised.
+13-Feb-2017 Version 26 Added Added new HDD and SSD offering to HPE Drives section.
+Changed Processors and Memory under Standard Features were revised.
+Storage Software, HPE Unique Options, HPE Processors, and HPE Memory
+were revised.
+16-Dec-2016 Version 25 Added Availability note was added to the HPE Drives section.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Summary of Changes
+Page 58
+Changed Overview, Storage Software, and HPE Computation and Graphics Accelerators
+were revised.
+28-Nov-2016 Version 24 Added Added new NVIDIA Tesla M10 and P100 cards new Virtualization and High-
+End General Compute GPU offering.
+Added new LFF HDDs up to 10TB capacity now bring the DL380 max
+storage capacity to 150TB SAS.
+Added new Fiber Channel HBA's up to 32Gb.
+Added new E5-2699Av4 processor.
+Changed Processors, Memory, Maximum Internal Storage, HPE Drives, HPE
+Computation and Graphics Accelerators, and HPE Storage Options were
+revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+28-Oct-2016 Version 23 Removed Obsolete Hard Drives were removed from the QuickSpecs.
+26-Sep-2016 Version 22 Added Added new NVIDIA Tesla M4/M40 GPUs and new 10TB LFF hard drives
+offering.
+Changed Memory, Maximum Internal Storage, HPE Computation and Graphics
+Accelerators, and HPE Storage Options were revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+19-Aug-2016 Version 21 Changed Smart Buy models section was revised for the NA version only.
+15-Aug-2016 Version 20 Added Added new options to HPE Networking, HPE Infiniband, HPE Computation
+and Graphics Accelerators, HPE Disk Backup, and HPE Storage Options.
+Changed HPE Unique Options was revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+8-Jul-2016 Version 19 Changed Smart Buy models section was revised for the NA version only.
+6-Jun-2016 Version 18 Added Added new 25GbE networking options, OneView 3.0, and new NVIDIA Quadro
+GPU options.
+Changed Pre-configured Models, HPE Memory, HPE Drives, HPE Computation and
+Graphics Accelerators, HPE Disk Backup, and HPE Storage Options were
+updated.
+29-Apr-2016 Version 17 Changed E5-2600v4 Series Smart Buy Models table was updated in the NA version
+only.
+1-Apr-2016 Version 16 Changed What's New section was updated.
+Standard Features/Memory and HPE Memory sections were revised.
+31-Mar-2016 Version 15 Added Added new Smart Memory DDR4 2400MHz, Intel Xeon E5-2600v4 processor
+support, new Flexible Smart Array P840ar controller, new graphic options,
+new HPE Trusted Platform Module (TPM) 2.0, new HDD offering.
+Changed Embedded Management, Service and Support, Pre-Configured Models, HPE
+Security, and Memory sections were revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+16-Feb-2016 Version 14 Added New HDD offering was added to HPE Drives.
+Changed HPE Computation and Graphics Accelerators, HPE Data Center Racks, and
+HPE Power Distribution Units (PDUs) were revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+17-Dec-2015 Version 13 Changed Smart Buy models section was revised in the NA version only.
+1-Dec-2015 Version 12 Added New HDD offering was added to HPE Drives.
+New options added to Graphics Options, HPE PCIe Workload Accelerator
+Options, and HPE Tape Backup.
+Changed On System Management Chipset, Maximum Internal Storage, Embedded
+Management, and Server utilities were revised.
+Product images were updated.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+28-Sep-2015 Version 11 Added Added new 6Gb SATA Solid State Drives.
+Added new HPE OneView management software.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Summary of Changes
+Page 59
+Changed Maximun Internal Storage was revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+17-Aug-2015 Version 10 Added Added new Solid State Drives offering.
+Added new graphic options.
+Changed What's New changed to:
+New support for NVMe PCIe SSDs
+New Graphic card options
+Service and Support section was updated.
+Maximun Internal Storage and Core Options were revised.
+Removed Obsolete SKUs were removed from the QuickSpecs.
+1-Jun-2015 Version 9 Added New larger capacity HDDs (up to 8TB LFF), Max capacity 120TB were added.
+New higher capacity memory (64GB), Max capacity 1.5TB was added.
+New Networking options were added.
+Optional Software added to HPE Storage Controllers.
+Changed Updated max HDD and memory capacity due to new options added.
+HPE SmartCache Software, HPE Disk Backup System, HPE Uninterruptible
+Power Systems (UPS) were updated.
+30-Mar-2015 Version 8 Added New Hard Drives offering.
+Optical Software added to HPE Storage Controllers.
+Added new HPE Pointnext operational services.
+Added new HPE PCIe Workload Accelerator Options.
+Changed What's New, Standard Features, Unique Options, Power Supplies, HPE Storage
+Controllers, HPE Disk Storage Systems, and Technical Specifications were
+revised.
+Removed Removed obsolete HPE Pointnext operational services.
+17-Feb-2015 Version 7 Added Added Smart Buy Models to the NA version only.
+9-Feb-2015 Version 6 Added What's new section was added.
+Added new HDD offering, new computational Graphics options, and new G4
+UPS models.
+Changed HPE Drives, HPE Computation and Graphics Accelerators, HPE Tape Backup,
+HPE Disk Backup, HPE Rack Mount, Consoles, KVM Switches, and Keyboards,
+and HPE Uninterruptible Power Systems (UPS) sections were revised.
+1-Dec-2014 Version 5 Changed Changes made throughout the entire QuickSpecs.
+13-Oct-2014 Version 4 Changed Corrected inconsistencies between Product Bulletin and Concentra versions.
+13-Oct-2014 Version 3 Added 6G SATA Enterprise Value G1 Solid State Drives were added to Core Option
+section.
+HPE PCIe Workload Accelerator Options, HPE USB and SD options, and HPE
+Pointnext operational services were added to the Additional Options section.
+Changed Standard Features, Optional Features, Pre-Configured Models, Configuration
+Information - Factory Integrated Models, Core Options, Additional Options,
+and Memory sections were revised.
+19-Sep-2014 Version 2 Changed Changes were made throughout the QuickSpecs.
+09-Sep-2014 Version 1 New New QuickSpecs.
+QuickSpecs HPE ProLiant DL380 Gen9 Server
+Summary of Changes
+Page 60
+Sign up for updates
+© Copyright 2019 Hewlett Packard Enterprise Development LP. The information contained herein is subject
+to change without notice. The only warranties for Hewlett Packard Enterprise products and services are set
+forth in the express warranty statements accompanying such products and services. Nothing herein should
+be construed as constituting an additional warranty. Hewlett Packard Enterprise shall not be liable for technical
+or editorial errors or omissions contained herein.
+Intel® and Xeon® are registered trademarks of Intel Corporation in the U.S. and other countries.
+Microsoft®, Windows®, and Windows Server® are U.S. registered trademarks of the Microsoft group of
+companies.
+For hard drives, 1GB = 1 billion bytes. Actual formatted capacity is less
+c04375627 - 15034 - North America - V46 - 15-April-2019
+

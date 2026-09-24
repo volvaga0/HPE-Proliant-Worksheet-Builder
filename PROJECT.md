@@ -3737,3 +3737,17 @@ QA: 1076 ok / 0 FAIL (11 new). Browser-verified (rear picker per chassis on DL38
   128GB+ → performance heatsink and fans; DL385 note corrected (4 performance fans with one processor, 6 with two).
 - Every PN in the four entries grep-checked against its own PDF (85 / 77 / 65 / 71 — none missing).
 QA: 1089 ok / 0 FAIL.
+
+### 2026-09-24 — Gen9 option lists (all 15 models)
+Source: the final hpe.com version of every Gen9 QuickSpecs (cached as `*-G9-final.txt`) **unioned** with the cached
+mid-life copy — EOL docs prune, and refurb needs the whole range. Extracted by script (name→PN rows by category, labels
+from the doc names), then cleaned: FIO duplicates dropped where a stand-alone kit exists, section headings stripped from
+kit names, every PN grep-checked against the model's two docs (none missing).
+- Every Gen9 model now has: DDR4 memory kit PNs by processor generation (v3 → DDR4-2133, v4 → DDR4-2400, E3 → 2400 with the
+  2133 kit as the E3 v5 alternate; DL580 E7 v3/v4), Smart Array / Smart HBA controller list, the 96W battery (727258-B21,
+  plus P01366-B21 on DL20/ML350), PSU list, FlexibleLOM list, stand-up NIC/FC/IB card list, rack rails + CMA by SFF/LFF
+  chassis, bezel, iLO licence note (not DL560/ML10). The ML350 G9 keeps its existing curated controller/PSU lists.
+- New platforms `e5v3up` / `e5v4up` for the single-socket E5-1600 v3/v4 parts (DL120 / ML110 only — never offered on the
+  2-socket E5-2600 boxes); 9 E5-1600 SKUs, 6 E3 v5/v6 and 3 Pentium SKUs added (specs from the Gen9 processor tables).
+- No Gen9 cpuAllow (same reasoning as DL360/DL380 G10: the docs' ordering lists are partial, a wrong block is worse than none).
+QA: 1111 ok / 0 FAIL (8 older tests re-pointed: DL110 G12 is now the 'no own lists' example). Browser-verified (DL380 G9 controllers with PNs, ML110 G9 60 CPUs incl. E5-1600).

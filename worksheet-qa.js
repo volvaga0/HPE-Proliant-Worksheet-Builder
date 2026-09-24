@@ -1247,7 +1247,7 @@ setTimeout(()=>{
     :fail4('DL385 G11 dimm-note before CPU pick: '+d.getElementById('dimm-note').textContent);
   pickCpu4('EPYC 9555'); // Turin, 360W
   (d.getElementById('dimm-note').textContent.includes('6400') && !d.getElementById('dimm-note').textContent.includes('4800'))
-    ?pass4('DL385 G11 (Turin CPU picked): memory-speed note narrows to just Turin\'s 6000 MT/s, not Genoa\'s 4800')
+    ?pass4('DL385 G11 (Turin CPU picked): memory-speed note narrows to just Turin\'s 6400 MT/s, not Genoa\'s 4800')
     :fail4('DL385 G11 dimm-note after CPU pick: '+d.getElementById('dimm-note').textContent);
   setRear('4LFF rear');
   !d.getElementById('checks').textContent.includes('REAR NOT SUPPORTED')
@@ -1660,8 +1660,8 @@ function runRound7(){
   setModel7('DL380 G9');
   ctrl.dispatchEvent(new w.Event('focus'));
   ctrlOpts=[...d.getElementById('ac-panel').querySelectorAll('.combo-item .ci-main')].map(el=>el.textContent);
-  (ctrlOpts.includes('P440') && ctrlOpts.includes('H240') && !ctrlOpts.includes('P408i-a') && !ctrlOpts.includes('MR216i-p'))
-    ?pass7('DL380 G9: only the Gen8/9 P440/H240-era lineup offered')
+  (ctrlOpts.some(o=>/^P440 — .*726821-B21/.test(o)) && ctrlOpts.some(o=>/^H240 — /.test(o)) && !ctrlOpts.some(o=>/^P408i-a|^MR216i-p/.test(o)))
+    ?pass7('DL380 G9: only the Gen9 P440/H240-era lineup offered, now with part numbers (726821-B21 …)')
     :fail7('DL380 G9 controller list wrong: '+ctrlOpts.join(', '));
 
   // --- a mismatched value that lands in the field some other way (typed,
@@ -1693,7 +1693,7 @@ function runRound7(){
   setModel7('DL380 G9');
   let expOpts7=expOpts();
   (expOpts7.some(o=>/727250-B21/.test(o)) && !expOpts7.some(o=>/870549-B21/.test(o)) && !expOpts7.some(o=>/876907/.test(o)) &&
-   expOpts7.some(o=>o==='2nd controller: H241') && !expOpts7.some(o=>/2nd controller: E208e-p|2nd controller: P408e-p/.test(o)))
+   expOpts7.some(o=>/^2nd controller: H241 — /.test(o)) && !expOpts7.some(o=>/2nd controller: E208e-p|2nd controller: P408e-p/.test(o)))
     ?pass7('DL380 G9: Gen9 expander part (727250-B21) + H241 as a 2nd-controller option only — no fabricated 876907, no Gen10+/G11 controllers')
     :fail7('DL380 G9 expander list wrong: '+expOpts7.join(', '));
   setModel7('DL380 G10');
@@ -2144,7 +2144,7 @@ function runRound9(){
   phSel9.classList.contains('ph')
     ?pass9('an empty <select> (native mirror) gets the .ph dimmed class')
     :fail9('.ph class not applied to an empty select');
-  phSel9.value='P440';fire(phSel9,'change'); // P408i-a isn't offered on this G9 model post-CTRL_GENS filtering — P440 is
+  phSel9.value=[...phSel9.options].filter(o=>o.value)[0].value;fire(phSel9,'change'); // first real option on this model
   !phSel9.classList.contains('ph')
     ?pass9('.ph clears once a real value is picked')
     :fail9('.ph class stuck after picking a real value');
@@ -3008,11 +3008,11 @@ function runRound14(){
   (opts14.length===8 && opts14.some(o=>/865408-B21/.test(o)) && opts14.some(o=>/874571-B21/.test(o)))
     ?pass14('ML350 G10: psu:[] override now actually drives the picker (was dead data — 8 real part numbers incl. the 800W -48VDC tier added 2026-09-21)')
     :fail14('ML350 G10 psu panel wrong: '+opts14.join(' | '));
-  setModel14('DL60 G9'); // a model with NO psu:[] override — must still fall back cleanly to plain PSUS
+  setModel14('DL110 G12'); // a model with NO psu:[] override (no QuickSpecs found for it) — must still fall back cleanly to plain PSUS
   opts14=psuOpts14();
   (opts14.length>0 && opts14.every(o=>/^\d+W$/.test(o)))
-    ?pass14('DL60 G9 (no psu:[] override): still falls back to the plain generic PSUS wattage list')
-    :fail14('DL60 G9 psu panel should be plain wattages: '+opts14.join(' | '));
+    ?pass14('DL110 G12 (no psu:[] override): still falls back to the plain generic PSUS wattage list')
+    :fail14('DL110 G12 psu panel should be plain wattages: '+opts14.join(' | '));
 
   // --- DL360/DL380 G10: real PSU + storage-controller part numbers,
   // sourced 2026-09-17 directly from the already-cached QuickSpecs ---
@@ -3673,8 +3673,8 @@ function runRound23(){
 
   setModel23('DL60 G9'); // falls back to FLRS (no per-model override, out of this pass\'s G10/G10+ scope)
   f23=flrOpts23();
-  (!f23.some(function(o){return /^361i|^530FLR-SFP\+/.test(o);}) && f23.some(function(o){return /^331FLR 4x1GbE \(629135-B22\)/.test(o);}))
-    ?pass23('DL60 G9 (no flr override, falls back to FLRS): 361i (embedded chip, not a card) and unconfirmed 530FLR-SFP+ removed; real PNs added to the rest')
+  (!f23.some(function(o){return /^361i|^530FLR-SFP\+/.test(o);}) && f23.some(function(o){return /^331FLR .*\(629135-B22\)/.test(o);}))
+    ?pass23('DL60 G9 (own FlexibleLOM list from its QuickSpecs now): no 361i (embedded chip) or 530FLR-SFP+, 331FLR 629135-B22 present')
     :fail23('DL60 G9 flr fallback panel wrong: '+f23.join(' | '));
   runRound24();
 }
@@ -4238,8 +4238,8 @@ function runRound25(){
     /ILO.*no separate Advanced Premium licence/.test(chk26())?pass25(label+': iLO Advanced Premium is flagged — the QuickSpecs list iLO Advanced only'):fail25(label+' Premium not flagged: '+chk26().slice(0,240));
     d.getElementById('il0').checked=true; fire(d.getElementById('il0'),'change');
   });
-  setModel25('DL380 G9');
-  (d.getElementById('rail-note').textContent==='' && d.getElementById('bezel-note').textContent==='' && d.getElementById('ilo-note').textContent==='')?pass25('models without sourced rail / bezel / iLO data (DL380 G9) show no hint'):fail25('DL380 G9 shows a hint');
+  setModel25('DL110 G12');
+  (d.getElementById('rail-note').textContent==='' && d.getElementById('bezel-note').textContent==='' && d.getElementById('ilo-note').textContent==='')?pass25('models without sourced rail / bezel / iLO data (DL110 G12) show no hint'):fail25('DL110 G12 shows a hint');
   reset27(); setModel25('DL380 G11'); d.getElementById('rl1').checked=true; d.getElementById('bz1').checked=true; d.getElementById('il1').checked=true;
   fire(d.getElementById('il1'),'change');
   !/P52341|P22020|P50400|875519|512485|BD505A/.test(slip27())?pass25('slip: rail / bezel / iLO part numbers never appear'):fail25('slip carries a rail/bezel/iLO PN: '+slip27().slice(0,300));
@@ -4261,9 +4261,9 @@ function runRound25(){
   reset27(); setModel25('DL360 G11');
   { const o=cardOpts27();
     (o.length===31 && !o.some(function(x){return /S2A69A/.test(x);}))?pass25('DL360 G11 card picker: 31 options — the same catalogue minus the DL380-only crypto card'):fail25('DL360 card list wrong ('+o.length+')'); }
-  reset27(); setModel25('DL380 G9');
+  reset27(); setModel25('DL110 G12');
   { const o=cardOpts27();
-    (o.indexOf('366T 4x1GbE')>-1 && !o.some(function(x){return /P08443-B21/.test(x);}))?pass25('models without their own card list keep the generic starter list'):fail25('DL380 G9 card list changed: '+o.slice(0,3).join(' | ')); }
+    (o.indexOf('366T 4x1GbE')>-1 && !o.some(function(x){return /P08443-B21/.test(x);}))?pass25('models without their own card list keep the generic starter list'):fail25('DL110 G12 card list changed: '+o.slice(0,3).join(' | ')); }
   // slip strips the part numbers off the cards (hyphenated and suffix-less SKUs)
   reset27(); setModel25('DL380 G11');
   addCard27('SN1610Q 32Gb FC 1p (R2E08A)','1'); addCard27('E810-XXVDA2 10/25Gb 2p SFP28 (P08443-B21)','2');
@@ -4478,10 +4478,10 @@ function runRound25(){
     (o.length===35 && !o.some(function(x){return /SN1600E/.test(x);}) && o.some(function(x){return /Slingshot SA210S/.test(x);}) && o.some(function(x){return /NS204i-p/.test(x);}))
       ?pass25('DL380 G10+ card picker: 35 stand-up options — no SN1600E (DL360-only), has the Slingshot NIC (DL380-only) and NS204i-p')
       :fail25('DL380 G10+ card list wrong ('+o.length+')'); }
-  reset27(); setModel25('DL380 G9');
+  reset27(); setModel25('DL110 G12');
   { const o=cardOpts29();
     (o.length===47 && o.indexOf('366T 4x1GbE')>-1 && !o.some(function(x){return /\(R2E08A\)|MCX75310AAS/.test(x);}))
-      ?pass25('models without their own card list keep the generic 47-entry starter list (unaffected by the G10+ Ethernet/FC additions)'):fail25('DL380 G9 card list changed ('+o.length+'): '+o.slice(0,3).join(' | ')); }
+      ?pass25('models without their own card list keep the generic 47-entry starter list (unaffected by the G10+ Ethernet/FC additions)'):fail25('DL110 G12 card list changed ('+o.length+'): '+o.slice(0,3).join(' | ')); }
   // slip strips the part numbers off these cards too (hyphenated and suffix-less SKUs, incl. HPE's Q0Lxx/OSFP style codes)
   reset27(); setModel25('DL360 G10+');
   d.getElementById('add-card').click();
@@ -5442,6 +5442,25 @@ function runRound25(){
   reset27(); setModel25('DL365 G11'); setv26('cpuq','2'); pickCpuExact25('EPYC 9334'); setv26('dimmq','24'); setv26('dimm','128GB 4800 MT/s');
   /128GB memory modules require high performance fans/.test(d.getElementById('why-fan').textContent+chk26())?pass25('DL365 G11: 128GB DIMMs need the performance fans (and heatsink)'):fail25('DL365 128GB fan');
   (/P52351-B21/.test(d.getElementById('rail-note').textContent) && /P50450-B21/.test(d.getElementById('bezel-note').textContent))?pass25('DL365 G11: rail P52351-B21 and bezel P50450-B21 (from its V23 doc — V45 lists none)'):fail25('DL365 rail/bezel');
+
+  // ===== Gen9 option lists (union of cached + final QuickSpecs, build 2026.09.24.1) =====
+  ['DL20','DL60','DL80','DL120','DL160','DL180','DL360','DL380','DL560','DL580','ML10','ML30','ML110','ML150','ML350'].forEach(function(k){
+    const R=w.MODELS.filter(function(x){return x.m===k&&x.g==='G9';})[0].rules;
+    (R.ctrl&&R.ctrl.length&&R.cards&&R.cards.length&&(R.dimmKits||k==='DL580'))?pass25(k+' G9: controller, card and memory-kit lists present'):fail25(k+' G9 lists missing');
+  });
+  reset27(); setModel25('DL380 G9'); setv26('cpuq','2'); pickCpuExact25('E5-2680v4'); setv26('dimmq','8'); setv26('dimm','32GB 2400 MT/s');
+  /805351-B21/.test(d.getElementById('dimm-kit').textContent)?pass25('DL380 G9 + E5-2680v4: 32GB DDR4-2400 kit 805351-B21'):fail25('DL380 G9 kit: '+d.getElementById('dimm-kit').textContent);
+  pickCpuExact25('E5-2680v3'); setv26('dimm','32GB 2133 MT/s');
+  /728629-B21/.test(d.getElementById('dimm-kit').textContent)?pass25('...with an E5-2680v3: 32GB DDR4-2133 kit 728629-B21'):fail25('DL380 G9 v3 kit: '+d.getElementById('dimm-kit').textContent);
+  setv26('bays','24SFF');
+  (/733660-B21/.test(d.getElementById('rail-note').textContent) && !/733662-B21/.test(d.getElementById('rail-note').textContent))?pass25('DL380 G9 24SFF: SFF rail kits only (733660-B21 / 720863-B21)'):fail25('DL380 G9 rail: '+d.getElementById('rail-note').textContent);
+  /666988-B21/.test(d.getElementById('bezel-note').textContent)?pass25('DL380 G9 bezel 666988-B21'):fail25('DL380 G9 bezel');
+  reset27(); setModel25('DL120 G9');
+  pickCpuExact25('E5-1650v4')?pass25('DL120 G9 offers the single-socket E5-1650v4 (new e5v4up platform)'):fail25('DL120 E5-1650v4 not pickable');
+  reset27(); setModel25('DL380 G9');
+  !pickCpuExact25('E5-1650v4')?pass25('...but the 2-socket DL380 G9 does not'):fail25('E5-1650v4 wrongly offered on DL380 G9');
+  reset27(); setModel25('DL20 G9');
+  pickCpuExact25('E3-1280v6')?pass25('DL20 G9: E3-1280v6 now pickable (was missing)'):fail25('DL20 E3-1280v6 missing');
 
   reset27();
 }
