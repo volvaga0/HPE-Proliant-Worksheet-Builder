@@ -2555,12 +2555,12 @@ function runRound11(){
     ?pass11('ML350 G12 sockets/DIMM slots match its own QuickSpecs (2 sockets, 32 DIMM)')
     :fail11('ML350 G12 sys-note: "'+ml350Sys+'"');
 
-  // --- DL320 G12: single PSU bay (not the usual 2) ---
+  // --- DL320 G12: two M-CRPS PSU bays (V20 rear view: 60mm Power Supply Slot 1 + Slot 2) — the old single-bay reading was wrong ---
   setModel11('DL320 G12');
   const dl320PsuMax=d.getElementById('psuq').getAttribute('max');
-  dl320PsuMax==='1'
-    ?pass11('DL320 G12 caps at 1 power supply (no redundant PSU bay on this chassis)')
-    :fail11('DL320 G12 PSU cap: '+dl320PsuMax+' (expected 1)');
+  dl320PsuMax==='2'
+    ?pass11('DL320 G12 takes 2 power supplies (two M-CRPS bays)')
+    :fail11('DL320 G12 PSU cap: '+dl320PsuMax+' (expected 2)');
 
   // --- DL110 G12: fixed-SoC note actually reaches the checks panel ---
   setModel11('DL110 G12');
@@ -2923,9 +2923,9 @@ function runRound13(){
     :fail13('ML350 G12 should be P-core-only, 15 SKUs: '+codes13.join(', '));
   setModel13('DL320 G12');
   codes13=cpuCodes13();
-  (codes13.length===28 && ['6511P','6521P','6731P','6741P','6761P','6781P'].every(c=>codes13.includes(c)) &&
-   !codes13.some(c=>/^671[4-9]P$|^672[0-9]P$|^673[8]P$|^6748P$|^676[8]P$|^6788P$/.test(c)))
-    ?pass13('DL320 G12: CPU picker offers the 6 newly-seeded single-socket "1P" SKUs, no Socket Scalable SKUs')
+  (codes13.length===32 && ['6511P','6521P','6731P','6741P','6761P','6781P','6503P','6725P','6732P','6745P'].every(c=>codes13.includes(c)) &&
+   !codes13.some(c=>['6714P','6724P','6728P','6738P','6748P','6768P','6788P','6762P'].includes(c)))
+    ?pass13('DL320 G12: 32-SKU pool per V20 — the 6 single-socket "1P" SKUs, 6503P/6725P/6732P/6745P, no Socket Scalable SKUs, no 6762P')
     :fail13('DL320 G12 CPU list wrong: '+codes13.join(', '));
   setModel13('DL340 G12');
   codes13=cpuCodes13();
@@ -5311,6 +5311,26 @@ function runRound25(){
   /no SATA drives and no HDDs/.test(chk26())?pass25('MR932i-p with a SATA SSD line is flagged (SAS SSD / NVMe only)'):fail25('MR932i-p SATA SSD not flagged');
   setv26('ctrl','MR408i-o — x8 lanes, 4GB cache, up to 8 drives (P58335-B21)');
   /Smart Storage battery or capacitor.*MR408i-o/.test(chk26())?pass25('DL360 G12 MR408i-o without a battery is flagged'):fail25('DL360 MR408i-o battery');
+
+  // ===== DL320 G12 full rundown from QuickSpecs V20 (build 2026.09.24.1) =====
+  reset27(); setModel25('DL320 G12'); pickCpuExact25('6737P'); setv26('dimmq','16'); setv26('dimm','64GB 6000 MT/s');
+  /runs memory at up to 5200 MT\/s there, not 6000\.$/m.test(chk26())||/runs memory at up to 5200 MT\/s there, not 6000/.test(chk26())?pass25('DL320 G12: 2 DIMMs per channel runs 5200 (its own doc), not 6000'):fail25('DL320 2DPC 5200 not applied');
+  setv26('dimmq','12'); setv26('dimm','64GB 6400 MT/s');
+  /HPE supports 1, 2, 4, 6, 8, 16 DIMMs per processor/.test(chk26())?pass25('DL320 G12: 12 DIMMs is not a supported total (1/2/4/6/8/16)'):fail25('DL320 DIMM total not flagged');
+  setv26('dimmq','6');
+  !/MEMORY QTY/.test(chk26())?pass25('...6 DIMMs is fine'):fail25('DL320 6 DIMMs wrongly flagged');
+  setv26('dimm','96GB 6400 MT/s');
+  /96GB memory modules require high performance fans/.test(d.getElementById('why-fan').textContent+chk26())?pass25('DL320 G12: 96GB DIMMs need performance fans'):fail25('DL320 96GB fan: '+d.getElementById('why-fan').textContent);
+  pickCpuExact25('6787P');
+  /above 270W the DL320 G12 needs the Closed-loop Liquid Cooling FIO Heat Sink Kit P76605-B21/.test(chk26())?pass25('DL320 G12: a 350W CPU is flagged for closed-loop liquid cooling (above 270W)'):fail25('DL320 LC not flagged');
+  reset27(); setModel25('DL320 G12'); pickCpuExact25('6505P'); setv26('flr','E810-XXVDA2 10/25Gb 2p (P10106-B21)');
+  /25Gb-or-faster adapter/.test(d.getElementById('why-fan').textContent+chk26())?pass25('DL320 G12: a 10/25Gb OCP card needs performance fans'):fail25('DL320 25Gb fan: '+d.getElementById('why-fan').textContent);
+  (d.getElementById('psuq').getAttribute('max')==='2' && [...d.querySelectorAll('#psus option')].some(function(o){return /M-CRPS/.test(o.value);}) || /M-CRPS/.test(JSON.stringify(w.MODELS.filter(function(x){return x.m==='DL320'&&x.g==='G12';})[0].rules.psu)))
+    ?pass25('DL320 G12: two M-CRPS power supply bays (800W-2400W M-CRPS list)'):fail25('DL320 PSU list');
+  setv26('bays','12LFF');
+  (/P52353-B21/.test(d.getElementById('rail-note').textContent) && !/P52349-B21/.test(d.getElementById('rail-note').textContent))?pass25('DL320 G12 12LFF: Rail 9 Kit P52353-B21'):fail25('DL320 12LFF rail: '+d.getElementById('rail-note').textContent);
+  setv26('ctrl','MR416i-p — x16 lanes, 8GB cache (P47777-B21)');
+  /Li-ion battery or Smart Capacitor.*MR416i-p/.test(chk26())?pass25('DL320 G12: performance RAID controllers need a battery or capacitor'):fail25('DL320 battery');
 
   reset27();
 }

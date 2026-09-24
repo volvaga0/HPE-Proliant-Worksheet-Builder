@@ -3656,3 +3656,17 @@ QA: 1017 ok / 0 FAIL (13 new; 3 older tests re-pointed). Browser-verified (DL380
   804398-B21 is not supported on Gen12 (UMCE advisory) — in the notes.
 - Doc typo not copied: DL360 V19 ordering row prints the 256GB kit as P73477-B21; its table and the DL380 say P73447-B21.
 QA: 1031 ok / 0 FAIL. Browser-verified (DL360 G12 bays/CPU pool, DL380 G12 memory checks).
+
+**Same build — DL320 G12 full rundown (QuickSpecs V20, 8 Sep 2026; cache had V1 from Feb 2025):**
+- **Wrong before:** "single power supply bay, no redundancy" — V20's rear view shows two 60mm M-CRPS bays (psuMax 1 → 2);
+  PSU list is **M-CRPS**, not Flex Slot (800W P73190 … 2400W P67252, -48VDC 1300W/2200W with their own cord/lug kits).
+  CPU pool 28 → 32 (6503P, 6725P, 6732P, 6745P added; the old "not 6745P" note was stale).
+- Memory: xeon6Mem now takes per-model overrides — DL320 runs 5200 at 2 DIMMs/channel (its own doc) and allows totals of
+  1/2/4/6/8/16. 96GB+ DIMMs need performance fans (fanDimmGB 96).
+- New rules: `fanNic25` (any 25Gb+ Ethernet or InfiniBand adapter needs performance fans), `lcAboveW` (above 270W needs
+  the closed-loop LC heatsink P76605-B21 + fan kit P76603-B21 — verify-level).
+- Controllers incl. MR932i-p; battery/capacitor required with MR408i-o/MR416i; external HBA here is the Gen10 E208e-p
+  804398-B21 (this doc lists it). OCP 9, stand-up cards incl. Slingshot/NVMe-oF, FC; NS204i-u v2 internal/front/rear kits.
+- Bays add 20EDSFF (hybrid). Rails by chassis: Rail 1 P52349 (8SFF), Rail 2 P52351 (4LFF/hybrid), Rail 9 P52353 (12LFF);
+  CMA P26489 (not 12LFF). Bezel P50450-B21; intrusion P55417-B21.
+QA: 1040 ok / 0 FAIL. Browser-verified (DL320 G12: 32 CPUs, 2 PSU bays, M-CRPS list).
