@@ -3781,3 +3781,5 @@ Next natural step if wanted: the Gen9 c7000 blades (BL460c Gen9, BL660c Gen9).
 2026-09-25 (build .2): the Server type pills (Rack / Tower / Blade) stack vertically on the right of the header on desktop; on a phone they stay one row under the intro text.
 
 2026-09-25 (build .3): header reworked as a 2-column grid — logo, title, version and intro text centred on the left, the Server type stack centred in its own column on the right behind a divider (removes the empty band the tall stack left above the intro text). Phone: one column, pills in a centred row.
+
+2026-09-25 (build .4): mobile check of blade mode (375px: Blade pill, native model/card dropdowns, paste, slip, no horizontal scroll — all fine). The "Power and fitting" section is now hidden on a blade (every row in it is enclosure-side). QA 1132 ok / 0 FAIL.

@@ -749,7 +749,7 @@ button.quiet{color:var(--ink-soft)}
     </div>
   </section>
 
-  <section>
+  <section id="sec-power">
     <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Power and fitting</h2></div>
     <div class="rows">
       <div class="row" id="row-psu">
@@ -4001,6 +4001,7 @@ function applyChassisPills(m){
   var b=bladeMode(m);
   document.getElementById('bezel-row').hidden=t||b;
   BLADE_HIDDEN_ROWS.forEach(function(id){document.getElementById(id).hidden=b;});
+  document.getElementById('sec-power').hidden=b;   // every row in it is enclosure-side on a blade
   ['add-rear','rear-lines','rear-note'].forEach(function(id){document.getElementById(id).hidden=b;});
   document.getElementById('card-label').textContent=b?'Mezzanine cards':'PCI cards';
   document.getElementById('card-hint').textContent=b
@@ -4984,7 +4985,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.25.3'; // 3rd build shipped today
+var BUILD_VERSION='2026.09.25.4'; // 4th build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
