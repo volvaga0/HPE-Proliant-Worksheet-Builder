@@ -32,21 +32,22 @@ body{margin:0;
   padding:0 0 calc(84px + env(safe-area-inset-bottom))}
 .sheet{max-width:1180px;margin:0 auto;padding:24px 16px 0;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px}
 .col-form{min-width:0}
-.head{display:flex;flex-direction:column;gap:14px;
+.head{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand chassis" "sub chassis";gap:14px 28px;
   margin-top:4px;padding:22px 20px;
   background:var(--card);border:1px solid var(--rule);border-radius:16px;
   box-shadow:0 8px 20px rgba(0,0,0,0.3), inset 0 1px 0 var(--glass-highlight)}
-.brand{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;min-width:0}
+.brand{grid-area:brand;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;min-width:0}
 .brand .logo{display:flex;align-items:center;justify-content:center;height:100px}
 .brand .logo .logo-svg{height:100%;width:auto;color:#fff;opacity:.92}
 h1{font-weight:600;font-size:29px;line-height:1.05;margin:0;letter-spacing:-0.015em;
   color:var(--signal);text-shadow:0 6px 16px rgba(0,212,212,0.25)}
 .ver{display:inline-block;font-weight:500;font-size:11px;letter-spacing:0.02em;
   color:var(--ink-soft);opacity:.65;padding:3px 9px;border:1px solid var(--rule-strong);border-radius:20px}
-.head-row{display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:flex-end;gap:12px 24px}
-.sub{margin:0;color:var(--ink-soft);font-size:14.5px;max-width:60ch}
-.chassis{display:flex;flex-direction:column;align-items:flex-start;gap:6px;flex:0 0 auto}
-.chassis > span{font-size:13px;color:var(--ink-soft)}
+/* the intro text and the Server type picker sit in .head's grid: text under the title, picker in its own column */
+.head-row{display:contents}
+.sub{grid-area:sub;justify-self:center;text-align:center;margin:0;color:var(--ink-soft);font-size:14.5px;max-width:60ch}
+.chassis{grid-area:chassis;align-self:center;display:flex;flex-direction:column;align-items:stretch;gap:8px;padding-left:28px;border-left:1px solid var(--rule);min-width:120px}
+.chassis > span{font-size:13px;color:var(--ink-soft);text-align:center}
 
 input[type=text],input[type=number],textarea,select{
   font:inherit;font-size:14.5px;color:var(--ink);background:var(--field);
@@ -384,9 +385,9 @@ button.quiet{color:var(--ink-soft)}
   h1{font-size:21px;text-shadow:0 4px 12px rgba(0,212,212,0.22)}
   .sub{font-size:13.5px;max-width:none}
   .head-row{gap:12px}
-  .head-row{flex-wrap:wrap}
-  .chassis{width:100%}
-  .chassis .pills{flex-direction:row}
+  .head{grid-template-columns:minmax(0,1fr);grid-template-areas:"brand" "sub" "chassis"}
+  .chassis{padding-left:0;border-left:0;align-items:center}
+  .chassis .pills{flex-direction:row;justify-content:center}
 
   /* one column per question */
   .row{grid-template-columns:1fr;padding:11px 12px 13px}
@@ -4983,7 +4984,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.25.2'; // 2nd build shipped today
+var BUILD_VERSION='2026.09.25.3'; // 3rd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
