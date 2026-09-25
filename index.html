@@ -230,7 +230,8 @@ fieldset{border:0;margin:0;padding:0}
 legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .pills{display:flex;flex-wrap:wrap;gap:5px}
 .pills input{position:absolute;opacity:0;width:1px;height:1px}
-.pills [hidden],.pills[hidden],.row[hidden]{display:none!important}   /* per-model pills (TPM) that do not apply to the selected system */
+.pills [hidden],.pills[hidden],.row[hidden]{display:none!important}
+#add-rear[hidden],#rear-lines[hidden],#rear-note[hidden]{display:none!important}   /* per-model pills (TPM) that do not apply to the selected system */
 .pills label{font-size:14px;line-height:1;padding:8px 11px;border:1px solid var(--field-edge);
   background:var(--field);border-radius:7px;cursor:pointer;user-select:none}
 .pills label:hover{border-color:var(--rule-strong)}
@@ -489,6 +490,7 @@ button.quiet{color:var(--ink-soft)}
         <fieldset class="pills"><legend>Server type</legend>
           <input type="radio" id="ct-r" name="chassis" value="Rack" checked><label for="ct-r">Rack</label>
           <input type="radio" id="ct-t" name="chassis" value="Tower"><label for="ct-t">Tower</label>
+          <input type="radio" id="ct-b" name="chassis" value="Blade"><label for="ct-b">Blade</label>
         </fieldset>
       </div>
     </div>
@@ -549,7 +551,7 @@ button.quiet{color:var(--ink-soft)}
         </fieldset></div>
       </div>
 
-      <div class="row">
+      <div class="row" id="row-media">
         <div class="q"><span class="t">Media bay</span><span class="note" id="media-note"></span></div>
         <div class="a"><fieldset class="pills"><legend>Media bay</legend>
           <input type="radio" id="md0" name="media" value="No media bay" checked><label for="md0">None</label>
@@ -560,7 +562,7 @@ button.quiet{color:var(--ink-soft)}
         </fieldset></div>
       </div>
 
-      <div class="row">
+      <div class="row" id="row-mobo">
         <div class="q"><span class="t">Motherboard</span><span class="note" id="mobo-note">NC boards ship without the network controller.</span></div>
         <div class="a"><fieldset class="pills"><legend>Motherboard</legend>
           <input type="radio" id="mb1" name="mobo" value="Standard motherboard" checked><label for="mb1">Standard</label>
@@ -598,7 +600,7 @@ button.quiet{color:var(--ink-soft)}
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" id="row-hs">
         <div class="q"><span class="t">Heatsinks</span><span class="note">Recommended automatically — choose another and it flags why.</span></div>
         <div class="a">
           <fieldset class="pills"><legend>Heatsinks</legend>
@@ -610,7 +612,7 @@ button.quiet{color:var(--ink-soft)}
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" id="row-fans">
         <div class="q"><span class="t">Fans</span><span class="note">Kit and quantity set automatically from the CPU count, TDP, drives and cards. Standard when perf is required is blocked.</span></div>
         <div class="a">
           <div class="inline">
@@ -699,7 +701,7 @@ button.quiet{color:var(--ink-soft)}
   <section>
     <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M11 9h4a2 2 0 0 0 2-2V3"/><circle cx="9" cy="9" r="2"/><path d="M7 21v-4a2 2 0 0 1 2-2h4"/><circle cx="15" cy="15" r="2"/></svg>Expansion</h2></div>
     <div class="rows">
-      <div class="row full">
+      <div class="row full" id="row-risers">
         <div class="q" style="padding-bottom:7px"><span class="t">PCI risers</span><span class="note" id="riser-note">One line per riser cage. Add the kits this build uses — the PCIe slot count follows from them.</span></div>
         <div class="a">
           <div class="lines" id="risers"></div>
@@ -710,7 +712,7 @@ button.quiet{color:var(--ink-soft)}
         </div>
       </div>
       <div class="row full">
-        <div class="q" style="padding-bottom:7px"><span class="t">PCI cards</span><span class="note">One line per add-in card (not the FlexibleLOM). Note the slot if it matters. The list is a starter — type any card.</span></div>
+        <div class="q" style="padding-bottom:7px"><span class="t" id="card-label">PCI cards</span><span class="note" id="card-hint">One line per add-in card (not the FlexibleLOM). Note the slot if it matters. The list is a starter — type any card.</span></div>
         <div class="a">
           <div class="lines" id="cards"></div>
           <button type="button" class="add" id="add-card">Add card line</button>
@@ -744,7 +746,7 @@ button.quiet{color:var(--ink-soft)}
   <section>
     <div class="sec-head"><h2><svg class="sec-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Power and fitting</h2></div>
     <div class="rows">
-      <div class="row">
+      <div class="row" id="row-psu">
         <div class="q"><span class="t">Power supplies</span><span class="note">Quantity, then wattage. A rough draw estimate checks it's enough.</span></div>
         <div class="a"><div class="pair">
           <input type="number" id="psuq" min="1" placeholder="Qty">
@@ -752,7 +754,7 @@ button.quiet{color:var(--ink-soft)}
         </div>
         <span class="cap-note" id="psu-note"></span></div>
       </div>
-      <div class="row">
+      <div class="row" id="row-rail">
         <div class="q"><span class="t" id="rail-label">Rails</span></div>
         <div class="a"><div class="inline">
           <fieldset class="pills"><legend>Rails</legend>
@@ -2463,6 +2465,27 @@ var MODELS=[
        '8 PCIe slots on the system board: slots 1-4 on CPU 1, slots 5-8 on CPU 2 (max 4 with one processor). No card riser cages.',
        'Security bezel is standard on every unit.',
        'NVMe is Box 2 only: the NVMe Express Bay Kit (874569-B21) replaces Box 2 with pure NVMe — there is no mixed SAS/SATA+NVMe (Premium) cage on this model.']}},
+ /* c-Class server blade — BL460c Gen10 QuickSpecs a00008517enw, final V22 (Aug 2020) unioned with V12 (Dec 2018).
+    V22 still lists every 1st Gen processor kit, so the pool is the full lineup. */
+ {m:'BL460c',g:'G10', p:['sp1','sp2'], s:2, d:16, blade:true, bays:['2SFF'],
+   rules:{verified:true,riserMax:0,rear:[],pcie:{one:1,two:2},flrRequired:true,
+     /* no heatsink or fan choice on a blade — switch off the Gen10 rack defaults */
+     hsW:0,hsSku:[],fanNVMe:false,fanRear:false,fanGPU:false,fanBays:[],ctrlMezz:['P408e-m'],nvmeNoCtrl:['P204i-b'],dimmAvoidPerCpu:[5,7],iloLic:true,
+     cpuAllow:['B3104','B3204','G5115','G5118','G5120','G5122','G5215','G5217','G5218','G5218B','G5220','G5220S','G5222','G6126','G6128','G6130','G6132','G6134','G6136','G6138','G6140','G6142','G6148','G6152','G6222V','G6226','G6230','G6238','G6240','G6240Y','G6242','G6248','G6252','G6262V','P8153','P8158','P8160','P8164','P8253','P8256','S4110','S4112','S4114','S4116','S4208','S4210','S4214','S4214Y','S4215','S4216'],
+     dimmKits:{sp1:{8:['815097-B21','8GB Single Rank x8 DDR4-2666 RDIMM'],16:['835955-B21','16GB Dual Rank x8 DDR4-2666 RDIMM','single-rank x4 815098-B21'],32:['815100-B21','32GB Dual Rank x4 DDR4-2666 RDIMM'],64:['815101-B21','64GB Quad Rank x4 DDR4-2666 LRDIMM'],128:['815102-B21','128GB Octal Rank x4 DDR4-2666 3DS LRDIMM']},
+               sp2:{8:['P00918-B21','8GB Single Rank x8 DDR4-2933 RDIMM'],16:['P00922-B21','16GB Dual Rank x8 DDR4-2933 RDIMM','single-rank x4 P00920-B21'],32:['P00924-B21','32GB Dual Rank x4 DDR4-2933 RDIMM'],64:['P00930-B21','64GB Dual Rank x4 DDR4-2933 RDIMM','quad-rank LRDIMM P00926-B21'],128:['P00928-B21','128GB Octal Rank x4 DDR4-2933 3DS LRDIMM','quad-rank LRDIMM P11040-B21']}},
+     memCaps:[8,16,32,64,128],
+     ctrl:['S100i (embedded SATA software RAID, standard — RAID needs FIO Enable Smart Array SW RAID 784308-B21)','P204i-b — 1GB cache modular controller, 4 internal lanes (804367-B21)','P408e-m — external 8-lane mezzanine controller, 2GB cache, takes a mezzanine slot (804381-B21)'],
+     bat:['Flash-backed cache battery','No battery'],
+     flr:['630FLB FlexFabric 20Gb 2p (700065-B21)','650FLB FlexFabric 20Gb 2p (700763-B21)','536FLB FlexFabric 10Gb 2p (766490-B21)','560FLB Ethernet 10Gb 2p (655639-B21)'],
+     cards:['630M FlexFabric 20Gb 2p mezzanine (700076-B21)','650M FlexFabric 20Gb 2p mezzanine (700767-B21)','534M FlexFabric 10Gb 2p mezzanine (700748-B21)','560M Ethernet 10Gb 2p mezzanine (665246-B21)',
+       '544+M InfiniBand FDR/Ethernet 10/40Gb 2p mezzanine (764283-B21)','LPe1605 16Gb Fibre Channel 2p mezzanine HBA (718203-B21)','QMH2672 16Gb Fibre Channel 2p mezzanine HBA (710608-B21)'],
+     notes:['Half-height c-Class blade for the BladeSystem c7000 (16 per enclosure) or c3000 (8). Power supplies and fans are in the enclosure, not the blade. The c7000 needs all 10 fans for this blade (the c3000 needs 6).',
+       '1st or 2nd Gen Xeon Scalable, 1 or 2 processors, up to 150W. 16 DIMM slots: 6 channels and 8 slots per processor. RDIMM and LRDIMM cannot be mixed, and 128GB DIMMs cannot be mixed with other sizes.',
+       'Storage: 2 SFF hot-plug bays on the S100i (chipset SATA, standard) or the P204i-b modular controller. The P408e-m is an external-only controller. SFF NVMe drives need the NVMe FIO Setting 873373-B21. The QuickSpecs give no part number for a cache battery.',
+       'Internal boot: dual M.2 SATA SSDs need the M.2 Enablement Kit 873870-B21 (M.2 RAID through the S100i in UEFI mode only). There is also an internal USB 3.0 port and a microSD slot (32GB microSD 700139-B21, Dual 8GB microSD USB 741279-B21).',
+       'Two mezzanine slots: slot 1 is x16 Type A (ports to interconnect bays 3-4); slot 2 is x16 Type A or B (bays 5-8) and needs the second processor. The FlexibleLOM (FLB) is separate, required, and links to bays 1-2.',
+       'One optional PCI Expansion Blade is supported (Gen9 and older cards do not work in it with this blade). The D2200sb and D2220sb storage blades are not compatible.']}},
  {m:'ML30', g:'G10+',p:['xeone3'],s:1, d:4,  tower:true, bays:['4LFF','8SFF'],
    rules:{fanW:0,verified:true,psuMax:2,pcie:{one:4,two:4},riserMax:0,rear:[],
      cpuAllow:['E-2314','E-2324G','E-2334','E-2336','E-2356G','E-2374G','E-2378','E-2378G','E-2386G','E-2388G','Pentium G6405'],dimmKits:true,hsW:95,hsWtext:'95W or higher',hsPart:'P45221-B21',
@@ -3414,10 +3437,10 @@ var CTRLS=[
    entirely for the Gen8/9 cards (P440/P440ar/P840/P840ar/H240/H241) and
    the two embedded software-RAID controllers, since their port count
    isn't fixed by the SKU the way the Gen10+ cards' is. */
-var CACHED_CTRLS={'P204i-b':1,'P204i-c':1,'P408i-a':1,'P408i-p':1,'P408e-p':1,'P816i-a':1,'P816i-p':1,'P824i-p':1,
+var CACHED_CTRLS={'P204i-b':1,'P408e-m':1,'P204i-c':1,'P408i-a':1,'P408i-p':1,'P408e-p':1,'P816i-a':1,'P816i-p':1,'P824i-p':1,
   'P440':1,'P440ar':1,'P840':1,'P840ar':1,'SR932i-p':1,'MR216i-o':1,'MR216i-p':1,'MR416i-o':1,'MR416i-p':1,'MR408i-o':1,'MR408i-p':1,'MR416i-a':1,'SR416i-a':1};
 var NOCACHE_CTRLS={'E208i-a':1,'E208i-p':1,'E208e-p':1,'H240':1,'H241':1,'B140i':1,'S100i':1,'MR216i-a':1};
-var CTRL_PORTS={'P204i-b':4,'P204i-c':4,'P408i-a':8,'P408i-p':8,'P408e-p':8,'P816i-a':16,'P816i-p':16,
+var CTRL_PORTS={'P204i-b':4,'P408e-m':8,'P204i-c':4,'P408i-a':8,'P408i-p':8,'P408e-p':8,'P816i-a':16,'P816i-p':16,
   'P824i-p':24,'E208i-a':8,'E208i-p':8,'E208e-p':8,'SR932i-p':32,'MR216i-o':16,'MR216i-p':16,
   'MR416i-o':16,'MR416i-p':16,'MR408i-o':8,'MR408i-p':8,'MR216i-a':16,'MR416i-a':16,'SR416i-a':16,'MR932i-p':32};
 /* Which ProLiant generation(s) each controller is a genuinely orderable
@@ -3469,7 +3492,8 @@ var CTRL_GENS={
  'MR216i-o':['G11','G12'],'MR416i-o':['G11','G12'],'MR408i-o':['G11','G12'],
  'MR408i-p':['G12'],'MR932i-p':['G12'],
  'P204i-b':['G10'],'P204i-c':['G10'],
- 'P440':['G9'],'P440ar':['G9'],'P840':['G9'],'P840ar':['G9'],'H240':['G9'],'H241':['G9'],'B140i':['G9'],'S100i':['G9']
+ 'P440':['G9'],'P440ar':['G9'],'P840':['G9'],'P840ar':['G9'],'H240':['G9'],'H241':['G9'],'B140i':['G9'],'S100i':['G10','G10+','G10+ v2'],
+ 'P408e-m':['G10']
 };
 function ctrlGroups(){
   var groups=[],cur=null;
@@ -3527,7 +3551,7 @@ var QS_DOCS={
  'DL20 G10':'a00053820enw','DL160 G10':'a00021860enw','DL180 G10':'a00021862enw',
  'DL325 G10':'a00045498enw','DL360 G10':'a00008159enw','DL380 G10':'a00008180enw',
  'DL385 G10':'a00026913enw','DL560 G10':'a00008181enus','DL580 G10':'a00021850enw',
- 'ML30 G10':'a00053821enw','ML110 G10':'a00021851enus','ML350 G10':'a00021852enw',
+ 'ML30 G10':'a00053821enw','ML110 G10':'a00021851enus','ML350 G10':'a00021852enw','BL460c G10':'a00008517enw',
  'DL20 G10+':'a50002583enw','DL110 G10+':'a50002566enw','DL325 G10+':'a00073548enw',
  'DL325 G10+ v2':'a50002564enw','DL345 G10+':'a50002557enw','DL360 G10+':'a50002559enw',
  'DL365 G10+':'a50002558enw','DL380 G10+':'a50002553enw','DL385 G10+':'a00073549enw',
@@ -3822,7 +3846,7 @@ var MEDIA_INFO={
  'DL380 G12':{i:1,u:1,umb:'P74749-B21',kit:'LFF: ODD/DisplayPort Enablement Kit P74752-B21; ODD USB-to-SATA signal cable P72199-B21'},
  'DL580 G12':{i:1,u:1,umb:'P80447-B21'},'ML350 G12':{i:1,u:1,kit:'ODD USB-to-SATA signal cable P72199-B21'}
 };
-MEDIA_BAY_NONE.push('DL110 G10+');
+MEDIA_BAY_NONE.push('DL110 G10+','BL460c G10');
 function mediaPills(m){
   if(m&&!hasMediaBay(m))return [['No media bay on this chassis',1],['',0],['',0],['',0],['',0]];
   var x=m&&MEDIA_INFO[m.m+' '+m.g];
@@ -3930,6 +3954,7 @@ function bpPills(m){
   var k=backplaneKind(m);
   if(k==='sas-only')return [['SAS / SATA only',1],['NVMe',0],['Premium',0]];
   if(k==='nvme-only')return [['SAS / SATA',0],['NVMe only',1],['Premium',0]];
+  if(k==='no-premium')return [['SAS / SATA',1],['NVMe',1],['Premium',0]];
   return [['SAS / SATA',1],['NVMe',1],['Premium',1]];
 }
 /* towers: the front bezel / door (the rack "Bezel" row is hidden on a tower) and the tower-to-rack kit that the
@@ -3952,6 +3977,12 @@ var TOWER_RACK_KIT={
  'ML350 G12':'HPE ProLiant Compute ML Gen11/Gen12 Tower to Rack Conversion Kit P47394-B21 (standalone option, not factory-integrated)'
 };
 function towerMode(m){return m?!!m.tower:document.getElementById('ct-t').checked;}
+/* the Server type pill a model belongs under — blades (c-Class, in a c7000/c3000 enclosure) are their own form */
+function formOf(m){return m.blade?'Blade':m.tower?'Tower':'Rack';}
+function bladeMode(m){return m?!!m.blade:document.getElementById('ct-b').checked;}
+/* rows that don't exist on a blade: power supplies and fans are in the enclosure, and there is no media bay,
+   heatsink choice, riser, rail kit, bezel or rear cage on the blade itself */
+var BLADE_HIDDEN_ROWS=['row-media','row-mobo','row-hs','row-fans','row-risers','row-psu','row-rail'];
 function applyChassisPills(m){
   applyPillSet(['il0','il1','il2','il3'],iloPills(m));
   document.getElementById('ilo-hint').textContent=iloHintText(m);
@@ -3961,7 +3992,14 @@ function applyChassisPills(m){
   document.getElementById('rail-label').textContent=t?'Tower-to-rack kit':'Rails';
   document.querySelector('label[for="rl1"]').textContent=t?'Yes (rack-mounting)':'Yes';
   document.querySelector('label[for="rl0"]').textContent=t?'No (stays a tower)':'No';
-  document.getElementById('bezel-row').hidden=t;
+  var b=bladeMode(m);
+  document.getElementById('bezel-row').hidden=t||b;
+  BLADE_HIDDEN_ROWS.forEach(function(id){document.getElementById(id).hidden=b;});
+  ['add-rear','rear-lines','rear-note'].forEach(function(id){document.getElementById(id).hidden=b;});
+  document.getElementById('card-label').textContent=b?'Mezzanine cards':'PCI cards';
+  document.getElementById('card-hint').textContent=b
+    ?'One line per mezzanine card (not the FlexibleLOM). Slot 1 is Type A; slot 2 takes Type A or B and needs the second processor.'
+    :'One line per add-in card (not the FlexibleLOM). Note the slot if it matters. The list is a starter — type any card.';
   document.getElementById('door-note').textContent=(m&&TOWER_DOOR[m.m+' '+m.g])||'';
 }
 
@@ -4126,12 +4164,14 @@ function applyTpmPills(m){
 var BACKPLANE_SAS_ONLY=['DL20 G10','DL160 G10','DL180 G10','ML30 G10','ML110 G10','DL20 G10+','ML30 G10+','ML30 G11','ML110 G11',
   'DL20 G9','DL120 G9','DL160 G9','DL180 G9','ML30 G9','ML110 G9','ML150 G9'];
 var BACKPLANE_NVME_ONLY=['DL380a G12'];
+var BACKPLANE_NO_PREMIUM=['BL460c G10'];
 var BACKPLANE_EDSFF_NVME_ONLY=['DL360 G11','DL380 G11'];
 function backplaneKind(m){
   if(!m)return 'generic';
   var key=m.m+' '+m.g;
   if(BACKPLANE_SAS_ONLY.indexOf(key)>-1)return 'sas-only';
   if(BACKPLANE_NVME_ONLY.indexOf(key)>-1)return 'nvme-only';
+  if(BACKPLANE_NO_PREMIUM.indexOf(key)>-1)return 'no-premium';
   return 'generic';
 }
 /* A starter list only — the field is free text, type any card. Bracket / slot
@@ -4938,7 +4978,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.24.2'; // 2nd build shipped today
+var BUILD_VERSION='2026.09.25.1'; // 1st build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -5313,8 +5353,8 @@ stepper(document.getElementById('modelq'),{min:1});
 var GEN_ORDER=['G9','G10','G10+','G10+ v2','G11','G12'];
 var modelGenFilter=null;
 function renderModelGenBtns(){
-  var wantTower=isTower();
-  var avail=GEN_ORDER.filter(function(g){return MODELS.some(function(m){return m.g===g&&!!m.tower===wantTower;});});
+  var wantForm=chassisForm();
+  var avail=GEN_ORDER.filter(function(g){return MODELS.some(function(m){return m.g===g&&formOf(m)===wantForm;});});
   if(modelGenFilter&&avail.indexOf(modelGenFilter)<0)modelGenFilter=null;
   document.getElementById('model-gen-btns').innerHTML=avail.map(function(g){
     return '<button type="button" data-g="'+g+'" class="'+(modelGenFilter===g?'on':'')+'">'+g+'</button>';
@@ -5329,9 +5369,9 @@ document.getElementById('model-gen-btns').addEventListener('click',function(e){
 var modelCombo=setupCombo('model-combo',{
   nativeMirror:true,
   getGroups:function(){
-    var order=modelGenFilter?[modelGenFilter]:GEN_ORDER,wantTower=isTower();
+    var order=modelGenFilter?[modelGenFilter]:GEN_ORDER,wantForm=chassisForm();
     return order.map(function(g){
-      return {label:g,items:MODELS.filter(function(m){return m.g===g&&!!m.tower===wantTower;}).map(function(m){
+      return {label:g,items:MODELS.filter(function(m){return m.g===g&&formOf(m)===wantForm;}).map(function(m){
         return {value:m.m+' '+m.g,label:m.m+' '+m.g,
           sub:(m.s+(m.s>1?' sockets':' socket'))+' · '+m.d+' DIMM'+((m.rules&&m.rules.verified)?' · verified':'')};
       })};}).filter(function(gr){return gr.items.length;});},
@@ -5584,6 +5624,7 @@ function refreshDependents(){
   document.getElementById('bp-note').textContent=
     bpK==='sas-only'?'No real NVMe or Premium backplane exists on '+(m?m.m+' '+m.g:'this chassis')+' — SAS/SATA only, on every bay config.'
     :bpK==='nvme-only'?(m.m+' '+m.g+' is NVMe-only — no SAS/SATA backplane exists on this chassis.')
+    :bpK==='no-premium'?'SAS/SATA, or NVMe with the NVMe FIO Setting 873373-B21 (not with the P204i-b). No mixed Premium option.'
     :'NVMe and Premium change the fan requirement.';
   document.getElementById('sys-note').textContent=m?(m.s+' socket'+(m.s>1?'s':'')+', '+m.d+' DIMM slots'):'';
   renderCpuqBtns(m,R);
@@ -5776,6 +5817,8 @@ function v(id){var e=document.getElementById(id);return e?String(e.value).trim()
 function r(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value.trim():'';}
 function picked(n){return !!document.querySelector('input[name="'+n+'"]:checked');}
 function isTower(){return r('chassis')==='Tower';}
+function isBlade(){return r('chassis')==='Blade';}
+function chassisForm(){return r('chassis')||'Rack';}
 function join(){return [].slice.call(arguments).filter(Boolean).join(' ');}
 function readLines(h){return [].slice.call(h.children).map(function(row){
   var o={};row.querySelectorAll('[data-k]').forEach(function(c){o[c.getAttribute('data-k')]=c.value.trim();});return o;});}
@@ -6038,6 +6081,10 @@ function evaluate(){
   };
   var namedCards=readLines(cards).filter(function(c){return c.name&&cardUsesSlot(c.name);})
     .reduce(function(t,c){return t+(Number(c.q)||1);},0);
+  /* ctrlMezz: controllers that sit in a mezzanine slot (BL460c Gen10: the P408e-m) count against the card slots */
+  var mezzCtrl=!!(m&&R.ctrlMezz&&R.ctrlMezz.indexOf(ctrlCode(v('ctrl')))>-1);
+  if(mezzCtrl)namedCards++;
+  var slotWord=(m&&m.blade)?'mezzanine':'PCIe';
   var cardNoteEl=document.getElementById('card-note');cardNoteEl.className='cap-note';
   /* pcieByCpu = usable slots by processor count where it isn't a simple 1-vs-2 split (DL580: slots hang off all 4 sockets) */
   var chassisMax=(m&&R.pcieByCpu&&cpuq>0&&R.pcieByCpu[cpuq]!=null)?R.pcieByCpu[cpuq]:(m&&R.pcie)?(cpuq>=2?R.pcie.two:R.pcie.one):null;
@@ -6051,10 +6098,13 @@ function evaluate(){
   riserSlotNote.textContent=(m&&slotCap!=null&&(riserLines.length||namedCards))
     ?(namedCards+' of '+slotCap+' PCIe add-in slot'+(slotCap===1?'':'s')+' used'+capSrc+profileTxt):'';
   if(m&&slotCap!=null&&namedCards>0){
-    cardNoteEl.textContent=namedCards+' of '+slotCap+' PCIe slots used'+capSrc;
+    cardNoteEl.textContent=namedCards+' of '+slotCap+' '+slotWord+' slots used'+capSrc+(mezzCtrl?' — the '+ctrlCode(v('ctrl'))+' controller takes one':'');
     if(namedCards>slotCap){
       cardNoteEl.className='cap-note over';riserSlotNote.className='cap-note over';
-      checks.push(['stop','TOO MANY CARDS',namedCards+' PCIe cards listed but only '+slotCap+' add-in slot'+(slotCap===1?'':'s')+' available'+capSrc+
+      checks.push(['stop','TOO MANY CARDS',m.blade
+        ?namedCards+' mezzanine cards listed'+(mezzCtrl?' (counting the '+ctrlCode(v('ctrl'))+' controller)':'')+' but only '+slotCap+' mezzanine slot'+(slotCap===1?'':'s')+' available'+capSrc+
+          (cpuq<2?' — slot 2 needs the second processor':'')+'. The FlexibleLOM (FLB) is separate and does not use a mezzanine slot.'
+        :namedCards+' PCIe cards listed but only '+slotCap+' add-in slot'+(slotCap===1?'':'s')+' available'+capSrc+
         (riserSlots===0?' — the fitted risers are NVMe/SlimSAS with no card slots':riserLines.length?'':' — add a riser')+
         '. The FlexibleLOM / OCP is separate and does not use a slot.']);
     }
@@ -6342,6 +6392,25 @@ function evaluate(){
       checks.push(['stop','FLEXLOM/OCP MISMATCH',flrV+' is an OCP 3.0 card — '+m.m+' '+m.g+' only has a FlexibleLOM slot (OCP didn\'t exist before Gen10 Plus). Pick a FlexibleLOM card instead.']);
     else if(flrK==='none'&&(inFLRS||inOCP))
       checks.push(['stop','FLEXLOM/OCP MISMATCH',m.m+' '+m.g+' has no FlexibleLOM or OCP mezzanine slot at all — '+flrV+' will not fit. Use a plain PCIe NIC (PCI cards) instead.']);
+  }
+  /* c-Class blades (BL460c Gen10 QuickSpecs): the FlexibleLOM is the blade FLB type, never a rack FLR card, and the
+     blade needs one; NVMe drives need the NVMe FIO setting, which rules out the P204i-b; HPE advises against 5 or 7
+     DIMMs per processor; a 544+M InfiniBand card has one live port in mezzanine slot 1 and needs slot 1 for FDR mode */
+  if(m&&m.blade){
+    if(flrV&&inFLRS)
+      checks.push(['stop','FLEXIBLELOM',flrV+' is a rack FlexibleLOM (FLR) — the '+m.m+' '+m.g+' takes the blade FLB type: '+(R.flr||[]).map(slipName).join(', ')+'.']);
+    if(R.flrRequired&&r('flrfit')==='No FlexibleLOM / OCP fitted')
+      checks.push(['verify','FLEXIBLELOM','The '+m.m+' '+m.g+' needs one FlexibleLOM (FLB) — its two ports are the link to interconnect bays 1 and 2.']);
+    var bladeCtrl=ctrlCode(v('ctrl'));
+    if(R.ctrlMezz&&R.ctrlMezz.indexOf(bladeCtrl)>-1&&!noDrives&&readLines(drives).some(function(d){return d.cap;}))
+      checks.push(['info','CONTROLLER','The '+bladeCtrl+' is external only (8 external lanes) — the internal drive bays run on the S100i or a P204i-b.']);
+    if(R.nvmeNoCtrl&&hasNVMe&&R.nvmeNoCtrl.indexOf(bladeCtrl)>-1)
+      checks.push(['stop','NVMe','NVMe drives need the NVMe FIO Setting 873373-B21, which does not work with the '+bladeCtrl+' — use the S100i (M.2 boot recommended with NVMe).']);
+    var perCpuD=(cpuq>0&&dq%cpuq===0)?dq/cpuq:(cpuq?null:dq);
+    if(R.dimmAvoidPerCpu&&dq&&perCpuD!=null&&R.dimmAvoidPerCpu.indexOf(perCpuD)>-1)
+      checks.push(['verify','MEMORY QTY','HPE does not recommend '+perCpuD+' DIMMs per processor in the '+m.m+' '+m.g+' — use a balanced count (for example '+(perCpuD-1)+' or '+(perCpuD+1)+').']);
+    if(readLines(cards).some(function(c){return /544\+M/i.test(c.name||'');}))
+      checks.push(['info','INFINIBAND','The 544+M has only one active port in mezzanine slot 1 (both ports in slot 2), and FDR InfiniBand mode needs slot 1.']);
   }
 
   /* drive bay limits */
@@ -6889,7 +6958,8 @@ function buildSlip(){
   if(r('bp'))L.push(r('bp'));
   if(v('cpu'))L.push(join(v('cpuq')?v('cpuq')+'x':'',v('cpu')));else gaps.push('processor');
   if(v('dimm'))L.push(join(v('dimmq')?v('dimmq')+'x':'',v('dimm')));else gaps.push('memory');
-  if(r('media'))L.push(mediaSlipText(m,r('media')));
+  var bl=m?!!m.blade:isBlade();
+  if(r('media')&&!bl)L.push(mediaSlipText(m,r('media')));
   if(v('ctrl')){
     var c=slipName(v('ctrl'));
     if(v('bat')&&v('bat').toLowerCase().indexOf('no battery')<0)c+=' + '+slipName(v('bat'));
@@ -6897,20 +6967,22 @@ function buildSlip(){
     L.push(c);
   }else gaps.push('storage controller');
   if(v('expander')&&v('expander').toLowerCase().indexOf('none')<0)L.push(slipName(v('expander')));
-  if(r('hs'))L.push(r('hs'));else gaps.push('heatsinks');
-  if(r('fan'))L.push(join(v('fanq')?v('fanq')+'x':'',r('fan')));else gaps.push('fans');
+  if(!bl){
+    if(r('hs'))L.push(r('hs'));else gaps.push('heatsinks');
+    if(r('fan'))L.push(join(v('fanq')?v('fanq')+'x':'',r('fan')));else gaps.push('fans');
+  }
   readLines(risers).forEach(function(x){if(x.name)L.push(join(x.q?x.q+'x':'',slipName(x.name)));});
   readLines(cards).forEach(function(c){if(c.name)L.push(join(c.q?c.q+'x':'',slipName(c.name)));});
   if(r('flrfit')==='No FlexibleLOM / OCP fitted')L.push('No '+flrLabel(m)+' fitted');
   else if(v('flr'))L.push(slipName(v('flr')));
   else gaps.push(flrLabel(m));
-  if(v('psu'))L.push(join(v('psuq')?v('psuq')+'x':'',slipName(v('psu')),'PS'));else gaps.push('power supplies');
+  if(bl){}else if(v('psu'))L.push(join(v('psuq')?v('psuq')+'x':'',slipName(v('psu')),'PS'));else gaps.push('power supplies');
   var tpmTxt=tpmSlipText(m,r('tpm'));if(tpmTxt)L.push(tpmTxt);
   if(r('ilo'))L.push(iloSlipText(m,r('ilo')));
-  if(r('mobo'))L.push(moboSlipText(m,r('mobo')));
+  if(r('mobo')&&!bl)L.push(moboSlipText(m,r('mobo')));
   var tw=isTower();
-  if(r('rail'))L.push(join(tw?(r('rail')==='Rail kit'?'Tower-to-rack kit':'No tower-to-rack kit'):r('rail'),v('railt')));else gaps.push(tw?'tower-to-rack kit':'rails');
-  if(r('bezel')&&!tw)L.push(join(r('bezel'),r('bkey')));
+  if(bl){}else if(r('rail'))L.push(join(tw?(r('rail')==='Rail kit'?'Tower-to-rack kit':'No tower-to-rack kit'):r('rail'),v('railt')));else gaps.push(tw?'tower-to-rack kit':'rails');
+  if(r('bezel')&&!tw&&!bl)L.push(join(r('bezel'),r('bkey')));
   if(isTower()){
     ['feet','door','key'].forEach(function(n){if(r(n))L.push(r(n));});
     if(v('towerx'))L.push(v('towerx'));
@@ -7000,8 +7072,8 @@ function sync(){
   document.getElementById('tower-locked').style.display=t?'none':'';
   document.getElementById('drives-wrap').hidden=document.getElementById('nodrives').checked;
   var m=currentModel();
-  if(m&&!!m.tower!==t)modelCombo.clear();   // switching chassis invalidates the picked model
-  document.getElementById('model-input').placeholder=t?'Type to search — e.g. ML350 G10':'Type to search — e.g. DL380 G10';
+  if(m&&formOf(m)!==chassisForm())modelCombo.clear();   // switching chassis invalidates the picked model
+  document.getElementById('model-input').placeholder=t?'Type to search — e.g. ML350 G10':isBlade()?'Type to search — e.g. BL460c G10':'Type to search — e.g. DL380 G10';
   renderModelGenBtns();
   refreshDependents();run();}
 
@@ -7013,12 +7085,12 @@ function sync(){
    ambiguous — ML10 stays reachable only by typing "ML10" out in full. */
 function bareModelNums(){
   var s={};
-  MODELS.forEach(function(x){var n=x.m.replace(/^(DL|ML)/,'').replace(/a$/,'');if(n!=='10')s[n]=true;});
+  MODELS.forEach(function(x){var n=x.m.replace(/^(DL|ML|BL)/,'').replace(/[ac]$/,'');if(n!=='10')s[n]=true;});
   return Object.keys(s);
 }
 function findModelAndGen(text){
-  /* accepts "DL380 Gen10", "dl380 g10", "dl380g10", "DL380-G10+", "ml350 gen 10 plus" */
-  var fm=text.match(/\b(DL|ML)[\s-]?(\d{2,4})(a)?/i);
+  /* accepts "DL380 Gen10", "dl380 g10", "dl380g10", "DL380-G10+", "ml350 gen 10 plus", "BL460c Gen10" */
+  var fm=text.match(/\b(DL|ML|BL)[\s-]?(\d{2,4})([ac])?/i);
   var brand,num,aSuf,idx,len;
   if(fm){
     /* DL380a's "a" stays lowercase — MODELS spells it that way, and the
@@ -7026,6 +7098,9 @@ function findModelAndGen(text){
        uppercasing it here (as the rest of the match is) used to make
        "DL380a Gen12" un-recognisable no matter how it was typed. */
     brand=fm[1].toUpperCase();num=fm[2];aSuf=(fm[3]||'').toLowerCase();idx=fm.index;len=fm[0].length;
+    /* "c" is the c-Class blade suffix — BL only (and a bare "BL460" still means the BL460c) */
+    if(aSuf==='c'&&brand!=='BL'){aSuf='';len--;}
+    if(brand==='BL'&&!aSuf)aSuf='c';
   }else{
     /* no "DL"/"ML" written at all — trust this ONLY when a real, known
        model number sits immediately against a generation mention
@@ -7033,12 +7108,14 @@ function findModelAndGen(text){
        in a build spec (drive/memory/PSU figures) to ever guess from alone. */
     var nums=bareModelNums().sort(function(a,b){return b.length-a.length;});
     if(!nums.length)return null;
-    var bm=text.match(new RegExp('\\b(?:'+nums.join('|')+')(a)?(?=\\s*[\\s,-]*(?:gen|g)[\\s-]*(?:9|10\\.5|10|11|12)\\b)','i'));
+    var bm=text.match(new RegExp('\\b(?:'+nums.join('|')+')([ac])?(?=\\s*[\\s,-]*(?:gen|g)[\\s-]*(?:9|10\\.5|10|11|12)\\b)','i'));
     if(!bm)return null;
     aSuf=(bm[1]||'').toLowerCase();
     num=bm[1]?bm[0].slice(0,-1):bm[0];
     var hasDL=MODELS.some(function(x){return x.m==='DL'+num;}),hasML=MODELS.some(function(x){return x.m==='ML'+num;});
     brand=(hasDL&&hasML)?(isTower()?'ML':'DL'):(hasML?'ML':'DL');   // only "110" collides (DL110/ML110)
+    if(!hasDL&&!hasML&&MODELS.some(function(x){return x.m==='BL'+num+'c';})){brand='BL';aSuf='c';}
+    else if(aSuf==='c')aSuf='';
     idx=bm.index;len=bm[0].length;
   }
   var fam=(brand+num).toUpperCase()+aSuf;
@@ -7199,10 +7276,11 @@ function parseClientText(text){
   var mg=findModelAndGen(text),m=null,R={};
   if(mg&&MODELS.some(function(x){return (x.m+' '+x.g)===mg.value;})){
     var pickedM=MODELS.filter(function(x){return (x.m+' '+x.g)===mg.value;})[0];
-    document.getElementById(pickedM.tower?'ct-t':'ct-r').checked=true;
+    document.getElementById({Tower:'ct-t',Blade:'ct-b',Rack:'ct-r'}[formOf(pickedM)]).checked=true;
     document.getElementById('tower-rows').hidden=!pickedM.tower;
     document.getElementById('tower-locked').style.display=pickedM.tower?'none':'';
     modelCombo.setValue(mg.value,mg.value);refreshDependents();m=currentModel();
+    renderModelGenBtns();   // the Server type may have just changed — show that type's generations
     R=rulesFor(m);
     found.push('System: '+mg.value);
     if(mg.qty){document.getElementById('modelq').value=mg.qty;found.push('Builds: '+mg.qty+'x');}
@@ -7338,13 +7416,20 @@ function parseClientText(text){
     if(batHit){
       document.getElementById('bat').value=batHit;
       guess.push('Battery/capacitor mentioned ('+batW[1]+'W) — matched to '+m.m+' '+m.g+'\u2019s own '+batW[1]+'W option, confirm it\u2019s the right one.');
+    }else if(m&&m.blade&&R.bat&&R.bat.length){
+      /* a blade's cache battery isn't the rack 96W Smart Storage Battery — use the model's own entry */
+      document.getElementById('bat').value=R.bat[0];
+      guess.push('Battery mentioned — set to "'+R.bat[0]+'". The '+m.m+' '+m.g+' QuickSpecs give no battery part number, so confirm the part.');
     }else{
       document.getElementById('bat').value='96w bat';
       guess.push('Battery mentioned — assumed the 96W Smart Storage Battery, check the suffix against the controller generation (some older kits use the 12W or 16W battery).');
     }
   }
+  var pBlade=!!(m&&m.blade);
   var psu=grabPSU(text);
-  if(psu&&psu.w){
+  if(psu&&psu.w&&pBlade){
+    skip.push('Power supplies are in the blade enclosure, not the '+m.m+' '+m.g+' — the '+psu.w+'W mention was left off.');
+  }else if(psu&&psu.w){
     var pq=psu.q;
     if(m&&R.psuMax&&pq>R.psuMax){guess.push('Client asked for '+pq+' PSUs but '+m.m+' '+m.g+' has '+R.psuMax+' bays — capped at '+R.psuMax+'.');pq=R.psuMax;}
     document.getElementById('psu').value=psu.w+'W';
@@ -7388,8 +7473,11 @@ function parseClientText(text){
     document.getElementById(tpm12?'tp1':'tp2').checked=true;
     found.push('TPM: '+(tpm12?'1.2':'2.0'));
   }
-  if(/\brails?\b/i.test(text)){document.getElementById('rl1').checked=true;found.push('Rails: Yes');}
-  if(/\bbezel\b/i.test(text)){document.getElementById('bz1').checked=true;found.push('Bezel: Yes');}
+  if(pBlade&&/\b(rails?|bezel)\b/i.test(text))skip.push('A blade has no rail kit or bezel — that mention was left off.');
+  else{
+    if(/\brails?\b/i.test(text)){document.getElementById('rl1').checked=true;found.push('Rails: Yes');}
+    if(/\bbezel\b/i.test(text)){document.getElementById('bz1').checked=true;found.push('Bezel: Yes');}
+  }
   if(/\bexpander\b/i.test(text)&&!expanderHandled){
     /* the system model (if identified above) already tells us the exact
        chassis+generation part — most chassis, and all of G11/G12, never
@@ -7403,7 +7491,8 @@ function parseClientText(text){
       guess.push('SAS expander mentioned, but '+(m?('HPE never made an expander-card SKU for the '+m.m+' '+m.g+' — use a second controller instead'):'the system model wasn\'t identified, so the exact part can\'t be assumed')+'.');
     }
   }
-  if(/\b(?:usb|external|mobile)\s*(?:dvd|optical)/i.test(text)){document.getElementById('md4').checked=true;found.push('Media bay: USB DVD-RW (external)');}
+  if(pBlade&&/\b(dvd|optical|media bay)/i.test(text))skip.push('A blade has no media bay — the optical drive mention was left off.');
+  else if(/\b(?:usb|external|mobile)\s*(?:dvd|optical)/i.test(text)){document.getElementById('md4').checked=true;found.push('Media bay: USB DVD-RW (external)');}
   else if(/dvd-?rw/i.test(text)){document.getElementById('md2').checked=true;found.push('Media bay: DVD-RW');}
   else if(/dvd-?rom/i.test(text)){document.getElementById('md1').checked=true;found.push('Media bay: DVD-ROM');}
   else if(/universal media/i.test(text)){document.getElementById('md3').checked=true;found.push('Media bay: Universal');}
@@ -7468,7 +7557,8 @@ function parseClientText(text){
   cardPats.forEach(function(p){var mm=text.match(p[0]);if(mm)cardHitsRaw.push({label:p[1](mm),idx:mm.index});});
   /* 'iLO dedicated NIC' / 'Serial port kit' are onboard-feature reminders, not orderable cards — an "iLO" in a paste is
      almost always the licence (handled above), so they never come from the generic code scan */
-  var cardCodeList=CARDLIST.filter(function(c){return !/^(iLO|Serial)\b/i.test(c);}).map(function(c){return {code:c.match(/^\S+/)[0],label:c};})
+  /* a blade's mezzanine cards (630M, 544+M, LPe1605…) are only in its own list, not the rack CARDLIST */
+  var cardCodeList=((m&&m.blade&&R.cards)?R.cards:CARDLIST).filter(function(c){return !/^(iLO|Serial)\b/i.test(c);}).map(function(c){return {code:c.match(/^\S+/)[0],label:c};})
     .filter(function(x){return x.code.length>=3&&!/^\d+[x*]$/i.test(x.code)&&!/^\d+(\.\d+)?(gb|tb)$/i.test(x.code);})
     .filter(function(x,i,a){return a.findIndex(function(y){return y.code.toLowerCase()===x.code.toLowerCase();})===i;});
   var codeAlt=cardCodeList.map(function(x){return escRe(x.code);}).sort(function(a,b){return b.length-a.length;}).join('|');
@@ -7493,7 +7583,7 @@ function parseClientText(text){
       cards.appendChild(cardRow({q:qm?qm[1]:'1',name:h.label}));  // default qty 1 — that's the base intention
     });
     if(!cards.children.length)cards.appendChild(cardRow());
-    guess.push('Card'+(cardHitsRaw.length>1?'s':'')+': '+cardHitsRaw.map(function(h){return h.label;}).join(', ')+' — added; confirm quantity and slot / riser.');
+    guess.push('Card'+(cardHitsRaw.length>1?'s':'')+': '+cardHitsRaw.map(function(h){return h.label;}).join(', ')+' — added; confirm quantity and '+(m&&m.blade?'mezzanine slot':'slot / riser')+'.');
   }
 
   /* drives — capacity + whatever speed/RAID-class/interface/RPM words sit

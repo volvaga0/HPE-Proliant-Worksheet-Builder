@@ -1,0 +1,1411 @@
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Overview
+Page 1
+HPE ProLiant BL460c Gen10 Server Blade
+Scale business performance and securely drive Traditional and Hybrid IT workloads across a converged infrastructure with the new
+HPE ProLiant BL460c Gen10 server blade for HPE BladeSystem. The HPE ProLiant BL460c Gen10 server blade helps drive new
+applications, turbo charge performance and transform into an agile, secure foundation, which with HPE OneView, places you on the
+path to Composable Infrastructure.
+HPE ProLiant BL460c Gen10 Server Blade - Front View
+1. Serial label pull tab (SUV Connector located behind) 6. Quick access panel
+2. Unique identification (UID) LED 7. Front hot-plug drive bays
+3. Health status bar LED 8. NIC activity LED
+4. Power Button 9. Server blade release lever
+5. iLO USB connection
+What's New
+· Additional Drive solutions
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Standard Features
+Page 2
+Platform Information
+This document covers the HPE ProLiant BL460c Gen10 server blade only.
+For information on HPE BladeSystems c-Class Enclosures and HPE BladeSystem c-Class Interconnect and Mezzanine Components,
+please see the following HPE BladeSystem c-Class QuickSpecs:
+· HPE BladeSystem c3000 Enclosure QuickSpecs at https://www.hpe.com/h20195/v2/GetPDF.aspx/c04128340.pdf
+NOTE: The c3000 HPE c-Class enclosures have full backwards and forwards compatibility, existing server blades are
+supported in the new enclosures and any future server blades will be supported in the existing enclosures.
+· HPE BladeSystem c7000 Enclosure QuickSpecs at https://www.hpe.com/h20195/v2/GetPDF.aspx/c04128339.pdf
+NOTE: The c7000 HPE c-Class enclosures have full backwards and forwards compatibility, existing server blades are
+supported in the new enclosures and any future server blades will be supported in the existing enclosures.
+· HPE BladeSystem c-Class Interconnect and Mezzanine Components at
+https://www.hpe.com/us/en/integrated-systems/bladesystem.html
+NOTE: For optimal cooling and system performance the BL460c Gen10 Server Blade requires the c7000 enclosure to be
+configured with 10 fans and the c3000 enclosure to be configured with 6 fans.
+NOTE: For proper BladeSystem operation, the minimum required versions of HPE Onboard Administrator and HPE Virtual
+Connect are required and available via the HPE Service Pack for ProLiant, please
+see http://h17007.www1.hpe.com/us/en/enterprise/servers/products/service_pack/spp/index.aspx
+Form Factor HPE ProLiant BL460c Gen10 is a half-height server blade that plugs into the HPE BladeSystem c3000 and
+c7000 enclosures.
+Standard Features
+Processors - Up to 2 of the following depending on model.
+NOTE: For more information regarding Intel Xeon processors, please see the following http://www.intel.com/xeon
+NOTE: Intel Xeon Platinum 8160M, Gold 6142M, 6140M, and 6134M support extended memory capacities up to 1.5TB per
+socket versus 768GB per socket for standard processors. However, maximum memory capacity for the server will be limited by
+maximum capacity DIMMs available and number of DIMM slots. The BL460c Gen10 will support a maximum memory capacity of
+512GB per socket with 64GB DIMMs regardless of processor chosen. This maximum will increase as larger capcity DIMMs are
+qualified for the server.
+Intel Xeon Models
+CPU
+Frequency Cores L3 Cache Power QPI DDR4 MT/s
+Platinum Processors
+Platinum 8164 Processor 2.0 GHz 26 35.75 MB 150W 3 @ 10.4 GT/s 2666 MT/s
+Platinum 8160 Processor 2.1 GHz 24 33.00 MB 150W 3 @ 10.4 GT/s 2666 MT/s
+Platinum 8158 Processor 3.0 GHz 12 24.75 MB 150 3 @ 10.4 GT/s 2666 MT/s
+Platinum 8153 Processor 2.0 GHz 16 22 MB 125 3 @ 10.4 GT/s 2666 MT/s
+Gold Processors
+Gold 6152 Processor 2.1 GHz 22 30.25 MB 140W 3 @ 10.4 GT/s 2666 MT/s
+Gold 6148 Processor 2.4 GHz 20 27.50 MB 150W 3 @ 10.4 GT/s 2666 MT/s
+Gold 6142 Processor 2.6 GHz 16 22.00 MB 150W 3 @ 10.4 GT/s 2666 MT/s
+Gold 6140 Processor 2.3 GHz 18 24.75 MB 140W 3 @ 10.4 GT/s 2666 MT/s
+Gold 6138 Processor 2.0 GHz 20 27.50 MB 125W 3 @ 10.4 GT/s 2666 MT/s
+Gold 6136 Processor 3.0 GHz 12 24.75 MB 150W 3 @ 10.4 GT/s 2666 MT/s
+Gold 6134 Processor 3.2 GHz 8 24.75 MB 130W 3 @ 10.4 GT/s 2666 MT/s
+Gold 6132 Processor 2.6 GHz 14 19.25 MB 140W 3 @ 10.4 GT/s 2666 MT/s
+Gold 6130 Processor 2.1 GHz 16 22.00 MB 125W 3 @ 10.4 GT/s 2666 MT/s
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Standard Features
+Page 3
+Gold 6128 Processor 3.4 GHz 6 19.25 MB 115W 3 @ 10.4 GT/s 2666 MT/s
+Gold 6126 Processor 2.6 GHz 12 19.25 MB 125W 3 @ 10.4 GT/s 2666 MT/s
+Gold 5122 Processor 3.6 GHz 4 16.50 MB 105W 2 @ 10.4 GT/s 2666 MT/s
+Gold 5120 Processor 2.2 GHz 14 19.25 MB 105W 2 @ 10.4 GT/s 2400 MT/s
+Gold 5118 Processor 2.3 GHz 12 16.50 MB 105W 2 @ 10.4 GT/s 2400 MT/s
+Gold 5115 Processor 2.4 GHz 10 13.75 MB 85W 2 @ 10.4 GT/s 2400 MT/s
+Silver Processors
+Silver 4116 Processor 2.1 GHz 12 16.50 MB 85W 2 @ 9.6 GT/s 2400 MT/s
+Silver 4114 Processor 2.2 GHz 10 13.75 MB 85W 2 @ 9.6 GT/s 2400 MT/s
+Silver 4112 Processor 2.6 GHz 4 8.25 MB 85W 2 @ 9.6 GT/s 2400 MT/s
+Silver 4110 Processor 2.1 GHz 8 11.00 MB 85W 2 @ 9.6 GT/s 2400 MT/s
+Bronze Processors
+Bronze 3104 Processor 1.7 GHz 6 11.00 MB 85W 2@ 9.6 GT/s 2133 MT/s
+NOTE: When using processors of 135W or greater, 10 fans are required in the c7000 for optimal performance.
+NOTE: Memory per socket is based on the processor maximum supported memory, not the BL460c memory maximum.
+NOTE: Platinum - 8100 Series - 2S - 2UPI @ 10.4 GT/s, 6-Channel DDR4 @ 2666 MT/s, 768 GB memory capacity (1.5 TB on
+select skus), Intel Turbo Boost Technology, Intel Hyper-Threading Technology
+Intel AVX-512 (2x 512-bit FMA), 48 lanes PCIe 3.0, advanced RAS.
+NOTE:Gold - 5100, 6100 Series - 2S - 2UPI @ 10.4 GT/s, 6-Channel DDR4 @ 2400 MHz (SKU 5122=supports 2666), 768 GB
+memory capacity (1.5 TB on select skus), Intel Turbo Boost Technology, Intel Hyper-Threading Technology, Intel AVX-512(1x
+512-bit FMA) (SKU 5122 supports 2x 512 bit FMA), 48 lanes PCIe 3.0, advanced RAS.
+NOTE: Silver - 4100 Series - 2S - 2UPI @ 9.6 GT/s, 6-Channel DDR4 @ 2400 MHz, 768 GB memory capacity, Intel Turbo Boost
+Technology, Intel Hyper-Threading Technology, Intel AVX-512(1x 512-bit FMA), 48 lanes PCIe 3.0, standard RAS.
+Chipset
+Intel C621 Chipset
+NOTE: For more information regarding Intel chipsets, please see the
+following: http://www.intel.com/content/www/us/en/chipsets/chipsets-overview.html
+On System Management Chipset
+HPE iLO 5 ASIC
+NOTE: Read and learn more in the iLO QuickSpecs.
+Memory
+One of the following depending on Model
+Type HPE SmartMemory
+DDR4 Load Reduced (LRDIMM), or Registered (RDIMM)
+Standard (Pre-
+configured Models)
+128GB (4 x 32GB) DDR4 2666MT/s LDIMMs at 1.2V
+64GB (4x 16GB) DDR4 2666MT/s RDIMMs at 1.2V
+16GB (2 x 8GB) DDR4 2666MT/s RDIMMs at 1.2V
+Maximum (LRDIMM) 2TB 16 x 128GB up to 2666MT/s at 1.2V (processor dependent)
+Maximum (RDIMM) 512GB 16 x 32GB up to 2666MT/s at 1.2V
+NOTE: HPE memory from previous generation servers is not supported with this server. HPE SmartMemory is required to realize
+the memory performance improvements and enhanced functionality listed in this document for Gen10. For additional
+information, please see the HPE SmartMemory QuickSpecs at: HPE DDR4 SmartMemory QuickSpecs.
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Standard Features
+Page 4
+NOTE: LRDIMM and RDIMM are distinct memory technologies and cannot be mixed within a server.
+NOTE: Depending on the memory configuration and processor model, the memory speed may run at 2666MT/s, 2400MT/s,
+2133MT/s, or 1866MT/s. Please see the Online Memory Configuration Tool a
+https://memoryconfigurator.hpe.com/DDR4memoryconfig/Home/SelectServer
+Memory Protection
+Advanced ECC
+Memory Mirroring
+Memory Online Spare Mode (Rank Spare Mode)
+Network Controller
+One of the following depending on Model
+· One (1) 20Gb 2-port FlexFabric FLB, 10Gb 2-port HPE FlexFabric FLB, or 10Gb 2-port Ethernet FLB
+NOTE: Supports FCoE, TCP/IP offload engine, hardware-based accelerated iSCSI, iSCSI boot, and autosensing
+10Gb/1Gb Ethernet.
+NOTE: Each port is autosensing the speed, and can interoperate with 1Gb HPE BladeSystem c-Class interconnect
+components. Both ports will operate at the same speed.
+NOTE: FlexFabric capabilities require the use of an HPE Virtual Connect FlexFabric or Flex10/10D module.
+Fibre Channel over Ethernet (FCoE) is supported with HPE interconnects. Learn more
+at: https://www.hpe.com/us/en/integrated-systems/virtual-connect.html
+· One (1) HPE FlexFabric 10Gb 2-port 536FLB FlexibleLOM
+· One (1) HPE FlexFabric 10Gb 2-port 560FLB FlexibleLOM
+· One (1) HPE FlexFabric 20Gb 2-port 630FLB FlexibleLOM
+· One (1) HPE FlexFabric 20Gb 2-port 650FLB FlexibleLOM
+NOTE: FlexibleLOMs are not compatible with c-Class server blades prior to Gen9.
+· Standard iLO Network Controller:
+One (1) 10/100 Mbps port for the HPE iLO 5 to Onboard Administrator link. The Onboard Administrator (with
+10/100/1000 Mbps) to BladeSystem link is 1Gbps
+Expansion Slots
+Two (2) I/O expansion mezzanine slots:
+· x16 PCIe 3.0 Type A (supports Type A mezzanine cards) (expansion slot 1).
+NOTE: This expansion slot supports dual-port mezzanine cards: one port is routed to interconnect module bay 3 and
+the other to bay 4.
+· x16 PCIe 3.0 Type B (supports Type A and Type B mezzanine cards (expansion slot 2).
+NOTE: This expansion slot supports dual-port and quad-port mezzanine cards. For dual-port cards, one port is routed
+to interconnect module bay 5 and the other to bay 6. For quad-port cards, one port is routed to interconnect module
+bay 5, one to bay 6, one to bay 7, and one to bay 8.
+NOTE: A second processor must be installed (in processor slot 2) to have access to the second expansion slot
+(expansion slot 2).
+Mezzanine card options include:
+· Dual-port 20Gb FlexFabric, Dual-port 10Gb FlexFabric, and 10GbE options,.
+· Dual-port 16Gb Fibre Channel HBA for SAN connectivity.
+· QDR and FDR InfiniBand for low latency and high bandwidth server interconnectivity.
+· I/O accelerator mezzanine options for high transaction rate local storage
+HPE Server ROM
+HPE ROM (read only memory) is now digitally signed using the HPE Corporate Signing Service. This signature is verified before the
+flash process starts, reducing accidental programming and preventing malicious efforts to corrupt system ROM.
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Standard Features
+Page 5
+HPE ROM provides for essential initialization and validation of hardware components before control is passed to the customer-
+installed operating system. The ROM also provides the capability of booting from various fixed media (HDD, CD-ROM) and
+removable media (USB), to continue operation to the operating system.
+HPE ROM performs very early configuration of the video controller, to allow monitoring of initialization progress via an attached
+monitor. If configuration or hardware errors are discovered during this early phase of hardware initialization, suitable messages are
+now displayed on the connected monitor. Additionally, these configuration or hardware errors are logged to the Integrated
+Management Log (IML) to assist in diagnosis.
+The HPE ProLiant ROM is used to configure the following:
+· Processor and chipset status registers
+· System memory, memory map, and memory initialization
+· System hardware configuration (integrated PCI devices and optional PCIe cards).
+· Customer-specific BIOS configuration using the HPE ROM-Based Setup Utility (RBSU).
+HPE Server UEFI /Legacy ROM
+Unified Extensible Firmware Interface (UEFI) is an industry standard that provides better manageability and more secured
+configuration while interacting with your server at boot time. HPE ProLiant Gen10 platform defaults to UEFI and can be factory or
+field configured for Legacy BIOS Boot Mode.
+NOTE: The UEFI System Utilities function is analogous to the HPE ROM-Based Setup Utility (RBSU) of legacy BIOS. For more
+information, please visit http://itdoc.hitachi.co.jp/manuals/ha8000v/hard/Gen10/UEFI/881334-004_en.pdf
+UEFI enables numerous new capabilities specific to HPE ProLiant servers such as:
+· Secure Boot
+· Operating system specific functionality
+· Support for > 2.2 TB (using GPT) boot drives
+· USB 3.0 Stack
+· Embedded UEFI Shell
+· Mass Configuration Deployment Tool using HPE RESTful API
+· PXE boot support for IPv6 networks
+· Boot support for option cards that only support a UEFI option ROM
+NOTE: For UEFI Boot Mode, boot environment and OS image installations should be configured properly to support UEFI.
+NOTE: HPE Legacy FIO Setting (758959-B22) can be selected to configure the system in Legacy mode in the factory.
+Storage Controller
+All BTO Models
+One (1) HPE Smart Array P204i-b 12G SAS modular Controller with 1GB Flash-Backed Write Cache (FBWC), or HPE Smart Array
+S100i SR Gen10 SW RAID.
+NOTE: The HPE Smart Array P204i-b and the HPE Smart Array S100i SR Gen10 SW RAID (chipset SATA) support up to two (2)
+small form factor (SFF) or 4 ultra form factor (uFF) hot plug drive bays.
+NOTE: For NVMe support, please select the NVMe FIO setting (873373-B21) available on CTO models only.
+Maximum Internal Storage
+Two drives bays for SFF HPE Smart Drives. Capacities dependent on drive size selected.
+NOTE: The ProLiant BL460c Gen10 server blade includes the HPE hot plug small form factor (SFF) SmartDrive carrier for
+enhanced management and reduced maintenance errors. HPE drives from previous generation servers (prior to Gen8) are not
+compatible with the ProLiant BL460c Gen10 drive bays.
+Interfaces
+Micro SDHC Slot One (1) internal Micro Secure Digital High Capacity (Micro SDHC) card slot
+USB 3.0 Port One (1) internal USB 3.0 connector for USB flash media drive keys
+NOTE: The above options are intended for integrated hypervisor virtualization environments.
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Standard Features
+Page 6
+Industry Standard Compliance
+ACPI 6.1 Compliant
+PCIe 3.0 Compliant
+WOL Support
+Microsoft® Logo certifications
+PXE Support
+USB 3.0 Compliant (internal); USB 2.0 Compliant (external ports via SUV)
+SMBIOS 3.1
+UEFI 2.6
+Redfish API
+Operating Systems and Virtualization Software Support for ProLiant Servers
+Microsoft Windows Server
+VMware
+Red Hat Enterprise Linux Server
+SUSE Linux Enterprise Server
+For specific OS support information please visit Server Operating Systems and Virtualization Software - links found at
+https://www.hpe.com/us/en/servers/server-operating-systems.html or
+http://h17007.www1.hpe.com/us/en/enterprise/servers/supportmatrix/redhat_linux.aspx#.WuyQvk3rtaQ
+NOTE: For more information on the HPE Certified and Supported ProLiant Servers for OS and Virtualization Software and latest
+listing of software drivers available for your server, please visit our Support Matrices
+at: http://h17007.www1.hpe.com/us/en/enterprise/servers/supportmatrix/windows.aspx
+http://h17007.www1.hpe.com/us/en/enterprise/servers/supportmatrix/oracle_linux.aspx
+http://h17007.www1.hpe.com/us/en/enterprise/servers/supportmatrix/vmware.aspx and our driver download page:
+http://h17007.www1.hpe.com/us/en/enterprise/servers/supportmatrix/vmware.aspx#.WuyRBE3rtaQ
+Security Features
+UEFI Secure Boot and Secure Start support
+Immutable Silicon Root of Trust
+Support for Commercial National Security Algorithms (CNSA)
+iLO Security Modes including a New iLO Advance Premium Security License
+Granular control over iLO interfaces
+Tamper-free updates - components digitally signed and verified
+Secure Recovery - recover critical firmware to known good state on detection of compromised firmware
+TPM (Trusted Platform Module) 1.2 option
+TPM (Trusted Platform Module) 2.0 option Bezel Locking Kit
+Enclosures
+Hewlett Packard Enterprise offers two different c-Class server blade enclosures to meet your individual needs:
+· The HPE BladeSystem c7000 rack enclosure is 10U high and holds up to sixteen (16) ProLiant BL460c Gen10 servers
+plugged vertically.
+· The HPE BladeSystem c3000 rack enclosure is 6U high and holds up to eight (8) HPE ProLiant BL460c Gen10 servers
+plugged horizontally.
+Server blades, interconnect modules, power supplies, fans, and redundant Onboard Administrator modules are all designed to fit into
+the c3000 and c7000 enclosures.
+NOTE: For additional enclosure information, please see: https://www.hpe.com/us/en/product-catalog/storage/disk-
+enclosures/pip.hpe-bladesystem-c7000-enclosures.1844065.html
+Graphics
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Standard Features
+Page 7
+Integrated Matrox G200eh video controller
+· 1600 x 1200 (32 bpp)
+· 1920 x 1200 (16 bpp)
+HPE iLO Management On System Management Memory
+· 16 MB Flash Video Memory
+· 256 MB DDR 3 with ECC (112 MB after ECC and video)
+HPE Server UEFI / Legacy ROM
+Unified Extensible Firmware Interface (UEFI) is an industry standard that provides better manageability and more secured
+configuration than the legacy ROM while interacting with your server at boot time. HPE ProLiant Gen10 servers have a UEFI Class 2
+implementation and support both UEFI Mode (default) and Legacy BIOS Mode.
+NOTE: The UEFI System Utilities tool is analogous to the ROM-Based Setup Utility (RBSU) of legacy BIOS. For more information,
+please visit http://itdoc.hitachi.co.jp/manuals/ha8000v/hard/Gen10/UEFI/881334-004_en.pdf
+UEFI enables numerous new capabilities specific to HPE ProLiant servers such as:
+Secure Boot and Secure Start enable for enhanced security
+Operating system specific functionality
+Support for > 2.2 TB (using GPT) boot drives
+USB 3.0 Stack
+Embedded UEFI Shell
+Mass Configuration Deployment Tool using iLO RESTful API that is Redfish API Conformant.
+PXE boot support for IPv6 networks
+Workload Profiles for simple performance optimization
+UEFI Boot Mode only:
+TPM 2.0 Support
+NVMe Boot Support
+Platform Trust Technology (PTT) can be enabled.
+iSCSI Software Initiator Support.
+HTTP/HTTPs Boot support as a PXE alternative.
+Boot support for option cards that only support a UEFI option ROM
+NOTE: For UEFI Boot Mode, boot environment and OS image installations should be configured properly to support UEFI.
+NOTE: Legacy FIO Setting (758959-B22) can be selected to configure the system in Legacy mode in the factory for your
+HPE ProLiant Gen10 Server.
+Embedded Management
+HPE Integrated Lights-Out
+(HPE iLO)
+Monitor your servers for ongoing management, service alerting, reporting and remote
+management with HPE iLO. Learn more at http://www.hpe.com/info/ilo
+UEFI Configure and boot your servers securely with industry standard Unified Extensible Firmware
+Interface (UEFI). Learn more
+at http://itdoc.hitachi.co.jp/manuals/ha8000v/hard/Gen10/UEFI/881334-004_en.pdf
+Intelligent Provisioning Hassle free server and OS provisioning for one or more servers with Intelligent Provisioning. Learn
+more at http://www.hpe.com/servers/intelligentprovisioning
+iLO RESTful API iLO RESTful API is Redfish API conformantce and offers simplified server management automation
+such as configuration and maintenance tasks based on modern industry
+standards. http://www.hpe.com/info/restfulapi
+Server Utilities
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Standard Features
+Page 8
+Active Health System The HPE Active Health System (AHS) is an essential component of iLO management portfolio that
+provides continuous, proactive health monitoring of HPE
+servers. http://www.hpe.com/servers/ahs
+Active Health System Viewer Use the Active Health System Viewer, a web-based portal, to easily read AHS logs and speed
+problem resolution with HPE self-repair recommendations, to learn more
+visit: http://www.hpe.com/servers/ahsv
+Smart Update Keep your servers up to date with the HPE's Smart Update solution by using Smart Update
+Manager (SUM) to optimize the firmware and driver updates of the Service Pack for ProLiant
+(SPP). Learn more at http://www.hpe.com/info/smartupdate
+iLO Amplifier Pack Designed for large enterprise and service provider environments with hundreds of HPE servers,
+the iLO Amplifier Pack is a free, downloadable open virtual application (OVA) that delivers the
+power to discover, inventory and update Gen8, Gen9 and Gen10 HPE servers at unmatched speed
+and scale. Use with an iLO Advanced License to unlock full capabilities. Learn more
+at http://www.hpe.com/servers/iLOamplifierpack
+HPE iLO Mobile Application Enables the ability to access, deploy, and manage your server anytime from anywhere from select
+smartphones and mobile devices. For additional information please
+visit: http://www.hpe.com/info/ilo/mobileapp
+RESTful Interface Tool RESTful Interface tool (iLOREST) is a single scripting tool to provision using iLO RESTful API to
+discover and deploy servers at scale. Learn more at http://www.hpe.com/info/resttool
+Scripting Tools Provision one to many servers using your own scripts to discover and deploy with Scripting Toolkit
+(STK) for Windows and Linux or Scripting Tools for Windows PowerShell. Learn more
+at http://www.hpe.com/servers/stk or http://www.hpe.com/servers/powershell
+HPE OneView Standard HPE OneView Standard can be used for inventory, health monitoring, alerting, and reporting
+without additional fees. It can monitor multiple HPE Servers generations. The user interface is
+similar to the HPE OneView Advanced version, but the software-defined functionality is not
+available. http://www.hpe.com/info/oneview
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Optional Features
+Page 9
+Fibre Channel Support
+Up to two (2) optional 16Gb Fibre Channel mezzanine HBAs are supported on the HPE ProLiant BL460c Gen10.
+Compatible SAN
+HPE ProLiant BL460c Gen10 server blades are optimized for HPE MSA, EVA, 3PAR and XP.
+HPE ProLiant BL460c Gen10 server blades are compatible with select 3rd party SANs. Please see blade storage page for more
+details at https://www.hpe.com/us/en/integrated-systems/bladesystem.html.
+HPE Virtual Connect
+HPE Virtual Connect is an interconnect option for c-Class BladeSystem that simplifies server connectivity to data and storage
+networks, and reduces costs. Unique HPE Flex-10 technology makes maximum use of network bandwidths, provide dynamic tuning
+and enable extreme flexibility to meet individual server and infrastructure requirements by allocating up to 4 network connections
+per server port. Virtual Connect FlexFabric modules extend those capabilities to allocate one function per port to storage
+connections (FCoE).
+HPE OneView's software-defined approach to infrastructure management enables central console to administer network
+connections and workloads for thousands of servers, see
+https://www.hpe.com/us/en/integrated-systems/management-software.html
+For more information on Virtual Connect Ethernet, Fibre Channel, Converged Network and management options,
+see https://www.hpe.com/us/en/integrated-systems/virtual-connect.html
+Server Management
+HPE OneView Advanced
+HPE OneView brings a new level of automation to infrastructure management by taking a template driven approach to provisioning,
+updating, and integrating compute, storage, and networking infrastructure. It provides full-featured licenses which can be purchased
+for managing Gen8 Gen9 and Gen10 servers. http://www.hpe.com/info/oneview
+HPE Insight Control
+NOTE: Insight Control is not supported with Gen10 server blades.
+HPE iLO Advanced
+HPE iLO Advanced licenses offer smart remote functionality without compromise, for all HPE ProLiant servers. The license includes
+the full integrated remote console, virtual keyboard, video, and mouse (KVM), multi-user collaboration, console record and replay,
+and GUI-based and scripted virtual media and virtual folders. You can also activate the enhanced security and power management
+functionality http://www.hpe.com/servers/iloadvanced
+HPE OneView
+Powerful converged management of servers, storage, and network for IT service automation and infrastructure simplicity.
+HPE iLO Advanced Premium Security Edition
+HPE iLO Advanced Premium Security Edition for iLO 5 includes iLO Advanced License plus high-end security modes, unique
+security capabilities, like Automatic FW recovery; Runtime FW verification, and Secure
+erase. http://www.hpe.com/servers/ilopremium
+HPE Matrix Operating Environment
+The HPE Matrix Operating Environment (Matrix OE) for ProLiant and Integrity servers is an integrated command center that helps
+you instantly adjust to dynamic business demands. This advanced infrastructure management software lets you reduce the cost of
+common data center tasks by up to 40 percent while keeping pace with your changing business. The HPE Matrix OE includes the
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Optional Features
+Page 10
+automated provisioning, optimization, and recovery management capabilities for HPE CloudSystem Matrix, the ideal platform for
+private cloud and Infrastructure as a Service (IaaS).
+For more information, visit: http://h20392.www2.hpe.com/portal/swdepot/displayProductInfo.do?productNumber=HPID
+HPE Cluster Platforms
+HPE Cluster Platforms are specifically engineered, factory-integrated large-scale ProLiant clusters optimized for High Performance
+Computing, with a choice of servers, networks and software. Operating system options include specially priced offerings for Red Hat
+Enterprise Linux and SUSE Linux Enterprise Server, as well as Microsoft Windows HPC Server. A Cluster Platform Configurator
+simplifies ordering.
+https://www.hpe.com/us/en/solutions/hpc-high-performance-computing.html
+HPE HPC Interconnects
+High Performance Computing (HPC) interconnect technologies are available for this server as part of the HPE Cluster Platform
+portfolio. These high-speed InfiniBand and Gigabit interconnects are fully supported by Hewlett Packard Enterprise when integrated
+within an HPE cluster.
+Get connected to HPE
+To get the most from your investment in Hewlett Packard Enterprise servers, get connected to Hewlett Packard Enterprise using our
+innovative remote support technology which provides system health monitoring, pre-failure alert notification and more.
+Expansion Blade Support
+Supports one (1) optional PCI Expansion Blade
+NOTE: D2200sb and D2220sb storage blades are not compatible with BL460c Gen10 server blade.
+NOTE: Gen9 and older HPE option cards will not function in PCI Expansion Blade when paired with a BL460c Gen10 server blade
+Factory Express Portfolio for Servers and Storage
+HPE Factory Express offers configuration, customization, integration and deployment services for Hewlett Packard Enterprise
+servers and storage products. Customers can choose how their factory solutions are built, tested, integrated, shipped and deployed.
+Factory Express offers service packages for simple configuration, racking, installation, complex configuration and design services as
+well as individual factory services, such as image loading, asset tagging, and custom packaging. Hewlett Packard Enterprise products
+supported through Factory Express include a wide array of servers and storage: HPE Integrity, HPE ProLiant, HPE ProLiant Server
+Blades, HPE BladeSystem, HPE 9000 servers as well as the MSAxxxx, VA7xxx, EVA, XP, rackable tape libraries and configurable
+network switches.
+For more information on Factory Express services on your specific server model please contact your sales representative or go
+to: https://www.hpe.com/us/en/services/factory-express.html
+One Config Simple (SCE)
+SCE is a guided self-service tool to help sales and non-technical people provide customers with initial configurations in 3 to 5
+minutes. You may then send the configuration on for configuration help, or use in your existing ordering processes. If you require
+"custom" rack configuration or configuration for products not available in SCE, please contact Hewlett Packard Enterprise Customer
+Business Center or an Authorized Partner for assistance. https://h22174.www2.hpe.com/SimplifiedConfig/Welcome#
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Service and Support
+Page 11
+Recommended Support Services for BL460
+Protect your business beyond warranty with HPE Support Services
+HPE Pointnext provides a comprehensive portfolio including Advisory and Transformational, Professional, and Operational Services
+to help accelerate your digital transformation. From the onset of your transformation journey, Advisory and Transformational
+Services focus on designing the transformation and creating a solution roadmap. Professional Services specializes in creative
+configurations with flawless and on-time implementation, and on-budget execution. Finally, operational services provides
+innovative new approaches like Flexible Capacity and Datacenter Care, to keep your business at peak performance. HPE is ready to
+bring together all the pieces of the puzzle for you, with an eye on the future, and make the complex simple.
+Connect your devices:
+Unlock all of the benefits of your technology investment by connecting your products to Hewlett Packard Enterprise. Achieve up to
+77%1 reduction in down time, near 100%2 diagnostic accuracy and a single consolidated view of your environment. By connecting,
+you will receive 24x7monitoring, pre-failure alerts, automatic call logging, and automatic parts dispatch. HPE Proactive Care Service
+and HPE Datacenter Care Service customers will also benefit from proactive activities to help prevent issues and increase
+optimization. All of these benefits are already available to you with your server storage and networking products, securely
+connected to HPE support.
+1- IDC 2 - HP CSC reports 2014 - 2015
+Learn more about getting connected at http://www.hpe.com/services/getconnected
+Proactive Care service levels
+HPE Proactive Care* with 24x7 coverage, three year Support Service
+HPE Proactive Care gives customers an enhanced call experience. When your products are connected to HPE, Proactive Care helps
+prevent problems and maintains IT stability by utilizing personalized proactive reports with recommendations and advice This
+Service combines three years proactive reporting and advice with our 24x7 coverage, four hour hardware response time when there
+is a problem. This service also includes collaborative software support for Independent Software Vendors (ISVs), (Red Hat,
+VMWare, Microsoft, etc.) running on your HPE servers.
+https://www.hpe.com/h20195/v2/GetPDF.aspx/4AA3-8855ENW.pdf
+HPE Proactive Care Advanced* - 24x7 coverage, three year Support Service
+This service helps achieve a higher return on your product investment with personalized support from a local assigned Account
+Support Manager who will share best practice advice and personalized recommendations designed to help improve availability and
+performance to increase stability and reduce unplanned downtime. Leverage your system's ability to connect to HPE for pre-failure
+alerts, automatic call logging and parts dispatch. For business critical incidents, this service offers critical event management to
+reduce mean time to resolution. This recommendation provides 24x7 coverage with four-hour response for hardware and
+collaborative support that offers two-hour callback for supported software issues. Collaborative software management is included
+with independent software vendors unless you have your software support from HPE where we own all cases from start through to
+resolution. https://www.hpe.com/h20195/v2/getdocument.aspx?docname=4AA5-3259ENW
+NOTE: HPE Proactive Care and HPE Proactive Care Advanced require that the customer connect their devices to make the most
+of these services and receive all the deliverables.
+Other related Services
+HPE Installation and Startup Service
+Provides for the installation and startup of HPE technology including BladeSystem, C-Class enclosure, HPE ProLiant c-Class and
+Integrity server blades, storage blades, SAN switch blades, HPE Virtual Connect modules (Ethernet and Fibre Channel), Ethernet
+network interconnects, and InfiniBand, as well as the installation of one supported operating system type (Windows® or Linux).
+HPE Server Hardware Installation
+Provides for the basic hardware installation of HPE branded servers, storage devices and networking options to assist you in
+bringing your new hardware into operation in a timely and professional manner.
+https://www.hpe.com/h20195/V2/GetPDF.aspx/5981-9356EN.pdf
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Service and Support
+Page 12
+HPE Datacenter Care service
+HPE Datacenter Care helps improve IT stability and security, increase the value of IT, and enable agility and innovation. It is a
+structured framework of repeatable, tested, and globally available services "building blocks." You can deploy, operate, and evolve
+your datacenter wherever you are on your IT journey. With HPE Datacenter Care, you benefit from a personalized relationship with
+HPE via a single point of accountability for HPE and others' products. For more information,
+visit https://h20195.www2.hpe.com/v2/GetPDF.aspx/4AA4-0459ENW.pdf
+HPE Flexibly Capacity
+With Flexible Capacity, you get the speed, scalability, and economics of the public cloud in the privacy of your data center. Gain the
+advantages of the public cloud--consumption-based payment, rapid scalability without worrying about capacity constraints.
+Reduce the "heavy lifting" needed to operate a data center. And retain the advantages that IT provides the business (i.e., control,
+security). Deliver the right user experience, choose the right technology for the business, manage privacy and compliance, and
+manage the cost of IT. And, you have the option to use the public cloud when needed.
+HPE Factory Express for Servers and Storage
+HPE Factory Express offers configuration, customization, integration and deployment services for HPE servers and storage
+products. Customers can choose how their factory solutions are built, tested, integrated, shipped and deployed.
+Factory Express offers service packages for simple configuration, racking, installation, complex configuration and design services as
+well as individual factory services, such as image loading, asset tagging, and custom packaging. HPE products supported through
+Factory Express include a wide array of servers and storage: HPE Integrity, HPE ProLiant, HPE Apollo, HPE ProLiant Server Blades,
+HPE BladeSystem, HPE 9000 servers as well as the MSAxxxx3PAR suite, XP, rackable tape libraries and configurable network
+switches.
+HPE Technology Services Support Credits offer flexible services and technical skills to meet your changing IT demands. With a
+menu of service that is tailored to suit your needs, you get additional resources and specialist skills to help you maintain peak
+performance of your IT. Offered as annual credits, you can plan your budgets while proactively responding to your dynamic
+business.
+HPE Education Services
+Keep your IT staff trained making sure they have the right skills to deliver on your business outcomes. Book on a class today and
+learn how to get the most from your technology investment. http://www.hpe.com/ww/learn
+HPE Support Center
+The HPE Support Center is a personalized online support portal with access to information, tools and experts to support HPE
+business products. Submit support cases online, chat with HPE experts, access support resources or collaborate with peers. Learn
+more http://www.hpe.com/support/hpesc
+HPE's Support Center Mobile App* allows you to resolve issues yourself or quickly connect to an agent for live support. Now, you
+can get access to personalized IT support anywhere, anytime.
+HPE Support Center are available at no additional cost with a HPE warranty, HPE Support Service or HPE contractual support
+agreement.
+NOTE*: HPE Support Center Mobile App is subject to local availability. For more information: http://www.hpe.com/services
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Service and Support
+Page 13
+Parts and Materials
+Hewlett Packard Enterprise will provide HPE-supported replacement parts and materials necessary to maintain the covered
+hardware product in operating condition, including parts and materials for available and recommended engineering improvements.
+Parts and components that have reached their maximum supported lifetime and/or the maximum usage limitations as set forth in
+the manufacturer's operating manual, product quick-specs, or the technical product data sheet will not be provided, repaired, or
+replaced as part of these services.
+The defective media retention service feature option applies only to Disk or eligible SSD/Flash Drives replaced by Hewlett Packard
+Enterprise due to malfunction.
+Parts and Materials Hewlett Packard Enterprise will provide HPE-supported replacement parts and materials necessary to
+maintain the covered hardware product in operating condition, including parts and materials for available
+and recommended engineering improvements.
+Parts and components that have reached their maximum supported lifetime and/or the maximum usage
+limitations as set forth in the manufacturer's operating manual, product quick-specs, or the technical
+product data sheet will not be provided, repaired, or replaced as part of these services.
+The defective media retention service feature option applies only to Disk or eligible SSD/Flash Drives
+replaced by Hewlett Packard Enterprise due to malfunction.
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Models
+Page 14
+[SKU Number] 863446-B21 863447-B21
+Model Name HPE ProLiant BL460c Gen10 Intel Xeon-G 5120
+2.2GHz 14-core 2P 64GB-R Server
+HPE ProLiant BL460c Gen10 Intel Xeon-G 6140
+2.3GHz 18-core 2P 128GB-R Server
+Processor Intel Xeon Gold 5120
+(14C, 2.2G, 105W)
+Intel Xeon Gold 6140
+(18C, 2.3G, 140W)
+Number of
+Processors
+2 2
+Cache Memory 19.25MB 24.75MB
+Memory (max) 1.5TB 1.5TB
+Network Controller 536FLB 650FLB
+Storage Controller HPE Smart Array P204b-i
+(12G SAS, 1GB FBWC)
+HPE Smart Array P204b-i
+(12G SAS, 1GB FBWC)
+Hard Drive Not included Not included
+Mezzanine Slots 2 x16 PCIe 3.0 2 x16 PCIe 3.0
+Warranty 3-3-3 3-3-3
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Configuration Information - Factory Integrated Models
+Page 15
+NOTE: This section lists some of the steps required to configure a Factory Integrated Model (configure-to-order or CTO server).
+To ensure only valid configurations are ordered, Hewlett Packard Enterprise recommends the use of an Hewlett Packard
+Enterprise approved configurator. Contact your local sales representative for information on CTO product offerings and
+requirements.
+NOTE: Configure-to-order server blades must start with a CTO Blade Server.
+NOTE: FIO indicates that this option is only available as a factory installable option.
+NOTE: All Factory Integrated Models will be populated with sufficient hard drive blanks based on the number of initial hard
+drives ordered with the server.
+Step 1: Base Server Blade Configuration (Select a configurable Blade)
+Models HPE ProLiant BL460c Gen10 10Gb/20Gb FlexibleLOM Configure-to-order Blade Server 863442-B21
+HPE ProLiant BL460c Gen10 TAA-compliant Configure-to-order Blade Server 875938-B21
+NOTE: Trade Agreement Act (TAA) and means that these SKUs are manufactured in
+countries that are part of the global trade act. This provides greater security assurance that
+these servers come from countries that signed the agreement act. This is particularly
+important to HPE customers in our federal sector and other verticals that have concerns
+about the country of origin for our solutions.
+Configurable Models ship with:
+One (1) FlexibleLOM connector providing a choice for one (1) of the supported 10Gb/20Gb
+FlexibleLOMs (see Step 2)
+Two (2) HPE small form factor hot-plug SAS/SATA/ HDD or SSD hard drive bays
+Two (2) x16 PCIe I/O expansion slots (one Type A, one Type A/B)
+One (1) integrated USB connector and one (1) MicroSDHC connector
+One (1) TPM connector
+HPE iLO Management (standard)
+Step 2: Choose Required Options (one of the following from each list unless otherwise noted)
+HPE Processors
+NOTE: All configure-to-order processor kits (i.e. xxxxxx-L21) contain one (1) processor.
+NOTE: If two processors are desired, select one xxxxxx-L21 here in Step 2 and one xxxxxx-B21 in Step 4.
+Intel Xeon-Platinum Processors
+HPE BL460c Gen10 Intel® Xeon-Platinum 8160 (2.1GHz/24-core/150W) FIO Processor Kit 875957-L21
+HPE BL460c Gen10 Xeon-Platinum 8164 (2.0GHz/26-core/150) Processor FIO Kit 875958-L21
+HPE BL460c Gen10 Xeon-Platinum 8158 (3.0GHz/12-core/150) Processor FIO Kit 875956-L21
+HPE BL460c Gen10 Xeon-Platinum 8153 (2.0GHz/16-core/150) Processor FIO Kit 875954-L21
+Intel Xeon-Gold Processors
+HPE BL460c Gen10 Intel® Xeon-Gold 5115 (2.4GHz/10-core/85W) FIO Processor Kit 872013-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 5118 (2.3GHz/12-core/105W) FIO Processor Kit 872014-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 5120 (2.2GHz/14-core/105W) FIO Processor Kit 872015-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 5122 (3.6GHz/4-core/105W) FIO Processor Kit 875939-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 6126 (2.6GHz/12-core/120W) FIO Processor Kit 875940-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 6128 (3.4GHz/6-core/115W) FIO Processor Kit 875941-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 6130 (2.1GHz/16-core/120W) FIO Processor Kit 875942-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 6132 (2.6GHz/14-core/140W) FIO Processor Kit 875943-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 6134 (3.3GHz/8-core/130W) FIO Processor Kit 875944-L21
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Configuration Information - Factory Integrated Models
+Page 16
+HPE BL460c Gen10 Intel® Xeon-Gold 6136 (3.0GHz/12-core/150W) FIO Processor Kit 875945-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 6138 (2.0GHz/20-core/120W) FIO Processor Kit 875946-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 6140 (2.3GHz/18-core/135W) FIO Processor Kit 875947-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 6142 (2.6GHz/16-core/145W) FIO Processor Kit 875948-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 6148 (2.4GHz/20-core/145W) FIO Processor Kit 875950-L21
+HPE BL460c Gen10 Intel® Xeon-Gold 6152 (2.1GHz/22-core/135W) FIO Processor Kit 875951-L21
+Intel Xeon-Silver Processors
+HPE BL460c Gen10 Intel® Xeon-Silver 4110 (2.1GHz/8-core/85W) FIO Processor Kit 872012-L21
+HPE BL460c Gen10 Intel® Xeon-Silver 4112 (2.6GHz/4-core/85W) FIO Processor Kit 872009-L21
+HPE BL460c Gen10 Intel® Xeon-Silver 4114 (2.2GHz/10-core/85W) FIO Processor Kit 872010-L21
+HPE BL460c Gen10 Intel® Xeon-Silver 4116 (2.1GHz/12-core/85W) FIO Processor Kit 872011-L21
+Intel Xeon-Bronze Processor
+HPE BL460c Gen10 Intel® Xeon-Bronze 3104 (1.7GHz/6-core/85W) FIO Processor Kit 872006-L21
+NOTE: When using processors of 135W or greater, 10 fans are required in the c7000 for optimal performance.
+NOTE: DDR4 speed is the maximum memory speed of the processor. Actual memory speed may depend on
+the quantity and type of DIMMs installed.
+NOTE: Supports 1 or 2 processors. Mixing different processor models is not supported.
+NOTE: For the Intel® C621 Chipset Scalable Family Processors come with model numbers to indicate SKU
+level, processor generation, SKU model, integrations-optimizations or memory capacity. ( ie. HPE BL460c
+Gen10 Gen10 Intel Xeon-Gold 6134M; 6 is the SKU Level, 1 is the processor generation, 34 is the SKU model,
+m indicates memory sku)
+NOTE: The letter "M" following the model number indicates higher maximum memory support up to 1.5TB per
+processor.
+NOTE: Platinum - 8100 Series - 2S - 2UPI @ 10.4 GT/s, 6-Channel DDR4 @ 2666 MT/s, 768 GB memory
+capacity (1.5 TB on select skus), Intel Turbo Boost Technology, Intel Hyper-Threading Technology
+Intel AVX-512 (2x 512-bit FMA), 48 lanes PCIe 3.0, advanced RAS.
+NOTE: Gold - 5100, 6100 Series - 2S - 2UPI @ 10.4 GT/s, 6-Channel DDR4 @ 2400 MHz (SKU
+5122=supports 2666), 768 GB memory capacity (1.5 TB on select skus), Intel Turbo Boost Technology, Intel
+Hyper-Threading Technology, Intel AVX-512(1x 512-bit FMA) (SKU 5122 supports 2x 512 bit FMA), 48
+lanes PCIe 3.0, advanced RAS.
+NOTE: Silver - 4100 Series - 2S - 2UPI @ 9.6 GT/s, 6-Channel DDR4 @ 2400 MHz, 768 GB memory capacity,
+Intel Turbo Boost Technology, Intel Hyper-Threading Technology, Intel AVX-512(1x 512-bit FMA), 48 lanes
+PCIe 3.0, standard RAS.
+NOTE: The BL460c Gen10 includes two I/O mezzanine expansion slots. A processor must be installed in
+processor slot 1 for access to the first mezzanine expansion slot (expansion slot 1). A processor must be
+installed in processor slot 2 for access to the second mezzanine expansion slot (expansion slot 2).
+HPE Memory
+HPE SmartMemory
+Registered DIMMs (RDIMMs)
+HPE 8GB (1x8GB) Single Rank x8 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 815097-B21
+HPE 16GB (1x16GB) Single Rank x4 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 815098-B21
+HPE 16GB (1x16GB) Dual Rank x8 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 835955-B21
+HPE 32GB (1x32GB) Dual Rank x4 DDR4-2666 CAS-19-19-19 Registered Smart Memory Kit 815100-B21
+Load Reduced DIMMs (LRDIMMs)
+HPE 64GB (1x64GB) Quad Rank x4 DDR4-2666 CAS-19-19-19 Load Reduced Smart Memory Kit 815101-B21
+HPE 128GB (1x128GB) Octal Rank x4 DDR4-2666 CAS-22-19-19 3DS Load Reduced Memory Kit 815102-B21
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Configuration Information - Factory Integrated Models
+Page 17
+NOTE: HPE memory from previous generation servers is not supported with this server. HPE SmartMemory is
+required to realize the memory performance improvements and enhanced functionality listed in this document
+for Gen10.
+NOTE: LRDIMM and RDIMM are distinct memory technologies and cannot be mixed within a server.
+NOTE: 128GB DIMMs cannot be mixed with other DIMM capacities within the server
+NOTE: Depending on the memory configuration and processor model, the memory speed may run at
+2666MT/s, 2400MT/s, or 2133MT/s. Please see the Online Memory Configuration Tool at:
+Non-Volatile Memory DIMMs (NVDIMMs)
+HPE 16GB NVDIMM Single Rank x4 DDR4-2666 Module Kit 845264-B21
+NOTE: HPE memory from previous generation servers (DDR3) is not compatible with this compute module.
+HPE SmartMemory is required to realize the memory performance improvements and enhanced functionality
+listed in this document for Gen10. For additional information, please see the HPE SmartMemory QuickSpecs.
+NOTE: LRDIMM and RDIMM are distinct memory technologies and cannot be mixed within a compute module.
+NOTE: For the latest information on Memory Speed.
+NOTE: If you want to know more about the memory, reference the RAS feature whitepaper.
+HPE Networking
+FlexibleLOM Adapters
+NOTE: The server requires one (1) FlexibleLOM that is installed in the FlexibleLOM connectors. All
+FlexibleLOMs are dual port: One port is routed to interconnect module bay 1 and the other to bay 2.
+20Gb FlexibleLOM Adapters
+HPE FlexFabric 20Gb 2-port 630M Adapter 700076-B21
+HPE FlexFabric 20Gb 2-port 630FLB Adapter 700065-B21
+HPE FlexFabric 20Gb 2-port 650M Adapter 700767-B21
+HPE FlexFabric 20Gb 2-port 650FLB Adapter 700763-B21
+10Gb FlexibleLOM Adapters
+HPE FlexFabric 10Gb 2-port 534M Adapter 700748-B21
+HPE FlexFabric 10Gb 2-port 536FLB Adapter 766490-B21
+HPE Ethernet 10Gb 2-port 560M Adapter 665246-B21
+HPE Ethernet 10Gb 2-port 560FLB Adapter 655639-B21
+HPE Storage Controllers
+HPE FIO Enable Smart Array B140i Setting 784308-B21
+NOTE: The HPE Smart Array S100i SR Controller (chipset SATA) comes standard with the HPE BL460c
+Gen10 10Gb/20Gb FLB CTO Blade. If the HPE Smart Array P204i-b controllers is not chosen, a SATA cable
+will be provided to support SATA devices for the two internal drive bays. If RAID is required when using the
+S100i, please choose `HPE FIO Enable Smart Array S100i SR Setting' (784308-B21).
+HPE Smart Array P204i-b SR Gen10 (4 Internal Lanes/1GB Cache) 12G SAS Modular Controller 804367-B21
+HPE Smart Array P408e-m SR Gen10 (8 External Lanes/2GB Cache) 12G SAS Mezzanine Controller 804381-B21
+Step 3: Choose Additional Factory Integration Options
+HPE Unique Options
+HPE BL460c Gen10 M.2 FIO Kit 873870-B21
+HPE Gen10 NVMe FIO Setting 873373-B21
+NOTE: The HPE Gen10 NVMe FIO Setting (873373-B21) is required to support SFF NVMe SSDs within the
+system. This option is not compatible with the HPE Smart Array P204i-b,. Hewlett Packard Enterprise
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Configuration Information - Factory Integrated Models
+Page 18
+recommends the use of a dual M.2 solid state drive enablement kit (873870-B21) together with M.2 SSD
+media for boot when using this option.
+HPE Legacy FIO Mode Setting 758959-B22
+NOTE: Changes default UEFI BIOS setting into Legacy BIOS setting. (758959-B22) is not supported with HPE
+Dual 8GB microSD EM USB Kit (741279-B21) nor with HPE FIO Enable Smart Array S100i SR Setting
+(784308-B21). Must select HPE Gen10 TPM 1.2 FIO if this is selected.
+HPE Memory Fast Fault Tolerance FIO Kit 875293-B21
+NOTE: Enables Double Device Data Correct (DDDC) with significantly higher performance.
+HPE Gen10 TPM 1.2 FIO 872108-B21
+NOTE: Can only be selected with TPM 2.0 Gen10 Kit (864279-B21)
+Converged Infrastructure Management Software
+HPE OneView with iLO Advanced - Server hardware required on same purchase order
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU E5Y35AAE
+HPE OneView for Blade Server including 3yr 24x7 Support FIO Bundle Physical 1-server LTU F6Q89A
+Step 4: Choose Additional Options for Factory Integration
+NOTE: For additional options, please refer to the "Core Options" and "Additional Options" section below. For additional options,
+including server blade enclosures interconnect, mezzanine options and power subsystem options; please see the Core Options
+and Additional sections below; or the following:
+· HPE BladeSystem c3000 Enclosure QuickSpecs:
+https://www.hpe.com/h20195/v2/GetPDF.aspx/c04128340.pdf
+NOTE: The c3000 HPE c-Class enclosures have full backwards and forwards compatibility, existing server blades are
+supported in the new enclosures and any future server blades will be supported in the existing enclosures.
+· HPE BladeSystem c7000 Enclosure QuickSpecs:
+https://www.hpe.com/h20195/v2/GetPDF.aspx/c04128339.pdf
+NOTE: The c7000 HPE c-Class enclosures have full backwards and forwards compatibility, existing server blades are
+supported in the new enclosures and any future server blades will be supported in the existing enclosures.
+· HPE BladeSystem c-Class Interconnect and Mezzanine Components:
+https://www.hpe.com/us/en/integrated-systems/bladesystem.html#portfolio
+NOTE: For optimal cooling and system performance the BL460c Gen10 Server Blade requires the c7000 enclosure to be
+configured with 10 fans and the c3000 enclosure to be configured with 6 fans.
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Core Options
+Page 19
+HPE Networking
+NOTE: A 10 Gigabit Ethernet adapter supports linking at 1Gbps or 10Gbps when connected to an
+interconnect module with 10Gb Ethernet downlinks.
+NOTE: A 10 Gigabit Ethernet adapter supports linking at only 1Gbps when connected to an interconnect
+module with 1Gb Ethernet downlinks.
+NOTE: The 10 Gigabit Ethernet adapters on each server blade connect to a 10Gb interconnect in bays 3-6
+(HPE BladeSystem c7000 Enclosure) or bays 2-4 (HPE BladeSystem c3000 Enclosure).
+20 Gigabit Ethernet Mezzanine Cards
+HPE FlexFabric 20Gb 2-port 630M Adapter 700076-B21
+NOTE: Please see QuickSpecs for technical specifications and additional information
+at https://www.hpe.com/h20195/v2/GetDocument.aspx?docname=c04312720
+HPE FlexFabric 20Gb 2-port 650M Adapter 700767-B21
+NOTE: Please see QuickSpecs for technical specifications and additional information
+at https://www.hpe.com/h20195/v2/GetDocument.aspx?docname=c04347342
+10 Gigabit Ethernet Mezzanine Cards
+HPE FlexFabric 10Gb 2-port 534M Adapter 700748-B21
+NOTE: Please see QuickSpecs for technical specifications and additional information
+at: https://www.hpe.com/us/en/product-catalog/servers/server-adapters.html
+HPE Ethernet 10Gb 2-port 560M Adapter 665246-B21
+NOTE: Please see QuickSpecs for technical specifications and additional information
+at: https://www.hpe.com/h20195/v2/GetPDF.aspx/c04111406.pdf
+FlexibleLOM Adapters
+NOTE: The server supports one (1) FlexibleLOM that is installed in the FlexibleLOM connectors and is already
+included in the pre-configured models. However, it must be added in Step 2 for Configure-to-Order Models.
+The FlexibleLOM options below are used to change these original FlexibleLOMs.
+20Gb FlexibleLOM Adapters
+HPE FlexFabric 20Gb 2-port 630FLB Adapter 700065-B21
+NOTE: Please see QuickSpecs for technical specifications and additional information
+at https://www.hpe.com/h20195/v2/GetDocument.aspx?docname=c04312719
+HPE FlexFabric 20Gb 2-port 650FLB Adapter 700763-B21
+NOTE: Please see QuickSpecs for technical specifications and additional information
+at https://www.hpe.com/h20195/v2/GetDocument.aspx?docname=c04347341
+NOTE: Please see QuickSpecs for technical specifications and additional information
+at https://www.hpe.com/h20195/v2/GetDocument.aspx?docname=c04347246
+HPE Ethernet 10Gb 2-port 560FLB Adapter 655639-B21
+NOTE: Please see QuickSpecs for technical specifications and additional information
+at https://www.hpe.com/h20195/v2/GetPDF.aspx/c04111516.pdf
+HPE Infiniband Mezzanine Adapters
+NOTE: When an InfiniBand adapter is installed in mezzanine slot 1, only one port is active (regardless of
+operating mode). When installed in mezzanine slot 2, both ports are active.
+HPE InfiniBand FDR/Ethernet 10Gb/40Gb 2-port 544+M Adapter 764283-B21
+NOTE: The FDR InfiniBand adapter must be installed in mezzanine slot 1 for FDR mode and may be installed
+in either mezzanine slot if operated in any other mode.
+10Gb FlexibleLOM Adapters
+HPE FlexFabric 10Gb 2-port 536FLB Adapter 766490-B21
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Core Options
+Page 20
+HPE Fibre Channel
+HPE LPe1605 16Gb Fibre Channel HBA for BladeSystem c-Class 718203-B21
+NOTE: Please see QuickSpecs for technical specifications and additional information
+at https://www.hpe.com/h20195/v2/getpdf.aspx/c04315132.pdf?ver=2
+HPE QMH2672 16Gb Fibre Channel Host Bus Adapter 710608-B21
+NOTE: Please see QuickSpecs for technical specifications and additional information
+at https://www.hpe.com/h20195/v2/GetDocument.aspx?docname=c04126962
+HPE Processors
+Intel Xeon-Platinum Processors
+HPE BL460c Gen10 Intel Xeon-Platinum 8160 (2.1GHz/24-core/145W) Processor Kit 875957-B21
+HPE BL460c Gen10 Intel Xeon-Platinum 8164 (2.0GHz/26-core/150W) Processor Kit 875958-B21
+HPE BL460c Gen10 Intel Xeon-Platinum 8158 (3.0GHz/12-core/105W) Processor Kit 875956-B21
+Intel Xeon-Platinum Processors
+HPE BL460c Gen10 Intel Xeon-Platinum 8153 (2.0GHz/16-core/125W) Processor Kit 875954-B21
+Intel Xeon-Gold Processors
+HPE BL460c Gen10 Intel Xeon-Gold 5115 (2.4GHz/10-core/85W) Processor Kit 872013-B21
+HPE BL460c Gen10 Intel Xeon-Gold 5118 (2.3GHz/12-core/105W) Processor Kit 872014-B21
+HPE BL460c Gen10 Intel Xeon-Gold 5120 (2.2GHz/14-core/105W) Processor Kit 872015-B21
+HPE BL460c Gen10 Intel Xeon-Gold 5122 (3.6GHz/4-core/105W) Processor Kit 875939-B21
+HPE BL460c Gen10 Intel Xeon-Gold 6126 (2.6GHz/12-core/120W) Processor Kit 875940-B21
+HPE BL460c Gen10 Intel Xeon-Gold 6128 (3.4GHz/6-core/115W) Processor Kit 875941-B21
+HPE BL460c Gen10 Intel Xeon-Gold 6130 (2.1GHz/16-core/120W) Processor Kit 875942-B21
+HPE BL460c Gen10 Intel Xeon-Gold 6132 (2.6GHz/14-core/140W) Processor Kit 875943-B21
+HPE BL460c Gen10 Intel Xeon-Gold 6134 (3.3GHz/8-core/130W) Processor Kit 875944-B21
+HPE BL460c Gen10 Intel Xeon-Gold 6136 (3.0GHz/12-core/150W) Processor Kit 875945-B21
+HPE BL460c Gen10 Intel Xeon-Gold 6138 (2.0GHz/20-core/120W) Processor Kit 875946-B21
+HPE BL460c Gen10 Intel Xeon-Gold 6140 (2.3GHz/18-core/140W) Processor Kit 875947-B21
+HPE BL460c Gen10 Intel Xeon-Gold 6142 (2.6GHz/16-core/145W) Processor Kit 875948-B21
+HPE BL460c Gen10 Intel Xeon-Gold 6148 (2.4GHz/20-core/145W) Processor Kit 875950-B21
+HPE BL460c Gen10 Intel Xeon-Gold 6152 (2.1GHz/22-core/135W) Processor Kit 875951-B21
+Intel Xeon-Silver Processors
+HPE BL460c Gen10 Intel Xeon-Silver 4110 (2.1GHz/8-core/85W) Processor Kit 872012-B21
+HPE BL460c Gen10 Intel Xeon-Silver 4112 (2.6GHz/4-core/85W) Processor Kit 872009-B21
+HPE BL460c Gen10 Intel Xeon-Silver 4114 (2.2GHz/10-core/85W) Processor Kit 872010-B21
+HPE BL460c Gen10 Intel Xeon-Silver 4116 (2.1GHz/12-core/85W) Processor Kit 872011-B21
+Intel Xeon-Bronze Processor
+HPE BL460c Gen10 Intel Xeon-Bronze 3104 (1.7GHz/6-core/85W) Processor Kit 872006-B21
+NOTE: When using processors of 135W or greater, 10 fans are required in the c7000 for optimal performance.
+NOTE: DDR4 speed is the maximum memory speed of the processor. Actual memory speed may depend on
+the quantity and type of DIMMs installed.
+NOTE: Supports 1 or 2 processors. Mixing different processor models is not supported.
+NOTE: For the Intel® C621 Chipset Scalable Family Processors come with model numbers to indicate SKU
+level, processor generation, SKU model, integrations-optimizations or memory capacity. ( ie. HPE BL460c
+Gen10 Gen10 Intel Xeon-Gold 6134M; 6 is the SKU Level, 1 is the processor generation, 34 is the SKU model,
+m indicates memory sku)
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Core Options
+Page 21
+NOTE: The letter "M" following the model number indicates higher maximum memory support up to 1.5TB per
+processor.
+NOTE: Platinum - 8100 Series - 2S - 2UPI @ 10.4 GT/s, 6-Channel DDR4 @ 2666 MT/s, 768 GB memory
+capacity (1.5 TB on select skus), Intel Turbo Boost Technology, Intel Hyper-Threading Technology
+Intel AVX-512 (2x 512-bit FMA), 48 lanes PCIe 3.0, advanced RAS.
+NOTE: Gold - 5100, 6100 Series - 2S - 2UPI @ 10.4 GT/s, 6-Channel DDR4 @ 2400 MHz (SKU
+5122=supports 2666), 768 GB memory capacity (1.5 TB on select skus), Intel Turbo Boost Technology, Intel
+Hyper-Threading Technology, Intel AVX-512(1x 512-bit FMA) (SKU 5122 supports 2x 512 bit FMA), 48
+lanes PCIe 3.0, advanced RAS.
+NOTE: Silver - 4100 Series - 2S - 2UPI @ 9.6 GT/s, 6-Channel DDR4 @ 2400 MHz, 768 GB memory capacity,
+Intel Turbo Boost Technology, Intel Hyper-Threading Technology, Intel AVX-512(1x 512-bit FMA), 48 lanes
+PCIe 3.0, standard RAS.
+NOTE: The BL460c Gen10 includes two I/O mezzanine expansion slots. A processor must be installed in
+processor slot 1 for access to the first mezzanine expansion slot (expansion slot 1). A processor must be
+installed in processor slot 2 for access to the second mezzanine expansion slot (expansion slot 2).
+HPE Drives
+NOTE: The ProLiant BL460c Gen10 server includes the HPE hot-plug small form factor (SFF) SmartDrive
+carrier for enhanced management and reduced maintenance errors. HPE drives from generation G7 servers
+and before are not compatible with the BL460c Gen10 drive bays.
+NOTE: The mixing of standard SAS drives with SAS SSD is supported within the server, but limits the RAID
+configuration to two separate RAID 0 volumes. Mixing of other drives types is not supported.
+NOTE: HPE hard drives have either a one year or three year warranty; refer to the specific hard drive
+QuickSpecs for details.
+NOTE: The hard drive options are not required when configuring a drive-less model.
+HPE Solid State M.2 SATA Drives
+HPE Solid State M.2 drives for installation internal to server blade
+NOTE: The solid state M.2 drives require the selection of HPE BL460c Gen10 M.2 FIO Enablement Kit
+(873870-B21).
+NOTE: M.2 drives cannot be mixed with other sizes and capacities within the system.
+NOTE: RAID 1, 0, and 5 are provided through the S100i in UEFI BIOS mode only.
+HPE BL460c Gen10 M.2 FIO Enablement Kit 873870-B21
+HPE 240GB SATA 6G Mixed Use M.2 2280 3yr Wty Digitally Signed Firmware SSD 875488-B21
+HPE 480GB SATA 6G Read Intensive M.2 2280 3yr Wty Digitally Signed Firmware SSD 875498-B21
+HPE Solid State M.2 drives for installation internal to server blade
+HPE 480GB SATA 6G Mixed Use M.2 2280 3yr Wty Digitally Signed Firmware SSD 875490-B21
+HPE 960GB SATA 6G Mixed Use M.2 2280 3yr Wty Digitally Signed Firmware SSD 875492-B21
+HPE 960GB SATA 6G Read Intensive M.2 2280 3yr Wty Digitally Signed Firmware SSD 875500-B21
+HPE 400GB NVMe x4 Lanes Mixed Use M.2 22110 3yr Wty Digitally Signed Firmware SSD 875583-B21
+HPE 800GB NVMe x4 Lanes Mixed Use M.2 22110 3yr Wty Digitally Signed Firmware SSD 875585-B21
+HPE 480GB NVMe x4 Lanes Read Intensive M.2 22110 3yr Wty Digitally Signed Firmware SSD 875579-B21
+HPE 960GB NVMe x4 Lanes Read Intensive M.2 22110 3yr Wty Digitally Signed Firmware SSD 875581-B21
+HPE NVMe PCIe Read Intensive SFF (2.5-inch) Solid State Drives
+HPE 2TB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 877986-B21
+HPE NVMe PCIe Read Intensive SFF (2.5-inch) Solid State Drives
+HPE 480GB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 875587-B21
+HPE 960GB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 875589-B21
+HPE 1.92TB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 875591-B21
+HPE 4TB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 877988-B21
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Core Options
+Page 22
+HPE NVMe PCIe Mixed Use SFF (2.5-inch) Solid State Drives
+HPE 400GB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 875593-B21
+HPE 800GB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 875595-B21
+HPE 1.6TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 877994-B21
+HPE NVMe PCIe Mixed Use SFF (2.5-inch) Solid State Drives
+HPE 800GB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10220-B21
+HPE 1.6TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10222-B21
+HPE 1.92TB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10214-B21
+HPE 3.2TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10224-B21
+HPE 3.84TB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10216-B21
+HPE 6.4TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10226-B21
+HPE 7.68TB NVMe x4 Lanes Read Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD P10218-B21
+HPE NVMe PCIe Mixed Use SFF (2.5-inch) Solid State Drives
+HPE 1.6TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 875597-B21
+HPE 3.2TB NVMe x4 Lanes Mixed Use SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 877998-B21
+HPE NVMe PCIe Write Intensive SFF (2.5-inch) Solid State Drives
+HPE 375GB NVMe x4 Lanes Write Intensive SFF (2.5in) SCN 3yr Wty Digitally Signed Firmware SSD 878014-B21
+SATA Hot Plug SmartDrive SFF (2.5-inch) SSD Drives
+HPE 3.84TB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P00896-B21
+SATA Hot Plug SmartDrive SFF (2.5-inch) SSD Drives
+HPE 240GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 877740-B21
+HPE 480GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04474-B21
+HPE 960GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 877752-B21
+HPE 960GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04476-B21
+HPE 1.92TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 877758-B21
+HPE 1.92TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04478-B21
+HPE 3.84TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04480-B21
+HPE 7.68TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04482-B21
+HPE 480GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P07922-B21
+HPE 960GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P07926-B21
+HPE 1.92TB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 877788-B21
+HPE 1.92TB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P07930-B21
+HPE 240GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 880295-B21
+SAS Hot Plug with SmartDrive SFF (2.5-inch) Enterprise Drives
+HPE 960GB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04517-B21
+HPE 1.92TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04519-B21
+HPE 3.84TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04521-B21
+HPE 7.68TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04523-B21
+SATA Hot Plug with SmartDrive SFF (2.5-inch) Enterprise Drives
+HPE 480GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09712-B21
+HPE 960GB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09716-B21
+HPE 1.92TB SATA 6G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09722-B21
+SAS Hot Plug with SmartDrive SFF (2.5-inch) Enterprise Drives
+HPE 300GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 870753-B21
+HPE 600GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 870757-B21
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Core Options
+Page 23
+HPE 900GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 870759-B21
+HPE 1TB SAS 12G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e Digitally Signed Firmware HDD 765464-B21
+HPE 1TB SAS 12G Midline 7.2K SFF (2.5in) SC 1yr Wty Digitally Signed Firmware HDD 832514-B21
+HPE 2TB SAS 12G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e HDD 765466-B21
+HPE 2.4TB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty 512e Digitally Signed Firmware HDD 881457-B21
+SAS Hot Plug with SmartDrive SFF (2.5-inch) Enterprise Drives
+HPE 900GB SAS 12G Enterprise 15K SFF (2.5in) SC 3yr Wty 512e Digitally Signed Firmware HDD 870765-B21
+SATA (2.5-inch) Hard Drives
+HPE 1TB SATA 6G Midline 7.2K SFF (2.5in) SC 1yr Wty Digitally Signed Firmware HDD 655710-B21
+HPE 2TB SATA 6G Midline 7.2K SFF (2.5in) SC 1yr Wty 512e Digitally Signed Firmware HDD 765455-B21
+12G SAS Read Intensive SFF (2.5-inch) SC SSD
+HPE 1.92TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 875326-B21
+HPE 960GB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 875313-B21
+HPE 960GB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06584-B21
+HPE 480GB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 875311-B21
+HPE 960GB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872390-B21
+HPE 1.92TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872392-B21
+HPE 1.92TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06586-B21
+HPE 3.84TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872394-B21
+HPE 3.84TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06588-B21
+HPE 7.68TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06590-B21
+HPE 15.3TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P06592-B21
+HPE 240GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04556-B21
+HPE 480GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04560-B21
+HPE 960GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04564-B21
+HPE 1.92TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04566-B21
+12G SAS Read Intensive SFF (2.5-inch) SC SSD
+HPE 3.84TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 875330-B21
+HPE 7.68TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 870144-B21
+HPE 15.3TB SAS 12G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 870148-B21
+HPE 3.84TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04570-B21
+12G SAS Mixed Use SFF (2.5-inch) SC SSD
+HPE 400GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 873359-B21
+HPE 800GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 873363-B21
+HPE 1.6TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 873365-B21
+HPE 3.2TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 873367-B21
+HPE 400GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872374-B21
+HPE 800GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872376-B21
+HPE 1.6TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872382-B21
+12G SAS Mixed Use SFF (2.5-inch) SC SSD
+HPE 3.2TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 872386-B21
+HPE 400GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04525-B21
+HPE 800GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04527-B21
+HPE 1.6TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04533-B21
+HPE 3.2TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04537-B21
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Core Options
+Page 24
+HPE 6.4TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04539-B21
+HPE 400GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09088-B21
+HPE 800GB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09090-B21
+HPE 1.6TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09092-B21
+HPE 3.2TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09094-B21
+HPE 6.4TB SAS 12G Mixed Use SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09096-B21
+12G SAS Write Intensive SFF (2.5-inch) SC SSD
+HPE 400GB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 873351-B21
+HPE 800GB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 873355-B21
+12G SAS Write Intensive SFF (2.5-inch) SC SSD
+HPE 1.6TB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 873357-B21
+HPE 400GB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04541-B21
+HPE 400GB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09098-B21
+HPE 800GB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04543-B21
+HPE 800GB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09100-B21
+HPE 1.6TB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04545-B21
+HPE 1.6TB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P09102-B21
+HPE 3.2TB SAS 12G Write Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD P04547-B21
+HPE 1.2TB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 872479-B21
+HPE 600GB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 872477-B21
+HPE 300GB SAS 12G Enterprise 10K SFF (2.5in) SC 3yr Wty Digitally Signed Firmware HDD 872475-B21
+12G SATA 2.5in RI-3 SFF SC SSD
+HPE 1.92TB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 875513-B21
+HPE 960GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 875511-B21
+HPE 480GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 875509-B21
+HPE 240GB SATA 6G Read Intensive SFF (2.5in) SC 3yr Wty Digitally Signed Firmware SSD 875503-B21
+NOTE: The mixing of standard SAS drives with SAS SSD is supported within the server, but limits the RAID
+configuration to two separate RAID 0 volumes. Mixing of other drives types is not supported
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Additional Options
+Page 25
+HPE iLO Advanced License
+HPE Integrated Lights-Out (iLO) Advanced for ProLiant BladeSystem Remote Management
+HPE iLO Advanced for BladeSystem Electronic License with 3yr Support on iLO Licensed Features E6U63ABE
+HPE iLO Advanced for BladeSystem 1-server License with 3yr Support on iLO Licensed Features BD502A
+HPE iLO Advanced for BladeSystem Electronic License with 1yr Support on iLO Licensed Features E6U60ABE
+HPE iLO Advanced for BladeSystem 1-server License with 1yr Support on iLO Licensed Features 512488-B21
+NOTE: Customer will receive a license entitlement certificate, which must be redeemed online or via fax in
+order to obtain the license activation key(s). Includes one or three years of 24 x 7 HPE Software Technical
+Support Service.
+NOTE: For additional license kits, including electronic delivery options, please see the iLO QuickSpecs
+at https://www.hpe.com/us/en/servers/integrated-lights-out-ilo.html
+NOTE: Customer will receive a license entitlement certificate, which must be redeemed online or via fax in
+order to obtain the license activation key(s). Includes one or three year of 24 x 7 HPE Software Technical
+Support Service.
+Converged Infrastructure Management Software
+HPE OneView
+HPE OneView with iLO Advanced
+HPE OneView including 3yr 24x7 Support Physical 1-server LTU E5Y34A
+HPE OneView including 3yr 24x7 Support Flexible Quantity E-LTU E5Y35AAE
+HPE OneView Physical Media Kit LTU E5Y37A
+HPE OneView w/o iLO including 3yr 24x7 Support 1-server LTU P8B24A
+HPE OneView w/o iLO including 3yr 24x7 Support Flexible Quantity E-LTU P8B26AAE
+HPE OneView w/o iLO including 3yr 24x7 Support 1-server FIO LTU P8B31A
+NOTE: For additional license kits please see the QuickSpecs at
+https://www.hpe.com/h20195/v2/GetHTML.aspx?docname=c04154343
+HPE Security
+HPE Trusted Platform Module 2.0 Gen10 Option 864279-B21
+NOTE: The TPM (Trusted Platform Module) is a microcontroller chip that can securely store artifacts used to
+authenticate the server platform. These artifacts can include passwords, certificates and encryption keys.
+Windows® BitLockerTM Drive Encryption (BitLocker) is a data protection feature available in Windows Server®
+2008 R2 and 2012. BitLocker leverages the enhanced security capabilities of a Trusted Platform Module
+(TPM) version 1.2. The TPM works with BitLocker to help protect user data and to ensure that a server
+running Windows Server 2008 R2 and 2012 has not been tampered with while the system was offline.
+NOTE: For more information about TPM, including a white paper, go to
+https://h20195.www2.hpe.com/v2/GetPDF.aspx/c04939549.pdf
+NOTE: ProLiant OS pre-installed units will come with the partition required for TPM deployment.
+NOTE: The TPM key is unique to every TPM deployed server and must be retained. Misplacing or losing the
+key could result in data loss.
+HPE Storage Controllers
+HPE Smart Array P204i-b SR Gen10 (4 Internal Lanes/1GB Cache) 12G SAS Modular Controller 804367-B21
+HPE FIO Enable Smart Array SW RAID 784308-B21
+HPE Gen10 NVMe FIO Setting 873373-B21
+HPE Storage Controllers
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Additional Options
+Page 26
+HPE Smart Array P408e-m SR Gen10 (8 External Lanes/2GB Cache) 12G SAS Mezzanine Controller 804381-B21
+NOTE: The HPE Gen10 NVMe FIO Setting (873373-B21) is required to support SFF NVMe SSDs within the
+system. This option is not compatible with the HPE Smart Array P204i-b,. Hewlett Packard Enterprise
+recommends the use of a dual M.2 solid state drive kit for boot when using this option.
+NOTE: The HPE Smart Array S100i SR Controller (chipset SATA) comes standard with the HPE BL460c
+Gen10 10Gb/20Gb FLB CTO Blade. If the HPE Smart Array P204i-b controllers is not chosen, a SATA cable
+will be provided to support SATA devices for the two internal drive bays. If RAID is required when using the
+S100i, please choose `HPE FIO Enable Smart Array S100i SR Setting' (784308-B21).
+HPE Secure Encryption
+HPE Smart Array SR Secure Encryption (Data at Rest Encryption/per Server Entitlement) E-LTU Q2F26AAE
+NOTE: HPE Secure Encryption is supported on the HPE Smart Array P204i-b and P408e-m as an option. HPE
+Secure Encryption licensing is based on the number of physical drives requiring encryption.
+NOTE: For more information about HPE Secure Encryption, go to https://www.hpe.com/us/en/product-
+catalog/detail/pip.6532260.html
+HPE InfiniBand Mezzanine Adapters
+NOTE: InfiniBand FDR is the only speed supported on the HPE BL460c Gen10. For additional information,
+please see the HPE BladeSystem c7000 Enclosure and InfiniBand QuickSpecs at:
+https://www.hpe.com/h20195/v2/GetPDF.aspx/c04128339.pdf
+https://www.hpe.com/h20195/v2/getpdf.aspx/c04126044.pdf?ver=26
+HPE InfiniBand FDR/Ethernet 10Gb/40Gb 2-port 544+M Adapter 764283-B21
+NOTE: The FDR InfiniBand adapter must be installed in mezzanine slot 1 for FDR mode and may be installed
+in any mezzanine slot if operated in any other mode.
+NOTE: When an InfiniBand adapter is installed in mezzanine slot 1, only one port is active (regardless of
+operating mode). When installed in any other mezzanine slot, both ports are active.
+HPE Flash Media Kits for USB Drives
+HPE Enterprise Mainstream Flash Media Kits for Memory Cards
+HPE 8GB microSD Flash USB Drive 737953-B21
+HPE 8GB microSD Flash Memory Card 726116-B21
+HPE 32GB microSD Flash Memory Card 700139-B21
+HPE 8GB Dual microSD Flash USB Drive 741279-B21
+HPE Pointnext operational services
+Proactive Care Services
+HPE 3 Year Proactive Care 24x7 ProLiant BL460c Gen10 Service H7LT4E
+HPE 3 Year Proactive Care 24x7 with DMR ProLiant BL460c Gen10 Service H7LT5E
+HPE 3 Year Proactive Care Advanced 24x7 ProLiant BL460c Gen10 Service H7LT7E
+HPE 3 Year Proactive Care Advanced 24x7 with DMR ProLiant BL460c Gen10 Service H7LT8E
+Installation Services
+HPE Install c-Class Server Blade Service UE493E
+NOTE: Additional HPE Pointnext operational services can be found
+at: https://www.hpe.com/us/en/services/operational.html
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Memory
+Page 27
+Memory Subsystem Architecture
+Each processor socket contains six memory channels that support one or two DIMMs each for a total of eight (8) DIMMs per
+installed processor or a grand total of sixteen (16) DIMMs for the server blade
+BL460c Gen10 DIMM Channels and Numbering
+8 DIMM per CPU Population Guidelines
+NOTE: Chart to be read from left to right. For example, when installing four (4) DIMMs on a processor, DIMMs 2, 3, 6, and 7
+should be populated.
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Memory
+Page 28
+NOTE: For optimal performance, HPE does not recommend configurations with five (5) or seven (7) DIMMs in the BL460c
+Gen10 server blade.
+For more information or additional DIMM configurations go to: http://www.hpe.com/docs/memory-population-rules
+Memory Population Rules and Guidelines
+· A minimum of one DIMM is required per processor.
+· Install DIMMs only if the corresponding processor is installed.
+· If only one processor is installed in a two processor system, only half of the DIMM slots are available.
+· DIMM sizes can be mixed in channel. To maximize performance, it is recommended to balance the total memory capacity
+between all installed processors and to load the channels similarly whenever possible.
+· LRDIMM and RDIMMs are all distinct memory technologies and cannot be mixed within a compute module.
+· DIMMs of different speeds may be mixed in any order; the compute module will select a common optimal speed.
+· The maximum memory speed is a function of the memory type, memory configuration, and processor model.
+· The maximum memory capacity is a function of the memory type and number of installed processors.
+· HPE memory from previous generation servers is not compatible with the HPE ProLiant BL460c Gen10 Server Blade.
+To realize the performance memory capabilities listed in this document, HPE SmartMemory is required. For additional information,
+please see the HPE SmartMemory QuickSpecs at: : http://www.hpe.com/docs/memory-population-rules
+BL460c Gen10 Server Blade
+Memory Speed Table
+6DPC BL460c Gen10 Server Blade
+DIMM Type Register DIMM (RDIMM)
+HPE SKU P/N 815097-B21 815098-B21 835955-B21 815100-B21
+SKU Description
+HPE 8GB 1Rx8 PC4-
+2666V-R
+HPE 16GB 1Rx4
+PC4-2666V-R
+HPE 16GB 2Rx8
+PC4-2666V-R
+HPE 32GB 2Rx4
+PC4-2666V-R
+DIMM Rank Single Rank (1R) Single Rank (1R) Dual Rank (2R) Dual Rank (2R)
+DIMM Capacity 8GB 16GB 16GB 32GB
+Voltage 1.2V 1.2V 1.2V 1.2V
+DRAM depth [bit] 1G 2G 1G 2G
+DRAM Width [bit] x8 x4 x8 x4
+DRAM Density 8Gb 8Gb 8Gb 8Gb
+CAS Latency 19-19-19 19-19-19 19-19-19 19-19-19
+DIMM Native Speed (MT/s) 2666 2666 2666 2666
+HPE Server Memory Speed (MT/s) with Intel Xeon 8100 & 6100 Series Scalable Family Processors (Platinum)( also
+supported 5122)
+1 DIMM Per Channel 2666 2666 2666 2666
+2 DIMM Per Channel 2666 2666 2666 2666
+HPE Server Memory Speed (MT/s) with Intel Xeon 5100 & 4100 Series Scalable Family Processors (Silver/Gold)(except
+for 5122 processor above)
+1 DIMM Per Channel 2400 2400 2400 2400
+2 DIMM Per Channel 2400 2400 2400 2400
+HPE Server Memory Speed (MT/s) with Intel Xeon 3100 Series Scalable Family Processors (Bronze)
+1 DIMM Per Channel 2133 2133 2133 2133
+2 DIMM Per Channel 2133 2133 2133 2133
+DIMM Type Load Reduced (LRDIMM)
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Memory
+Page 29
+HPE SKU P/N 815101-B21 815102-B21
+SKU Description HPE 64GB 4Rx4 PC4-2400V-L HPE 128GB 8Rx4 PC4-2666V-L
+DIMM Rank Quad Rank (4R) Octal Rank (8R)
+DIMM Capacity 64GB 128GB
+Voltage 1.2V 1.2V
+DRAM depth [bit] 2G 2G
+DRAM Width [bit] x4
+DRAM Density 8Gb 8Gb
+CAS Latency 19-19-19 19-19-19
+DIMM Native Speed (MT/s) 2666 2666
+HPE Server Memory Speed (MT/s) with Intel Xeon 8100 & 6100 Series Scalable Family Processors (Gold/Platinum)
+1 DIMM Per Channel 2666 2666
+2 DIMM Per Channel 2666 2666
+HPE Server Memory Speed (MT/s) with Intel Xeon 5100 & 4100 Series Scalable Family Processors (Silver/Gold)
+1 DIMM Per Channel 2400 2400
+2 DIMM Per Channel 2400 2400
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Technical Specifications
+Page 30
+System Unit
+Dimensions
+(H x W x D) (with bezel)
+7.11 x 2.18 x 20.37 in (18.07 x 5.54 x 51.76 cm)
+Weight
+(approximate)
+Maximum: all processors, 16 DIMMs, hard
+drives, mezzanine cards, and two flash
+cache batteries installed)
+14.00 lb (6.33 kg)
+Minimum: one processor and 2 DIMMs
+installed
+10.50 lb (4.75 kg)
+Power Specifications For power specifications including input requirements, BTU rating, and power supply output,
+please see the:
+· HPE BladeSystem c3000 Enclosure QuickSpecs
+at https://www.hpe.com/h20195/v2/GetDocument.aspx?docname=c04123379
+· HPE BladeSystem c7000 Enclosure QuickSpecs
+at https://www.hpe.com/h20195/v2/GetHTML.aspx?docname=c04229580
+To review typical system power ratings use the HPE Power Advisor which is available via the
+online tool located at https://paonline56.itcs.hpe.com.
+NOTE: For optimal cooling and system performance the BL460c Gen10 Server Blade requires
+the c7000 enclosure to be configured with 10 fans and the c3000 enclosure to be configured
+with 6 fans.
+System Inlet Temperature Operating 10° to 35°C (50° to 95°F) at sea level with an altitude
+derating of 1.0°C per every 305 m (1.8°F per every
+1,000 ft) above sea level to a maximum of 3,050 m
+(10,000 ft), no direct sustained sunlight.
+Maximum rate of change is 10°C/hr (18°F/hr). The
+upper limit may be limited by the type and number of
+options installed.
+System performance may be reduced if operating with
+a fan fault or above 30°C (86°F).
+Non-operating -30° to 60°C (-22° to 140°F). Maximum rate of change
+is 20°C/hr (36°F/hr).
+Extended Ambient Operating
+Support
+For Approved hardware configurations, the supported system inlet range is extended to be:
+5° to 10°C (41° to 50°F) and 35° to 40°C (95° to 104°F) at sea level with an altitude derating of
+1.0°C per every 175 m (1.8°F per every 574 ft) above 900 m (2953 ft) to a maximum of 3050 m
+(10,000 ft)
+NOTE: Qualifications for extended ambient configurations are detailed at:
+http://h17007.www1.hpe.com/us/en/enterprise/servers/solutions/info-
+library/index.aspx?cat=extended_ambient_operating_support#.Wuyykk3rtaQ
+Relative Humidity
+(non-condensing)
+Operating 10 to 90% relative humidity (Rh), 28°C (82.4°F)
+maximum wet bulb temperature, non-condensing.
+Non-operating 5 to 95% relative humidity (Rh), 38.7°C (101.7°F)
+maximum wet bulb temperature, non-condensing.
+Altitude Operating 3,050 m (10,000 ft). This value may be limited by the
+type and number of options installed. Maximum
+allowable altitude change rate is 457 m/min (1,500
+ft/min).
+Non-operating 9,144 m (30,000 ft). Maximum allowable altitude
+change rate is 457 m/min (1,500 ft/min).
+Acoustic Noise For acoustic noise specifications, please see the HPE BladeSystem c-Class Enclosures QuickSpecs
+located at:
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Technical Specifications
+Page 31
+· HPE BladeSystem c3000 Enclosure
+QuickSpecs: https://www.hpe.com/h20195/v2/GetPDF.aspx/c04128340.pdf
+· HPE BladeSystem c7000 Enclosure
+QuickSpecs: https://www.hpe.com/h20195/v2/GetPDF.aspx/c04128339.pdf
+HPE FlexFabric 10Gb 2-port 536FLB FlexibleLOM
+Type Integrated dual-port KR 10Gb FlexibleLOM with FlexFabric (Flex-10, FCoE, hardware-based iSCSI,
+iSCSI boot, TCP/IP offload engine, and autosensing 1Gb/10Gb Ethernet capability)
+Network Processor QLogic 57840S with integrated MAC/PHY
+Data Transfer Method x8 PCI Express 3.0
+Network Transfer Rate Two ports, each at 20Gbps full duplex; 40Gbps aggregate full duplex theoretical bandwidth
+NOTE: Each port is autosensing 1Gb/10Gb, and can interoperate with 1Gb or 10Gb HPE
+BladeSystem c-Class interconnect components. Both ports will operate at the same speed.
+NOTE: Each port on the 536FLB adapter transmits from the server at 20Gbps (theoretical) full
+duplex.
+IEEE Compliance 802.1p, 802.1q, 802.1qau, 802.3ad, 802.3ae, 802.3ap (10GBase-KX4) and 802.3x
+Standard Features Full hardware offload of iSCSI and FCoE storage protocol processing for highest performance
+converged Ethernet data and storage networks.
+Dual-port 10GbE Flex-10 FlexibleLOM network adapter that provides the flexibility to choose the
+type of LOM to meet growing infrastructure needs
+Industry-leading throughput and latency performance
+Supports the HPE Flex-10 blade interconnect technology
+User configurable bandwidth settings when combined with the 10Gb Flex-10 Virtual Connect
+module. From 100Mb/s to10Gb/s on up to four "Physical Function" NICs per port, in increments of
+100Mb/s for NIC. The combined bandwidth of NICs cannot exceed port bandwidth i.e. 10 Gb.
+Up to 40Gb/s bi-directional near line rate throughput
+Hardware acceleration and offloads for stateless TCP/IP, TCP Offload Engine (TOE)
+Improved small packet performance
+Support for Preboot eXecution Environment (PXE)
+Integrated PHY and MAC
+Supports for SR-IOV
+Support for Network Partitioning (NPAR)
+HPE FlexFabric 20Gb 2-port 650FLB FlexibleLOM
+Type Integrated dual-port KR2 20Gb FlexibleLOM with FlexFabric (Flex-20, FCoE, RoCE, Tunnel Offload
+with VXLAN/NVGRE, hardware-based iSCSI, iSCSI boot, TCP/IP offload engine, and autosensing
+Ethernet speed capability)
+Network Processor Emulex XE-104
+Data Transfer Method x8 PCI Express 3.0
+Network Transfer Rate Two ports, each at 40 Gbps bi-directional; 80 Gbps aggregate bi-directional theoretical bandwidth
+IEEE Compliance 802.3ae, 802.1Q, 802.3x, 802.1p, 802.3ad/LACP, 802.1AB(LLDP), 802.1Qbg, 802.1Qbb,
+802.1Qaz, 802.3ap
+Standard Features Dual 20Gb ports provide up to 80Gb bi-directional per adapter
+Multi-speed adapter operates at either 20GbE or 10GbE
+Converges FCoE or RoCE with LAN traffic on a single Ethernet wire
+Tunnel Offload support for VXLAN and NVGRE
+RDMA over Converged Ethernet (RoCE) for greater server efficiency and lower latency (6125XLG
+only)
+Advanced storage offload processing freeing up valuable CPU cycles
+Supports UEFI and legacy boot options
+Mixed Storage - supports NIC + FCoE on one port, and NIC + iSCSI on the other
+Concurrent Storage - concurrently supports NIC, FCoE, and iSCSI storage functions on the same
+port (NIC + FCoE + iSCSI)
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Technical Specifications
+Page 32
+Industry-leading throughput and latency performance
+Supports the HPE Flex-20 blade interconnect technology
+Over eight million small packets/s, ideal for web/mobile applications, mobile messaging, and social
+media
+User configurable bandwidth settings when combined with the 20Gb Flex-20 Virtual Connect
+module. From 100Mb/s to10Gb/s on up to four "Physical Function" NICs per port, in increments of
+100Mb/s for NIC. The combined bandwidth of NICs cannot exceed port bandwidth i.e. 20 Gb/s.
+Greater bandwidth with PCIe 3.0
+Jumbo Frames support
+Supports Wake On LAN (WOL)
+Support for Preboot eXecution Environment (PXE)
+Support for Microsoft Windows SMB Direct
+Optimized host virtualization density with SR-IOV support
+Environment-friendly Products and Approach
+End-of-life Management and
+Recycling
+Hewlett Packard Enterprise offers end-of-life Hewlett Packard Enterprise product return, trade-in,
+and recycling programs in many geographic areas. For trade-in information, please go to:
+http://www.hpe.com/info/recycle .To recycle your product, please go to:
+http://www.hpe.com/info/recycle or contact your nearest Hewlett Packard Enterprise sales
+office. Products returned to Hewlett Packard Enterprise will be recycled, recovered or disposed of
+in a responsible manner.
+The EU WEEE directive (2002/95/EC) requires manufacturers to provide treatment information
+for each product type for use by treatment facilities. This information (product disassembly
+instructions) is posted on the Hewlett Packard Enterprise web site at:
+http://www.hpe.com/info/recycle .These instructions may be used by recyclers and other WEEE
+treatment facilities as well as Hewlett Packard Enterprise OEM customers who integrate and re-sell
+Hewlett Packard Enterprise equipment.
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Summary of Changes
+Page 33
+Date Version History Action Description of Change
+03-Dec-2018 Version 12 Changed Overview, Standard Features, Configuration Information - Factory Integrated
+Models, Core Options, Additional Options, and Memory sections were updated.
+Added SKUs added in Core Options and Related Options sections: P10220-B21,
+P10222-B21, P10214-B21, P10224-B21, P10216-B21, P10226-B21,
+P10218-B21, P04517-B21, P04519-B21, P04521-B21, P04523-B21,
+P09712-B21, P09716-B21, P09722-B21, P04525-B21, P04527-B21,
+P04533-B21, P04537-B21, P04539-B21, P09088-B21, P09090-B21,
+P09092-B21, P09094-B21, P09096-B21, P04541-B21, P09098-B21,
+P04543-B21, P09100-B21, P04545-B21, P09102-B21, P04547-B21.
+Removed SKUs deleted in Core Options and Related Options sections: 875949-L21,
+877764-B21, 877776-B21, 877782-B21, 875478-B21, 875474-B21,
+875470-B21, 875483-B21, 872481-B21.
+13-Nov-2018 Version 11 Changed Overview and Standard Features sections were updated.
+Removed Obsolete SKU was deleted: 875949-L21, 877984-B21, 877746-B21,
+877764-B21, 877776-B21, 877782-B21, 880295-B21.
+01-Oct-2018 Version 10 Changed Optional Features and Core Options sections were updated.
+Added SKUs added: P04474-B21, P04476-B21, P04478-B21, P04480-B21,
+P04482-B21, P07922-B21, P07926-B21, P07930-B21, P06584-B21,
+P06586-B21, P06588-B21, P06590-B21, P06592-B21.
+06-Aug-2018 Version 9 Changed Overview, Configuration Information - Factory Integrated Models, Core
+Options, and Additional Options sections were updated.
+Added SKU added in Configuration Information - Factory Integrated Models section:
+875949-L21
+04-Jun-2018 Version 8 Changed Standard Features, Configuration Information-Factory Integrated Models, Core
+Options, Additional Options, Memory, and Technical Specifications sections
+were updated.
+Added SKUs added in QuickSpecs: 875956-L21, 875954-L21, 872009-L21,
+872006-L21, 872012-B21, 875583-B21, 875585-B21, 875579-B21,
+875581-B21, 878014-B21, P04556-B21, P04560-B21, P04564-B21,
+P04566-B21, P04570-B21, 873351-B21, 873355-B21, 873357-B21
+Removed SKUs removed: 872008-L21, 872008-L21, 872012-B21, 875317-B21,
+875319-B21, 880875-B21, 880877-B21.
+02-Apr-2018 Version 7 Changed Service and Support, Configuration Information - Factory Integrated Models,
+Core Options, and Additional Options sections were updated.
+Added SKUs added in Core Options, and Additional Options sections:
+845264-B21, 875587-B21, 875589-B21, 875591-B21, 877984-B21,
+877986-B21, 877988-B21, 875593-B21, 875595-B21, 875597-B21,
+877994-B21, 877998-B21 , 877740-B21, 877746-B21, 877752-B21,
+877758-B21, 877764-B21, 877776-B21, 877782-B21, 877788-B21,
+880295-B21, P00896-B21, 870753-B21, 870757-B21, 870759-B21,
+870765-B21, 765464-B21, 832514-B21, 765466-B21, 881457-B21,
+655710-B21, 765455-B21, 880875-B21, 880877-B21, 875330-B21,
+875326-B21, 870144-B21, 875313-B21, 875311-B21, 872390-B21,
+872392-B21, 872394-B21, 870148-B21, 873359-B21, 873363-B21,
+873365-B21, 873367-B21, 872374-B21, 872376-B21, 872382-B21,
+872386-B21, 875478-B21, 875474-B21, 875470-B21, 875483-B21,
+872481-B21, 872479-B21, 872477-B21, 872475-B21, 875513-B21,
+875511-B21, 875509-B21, 875503-B21.
+12-Feb-2018 Version 6 Changed Standard Features, Configuration Information - Factory Integrated Models,
+Core Options, Additional Options, and Memory sections were updated.
+Added SKUs added in Configuration Information - Factory Integrated Models section:
+700076-B21, 700767-B21, 700748-B21, 665246-B21, 655639-B21,
+700065-B21, 700763-B21, 766490-B21, 873351-B21, 873355-B21,
+QuickSpecs HPE ProLiant BL460c Gen10 Server Blade
+Summary of Changes
+Page 34
+873357-B21, 877740-B21, 875503-B21, 877746-B21, 875509-B21,
+877752-B21, 875511-B21, 877758-B21, 875513-B21, 877764-B21,
+880875-B21, 880877-B21, 875587-B21, 875589-B21, 875591-B21,
+875317-B21, 875319-B21, 875498-B21, 875500-B21, 872390-B21,
+872392-B21, 872394-B21, 875311-B21, 875313-B21, 875326-B21,
+875330-B21, 870144-B21, 870148-B21, 880295-B21, 875483-B21,
+877776-B21, 875470-B21, 877782-B21, 875474-B21, 877788-B21,
+875478-B21, 877994-B21, 877998-B21, 875488-B21, 875490-B21,
+875492-B21, 872374-B21, 873359-B21, 872376-B21, 873363-B21,
+872382-B21, 873365-B21, 872386-B21, 873367-B21.
+Removed SKUs deleted in Configuration Information - Factory Integrated Models, Core
+Options, and Additional Options sections: 875954-L21, 875955-L21,
+875956-L21, 877851-L21, 877807-L21, 875952-L21, 875953-L21,
+872009-L21, 872006-L21, 872007-L21, 700066-B21, 700764-B21,
+766491-B21, 684214-B21, 759208-B21, 785067-B21, 759210-B21,
+759212-B21, 781516-B21, 785069-B21, 781518-B21, 791034-B21,
+870763-B21, 875492-B21, 872359-B21, 872363-B21, 869374-B21,
+869376-B21, 869378-B21, 869384-B21, 869386-B21.
+06-Nov-2017 Version 5 Changed QuickSpecs was updated.
+Removed Obsolete SKUs were deleted: 777262-B21, 777264-B21, 875494-B21,
+875496-B21, 736936-B21, 736939-B21, 764892-B21, 764904-B21,
+764906-B21, 764908-B21, 815605-B21, 822594-B21, 822593-B21,
+815606-B21, 765034-B21, 765036-B21, 765038-B21, 765044-B21.
+25-Sep-2017 Version 4 Changed Standard Features section was updated.
+Added SKU added in Core Options section: 881457-B21.
+07-Aug-2017 Version 3 Changed Standard Features and Configuration Information - Factory Integrated Models
+sections were updated.
+Added SKUs added: 875943-L21, 875944-L21, 877807-L21, 875945-L21,
+875946-L21, 875947-L21, 875488-B21, 875490-B21, 875492-B21,
+875494-B21, 875496-B21, 875498-B21, 875500-B21.
+17-Jul-2017 Version 2 Changed Information in QuickSpecs was updated.
+11-Jul-2017 Version 1 Created New QuickSpecs.
+Sign up for updates
+© Copyright 2018 Hewlett Packard Enterprise Development LP. The information contained herein is
+subject to change without notice. The only warranties for Hewlett Packard Enterprise products and
+services are set forth in the express warranty statements accompanying such products and services.
+Nothing herein should be construed as constituting an additional warranty. Hewlett Packard Enterprise
+shall not be liable for technical or editorial errors or omissions contained herein.
+Microsoft and Windows NT are US registered trademarks of Microsoft Corporation. Intel, the Intel logo,
+Xeon and Xeon Inside are trademarks of Intel Corporation in the U.S. and other countries.
+For hard drives, 1GB = 1 billion bytes. Actual formatted capacity is less.
+a00008517enw - 15939 - Worldwide - V12 - 3-December-2018
+

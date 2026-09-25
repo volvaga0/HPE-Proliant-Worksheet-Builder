@@ -3757,3 +3757,23 @@ QA: 1111 ok / 0 FAIL (8 older tests re-pointed: DL110 G12 is now the 'no own lis
 ### 2026-09-24 — Header logo shows the teal accent (build 2026.09.24.2)
 
 The Procurri logo was already the 2025 header SVG, but a CSS filter (brightness(0) invert(1)) flattened it to pure white. The SVG is now inline in the page: the grey wordmark paths use currentColor (white on the dark header, original #636466 on print) and the #00b5ad teal accent keeps its own colour. No external image request or onerror fallback any more.
+
+### 2026-09-25 — Blade server type: BL460c Gen10 (build 2026.09.25.1)
+
+User asked for ProLiant blades, G10 and G10+, then scoped it to "whichever blades work inside a c7000". The BL460c Gen10 is
+the only ProLiant c-Class blade at Gen10 and there is no Gen10 Plus c-Class blade at all (HPE's Gen10 Plus blades are
+Synergy compute modules, which don't fit a c7000). Source: QuickSpecs a00008517enw V22 (final, Aug 2020) unioned with V12
+(Dec 2018); V22 still lists every 1st Gen processor kit.
+- New "Blade" Server type pill. Models carry `blade:true`; `formOf(m)` decides which pill a model lives under.
+- In blade mode the media bay, motherboard, heatsink, fan, riser, PSU, rail, bezel and rear-cage rows are hidden and
+  left off the slip (PSUs and fans are in the enclosure). "PCI cards" becomes "Mezzanine cards".
+- BL460c G10 rules: 50-CPU cpuAllow, 16 DIMMs (8 per CPU), sp1/sp2 SmartMemory kits 8-128GB, controllers S100i /
+  P204i-b / P408e-m, 4 FLB FlexibleLOMs, 7 mezzanine cards (Ethernet, FlexFabric, 544+M InfiniBand, 2 FC HBAs), iLO 5.
+  No heatsink or battery part numbers exist in either doc, so none are offered.
+- New checks: mezzanine slots (1 per CPU; the P408e-m counts as one), rack FLR card on a blade, FLB missing, NVMe with the
+  P204i-b (NVMe needs FIO setting 873373-B21), 5 or 7 DIMMs per CPU, 544+M slot-1 behaviour.
+- Paste reads "BL460c Gen10" and leaves PSU / rails / bezel / optical mentions off with a note.
+- Bug fixed on the way: S100i was tagged Gen9-only in CTRL_GENS, so picking it on ANY Gen10/Gen10+ model raised a false
+  CONTROLLER GENERATION stop. It is in 34 cached Gen10/Gen10+ docs and no Gen9 doc — now G10 / G10+ / G10+ v2.
+Also: paste now re-renders the generation buttons when it switches the Server type (towers had the same glitch). QA: 1132 ok / 0 FAIL (21 new).
+Next natural step if wanted: the Gen9 c7000 blades (BL460c Gen9, BL660c Gen9).

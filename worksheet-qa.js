@@ -213,7 +213,7 @@ setTimeout(()=>{
   function fail2(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi2=d.getElementById('model-input'), ci2=d.getElementById('cpu-input');
   function setModel(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi2.value='';fire(mi2,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
@@ -314,7 +314,7 @@ setTimeout(()=>{
   function fail3(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi3=d.getElementById('model-input'), ci3=d.getElementById('cpu-input');
   function setModel3(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi3.value='';fire(mi3,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
@@ -1055,7 +1055,7 @@ setTimeout(()=>{
   function fail4(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi4=d.getElementById('model-input'), ci4=d.getElementById('cpu-input');
   function setModel4(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi4.value='';fire(mi4,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
@@ -1361,7 +1361,7 @@ setTimeout(()=>{
   function fail5(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi5=d.getElementById('model-input'), ci5=d.getElementById('cpu-input');
   function setModel5(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi5.value='';fire(mi5,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
@@ -1547,7 +1547,7 @@ function runRound7(){
   function fail7(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi7=d.getElementById('model-input');
   function setModel7(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi7.value='';fire(mi7,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
@@ -1985,7 +1985,7 @@ function runRound8(){
   function fail8(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi8=d.getElementById('model-input');
   function setModel8(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi8.value='';fire(mi8,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
@@ -2069,7 +2069,7 @@ function runRound9(){
   function fail9(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi9=d.getElementById('model-input'), ci9=d.getElementById('cpu-input');
   function setModel9(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi9.value='';fire(mi9,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
@@ -2391,7 +2391,7 @@ function runRound10(){
   // handing the trader an empty picker it is impossible to satisfy ---
   const mi10=d.getElementById('model-input');
   function setModel10(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi10.value='';fire(mi10,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.querySelector('.ci-main').textContent.trim()===label);
@@ -2500,7 +2500,7 @@ function runRound11(){
 
   const mi11=d.getElementById('model-input');
   function setModel11(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi11.value='';fire(mi11,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.querySelector('.ci-main').textContent.trim()===label);
@@ -2617,7 +2617,7 @@ function runRound12(){
   function fail12(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi12=d.getElementById('model-input');
   function setModel12(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi12.value='';fire(mi12,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
@@ -2881,7 +2881,7 @@ function runRound13(){
   function fail13(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi13=d.getElementById('model-input'), ci13=d.getElementById('cpu-input');
   function setModel13(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi13.value='';fire(mi13,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
@@ -2991,7 +2991,7 @@ function runRound14(){
   function fail14(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi14=d.getElementById('model-input');
   function setModel14(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi14.value='';fire(mi14,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
@@ -3133,7 +3133,7 @@ function runRound15(){
   function fail15(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi15=d.getElementById('model-input');
   function setModel15(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi15.value='';fire(mi15,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(el=>el.textContent.replace(/\s+/g,' ').includes(label));
@@ -3199,7 +3199,7 @@ function runRound16(){
   function fail16(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi16=d.getElementById('model-input');
   function setModel16(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi16.value='';fire(mi16,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
@@ -3283,7 +3283,7 @@ function runRound18(){
   function fail18(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi18=d.getElementById('model-input');
   function setModel18(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi18.value='';fire(mi18,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
@@ -3339,7 +3339,7 @@ function runRound19(){
   function fail19(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi19=d.getElementById('model-input');
   function setModel19(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi19.value='';fire(mi19,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
@@ -3387,7 +3387,7 @@ function runRound20(){
   function fail20(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi20=d.getElementById('model-input');
   function setModel20(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi20.value='';fire(mi20,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
@@ -3467,7 +3467,7 @@ function runRound21(){
   function fail21(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi21=d.getElementById('model-input');
   function setModel21(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi21.value='';fire(mi21,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
@@ -3518,7 +3518,7 @@ function runRound22(){
   function fail22(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi22=d.getElementById('model-input');
   function setModel22(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi22.value='';fire(mi22,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
@@ -3567,7 +3567,7 @@ function runRound23(){
   d.getElementById('fl1').checked=true;fire(d.getElementById('fl1'),'change');
   d.getElementById('flr').disabled=false;
   function setModel23(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi23.value='';fire(mi23,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
@@ -3690,7 +3690,7 @@ function runRound24(){
   function fail24(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi24=d.getElementById('model-input');
   function setModel24(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi24.value='';fire(mi24,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
@@ -3721,7 +3721,7 @@ function runRound25(){
   function fail25(m){console.log('FAIL  '+m);process.exitCode=1;}
   const mi25=d.getElementById('model-input');
   function setModel25(label){
-    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':'ct-r');
+    const towerEl=d.getElementById(/^ML/i.test(label)?'ct-t':/^BL/i.test(label)?'ct-b':'ct-r');
     if(!towerEl.checked){towerEl.checked=true;fire(towerEl,'change');}
     mi25.value='';fire(mi25,'input');
     const opt=[...d.querySelectorAll('#model-panel .combo-item')].find(function(el){return el.textContent.replace(/\s+/g,' ').includes(label);});
@@ -3829,7 +3829,7 @@ function runRound25(){
       if(n.length>500)tooLong.push(m.m+' '+m.g+' ['+idx+'] '+n.length);
     });
   });
-  (MODELS25.length===59 && !MODELS25.some(function(m){return m.m==='DL120'&&m.g==='G10';}) && noteCount25>=400 && !badProv.length)
+  (MODELS25.length===60 && !MODELS25.some(function(m){return m.m==='DL120'&&m.g==='G10';}) && noteCount25>=400 && !badProv.length)
     ?pass25('model notes carry no sourcing history or internal keys ('+noteCount25+' notes across '+MODELS25.length+' models)')
     :fail25('model notes still hold provenance text: '+badProv.slice(0,8).join(', ')+' (models '+MODELS25.length+', notes '+noteCount25+')');
   !tooLong.length
@@ -5461,6 +5461,58 @@ function runRound25(){
   !pickCpuExact25('E5-1650v4')?pass25('...but the 2-socket DL380 G9 does not'):fail25('E5-1650v4 wrongly offered on DL380 G9');
   reset27(); setModel25('DL20 G9');
   pickCpuExact25('E3-1280v6')?pass25('DL20 G9: E3-1280v6 now pickable (was missing)'):fail25('DL20 E3-1280v6 missing');
+
+  // ===== c-Class blades: BL460c Gen10 (QuickSpecs a00008517enw V22 + V12, build 2026.09.25.1) =====
+  reset27(); setModel25('DL360 G10');
+  { const mi=d.getElementById('model-input');mi.value='';fire(mi,'input');
+    ![...d.querySelectorAll('#model-panel .combo-item')].some(function(el){return /BL460c/.test(el.textContent);})
+      ?pass25('Rack model list does not offer the BL460c'):fail25('BL460c listed under Rack'); }
+  reset27(); setModel25('BL460c G10');
+  (d.getElementById('model').value==='BL460c G10'&&d.getElementById('ct-b').checked)?pass25('BL460c G10 is picked under the new Blade server type'):fail25('BL460c not pickable under Blade');
+  (['row-media','row-mobo','row-hs','row-fans','row-risers','row-psu','row-rail','bezel-row'].every(function(id){return d.getElementById(id).hidden;}) && d.getElementById('add-rear').hidden)
+    ?pass25('Blade: media, motherboard, heatsink, fan, riser, PSU, rail, bezel and rear-cage rows are hidden'):fail25('blade rows still showing');
+  (d.getElementById('card-label').textContent==='Mezzanine cards')?pass25('Blade: the card field reads "Mezzanine cards"'):fail25('card label: '+d.getElementById('card-label').textContent);
+  { const L=cpuList26();
+    (L.length===50 && L.some(function(o){return /G6248/.test(o);}) && L.some(function(o){return /P8164/.test(o);}) && !L.some(function(o){return /G6154/.test(o);}))
+      ?pass25('BL460c G10: the 50-processor pool from its QuickSpecs (6248 and 8164 in, 6154 out)'):fail25('BL460c CPU pool: '+L.length); }
+  setv26('cpuq','2'); pickCpuExact25('G6248'); setv26('dimmq','16'); setv26('dimm','32GB 2933 MT/s'); setv26('bays','2SFF');
+  /P00924-B21/.test(d.getElementById('dimm-kit').textContent)?pass25('BL460c G10 + 2nd Gen: 32GB DDR4-2933 kit P00924-B21'):fail25('BL460c kit: '+d.getElementById('dimm-kit').textContent);
+  !/HEATSINK|FANS/.test(chk26())?pass25('BL460c: no heatsink / fan rules fire (the Gen10 rack defaults are switched off)'):fail25('blade heatsink/fan check fired');
+  setv26('ctrl','S100i (embedded SATA software RAID, standard — RAID needs FIO Enable Smart Array SW RAID 784308-B21)');
+  !/CONTROLLER GENERATION/.test(chk26())?pass25('S100i is accepted as a Gen10 controller'):fail25('S100i generation stop');
+  { const sl=d.getElementById('slip').textContent;
+    (!/power supplies|fans|heatsinks|rails/.test(sl) && !/\bPS\b/.test(sl))?pass25('Blade slip: no PSU, fan, heatsink or rail lines or gaps'):fail25('blade slip: '+sl); }
+  setv26('flr','366FLR 4x1GbE (665240-B21)');
+  /rack FlexibleLOM \(FLR\)/.test(chk26())?pass25('Blade: a rack FLR card is blocked — needs the FLB type'):fail25('FLR on blade not blocked');
+  setv26('flr','536FLB FlexFabric 10Gb 2p (766490-B21)');
+  setv26('cpuq','1'); setv26('dimmq','8');
+  addCard27('560M Ethernet 10Gb 2p mezzanine (665246-B21)','1'); addCard27('630M FlexFabric 20Gb 2p mezzanine (700076-B21)','1');
+  /TOO MANY CARDS2 mezzanine cards[^]*?slot 2 needs the second processor/.test(chk26())?pass25('Blade, 1 CPU: 2 mezzanine cards blocked — slot 2 needs CPU 2'):fail25('blade mezz count: '+chk26());
+  setv26('cpuq','2'); setv26('dimmq','16');
+  !/TOO MANY CARDS/.test(chk26())?pass25('...fine with 2 CPUs'):fail25('2 mezz cards on 2 CPUs blocked');
+  setv26('ctrl','P408e-m — external 8-lane mezzanine controller, 2GB cache, takes a mezzanine slot (804381-B21)');
+  /counting the P408e-m controller/.test(chk26())?pass25('The P408e-m controller counts as a mezzanine card (3 on 2 slots blocked)'):fail25('P408e-m not counted');
+  setv26('ctrl','P204i-b — 1GB cache modular controller, 4 internal lanes (804367-B21)');
+  d.getElementById('bp2').checked=true;fire(d.getElementById('bp2'),'change');
+  /NVMe FIO Setting 873373-B21, which does not work with the P204i-b/.test(chk26())?pass25('Blade: NVMe with the P204i-b is blocked'):fail25('NVMe + P204i-b not blocked');
+  d.getElementById('bp3').hidden?pass25('Blade: no Premium backplane pill'):fail25('Premium shown on blade');
+  reset27(); setModel25('BL460c G10'); setv26('cpuq','1'); pickCpuExact25('S4214'); setv26('dimmq','5'); setv26('dimm','16GB 2400 MT/s');
+  /does not recommend 5 DIMMs per processor/.test(chk26())?pass25('Blade: 5 DIMMs per processor flagged'):fail25('5 DIMMs not flagged');
+  reset27(); d.getElementById('ct-r').checked=true;fire(d.getElementById('ct-r'),'change');
+  d.getElementById('paste-text').value='2x BL460c Gen10, 2x Gold 6230, 2x 800w psu, rails';
+  d.getElementById('paste-fill').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  (d.getElementById('ct-b').checked && d.getElementById('model').value==='BL460c G10' && d.getElementById('psu').value==='' && !d.getElementById('rl1').checked)
+    ?pass25('Paste "BL460c Gen10": switches to Blade, leaves the PSU and rails off'):fail25('BL460c paste: '+d.getElementById('model').value+' psu='+d.getElementById('psu').value);
+  d.getElementById('ct-r').checked=true;fire(d.getElementById('ct-r'),'change');
+  (d.getElementById('model').value==='' && !d.getElementById('row-psu').hidden)?pass25('Switching back to Rack clears the blade and shows the rack rows again'):fail25('rack switch after blade');
+
+  reset27(); d.getElementById('ct-r').checked=true;fire(d.getElementById('ct-r'),'change');
+  d.getElementById('paste-text').value='BL460c Gen10, P204i-b + battery, 1x 560M mezz, 1x LPe1605';
+  d.getElementById('paste-fill').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  (d.getElementById('bat').value==='Flash-backed cache battery')?pass25('Blade paste: "battery" becomes the blade cache battery, not the rack 96W part'):fail25('blade paste battery: '+d.getElementById('bat').value);
+  { const names=[...d.querySelectorAll('#cards [data-k=name]')].map(function(x){return x.value;}).join(' | ');
+    (/665246-B21/.test(names)&&/718203-B21/.test(names))?pass25('Blade paste: mezzanine cards 560M and LPe1605 picked from the blade\'s own list'):fail25('blade paste cards: '+names); }
+  ([...d.querySelectorAll('#model-gen-btns button')].map(function(b){return b.textContent;}).join(',')==='G10')?pass25('After a blade paste the generation buttons show only the blade generations (G10)'):fail25('gen buttons after blade paste');
 
   reset27();
 }
