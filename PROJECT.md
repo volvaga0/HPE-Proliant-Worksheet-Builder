@@ -3777,3 +3777,5 @@ Synergy compute modules, which don't fit a c7000). Source: QuickSpecs a00008517e
   CONTROLLER GENERATION stop. It is in 34 cached Gen10/Gen10+ docs and no Gen9 doc — now G10 / G10+ / G10+ v2.
 Also: paste now re-renders the generation buttons when it switches the Server type (towers had the same glitch). QA: 1132 ok / 0 FAIL (21 new).
 Next natural step if wanted: the Gen9 c7000 blades (BL460c Gen9, BL660c Gen9).
+
+2026-09-25 (build .2): the Server type pills (Rack / Tower / Blade) stack vertically on the right of the header on desktop; on a phone they stay one row under the intro text.

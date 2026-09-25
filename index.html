@@ -43,7 +43,7 @@ h1{font-weight:600;font-size:29px;line-height:1.05;margin:0;letter-spacing:-0.01
   color:var(--signal);text-shadow:0 6px 16px rgba(0,212,212,0.25)}
 .ver{display:inline-block;font-weight:500;font-size:11px;letter-spacing:0.02em;
   color:var(--ink-soft);opacity:.65;padding:3px 9px;border:1px solid var(--rule-strong);border-radius:20px}
-.head-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px}
+.head-row{display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:flex-end;gap:12px 24px}
 .sub{margin:0;color:var(--ink-soft);font-size:14.5px;max-width:60ch}
 .chassis{display:flex;flex-direction:column;align-items:flex-start;gap:6px;flex:0 0 auto}
 .chassis > span{font-size:13px;color:var(--ink-soft)}
@@ -241,6 +241,9 @@ legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)
 .tower-tint .pills input:checked + label{background:var(--tower);border-color:var(--tower);color:#0b1020;
   box-shadow:0 0 12px rgba(147,162,240,0.22)}
 .chassis .pills label{padding:9px 17px;font-size:15px}
+/* desktop: the Server type pills stack vertically on the right, equal width */
+.chassis .pills{flex-direction:column;align-items:stretch}
+.chassis .pills label{justify-content:center;text-align:center}
 
 .lines{display:flex;flex-direction:column;gap:5px}
 .line{display:grid;gap:5px;align-items:center}
@@ -381,7 +384,9 @@ button.quiet{color:var(--ink-soft)}
   h1{font-size:21px;text-shadow:0 4px 12px rgba(0,212,212,0.22)}
   .sub{font-size:13.5px;max-width:none}
   .head-row{gap:12px}
+  .head-row{flex-wrap:wrap}
   .chassis{width:100%}
+  .chassis .pills{flex-direction:row}
 
   /* one column per question */
   .row{grid-template-columns:1fr;padding:11px 12px 13px}
@@ -4978,7 +4983,7 @@ var RISERS={
    latest version" signal traders (and we) have on a page with no build
    step. Calendar-versioned so it's self-explanatory: vYYYY.MM.DD[.n] for
    same-day repeats. */
-var BUILD_VERSION='2026.09.25.1'; // 1st build shipped today
+var BUILD_VERSION='2026.09.25.2'; // 2nd build shipped today
 document.getElementById('build-ver').textContent='v'+BUILD_VERSION;
 var KEY='sbw-draft-v10';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
